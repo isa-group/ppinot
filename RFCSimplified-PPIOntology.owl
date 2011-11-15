@@ -1,0 +1,658 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY PPIOntology "http://www.isa.us.es/ppiontology/PPIOntology.owl#" >
+    <!ENTITY RFCSimplified "http://www.isa.us.es/ppiontology/RFCSimplified.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.w3.org/2002/07/owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:RFCSimplified="http://www.isa.us.es/ppiontology/RFCSimplified.owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:PPIOntology="http://www.isa.us.es/ppiontology/PPIOntology.owl#">
+    <Ontology rdf:about="http://www.isa.us.es/ppiontology/RFCSimplified.owl">
+        <imports rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl"/>
+    </Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <AnnotationProperty rdf:about="&PPIOntology;meetsIC"/>
+    <AnnotationProperty rdf:about="&PPIOntology;appliesToDM"/>
+    <AnnotationProperty rdf:about="&PPIOntology;directlyAggregates"/>
+    <AnnotationProperty rdf:about="&PPIOntology;isInstantiatedBy"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#dataProperty -->
+
+    <rdf:Description rdf:about="&PPIOntology;dataProperty"/>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#belongsToData -->
+
+    <ObjectProperty rdf:about="&RFCSimplified;belongsToData">
+        <inverseOf rdf:resource="&PPIOntology;dataProperty"/>
+    </ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#startAnalyseInCommittee -->
+
+    <rdf:Description rdf:about="&PPIOntology;startAnalyseInCommittee">
+        <PPIOntology:appliesTo rdf:resource="&RFCSimplified;AnalyseInCommittee"/>
+    </rdf:Description>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#AnalyseCommittee1 -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;AnalyseCommittee1">
+        <rdf:type rdf:resource="&PPIOntology;ActivityInstance"/>
+        <PPIOntology:instanceOf rdf:resource="&RFCSimplified;AnalyseInCommittee"/>
+        <PPIOntology:directlyPrecedes rdf:resource="&RFCSimplified;M2"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#AnalyseInCommittee -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;AnalyseInCommittee">
+        <rdf:type rdf:resource="&PPIOntology;Activity"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#AnalyseRFC -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;AnalyseRFC">
+        <rdf:type rdf:resource="&PPIOntology;Activity"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#AnalyseRFC1 -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;AnalyseRFC1">
+        <rdf:type rdf:resource="&PPIOntology;ActivityInstance"/>
+        <PPIOntology:instanceOf rdf:resource="&RFCSimplified;AnalyseRFC"/>
+        <PPIOntology:directlyPrecedes rdf:resource="&RFCSimplified;Split1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#AnalyseRFC2 -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;AnalyseRFC2">
+        <rdf:type rdf:resource="&PPIOntology;ActivityInstance"/>
+        <PPIOntology:instanceOf rdf:resource="&RFCSimplified;AnalyseRFC"/>
+        <PPIOntology:directlyPrecedes rdf:resource="&RFCSimplified;Split2"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#AnalyseRFC3 -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;AnalyseRFC3">
+        <rdf:type rdf:resource="&PPIOntology;ActivityInstance"/>
+        <PPIOntology:instanceOf rdf:resource="&RFCSimplified;AnalyseRFC"/>
+        <PPIOntology:directlyPrecedes rdf:resource="&RFCSimplified;Split3"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#ApproveRFC -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;ApproveRFC">
+        <rdf:type rdf:resource="&PPIOntology;Activity"/>
+        <PPIOntology:DataOutputAssociation rdf:resource="&RFCSimplified;RFCApproved"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#ApproveRFC1 -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;ApproveRFC1">
+        <rdf:type rdf:resource="&PPIOntology;ActivityInstance"/>
+        <PPIOntology:instanceOf rdf:resource="&RFCSimplified;ApproveRFC"/>
+        <PPIOntology:directlyPrecedes rdf:resource="&RFCSimplified;RFCAp1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#CancelRFC -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;CancelRFC">
+        <rdf:type rdf:resource="&PPIOntology;Activity"/>
+        <PPIOntology:DataOutputAssociation rdf:resource="&RFCSimplified;RFCCanceled"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#CancelRFC1 -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;CancelRFC1">
+        <rdf:type rdf:resource="&PPIOntology;ActivityInstance"/>
+        <PPIOntology:instanceOf rdf:resource="&RFCSimplified;CancelRFC"/>
+        <PPIOntology:directlyPrecedes rdf:resource="&RFCSimplified;RFCCanc1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#CorrectiveChange -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;CorrectiveChange">
+        <rdf:type rdf:resource="&PPIOntology;DataPropertyCondition"/>
+        <PPIOntology:appliesTo rdf:resource="&RFCSimplified;RFCRegistered"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#CorrectiveRFC -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;CorrectiveRFC">
+        <rdf:type rdf:resource="&PPIOntology;DataPropertyConditionMeasure"/>
+        <PPIOntology:meets rdf:resource="&RFCSimplified;CorrectiveChange"/>
+        <PPIOntology:meetsIC rdf:resource="&RFCSimplified;CorrectiveChange"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#DM1 -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;DM1">
+        <rdf:type rdf:resource="&PPIOntology;DataMeasure"/>
+        <PPIOntology:appliesToDM rdf:resource="&RFCSimplified;RFCApproved"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#DelaysCausedByCommittee -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;DelaysCausedByCommittee">
+        <rdf:type rdf:resource="&PPIOntology;AvgAM"/>
+        <PPIOntology:directlyAggregates rdf:resource="&RFCSimplified;tmeasure1"/>
+        <PPIOntology:aggregates rdf:resource="&RFCSimplified;tmeasure1"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#DuracionMinimaProceso -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;DuracionMinimaProceso">
+        <rdf:type rdf:resource="&PPIOntology;MinAM"/>
+        <PPIOntology:aggregates rdf:resource="&RFCSimplified;duracionProceso"/>
+        <PPIOntology:directlyAggregates rdf:resource="&RFCSimplified;duracionProceso"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#ElevateDecisionC1 -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;ElevateDecisionC1">
+        <rdf:type rdf:resource="&PPIOntology;ActivityInstance"/>
+        <PPIOntology:directlyPrecedes rdf:resource="&RFCSimplified;AnalyseCommittee1"/>
+        <PPIOntology:instanceOf rdf:resource="&RFCSimplified;ElevateDecisionToCommittee"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#ElevateDecisionToCommittee -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;ElevateDecisionToCommittee">
+        <rdf:type rdf:resource="&PPIOntology;Activity"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#M1 -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;M1">
+        <rdf:type rdf:resource="&PPIOntology;XorGatewayInstance"/>
+        <PPIOntology:directlyPrecedes rdf:resource="&RFCSimplified;AnalyseRFC1"/>
+        <PPIOntology:instanceOf rdf:resource="&RFCSimplified;Merge"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#M2 -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;M2">
+        <rdf:type rdf:resource="&PPIOntology;XorGatewayInstance"/>
+        <PPIOntology:directlyPrecedes rdf:resource="&RFCSimplified;AnalyseRFC2"/>
+        <PPIOntology:instanceOf rdf:resource="&RFCSimplified;Merge"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#M3 -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;M3">
+        <rdf:type rdf:resource="&PPIOntology;XorGatewayInstance"/>
+        <PPIOntology:directlyPrecedes rdf:resource="&RFCSimplified;AnalyseRFC3"/>
+        <PPIOntology:instanceOf rdf:resource="&RFCSimplified;Merge"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#Merge -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;Merge">
+        <rdf:type rdf:resource="&PPIOntology;XorGateway"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#NumberOfCorrectiveRFCs -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;NumberOfCorrectiveRFCs">
+        <rdf:type rdf:resource="&PPIOntology;SumAM"/>
+        <PPIOntology:aggregates rdf:resource="&RFCSimplified;CorrectiveRFC"/>
+        <PPIOntology:directlyAggregates rdf:resource="&RFCSimplified;CorrectiveRFC"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#NumberOfRFCs -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;NumberOfRFCs">
+        <rdf:type rdf:resource="&PPIOntology;SumAM"/>
+        <PPIOntology:aggregates rdf:resource="&RFCSimplified;RFCReceived"/>
+        <PPIOntology:directlyAggregates rdf:resource="&RFCSimplified;RFCReceived"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#NumberOfRFCsUnderAnalysis -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;NumberOfRFCsUnderAnalysis">
+        <rdf:type rdf:resource="&PPIOntology;SumAM"/>
+        <PPIOntology:aggregates rdf:resource="&RFCSimplified;RfcUnderAnalysis"/>
+        <PPIOntology:directlyAggregates rdf:resource="&RFCSimplified;RfcUnderAnalysis"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#PPI-mio -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;PPI-mio">
+        <rdf:type rdf:resource="&PPIOntology;PPI"/>
+        <PPIOntology:isdefinedOver rdf:resource="&RFCSimplified;DuracionMinimaProceso"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#PPI2 -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;PPI2">
+        <rdf:type rdf:resource="&PPIOntology;PPI"/>
+        <PPIOntology:isdefinedOver rdf:resource="&RFCSimplified;DelaysCausedByCommittee"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#PPI3 -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;PPI3">
+        <rdf:type rdf:resource="&PPIOntology;PPI"/>
+        <PPIOntology:isdefinedOver rdf:resource="&RFCSimplified;PercentageCorrectiveRFCsFromApproved"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#PPI6 -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;PPI6">
+        <rdf:type rdf:resource="&PPIOntology;PPI"/>
+        <PPIOntology:isdefinedOver rdf:resource="&RFCSimplified;NumberOfRFCsUnderAnalysis"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#PPI8 -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;PPI8">
+        <rdf:type rdf:resource="&PPIOntology;PPI"/>
+        <PPIOntology:isdefinedOver rdf:resource="&RFCSimplified;RFCsPerProject"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#PercentageCorrectiveRFCsFromApproved -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;PercentageCorrectiveRFCsFromApproved">
+        <rdf:type rdf:resource="&PPIOntology;DerivedProcessMeasure"/>
+        <PPIOntology:isCalculatedPositively rdf:resource="&RFCSimplified;NumberOfCorrectiveRFCs"/>
+        <PPIOntology:isCalculatedNegatively rdf:resource="&RFCSimplified;NumberOfRFCs"/>
+        <PPIOntology:isUsedBy rdf:resource="&RFCSimplified;PPI3"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#RFCAnalysisBasedDecision -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;RFCAnalysisBasedDecision">
+        <rdf:type rdf:resource="&PPIOntology;XorGateway"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#RFCAp1 -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;RFCAp1">
+        <rdf:type rdf:resource="&PPIOntology;DataObjectInstance"/>
+        <PPIOntology:instanceOf rdf:resource="&RFCSimplified;RFCApproved"/>
+        <PPIOntology:directlyPrecedes rdf:resource="&RFCSimplified;ReportRFCApprovedInstance"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#RFCApproved -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;RFCApproved">
+        <rdf:type rdf:resource="&PPIOntology;DataObject"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#RFCCanc1 -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;RFCCanc1">
+        <rdf:type rdf:resource="&PPIOntology;DataObjectInstance"/>
+        <PPIOntology:instanceOf rdf:resource="&RFCSimplified;RFCCanceled"/>
+        <PPIOntology:directlyPrecedes rdf:resource="&RFCSimplified;ReportRFCCanceledInstance"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#RFCCanceled -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;RFCCanceled">
+        <rdf:type rdf:resource="&PPIOntology;DataObject"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#RFCManagement -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;RFCManagement">
+        <rdf:type rdf:resource="&PPIOntology;Pool"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#RFCR1 -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;RFCR1">
+        <rdf:type rdf:resource="&PPIOntology;DataObjectInstance"/>
+        <PPIOntology:directlyPrecedes rdf:resource="&RFCSimplified;M1"/>
+        <PPIOntology:instanceOf rdf:resource="&RFCSimplified;RFCRegistered"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#RFCR2 -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;RFCR2">
+        <rdf:type rdf:resource="&PPIOntology;DataObjectInstance"/>
+        <PPIOntology:directlyPrecedes rdf:resource="&RFCSimplified;M3"/>
+        <PPIOntology:instanceOf rdf:resource="&RFCSimplified;RFCRegistered"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#RFCReceived -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;RFCReceived">
+        <rdf:type rdf:resource="&PPIOntology;CountMeasure"/>
+        <PPIOntology:when rdf:resource="&RFCSimplified;triggerReceiveRFC"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#RFCRegistered -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;RFCRegistered">
+        <rdf:type rdf:resource="&PPIOntology;DataObject"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#RFCsPerProject -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;RFCsPerProject">
+        <rdf:type rdf:resource="&PPIOntology;SumAM"/>
+        <PPIOntology:isUsedBy rdf:resource="&RFCSimplified;PPI8"/>
+        <PPIOntology:aggregates rdf:resource="&RFCSimplified;RFCReceived"/>
+        <PPIOntology:directlyAggregates rdf:resource="&RFCSimplified;RFCReceived"/>
+        <PPIOntology:isGroupedBy rdf:resource="&RFCSimplified;project"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#ReceiveRCFInstance -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;ReceiveRCFInstance">
+        <rdf:type rdf:resource="&PPIOntology;EventInstance"/>
+        <PPIOntology:directlyPrecedes rdf:resource="&RFCSimplified;RFCR1"/>
+        <PPIOntology:instanceOf rdf:resource="&RFCSimplified;ReceiveRFC"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#ReceiveRFC -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;ReceiveRFC">
+        <rdf:type rdf:resource="&PPIOntology;StartEvent"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#ReceiveRFCInstance2 -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;ReceiveRFCInstance2">
+        <rdf:type rdf:resource="&PPIOntology;EventInstance"/>
+        <PPIOntology:directlyPrecedes rdf:resource="&RFCSimplified;RFCR2"/>
+        <PPIOntology:instanceOf rdf:resource="&RFCSimplified;ReceiveRFC"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#ReportRFCApproved -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;ReportRFCApproved">
+        <rdf:type rdf:resource="&PPIOntology;EndEvent"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#ReportRFCApprovedInstance -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;ReportRFCApprovedInstance">
+        <rdf:type rdf:resource="&PPIOntology;EventInstance"/>
+        <PPIOntology:instanceOf rdf:resource="&RFCSimplified;ReportRFCApproved"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#ReportRFCCanceled -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;ReportRFCCanceled">
+        <rdf:type rdf:resource="&PPIOntology;EndEvent"/>
+        <PPIOntology:isInstantiatedBy rdf:resource="&RFCSimplified;ReportRFCCanceledInstance"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#ReportRFCCanceledInstance -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;ReportRFCCanceledInstance">
+        <rdf:type rdf:resource="&PPIOntology;EventInstance"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#RfcUnderAnalysis -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;RfcUnderAnalysis">
+        <rdf:type rdf:resource="&PPIOntology;StateConditionMeasure"/>
+        <PPIOntology:meetsIC rdf:resource="&RFCSimplified;stateExecuting"/>
+        <PPIOntology:meets rdf:resource="&RFCSimplified;stateExecuting"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#Split1 -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;Split1">
+        <rdf:type rdf:resource="&PPIOntology;XorGatewayInstance"/>
+        <PPIOntology:directlyPrecedes rdf:resource="&RFCSimplified;ElevateDecisionC1"/>
+        <PPIOntology:instanceOf rdf:resource="&RFCSimplified;RFCAnalysisBasedDecision"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#Split2 -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;Split2">
+        <rdf:type rdf:resource="&PPIOntology;XorGatewayInstance"/>
+        <PPIOntology:directlyPrecedes rdf:resource="&RFCSimplified;ApproveRFC1"/>
+        <PPIOntology:instanceOf rdf:resource="&RFCSimplified;RFCAnalysisBasedDecision"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#Split3 -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;Split3">
+        <rdf:type rdf:resource="&PPIOntology;XorGatewayInstance"/>
+        <PPIOntology:directlyPrecedes rdf:resource="&RFCSimplified;CancelRFC1"/>
+        <PPIOntology:instanceOf rdf:resource="&RFCSimplified;RFCAnalysisBasedDecision"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#affectedInformationSystems -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;affectedInformationSystems">
+        <rdf:type rdf:resource="&PPIOntology;DataMeasure"/>
+        <PPIOntology:appliesToDM rdf:resource="&RFCSimplified;RFCReceived"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#duracionProceso -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;duracionProceso">
+        <rdf:type rdf:resource="&PPIOntology;TimeMeasure"/>
+        <PPIOntology:from rdf:resource="&RFCSimplified;triggerReceiveRFC"/>
+        <PPIOntology:to rdf:resource="&RFCSimplified;triggerReportRFCApproved"/>
+        <PPIOntology:to rdf:resource="&RFCSimplified;triggerReportRFCCanceled"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#endAnalyseInCommittee -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;endAnalyseInCommittee">
+        <rdf:type rdf:resource="&PPIOntology;ActivityEnd"/>
+        <PPIOntology:appliesTo rdf:resource="&RFCSimplified;AnalyseInCommittee"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#project -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;project">
+        <rdf:type rdf:resource="&PPIOntology;DataProperty"/>
+        <RFCSimplified:belongsToData rdf:resource="&RFCSimplified;RFCRegistered"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#stateExecuting -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;stateExecuting">
+        <rdf:type rdf:resource="&PPIOntology;ActivityStateCond"/>
+        <PPIOntology:appliesTo rdf:resource="&RFCSimplified;AnalyseRFC"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#tmeasure1 -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;tmeasure1">
+        <rdf:type rdf:resource="&PPIOntology;TimeMeasure"/>
+        <PPIOntology:from rdf:resource="&PPIOntology;startAnalyseInCommittee"/>
+        <PPIOntology:to rdf:resource="&RFCSimplified;endAnalyseInCommittee"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#triggerReceiveRFC -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;triggerReceiveRFC">
+        <rdf:type rdf:resource="&PPIOntology;EventTrigger"/>
+        <PPIOntology:appliesTo rdf:resource="&RFCSimplified;ReceiveRFC"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#triggerReportRFCApproved -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;triggerReportRFCApproved">
+        <rdf:type rdf:resource="&PPIOntology;EventTrigger"/>
+        <PPIOntology:appliesTo rdf:resource="&RFCSimplified;ReportRFCApproved"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#triggerReportRFCCanceled -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;triggerReportRFCCanceled">
+        <rdf:type rdf:resource="&PPIOntology;EventTrigger"/>
+        <PPIOntology:appliesTo rdf:resource="&RFCSimplified;ReportRFCCanceled"/>
+    </NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.2.3.1824) http://owlapi.sourceforge.net -->
+

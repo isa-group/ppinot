@@ -1,0 +1,844 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY PPIOntology "http://www.isa.us.es/ppiontology/PPIOntology.owl#" >
+    <!ENTITY RFCSimplified "http://www.isa.us.es/ppiontology/RFCSimplified.owl#" >
+    <!ENTITY RFCSimplified-Queries "http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#"
+     xml:base="http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:RFCSimplified="http://www.isa.us.es/ppiontology/RFCSimplified.owl#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:PPIOntology="http://www.isa.us.es/ppiontology/PPIOntology.owl#"
+     xmlns:RFCSimplified-Queries="http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#">
+    <owl:Ontology rdf:about="http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl">
+        <owl:imports rdf:resource="http://www.isa.us.es/ppiontology/RFCSimplified.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#ActivityInstance -->
+
+    <owl:Class rdf:about="&PPIOntology;ActivityInstance"/>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#ActivityStart -->
+
+    <owl:Class rdf:about="&PPIOntology;ActivityStart"/>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#AggregatedMeasure -->
+
+    <owl:Class rdf:about="&PPIOntology;AggregatedMeasure"/>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#ConditionMeasure -->
+
+    <owl:Class rdf:about="&PPIOntology;ConditionMeasure"/>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#DataObjectInstance -->
+
+    <owl:Class rdf:about="&PPIOntology;DataObjectInstance"/>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#DataStateChange -->
+
+    <owl:Class rdf:about="&PPIOntology;DataStateChange"/>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#DerivedMeasure -->
+
+    <owl:Class rdf:about="&PPIOntology;DerivedMeasure"/>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#ProcessInstanceCondition -->
+
+    <owl:Class rdf:about="&PPIOntology;ProcessInstanceCondition"/>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#XorGatewayInstance -->
+
+    <owl:Class rdf:about="&PPIOntology;XorGatewayInstance"/>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#ActivityAggregatedMeasure -->
+
+    <owl:Class rdf:about="&RFCSimplified-Queries;ActivityAggregatedMeasure">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&PPIOntology;AggregatedMeasure"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&PPIOntology;aggregates"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:unionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&RFCSimplified-Queries;ActivityConditionMeasure"/>
+                                    <rdf:Description rdf:about="&RFCSimplified-Queries;ActivityCountMeasure"/>
+                                    <rdf:Description rdf:about="&RFCSimplified-Queries;ActivityTimeMeasure"/>
+                                </owl:unionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#ActivityConditionMeasure -->
+
+    <owl:Class rdf:about="&RFCSimplified-Queries;ActivityConditionMeasure">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&PPIOntology;ConditionMeasure"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&PPIOntology;meetsIC"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&PPIOntology;ProcessInstanceCondition"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&PPIOntology;appliesTo"/>
+                                        <owl:hasValue rdf:resource="&RFCSimplified;AnalyseRFC"/>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&PPIOntology;ConditionMeasure"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#ActivityCountMeasure -->
+
+    <owl:Class rdf:about="&RFCSimplified-Queries;ActivityCountMeasure">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&PPIOntology;CountMeasure"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&PPIOntology;meets"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
+                                    <owl:Class>
+                                        <owl:unionOf rdf:parseType="Collection">
+                                            <rdf:Description rdf:about="&PPIOntology;ActivityEnd"/>
+                                            <rdf:Description rdf:about="&PPIOntology;ActivityStart"/>
+                                        </owl:unionOf>
+                                    </owl:Class>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&PPIOntology;appliesTo"/>
+                                        <owl:hasValue rdf:resource="&RFCSimplified;AnalyseRFC"/>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&PPIOntology;CountMeasure"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#ActivityDerivedMeasure -->
+
+    <owl:Class rdf:about="&RFCSimplified-Queries;ActivityDerivedMeasure">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&PPIOntology;DerivedMeasure"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&PPIOntology;relates"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:unionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&RFCSimplified-Queries;ActivityConditionMeasure"/>
+                                    <rdf:Description rdf:about="&RFCSimplified-Queries;ActivityCountMeasure"/>
+                                    <rdf:Description rdf:about="&RFCSimplified-Queries;ActivityTimeMeasure"/>
+                                </owl:unionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&PPIOntology;DerivedMeasure"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#ActivityPPI -->
+
+    <owl:Class rdf:about="&RFCSimplified-Queries;ActivityPPI">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&PPIOntology;PPI"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&PPIOntology;isdefinedOver"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:unionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&RFCSimplified-Queries;ActivityAggregatedMeasure"/>
+                                    <rdf:Description rdf:about="&RFCSimplified-Queries;ActivityConditionMeasure"/>
+                                    <rdf:Description rdf:about="&RFCSimplified-Queries;ActivityCountMeasure"/>
+                                    <rdf:Description rdf:about="&RFCSimplified-Queries;ActivityDerivedMeasure"/>
+                                    <rdf:Description rdf:about="&RFCSimplified-Queries;ActivityTimeMeasure"/>
+                                </owl:unionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&PPIOntology;PPI"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#ActivityTimeMeasure -->
+
+    <owl:Class rdf:about="&RFCSimplified-Queries;ActivityTimeMeasure">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&PPIOntology;TimeMeasure"/>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&PPIOntology;from"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Restriction>
+                                                <owl:onProperty rdf:resource="&PPIOntology;appliesTo"/>
+                                                <owl:someValuesFrom>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&PPIOntology;isInstantiatedBy"/>
+                                                        <owl:someValuesFrom>
+                                                            <owl:Restriction>
+                                                                <owl:onProperty rdf:resource="&PPIOntology;precedes"/>
+                                                                <owl:someValuesFrom>
+                                                                    <owl:Restriction>
+                                                                        <owl:onProperty rdf:resource="&PPIOntology;instanceOf"/>
+                                                                        <owl:hasValue rdf:resource="&RFCSimplified;AnalyseRFC"/>
+                                                                    </owl:Restriction>
+                                                                </owl:someValuesFrom>
+                                                            </owl:Restriction>
+                                                        </owl:someValuesFrom>
+                                                    </owl:Restriction>
+                                                </owl:someValuesFrom>
+                                            </owl:Restriction>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&PPIOntology;to"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Restriction>
+                                                <owl:onProperty rdf:resource="&PPIOntology;appliesTo"/>
+                                                <owl:someValuesFrom>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&PPIOntology;isInstantiatedBy"/>
+                                                        <owl:someValuesFrom>
+                                                            <owl:Restriction>
+                                                                <owl:onProperty rdf:resource="&PPIOntology;succeeds"/>
+                                                                <owl:someValuesFrom>
+                                                                    <owl:Restriction>
+                                                                        <owl:onProperty rdf:resource="&PPIOntology;instanceOf"/>
+                                                                        <owl:hasValue rdf:resource="&RFCSimplified;AnalyseRFC"/>
+                                                                    </owl:Restriction>
+                                                                </owl:someValuesFrom>
+                                                            </owl:Restriction>
+                                                        </owl:someValuesFrom>
+                                                    </owl:Restriction>
+                                                </owl:someValuesFrom>
+                                            </owl:Restriction>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&PPIOntology;from"/>
+                                <owl:someValuesFrom>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&PPIOntology;appliesTo"/>
+                                        <owl:hasValue rdf:resource="&RFCSimplified;AnalyseRFC"/>
+                                    </owl:Restriction>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&PPIOntology;to"/>
+                                <owl:someValuesFrom>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&PPIOntology;appliesTo"/>
+                                        <owl:hasValue rdf:resource="&RFCSimplified;AnalyseRFC"/>
+                                    </owl:Restriction>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&PPIOntology;TimeMeasure"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#ConditionMImpliedPFlowElement -->
+
+    <owl:Class rdf:about="&RFCSimplified-Queries;ConditionMImpliedPFlowElement">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&PPIOntology;BPFlowElement"/>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&RFCSimplified-Queries;WriterActivity"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&PPIOntology;isAppliedBy"/>
+                                <owl:someValuesFrom>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&PPIOntology;isMetICBy"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Class>
+                                                <owl:unionOf rdf:parseType="Collection">
+                                                    <rdf:Description rdf:about="&RFCSimplified-Queries;MeasureInAggregated"/>
+                                                    <rdf:Description rdf:about="&RFCSimplified-Queries;MeasureInDerived"/>
+                                                    <rdf:Description rdf:about="&RFCSimplified-Queries;PPIConditionMeasure"/>
+                                                </owl:unionOf>
+                                            </owl:Class>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&PPIOntology;BPFlowElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#CountMImpliedBPFlowElement -->
+
+    <owl:Class rdf:about="&RFCSimplified-Queries;CountMImpliedBPFlowElement">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&PPIOntology;BPFlowElement"/>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&RFCSimplified-Queries;ImpliedXorGateway"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&PPIOntology;isAppliedBy"/>
+                                <owl:someValuesFrom>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&PPIOntology;isMetBy"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Class>
+                                                <owl:unionOf rdf:parseType="Collection">
+                                                    <rdf:Description rdf:about="&RFCSimplified-Queries;MeasureInAggregated"/>
+                                                    <rdf:Description rdf:about="&RFCSimplified-Queries;MeasureInDerived"/>
+                                                    <rdf:Description rdf:about="&RFCSimplified-Queries;PPICountMeasure"/>
+                                                </owl:unionOf>
+                                            </owl:Class>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&PPIOntology;BPFlowElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#DataMImpliedBPFlowElement -->
+
+    <owl:Class rdf:about="&RFCSimplified-Queries;DataMImpliedBPFlowElement">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&PPIOntology;BPFlowElement"/>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&RFCSimplified-Queries;WriterActivity"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&PPIOntology;isAppliedByDM"/>
+                                <owl:someValuesFrom>
+                                    <owl:Class>
+                                        <owl:unionOf rdf:parseType="Collection">
+                                            <rdf:Description rdf:about="&RFCSimplified-Queries;MeasureInAggregated"/>
+                                            <rdf:Description rdf:about="&RFCSimplified-Queries;MeasureInDerived"/>
+                                            <rdf:Description rdf:about="&RFCSimplified-Queries;PPIDataMeasure"/>
+                                        </owl:unionOf>
+                                    </owl:Class>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&PPIOntology;BPFlowElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#ImpliedXorGateway -->
+
+    <owl:Class rdf:about="&RFCSimplified-Queries;ImpliedXorGateway">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&PPIOntology;XorGateway"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&PPIOntology;isInstantiatedBy"/>
+                        <owl:someValuesFrom>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&PPIOntology;precedes"/>
+                                <owl:someValuesFrom>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&PPIOntology;instanceOf"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Restriction>
+                                                <owl:onProperty rdf:resource="&PPIOntology;isAppliedBy"/>
+                                                <owl:someValuesFrom>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&PPIOntology;isMetBy"/>
+                                                        <owl:someValuesFrom>
+                                                            <owl:Class>
+                                                                <owl:unionOf rdf:parseType="Collection">
+                                                                    <rdf:Description rdf:about="&RFCSimplified-Queries;MeasureInAggregated"/>
+                                                                    <rdf:Description rdf:about="&RFCSimplified-Queries;MeasureInDerived"/>
+                                                                    <rdf:Description rdf:about="&RFCSimplified-Queries;PPICountMeasure"/>
+                                                                </owl:unionOf>
+                                                            </owl:Class>
+                                                        </owl:someValuesFrom>
+                                                    </owl:Restriction>
+                                                </owl:someValuesFrom>
+                                            </owl:Restriction>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&PPIOntology;XorGateway"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#IsFromBPFlowElement -->
+
+    <owl:Class rdf:about="&RFCSimplified-Queries;IsFromBPFlowElement">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&PPIOntology;BPFlowElement"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&PPIOntology;isAppliedBy"/>
+                        <owl:someValuesFrom>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&PPIOntology;isFromFor"/>
+                                <owl:someValuesFrom>
+                                    <owl:Class>
+                                        <owl:unionOf rdf:parseType="Collection">
+                                            <rdf:Description rdf:about="&RFCSimplified-Queries;MeasureInAggregated"/>
+                                            <rdf:Description rdf:about="&RFCSimplified-Queries;MeasureInDerived"/>
+                                            <rdf:Description rdf:about="&RFCSimplified-Queries;PPITimeMeasure"/>
+                                        </owl:unionOf>
+                                    </owl:Class>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&PPIOntology;BPFlowElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#IsInPathBPFlowElement -->
+
+    <owl:Class rdf:about="&RFCSimplified-Queries;IsInPathBPFlowElement">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&PPIOntology;BPFlowElement"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&PPIOntology;isInstantiatedBy"/>
+                        <owl:someValuesFrom rdf:resource="&RFCSimplified-Queries;IsInPathBPFlowElementInstance"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&PPIOntology;BPFlowElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#IsInPathBPFlowElementInstance -->
+
+    <owl:Class rdf:about="&RFCSimplified-Queries;IsInPathBPFlowElementInstance">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&PPIOntology;BPFlowElementInstance"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&PPIOntology;precedes"/>
+                        <owl:someValuesFrom>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&PPIOntology;instanceOf"/>
+                                <owl:someValuesFrom rdf:resource="&RFCSimplified-Queries;IsToBPFlowElement"/>
+                            </owl:Restriction>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&PPIOntology;succeeds"/>
+                        <owl:someValuesFrom>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&PPIOntology;instanceOf"/>
+                                <owl:someValuesFrom rdf:resource="&RFCSimplified-Queries;IsFromBPFlowElement"/>
+                            </owl:Restriction>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&PPIOntology;BPFlowElementInstance"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#IsToBPFlowElement -->
+
+    <owl:Class rdf:about="&RFCSimplified-Queries;IsToBPFlowElement">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&PPIOntology;BPFlowElement"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&PPIOntology;isAppliedBy"/>
+                        <owl:someValuesFrom>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&PPIOntology;isToFor"/>
+                                <owl:someValuesFrom>
+                                    <owl:Class>
+                                        <owl:unionOf rdf:parseType="Collection">
+                                            <rdf:Description rdf:about="&RFCSimplified-Queries;MeasureInAggregated"/>
+                                            <rdf:Description rdf:about="&RFCSimplified-Queries;MeasureInDerived"/>
+                                            <rdf:Description rdf:about="&RFCSimplified-Queries;PPITimeMeasure"/>
+                                        </owl:unionOf>
+                                    </owl:Class>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&PPIOntology;BPFlowElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#MeasureInAggregated -->
+
+    <owl:Class rdf:about="&RFCSimplified-Queries;MeasureInAggregated">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&PPIOntology;MeasureDefinition"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&PPIOntology;isAggregatedBy"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&PPIOntology;AggregatedMeasure"/>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&PPIOntology;isUsedBy"/>
+                                        <owl:hasValue rdf:resource="&RFCSimplified;PPI2"/>
+                                    </owl:Restriction>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#MeasureInDerived -->
+
+    <owl:Class rdf:about="&RFCSimplified-Queries;MeasureInDerived">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&PPIOntology;MeasureDefinition"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&PPIOntology;isUsedToCalculate"/>
+                        <owl:someValuesFrom>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&PPIOntology;isUsedBy"/>
+                                <owl:hasValue rdf:resource="&RFCSimplified;PPI2"/>
+                            </owl:Restriction>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#PPIConditionMeasure -->
+
+    <owl:Class rdf:about="&RFCSimplified-Queries;PPIConditionMeasure">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&PPIOntology;ConditionMeasure"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&PPIOntology;isUsedBy"/>
+                        <owl:hasValue rdf:resource="&RFCSimplified;PPI2"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&PPIOntology;ConditionMeasure"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#PPICountMeasure -->
+
+    <owl:Class rdf:about="&RFCSimplified-Queries;PPICountMeasure">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&PPIOntology;CountMeasure"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&PPIOntology;isUsedBy"/>
+                        <owl:hasValue rdf:resource="&RFCSimplified;PPI2"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&PPIOntology;CountMeasure"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#PPIDataMeasure -->
+
+    <owl:Class rdf:about="&RFCSimplified-Queries;PPIDataMeasure">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&PPIOntology;DataMeasure"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&PPIOntology;isUsedBy"/>
+                        <owl:hasValue rdf:resource="&RFCSimplified;PPI2"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&PPIOntology;DataMeasure"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#PPIImpliedBPFlowElement -->
+
+    <owl:Class rdf:about="&RFCSimplified-Queries;PPIImpliedBPFlowElement">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&PPIOntology;BPFlowElement"/>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&RFCSimplified-Queries;ConditionMImpliedPFlowElement"/>
+                            <rdf:Description rdf:about="&RFCSimplified-Queries;CountMImpliedBPFlowElement"/>
+                            <rdf:Description rdf:about="&RFCSimplified-Queries;DataMImpliedBPFlowElement"/>
+                            <rdf:Description rdf:about="&RFCSimplified-Queries;TimeMImpliedBPFlowElement"/>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&PPIOntology;isAppliedBy"/>
+                                <owl:someValuesFrom>
+                                    <owl:Restriction>
+                                        <owl:onProperty rdf:resource="&PPIOntology;groups"/>
+                                        <owl:someValuesFrom>
+                                            <owl:Restriction>
+                                                <owl:onProperty rdf:resource="&PPIOntology;isUsedBy"/>
+                                                <owl:hasValue rdf:resource="&RFCSimplified;PPI2"/>
+                                            </owl:Restriction>
+                                        </owl:someValuesFrom>
+                                    </owl:Restriction>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&PPIOntology;BPFlowElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#PPITimeMeasure -->
+
+    <owl:Class rdf:about="&RFCSimplified-Queries;PPITimeMeasure">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&PPIOntology;TimeMeasure"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&PPIOntology;isUsedBy"/>
+                        <owl:hasValue rdf:resource="&RFCSimplified;PPI2"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&PPIOntology;TimeMeasure"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#TimeMImpliedBPFlowElement -->
+
+    <owl:Class rdf:about="&RFCSimplified-Queries;TimeMImpliedBPFlowElement">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&PPIOntology;BPFlowElement"/>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&RFCSimplified-Queries;IsFromBPFlowElement"/>
+                            <rdf:Description rdf:about="&RFCSimplified-Queries;IsInPathBPFlowElement"/>
+                            <rdf:Description rdf:about="&RFCSimplified-Queries;IsToBPFlowElement"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&PPIOntology;BPFlowElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#WriterActivity -->
+
+    <owl:Class rdf:about="&RFCSimplified-Queries;WriterActivity">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&PPIOntology;Activity"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&PPIOntology;DataOutputAssociation"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:intersectionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&PPIOntology;DataObject"/>
+                                    <owl:Class>
+                                        <owl:unionOf rdf:parseType="Collection">
+                                            <owl:Restriction>
+                                                <owl:onProperty rdf:resource="&PPIOntology;isAppliedBy"/>
+                                                <owl:someValuesFrom>
+                                                    <owl:Restriction>
+                                                        <owl:onProperty rdf:resource="&PPIOntology;isMetICBy"/>
+                                                        <owl:someValuesFrom>
+                                                            <owl:Class>
+                                                                <owl:unionOf rdf:parseType="Collection">
+                                                                    <rdf:Description rdf:about="&RFCSimplified-Queries;MeasureInAggregated"/>
+                                                                    <rdf:Description rdf:about="&RFCSimplified-Queries;MeasureInDerived"/>
+                                                                    <rdf:Description rdf:about="&RFCSimplified-Queries;PPIConditionMeasure"/>
+                                                                </owl:unionOf>
+                                                            </owl:Class>
+                                                        </owl:someValuesFrom>
+                                                    </owl:Restriction>
+                                                </owl:someValuesFrom>
+                                            </owl:Restriction>
+                                            <owl:Restriction>
+                                                <owl:onProperty rdf:resource="&PPIOntology;isAppliedByDM"/>
+                                                <owl:someValuesFrom>
+                                                    <owl:Class>
+                                                        <owl:unionOf rdf:parseType="Collection">
+                                                            <rdf:Description rdf:about="&RFCSimplified-Queries;MeasureInAggregated"/>
+                                                            <rdf:Description rdf:about="&RFCSimplified-Queries;MeasureInDerived"/>
+                                                            <rdf:Description rdf:about="&RFCSimplified-Queries;PPIDataMeasure"/>
+                                                        </owl:unionOf>
+                                                    </owl:Class>
+                                                </owl:someValuesFrom>
+                                            </owl:Restriction>
+                                        </owl:unionOf>
+                                    </owl:Class>
+                                </owl:intersectionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&PPIOntology;Activity"/>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.2.2.1785) http://owlapi.sourceforge.net -->
+

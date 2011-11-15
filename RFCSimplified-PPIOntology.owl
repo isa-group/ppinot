@@ -323,7 +323,7 @@
 
     <NamedIndividual rdf:about="&RFCSimplified;PPI2">
         <rdf:type rdf:resource="&PPIOntology;PPI"/>
-        <PPIOntology:isdefinedOver rdf:resource="&RFCSimplified;DelaysCausedByCommittee"/>
+        <PPIOntology:isdefinedOver rdf:resource="&RFCSimplified;DuracionMinimaProceso"/>
     </NamedIndividual>
     
 
@@ -332,7 +332,7 @@
 
     <NamedIndividual rdf:about="&RFCSimplified;PPI3">
         <rdf:type rdf:resource="&PPIOntology;PPI"/>
-        <PPIOntology:isdefinedOver rdf:resource="&RFCSimplified;PercentageCorrectiveRFCsFromApproved"/>
+        <PPIOntology:isdefinedOver rdf:resource="&RFCSimplified;PercentageCorrectiveRFCsFromReceived"/>
     </NamedIndividual>
     
 
@@ -355,9 +355,9 @@
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#PercentageCorrectiveRFCsFromApproved -->
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#PercentageCorrectiveRFCsFromReceived -->
 
-    <NamedIndividual rdf:about="&RFCSimplified;PercentageCorrectiveRFCsFromApproved">
+    <NamedIndividual rdf:about="&RFCSimplified;PercentageCorrectiveRFCsFromReceived">
         <rdf:type rdf:resource="&PPIOntology;DerivedProcessMeasure"/>
         <PPIOntology:isCalculatedPositively rdf:resource="&RFCSimplified;NumberOfCorrectiveRFCs"/>
         <PPIOntology:isCalculatedNegatively rdf:resource="&RFCSimplified;NumberOfRFCs"/>

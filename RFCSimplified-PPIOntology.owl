@@ -195,31 +195,12 @@
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#DM1 -->
-
-    <NamedIndividual rdf:about="&RFCSimplified;DM1">
-        <rdf:type rdf:resource="&PPIOntology;DataMeasure"/>
-        <PPIOntology:appliesToDM rdf:resource="&RFCSimplified;RFCApproved"/>
-    </NamedIndividual>
-    
-
-
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#DelaysCausedByCommittee -->
 
     <NamedIndividual rdf:about="&RFCSimplified;DelaysCausedByCommittee">
         <rdf:type rdf:resource="&PPIOntology;AvgAM"/>
         <PPIOntology:directlyAggregates rdf:resource="&RFCSimplified;tmeasure1"/>
         <PPIOntology:aggregates rdf:resource="&RFCSimplified;tmeasure1"/>
-    </NamedIndividual>
-    
-
-
-    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#DuracionMinimaProceso -->
-
-    <NamedIndividual rdf:about="&RFCSimplified;DuracionMinimaProceso">
-        <rdf:type rdf:resource="&PPIOntology;MinAM"/>
-        <PPIOntology:aggregates rdf:resource="&RFCSimplified;duracionProceso"/>
-        <PPIOntology:directlyAggregates rdf:resource="&RFCSimplified;duracionProceso"/>
     </NamedIndividual>
     
 
@@ -238,6 +219,24 @@
 
     <NamedIndividual rdf:about="&RFCSimplified;ElevateDecisionToCommittee">
         <rdf:type rdf:resource="&PPIOntology;Activity"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#InformationSystems -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;InformationSystems">
+        <rdf:type rdf:resource="&PPIOntology;DataProperty"/>
+        <RFCSimplified:belongsToData rdf:resource="&RFCSimplified;RFCApproved"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#InventedPPI -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;InventedPPI">
+        <rdf:type rdf:resource="&PPIOntology;PPI"/>
+        <PPIOntology:isdefinedOver rdf:resource="&RFCSimplified;MinimumProcessDuration"/>
     </NamedIndividual>
     
 
@@ -280,6 +279,16 @@
     
 
 
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#MinimumProcessDuration -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;MinimumProcessDuration">
+        <rdf:type rdf:resource="&PPIOntology;MinAM"/>
+        <PPIOntology:directlyAggregates rdf:resource="&RFCSimplified;duracionProceso"/>
+        <PPIOntology:aggregates rdf:resource="&RFCSimplified;processDuration"/>
+    </NamedIndividual>
+    
+
+
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#NumberOfCorrectiveRFCs -->
 
     <NamedIndividual rdf:about="&RFCSimplified;NumberOfCorrectiveRFCs">
@@ -310,20 +319,11 @@
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#PPI-mio -->
-
-    <NamedIndividual rdf:about="&RFCSimplified;PPI-mio">
-        <rdf:type rdf:resource="&PPIOntology;PPI"/>
-        <PPIOntology:isdefinedOver rdf:resource="&RFCSimplified;DuracionMinimaProceso"/>
-    </NamedIndividual>
-    
-
-
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#PPI2 -->
 
     <NamedIndividual rdf:about="&RFCSimplified;PPI2">
         <rdf:type rdf:resource="&PPIOntology;PPI"/>
-        <PPIOntology:isdefinedOver rdf:resource="&RFCSimplified;DuracionMinimaProceso"/>
+        <PPIOntology:isdefinedOver rdf:resource="&RFCSimplified;DelaysCausedByCommittee"/>
     </NamedIndividual>
     
 
@@ -351,6 +351,15 @@
     <NamedIndividual rdf:about="&RFCSimplified;PPI8">
         <rdf:type rdf:resource="&PPIOntology;PPI"/>
         <PPIOntology:isdefinedOver rdf:resource="&RFCSimplified;RFCsPerProject"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#PPIDataM -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;PPIDataM">
+        <rdf:type rdf:resource="&PPIOntology;PPI"/>
+        <PPIOntology:isdefinedOver rdf:resource="&RFCSimplified;affectedInformationSystems"/>
     </NamedIndividual>
     
 
@@ -573,18 +582,9 @@
 
     <NamedIndividual rdf:about="&RFCSimplified;affectedInformationSystems">
         <rdf:type rdf:resource="&PPIOntology;DataMeasure"/>
+        <PPIOntology:measuresProperty rdf:resource="&RFCSimplified;InformationSystems"/>
+        <PPIOntology:measuresData rdf:resource="&RFCSimplified;RFCApproved"/>
         <PPIOntology:appliesToDM rdf:resource="&RFCSimplified;RFCReceived"/>
-    </NamedIndividual>
-    
-
-
-    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#duracionProceso -->
-
-    <NamedIndividual rdf:about="&RFCSimplified;duracionProceso">
-        <rdf:type rdf:resource="&PPIOntology;TimeMeasure"/>
-        <PPIOntology:from rdf:resource="&RFCSimplified;triggerReceiveRFC"/>
-        <PPIOntology:to rdf:resource="&RFCSimplified;triggerReportRFCApproved"/>
-        <PPIOntology:to rdf:resource="&RFCSimplified;triggerReportRFCCanceled"/>
     </NamedIndividual>
     
 
@@ -594,6 +594,16 @@
     <NamedIndividual rdf:about="&RFCSimplified;endAnalyseInCommittee">
         <rdf:type rdf:resource="&PPIOntology;ActivityEnd"/>
         <PPIOntology:appliesTo rdf:resource="&RFCSimplified;AnalyseInCommittee"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#processDuration -->
+
+    <NamedIndividual rdf:about="&RFCSimplified;processDuration">
+        <rdf:type rdf:resource="&PPIOntology;TimeMeasure"/>
+        <PPIOntology:from rdf:resource="&RFCSimplified;triggerReceiveRFC"/>
+        <PPIOntology:to rdf:resource="&RFCSimplified;triggerReportRFCApproved"/>
     </NamedIndividual>
     
 

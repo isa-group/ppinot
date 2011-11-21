@@ -90,12 +90,6 @@
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#ActivityAggregatedMeasure -->
-
-    <owl:Class rdf:about="http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#ActivityAggregatedMeasure"/>
-    
-
-
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#ConditionMImpliedPFlowElement -->
 
     <owl:Class rdf:about="http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl#ConditionMImpliedPFlowElement">

@@ -534,6 +534,7 @@
 
     <NamedIndividual rdf:about="&RFCSimplified;ReportRFCCanceledInstance">
         <rdf:type rdf:resource="&PPIOntology;EventInstance"/>
+        <PPIOntology:instanceOf rdf:resource="&RFCSimplified;ReportRFCCanceled"/>
     </NamedIndividual>
     
 

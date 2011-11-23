@@ -465,25 +465,6 @@
         </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&PPIOntology;Activity"/>
     </owl:Class>
-    
-
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Individuals
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-    
-
-
-    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#ReportRFCCanceledInstance -->
-
-    <rdf:Description rdf:about="&RFCSimplified;ReportRFCCanceledInstance">
-        <PPIOntology:instanceOf rdf:resource="&RFCSimplified;ReportRFCCanceled"/>
-    </rdf:Description>
 </rdf:RDF>
 
 

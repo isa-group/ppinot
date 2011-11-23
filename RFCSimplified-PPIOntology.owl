@@ -41,31 +41,6 @@
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
-    // Object Properties
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-    
-
-
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#dataProperty -->
-
-    <rdf:Description rdf:about="&PPIOntology;dataProperty"/>
-    
-
-
-    <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#belongsToData -->
-
-    <ObjectProperty rdf:about="&RFCSimplified;belongsToData">
-        <inverseOf rdf:resource="&PPIOntology;dataProperty"/>
-    </ObjectProperty>
-    
-
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
     // Individuals
     //
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -227,7 +202,6 @@
 
     <NamedIndividual rdf:about="&RFCSimplified;InformationSystems">
         <rdf:type rdf:resource="&PPIOntology;DataProperty"/>
-        <RFCSimplified:belongsToData rdf:resource="&RFCSimplified;RFCApproved"/>
     </NamedIndividual>
     
 
@@ -613,7 +587,6 @@
 
     <NamedIndividual rdf:about="&RFCSimplified;project">
         <rdf:type rdf:resource="&PPIOntology;DataProperty"/>
-        <RFCSimplified:belongsToData rdf:resource="&RFCSimplified;RFCRegistered"/>
     </NamedIndividual>
     
 

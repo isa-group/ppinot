@@ -5,8 +5,8 @@
     <uri id="Imports Wizard Entry" name="http://www.semanticweb.org/ontologies/2011/10/RFCSimplified-PPIOntology.owl" uri="RFCSimplified-PPIOntology.owl"/>
     <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
         <uri id="Automatically generated entry, Timestamp=1322478944203" name="http://www.isa.us.es/ppiontology/PPIOntology.owl" uri="PPIOntologyOct2011.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1322478944203" name="duplicate:http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl" uri="RFCSimplified-PPIOntologyWithCustomisedQueries.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1322478944203" name="duplicate:http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl" uri="RFCSimplified-PPIOntologyWithQueries.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1322478944203" name="http://www.w3.org/2002/07/owl" uri="RFCSimplified-PPIOntology.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1322478944203" name="http://www.isa.us.es/ppiontology/RFCSimplified-CustomisedQueries.owl" uri="RFCSimplified-PPIOntologyWithCustomisedQueries.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1322478944203" name="http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl" uri="RFCSimplified-PPIOntologyWithQueries.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1322478944203" name="http://www.isa.us.es/ppiontology/RFCSimplified.owl" uri="RFCSimplified-PPIOntology.owl"/>
     </group>
 </catalog>

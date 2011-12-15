@@ -43,6 +43,23 @@
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#instanceOf -->
+
+    <ObjectProperty rdf:about="&PPIOntology;instanceOf"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
     // Individuals
     //
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -62,7 +79,6 @@
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#AnalyseCommittee1 -->
 
     <NamedIndividual rdf:about="&RFCSimplified;AnalyseCommittee1">
-        <rdf:type rdf:resource="&PPIOntology;ActivityInstance"/>
         <PPIOntology:instanceOf rdf:resource="&RFCSimplified;AnalyseInCommittee"/>
         <PPIOntology:directlyPrece rdf:resource="&RFCSimplified;M2"/>
     </NamedIndividual>
@@ -90,7 +106,6 @@
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#AnalyseRFC1 -->
 
     <NamedIndividual rdf:about="&RFCSimplified;AnalyseRFC1">
-        <rdf:type rdf:resource="&PPIOntology;ActivityInstance"/>
         <PPIOntology:instanceOf rdf:resource="&RFCSimplified;AnalyseRFC"/>
         <PPIOntology:directlyPrece rdf:resource="&RFCSimplified;Split1"/>
     </NamedIndividual>
@@ -100,7 +115,6 @@
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#AnalyseRFC2 -->
 
     <NamedIndividual rdf:about="&RFCSimplified;AnalyseRFC2">
-        <rdf:type rdf:resource="&PPIOntology;ActivityInstance"/>
         <PPIOntology:instanceOf rdf:resource="&RFCSimplified;AnalyseRFC"/>
         <PPIOntology:directlyPrece rdf:resource="&RFCSimplified;Split2"/>
     </NamedIndividual>
@@ -110,7 +124,6 @@
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#AnalyseRFC3 -->
 
     <NamedIndividual rdf:about="&RFCSimplified;AnalyseRFC3">
-        <rdf:type rdf:resource="&PPIOntology;ActivityInstance"/>
         <PPIOntology:instanceOf rdf:resource="&RFCSimplified;AnalyseRFC"/>
         <PPIOntology:directlyPrece rdf:resource="&RFCSimplified;Split3"/>
     </NamedIndividual>
@@ -130,7 +143,6 @@
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#ApproveRFC1 -->
 
     <NamedIndividual rdf:about="&RFCSimplified;ApproveRFC1">
-        <rdf:type rdf:resource="&PPIOntology;ActivityInstance"/>
         <PPIOntology:instanceOf rdf:resource="&RFCSimplified;ApproveRFC"/>
         <PPIOntology:directlyPrece rdf:resource="&RFCSimplified;RFCAp1"/>
     </NamedIndividual>
@@ -150,7 +162,6 @@
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#CancelRFC1 -->
 
     <NamedIndividual rdf:about="&RFCSimplified;CancelRFC1">
-        <rdf:type rdf:resource="&PPIOntology;ActivityInstance"/>
         <PPIOntology:instanceOf rdf:resource="&RFCSimplified;CancelRFC"/>
         <PPIOntology:directlyPrece rdf:resource="&RFCSimplified;RFCCanc1"/>
     </NamedIndividual>
@@ -189,7 +200,6 @@
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#ElevateDecisionC1 -->
 
     <NamedIndividual rdf:about="&RFCSimplified;ElevateDecisionC1">
-        <rdf:type rdf:resource="&PPIOntology;ActivityInstance"/>
         <PPIOntology:directlyPrece rdf:resource="&RFCSimplified;AnalyseCommittee1"/>
         <PPIOntology:instanceOf rdf:resource="&RFCSimplified;ElevateDecisionToCommittee"/>
     </NamedIndividual>
@@ -225,7 +235,6 @@
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#M1 -->
 
     <NamedIndividual rdf:about="&RFCSimplified;M1">
-        <rdf:type rdf:resource="&PPIOntology;XorGatewayInstance"/>
         <PPIOntology:directlyPrece rdf:resource="&RFCSimplified;AnalyseRFC1"/>
         <PPIOntology:instanceOf rdf:resource="&RFCSimplified;Merge"/>
     </NamedIndividual>
@@ -235,7 +244,6 @@
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#M2 -->
 
     <NamedIndividual rdf:about="&RFCSimplified;M2">
-        <rdf:type rdf:resource="&PPIOntology;XorGatewayInstance"/>
         <PPIOntology:directlyPrece rdf:resource="&RFCSimplified;AnalyseRFC2"/>
         <PPIOntology:instanceOf rdf:resource="&RFCSimplified;Merge"/>
     </NamedIndividual>
@@ -245,7 +253,6 @@
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#M3 -->
 
     <NamedIndividual rdf:about="&RFCSimplified;M3">
-        <rdf:type rdf:resource="&PPIOntology;XorGatewayInstance"/>
         <PPIOntology:directlyPrece rdf:resource="&RFCSimplified;AnalyseRFC3"/>
         <PPIOntology:instanceOf rdf:resource="&RFCSimplified;Merge"/>
     </NamedIndividual>
@@ -371,7 +378,6 @@
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#RFCAp1 -->
 
     <NamedIndividual rdf:about="&RFCSimplified;RFCAp1">
-        <rdf:type rdf:resource="&PPIOntology;DataObjectInstance"/>
         <PPIOntology:instanceOf rdf:resource="&RFCSimplified;RFCApproved"/>
         <PPIOntology:directlyPrece rdf:resource="&RFCSimplified;ReportRFCApprovedInstance"/>
     </NamedIndividual>
@@ -398,7 +404,6 @@
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#RFCCanc1 -->
 
     <NamedIndividual rdf:about="&RFCSimplified;RFCCanc1">
-        <rdf:type rdf:resource="&PPIOntology;DataObjectInstance"/>
         <PPIOntology:instanceOf rdf:resource="&RFCSimplified;RFCCanceled"/>
         <PPIOntology:directlyPrece rdf:resource="&RFCSimplified;ReportRFCCanceledInstance"/>
     </NamedIndividual>
@@ -424,7 +429,6 @@
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#RFCR1 -->
 
     <NamedIndividual rdf:about="&RFCSimplified;RFCR1">
-        <rdf:type rdf:resource="&PPIOntology;DataObjectInstance"/>
         <PPIOntology:directlyPrece rdf:resource="&RFCSimplified;M1"/>
         <PPIOntology:instanceOf rdf:resource="&RFCSimplified;RFCRegistered"/>
     </NamedIndividual>
@@ -434,7 +438,6 @@
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#RFCR2 -->
 
     <NamedIndividual rdf:about="&RFCSimplified;RFCR2">
-        <rdf:type rdf:resource="&PPIOntology;DataObjectInstance"/>
         <PPIOntology:directlyPrece rdf:resource="&RFCSimplified;M3"/>
         <PPIOntology:instanceOf rdf:resource="&RFCSimplified;RFCRegistered"/>
     </NamedIndividual>
@@ -474,7 +477,6 @@
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#ReceiveRCFInstance -->
 
     <NamedIndividual rdf:about="&RFCSimplified;ReceiveRCFInstance">
-        <rdf:type rdf:resource="&PPIOntology;EventInstance"/>
         <PPIOntology:directlyPrece rdf:resource="&RFCSimplified;RFCR1"/>
         <PPIOntology:instanceOf rdf:resource="&RFCSimplified;ReceiveRFC"/>
     </NamedIndividual>
@@ -493,7 +495,6 @@
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#ReceiveRFCInstance2 -->
 
     <NamedIndividual rdf:about="&RFCSimplified;ReceiveRFCInstance2">
-        <rdf:type rdf:resource="&PPIOntology;EventInstance"/>
         <PPIOntology:directlyPrece rdf:resource="&RFCSimplified;RFCR2"/>
         <PPIOntology:instanceOf rdf:resource="&RFCSimplified;ReceiveRFC"/>
     </NamedIndividual>
@@ -511,7 +512,6 @@
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#ReportRFCApprovedInstance -->
 
     <NamedIndividual rdf:about="&RFCSimplified;ReportRFCApprovedInstance">
-        <rdf:type rdf:resource="&PPIOntology;EventInstance"/>
         <PPIOntology:instanceOf rdf:resource="&RFCSimplified;ReportRFCApproved"/>
     </NamedIndividual>
     
@@ -529,7 +529,6 @@
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#ReportRFCCanceledInstance -->
 
     <NamedIndividual rdf:about="&RFCSimplified;ReportRFCCanceledInstance">
-        <rdf:type rdf:resource="&PPIOntology;EventInstance"/>
         <PPIOntology:instanceOf rdf:resource="&RFCSimplified;ReportRFCCanceled"/>
     </NamedIndividual>
     
@@ -548,7 +547,6 @@
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#Split1 -->
 
     <NamedIndividual rdf:about="&RFCSimplified;Split1">
-        <rdf:type rdf:resource="&PPIOntology;XorGatewayInstance"/>
         <PPIOntology:directlyPrece rdf:resource="&RFCSimplified;ElevateDecisionC1"/>
         <PPIOntology:instanceOf rdf:resource="&RFCSimplified;RFCAnalysisBasedDecision"/>
     </NamedIndividual>
@@ -558,7 +556,6 @@
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#Split2 -->
 
     <NamedIndividual rdf:about="&RFCSimplified;Split2">
-        <rdf:type rdf:resource="&PPIOntology;XorGatewayInstance"/>
         <PPIOntology:directlyPrece rdf:resource="&RFCSimplified;ApproveRFC1"/>
         <PPIOntology:instanceOf rdf:resource="&RFCSimplified;RFCAnalysisBasedDecision"/>
     </NamedIndividual>
@@ -568,7 +565,6 @@
     <!-- http://www.isa.us.es/ppiontology/RFCSimplified.owl#Split3 -->
 
     <NamedIndividual rdf:about="&RFCSimplified;Split3">
-        <rdf:type rdf:resource="&PPIOntology;XorGatewayInstance"/>
         <PPIOntology:directlyPrece rdf:resource="&RFCSimplified;CancelRFC1"/>
         <PPIOntology:instanceOf rdf:resource="&RFCSimplified;RFCAnalysisBasedDecision"/>
     </NamedIndividual>

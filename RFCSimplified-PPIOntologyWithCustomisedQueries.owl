@@ -38,12 +38,6 @@
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#ActivityInstance -->
-
-    <owl:Class rdf:about="&PPIOntology;ActivityInstance"/>
-    
-
-
     <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#ActivityStart -->
 
     <owl:Class rdf:about="&PPIOntology;ActivityStart"/>
@@ -62,12 +56,6 @@
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#DataObjectInstance -->
-
-    <owl:Class rdf:about="&PPIOntology;DataObjectInstance"/>
-    
-
-
     <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#DataStateChange -->
 
     <owl:Class rdf:about="&PPIOntology;DataStateChange"/>
@@ -83,12 +71,6 @@
     <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#ProcessInstanceCondition -->
 
     <owl:Class rdf:about="&PPIOntology;ProcessInstanceCondition"/>
-    
-
-
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#XorGatewayInstance -->
-
-    <owl:Class rdf:about="&PPIOntology;XorGatewayInstance"/>
     
 
 
@@ -235,39 +217,6 @@
             </owl:Class>
         </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&PPIOntology;BPElement"/>
-    </owl:Class>
-    
-
-
-    <!-- http://www.isa.us.es/ppiontology/RFCSimplified-CustomisedQueries.owl#IsInPathInstanceForProcessDuration -->
-
-    <owl:Class rdf:about="&RFCSimplified-CustomisedQueries;IsInPathInstanceForProcessDuration">
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&PPIOntology;BPFlowElementInstance"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&PPIOntology;prece"/>
-                        <owl:someValuesFrom>
-                            <owl:Restriction>
-                                <owl:onProperty rdf:resource="&PPIOntology;instanceOf"/>
-                                <owl:someValuesFrom rdf:resource="&RFCSimplified-CustomisedQueries;IsToForProcessDuration"/>
-                            </owl:Restriction>
-                        </owl:someValuesFrom>
-                    </owl:Restriction>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&PPIOntology;succe"/>
-                        <owl:someValuesFrom>
-                            <owl:Restriction>
-                                <owl:onProperty rdf:resource="&PPIOntology;instanceOf"/>
-                                <owl:someValuesFrom rdf:resource="&RFCSimplified-CustomisedQueries;IsFromForProcessDuration"/>
-                            </owl:Restriction>
-                        </owl:someValuesFrom>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
-        <rdfs:subClassOf rdf:resource="&PPIOntology;BPFlowElementInstance"/>
     </owl:Class>
     
 

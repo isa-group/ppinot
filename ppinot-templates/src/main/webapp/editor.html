@@ -443,9 +443,10 @@
     <div style="position: absolute; left: 39px; top: 45px; " class="ct_cursor ct_cursor_top ct_cursor_left"></div>
     <div style="position: fixed; display: none; left: 670px; top: 355px; " class="ct_message_popup"></div>
 
-	<div class="well">
+	<div class="well" style="text-align:right;">
 		<textarea id="clipboard1" style="display: none; background-color: white; color: black; border: 1px solid grey" cols="80" rows="10" wrap="off"></textarea>
-		<a class="btn btn-primary" data-toggle="modal" onclick="showModelModal();" style="float:right;" >Show model in JSON</a>
+		<a class="btn btn-primary" data-toggle="modal" href="#loadModal" >Load model</a>
+		<a class="btn btn-primary" onclick="showModelModal();"  >Show model in JSON</a>
 	</div>
 	
 	<div class="alert alert-info">
@@ -464,7 +465,26 @@
     		<a href="#" class="btn" data-dismiss="modal">Close</a>
   		</div>
 	</div>
-		
+
+	<div class="modal hide" id="loadModal">
+  		<div class="modal-header">
+    		<button type="button" class="close" data-dismiss="modal">×</button>
+    		<h3>Load JSON Model</h3>
+  		</div>
+  		<div class="modal-body">
+  			<div class="alert alert-error" id="loadError" style="display:none;">
+  				<button class="close" data-dismiss="alert">×</button>
+  				<strong>Error!</strong> The JSON model could not be loaded into the editor.
+			</div>
+  			<p>Copy here the JSON model to load it into the editor</p>
+			<textarea class="input-xxlarge" id="loadmodel" rows="15" wrap="soft"></textarea>
+  		</div>
+  		<div class="modal-footer">
+    		<a href="#" class="btn" data-dismiss="modal">Cancel</a>
+  			<a href="#" class="btn btn-primary" onclick="loadModel();">Load</a>
+  		</div>
+	</div>
+			
     </div> <!-- /container -->
     
     <!-- Le javascript
@@ -501,6 +521,19 @@
 					}
 					$("textmodel").value = model;
 					jQuery("#modelModal").modal();
+				}
+				
+				function loadModel() {
+					var jsonModel;
+					$("loadError").style.display = "none";
+					try {
+						jsonModel =$("loadmodel").value.evalJSON(true);
+						ed.setModel(jsonModel);
+						jQuery("#loadModal").modal("hide");
+					}
+					catch (err) {
+						$("loadError").style.display = "";
+					}
 				}
 			// ]]>
 	</script>    

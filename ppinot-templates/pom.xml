@@ -153,8 +153,8 @@
 						<type>runtime</type>
 						<properties>
 							<cargo.server.settings>isa.labs</cargo.server.settings>
-							<cargo.tomcat.manager.url>http://labs.isa.us.es:8081/manager</cargo.tomcat.manager.url>
-							<cargo.servlet.port>8081</cargo.servlet.port>
+							<cargo.tomcat.manager.url>http://labs.isa.us.es:8080/manager</cargo.tomcat.manager.url>
+							<cargo.servlet.port>8080</cargo.servlet.port>
 						</properties>
 					</configuration>
 					<container>

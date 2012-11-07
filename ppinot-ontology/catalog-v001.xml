@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <uri id="Imports Wizard Entry" name="http://www.isa.us.es/ontologies/AbstractBP.owl" uri="AbstractBP.owl"/>
     <uri id="User Entered Import Resolution" name="http://www.isa.us.es/ppiontology/RFCSimplified.owl" uri="RFCSimplified-PPIOntology.owl"/>
     <uri id="User Entered Import Resolution" name="http://www.semanticweb.org/ontologies/2011/9/PPIOntology.owl" uri="PPIOntologyOct2011.owl"/>
     <uri id="Imports Wizard Entry" name="http://www.semanticweb.org/ontologies/2011/10/RFCSimplified-PPIOntology.owl" uri="RFCSimplified-PPIOntology.owl"/>
     <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
-        <uri id="Automatically generated entry, Timestamp=1326366677984" name="http://www.isa.us.es/ppiontology/PPIOntology.owl" uri="PPIOntologyOct2011.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1326366677984" name="duplicate:http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl" uri="RFCSimplified-PPIOntologyWithCustomisedQueries-inferenceRules.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1326366677984" name="duplicate:http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl" uri="RFCSimplified-PPIOntologyWithCustomisedQueries.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1326366677984" name="duplicate:http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl" uri="RFCSimplified-PPIOntologyWithQueries.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1326366677984" name="http://www.w3.org/2002/07/owl" uri="RFCSimplified-PPIOntology.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1352195315903" name="http://www.w3.org/2002/07/owl" uri="RFCSimplified-PPIOntology.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1352195315903" name="http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl" uri="RFCSimplified-PPIOntologyWithCustomisedQueries-inferenceRules.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1352195315903" name="http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl" uri="RFCSimplified-PPIOntologyWithCustomisedQueries.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1352195315903" name="http://www.isa.us.es/ppiontology/RFCSimplified-Queries.owl" uri="RFCSimplified-PPIOntologyWithQueries.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1352305180237" name="http://www.isa.us.es/ppiontology/PPIOntology.owl" uri="PPIOntologyOct2011.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1352305266061" name="http://www.isa.us.es/ontologies/AbstractBP.owl" uri="AbstractBP.owl"/>
     </group>
 </catalog>

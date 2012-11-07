@@ -243,12 +243,12 @@
         <rdfs:domain rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#ProcessMeasure"/>
         <rdfs:subPropertyOf rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#relates"/>
         <owl:propertyChainAxiom rdf:parseType="Collection">
-            <rdf:Description rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#isCalculated"/>
             <rdf:Description rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#indirectlyAggregates"/>
+            <rdf:Description rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#isCalculated"/>
         </owl:propertyChainAxiom>
         <owl:propertyChainAxiom rdf:parseType="Collection">
-            <rdf:Description rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#indirectlyAggregates"/>
             <rdf:Description rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#isCalculated"/>
+            <rdf:Description rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#indirectlyAggregates"/>
         </owl:propertyChainAxiom>
     </owl:ObjectProperty>
     
@@ -644,9 +644,9 @@
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#ActivityStateCond -->
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#ActivityStateCondition -->
 
-    <owl:Class rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#ActivityStateCond">
+    <owl:Class rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#ActivityStateCondition">
         <rdfs:subClassOf rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#StateCondition"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -660,9 +660,9 @@
                 <owl:allValuesFrom rdf:resource="&AbstractBP;Activity"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <owl:disjointWith rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#DataStateCond"/>
-        <owl:disjointWith rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#EventStateCond"/>
-        <owl:disjointWith rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#PoolStateCond"/>
+        <owl:disjointWith rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#DataStateCondition"/>
+        <owl:disjointWith rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#EventStateCondition"/>
+        <owl:disjointWith rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#PoolStateCondition"/>
     </owl:Class>
     
 
@@ -838,9 +838,9 @@
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#DataStateCond -->
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#DataStateCondition -->
 
-    <owl:Class rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#DataStateCond">
+    <owl:Class rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#DataStateCondition">
         <rdfs:subClassOf rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#StateCondition"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -854,8 +854,8 @@
                 <owl:allValuesFrom rdf:resource="&AbstractBP;DataStateBPMN"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <owl:disjointWith rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#EventStateCond"/>
-        <owl:disjointWith rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#PoolStateCond"/>
+        <owl:disjointWith rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#EventStateCondition"/>
+        <owl:disjointWith rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#PoolStateCondition"/>
     </owl:Class>
     
 
@@ -864,26 +864,6 @@
 
     <owl:Class rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#DayOfWeek">
         <rdfs:subClassOf rdf:resource="&owl;Thing"/>
-    </owl:Class>
-    
-
-
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#DerivedInstanceMeasure -->
-
-    <owl:Class rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#DerivedInstanceMeasure">
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#DerivedMeasure"/>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#isCalculated"/>
-                        <owl:allValuesFrom rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#InstanceMeasure"/>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </owl:equivalentClass>
-        <rdfs:subClassOf rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#DerivedMeasure"/>
-        <rdfs:subClassOf rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#InstanceMeasure"/>
     </owl:Class>
     
 
@@ -907,9 +887,9 @@
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#DerivedProcessMeasure -->
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#DerivedMultiInstanceMeasure -->
 
-    <owl:Class rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#DerivedProcessMeasure">
+    <owl:Class rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#DerivedMultiInstanceMeasure">
         <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
@@ -927,6 +907,26 @@
     
 
 
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#DerivedSingleInstanceMeasure -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#DerivedSingleInstanceMeasure">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#DerivedMeasure"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#isCalculated"/>
+                        <owl:allValuesFrom rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#InstanceMeasure"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#DerivedMeasure"/>
+        <rdfs:subClassOf rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#InstanceMeasure"/>
+    </owl:Class>
+    
+
+
     <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#End -->
 
     <owl:Class rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#End">
@@ -936,23 +936,23 @@
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#EventStateCond -->
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#EventStateCondition -->
 
-    <owl:Class rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#EventStateCond">
+    <owl:Class rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#EventStateCondition">
         <rdfs:subClassOf rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#StateCondition"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&AbstractBP;hasState"/>
-                <owl:allValuesFrom rdf:resource="&AbstractBP;EventState"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#appliesTo"/>
                 <owl:allValuesFrom rdf:resource="&AbstractBP;Event"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <owl:disjointWith rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#PoolStateCond"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&AbstractBP;hasState"/>
+                <owl:allValuesFrom rdf:resource="&AbstractBP;EventState"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#PoolStateCondition"/>
     </owl:Class>
     
 
@@ -976,16 +976,12 @@
     <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#InstanceMeasure -->
 
     <owl:Class rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#InstanceMeasure">
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#BaseMeasure"/>
-                    <rdf:Description rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#DerivedInstanceMeasure"/>
-                </owl:unionOf>
-            </owl:Class>
-        </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#MeasureDefinition"/>
         <owl:disjointWith rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#ProcessMeasure"/>
+        <owl:disjointUnionOf rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#BaseMeasure"/>
+            <rdf:Description rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#DerivedSingleInstanceMeasure"/>
+        </owl:disjointUnionOf>
     </owl:Class>
     
 
@@ -1015,14 +1011,10 @@
     <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#MeasureDefinition -->
 
     <owl:Class rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#MeasureDefinition">
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#InstanceMeasure"/>
-                    <rdf:Description rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#ProcessMeasure"/>
-                </owl:unionOf>
-            </owl:Class>
-        </owl:equivalentClass>
+        <owl:disjointUnionOf rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#InstanceMeasure"/>
+            <rdf:Description rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#ProcessMeasure"/>
+        </owl:disjointUnionOf>
     </owl:Class>
     
 
@@ -1100,9 +1092,9 @@
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#PoolStateCond -->
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#PoolStateCondition -->
 
-    <owl:Class rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#PoolStateCond">
+    <owl:Class rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#PoolStateCondition">
         <rdfs:subClassOf rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#StateCondition"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -1132,15 +1124,11 @@
     <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#ProcessMeasure -->
 
     <owl:Class rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#ProcessMeasure">
-        <owl:equivalentClass>
-            <owl:Class>
-                <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#AggregatedMeasure"/>
-                    <rdf:Description rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#DerivedProcessMeasure"/>
-                </owl:unionOf>
-            </owl:Class>
-        </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#MeasureDefinition"/>
+        <owl:disjointUnionOf rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#AggregatedMeasure"/>
+            <rdf:Description rdf:about="http://www.isa.us.es/ppiontology/PPIOntology.owl#DerivedMultiInstanceMeasure"/>
+        </owl:disjointUnionOf>
     </owl:Class>
     
 
@@ -1402,6 +1390,13 @@
         </swrl:head>
         <swrl:body>
             <swrl:AtomList>
+                <rdf:first>
+                    <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#dependsDirectlyOn"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
+                    </swrl:IndividualPropertyAtom>
+                </rdf:first>
                 <rdf:rest>
                     <swrl:AtomList>
                         <rdf:rest rdf:resource="&rdf;nil"/>
@@ -1414,150 +1409,10 @@
                         </rdf:first>
                     </swrl:AtomList>
                 </rdf:rest>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#dependsDirectlyOn"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
             </swrl:AtomList>
         </swrl:body>
     </swrl:Imp>
     <swrl:Imp>
-        <swrl:body>
-            <swrl:AtomList>
-                <rdf:rest>
-                    <swrl:AtomList>
-                        <rdf:rest>
-                            <swrl:AtomList>
-                                <rdf:first>
-                                    <swrl:IndividualPropertyAtom>
-                                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#aggregates"/>
-                                        <swrl:argument1 rdf:resource="urn:swrl#m1"/>
-                                        <swrl:argument2 rdf:resource="urn:swrl#n1"/>
-                                    </swrl:IndividualPropertyAtom>
-                                </rdf:first>
-                                <rdf:rest>
-                                    <swrl:AtomList>
-                                        <rdf:first>
-                                            <swrl:IndividualPropertyAtom>
-                                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#aggregates"/>
-                                                <swrl:argument1 rdf:resource="urn:swrl#m2"/>
-                                                <swrl:argument2 rdf:resource="urn:swrl#n2"/>
-                                            </swrl:IndividualPropertyAtom>
-                                        </rdf:first>
-                                        <rdf:rest>
-                                            <swrl:AtomList>
-                                                <rdf:first>
-                                                    <swrl:IndividualPropertyAtom>
-                                                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#appliesTo"/>
-                                                        <swrl:argument1 rdf:resource="urn:swrl#c1"/>
-                                                        <swrl:argument2 rdf:resource="urn:swrl#e1"/>
-                                                    </swrl:IndividualPropertyAtom>
-                                                </rdf:first>
-                                                <rdf:rest>
-                                                    <swrl:AtomList>
-                                                        <rdf:rest>
-                                                            <swrl:AtomList>
-                                                                <rdf:first>
-                                                                    <swrl:IndividualPropertyAtom>
-                                                                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#appliesTo"/>
-                                                                        <swrl:argument1 rdf:resource="urn:swrl#c3"/>
-                                                                        <swrl:argument2 rdf:resource="urn:swrl#e3"/>
-                                                                    </swrl:IndividualPropertyAtom>
-                                                                </rdf:first>
-                                                                <rdf:rest>
-                                                                    <swrl:AtomList>
-                                                                        <rdf:first>
-                                                                            <swrl:IndividualPropertyAtom>
-                                                                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#appliesTo"/>
-                                                                                <swrl:argument1 rdf:resource="urn:swrl#c4"/>
-                                                                                <swrl:argument2 rdf:resource="urn:swrl#e4"/>
-                                                                            </swrl:IndividualPropertyAtom>
-                                                                        </rdf:first>
-                                                                        <rdf:rest>
-                                                                            <swrl:AtomList>
-                                                                                <rdf:rest>
-                                                                                    <swrl:AtomList>
-                                                                                        <rdf:rest>
-                                                                                            <swrl:AtomList>
-                                                                                                <rdf:rest>
-                                                                                                    <swrl:AtomList>
-                                                                                                        <rdf:rest rdf:resource="&rdf;nil"/>
-                                                                                                        <rdf:first>
-                                                                                                            <swrl:IndividualPropertyAtom>
-                                                                                                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#to"/>
-                                                                                                                <swrl:argument2 rdf:resource="urn:swrl#c4"/>
-                                                                                                                <swrl:argument1 rdf:resource="urn:swrl#n2"/>
-                                                                                                            </swrl:IndividualPropertyAtom>
-                                                                                                        </rdf:first>
-                                                                                                    </swrl:AtomList>
-                                                                                                </rdf:rest>
-                                                                                                <rdf:first>
-                                                                                                    <swrl:IndividualPropertyAtom>
-                                                                                                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#to"/>
-                                                                                                        <swrl:argument2 rdf:resource="urn:swrl#c3"/>
-                                                                                                        <swrl:argument1 rdf:resource="urn:swrl#n1"/>
-                                                                                                    </swrl:IndividualPropertyAtom>
-                                                                                                </rdf:first>
-                                                                                            </swrl:AtomList>
-                                                                                        </rdf:rest>
-                                                                                        <rdf:first>
-                                                                                            <swrl:IndividualPropertyAtom>
-                                                                                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#from"/>
-                                                                                                <swrl:argument2 rdf:resource="urn:swrl#c2"/>
-                                                                                                <swrl:argument1 rdf:resource="urn:swrl#n2"/>
-                                                                                            </swrl:IndividualPropertyAtom>
-                                                                                        </rdf:first>
-                                                                                    </swrl:AtomList>
-                                                                                </rdf:rest>
-                                                                                <rdf:first>
-                                                                                    <swrl:IndividualPropertyAtom>
-                                                                                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#from"/>
-                                                                                        <swrl:argument2 rdf:resource="urn:swrl#c1"/>
-                                                                                        <swrl:argument1 rdf:resource="urn:swrl#n1"/>
-                                                                                    </swrl:IndividualPropertyAtom>
-                                                                                </rdf:first>
-                                                                            </swrl:AtomList>
-                                                                        </rdf:rest>
-                                                                    </swrl:AtomList>
-                                                                </rdf:rest>
-                                                            </swrl:AtomList>
-                                                        </rdf:rest>
-                                                        <rdf:first>
-                                                            <swrl:IndividualPropertyAtom>
-                                                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#appliesTo"/>
-                                                                <swrl:argument1 rdf:resource="urn:swrl#c2"/>
-                                                                <swrl:argument2 rdf:resource="urn:swrl#e2"/>
-                                                            </swrl:IndividualPropertyAtom>
-                                                        </rdf:first>
-                                                    </swrl:AtomList>
-                                                </rdf:rest>
-                                            </swrl:AtomList>
-                                        </rdf:rest>
-                                    </swrl:AtomList>
-                                </rdf:rest>
-                            </swrl:AtomList>
-                        </rdf:rest>
-                        <rdf:first>
-                            <swrl:IndividualPropertyAtom>
-                                <swrl:propertyPredicate rdf:resource="&AbstractBP;succeeds"/>
-                                <swrl:argument2 rdf:resource="urn:swrl#e1"/>
-                                <swrl:argument1 rdf:resource="urn:swrl#e2"/>
-                            </swrl:IndividualPropertyAtom>
-                        </rdf:first>
-                    </swrl:AtomList>
-                </rdf:rest>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&AbstractBP;precedes"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#e3"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#e4"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
-            </swrl:AtomList>
-        </swrl:body>
         <swrl:head>
             <swrl:AtomList>
                 <rdf:rest rdf:resource="&rdf;nil"/>
@@ -1570,6 +1425,139 @@
                 </rdf:first>
             </swrl:AtomList>
         </swrl:head>
+        <swrl:body>
+            <swrl:AtomList>
+                <rdf:first>
+                    <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="&AbstractBP;precedes"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#e3"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#e4"/>
+                    </swrl:IndividualPropertyAtom>
+                </rdf:first>
+                <rdf:rest>
+                    <swrl:AtomList>
+                        <rdf:first>
+                            <swrl:IndividualPropertyAtom>
+                                <swrl:propertyPredicate rdf:resource="&AbstractBP;succeeds"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#e1"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#e2"/>
+                            </swrl:IndividualPropertyAtom>
+                        </rdf:first>
+                        <rdf:rest>
+                            <swrl:AtomList>
+                                <rdf:first>
+                                    <swrl:IndividualPropertyAtom>
+                                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#aggregates"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl#m1"/>
+                                        <swrl:argument2 rdf:resource="urn:swrl#n1"/>
+                                    </swrl:IndividualPropertyAtom>
+                                </rdf:first>
+                                <rdf:rest>
+                                    <swrl:AtomList>
+                                        <rdf:rest>
+                                            <swrl:AtomList>
+                                                <rdf:rest>
+                                                    <swrl:AtomList>
+                                                        <rdf:rest>
+                                                            <swrl:AtomList>
+                                                                <rdf:rest>
+                                                                    <swrl:AtomList>
+                                                                        <rdf:rest>
+                                                                            <swrl:AtomList>
+                                                                                <rdf:rest>
+                                                                                    <swrl:AtomList>
+                                                                                        <rdf:first>
+                                                                                            <swrl:IndividualPropertyAtom>
+                                                                                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#from"/>
+                                                                                                <swrl:argument2 rdf:resource="urn:swrl#c2"/>
+                                                                                                <swrl:argument1 rdf:resource="urn:swrl#n2"/>
+                                                                                            </swrl:IndividualPropertyAtom>
+                                                                                        </rdf:first>
+                                                                                        <rdf:rest>
+                                                                                            <swrl:AtomList>
+                                                                                                <rdf:first>
+                                                                                                    <swrl:IndividualPropertyAtom>
+                                                                                                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#to"/>
+                                                                                                        <swrl:argument2 rdf:resource="urn:swrl#c3"/>
+                                                                                                        <swrl:argument1 rdf:resource="urn:swrl#n1"/>
+                                                                                                    </swrl:IndividualPropertyAtom>
+                                                                                                </rdf:first>
+                                                                                                <rdf:rest>
+                                                                                                    <swrl:AtomList>
+                                                                                                        <rdf:rest rdf:resource="&rdf;nil"/>
+                                                                                                        <rdf:first>
+                                                                                                            <swrl:IndividualPropertyAtom>
+                                                                                                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#to"/>
+                                                                                                                <swrl:argument2 rdf:resource="urn:swrl#c4"/>
+                                                                                                                <swrl:argument1 rdf:resource="urn:swrl#n2"/>
+                                                                                                            </swrl:IndividualPropertyAtom>
+                                                                                                        </rdf:first>
+                                                                                                    </swrl:AtomList>
+                                                                                                </rdf:rest>
+                                                                                            </swrl:AtomList>
+                                                                                        </rdf:rest>
+                                                                                    </swrl:AtomList>
+                                                                                </rdf:rest>
+                                                                                <rdf:first>
+                                                                                    <swrl:IndividualPropertyAtom>
+                                                                                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#from"/>
+                                                                                        <swrl:argument2 rdf:resource="urn:swrl#c1"/>
+                                                                                        <swrl:argument1 rdf:resource="urn:swrl#n1"/>
+                                                                                    </swrl:IndividualPropertyAtom>
+                                                                                </rdf:first>
+                                                                            </swrl:AtomList>
+                                                                        </rdf:rest>
+                                                                        <rdf:first>
+                                                                            <swrl:IndividualPropertyAtom>
+                                                                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#appliesTo"/>
+                                                                                <swrl:argument1 rdf:resource="urn:swrl#c4"/>
+                                                                                <swrl:argument2 rdf:resource="urn:swrl#e4"/>
+                                                                            </swrl:IndividualPropertyAtom>
+                                                                        </rdf:first>
+                                                                    </swrl:AtomList>
+                                                                </rdf:rest>
+                                                                <rdf:first>
+                                                                    <swrl:IndividualPropertyAtom>
+                                                                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#appliesTo"/>
+                                                                        <swrl:argument1 rdf:resource="urn:swrl#c3"/>
+                                                                        <swrl:argument2 rdf:resource="urn:swrl#e3"/>
+                                                                    </swrl:IndividualPropertyAtom>
+                                                                </rdf:first>
+                                                            </swrl:AtomList>
+                                                        </rdf:rest>
+                                                        <rdf:first>
+                                                            <swrl:IndividualPropertyAtom>
+                                                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#appliesTo"/>
+                                                                <swrl:argument1 rdf:resource="urn:swrl#c2"/>
+                                                                <swrl:argument2 rdf:resource="urn:swrl#e2"/>
+                                                            </swrl:IndividualPropertyAtom>
+                                                        </rdf:first>
+                                                    </swrl:AtomList>
+                                                </rdf:rest>
+                                                <rdf:first>
+                                                    <swrl:IndividualPropertyAtom>
+                                                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#appliesTo"/>
+                                                        <swrl:argument1 rdf:resource="urn:swrl#c1"/>
+                                                        <swrl:argument2 rdf:resource="urn:swrl#e1"/>
+                                                    </swrl:IndividualPropertyAtom>
+                                                </rdf:first>
+                                            </swrl:AtomList>
+                                        </rdf:rest>
+                                        <rdf:first>
+                                            <swrl:IndividualPropertyAtom>
+                                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#aggregates"/>
+                                                <swrl:argument1 rdf:resource="urn:swrl#m2"/>
+                                                <swrl:argument2 rdf:resource="urn:swrl#n2"/>
+                                            </swrl:IndividualPropertyAtom>
+                                        </rdf:first>
+                                    </swrl:AtomList>
+                                </rdf:rest>
+                            </swrl:AtomList>
+                        </rdf:rest>
+                    </swrl:AtomList>
+                </rdf:rest>
+            </swrl:AtomList>
+        </swrl:body>
     </swrl:Imp>
     <swrl:Imp>
         <swrl:head>
@@ -1623,6 +1611,13 @@
         </swrl:head>
         <swrl:body>
             <swrl:AtomList>
+                <rdf:first>
+                    <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#dependsOnPPI"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
+                    </swrl:IndividualPropertyAtom>
+                </rdf:first>
                 <rdf:rest>
                     <swrl:AtomList>
                         <rdf:rest rdf:resource="&rdf;nil"/>
@@ -1635,13 +1630,6 @@
                         </rdf:first>
                     </swrl:AtomList>
                 </rdf:rest>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#dependsOnPPI"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
             </swrl:AtomList>
         </swrl:body>
     </swrl:Imp>
@@ -1660,13 +1648,6 @@
         </swrl:head>
         <swrl:body>
             <swrl:AtomList>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#dependsInverselyOn"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#m1"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#m2"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
                 <rdf:rest>
                     <swrl:AtomList>
                         <rdf:first>
@@ -1690,6 +1671,13 @@
                         </rdf:rest>
                     </swrl:AtomList>
                 </rdf:rest>
+                <rdf:first>
+                    <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#dependsInverselyOn"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#m1"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#m2"/>
+                    </swrl:IndividualPropertyAtom>
+                </rdf:first>
             </swrl:AtomList>
         </swrl:body>
     </swrl:Imp>
@@ -1745,52 +1733,52 @@
         </swrl:head>
         <swrl:body>
             <swrl:AtomList>
+                <rdf:first>
+                    <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="&AbstractBP;precedes"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#e3"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#e4"/>
+                    </swrl:IndividualPropertyAtom>
+                </rdf:first>
                 <rdf:rest>
                     <swrl:AtomList>
+                        <rdf:first>
+                            <swrl:IndividualPropertyAtom>
+                                <swrl:propertyPredicate rdf:resource="&AbstractBP;succeeds"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#e1"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#e2"/>
+                            </swrl:IndividualPropertyAtom>
+                        </rdf:first>
                         <rdf:rest>
                             <swrl:AtomList>
-                                <rdf:first>
-                                    <swrl:IndividualPropertyAtom>
-                                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#aggregates"/>
-                                        <swrl:argument1 rdf:resource="urn:swrl#m1"/>
-                                        <swrl:argument2 rdf:resource="urn:swrl#n1"/>
-                                    </swrl:IndividualPropertyAtom>
-                                </rdf:first>
                                 <rdf:rest>
                                     <swrl:AtomList>
                                         <rdf:rest>
                                             <swrl:AtomList>
+                                                <rdf:first>
+                                                    <swrl:IndividualPropertyAtom>
+                                                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#appliesTo"/>
+                                                        <swrl:argument1 rdf:resource="urn:swrl#c2"/>
+                                                        <swrl:argument2 rdf:resource="urn:swrl#e2"/>
+                                                    </swrl:IndividualPropertyAtom>
+                                                </rdf:first>
                                                 <rdf:rest>
                                                     <swrl:AtomList>
-                                                        <rdf:first>
-                                                            <swrl:IndividualPropertyAtom>
-                                                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#appliesTo"/>
-                                                                <swrl:argument1 rdf:resource="urn:swrl#c3"/>
-                                                                <swrl:argument2 rdf:resource="urn:swrl#e3"/>
-                                                            </swrl:IndividualPropertyAtom>
-                                                        </rdf:first>
                                                         <rdf:rest>
                                                             <swrl:AtomList>
                                                                 <rdf:rest>
                                                                     <swrl:AtomList>
-                                                                        <rdf:first>
-                                                                            <swrl:IndividualPropertyAtom>
-                                                                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#from"/>
-                                                                                <swrl:argument2 rdf:resource="urn:swrl#c2"/>
-                                                                                <swrl:argument1 rdf:resource="urn:swrl#m2"/>
-                                                                            </swrl:IndividualPropertyAtom>
-                                                                        </rdf:first>
                                                                         <rdf:rest>
                                                                             <swrl:AtomList>
+                                                                                <rdf:first>
+                                                                                    <swrl:IndividualPropertyAtom>
+                                                                                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#from"/>
+                                                                                        <swrl:argument2 rdf:resource="urn:swrl#c1"/>
+                                                                                        <swrl:argument1 rdf:resource="urn:swrl#n1"/>
+                                                                                    </swrl:IndividualPropertyAtom>
+                                                                                </rdf:first>
                                                                                 <rdf:rest>
                                                                                     <swrl:AtomList>
-                                                                                        <rdf:first>
-                                                                                            <swrl:IndividualPropertyAtom>
-                                                                                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#to"/>
-                                                                                                <swrl:argument2 rdf:resource="urn:swrl#c4"/>
-                                                                                                <swrl:argument1 rdf:resource="urn:swrl#m2"/>
-                                                                                            </swrl:IndividualPropertyAtom>
-                                                                                        </rdf:first>
                                                                                         <rdf:rest>
                                                                                             <swrl:AtomList>
                                                                                                 <rdf:rest rdf:resource="&rdf;nil"/>
@@ -1803,17 +1791,24 @@
                                                                                                 </rdf:first>
                                                                                             </swrl:AtomList>
                                                                                         </rdf:rest>
+                                                                                        <rdf:first>
+                                                                                            <swrl:IndividualPropertyAtom>
+                                                                                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#to"/>
+                                                                                                <swrl:argument2 rdf:resource="urn:swrl#c4"/>
+                                                                                                <swrl:argument1 rdf:resource="urn:swrl#m2"/>
+                                                                                            </swrl:IndividualPropertyAtom>
+                                                                                        </rdf:first>
                                                                                     </swrl:AtomList>
                                                                                 </rdf:rest>
-                                                                                <rdf:first>
-                                                                                    <swrl:IndividualPropertyAtom>
-                                                                                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#from"/>
-                                                                                        <swrl:argument2 rdf:resource="urn:swrl#c1"/>
-                                                                                        <swrl:argument1 rdf:resource="urn:swrl#n1"/>
-                                                                                    </swrl:IndividualPropertyAtom>
-                                                                                </rdf:first>
                                                                             </swrl:AtomList>
                                                                         </rdf:rest>
+                                                                        <rdf:first>
+                                                                            <swrl:IndividualPropertyAtom>
+                                                                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#from"/>
+                                                                                <swrl:argument2 rdf:resource="urn:swrl#c2"/>
+                                                                                <swrl:argument1 rdf:resource="urn:swrl#m2"/>
+                                                                            </swrl:IndividualPropertyAtom>
+                                                                        </rdf:first>
                                                                     </swrl:AtomList>
                                                                 </rdf:rest>
                                                                 <rdf:first>
@@ -1825,15 +1820,15 @@
                                                                 </rdf:first>
                                                             </swrl:AtomList>
                                                         </rdf:rest>
+                                                        <rdf:first>
+                                                            <swrl:IndividualPropertyAtom>
+                                                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#appliesTo"/>
+                                                                <swrl:argument1 rdf:resource="urn:swrl#c3"/>
+                                                                <swrl:argument2 rdf:resource="urn:swrl#e3"/>
+                                                            </swrl:IndividualPropertyAtom>
+                                                        </rdf:first>
                                                     </swrl:AtomList>
                                                 </rdf:rest>
-                                                <rdf:first>
-                                                    <swrl:IndividualPropertyAtom>
-                                                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#appliesTo"/>
-                                                        <swrl:argument1 rdf:resource="urn:swrl#c2"/>
-                                                        <swrl:argument2 rdf:resource="urn:swrl#e2"/>
-                                                    </swrl:IndividualPropertyAtom>
-                                                </rdf:first>
                                             </swrl:AtomList>
                                         </rdf:rest>
                                         <rdf:first>
@@ -1845,51 +1840,21 @@
                                         </rdf:first>
                                     </swrl:AtomList>
                                 </rdf:rest>
+                                <rdf:first>
+                                    <swrl:IndividualPropertyAtom>
+                                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#aggregates"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl#m1"/>
+                                        <swrl:argument2 rdf:resource="urn:swrl#n1"/>
+                                    </swrl:IndividualPropertyAtom>
+                                </rdf:first>
                             </swrl:AtomList>
                         </rdf:rest>
-                        <rdf:first>
-                            <swrl:IndividualPropertyAtom>
-                                <swrl:propertyPredicate rdf:resource="&AbstractBP;succeeds"/>
-                                <swrl:argument2 rdf:resource="urn:swrl#e1"/>
-                                <swrl:argument1 rdf:resource="urn:swrl#e2"/>
-                            </swrl:IndividualPropertyAtom>
-                        </rdf:first>
                     </swrl:AtomList>
                 </rdf:rest>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&AbstractBP;precedes"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#e3"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#e4"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
             </swrl:AtomList>
         </swrl:body>
     </swrl:Imp>
     <swrl:Imp>
-        <swrl:body>
-            <swrl:AtomList>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#includesPPI"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
-                <rdf:rest>
-                    <swrl:AtomList>
-                        <rdf:rest rdf:resource="&rdf;nil"/>
-                        <rdf:first>
-                            <swrl:IndividualPropertyAtom>
-                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#includesPPI"/>
-                                <swrl:argument1 rdf:resource="urn:swrl#y"/>
-                                <swrl:argument2 rdf:resource="urn:swrl#z"/>
-                            </swrl:IndividualPropertyAtom>
-                        </rdf:first>
-                    </swrl:AtomList>
-                </rdf:rest>
-            </swrl:AtomList>
-        </swrl:body>
         <swrl:head>
             <swrl:AtomList>
                 <rdf:rest rdf:resource="&rdf;nil"/>
@@ -1902,8 +1867,43 @@
                 </rdf:first>
             </swrl:AtomList>
         </swrl:head>
+        <swrl:body>
+            <swrl:AtomList>
+                <rdf:rest>
+                    <swrl:AtomList>
+                        <rdf:rest rdf:resource="&rdf;nil"/>
+                        <rdf:first>
+                            <swrl:IndividualPropertyAtom>
+                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#includesPPI"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#y"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#z"/>
+                            </swrl:IndividualPropertyAtom>
+                        </rdf:first>
+                    </swrl:AtomList>
+                </rdf:rest>
+                <rdf:first>
+                    <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#includesPPI"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
+                    </swrl:IndividualPropertyAtom>
+                </rdf:first>
+            </swrl:AtomList>
+        </swrl:body>
     </swrl:Imp>
     <swrl:Imp>
+        <swrl:head>
+            <swrl:AtomList>
+                <rdf:rest rdf:resource="&rdf;nil"/>
+                <rdf:first>
+                    <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#dependsDirectlyOnPPI"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#p1"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#p2"/>
+                    </swrl:IndividualPropertyAtom>
+                </rdf:first>
+            </swrl:AtomList>
+        </swrl:head>
         <swrl:body>
             <swrl:AtomList>
                 <rdf:rest>
@@ -1938,43 +1938,8 @@
                 </rdf:first>
             </swrl:AtomList>
         </swrl:body>
-        <swrl:head>
-            <swrl:AtomList>
-                <rdf:rest rdf:resource="&rdf;nil"/>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#dependsDirectlyOnPPI"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#p1"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#p2"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
-            </swrl:AtomList>
-        </swrl:head>
     </swrl:Imp>
     <swrl:Imp>
-        <swrl:body>
-            <swrl:AtomList>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#dependsOn"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
-                <rdf:rest>
-                    <swrl:AtomList>
-                        <rdf:rest rdf:resource="&rdf;nil"/>
-                        <rdf:first>
-                            <swrl:IndividualPropertyAtom>
-                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#dependsOn"/>
-                                <swrl:argument1 rdf:resource="urn:swrl#y"/>
-                                <swrl:argument2 rdf:resource="urn:swrl#z"/>
-                            </swrl:IndividualPropertyAtom>
-                        </rdf:first>
-                    </swrl:AtomList>
-                </rdf:rest>
-            </swrl:AtomList>
-        </swrl:body>
         <swrl:head>
             <swrl:AtomList>
                 <rdf:rest rdf:resource="&rdf;nil"/>
@@ -1987,6 +1952,29 @@
                 </rdf:first>
             </swrl:AtomList>
         </swrl:head>
+        <swrl:body>
+            <swrl:AtomList>
+                <rdf:rest>
+                    <swrl:AtomList>
+                        <rdf:rest rdf:resource="&rdf;nil"/>
+                        <rdf:first>
+                            <swrl:IndividualPropertyAtom>
+                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#dependsOn"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#y"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#z"/>
+                            </swrl:IndividualPropertyAtom>
+                        </rdf:first>
+                    </swrl:AtomList>
+                </rdf:rest>
+                <rdf:first>
+                    <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#dependsOn"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
+                    </swrl:IndividualPropertyAtom>
+                </rdf:first>
+            </swrl:AtomList>
+        </swrl:body>
     </swrl:Imp>
     <swrl:Imp>
         <swrl:head>
@@ -2003,13 +1991,6 @@
         </swrl:head>
         <swrl:body>
             <swrl:AtomList>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#dependsDirectlyOn"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
                 <rdf:rest>
                     <swrl:AtomList>
                         <rdf:rest rdf:resource="&rdf;nil"/>
@@ -2022,6 +2003,13 @@
                         </rdf:first>
                     </swrl:AtomList>
                 </rdf:rest>
+                <rdf:first>
+                    <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#dependsDirectlyOn"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
+                    </swrl:IndividualPropertyAtom>
+                </rdf:first>
             </swrl:AtomList>
         </swrl:body>
     </swrl:Imp>
@@ -2037,6 +2025,13 @@
                 </rdf:first>
                 <rdf:rest>
                     <swrl:AtomList>
+                        <rdf:first>
+                            <swrl:IndividualPropertyAtom>
+                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#isDefinedOver"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#m1"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#p1"/>
+                            </swrl:IndividualPropertyAtom>
+                        </rdf:first>
                         <rdf:rest>
                             <swrl:AtomList>
                                 <rdf:rest rdf:resource="&rdf;nil"/>
@@ -2049,13 +2044,6 @@
                                 </rdf:first>
                             </swrl:AtomList>
                         </rdf:rest>
-                        <rdf:first>
-                            <swrl:IndividualPropertyAtom>
-                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#isDefinedOver"/>
-                                <swrl:argument2 rdf:resource="urn:swrl#m1"/>
-                                <swrl:argument1 rdf:resource="urn:swrl#p1"/>
-                            </swrl:IndividualPropertyAtom>
-                        </rdf:first>
                     </swrl:AtomList>
                 </rdf:rest>
             </swrl:AtomList>
@@ -2111,29 +2099,62 @@
         </swrl:head>
     </swrl:Imp>
     <swrl:Imp>
+        <swrl:head>
+            <swrl:AtomList>
+                <rdf:rest rdf:resource="&rdf;nil"/>
+                <rdf:first>
+                    <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#includes"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#m1"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#m2"/>
+                    </swrl:IndividualPropertyAtom>
+                </rdf:first>
+            </swrl:AtomList>
+        </swrl:head>
         <swrl:body>
             <swrl:AtomList>
+                <rdf:first>
+                    <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="&AbstractBP;precedes"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#e3"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#e4"/>
+                    </swrl:IndividualPropertyAtom>
+                </rdf:first>
                 <rdf:rest>
                     <swrl:AtomList>
-                        <rdf:first>
-                            <swrl:IndividualPropertyAtom>
-                                <swrl:propertyPredicate rdf:resource="&AbstractBP;succeeds"/>
-                                <swrl:argument2 rdf:resource="urn:swrl#e1"/>
-                                <swrl:argument1 rdf:resource="urn:swrl#e2"/>
-                            </swrl:IndividualPropertyAtom>
-                        </rdf:first>
                         <rdf:rest>
                             <swrl:AtomList>
                                 <rdf:rest>
                                     <swrl:AtomList>
+                                        <rdf:first>
+                                            <swrl:IndividualPropertyAtom>
+                                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#appliesTo"/>
+                                                <swrl:argument1 rdf:resource="urn:swrl#c2"/>
+                                                <swrl:argument2 rdf:resource="urn:swrl#e2"/>
+                                            </swrl:IndividualPropertyAtom>
+                                        </rdf:first>
                                         <rdf:rest>
                                             <swrl:AtomList>
+                                                <rdf:first>
+                                                    <swrl:IndividualPropertyAtom>
+                                                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#appliesTo"/>
+                                                        <swrl:argument1 rdf:resource="urn:swrl#c3"/>
+                                                        <swrl:argument2 rdf:resource="urn:swrl#e3"/>
+                                                    </swrl:IndividualPropertyAtom>
+                                                </rdf:first>
                                                 <rdf:rest>
                                                     <swrl:AtomList>
                                                         <rdf:rest>
                                                             <swrl:AtomList>
                                                                 <rdf:rest>
                                                                     <swrl:AtomList>
+                                                                        <rdf:first>
+                                                                            <swrl:IndividualPropertyAtom>
+                                                                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#from"/>
+                                                                                <swrl:argument2 rdf:resource="urn:swrl#c2"/>
+                                                                                <swrl:argument1 rdf:resource="urn:swrl#m2"/>
+                                                                            </swrl:IndividualPropertyAtom>
+                                                                        </rdf:first>
                                                                         <rdf:rest>
                                                                             <swrl:AtomList>
                                                                                 <rdf:rest>
@@ -2157,13 +2178,6 @@
                                                                                 </rdf:first>
                                                                             </swrl:AtomList>
                                                                         </rdf:rest>
-                                                                        <rdf:first>
-                                                                            <swrl:IndividualPropertyAtom>
-                                                                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#from"/>
-                                                                                <swrl:argument2 rdf:resource="urn:swrl#c2"/>
-                                                                                <swrl:argument1 rdf:resource="urn:swrl#m2"/>
-                                                                            </swrl:IndividualPropertyAtom>
-                                                                        </rdf:first>
                                                                     </swrl:AtomList>
                                                                 </rdf:rest>
                                                                 <rdf:first>
@@ -2184,22 +2198,8 @@
                                                         </rdf:first>
                                                     </swrl:AtomList>
                                                 </rdf:rest>
-                                                <rdf:first>
-                                                    <swrl:IndividualPropertyAtom>
-                                                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#appliesTo"/>
-                                                        <swrl:argument1 rdf:resource="urn:swrl#c3"/>
-                                                        <swrl:argument2 rdf:resource="urn:swrl#e3"/>
-                                                    </swrl:IndividualPropertyAtom>
-                                                </rdf:first>
                                             </swrl:AtomList>
                                         </rdf:rest>
-                                        <rdf:first>
-                                            <swrl:IndividualPropertyAtom>
-                                                <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#appliesTo"/>
-                                                <swrl:argument1 rdf:resource="urn:swrl#c2"/>
-                                                <swrl:argument2 rdf:resource="urn:swrl#e2"/>
-                                            </swrl:IndividualPropertyAtom>
-                                        </rdf:first>
                                     </swrl:AtomList>
                                 </rdf:rest>
                                 <rdf:first>
@@ -2211,31 +2211,31 @@
                                 </rdf:first>
                             </swrl:AtomList>
                         </rdf:rest>
+                        <rdf:first>
+                            <swrl:IndividualPropertyAtom>
+                                <swrl:propertyPredicate rdf:resource="&AbstractBP;succeeds"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#e1"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#e2"/>
+                            </swrl:IndividualPropertyAtom>
+                        </rdf:first>
                     </swrl:AtomList>
                 </rdf:rest>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&AbstractBP;precedes"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#e3"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#e4"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
             </swrl:AtomList>
         </swrl:body>
+    </swrl:Imp>
+    <swrl:Imp>
         <swrl:head>
             <swrl:AtomList>
                 <rdf:rest rdf:resource="&rdf;nil"/>
                 <rdf:first>
                     <swrl:IndividualPropertyAtom>
                         <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#includes"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#m1"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#m2"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#z"/>
                     </swrl:IndividualPropertyAtom>
                 </rdf:first>
             </swrl:AtomList>
         </swrl:head>
-    </swrl:Imp>
-    <swrl:Imp>
         <swrl:body>
             <swrl:AtomList>
                 <rdf:first>
@@ -2259,18 +2259,6 @@
                 </rdf:rest>
             </swrl:AtomList>
         </swrl:body>
-        <swrl:head>
-            <swrl:AtomList>
-                <rdf:rest rdf:resource="&rdf;nil"/>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl#includes"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#z"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
-            </swrl:AtomList>
-        </swrl:head>
     </swrl:Imp>
 </rdf:RDF>
 

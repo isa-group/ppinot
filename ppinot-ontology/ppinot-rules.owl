@@ -8,8 +8,8 @@
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY ppinot "http://www.isa.us.es/ontologies/ppinot.owl#" >
     <!ENTITY AbstractBP "http://www.isa.us.es/ontologies/AbstractBP.owl#" >
-    <!ENTITY PPIOntology "http://www.isa.us.es/ppiontology/PPIOntology.owl#" >
 ]>
 
 
@@ -22,10 +22,10 @@
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-     xmlns:PPIOntology="http://www.isa.us.es/ppiontology/PPIOntology.owl#">
+     xmlns:ppinot="http://www.isa.us.es/ontologies/ppinot.owl#">
     <owl:Ontology rdf:about="http://www.isa.us.es/ontologies/ppinot-rules.owl">
         <owl:imports rdf:resource="http://www.isa.us.es/ontologies/AbstractBP-rules.owl"/>
-        <owl:imports rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl"/>
+        <owl:imports rdf:resource="http://www.isa.us.es/ontologies/ppinot.owl"/>
     </owl:Ontology>
     
 
@@ -41,154 +41,154 @@
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#aggregates -->
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#aggregates -->
 
-    <rdf:Description rdf:about="&PPIOntology;aggregates">
-        <rdfs:subPropertyOf rdf:resource="&PPIOntology;dependsDirectlyOn"/>
-        <rdfs:subPropertyOf rdf:resource="&PPIOntology;indirectlyAggregates"/>
-        <owl:inverseOf rdf:resource="&PPIOntology;isAggregatedBy"/>
+    <rdf:Description rdf:about="&ppinot;aggregates">
+        <rdfs:subPropertyOf rdf:resource="&ppinot;dependsDirectlyOn"/>
+        <rdfs:subPropertyOf rdf:resource="&ppinot;indirectlyAggregates"/>
+        <owl:inverseOf rdf:resource="&ppinot;isAggregatedBy"/>
     </rdf:Description>
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#dependsDirectlyOn -->
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#dependsDirectlyOn -->
 
-    <owl:ObjectProperty rdf:about="&PPIOntology;dependsDirectlyOn">
-        <rdfs:subPropertyOf rdf:resource="&PPIOntology;dependsOn"/>
+    <owl:ObjectProperty rdf:about="&ppinot;dependsDirectlyOn">
+        <rdfs:subPropertyOf rdf:resource="&ppinot;dependsOn"/>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#dependsDirectlyOnPPI -->
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#dependsDirectlyOnPPI -->
 
-    <owl:ObjectProperty rdf:about="&PPIOntology;dependsDirectlyOnPPI">
-        <rdfs:subPropertyOf rdf:resource="&PPIOntology;dependsOnPPI"/>
+    <owl:ObjectProperty rdf:about="&ppinot;dependsDirectlyOnPPI">
+        <rdfs:subPropertyOf rdf:resource="&ppinot;dependsOnPPI"/>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#dependsInverselyOn -->
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#dependsInverselyOn -->
 
-    <owl:ObjectProperty rdf:about="&PPIOntology;dependsInverselyOn">
+    <owl:ObjectProperty rdf:about="&ppinot;dependsInverselyOn">
         <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
-        <rdfs:subPropertyOf rdf:resource="&PPIOntology;dependsOn"/>
+        <rdfs:subPropertyOf rdf:resource="&ppinot;dependsOn"/>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#dependsInverselyOnPPI -->
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#dependsInverselyOnPPI -->
 
-    <owl:ObjectProperty rdf:about="&PPIOntology;dependsInverselyOnPPI">
-        <rdfs:subPropertyOf rdf:resource="&PPIOntology;dependsOnPPI"/>
+    <owl:ObjectProperty rdf:about="&ppinot;dependsInverselyOnPPI">
+        <rdfs:subPropertyOf rdf:resource="&ppinot;dependsOnPPI"/>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#dependsOn -->
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#dependsOn -->
 
-    <owl:ObjectProperty rdf:about="&PPIOntology;dependsOn">
-        <rdfs:range rdf:resource="&PPIOntology;MeasureDefinition"/>
-        <rdfs:domain rdf:resource="&PPIOntology;MeasureDefinition"/>
+    <owl:ObjectProperty rdf:about="&ppinot;dependsOn">
+        <rdfs:domain rdf:resource="&ppinot;MeasureDefinition"/>
+        <rdfs:range rdf:resource="&ppinot;MeasureDefinition"/>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#dependsOnPPI -->
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#dependsOnPPI -->
 
-    <owl:ObjectProperty rdf:about="&PPIOntology;dependsOnPPI">
-        <rdfs:range rdf:resource="&PPIOntology;PPI"/>
-        <rdfs:domain rdf:resource="&PPIOntology;PPI"/>
+    <owl:ObjectProperty rdf:about="&ppinot;dependsOnPPI">
+        <rdfs:domain rdf:resource="&ppinot;PPI"/>
+        <rdfs:range rdf:resource="&ppinot;PPI"/>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#includes -->
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#includes -->
 
-    <owl:ObjectProperty rdf:about="&PPIOntology;includes">
-        <rdfs:domain rdf:resource="&PPIOntology;MeasureDefinition"/>
-        <rdfs:range rdf:resource="&PPIOntology;MeasureDefinition"/>
-        <rdfs:subPropertyOf rdf:resource="&PPIOntology;dependsDirectlyOn"/>
+    <owl:ObjectProperty rdf:about="&ppinot;includes">
+        <rdfs:domain rdf:resource="&ppinot;MeasureDefinition"/>
+        <rdfs:range rdf:resource="&ppinot;MeasureDefinition"/>
+        <rdfs:subPropertyOf rdf:resource="&ppinot;dependsDirectlyOn"/>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#indirectlyAggregates -->
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#indirectlyAggregates -->
 
-    <owl:ObjectProperty rdf:about="&PPIOntology;indirectlyAggregates">
-        <rdfs:range rdf:resource="&PPIOntology;InstanceMeasure"/>
-        <rdfs:domain rdf:resource="&PPIOntology;ProcessMeasure"/>
-        <rdfs:subPropertyOf rdf:resource="&PPIOntology;relates"/>
+    <owl:ObjectProperty rdf:about="&ppinot;indirectlyAggregates">
+        <rdfs:range rdf:resource="&ppinot;InstanceMeasure"/>
+        <rdfs:domain rdf:resource="&ppinot;ProcessMeasure"/>
+        <rdfs:subPropertyOf rdf:resource="&ppinot;relates"/>
         <owl:propertyChainAxiom rdf:parseType="Collection">
-            <rdf:Description rdf:about="&PPIOntology;indirectlyAggregates"/>
-            <rdf:Description rdf:about="&PPIOntology;isCalculated"/>
+            <rdf:Description rdf:about="&ppinot;isCalculated"/>
+            <rdf:Description rdf:about="&ppinot;indirectlyAggregates"/>
         </owl:propertyChainAxiom>
         <owl:propertyChainAxiom rdf:parseType="Collection">
-            <rdf:Description rdf:about="&PPIOntology;isCalculated"/>
-            <rdf:Description rdf:about="&PPIOntology;indirectlyAggregates"/>
+            <rdf:Description rdf:about="&ppinot;indirectlyAggregates"/>
+            <rdf:Description rdf:about="&ppinot;isCalculated"/>
         </owl:propertyChainAxiom>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#isAggregatedBy -->
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#isAggregatedBy -->
 
-    <owl:ObjectProperty rdf:about="&PPIOntology;isAggregatedBy">
-        <rdfs:subPropertyOf rdf:resource="&PPIOntology;isIndirectlyAggregatedBy"/>
+    <owl:ObjectProperty rdf:about="&ppinot;isAggregatedBy">
+        <rdfs:subPropertyOf rdf:resource="&ppinot;isIndirectlyAggregatedBy"/>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#isCalculated -->
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#isCalculated -->
 
-    <rdf:Description rdf:about="&PPIOntology;isCalculated">
-        <rdfs:subPropertyOf rdf:resource="&PPIOntology;relates"/>
+    <rdf:Description rdf:about="&ppinot;isCalculated">
+        <rdfs:subPropertyOf rdf:resource="&ppinot;relates"/>
     </rdf:Description>
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#isCalculatedNegatively -->
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#isCalculatedNegatively -->
 
-    <rdf:Description rdf:about="&PPIOntology;isCalculatedNegatively">
-        <rdfs:subPropertyOf rdf:resource="&PPIOntology;dependsInverselyOn"/>
+    <rdf:Description rdf:about="&ppinot;isCalculatedNegatively">
+        <rdfs:subPropertyOf rdf:resource="&ppinot;dependsInverselyOn"/>
     </rdf:Description>
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#isCalculatedPositively -->
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#isCalculatedPositively -->
 
-    <rdf:Description rdf:about="&PPIOntology;isCalculatedPositively">
-        <rdfs:subPropertyOf rdf:resource="&PPIOntology;dependsDirectlyOn"/>
+    <rdf:Description rdf:about="&ppinot;isCalculatedPositively">
+        <rdfs:subPropertyOf rdf:resource="&ppinot;dependsDirectlyOn"/>
     </rdf:Description>
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#isIndirectlyAggregatedBy -->
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#isIndirectlyAggregatedBy -->
 
-    <owl:ObjectProperty rdf:about="&PPIOntology;isIndirectlyAggregatedBy">
-        <owl:inverseOf rdf:resource="&PPIOntology;indirectlyAggregates"/>
-        <rdfs:subPropertyOf rdf:resource="&PPIOntology;isRelated"/>
+    <owl:ObjectProperty rdf:about="&ppinot;isIndirectlyAggregatedBy">
+        <owl:inverseOf rdf:resource="&ppinot;indirectlyAggregates"/>
+        <rdfs:subPropertyOf rdf:resource="&ppinot;isRelated"/>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#isRelated -->
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#isRelated -->
 
-    <owl:ObjectProperty rdf:about="&PPIOntology;isRelated"/>
+    <owl:ObjectProperty rdf:about="&ppinot;isRelated"/>
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#isUsedToCalculate -->
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#isUsedToCalculate -->
 
-    <owl:ObjectProperty rdf:about="&PPIOntology;isUsedToCalculate">
-        <owl:inverseOf rdf:resource="&PPIOntology;isCalculated"/>
-        <rdfs:subPropertyOf rdf:resource="&PPIOntology;isRelated"/>
+    <owl:ObjectProperty rdf:about="&ppinot;isUsedToCalculate">
+        <owl:inverseOf rdf:resource="&ppinot;isCalculated"/>
+        <rdfs:subPropertyOf rdf:resource="&ppinot;isRelated"/>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#relates -->
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#relates -->
 
-    <owl:ObjectProperty rdf:about="&PPIOntology;relates"/>
+    <owl:ObjectProperty rdf:about="&ppinot;relates"/>
     
 
 
@@ -200,10 +200,6 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    <swrl:Variable rdf:about="urn:swrl#p1"/>
-    <swrl:Variable rdf:about="urn:swrl#m1"/>
-    <swrl:Variable rdf:about="urn:swrl#p2"/>
-    <swrl:Variable rdf:about="urn:swrl#m2"/>
     <swrl:Variable rdf:about="urn:swrl#x"/>
     <swrl:Variable rdf:about="urn:swrl#y"/>
     <swrl:Variable rdf:about="urn:swrl#z"/>
@@ -211,19 +207,23 @@
     <swrl:Variable rdf:about="urn:swrl#e3"/>
     <swrl:Variable rdf:about="urn:swrl#e2"/>
     <swrl:Variable rdf:about="urn:swrl#e1"/>
-    <swrl:Variable rdf:about="urn:swrl#n1"/>
     <swrl:Variable rdf:about="urn:swrl#c1"/>
     <swrl:Variable rdf:about="urn:swrl#c2"/>
     <swrl:Variable rdf:about="urn:swrl#c3"/>
     <swrl:Variable rdf:about="urn:swrl#c4"/>
+    <swrl:Variable rdf:about="urn:swrl#m1"/>
+    <swrl:Variable rdf:about="urn:swrl#m2"/>
+    <swrl:Variable rdf:about="urn:swrl#n1"/>
     <swrl:Variable rdf:about="urn:swrl#n2"/>
+    <swrl:Variable rdf:about="urn:swrl#p1"/>
+    <swrl:Variable rdf:about="urn:swrl#p2"/>
     <swrl:Imp>
         <swrl:head>
             <swrl:AtomList>
                 <rdf:rest rdf:resource="&rdf;nil"/>
                 <rdf:first>
                     <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&PPIOntology;dependsDirectlyOn"/>
+                        <swrl:propertyPredicate rdf:resource="&ppinot;dependsInverselyOn"/>
                         <swrl:argument1 rdf:resource="urn:swrl#x"/>
                         <swrl:argument2 rdf:resource="urn:swrl#z"/>
                     </swrl:IndividualPropertyAtom>
@@ -234,9 +234,9 @@
             <swrl:AtomList>
                 <rdf:first>
                     <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&PPIOntology;dependsDirectlyOn"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
+                        <swrl:propertyPredicate rdf:resource="&ppinot;dependsDirectlyOn"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#y"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#z"/>
                     </swrl:IndividualPropertyAtom>
                 </rdf:first>
                 <rdf:rest>
@@ -244,9 +244,9 @@
                         <rdf:rest rdf:resource="&rdf;nil"/>
                         <rdf:first>
                             <swrl:IndividualPropertyAtom>
-                                <swrl:propertyPredicate rdf:resource="&PPIOntology;dependsDirectlyOn"/>
-                                <swrl:argument1 rdf:resource="urn:swrl#y"/>
-                                <swrl:argument2 rdf:resource="urn:swrl#z"/>
+                                <swrl:propertyPredicate rdf:resource="&ppinot;dependsInverselyOn"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#x"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#y"/>
                             </swrl:IndividualPropertyAtom>
                         </rdf:first>
                     </swrl:AtomList>
@@ -260,7 +260,7 @@
                 <rdf:rest rdf:resource="&rdf;nil"/>
                 <rdf:first>
                     <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&PPIOntology;includes"/>
+                        <swrl:propertyPredicate rdf:resource="&ppinot;includes"/>
                         <swrl:argument1 rdf:resource="urn:swrl#m1"/>
                         <swrl:argument2 rdf:resource="urn:swrl#m2"/>
                     </swrl:IndividualPropertyAtom>
@@ -271,45 +271,24 @@
             <swrl:AtomList>
                 <rdf:rest>
                     <swrl:AtomList>
-                        <rdf:first>
-                            <swrl:IndividualPropertyAtom>
-                                <swrl:propertyPredicate rdf:resource="&AbstractBP;succeeds"/>
-                                <swrl:argument2 rdf:resource="urn:swrl#e1"/>
-                                <swrl:argument1 rdf:resource="urn:swrl#e2"/>
-                            </swrl:IndividualPropertyAtom>
-                        </rdf:first>
                         <rdf:rest>
                             <swrl:AtomList>
                                 <rdf:first>
                                     <swrl:IndividualPropertyAtom>
-                                        <swrl:propertyPredicate rdf:resource="&PPIOntology;aggregates"/>
+                                        <swrl:propertyPredicate rdf:resource="&ppinot;aggregates"/>
                                         <swrl:argument1 rdf:resource="urn:swrl#m1"/>
                                         <swrl:argument2 rdf:resource="urn:swrl#n1"/>
                                     </swrl:IndividualPropertyAtom>
                                 </rdf:first>
                                 <rdf:rest>
                                     <swrl:AtomList>
-                                        <rdf:first>
-                                            <swrl:IndividualPropertyAtom>
-                                                <swrl:propertyPredicate rdf:resource="&PPIOntology;aggregates"/>
-                                                <swrl:argument1 rdf:resource="urn:swrl#m2"/>
-                                                <swrl:argument2 rdf:resource="urn:swrl#n2"/>
-                                            </swrl:IndividualPropertyAtom>
-                                        </rdf:first>
                                         <rdf:rest>
                                             <swrl:AtomList>
-                                                <rdf:first>
-                                                    <swrl:IndividualPropertyAtom>
-                                                        <swrl:propertyPredicate rdf:resource="&PPIOntology;appliesTo"/>
-                                                        <swrl:argument1 rdf:resource="urn:swrl#c1"/>
-                                                        <swrl:argument2 rdf:resource="urn:swrl#e1"/>
-                                                    </swrl:IndividualPropertyAtom>
-                                                </rdf:first>
                                                 <rdf:rest>
                                                     <swrl:AtomList>
                                                         <rdf:first>
                                                             <swrl:IndividualPropertyAtom>
-                                                                <swrl:propertyPredicate rdf:resource="&PPIOntology;appliesTo"/>
+                                                                <swrl:propertyPredicate rdf:resource="&ppinot;appliesTo"/>
                                                                 <swrl:argument1 rdf:resource="urn:swrl#c2"/>
                                                                 <swrl:argument2 rdf:resource="urn:swrl#e2"/>
                                                             </swrl:IndividualPropertyAtom>
@@ -318,7 +297,7 @@
                                                             <swrl:AtomList>
                                                                 <rdf:first>
                                                                     <swrl:IndividualPropertyAtom>
-                                                                        <swrl:propertyPredicate rdf:resource="&PPIOntology;appliesTo"/>
+                                                                        <swrl:propertyPredicate rdf:resource="&ppinot;appliesTo"/>
                                                                         <swrl:argument1 rdf:resource="urn:swrl#c3"/>
                                                                         <swrl:argument2 rdf:resource="urn:swrl#e3"/>
                                                                     </swrl:IndividualPropertyAtom>
@@ -331,39 +310,39 @@
                                                                                     <swrl:AtomList>
                                                                                         <rdf:first>
                                                                                             <swrl:IndividualPropertyAtom>
-                                                                                                <swrl:propertyPredicate rdf:resource="&PPIOntology;from"/>
+                                                                                                <swrl:propertyPredicate rdf:resource="&ppinot;from"/>
                                                                                                 <swrl:argument2 rdf:resource="urn:swrl#c2"/>
                                                                                                 <swrl:argument1 rdf:resource="urn:swrl#n2"/>
                                                                                             </swrl:IndividualPropertyAtom>
                                                                                         </rdf:first>
                                                                                         <rdf:rest>
                                                                                             <swrl:AtomList>
-                                                                                                <rdf:first>
-                                                                                                    <swrl:IndividualPropertyAtom>
-                                                                                                        <swrl:propertyPredicate rdf:resource="&PPIOntology;to"/>
-                                                                                                        <swrl:argument2 rdf:resource="urn:swrl#c3"/>
-                                                                                                        <swrl:argument1 rdf:resource="urn:swrl#n1"/>
-                                                                                                    </swrl:IndividualPropertyAtom>
-                                                                                                </rdf:first>
                                                                                                 <rdf:rest>
                                                                                                     <swrl:AtomList>
                                                                                                         <rdf:rest rdf:resource="&rdf;nil"/>
                                                                                                         <rdf:first>
                                                                                                             <swrl:IndividualPropertyAtom>
-                                                                                                                <swrl:propertyPredicate rdf:resource="&PPIOntology;to"/>
+                                                                                                                <swrl:propertyPredicate rdf:resource="&ppinot;to"/>
                                                                                                                 <swrl:argument2 rdf:resource="urn:swrl#c4"/>
                                                                                                                 <swrl:argument1 rdf:resource="urn:swrl#n2"/>
                                                                                                             </swrl:IndividualPropertyAtom>
                                                                                                         </rdf:first>
                                                                                                     </swrl:AtomList>
                                                                                                 </rdf:rest>
+                                                                                                <rdf:first>
+                                                                                                    <swrl:IndividualPropertyAtom>
+                                                                                                        <swrl:propertyPredicate rdf:resource="&ppinot;to"/>
+                                                                                                        <swrl:argument2 rdf:resource="urn:swrl#c3"/>
+                                                                                                        <swrl:argument1 rdf:resource="urn:swrl#n1"/>
+                                                                                                    </swrl:IndividualPropertyAtom>
+                                                                                                </rdf:first>
                                                                                             </swrl:AtomList>
                                                                                         </rdf:rest>
                                                                                     </swrl:AtomList>
                                                                                 </rdf:rest>
                                                                                 <rdf:first>
                                                                                     <swrl:IndividualPropertyAtom>
-                                                                                        <swrl:propertyPredicate rdf:resource="&PPIOntology;from"/>
+                                                                                        <swrl:propertyPredicate rdf:resource="&ppinot;from"/>
                                                                                         <swrl:argument2 rdf:resource="urn:swrl#c1"/>
                                                                                         <swrl:argument1 rdf:resource="urn:swrl#n1"/>
                                                                                     </swrl:IndividualPropertyAtom>
@@ -372,7 +351,7 @@
                                                                         </rdf:rest>
                                                                         <rdf:first>
                                                                             <swrl:IndividualPropertyAtom>
-                                                                                <swrl:propertyPredicate rdf:resource="&PPIOntology;appliesTo"/>
+                                                                                <swrl:propertyPredicate rdf:resource="&ppinot;appliesTo"/>
                                                                                 <swrl:argument1 rdf:resource="urn:swrl#c4"/>
                                                                                 <swrl:argument2 rdf:resource="urn:swrl#e4"/>
                                                                             </swrl:IndividualPropertyAtom>
@@ -383,12 +362,33 @@
                                                         </rdf:rest>
                                                     </swrl:AtomList>
                                                 </rdf:rest>
+                                                <rdf:first>
+                                                    <swrl:IndividualPropertyAtom>
+                                                        <swrl:propertyPredicate rdf:resource="&ppinot;appliesTo"/>
+                                                        <swrl:argument1 rdf:resource="urn:swrl#c1"/>
+                                                        <swrl:argument2 rdf:resource="urn:swrl#e1"/>
+                                                    </swrl:IndividualPropertyAtom>
+                                                </rdf:first>
                                             </swrl:AtomList>
                                         </rdf:rest>
+                                        <rdf:first>
+                                            <swrl:IndividualPropertyAtom>
+                                                <swrl:propertyPredicate rdf:resource="&ppinot;aggregates"/>
+                                                <swrl:argument1 rdf:resource="urn:swrl#m2"/>
+                                                <swrl:argument2 rdf:resource="urn:swrl#n2"/>
+                                            </swrl:IndividualPropertyAtom>
+                                        </rdf:first>
                                     </swrl:AtomList>
                                 </rdf:rest>
                             </swrl:AtomList>
                         </rdf:rest>
+                        <rdf:first>
+                            <swrl:IndividualPropertyAtom>
+                                <swrl:propertyPredicate rdf:resource="&AbstractBP;succeeds"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#e1"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#e2"/>
+                            </swrl:IndividualPropertyAtom>
+                        </rdf:first>
                     </swrl:AtomList>
                 </rdf:rest>
                 <rdf:first>
@@ -402,177 +402,43 @@
         </swrl:body>
     </swrl:Imp>
     <swrl:Imp>
+        <swrl:head>
+            <swrl:AtomList>
+                <rdf:rest rdf:resource="&rdf;nil"/>
+                <rdf:first>
+                    <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="&ppinot;dependsDirectlyOn"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#z"/>
+                    </swrl:IndividualPropertyAtom>
+                </rdf:first>
+            </swrl:AtomList>
+        </swrl:head>
         <swrl:body>
             <swrl:AtomList>
+                <rdf:first>
+                    <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="&ppinot;dependsDirectlyOn"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
+                    </swrl:IndividualPropertyAtom>
+                </rdf:first>
                 <rdf:rest>
                     <swrl:AtomList>
                         <rdf:rest rdf:resource="&rdf;nil"/>
                         <rdf:first>
                             <swrl:IndividualPropertyAtom>
-                                <swrl:propertyPredicate rdf:resource="&PPIOntology;indirectlyAggregates"/>
+                                <swrl:propertyPredicate rdf:resource="&ppinot;dependsDirectlyOn"/>
                                 <swrl:argument1 rdf:resource="urn:swrl#y"/>
                                 <swrl:argument2 rdf:resource="urn:swrl#z"/>
                             </swrl:IndividualPropertyAtom>
                         </rdf:first>
                     </swrl:AtomList>
                 </rdf:rest>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&PPIOntology;indirectlyAggregates"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
-            </swrl:AtomList>
-        </swrl:body>
-        <swrl:head>
-            <swrl:AtomList>
-                <rdf:rest rdf:resource="&rdf;nil"/>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&PPIOntology;indirectlyAggregates"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#z"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
-            </swrl:AtomList>
-        </swrl:head>
-    </swrl:Imp>
-    <swrl:Imp>
-        <swrl:body>
-            <swrl:AtomList>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&PPIOntology;definition"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#m1"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#p1"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
-                <rdf:rest>
-                    <swrl:AtomList>
-                        <rdf:rest>
-                            <swrl:AtomList>
-                                <rdf:rest rdf:resource="&rdf;nil"/>
-                                <rdf:first>
-                                    <swrl:IndividualPropertyAtom>
-                                        <swrl:propertyPredicate rdf:resource="&PPIOntology;dependsInverselyOn"/>
-                                        <swrl:argument1 rdf:resource="urn:swrl#m1"/>
-                                        <swrl:argument2 rdf:resource="urn:swrl#m2"/>
-                                    </swrl:IndividualPropertyAtom>
-                                </rdf:first>
-                            </swrl:AtomList>
-                        </rdf:rest>
-                        <rdf:first>
-                            <swrl:IndividualPropertyAtom>
-                                <swrl:propertyPredicate rdf:resource="&PPIOntology;definition"/>
-                                <swrl:argument2 rdf:resource="urn:swrl#m2"/>
-                                <swrl:argument1 rdf:resource="urn:swrl#p2"/>
-                            </swrl:IndividualPropertyAtom>
-                        </rdf:first>
-                    </swrl:AtomList>
-                </rdf:rest>
-            </swrl:AtomList>
-        </swrl:body>
-        <swrl:head>
-            <swrl:AtomList>
-                <rdf:rest rdf:resource="&rdf;nil"/>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&PPIOntology;dependsInverselyOnPPI"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#p1"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#p2"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
-            </swrl:AtomList>
-        </swrl:head>
-    </swrl:Imp>
-    <swrl:Imp>
-        <swrl:head>
-            <swrl:AtomList>
-                <rdf:rest rdf:resource="&rdf;nil"/>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&PPIOntology;dependsOnPPI"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#z"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
-            </swrl:AtomList>
-        </swrl:head>
-        <swrl:body>
-            <swrl:AtomList>
-                <rdf:rest>
-                    <swrl:AtomList>
-                        <rdf:rest rdf:resource="&rdf;nil"/>
-                        <rdf:first>
-                            <swrl:IndividualPropertyAtom>
-                                <swrl:propertyPredicate rdf:resource="&PPIOntology;dependsOnPPI"/>
-                                <swrl:argument1 rdf:resource="urn:swrl#y"/>
-                                <swrl:argument2 rdf:resource="urn:swrl#z"/>
-                            </swrl:IndividualPropertyAtom>
-                        </rdf:first>
-                    </swrl:AtomList>
-                </rdf:rest>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&PPIOntology;dependsOnPPI"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
             </swrl:AtomList>
         </swrl:body>
     </swrl:Imp>
     <swrl:Imp>
-        <swrl:body>
-            <swrl:AtomList>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&PPIOntology;dependsDirectlyOn"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#y"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#z"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
-                <rdf:rest>
-                    <swrl:AtomList>
-                        <rdf:rest rdf:resource="&rdf;nil"/>
-                        <rdf:first>
-                            <swrl:IndividualPropertyAtom>
-                                <swrl:propertyPredicate rdf:resource="&PPIOntology;dependsInverselyOn"/>
-                                <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                                <swrl:argument2 rdf:resource="urn:swrl#y"/>
-                            </swrl:IndividualPropertyAtom>
-                        </rdf:first>
-                    </swrl:AtomList>
-                </rdf:rest>
-            </swrl:AtomList>
-        </swrl:body>
-        <swrl:head>
-            <swrl:AtomList>
-                <rdf:rest rdf:resource="&rdf;nil"/>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&PPIOntology;dependsInverselyOn"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#z"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
-            </swrl:AtomList>
-        </swrl:head>
-    </swrl:Imp>
-    <swrl:Imp>
-        <swrl:head>
-            <swrl:AtomList>
-                <rdf:rest rdf:resource="&rdf;nil"/>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&PPIOntology;includes"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#m1"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#m2"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
-            </swrl:AtomList>
-        </swrl:head>
         <swrl:body>
             <swrl:AtomList>
                 <rdf:first>
@@ -593,100 +459,259 @@
                         </rdf:first>
                         <rdf:rest>
                             <swrl:AtomList>
+                                <rdf:first>
+                                    <swrl:IndividualPropertyAtom>
+                                        <swrl:propertyPredicate rdf:resource="&ppinot;aggregates"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl#m1"/>
+                                        <swrl:argument2 rdf:resource="urn:swrl#n1"/>
+                                    </swrl:IndividualPropertyAtom>
+                                </rdf:first>
                                 <rdf:rest>
                                     <swrl:AtomList>
-                                        <rdf:first>
-                                            <swrl:IndividualPropertyAtom>
-                                                <swrl:propertyPredicate rdf:resource="&PPIOntology;appliesTo"/>
-                                                <swrl:argument1 rdf:resource="urn:swrl#c1"/>
-                                                <swrl:argument2 rdf:resource="urn:swrl#e1"/>
-                                            </swrl:IndividualPropertyAtom>
-                                        </rdf:first>
                                         <rdf:rest>
                                             <swrl:AtomList>
                                                 <rdf:rest>
                                                     <swrl:AtomList>
+                                                        <rdf:first>
+                                                            <swrl:IndividualPropertyAtom>
+                                                                <swrl:propertyPredicate rdf:resource="&ppinot;appliesTo"/>
+                                                                <swrl:argument1 rdf:resource="urn:swrl#c3"/>
+                                                                <swrl:argument2 rdf:resource="urn:swrl#e3"/>
+                                                            </swrl:IndividualPropertyAtom>
+                                                        </rdf:first>
                                                         <rdf:rest>
                                                             <swrl:AtomList>
-                                                                <rdf:first>
-                                                                    <swrl:IndividualPropertyAtom>
-                                                                        <swrl:propertyPredicate rdf:resource="&PPIOntology;appliesTo"/>
-                                                                        <swrl:argument1 rdf:resource="urn:swrl#c4"/>
-                                                                        <swrl:argument2 rdf:resource="urn:swrl#e4"/>
-                                                                    </swrl:IndividualPropertyAtom>
-                                                                </rdf:first>
                                                                 <rdf:rest>
                                                                     <swrl:AtomList>
-                                                                        <rdf:first>
-                                                                            <swrl:IndividualPropertyAtom>
-                                                                                <swrl:propertyPredicate rdf:resource="&PPIOntology;from"/>
-                                                                                <swrl:argument2 rdf:resource="urn:swrl#c2"/>
-                                                                                <swrl:argument1 rdf:resource="urn:swrl#m2"/>
-                                                                            </swrl:IndividualPropertyAtom>
-                                                                        </rdf:first>
                                                                         <rdf:rest>
                                                                             <swrl:AtomList>
-                                                                                <rdf:first>
-                                                                                    <swrl:IndividualPropertyAtom>
-                                                                                        <swrl:propertyPredicate rdf:resource="&PPIOntology;from"/>
-                                                                                        <swrl:argument2 rdf:resource="urn:swrl#c1"/>
-                                                                                        <swrl:argument1 rdf:resource="urn:swrl#n1"/>
-                                                                                    </swrl:IndividualPropertyAtom>
-                                                                                </rdf:first>
                                                                                 <rdf:rest>
                                                                                     <swrl:AtomList>
+                                                                                        <rdf:first>
+                                                                                            <swrl:IndividualPropertyAtom>
+                                                                                                <swrl:propertyPredicate rdf:resource="&ppinot;to"/>
+                                                                                                <swrl:argument2 rdf:resource="urn:swrl#c4"/>
+                                                                                                <swrl:argument1 rdf:resource="urn:swrl#m2"/>
+                                                                                            </swrl:IndividualPropertyAtom>
+                                                                                        </rdf:first>
                                                                                         <rdf:rest>
                                                                                             <swrl:AtomList>
                                                                                                 <rdf:rest rdf:resource="&rdf;nil"/>
                                                                                                 <rdf:first>
                                                                                                     <swrl:IndividualPropertyAtom>
-                                                                                                        <swrl:propertyPredicate rdf:resource="&PPIOntology;to"/>
+                                                                                                        <swrl:propertyPredicate rdf:resource="&ppinot;to"/>
                                                                                                         <swrl:argument2 rdf:resource="urn:swrl#c3"/>
                                                                                                         <swrl:argument1 rdf:resource="urn:swrl#n1"/>
                                                                                                     </swrl:IndividualPropertyAtom>
                                                                                                 </rdf:first>
                                                                                             </swrl:AtomList>
                                                                                         </rdf:rest>
-                                                                                        <rdf:first>
-                                                                                            <swrl:IndividualPropertyAtom>
-                                                                                                <swrl:propertyPredicate rdf:resource="&PPIOntology;to"/>
-                                                                                                <swrl:argument2 rdf:resource="urn:swrl#c4"/>
-                                                                                                <swrl:argument1 rdf:resource="urn:swrl#m2"/>
-                                                                                            </swrl:IndividualPropertyAtom>
-                                                                                        </rdf:first>
                                                                                     </swrl:AtomList>
                                                                                 </rdf:rest>
+                                                                                <rdf:first>
+                                                                                    <swrl:IndividualPropertyAtom>
+                                                                                        <swrl:propertyPredicate rdf:resource="&ppinot;from"/>
+                                                                                        <swrl:argument2 rdf:resource="urn:swrl#c1"/>
+                                                                                        <swrl:argument1 rdf:resource="urn:swrl#n1"/>
+                                                                                    </swrl:IndividualPropertyAtom>
+                                                                                </rdf:first>
                                                                             </swrl:AtomList>
                                                                         </rdf:rest>
+                                                                        <rdf:first>
+                                                                            <swrl:IndividualPropertyAtom>
+                                                                                <swrl:propertyPredicate rdf:resource="&ppinot;from"/>
+                                                                                <swrl:argument2 rdf:resource="urn:swrl#c2"/>
+                                                                                <swrl:argument1 rdf:resource="urn:swrl#m2"/>
+                                                                            </swrl:IndividualPropertyAtom>
+                                                                        </rdf:first>
                                                                     </swrl:AtomList>
                                                                 </rdf:rest>
+                                                                <rdf:first>
+                                                                    <swrl:IndividualPropertyAtom>
+                                                                        <swrl:propertyPredicate rdf:resource="&ppinot;appliesTo"/>
+                                                                        <swrl:argument1 rdf:resource="urn:swrl#c4"/>
+                                                                        <swrl:argument2 rdf:resource="urn:swrl#e4"/>
+                                                                    </swrl:IndividualPropertyAtom>
+                                                                </rdf:first>
                                                             </swrl:AtomList>
                                                         </rdf:rest>
-                                                        <rdf:first>
-                                                            <swrl:IndividualPropertyAtom>
-                                                                <swrl:propertyPredicate rdf:resource="&PPIOntology;appliesTo"/>
-                                                                <swrl:argument1 rdf:resource="urn:swrl#c3"/>
-                                                                <swrl:argument2 rdf:resource="urn:swrl#e3"/>
-                                                            </swrl:IndividualPropertyAtom>
-                                                        </rdf:first>
                                                     </swrl:AtomList>
                                                 </rdf:rest>
                                                 <rdf:first>
                                                     <swrl:IndividualPropertyAtom>
-                                                        <swrl:propertyPredicate rdf:resource="&PPIOntology;appliesTo"/>
+                                                        <swrl:propertyPredicate rdf:resource="&ppinot;appliesTo"/>
                                                         <swrl:argument1 rdf:resource="urn:swrl#c2"/>
                                                         <swrl:argument2 rdf:resource="urn:swrl#e2"/>
                                                     </swrl:IndividualPropertyAtom>
                                                 </rdf:first>
                                             </swrl:AtomList>
                                         </rdf:rest>
+                                        <rdf:first>
+                                            <swrl:IndividualPropertyAtom>
+                                                <swrl:propertyPredicate rdf:resource="&ppinot;appliesTo"/>
+                                                <swrl:argument1 rdf:resource="urn:swrl#c1"/>
+                                                <swrl:argument2 rdf:resource="urn:swrl#e1"/>
+                                            </swrl:IndividualPropertyAtom>
+                                        </rdf:first>
                                     </swrl:AtomList>
                                 </rdf:rest>
+                            </swrl:AtomList>
+                        </rdf:rest>
+                    </swrl:AtomList>
+                </rdf:rest>
+            </swrl:AtomList>
+        </swrl:body>
+        <swrl:head>
+            <swrl:AtomList>
+                <rdf:rest rdf:resource="&rdf;nil"/>
+                <rdf:first>
+                    <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="&ppinot;includes"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#m1"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#m2"/>
+                    </swrl:IndividualPropertyAtom>
+                </rdf:first>
+            </swrl:AtomList>
+        </swrl:head>
+    </swrl:Imp>
+    <swrl:Imp>
+        <swrl:body>
+            <swrl:AtomList>
+                <rdf:first>
+                    <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="&ppinot;indirectlyAggregates"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
+                    </swrl:IndividualPropertyAtom>
+                </rdf:first>
+                <rdf:rest>
+                    <swrl:AtomList>
+                        <rdf:rest rdf:resource="&rdf;nil"/>
+                        <rdf:first>
+                            <swrl:IndividualPropertyAtom>
+                                <swrl:propertyPredicate rdf:resource="&ppinot;indirectlyAggregates"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#y"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#z"/>
+                            </swrl:IndividualPropertyAtom>
+                        </rdf:first>
+                    </swrl:AtomList>
+                </rdf:rest>
+            </swrl:AtomList>
+        </swrl:body>
+        <swrl:head>
+            <swrl:AtomList>
+                <rdf:rest rdf:resource="&rdf;nil"/>
+                <rdf:first>
+                    <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="&ppinot;indirectlyAggregates"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#z"/>
+                    </swrl:IndividualPropertyAtom>
+                </rdf:first>
+            </swrl:AtomList>
+        </swrl:head>
+    </swrl:Imp>
+    <swrl:Imp>
+        <swrl:head>
+            <swrl:AtomList>
+                <rdf:rest rdf:resource="&rdf;nil"/>
+                <rdf:first>
+                    <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="&ppinot;dependsDirectlyOn"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#z"/>
+                    </swrl:IndividualPropertyAtom>
+                </rdf:first>
+            </swrl:AtomList>
+        </swrl:head>
+        <swrl:body>
+            <swrl:AtomList>
+                <rdf:first>
+                    <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="&ppinot;dependsInverselyOn"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
+                    </swrl:IndividualPropertyAtom>
+                </rdf:first>
+                <rdf:rest>
+                    <swrl:AtomList>
+                        <rdf:rest rdf:resource="&rdf;nil"/>
+                        <rdf:first>
+                            <swrl:IndividualPropertyAtom>
+                                <swrl:propertyPredicate rdf:resource="&ppinot;dependsInverselyOn"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#y"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#z"/>
+                            </swrl:IndividualPropertyAtom>
+                        </rdf:first>
+                    </swrl:AtomList>
+                </rdf:rest>
+            </swrl:AtomList>
+        </swrl:body>
+    </swrl:Imp>
+    <swrl:Imp>
+        <swrl:head>
+            <swrl:AtomList>
+                <rdf:rest rdf:resource="&rdf;nil"/>
+                <rdf:first>
+                    <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="&ppinot;includes"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#z"/>
+                    </swrl:IndividualPropertyAtom>
+                </rdf:first>
+            </swrl:AtomList>
+        </swrl:head>
+        <swrl:body>
+            <swrl:AtomList>
+                <rdf:first>
+                    <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="&ppinot;includes"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
+                    </swrl:IndividualPropertyAtom>
+                </rdf:first>
+                <rdf:rest>
+                    <swrl:AtomList>
+                        <rdf:rest rdf:resource="&rdf;nil"/>
+                        <rdf:first>
+                            <swrl:IndividualPropertyAtom>
+                                <swrl:propertyPredicate rdf:resource="&ppinot;includes"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#y"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#z"/>
+                            </swrl:IndividualPropertyAtom>
+                        </rdf:first>
+                    </swrl:AtomList>
+                </rdf:rest>
+            </swrl:AtomList>
+        </swrl:body>
+    </swrl:Imp>
+    <swrl:Imp>
+        <swrl:body>
+            <swrl:AtomList>
+                <rdf:first>
+                    <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="&ppinot;definition"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#m1"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#p1"/>
+                    </swrl:IndividualPropertyAtom>
+                </rdf:first>
+                <rdf:rest>
+                    <swrl:AtomList>
+                        <rdf:first>
+                            <swrl:IndividualPropertyAtom>
+                                <swrl:propertyPredicate rdf:resource="&ppinot;definition"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#m2"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#p2"/>
+                            </swrl:IndividualPropertyAtom>
+                        </rdf:first>
+                        <rdf:rest>
+                            <swrl:AtomList>
+                                <rdf:rest rdf:resource="&rdf;nil"/>
                                 <rdf:first>
                                     <swrl:IndividualPropertyAtom>
-                                        <swrl:propertyPredicate rdf:resource="&PPIOntology;aggregates"/>
+                                        <swrl:propertyPredicate rdf:resource="&ppinot;dependsInverselyOn"/>
                                         <swrl:argument1 rdf:resource="urn:swrl#m1"/>
-                                        <swrl:argument2 rdf:resource="urn:swrl#n1"/>
+                                        <swrl:argument2 rdf:resource="urn:swrl#m2"/>
                                     </swrl:IndividualPropertyAtom>
                                 </rdf:first>
                             </swrl:AtomList>
@@ -695,6 +720,18 @@
                 </rdf:rest>
             </swrl:AtomList>
         </swrl:body>
+        <swrl:head>
+            <swrl:AtomList>
+                <rdf:rest rdf:resource="&rdf;nil"/>
+                <rdf:first>
+                    <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="&ppinot;dependsInverselyOnPPI"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#p1"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#p2"/>
+                    </swrl:IndividualPropertyAtom>
+                </rdf:first>
+            </swrl:AtomList>
+        </swrl:head>
     </swrl:Imp>
     <swrl:Imp>
         <swrl:head>
@@ -702,7 +739,7 @@
                 <rdf:rest rdf:resource="&rdf;nil"/>
                 <rdf:first>
                     <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&PPIOntology;dependsOn"/>
+                        <swrl:propertyPredicate rdf:resource="&ppinot;dependsOn"/>
                         <swrl:argument1 rdf:resource="urn:swrl#x"/>
                         <swrl:argument2 rdf:resource="urn:swrl#z"/>
                     </swrl:IndividualPropertyAtom>
@@ -713,7 +750,7 @@
             <swrl:AtomList>
                 <rdf:first>
                     <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&PPIOntology;dependsOn"/>
+                        <swrl:propertyPredicate rdf:resource="&ppinot;dependsOn"/>
                         <swrl:argument1 rdf:resource="urn:swrl#x"/>
                         <swrl:argument2 rdf:resource="urn:swrl#y"/>
                     </swrl:IndividualPropertyAtom>
@@ -723,7 +760,7 @@
                         <rdf:rest rdf:resource="&rdf;nil"/>
                         <rdf:first>
                             <swrl:IndividualPropertyAtom>
-                                <swrl:propertyPredicate rdf:resource="&PPIOntology;dependsOn"/>
+                                <swrl:propertyPredicate rdf:resource="&ppinot;dependsOn"/>
                                 <swrl:argument1 rdf:resource="urn:swrl#y"/>
                                 <swrl:argument2 rdf:resource="urn:swrl#z"/>
                             </swrl:IndividualPropertyAtom>
@@ -734,41 +771,41 @@
         </swrl:body>
     </swrl:Imp>
     <swrl:Imp>
+        <swrl:body>
+            <swrl:AtomList>
+                <rdf:first>
+                    <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="&ppinot;dependsOnPPI"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
+                    </swrl:IndividualPropertyAtom>
+                </rdf:first>
+                <rdf:rest>
+                    <swrl:AtomList>
+                        <rdf:rest rdf:resource="&rdf;nil"/>
+                        <rdf:first>
+                            <swrl:IndividualPropertyAtom>
+                                <swrl:propertyPredicate rdf:resource="&ppinot;dependsOnPPI"/>
+                                <swrl:argument1 rdf:resource="urn:swrl#y"/>
+                                <swrl:argument2 rdf:resource="urn:swrl#z"/>
+                            </swrl:IndividualPropertyAtom>
+                        </rdf:first>
+                    </swrl:AtomList>
+                </rdf:rest>
+            </swrl:AtomList>
+        </swrl:body>
         <swrl:head>
             <swrl:AtomList>
                 <rdf:rest rdf:resource="&rdf;nil"/>
                 <rdf:first>
                     <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&PPIOntology;dependsInverselyOn"/>
+                        <swrl:propertyPredicate rdf:resource="&ppinot;dependsOnPPI"/>
                         <swrl:argument1 rdf:resource="urn:swrl#x"/>
                         <swrl:argument2 rdf:resource="urn:swrl#z"/>
                     </swrl:IndividualPropertyAtom>
                 </rdf:first>
             </swrl:AtomList>
         </swrl:head>
-        <swrl:body>
-            <swrl:AtomList>
-                <rdf:rest>
-                    <swrl:AtomList>
-                        <rdf:rest rdf:resource="&rdf;nil"/>
-                        <rdf:first>
-                            <swrl:IndividualPropertyAtom>
-                                <swrl:propertyPredicate rdf:resource="&PPIOntology;dependsInverselyOn"/>
-                                <swrl:argument1 rdf:resource="urn:swrl#y"/>
-                                <swrl:argument2 rdf:resource="urn:swrl#z"/>
-                            </swrl:IndividualPropertyAtom>
-                        </rdf:first>
-                    </swrl:AtomList>
-                </rdf:rest>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&PPIOntology;dependsDirectlyOn"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
-            </swrl:AtomList>
-        </swrl:body>
     </swrl:Imp>
     <swrl:Imp>
         <swrl:head>
@@ -776,7 +813,7 @@
                 <rdf:rest rdf:resource="&rdf;nil"/>
                 <rdf:first>
                     <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&PPIOntology;dependsDirectlyOnPPI"/>
+                        <swrl:propertyPredicate rdf:resource="&ppinot;dependsDirectlyOnPPI"/>
                         <swrl:argument1 rdf:resource="urn:swrl#p1"/>
                         <swrl:argument2 rdf:resource="urn:swrl#p2"/>
                     </swrl:IndividualPropertyAtom>
@@ -789,7 +826,7 @@
                     <swrl:AtomList>
                         <rdf:first>
                             <swrl:IndividualPropertyAtom>
-                                <swrl:propertyPredicate rdf:resource="&PPIOntology;definition"/>
+                                <swrl:propertyPredicate rdf:resource="&ppinot;definition"/>
                                 <swrl:argument2 rdf:resource="urn:swrl#m2"/>
                                 <swrl:argument1 rdf:resource="urn:swrl#p2"/>
                             </swrl:IndividualPropertyAtom>
@@ -799,7 +836,7 @@
                                 <rdf:rest rdf:resource="&rdf;nil"/>
                                 <rdf:first>
                                     <swrl:IndividualPropertyAtom>
-                                        <swrl:propertyPredicate rdf:resource="&PPIOntology;dependsDirectlyOn"/>
+                                        <swrl:propertyPredicate rdf:resource="&ppinot;dependsDirectlyOn"/>
                                         <swrl:argument1 rdf:resource="urn:swrl#m1"/>
                                         <swrl:argument2 rdf:resource="urn:swrl#m2"/>
                                     </swrl:IndividualPropertyAtom>
@@ -810,7 +847,7 @@
                 </rdf:rest>
                 <rdf:first>
                     <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&PPIOntology;definition"/>
+                        <swrl:propertyPredicate rdf:resource="&ppinot;definition"/>
                         <swrl:argument2 rdf:resource="urn:swrl#m1"/>
                         <swrl:argument1 rdf:resource="urn:swrl#p1"/>
                     </swrl:IndividualPropertyAtom>
@@ -819,64 +856,55 @@
         </swrl:body>
     </swrl:Imp>
     <swrl:Imp>
-        <swrl:head>
-            <swrl:AtomList>
-                <rdf:rest rdf:resource="&rdf;nil"/>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&PPIOntology;dependsDirectlyOn"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#z"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
-            </swrl:AtomList>
-        </swrl:head>
         <swrl:body>
             <swrl:AtomList>
-                <rdf:rest>
-                    <swrl:AtomList>
-                        <rdf:rest rdf:resource="&rdf;nil"/>
-                        <rdf:first>
-                            <swrl:IndividualPropertyAtom>
-                                <swrl:propertyPredicate rdf:resource="&PPIOntology;dependsInverselyOn"/>
-                                <swrl:argument1 rdf:resource="urn:swrl#y"/>
-                                <swrl:argument2 rdf:resource="urn:swrl#z"/>
-                            </swrl:IndividualPropertyAtom>
-                        </rdf:first>
-                    </swrl:AtomList>
-                </rdf:rest>
                 <rdf:first>
                     <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&PPIOntology;dependsInverselyOn"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
+                        <swrl:propertyPredicate rdf:resource="&AbstractBP;precedes"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#e3"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#e4"/>
                     </swrl:IndividualPropertyAtom>
                 </rdf:first>
-            </swrl:AtomList>
-        </swrl:body>
-    </swrl:Imp>
-    <swrl:Imp>
-        <swrl:body>
-            <swrl:AtomList>
                 <rdf:rest>
                     <swrl:AtomList>
                         <rdf:rest>
                             <swrl:AtomList>
+                                <rdf:first>
+                                    <swrl:IndividualPropertyAtom>
+                                        <swrl:propertyPredicate rdf:resource="&ppinot;appliesTo"/>
+                                        <swrl:argument1 rdf:resource="urn:swrl#c1"/>
+                                        <swrl:argument2 rdf:resource="urn:swrl#e1"/>
+                                    </swrl:IndividualPropertyAtom>
+                                </rdf:first>
                                 <rdf:rest>
                                     <swrl:AtomList>
+                                        <rdf:first>
+                                            <swrl:IndividualPropertyAtom>
+                                                <swrl:propertyPredicate rdf:resource="&ppinot;appliesTo"/>
+                                                <swrl:argument1 rdf:resource="urn:swrl#c2"/>
+                                                <swrl:argument2 rdf:resource="urn:swrl#e2"/>
+                                            </swrl:IndividualPropertyAtom>
+                                        </rdf:first>
                                         <rdf:rest>
                                             <swrl:AtomList>
                                                 <rdf:rest>
                                                     <swrl:AtomList>
                                                         <rdf:first>
                                                             <swrl:IndividualPropertyAtom>
-                                                                <swrl:propertyPredicate rdf:resource="&PPIOntology;appliesTo"/>
+                                                                <swrl:propertyPredicate rdf:resource="&ppinot;appliesTo"/>
                                                                 <swrl:argument1 rdf:resource="urn:swrl#c4"/>
                                                                 <swrl:argument2 rdf:resource="urn:swrl#e4"/>
                                                             </swrl:IndividualPropertyAtom>
                                                         </rdf:first>
                                                         <rdf:rest>
                                                             <swrl:AtomList>
+                                                                <rdf:first>
+                                                                    <swrl:IndividualPropertyAtom>
+                                                                        <swrl:propertyPredicate rdf:resource="&ppinot;from"/>
+                                                                        <swrl:argument2 rdf:resource="urn:swrl#c1"/>
+                                                                        <swrl:argument1 rdf:resource="urn:swrl#m1"/>
+                                                                    </swrl:IndividualPropertyAtom>
+                                                                </rdf:first>
                                                                 <rdf:rest>
                                                                     <swrl:AtomList>
                                                                         <rdf:rest>
@@ -886,7 +914,7 @@
                                                                                         <rdf:rest rdf:resource="&rdf;nil"/>
                                                                                         <rdf:first>
                                                                                             <swrl:IndividualPropertyAtom>
-                                                                                                <swrl:propertyPredicate rdf:resource="&PPIOntology;to"/>
+                                                                                                <swrl:propertyPredicate rdf:resource="&ppinot;to"/>
                                                                                                 <swrl:argument2 rdf:resource="urn:swrl#c4"/>
                                                                                                 <swrl:argument1 rdf:resource="urn:swrl#m2"/>
                                                                                             </swrl:IndividualPropertyAtom>
@@ -895,7 +923,7 @@
                                                                                 </rdf:rest>
                                                                                 <rdf:first>
                                                                                     <swrl:IndividualPropertyAtom>
-                                                                                        <swrl:propertyPredicate rdf:resource="&PPIOntology;to"/>
+                                                                                        <swrl:propertyPredicate rdf:resource="&ppinot;to"/>
                                                                                         <swrl:argument2 rdf:resource="urn:swrl#c3"/>
                                                                                         <swrl:argument1 rdf:resource="urn:swrl#m1"/>
                                                                                     </swrl:IndividualPropertyAtom>
@@ -904,49 +932,28 @@
                                                                         </rdf:rest>
                                                                         <rdf:first>
                                                                             <swrl:IndividualPropertyAtom>
-                                                                                <swrl:propertyPredicate rdf:resource="&PPIOntology;from"/>
+                                                                                <swrl:propertyPredicate rdf:resource="&ppinot;from"/>
                                                                                 <swrl:argument2 rdf:resource="urn:swrl#c2"/>
                                                                                 <swrl:argument1 rdf:resource="urn:swrl#m2"/>
                                                                             </swrl:IndividualPropertyAtom>
                                                                         </rdf:first>
                                                                     </swrl:AtomList>
                                                                 </rdf:rest>
-                                                                <rdf:first>
-                                                                    <swrl:IndividualPropertyAtom>
-                                                                        <swrl:propertyPredicate rdf:resource="&PPIOntology;from"/>
-                                                                        <swrl:argument2 rdf:resource="urn:swrl#c1"/>
-                                                                        <swrl:argument1 rdf:resource="urn:swrl#m1"/>
-                                                                    </swrl:IndividualPropertyAtom>
-                                                                </rdf:first>
                                                             </swrl:AtomList>
                                                         </rdf:rest>
                                                     </swrl:AtomList>
                                                 </rdf:rest>
                                                 <rdf:first>
                                                     <swrl:IndividualPropertyAtom>
-                                                        <swrl:propertyPredicate rdf:resource="&PPIOntology;appliesTo"/>
+                                                        <swrl:propertyPredicate rdf:resource="&ppinot;appliesTo"/>
                                                         <swrl:argument1 rdf:resource="urn:swrl#c3"/>
                                                         <swrl:argument2 rdf:resource="urn:swrl#e3"/>
                                                     </swrl:IndividualPropertyAtom>
                                                 </rdf:first>
                                             </swrl:AtomList>
                                         </rdf:rest>
-                                        <rdf:first>
-                                            <swrl:IndividualPropertyAtom>
-                                                <swrl:propertyPredicate rdf:resource="&PPIOntology;appliesTo"/>
-                                                <swrl:argument1 rdf:resource="urn:swrl#c2"/>
-                                                <swrl:argument2 rdf:resource="urn:swrl#e2"/>
-                                            </swrl:IndividualPropertyAtom>
-                                        </rdf:first>
                                     </swrl:AtomList>
                                 </rdf:rest>
-                                <rdf:first>
-                                    <swrl:IndividualPropertyAtom>
-                                        <swrl:propertyPredicate rdf:resource="&PPIOntology;appliesTo"/>
-                                        <swrl:argument1 rdf:resource="urn:swrl#c1"/>
-                                        <swrl:argument2 rdf:resource="urn:swrl#e1"/>
-                                    </swrl:IndividualPropertyAtom>
-                                </rdf:first>
                             </swrl:AtomList>
                         </rdf:rest>
                         <rdf:first>
@@ -958,13 +965,6 @@
                         </rdf:first>
                     </swrl:AtomList>
                 </rdf:rest>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&AbstractBP;precedes"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#e3"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#e4"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
             </swrl:AtomList>
         </swrl:body>
         <swrl:head>
@@ -972,7 +972,7 @@
                 <rdf:rest rdf:resource="&rdf;nil"/>
                 <rdf:first>
                     <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&PPIOntology;includes"/>
+                        <swrl:propertyPredicate rdf:resource="&ppinot;includes"/>
                         <swrl:argument1 rdf:resource="urn:swrl#m1"/>
                         <swrl:argument2 rdf:resource="urn:swrl#m2"/>
                     </swrl:IndividualPropertyAtom>
@@ -986,7 +986,7 @@
                 <rdf:rest rdf:resource="&rdf;nil"/>
                 <rdf:first>
                     <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&PPIOntology;includes"/>
+                        <swrl:propertyPredicate rdf:resource="&ppinot;dependsInverselyOn"/>
                         <swrl:argument1 rdf:resource="urn:swrl#x"/>
                         <swrl:argument2 rdf:resource="urn:swrl#z"/>
                     </swrl:IndividualPropertyAtom>
@@ -995,25 +995,25 @@
         </swrl:head>
         <swrl:body>
             <swrl:AtomList>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&PPIOntology;includes"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
                 <rdf:rest>
                     <swrl:AtomList>
                         <rdf:rest rdf:resource="&rdf;nil"/>
                         <rdf:first>
                             <swrl:IndividualPropertyAtom>
-                                <swrl:propertyPredicate rdf:resource="&PPIOntology;includes"/>
+                                <swrl:propertyPredicate rdf:resource="&ppinot;dependsInverselyOn"/>
                                 <swrl:argument1 rdf:resource="urn:swrl#y"/>
                                 <swrl:argument2 rdf:resource="urn:swrl#z"/>
                             </swrl:IndividualPropertyAtom>
                         </rdf:first>
                     </swrl:AtomList>
                 </rdf:rest>
+                <rdf:first>
+                    <swrl:IndividualPropertyAtom>
+                        <swrl:propertyPredicate rdf:resource="&ppinot;dependsDirectlyOn"/>
+                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
+                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
+                    </swrl:IndividualPropertyAtom>
+                </rdf:first>
             </swrl:AtomList>
         </swrl:body>
     </swrl:Imp>

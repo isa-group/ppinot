@@ -1,0 +1,274 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY PPIOntology "http://www.isa.us.es/ppiontology/PPIOntology.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.isa.us.es/ontologies/ppinot-filter.owl#"
+     xml:base="http://www.isa.us.es/ontologies/ppinot-filter.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:PPIOntology="http://www.isa.us.es/ppiontology/PPIOntology.owl#">
+    <owl:Ontology rdf:about="http://www.isa.us.es/ontologies/ppinot-filter.owl">
+        <owl:imports rdf:resource="http://www.isa.us.es/ppiontology/PPIOntology.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#AbsoluteTimeDefinition -->
+
+    <owl:Class rdf:about="&PPIOntology;AbsoluteTimeDefinition">
+        <rdfs:subClassOf rdf:resource="&PPIOntology;TimeDefinition"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#AndComposition -->
+
+    <owl:Class rdf:about="&PPIOntology;AndComposition">
+        <rdfs:subClassOf rdf:resource="&PPIOntology;Composition"/>
+        <owl:disjointWith rdf:resource="&PPIOntology;OrComposition"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#Composition -->
+
+    <owl:Class rdf:about="&PPIOntology;Composition">
+        <rdfs:subClassOf rdf:resource="&PPIOntology;TemporalCondition"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#ConditionType -->
+
+    <owl:Class rdf:about="&PPIOntology;ConditionType">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#Daily -->
+
+    <owl:Class rdf:about="&PPIOntology;Daily">
+        <rdfs:subClassOf rdf:resource="&PPIOntology;Period"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#DayOfWeek -->
+
+    <owl:Class rdf:about="&PPIOntology;DayOfWeek">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#End -->
+
+    <owl:Class rdf:about="&PPIOntology;End">
+        <rdfs:subClassOf rdf:resource="&PPIOntology;Moment"/>
+        <owl:disjointWith rdf:resource="&PPIOntology;Start"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#LastInstancesFilter -->
+
+    <owl:Class rdf:about="&PPIOntology;LastInstancesFilter">
+        <rdfs:subClassOf rdf:resource="&PPIOntology;ProcessInstanceFilter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#Moment -->
+
+    <owl:Class rdf:about="&PPIOntology;Moment"/>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#Monthly -->
+
+    <owl:Class rdf:about="&PPIOntology;Monthly">
+        <rdfs:subClassOf rdf:resource="&PPIOntology;Period"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#OrComposition -->
+
+    <owl:Class rdf:about="&PPIOntology;OrComposition">
+        <rdfs:subClassOf rdf:resource="&PPIOntology;Composition"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#Period -->
+
+    <owl:Class rdf:about="&PPIOntology;Period">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#ProcessStateFilter -->
+
+    <owl:Class rdf:about="&PPIOntology;ProcessStateFilter">
+        <rdfs:subClassOf rdf:resource="&PPIOntology;ProcessInstanceFilter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#RelativeTimeDefinition -->
+
+    <owl:Class rdf:about="&PPIOntology;RelativeTimeDefinition">
+        <rdfs:subClassOf rdf:resource="&PPIOntology;TimeDefinition"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#Start -->
+
+    <owl:Class rdf:about="&PPIOntology;Start">
+        <rdfs:subClassOf rdf:resource="&PPIOntology;Moment"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#TemporalCondition -->
+
+    <owl:Class rdf:about="&PPIOntology;TemporalCondition"/>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#TimeDefinition -->
+
+    <owl:Class rdf:about="&PPIOntology;TimeDefinition">
+        <rdfs:subClassOf rdf:resource="&PPIOntology;TemporalCondition"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#TimeFilter -->
+
+    <owl:Class rdf:about="&PPIOntology;TimeFilter">
+        <rdfs:subClassOf rdf:resource="&PPIOntology;ProcessInstanceFilter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#Weekly -->
+
+    <owl:Class rdf:about="&PPIOntology;Weekly">
+        <rdfs:subClassOf rdf:resource="&PPIOntology;Period"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#Yearly -->
+
+    <owl:Class rdf:about="&PPIOntology;Yearly">
+        <rdfs:subClassOf rdf:resource="&PPIOntology;Period"/>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#Friday -->
+
+    <PPIOntology:DayOfWeek rdf:about="&PPIOntology;Friday"/>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#GreaterThan -->
+
+    <PPIOntology:ConditionType rdf:about="&PPIOntology;GreaterThan"/>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#GreaterThanOrEqual -->
+
+    <PPIOntology:ConditionType rdf:about="&PPIOntology;GreaterThanOrEqual"/>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#LessThan -->
+
+    <PPIOntology:ConditionType rdf:about="&PPIOntology;LessThan"/>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#LessThanOrEqual -->
+
+    <PPIOntology:ConditionType rdf:about="&PPIOntology;LessThanOrEqual"/>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#Monday -->
+
+    <PPIOntology:DayOfWeek rdf:about="&PPIOntology;Monday"/>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#Saturday -->
+
+    <PPIOntology:DayOfWeek rdf:about="&PPIOntology;Saturday"/>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#Sunday -->
+
+    <PPIOntology:DayOfWeek rdf:about="&PPIOntology;Sunday"/>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#Thursday -->
+
+    <PPIOntology:DayOfWeek rdf:about="&PPIOntology;Thursday"/>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#Tuesday -->
+
+    <PPIOntology:DayOfWeek rdf:about="&PPIOntology;Tuesday"/>
+    
+
+
+    <!-- http://www.isa.us.es/ppiontology/PPIOntology.owl#Wednesday -->
+
+    <PPIOntology:DayOfWeek rdf:about="&PPIOntology;Wednesday"/>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.2.2.1785) http://owlapi.sourceforge.net -->
+

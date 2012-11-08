@@ -50,8 +50,9 @@
     <!-- http://www.isa.us.es/ontologies/AbstractBP.owl#directlyPrecedes -->
 
     <owl:ObjectProperty rdf:about="&AbstractBP;directlyPrecedes">
+        <rdfs:domain rdf:resource="&AbstractBP;BPElement"/>
+        <rdfs:range rdf:resource="&AbstractBP;BPElement"/>
         <owl:inverseOf rdf:resource="&AbstractBP;directlySucceeds"/>
-        <rdfs:subPropertyOf rdf:resource="&AbstractBP;precedes"/>
     </owl:ObjectProperty>
     
 
@@ -59,7 +60,8 @@
     <!-- http://www.isa.us.es/ontologies/AbstractBP.owl#directlySucceeds -->
 
     <owl:ObjectProperty rdf:about="&AbstractBP;directlySucceeds">
-        <rdfs:subPropertyOf rdf:resource="&AbstractBP;succeeds"/>
+        <rdfs:range rdf:resource="&AbstractBP;BPElement"/>
+        <rdfs:domain rdf:resource="&AbstractBP;BPElement"/>
     </owl:ObjectProperty>
     
 
@@ -103,7 +105,8 @@
     <!-- http://www.isa.us.es/ontologies/AbstractBP.owl#instanceDirectlyPrecedes -->
 
     <owl:ObjectProperty rdf:about="&AbstractBP;instanceDirectlyPrecedes">
-        <rdfs:subPropertyOf rdf:resource="&AbstractBP;instancePrecedes"/>
+        <rdfs:range rdf:resource="&AbstractBP;BPElementInstance"/>
+        <rdfs:domain rdf:resource="&AbstractBP;BPElementInstance"/>
     </owl:ObjectProperty>
     
 
@@ -111,46 +114,9 @@
     <!-- http://www.isa.us.es/ontologies/AbstractBP.owl#instanceDirectlySucceeds -->
 
     <owl:ObjectProperty rdf:about="&AbstractBP;instanceDirectlySucceeds">
+        <rdfs:domain rdf:resource="&AbstractBP;BPElementInstance"/>
+        <rdfs:range rdf:resource="&AbstractBP;BPElementInstance"/>
         <owl:inverseOf rdf:resource="&AbstractBP;instanceDirectlyPrecedes"/>
-        <rdfs:subPropertyOf rdf:resource="&AbstractBP;instanceSucceeds"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://www.isa.us.es/ontologies/AbstractBP.owl#instancePrecedes -->
-
-    <owl:ObjectProperty rdf:about="&AbstractBP;instancePrecedes">
-        <rdfs:range rdf:resource="&AbstractBP;BPElementInstance"/>
-        <rdfs:domain rdf:resource="&AbstractBP;BPElementInstance"/>
-        <owl:inverseOf rdf:resource="&AbstractBP;instanceSucceeds"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://www.isa.us.es/ontologies/AbstractBP.owl#instanceSucceeds -->
-
-    <owl:ObjectProperty rdf:about="&AbstractBP;instanceSucceeds">
-        <rdfs:domain rdf:resource="&AbstractBP;BPElementInstance"/>
-        <rdfs:range rdf:resource="&AbstractBP;BPElementInstance"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://www.isa.us.es/ontologies/AbstractBP.owl#precedes -->
-
-    <owl:ObjectProperty rdf:about="&AbstractBP;precedes">
-        <rdfs:range rdf:resource="&AbstractBP;BPElement"/>
-        <rdfs:domain rdf:resource="&AbstractBP;BPElement"/>
-        <owl:inverseOf rdf:resource="&AbstractBP;succeeds"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://www.isa.us.es/ontologies/AbstractBP.owl#succeeds -->
-
-    <owl:ObjectProperty rdf:about="&AbstractBP;succeeds">
-        <rdfs:range rdf:resource="&AbstractBP;BPElement"/>
-        <rdfs:domain rdf:resource="&AbstractBP;BPElement"/>
     </owl:ObjectProperty>
     
 
@@ -182,9 +148,9 @@
     
 
 
-    <!-- http://www.isa.us.es/ontologies/AbstractBP.owl#ActivityStateBPMN -->
+    <!-- http://www.isa.us.es/ontologies/AbstractBP.owl#ActivityState -->
 
-    <owl:Class rdf:about="&AbstractBP;ActivityStateBPMN">
+    <owl:Class rdf:about="&AbstractBP;ActivityState">
         <rdfs:subClassOf rdf:resource="&AbstractBP;RuntimeState"/>
     </owl:Class>
     
@@ -234,9 +200,9 @@
     
 
 
-    <!-- http://www.isa.us.es/ontologies/AbstractBP.owl#DataStateBPMN -->
+    <!-- http://www.isa.us.es/ontologies/AbstractBP.owl#DataState -->
 
-    <owl:Class rdf:about="&AbstractBP;DataStateBPMN">
+    <owl:Class rdf:about="&AbstractBP;DataState">
         <rdfs:subClassOf rdf:resource="&AbstractBP;RuntimeState"/>
     </owl:Class>
     
@@ -339,168 +305,6 @@
     <owl:Class rdf:about="&AbstractBP;XorGatewayInstance">
         <rdfs:subClassOf rdf:resource="&AbstractBP;GatewayInstance"/>
     </owl:Class>
-    
-
-
-    <!-- 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Rules
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-    <swrl:Variable rdf:about="urn:swrl#x"/>
-    <swrl:Variable rdf:about="urn:swrl#y"/>
-    <swrl:Variable rdf:about="urn:swrl#z"/>
-    <swrl:Imp>
-        <swrl:head>
-            <swrl:AtomList>
-                <rdf:rest rdf:resource="&rdf;nil"/>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&AbstractBP;instancePrecedes"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#z"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
-            </swrl:AtomList>
-        </swrl:head>
-        <swrl:body>
-            <swrl:AtomList>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&AbstractBP;instancePrecedes"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
-                <rdf:rest>
-                    <swrl:AtomList>
-                        <rdf:rest rdf:resource="&rdf;nil"/>
-                        <rdf:first>
-                            <swrl:IndividualPropertyAtom>
-                                <swrl:propertyPredicate rdf:resource="&AbstractBP;instancePrecedes"/>
-                                <swrl:argument1 rdf:resource="urn:swrl#y"/>
-                                <swrl:argument2 rdf:resource="urn:swrl#z"/>
-                            </swrl:IndividualPropertyAtom>
-                        </rdf:first>
-                    </swrl:AtomList>
-                </rdf:rest>
-            </swrl:AtomList>
-        </swrl:body>
-    </swrl:Imp>
-    <swrl:Imp>
-        <swrl:head>
-            <swrl:AtomList>
-                <rdf:rest rdf:resource="&rdf;nil"/>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&AbstractBP;instanceSucceeds"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#z"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
-            </swrl:AtomList>
-        </swrl:head>
-        <swrl:body>
-            <swrl:AtomList>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&AbstractBP;instanceSucceeds"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
-                <rdf:rest>
-                    <swrl:AtomList>
-                        <rdf:rest rdf:resource="&rdf;nil"/>
-                        <rdf:first>
-                            <swrl:IndividualPropertyAtom>
-                                <swrl:propertyPredicate rdf:resource="&AbstractBP;instanceSucceeds"/>
-                                <swrl:argument1 rdf:resource="urn:swrl#y"/>
-                                <swrl:argument2 rdf:resource="urn:swrl#z"/>
-                            </swrl:IndividualPropertyAtom>
-                        </rdf:first>
-                    </swrl:AtomList>
-                </rdf:rest>
-            </swrl:AtomList>
-        </swrl:body>
-    </swrl:Imp>
-    <swrl:Imp>
-        <swrl:head>
-            <swrl:AtomList>
-                <rdf:rest rdf:resource="&rdf;nil"/>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&AbstractBP;succeeds"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#z"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
-            </swrl:AtomList>
-        </swrl:head>
-        <swrl:body>
-            <swrl:AtomList>
-                <rdf:rest>
-                    <swrl:AtomList>
-                        <rdf:rest rdf:resource="&rdf;nil"/>
-                        <rdf:first>
-                            <swrl:IndividualPropertyAtom>
-                                <swrl:propertyPredicate rdf:resource="&AbstractBP;succeeds"/>
-                                <swrl:argument1 rdf:resource="urn:swrl#y"/>
-                                <swrl:argument2 rdf:resource="urn:swrl#z"/>
-                            </swrl:IndividualPropertyAtom>
-                        </rdf:first>
-                    </swrl:AtomList>
-                </rdf:rest>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&AbstractBP;succeeds"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
-            </swrl:AtomList>
-        </swrl:body>
-    </swrl:Imp>
-    <swrl:Imp>
-        <swrl:head>
-            <swrl:AtomList>
-                <rdf:rest rdf:resource="&rdf;nil"/>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&AbstractBP;precedes"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#z"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
-            </swrl:AtomList>
-        </swrl:head>
-        <swrl:body>
-            <swrl:AtomList>
-                <rdf:rest>
-                    <swrl:AtomList>
-                        <rdf:rest rdf:resource="&rdf;nil"/>
-                        <rdf:first>
-                            <swrl:IndividualPropertyAtom>
-                                <swrl:propertyPredicate rdf:resource="&AbstractBP;precedes"/>
-                                <swrl:argument1 rdf:resource="urn:swrl#y"/>
-                                <swrl:argument2 rdf:resource="urn:swrl#z"/>
-                            </swrl:IndividualPropertyAtom>
-                        </rdf:first>
-                    </swrl:AtomList>
-                </rdf:rest>
-                <rdf:first>
-                    <swrl:IndividualPropertyAtom>
-                        <swrl:propertyPredicate rdf:resource="&AbstractBP;precedes"/>
-                        <swrl:argument1 rdf:resource="urn:swrl#x"/>
-                        <swrl:argument2 rdf:resource="urn:swrl#y"/>
-                    </swrl:IndividualPropertyAtom>
-                </rdf:first>
-            </swrl:AtomList>
-        </swrl:body>
-    </swrl:Imp>
 </rdf:RDF>
 
 

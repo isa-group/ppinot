@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <uri id="Imports Wizard Entry" name="http://www.isa.us.es/ontologies/AbstractBP-relationships.owl" uri="AbstractBP-relationships.owl"/>
+    <uri id="Imports Wizard Entry" name="http://www.isa.us.es/ontologies/AbstractBP-rules.owl" uri="AbstractBP-rules.owl"/>
     <uri id="Imports Wizard Entry" name="http://www.isa.us.es/ontologies/AbstractBP.owl" uri="AbstractBP.owl"/>
     <uri id="User Entered Import Resolution" name="http://www.isa.us.es/ppiontology/RFCSimplified.owl" uri="RFCSimplified-PPIOntology.owl"/>
     <uri id="User Entered Import Resolution" name="http://www.semanticweb.org/ontologies/2011/9/PPIOntology.owl" uri="PPIOntologyOct2011.owl"/>

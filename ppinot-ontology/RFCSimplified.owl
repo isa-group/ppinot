@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY AbstractBP "http://www.isa.us.es/ontologies/AbstractBP.owl#" >
+    <!ENTITY RFCSimplified "http://www.isa.us.es/ontologies/RFCSimplified.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.isa.us.es/ontologies/RFCSimplified.owl#"
+     xml:base="http://www.isa.us.es/ontologies/RFCSimplified.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:AbstractBP="http://www.isa.us.es/ontologies/AbstractBP.owl#"
+     xmlns:RFCSimplified="http://www.isa.us.es/ontologies/RFCSimplified.owl#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <owl:Ontology rdf:about="http://www.isa.us.es/ontologies/RFCSimplified.owl">
+        <owl:imports rdf:resource="http://www.isa.us.es/ontologies/bpmn.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified.owl#AnalyseInCommittee -->
+
+    <owl:NamedIndividual rdf:about="&RFCSimplified;AnalyseInCommittee">
+        <rdf:type rdf:resource="&AbstractBP;Activity"/>
+        <AbstractBP:directlyPrecedes rdf:resource="&RFCSimplified;Merge"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified.owl#AnalyseRFC -->
+
+    <owl:NamedIndividual rdf:about="&RFCSimplified;AnalyseRFC">
+        <rdf:type rdf:resource="&AbstractBP;Activity"/>
+        <AbstractBP:directlyPrecedes rdf:resource="&RFCSimplified;DecisionBasedRFCAnalysis"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified.owl#ApproveRFC -->
+
+    <owl:NamedIndividual rdf:about="&RFCSimplified;ApproveRFC">
+        <rdf:type rdf:resource="&AbstractBP;Activity"/>
+        <AbstractBP:dataOutput rdf:resource="&RFCSimplified;RFCApproved"/>
+        <AbstractBP:directlyPrecedes rdf:resource="&RFCSimplified;ReportRFCApproved"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified.owl#CancelRFC -->
+
+    <owl:NamedIndividual rdf:about="&RFCSimplified;CancelRFC">
+        <rdf:type rdf:resource="&AbstractBP;Activity"/>
+        <AbstractBP:dataOutput rdf:resource="&RFCSimplified;RFCCancelled"/>
+        <AbstractBP:directlyPrecedes rdf:resource="&RFCSimplified;ReportRFCCancelled"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified.owl#DecisionBasedRFCAnalysis -->
+
+    <owl:NamedIndividual rdf:about="&RFCSimplified;DecisionBasedRFCAnalysis">
+        <rdf:type rdf:resource="&AbstractBP;XorGateway"/>
+        <AbstractBP:directlyPrecedes rdf:resource="&RFCSimplified;ApproveRFC"/>
+        <AbstractBP:directlyPrecedes rdf:resource="&RFCSimplified;CancelRFC"/>
+        <AbstractBP:directlyPrecedes rdf:resource="&RFCSimplified;ElevateDecisionToCommittee"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified.owl#ElevateDecisionToCommittee -->
+
+    <owl:NamedIndividual rdf:about="&RFCSimplified;ElevateDecisionToCommittee">
+        <rdf:type rdf:resource="&AbstractBP;Activity"/>
+        <AbstractBP:directlyPrecedes rdf:resource="&RFCSimplified;AnalyseInCommittee"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified.owl#Merge -->
+
+    <owl:NamedIndividual rdf:about="&RFCSimplified;Merge">
+        <rdf:type rdf:resource="&AbstractBP;XorGateway"/>
+        <AbstractBP:directlyPrecedes rdf:resource="&RFCSimplified;AnalyseRFC"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified.owl#RFCApproved -->
+
+    <owl:NamedIndividual rdf:about="&RFCSimplified;RFCApproved">
+        <rdf:type rdf:resource="&AbstractBP;DataObject"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified.owl#RFCCancelled -->
+
+    <owl:NamedIndividual rdf:about="&RFCSimplified;RFCCancelled">
+        <rdf:type rdf:resource="&AbstractBP;DataObject"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified.owl#RFCManagement -->
+
+    <owl:NamedIndividual rdf:about="&RFCSimplified;RFCManagement">
+        <rdf:type rdf:resource="&AbstractBP;Process"/>
+        <AbstractBP:includes rdf:resource="&RFCSimplified;AnalyseInCommittee"/>
+        <AbstractBP:includes rdf:resource="&RFCSimplified;AnalyseRFC"/>
+        <AbstractBP:includes rdf:resource="&RFCSimplified;ApproveRFC"/>
+        <AbstractBP:includes rdf:resource="&RFCSimplified;CancelRFC"/>
+        <AbstractBP:includes rdf:resource="&RFCSimplified;DecisionBasedRFCAnalysis"/>
+        <AbstractBP:includes rdf:resource="&RFCSimplified;ElevateDecisionToCommittee"/>
+        <AbstractBP:includes rdf:resource="&RFCSimplified;Merge"/>
+        <AbstractBP:includes rdf:resource="&RFCSimplified;RFCApproved"/>
+        <AbstractBP:includes rdf:resource="&RFCSimplified;RFCCancelled"/>
+        <AbstractBP:includes rdf:resource="&RFCSimplified;ReceiveRFC"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified.owl#RFCRegistered -->
+
+    <owl:NamedIndividual rdf:about="&RFCSimplified;RFCRegistered">
+        <rdf:type rdf:resource="&AbstractBP;DataObject"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified.owl#ReceiveRFC -->
+
+    <owl:NamedIndividual rdf:about="&RFCSimplified;ReceiveRFC">
+        <rdf:type rdf:resource="&AbstractBP;StartEvent"/>
+        <AbstractBP:directlyPrecedes rdf:resource="&RFCSimplified;Merge"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified.owl#ReportRFCApproved -->
+
+    <owl:NamedIndividual rdf:about="&RFCSimplified;ReportRFCApproved">
+        <rdf:type rdf:resource="&AbstractBP;EndEvent"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified.owl#ReportRFCCancelled -->
+
+    <owl:NamedIndividual rdf:about="&RFCSimplified;ReportRFCCancelled">
+        <rdf:type rdf:resource="&AbstractBP;EndEvent"/>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.2.2.1785) http://owlapi.sourceforge.net -->
+

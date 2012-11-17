@@ -216,6 +216,15 @@
     
 
 
+    <!-- http://www.isa.us.es/ontologies/AbstractBP.owl#EndState -->
+
+    <owl:Class rdf:about="&AbstractBP;EndState">
+        <rdfs:subClassOf rdf:resource="&AbstractBP;RuntimeState"/>
+        <owl:disjointWith rdf:resource="&AbstractBP;StartState"/>
+    </owl:Class>
+    
+
+
     <!-- http://www.isa.us.es/ontologies/AbstractBP.owl#Event -->
 
     <owl:Class rdf:about="&AbstractBP;Event">
@@ -256,17 +265,17 @@
     
 
 
-    <!-- http://www.isa.us.es/ontologies/AbstractBP.owl#Pool -->
-
-    <owl:Class rdf:about="&AbstractBP;Pool">
-        <rdfs:subClassOf rdf:resource="&AbstractBP;BPElement"/>
-    </owl:Class>
-    
-
-
     <!-- http://www.isa.us.es/ontologies/AbstractBP.owl#Process -->
 
     <owl:Class rdf:about="&AbstractBP;Process"/>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/AbstractBP.owl#ProcessState -->
+
+    <owl:Class rdf:about="&AbstractBP;ProcessState">
+        <rdfs:subClassOf rdf:resource="&AbstractBP;RuntimeState"/>
+    </owl:Class>
     
 
 
@@ -280,6 +289,14 @@
 
     <owl:Class rdf:about="&AbstractBP;StartEvent">
         <rdfs:subClassOf rdf:resource="&AbstractBP;Event"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/AbstractBP.owl#StartState -->
+
+    <owl:Class rdf:about="&AbstractBP;StartState">
+        <rdfs:subClassOf rdf:resource="&AbstractBP;RuntimeState"/>
     </owl:Class>
     
 
@@ -305,6 +322,34 @@
     <owl:Class rdf:about="&AbstractBP;XorGatewayInstance">
         <rdfs:subClassOf rdf:resource="&AbstractBP;GatewayInstance"/>
     </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&AbstractBP;ActivityState"/>
+            <rdf:Description rdf:about="&AbstractBP;DataState"/>
+            <rdf:Description rdf:about="&AbstractBP;EventState"/>
+            <rdf:Description rdf:about="&AbstractBP;ProcessState"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&AbstractBP;ActivityState"/>
+            <rdf:Description rdf:about="&AbstractBP;DataState"/>
+            <rdf:Description rdf:about="&AbstractBP;EventState"/>
+        </owl:members>
+    </rdf:Description>
 </rdf:RDF>
 
 

@@ -19,8 +19,8 @@ public class pruebaconsola {
 		
 		String camino = "D:\\eclipse-appweb-indigo\\repository_isa\\";
 		
-		String nomFichOrigen = "prueba base.bpmn20.xml";
-		String nomFichDestino = "base-exportado.xml";
+//		String nomFichOrigen = "prueba base.bpmn20.xml";
+//		String nomFichDestino = "base-exportado.xml";
 
 //		String nomFichOrigen = "prueba aggregated.bpmn20.xml";
 //		String nomFichDestino = "aggregated-exportado.xml";
@@ -37,8 +37,8 @@ public class pruebaconsola {
 //		String nomFichOrigen = "prueba aggregated connector.bpmn20.xml";
 //		String nomFichDestino = "aggregated connector-exportado.xml";
 
-//		String nomFichOrigen = "prueba ppi.bpmn20.xml";
-//		String nomFichDestino = "ppi-exportado.xml";
+		String nomFichOrigen = "prueba ppi.bpmn20.xml";
+		String nomFichDestino = "ppi-exportado.xml";
 		
 		PpiNotXmlExtracter ppiNotXmlExtracter = new PpiNotXmlExtracter();
 

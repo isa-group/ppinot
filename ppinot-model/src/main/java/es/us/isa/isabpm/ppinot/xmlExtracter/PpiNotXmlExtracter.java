@@ -1870,6 +1870,7 @@ public class PpiNotXmlExtracter extends XmlExtracter {
 		
 		con.setId(generarId("appliesToDataConnector", ""));
 		con.setSourceRef(measure);
+		con.setTargetRef(((DataPropertyCondition) def.getCondition()).getAppliesTo());
 		con.setRestriction(((DataPropertyCondition) def.getCondition()).getRestriction());
 		con.setState(((DataPropertyCondition) def.getCondition()).getStateConsidered().getStateString());
 		

@@ -2754,8 +2754,6 @@ public class PpiNotXmlExtracter extends XmlExtracter {
 	    if (modelList!=null) {
 		    Integer i = 1;
 		    for (PPI def : modelList) {
-		
-		        MeasureDefinition m = def.getMeasuredBy();
 		        
 				TPpi ppi = this.getOfPpinot().createTPpi();
 				ppi.setId(def.getId());
@@ -2768,9 +2766,38 @@ public class PpiNotXmlExtracter extends XmlExtracter {
 		    	
 				ppi.setTarget(this.generateTarget(def.getTarget().getRefMin(), def.getTarget().getRefMax()));
 				ppi.setScope(this.generateAnalisysPeriod(def.getScope().getYear(), def.getScope().getPeriod(), def.getScope().getStartDate(), def.getScope().getEndDate(), def.getScope().getInStart(), def.getScope().getInEnd()));
+				
+		        MeasureDefinition m = def.getMeasuredBy();
 
-		    	ppi.setMeasuredBy(m.getId());
+				TMeasure md = null;
+				if (m instanceof TimeInstanceMeasure)
+					md = this.getTimeMap().get(m.getId());
+				else
+				if (m instanceof CountInstanceMeasure)
+					md = this.getCountMap().get(m.getId());
+				else
+				if (m instanceof StateConditionInstanceMeasure)
+					md = this.getStateConditionMap().get(m.getId());
+				else
+				if (m instanceof DataInstanceMeasure)
+					md = this.getDataMap().get(m.getId());
+				else
+				if (m instanceof DataPropertyConditionInstanceMeasure)
+					md = this.getDataPropertyConditionMap().get(m.getId());
+				else
 
+				if (m instanceof AggregatedMeasure)
+					md = this.getAggregatedMap().get(m.getId());
+				else
+
+				if (m instanceof DerivedSingleInstanceMeasure)
+					md = this.getDerivedSingleInstanceMap().get(m.getId());
+				else
+				if (m instanceof DerivedMultiInstanceMeasure)
+					md = this.getDerivedMultiInstanceMap().get(m.getId());
+
+		    	ppi.setMeasuredBy(md);
+					
     			this.getPpiList().add(ppi);
 		    	
 	    		i++;

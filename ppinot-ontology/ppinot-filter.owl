@@ -26,11 +26,229 @@
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
+    // Datatypes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot-filter.owl#composes -->
+
+    <owl:ObjectProperty rdf:about="http://www.isa.us.es/ontologies/ppinot-filter.owl#composes">
+        <rdfs:domain rdf:resource="&ppinot;Composition"/>
+        <rdfs:range rdf:resource="&ppinot;TemporalCondition"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot-filter.owl#condition -->
+
+    <owl:ObjectProperty rdf:about="http://www.isa.us.es/ontologies/ppinot-filter.owl#condition">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:range rdf:resource="&ppinot;ConditionType"/>
+        <rdfs:domain rdf:resource="&ppinot;TimeDefinition"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot-filter.owl#filter -->
+
+    <owl:ObjectProperty rdf:about="http://www.isa.us.es/ontologies/ppinot-filter.owl#filter">
+        <rdfs:domain rdf:resource="http://www.isa.us.es/ontologies/ppinot-filter.owl#ComposedFilter"/>
+        <rdfs:range rdf:resource="&ppinot;ProcessInstanceFilter"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot-filter.owl#moment -->
+
+    <owl:ObjectProperty rdf:about="http://www.isa.us.es/ontologies/ppinot-filter.owl#moment">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:range rdf:resource="&ppinot;Moment"/>
+        <rdfs:domain rdf:resource="&ppinot;TimeDefinition"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot-filter.owl#periodicity -->
+
+    <owl:ObjectProperty rdf:about="http://www.isa.us.es/ontologies/ppinot-filter.owl#periodicity">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:range rdf:resource="&ppinot;Period"/>
+        <rdfs:domain rdf:resource="&ppinot;TimeFilter"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot-filter.owl#temporalCondition -->
+
+    <owl:ObjectProperty rdf:about="http://www.isa.us.es/ontologies/ppinot-filter.owl#temporalCondition">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:range rdf:resource="&ppinot;TemporalCondition"/>
+        <rdfs:domain rdf:resource="&ppinot;TimeFilter"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot-filter.owl#unit -->
+
+    <owl:ObjectProperty rdf:about="http://www.isa.us.es/ontologies/ppinot-filter.owl#unit">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:range rdf:resource="http://www.isa.us.es/ontologies/ppinot-filter.owl#Unit"/>
+        <rdfs:domain rdf:resource="&ppinot;RelativeTimeDefinition"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot-filter.owl#date -->
+
+    <owl:DatatypeProperty rdf:about="http://www.isa.us.es/ontologies/ppinot-filter.owl#date">
+        <rdfs:domain rdf:resource="&ppinot;AbsoluteTimeDefinition"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot-filter.owl#dayOfMonth -->
+
+    <owl:DatatypeProperty rdf:about="http://www.isa.us.es/ontologies/ppinot-filter.owl#dayOfMonth">
+        <rdfs:domain rdf:resource="&ppinot;Monthly"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot-filter.owl#dayOfWeek -->
+
+    <owl:DatatypeProperty rdf:about="http://www.isa.us.es/ontologies/ppinot-filter.owl#dayOfWeek">
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&ppinot;Monthly"/>
+                    <rdf:Description rdf:about="&ppinot;Weekly"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot-filter.owl#ends -->
+
+    <owl:DatatypeProperty rdf:about="http://www.isa.us.es/ontologies/ppinot-filter.owl#ends">
+        <rdfs:domain rdf:resource="&ppinot;Period"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot-filter.owl#every -->
+
+    <owl:DatatypeProperty rdf:about="http://www.isa.us.es/ontologies/ppinot-filter.owl#every">
+        <rdfs:domain rdf:resource="&ppinot;Period"/>
+        <rdfs:range rdf:resource="&xsd;int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot-filter.owl#numberOfInstances -->
+
+    <owl:DatatypeProperty rdf:about="http://www.isa.us.es/ontologies/ppinot-filter.owl#numberOfInstances">
+        <rdfs:domain rdf:resource="&ppinot;LastInstancesFilter"/>
+        <rdfs:range rdf:resource="&xsd;int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot-filter.owl#timeFromNow -->
+
+    <owl:DatatypeProperty rdf:about="http://www.isa.us.es/ontologies/ppinot-filter.owl#timeFromNow">
+        <rdfs:domain rdf:resource="&ppinot;RelativeTimeDefinition"/>
+        <rdfs:range rdf:resource="&xsd;int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
     // Classes
     //
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot-filter.owl#And -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/ppinot-filter.owl#And">
+        <rdfs:subClassOf rdf:resource="http://www.isa.us.es/ontologies/ppinot-filter.owl#ComposedFilter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot-filter.owl#ComposedFilter -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/ppinot-filter.owl#ComposedFilter">
+        <rdfs:subClassOf rdf:resource="&ppinot;ProcessInstanceFilter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot-filter.owl#Not -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/ppinot-filter.owl#Not">
+        <rdfs:subClassOf rdf:resource="http://www.isa.us.es/ontologies/ppinot-filter.owl#ComposedFilter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot-filter.owl#Or -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/ppinot-filter.owl#Or">
+        <rdfs:subClassOf rdf:resource="http://www.isa.us.es/ontologies/ppinot-filter.owl#ComposedFilter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot-filter.owl#ProcessState -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/ppinot-filter.owl#ProcessState">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot-filter.owl#Unit -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/ppinot-filter.owl#Unit">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
     
 
 
@@ -203,33 +421,25 @@
     
 
 
+    <!-- http://www.isa.us.es/ontologies/ppinot-filter.owl#Active -->
+
+    <owl:NamedIndividual rdf:about="http://www.isa.us.es/ontologies/ppinot-filter.owl#Active">
+        <rdf:type rdf:resource="http://www.isa.us.es/ontologies/ppinot-filter.owl#ProcessState"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot-filter.owl#Finished -->
+
+    <owl:NamedIndividual rdf:about="http://www.isa.us.es/ontologies/ppinot-filter.owl#Finished">
+        <rdf:type rdf:resource="http://www.isa.us.es/ontologies/ppinot-filter.owl#ProcessState"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.isa.us.es/ontologies/ppinot.owl#Friday -->
 
     <ppinot:DayOfWeek rdf:about="&ppinot;Friday"/>
-    
-
-
-    <!-- http://www.isa.us.es/ontologies/ppinot.owl#GreaterThan -->
-
-    <ppinot:ConditionType rdf:about="&ppinot;GreaterThan"/>
-    
-
-
-    <!-- http://www.isa.us.es/ontologies/ppinot.owl#GreaterThanOrEqual -->
-
-    <ppinot:ConditionType rdf:about="&ppinot;GreaterThanOrEqual"/>
-    
-
-
-    <!-- http://www.isa.us.es/ontologies/ppinot.owl#LessThan -->
-
-    <ppinot:ConditionType rdf:about="&ppinot;LessThan"/>
-    
-
-
-    <!-- http://www.isa.us.es/ontologies/ppinot.owl#LessThanOrEqual -->
-
-    <ppinot:ConditionType rdf:about="&ppinot;LessThanOrEqual"/>
     
 
 
@@ -266,9 +476,33 @@
     <!-- http://www.isa.us.es/ontologies/ppinot.owl#Wednesday -->
 
     <ppinot:DayOfWeek rdf:about="&ppinot;Wednesday"/>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#after -->
+
+    <ppinot:ConditionType rdf:about="&ppinot;after"/>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#afterOrAt -->
+
+    <ppinot:ConditionType rdf:about="&ppinot;afterOrAt"/>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#before -->
+
+    <ppinot:ConditionType rdf:about="&ppinot;before"/>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#beforeOrAt -->
+
+    <ppinot:ConditionType rdf:about="&ppinot;beforeOrAt"/>
 </rdf:RDF>
 
 
 
-<!-- Generated by the OWL API (version 3.2.2.1785) http://owlapi.sourceforge.net -->
+<!-- Generated by the OWL API (version 3.2.3.1824) http://owlapi.sourceforge.net -->
 

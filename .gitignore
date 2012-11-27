@@ -1,2 +1,4 @@
-ppinot-templates/target
-ppinot-templates/.settings
+target
+.settings
+.classpath
+.project

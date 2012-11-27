@@ -14,8 +14,8 @@
 ]>
 
 
-<rdf:RDF xmlns="http://www.isa.us.es/ppiontology/PPIOntology.owl#"
-     xml:base="http://www.isa.us.es/ppiontology/PPIOntology.owl"
+<rdf:RDF xmlns="http://www.isa.us.es/ontologies/ppinot.owl#"
+     xml:base="http://www.isa.us.es/ontologies/ppinot.owl"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:swrl="http://www.w3.org/2003/11/swrl#"
      xmlns:AbstractBP="http://www.isa.us.es/ontologies/AbstractBP.owl#"
@@ -50,12 +50,6 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
-    
-
-
-    <!-- http://www.isa.us.es/ontologies/AbstractBP.owl#hasState -->
-
-    <owl:ObjectProperty rdf:about="&AbstractBP;hasState"/>
     
 
 
@@ -383,6 +377,19 @@
     <!-- http://www.isa.us.es/ontologies/ppinot.owl#ActivityEnd -->
 
     <owl:Class rdf:about="&ppinot;ActivityEnd">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ppinot;changesToState"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&AbstractBP;ActivityState"/>
+                            <rdf:Description rdf:about="&AbstractBP;EndState"/>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&ppinot;TimeInstantCondition"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -393,8 +400,8 @@
         <owl:disjointWith rdf:resource="&ppinot;ActivityStart"/>
         <owl:disjointWith rdf:resource="&ppinot;DataStateChange"/>
         <owl:disjointWith rdf:resource="&ppinot;EventTrigger"/>
-        <owl:disjointWith rdf:resource="&ppinot;PoolEnd"/>
-        <owl:disjointWith rdf:resource="&ppinot;PoolStart"/>
+        <owl:disjointWith rdf:resource="&ppinot;ProcessEnd"/>
+        <owl:disjointWith rdf:resource="&ppinot;ProcessStart"/>
     </owl:Class>
     
 
@@ -402,6 +409,19 @@
     <!-- http://www.isa.us.es/ontologies/ppinot.owl#ActivityStart -->
 
     <owl:Class rdf:about="&ppinot;ActivityStart">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ppinot;changesToState"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&AbstractBP;ActivityState"/>
+                            <rdf:Description rdf:about="&AbstractBP;StartState"/>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&ppinot;TimeInstantCondition"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -411,31 +431,8 @@
         </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="&ppinot;DataStateChange"/>
         <owl:disjointWith rdf:resource="&ppinot;EventTrigger"/>
-        <owl:disjointWith rdf:resource="&ppinot;PoolEnd"/>
-        <owl:disjointWith rdf:resource="&ppinot;PoolStart"/>
-    </owl:Class>
-    
-
-
-    <!-- http://www.isa.us.es/ontologies/ppinot.owl#ActivityStateCondition -->
-
-    <owl:Class rdf:about="&ppinot;ActivityStateCondition">
-        <rdfs:subClassOf rdf:resource="&ppinot;StateCondition"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&ppinot;appliesTo"/>
-                <owl:allValuesFrom rdf:resource="&AbstractBP;Activity"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&AbstractBP;hasState"/>
-                <owl:allValuesFrom rdf:resource="&AbstractBP;ActivityState"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <owl:disjointWith rdf:resource="&ppinot;DataStateCondition"/>
-        <owl:disjointWith rdf:resource="&ppinot;EventStateCondition"/>
-        <owl:disjointWith rdf:resource="&ppinot;PoolStateCondition"/>
+        <owl:disjointWith rdf:resource="&ppinot;ProcessEnd"/>
+        <owl:disjointWith rdf:resource="&ppinot;ProcessStart"/>
     </owl:Class>
     
 
@@ -552,6 +549,12 @@
     <!-- http://www.isa.us.es/ontologies/ppinot.owl#DataStateChange -->
 
     <owl:Class rdf:about="&ppinot;DataStateChange">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ppinot;changesToState"/>
+                <owl:someValuesFrom rdf:resource="&AbstractBP;DataState"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&ppinot;TimeInstantCondition"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -559,37 +562,9 @@
                 <owl:allValuesFrom rdf:resource="&AbstractBP;DataObject"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&AbstractBP;hasState"/>
-                <owl:allValuesFrom rdf:resource="&AbstractBP;DataState"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
         <owl:disjointWith rdf:resource="&ppinot;EventTrigger"/>
-        <owl:disjointWith rdf:resource="&ppinot;PoolEnd"/>
-        <owl:disjointWith rdf:resource="&ppinot;PoolStart"/>
-    </owl:Class>
-    
-
-
-    <!-- http://www.isa.us.es/ontologies/ppinot.owl#DataStateCondition -->
-
-    <owl:Class rdf:about="&ppinot;DataStateCondition">
-        <rdfs:subClassOf rdf:resource="&ppinot;StateCondition"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&AbstractBP;hasState"/>
-                <owl:allValuesFrom rdf:resource="&AbstractBP;DataState"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&ppinot;appliesTo"/>
-                <owl:allValuesFrom rdf:resource="&AbstractBP;DataObject"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <owl:disjointWith rdf:resource="&ppinot;EventStateCondition"/>
-        <owl:disjointWith rdf:resource="&ppinot;PoolStateCondition"/>
+        <owl:disjointWith rdf:resource="&ppinot;ProcessEnd"/>
+        <owl:disjointWith rdf:resource="&ppinot;ProcessStart"/>
     </owl:Class>
     
 
@@ -653,30 +628,22 @@
     
 
 
-    <!-- http://www.isa.us.es/ontologies/ppinot.owl#EventStateCondition -->
-
-    <owl:Class rdf:about="&ppinot;EventStateCondition">
-        <rdfs:subClassOf rdf:resource="&ppinot;StateCondition"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&ppinot;appliesTo"/>
-                <owl:allValuesFrom rdf:resource="&AbstractBP;Event"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&AbstractBP;hasState"/>
-                <owl:allValuesFrom rdf:resource="&AbstractBP;EventState"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <owl:disjointWith rdf:resource="&ppinot;PoolStateCondition"/>
-    </owl:Class>
-    
-
-
     <!-- http://www.isa.us.es/ontologies/ppinot.owl#EventTrigger -->
 
     <owl:Class rdf:about="&ppinot;EventTrigger">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ppinot;changesToState"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&AbstractBP;EndState"/>
+                            <rdf:Description rdf:about="&AbstractBP;EventState"/>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&ppinot;TimeInstantCondition"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -684,8 +651,8 @@
                 <owl:allValuesFrom rdf:resource="&AbstractBP;Event"/>
             </owl:Restriction>
         </rdfs:subClassOf>
-        <owl:disjointWith rdf:resource="&ppinot;PoolEnd"/>
-        <owl:disjointWith rdf:resource="&ppinot;PoolStart"/>
+        <owl:disjointWith rdf:resource="&ppinot;ProcessEnd"/>
+        <owl:disjointWith rdf:resource="&ppinot;ProcessStart"/>
     </owl:Class>
     
 
@@ -744,51 +711,24 @@
     
 
 
-    <!-- http://www.isa.us.es/ontologies/ppinot.owl#PoolEnd -->
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#ProcessEnd -->
 
-    <owl:Class rdf:about="&ppinot;PoolEnd">
+    <owl:Class rdf:about="&ppinot;ProcessEnd">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ppinot;changesToState"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&AbstractBP;EndState"/>
+                            <rdf:Description rdf:about="&AbstractBP;ProcessState"/>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&ppinot;TimeInstantCondition"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&ppinot;appliesTo"/>
-                <owl:allValuesFrom rdf:resource="&AbstractBP;Pool"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <owl:disjointWith rdf:resource="&ppinot;PoolStart"/>
-    </owl:Class>
-    
-
-
-    <!-- http://www.isa.us.es/ontologies/ppinot.owl#PoolStart -->
-
-    <owl:Class rdf:about="&ppinot;PoolStart">
-        <rdfs:subClassOf rdf:resource="&ppinot;TimeInstantCondition"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&ppinot;appliesTo"/>
-                <owl:allValuesFrom rdf:resource="&AbstractBP;Pool"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-    </owl:Class>
-    
-
-
-    <!-- http://www.isa.us.es/ontologies/ppinot.owl#PoolStateCondition -->
-
-    <owl:Class rdf:about="&ppinot;PoolStateCondition">
-        <rdfs:subClassOf rdf:resource="&ppinot;StateCondition"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&AbstractBP;hasState"/>
-                <owl:allValuesFrom rdf:resource="&AbstractBP;ActivityState"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&ppinot;appliesTo"/>
-                <owl:allValuesFrom rdf:resource="&AbstractBP;Pool"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
+        <owl:disjointWith rdf:resource="&ppinot;ProcessStart"/>
     </owl:Class>
     
 
@@ -816,6 +756,27 @@
             <rdf:Description rdf:about="&ppinot;AggregatedMeasure"/>
             <rdf:Description rdf:about="&ppinot;DerivedMultiInstanceMeasure"/>
         </owl:disjointUnionOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#ProcessStart -->
+
+    <owl:Class rdf:about="&ppinot;ProcessStart">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ppinot;changesToState"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&AbstractBP;ProcessState"/>
+                            <rdf:Description rdf:about="&AbstractBP;StartState"/>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&ppinot;TimeInstantCondition"/>
     </owl:Class>
     
 
@@ -885,36 +846,6 @@
     
 
 
-    <!-- http://www.isa.us.es/ontologies/ppinot.owl#Friday -->
-
-    <owl:NamedIndividual rdf:about="&ppinot;Friday"/>
-    
-
-
-    <!-- http://www.isa.us.es/ontologies/ppinot.owl#GreaterThan -->
-
-    <owl:NamedIndividual rdf:about="&ppinot;GreaterThan"/>
-    
-
-
-    <!-- http://www.isa.us.es/ontologies/ppinot.owl#GreaterThanOrEqual -->
-
-    <owl:NamedIndividual rdf:about="&ppinot;GreaterThanOrEqual"/>
-    
-
-
-    <!-- http://www.isa.us.es/ontologies/ppinot.owl#LessThan -->
-
-    <owl:NamedIndividual rdf:about="&ppinot;LessThan"/>
-    
-
-
-    <!-- http://www.isa.us.es/ontologies/ppinot.owl#LessThanOrEqual -->
-
-    <owl:NamedIndividual rdf:about="&ppinot;LessThanOrEqual"/>
-    
-
-
     <!-- http://www.isa.us.es/ontologies/ppinot.owl#Maximum -->
 
     <owl:NamedIndividual rdf:about="&ppinot;Maximum">
@@ -930,19 +861,6 @@
     </owl:NamedIndividual>
     
 
-
-    <!-- http://www.isa.us.es/ontologies/ppinot.owl#Monday -->
-
-    <owl:NamedIndividual rdf:about="&ppinot;Monday"/>
-    
-
-
-    <!-- http://www.isa.us.es/ontologies/ppinot.owl#Saturday -->
-
-    <owl:NamedIndividual rdf:about="&ppinot;Saturday"/>
-    
-
-
     <!-- http://www.isa.us.es/ontologies/ppinot.owl#Sum -->
 
     <owl:NamedIndividual rdf:about="&ppinot;Sum">
@@ -951,27 +869,7 @@
     
 
 
-    <!-- http://www.isa.us.es/ontologies/ppinot.owl#Sunday -->
 
-    <owl:NamedIndividual rdf:about="&ppinot;Sunday"/>
-    
-
-
-    <!-- http://www.isa.us.es/ontologies/ppinot.owl#Thursday -->
-
-    <owl:NamedIndividual rdf:about="&ppinot;Thursday"/>
-    
-
-
-    <!-- http://www.isa.us.es/ontologies/ppinot.owl#Tuesday -->
-
-    <owl:NamedIndividual rdf:about="&ppinot;Tuesday"/>
-    
-
-
-    <!-- http://www.isa.us.es/ontologies/ppinot.owl#Wednesday -->
-
-    <owl:NamedIndividual rdf:about="&ppinot;Wednesday"/>
 </rdf:RDF>
 
 

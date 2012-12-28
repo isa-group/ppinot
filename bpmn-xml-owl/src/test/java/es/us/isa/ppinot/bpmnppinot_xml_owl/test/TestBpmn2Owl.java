@@ -64,7 +64,6 @@ public class TestBpmn2Owl {
 	
 			// guarda la ontologia generada
 			inout.getSaveOWL();
-			
 			return true;
 		} catch (JAXBException e) {
 

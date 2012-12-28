@@ -83,7 +83,7 @@ public class InObjectsOutOWLBpmn {
 			TTask element = (TTask) obj;
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameTask = UtilsObjectOWL.getCleanName(element.getName());
+			String nameTask = UtilsObjectOWLBpmn.getCleanName(element.getName());
 			
 			//Tambien voy a necesitar el dataobject al que se conecta en el caso de hacerlo
 			String nameDataObj = null;
@@ -92,9 +92,9 @@ public class InObjectsOutOWLBpmn {
 			//Se supone que solo hay un dataobject por actividad
 			for (TDataOutputAssociation tDataOutputAssociation : dataOutput) {
 				
-				nameDataObj = UtilsObjectOWL.getNameDataObject(((QName) tDataOutputAssociation.getTargetRef()).getLocalPart());
+				nameDataObj = UtilsObjectOWLBpmn.getNameDataObject(((QName) tDataOutputAssociation.getTargetRef()).getLocalPart());
 			}
-		    List<String> elementsDirectlyPrecedes = UtilsObjectOWL.getDirectlyPrecedes(sequenceFlows, obj);
+		    List<String> elementsDirectlyPrecedes = UtilsObjectOWLBpmn.getDirectlyPrecedes(sequenceFlows, obj);
 			converter.converterActivityOWL(nameTask, nameDataObj, elementsDirectlyPrecedes);
 		}
 	}
@@ -109,7 +109,7 @@ public class InObjectsOutOWLBpmn {
 			TSubProcess element = (TSubProcess) obj;
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameActivity = UtilsObjectOWL.getCleanName(element.getName());
+			String nameActivity = UtilsObjectOWLBpmn.getCleanName(element.getName());
 			
 			String nameDataObj = null;
 			List<TDataOutputAssociation> dataOutput = element.getDataOutputAssociation();
@@ -117,9 +117,9 @@ public class InObjectsOutOWLBpmn {
 			//Se supone que solo hay un dataobject por actividad
 			for (TDataOutputAssociation tDataOutputAssociation : dataOutput) {
 				
-				nameDataObj = UtilsObjectOWL.getNameDataObject(((QName) tDataOutputAssociation.getTargetRef()).getLocalPart());
+				nameDataObj = UtilsObjectOWLBpmn.getNameDataObject(((QName) tDataOutputAssociation.getTargetRef()).getLocalPart());
 			}
-			 List<String> elementsDirectlyPrecedes = UtilsObjectOWL.getDirectlyPrecedes(sequenceFlows, obj);
+			 List<String> elementsDirectlyPrecedes = UtilsObjectOWLBpmn.getDirectlyPrecedes(sequenceFlows, obj);
 		    converter.converterActivityOWL(nameActivity, nameDataObj, elementsDirectlyPrecedes);
 		}
 	}
@@ -135,9 +135,9 @@ public class InObjectsOutOWLBpmn {
 			TStartEvent element = (TStartEvent) obj;
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameEvent = UtilsObjectOWL.getCleanName(element.getName());
+			String nameEvent = UtilsObjectOWLBpmn.getCleanName(element.getName());
 			
-			List<String> elementsDirectlyPrecedes = UtilsObjectOWL.getDirectlyPrecedes(sequenceFlows, obj);
+			List<String> elementsDirectlyPrecedes = UtilsObjectOWLBpmn.getDirectlyPrecedes(sequenceFlows, obj);
 		    converter.converterStartEventOWL(nameEvent, elementsDirectlyPrecedes);
 		    
 		}
@@ -152,7 +152,7 @@ public class InObjectsOutOWLBpmn {
 			TEndEvent element = (TEndEvent) itr.next();
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameEvent = UtilsObjectOWL.getCleanName(element.getName());
+			String nameEvent = UtilsObjectOWLBpmn.getCleanName(element.getName());
 			
 		    converter.converterEndEventOWL(nameEvent);
 		}
@@ -168,9 +168,9 @@ public class InObjectsOutOWLBpmn {
 			TExclusiveGateway element = (TExclusiveGateway) obj;
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameGtw = UtilsObjectOWL.getCleanName(element.getName());
+			String nameGtw = UtilsObjectOWLBpmn.getCleanName(element.getName());
 			
-			List<String> elementsDirectlyPrecedes = UtilsObjectOWL.getDirectlyPrecedes(sequenceFlows, obj);
+			List<String> elementsDirectlyPrecedes = UtilsObjectOWLBpmn.getDirectlyPrecedes(sequenceFlows, obj);
 		    converter.converterXorGatewayOWL(nameGtw,elementsDirectlyPrecedes);
 		}
 		
@@ -186,9 +186,9 @@ public class InObjectsOutOWLBpmn {
 			TGateway element = (TGateway) obj;
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameGtw = UtilsObjectOWL.getCleanName(element.getName());
+			String nameGtw = UtilsObjectOWLBpmn.getCleanName(element.getName());
 			
-			List<String> elementsDirectlyPrecedes = UtilsObjectOWL.getDirectlyPrecedes(sequenceFlows, obj);
+			List<String> elementsDirectlyPrecedes = UtilsObjectOWLBpmn.getDirectlyPrecedes(sequenceFlows, obj);
 		    converter.converterGatewayOWL(nameGtw,elementsDirectlyPrecedes);
 		}
 	}
@@ -202,7 +202,7 @@ public class InObjectsOutOWLBpmn {
 			TDataObject element = (TDataObject) itr.next();
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameDataObj = UtilsObjectOWL.getCleanName(element.getName());
+			String nameDataObj = UtilsObjectOWLBpmn.getCleanName(element.getName());
 			
 		    converter.converterDataObjectOWL(nameDataObj);
 		}

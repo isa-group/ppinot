@@ -10,9 +10,7 @@ import es.us.isa.isabpm.ppinot.xmlClasses.bpmn20.TDataObject;
 import es.us.isa.isabpm.ppinot.xmlClasses.bpmn20.TDefinitions;
 import es.us.isa.isabpm.ppinot.xmlClasses.bpmn20.TEndEvent;
 import es.us.isa.isabpm.ppinot.xmlClasses.bpmn20.TExclusiveGateway;
-import es.us.isa.isabpm.ppinot.xmlClasses.bpmn20.TFlowElement;
 import es.us.isa.isabpm.ppinot.xmlClasses.bpmn20.TGateway;
-import es.us.isa.isabpm.ppinot.xmlClasses.bpmn20.TParallelGateway;
 import es.us.isa.isabpm.ppinot.xmlClasses.bpmn20.TProcess;
 import es.us.isa.isabpm.ppinot.xmlClasses.bpmn20.TSequenceFlow;
 import es.us.isa.isabpm.ppinot.xmlClasses.bpmn20.TStartEvent;
@@ -23,6 +21,7 @@ import es.us.isa.isabpm.ppinot.xmlClasses.bpmn20.TTask;
  * @author Ana Belen Sanchez Jerez
  * **/
 
+@SuppressWarnings("rawtypes")
 public class Bpmn20XmlExtracter {
 //Clase para extraer todos los elementos de BPMN20 necesarios
 	

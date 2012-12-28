@@ -30,7 +30,8 @@ public class InObjectsOutOWLBpmn {
 	private OWLOntologyManager bpmnMan;	// OWLOntologyManager utilizado
 	private OWLOntology bpmnOnt;		// Ontologia a la que se adicionan los axiomas
 	private String orgbpmn; 			// URI de la ontologia BPMN
-	
+	private String orgbpmnExpr;
+
 	File bpmnFile;
 
 	GenerateOWLBpmn converter;
@@ -54,7 +55,8 @@ public class InObjectsOutOWLBpmn {
 			bpmnFile = new File(caminoDestino+bpmnFilename);
 			bpmnFile.createNewFile();
 			
-			converter = new GenerateOWLBpmn(bpmnMan.getOWLDataFactory(), bpmnMan, bpmnOnt, orgbpmn, bpmnFile.toURI().toString());
+			orgbpmnExpr = bpmnFile.toURI().toString();
+			converter = new GenerateOWLBpmn(bpmnMan.getOWLDataFactory(), bpmnMan, bpmnOnt, orgbpmn, orgbpmnExpr);
 		} catch (OWLOntologyCreationException e) {
 
 			e.printStackTrace();
@@ -64,6 +66,10 @@ public class InObjectsOutOWLBpmn {
 		}
 		
 
+	}
+	
+	public String getOrgbpmnExpr() {
+		return orgbpmnExpr;
 	}
 	
 	/***Declaraciones en owl de taskList de BPMN2.0 ***/

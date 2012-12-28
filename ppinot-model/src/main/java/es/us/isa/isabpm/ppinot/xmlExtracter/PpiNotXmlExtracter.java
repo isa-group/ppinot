@@ -117,6 +117,7 @@ public class PpiNotXmlExtracter extends XmlExtracter {
 	private Map<String, AggregatedMeasure> stateConditionAggregatedMeasureMap;
 	private Map<String, AggregatedMeasure> dataAggregatedMeasureMap;
 	private Map<String, AggregatedMeasure> dataPropertyConditionAggregatedMeasureMap;
+	private Map<String, AggregatedMeasure> derivedSingleInstanceAggregatedMeasureMap;
 
 	private Map<String, DerivedSingleInstanceMeasure> derivedSingleInstanceMeasureMap;
 	private Map<String, DerivedMultiInstanceMeasure> derivedMultiInstanceMeasureMap;
@@ -135,6 +136,7 @@ public class PpiNotXmlExtracter extends XmlExtracter {
 	private List<AggregatedMeasure> stateConditionAggregatedMeasureList;
 	private List<AggregatedMeasure> dataAggregatedMeasureList;
 	private List<AggregatedMeasure> dataPropertyConditionAggregatedMeasureList;
+	private List<AggregatedMeasure> derivedSingleInstanceAggregatedMeasureList;
 
 	private List<DerivedSingleInstanceMeasure> derivedSingleInstanceMeasureList;
 	private List<DerivedMultiInstanceMeasure> derivedMultiInstanceMeasureList;
@@ -171,6 +173,7 @@ public class PpiNotXmlExtracter extends XmlExtracter {
 		this.setStateConditionAggregatedMeasureMap(null);
 		this.setDataAggregatedMeasureMap(null);
 		this.setDataPropertyConditionAggregatedMeasureMap(null);
+		this.setDerivedSingleInstanceAggregatedMeasureMap(null);
 
 		this.setDerivedSingleInstanceMeasureMap(null);
 		this.setDerivedMultiInstanceMeasureMap(null);
@@ -492,6 +495,13 @@ public class PpiNotXmlExtracter extends XmlExtracter {
 			this.dataPropertyConditionAggregatedMeasureMap = new HashMap<String, AggregatedMeasure>();
 		return dataPropertyConditionAggregatedMeasureMap;
 	}
+	
+	public Map<String, AggregatedMeasure> getDerivedSingleInstanceAggregatedMeasureMap() {
+		
+		if (this.derivedSingleInstanceAggregatedMeasureMap==null)
+			this.derivedSingleInstanceAggregatedMeasureMap = new HashMap<String, AggregatedMeasure>();
+		return derivedSingleInstanceAggregatedMeasureMap;
+	}
 
 	private Map<String, DerivedSingleInstanceMeasure> getDerivedSingleInstanceMeasureMap() {
 		
@@ -594,6 +604,14 @@ public class PpiNotXmlExtracter extends XmlExtracter {
 		}
 	}
 
+	private void removeDerivedSingleInstanceAggregatedMeasureMap(String id) {
+		
+		if (this.derivedSingleInstanceAggregatedMeasureMap!=null && this.derivedSingleInstanceAggregatedMeasureMap.containsKey(id)) {
+			this.derivedSingleInstanceAggregatedMeasureList.remove(this.derivedSingleInstanceAggregatedMeasureMap.get(id));
+			this.derivedSingleInstanceAggregatedMeasureMap.remove(id);
+		}
+	}
+
 	private void removePpiModelMap(String id) {
 		
 		if (this.ppiModelMap!=null && this.ppiModelMap.containsKey(id)) {
@@ -640,6 +658,10 @@ public class PpiNotXmlExtracter extends XmlExtracter {
 
 	public void setDataPropertyConditionAggregatedMeasureMap(Map<String, AggregatedMeasure> dataPropertyConditionAggregatedMeasureMap) {
 		this.dataPropertyConditionAggregatedMeasureMap = dataPropertyConditionAggregatedMeasureMap;
+	}
+
+	public void setDerivedSingleInstanceAggregatedMeasureMap(Map<String, AggregatedMeasure> derivedSingleInstanceAggregatedMeasureMap) {
+		this.derivedSingleInstanceAggregatedMeasureMap = derivedSingleInstanceAggregatedMeasureMap;
 	}
 
 	public void setDerivedSingleInstanceMeasureMap(Map<String, DerivedSingleInstanceMeasure> derivedSingleInstanceMeasureMap) {
@@ -757,6 +779,11 @@ public class PpiNotXmlExtracter extends XmlExtracter {
 			measure = this.getDataPropertyConditionAggregatedMeasureMap().get(id);
 			if (remove)
 				this.removeDataPropertyConditionAggregatedMeasureMap(id);
+		} else 
+		if (this.getDerivedSingleInstanceAggregatedMeasureMap().containsKey(id)) {
+			measure = this.getDerivedSingleInstanceAggregatedMeasureMap().get(id);
+			if (remove)
+				this.removeDerivedSingleInstanceAggregatedMeasureMap(id);
 		} else {
 
 			Iterator<Entry<String, DerivedSingleInstanceMeasure>> itInst = this.getDerivedSingleInstanceMeasureMap().entrySet().iterator();
@@ -1373,6 +1400,43 @@ public class PpiNotXmlExtracter extends XmlExtracter {
 		
 		return def;
 	}
+	private AggregatedMeasure obtainModel( TAggregatedMeasure measure, TDerivedSingleInstanceMeasure baseMeasure) {
+		
+		if (this.getDerivedSingleInstanceAggregatedMeasureMap().containsKey(measure.getId()))
+			return this.getDerivedSingleInstanceAggregatedMeasureMap().get(measure.getId());
+		
+		// crea la definición de una medida agregada DataPropertyConditionMeasure a partir de la información en el xml
+		// el dataobject a la cual se aplica la medida se obtiene del conector de la medida agregada
+		AggregatedMeasure def = null;
+		
+
+		// crea la definición de la medida de instancia que tiene la información para calcular la medida agregada
+		// el dataobject al cual se aplica la medida se obtiene del conector de la medida agregada
+		DerivedSingleInstanceMeasure baseModel = this.obtainModel(baseMeasure);
+
+		for (TUses connector : findUses(measure)) {
+			
+			baseModel.addUsedMeasure( this.findConnectedMeasure(connector, false) );
+		}
+		
+		def = new AggregatedMeasure( 
+				measure.getId(), 
+				measure.getName(), 
+				measure.getDescription(),
+				measure.getScale(),
+				measure.getUnitofmeasure(),
+				measure.getAggregationfunction(), 
+				measure.getSamplingfrequency(),
+				baseModel);
+
+		TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class);
+		if (con!=null) {
+			def.setGroupedBy( new DataContentSelection(((TIsGroupedBy) con).getDataContentSelection(), 
+					((TDataObject) con.getTargetRef()).getName()) );
+		}
+		
+		return def;
+	}
 	private DerivedSingleInstanceMeasure obtainModel(TDerivedSingleInstanceMeasure measure) {
 		
 		if (this.getDerivedSingleInstanceMeasureMap().containsKey(measure.getId()))
@@ -1629,6 +1693,14 @@ public class PpiNotXmlExtracter extends XmlExtracter {
 		if (this.dataPropertyConditionAggregatedMeasureList==null)
 			this.dataPropertyConditionAggregatedMeasureList = new ArrayList<AggregatedMeasure>();
 		return dataPropertyConditionAggregatedMeasureList;
+	}
+	
+	@Override
+	public List<AggregatedMeasure> getDerivedSingleInstanceAggregatedMeasure() {
+
+		if (this.derivedSingleInstanceAggregatedMeasureList==null)
+			this.derivedSingleInstanceAggregatedMeasureList = new ArrayList<AggregatedMeasure>();
+		return derivedSingleInstanceAggregatedMeasureList;
 	}
 
 	/**
@@ -2542,6 +2614,30 @@ public class PpiNotXmlExtracter extends XmlExtracter {
 	}
 
 	@Override
+	public void setDerivedSingleInstanceAggregatedMeasure(List<AggregatedMeasure> modelList) {
+
+    	if (modelList!=null) {
+    		
+    	    Integer i = 1;
+			for (AggregatedMeasure def: modelList) {
+		    	
+				Map<String,Object> map = this.obtainInfo(def);
+
+	    		if (map.containsKey("measure"))
+	    			this.getAggregatedMap().put(((TAggregatedMeasure) map.get("measure")).getId(), (TAggregatedMeasure) map.get("measure"));
+		    	
+	    		if (map.containsKey("connectorUses")) {
+	    			
+	    			for ( TUses con : (List<TUses>) map.get("connectorUses"))
+	    				this.getUsesMap().put(con.getId(), con);
+	    		}
+	
+			    i++;
+			}
+    	}
+	}
+
+	@Override
 	public void setDerivedSingleInstanceMeasure(List<DerivedSingleInstanceMeasure> modelList) {
 
 	    if (modelList!=null) {
@@ -3050,10 +3146,13 @@ public class PpiNotXmlExtracter extends XmlExtracter {
 
 		Map<String, AggregatedMeasure> map10 = new HashMap<String, AggregatedMeasure>();	// DataPropertyCondition
 		List<AggregatedMeasure> modelList10 = new ArrayList<AggregatedMeasure>();
+
+		Map<String, AggregatedMeasure> map13 = new HashMap<String, AggregatedMeasure>();	// DerivedSingleInstance
+		List<AggregatedMeasure> modelList13 = new ArrayList<AggregatedMeasure>();
 		
 		for( TAggregatedMeasure measure : this.getPpiset().getAggregatedMeasure()) {
 			
-			TBaseMeasure baseMeasure;
+			TMeasure baseMeasure;
 
 			if(measure.getBaseMeasure()==null) {
 				
@@ -3094,6 +3193,11 @@ public class PpiNotXmlExtracter extends XmlExtracter {
 							
 							map10.put( def.getId(), def );
 							modelList10.add(def);
+						} else
+						if(baseModel instanceof DerivedSingleInstanceMeasure ) {
+							
+							map10.put( def.getId(), def );
+							modelList13.add(def);
 						}
 					}
 				}
@@ -3155,6 +3259,17 @@ public class PpiNotXmlExtracter extends XmlExtracter {
 						map10.put( def.getId(), def );
 						modelList10.add(def);
 					}
+				} else
+				if(baseMeasure instanceof TDerivedSingleInstanceMeasure ) {
+					
+					AggregatedMeasure def = this.obtainModel(measure, (TDerivedSingleInstanceMeasure) baseMeasure);
+	
+					this.searchPpi(measure, def);
+					
+					if (def!=null) {
+						map13.put( def.getId(), def );
+						modelList13.add(def);
+					}
 				}
 			}
 		}
@@ -3173,6 +3288,9 @@ public class PpiNotXmlExtracter extends XmlExtracter {
 
 		this.setDataPropertyConditionAggregatedMeasureMap(map10);	// Data Property Condition
 		this.dataPropertyConditionAggregatedMeasureList = modelList10;
+
+		this.setDerivedSingleInstanceAggregatedMeasureMap(map13);	// DerivedSingleInstance
+		this.derivedSingleInstanceAggregatedMeasureList = modelList13;
 		
 		// Medidas derivadas
 		

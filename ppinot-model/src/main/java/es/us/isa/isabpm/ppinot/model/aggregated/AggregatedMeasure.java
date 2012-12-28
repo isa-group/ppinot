@@ -25,7 +25,7 @@ public class AggregatedMeasure extends MeasureDefinition {
    /**
      * La medida que se agrega
      */
-    protected BaseMeasure baseMeasure;
+    protected MeasureDefinition baseMeasure;
     
     /**
      * Indica si la medida utiliza el conector aggregates o no
@@ -59,7 +59,7 @@ public class AggregatedMeasure extends MeasureDefinition {
      * @param samplingFrequency
      */
     public AggregatedMeasure(String id, String name, String description, String scale, String unitOfMeasure,
-    		String aggregationFunction, String samplingFrequency, BaseMeasure baseMeasure) {
+    		String aggregationFunction, String samplingFrequency, MeasureDefinition baseMeasure) {
     	
     	super(id, name, description, scale, unitOfMeasure);
     	
@@ -105,7 +105,7 @@ public class AggregatedMeasure extends MeasureDefinition {
      * 
      * @return La medida que se agrega
      */
-    public BaseMeasure getBaseMeasure() {
+    public MeasureDefinition getBaseMeasure() {
 
     	return this.baseMeasure;
     }
@@ -116,7 +116,7 @@ public class AggregatedMeasure extends MeasureDefinition {
      * 
      * @param baseMeasure La medida que se agrega
      */
-    public void setBaseMeasure(BaseMeasure baseMeasure) {
+    public void setBaseMeasure(MeasureDefinition baseMeasure) {
     	
     	this.baseMeasure = baseMeasure;
     }

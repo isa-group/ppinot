@@ -165,6 +165,7 @@ public abstract class XmlExtracter {
 	public abstract List<AggregatedMeasure> getStateConditionAggregatedMeasure();
 	public abstract List<AggregatedMeasure> getDataAggregatedMeasure();
 	public abstract List<AggregatedMeasure> getDataPropertyConditionAggregatedMeasure();
+	public abstract List<AggregatedMeasure> getDerivedSingleInstanceAggregatedMeasure();
 
 	public abstract List<DerivedSingleInstanceMeasure> getDerivedSingleInstanceMeasure();
 	public abstract List<DerivedMultiInstanceMeasure> getDerivedMultiInstanceMeasure();
@@ -186,6 +187,7 @@ public abstract class XmlExtracter {
 	public abstract void setStateConditionAggregatedMeasure(List<AggregatedMeasure> modelList);
 	public abstract void setDataAggregatedMeasure(List<AggregatedMeasure> modelList);
 	public abstract void setDataPropertyConditionAggregatedMeasure(List<AggregatedMeasure> modelList);
+	public abstract void setDerivedSingleInstanceAggregatedMeasure(List<AggregatedMeasure> modelList);
 
 	public abstract void setDerivedSingleInstanceMeasure(List<DerivedSingleInstanceMeasure> modelList);
 	public abstract void setDerivedMultiInstanceMeasure(List<DerivedMultiInstanceMeasure> modelList);

@@ -1,51 +1,52 @@
 package es.us.isa.ppinot.bpmnppinot_xml_owl.notation;
 
-public enum Vocabulary {
-	ACTIVITYEND, 
-	ACTIVITYSTART,
-	AGGREGATEDMEASURE,
-	AGGREGATES, 
-	APPLIESTO, 
-	COUNTMEASURE, 
-	CYCLICTIMEMEASURE,
-	DATAOUPUTASSOCIATION,
-	DATAMEASURE, 
-	DATAPROPERTYCONDITIONMEASURE, 
-	DATAPROPERTY, 
-	DEPENDSDIRECTLYON, 
-	DEPENDSINDIRECTLYON, 
-	DERIVEDMULTIINSTANCEMEASURE, 
-	DERIVEDSINGLEINSTANCEMEASURE, 
-	DIRECTLYDEPENDON,
-	END, 
-	FROM, 
-	FUNCTIONALPROPERTY,
-	IMPLIEDBPFLOWELEMENT, 
-	IMPLIEDXORGATEWAYFOR, 
-	INDIRECTLYDEPENDON,
-	INTERMEDIATE1,
-	ISCALCULATED, 
-	ISCOUNTIN, 
-	ISFROMFOR, 
-	ISGROUPEDBY, 
-	ISINPATHFOR, 
-	ISMEASUREDIN, 
-	ISMETBY, 
-	ISTOFOR, 
-	ISUSEDINCONDITION, 
-	GROUPS, 
-	LINEARTIMEMEASURE, 
-	MEASURESDATA, 
-	MEETS, 
-	PRECEDES, 
-	PROCESSINSTANCECONDITION,
-	STATECONDITIONMEASURE, 
-	START, 
-	SUCCEEDS, 
-	TIMEINSTANCE, 
-	TIMEINSTANT, 
-	TIMEMEASURE, 
-	TO, 
-	WHEN,  
-	WRITERACTIVITYFOR 
-};
+public final class Vocabulary {
+	
+	public static final String ACTIVITYEND = "ActivityEnd"; 
+	public static final String ACTIVITYSTART = "ActivityStart";
+	public static final String AGGREGATEDMEASURE = "AggregatedMeasure";
+	public static final String AGGREGATES = "aggregates"; 
+	public static final String APPLIESTO = "appliesTo"; 
+	public static final String COUNTMEASURE = "CountMeasure"; 
+	public static final String CYCLICTIMEMEASURE = "CyclicTimeMeasure";
+	public static final String DATAOUPUTASSOCIATION = "DataOutputAssociation";
+	public static final String DATAMEASURE = "DataMeasure"; 
+	public static final String DATAPROPERTYCONDITIONMEASURE = "DataPropertyConditionMeasure"; 
+	public static final String DATAPROPERTY = "dataProperty"; 
+	public static final String DEPENDSDIRECTLYON = "dependsDirectlyOn"; 
+	public static final String DEPENDSINDIRECTLYON = "dependsIndirectlyOn"; 
+	public static final String DERIVEDMULTIINSTANCEMEASURE = "DerivedMultiInstanceMeasure"; 
+	public static final String DERIVEDSINGLEINSTANCEMEASURE = "DerivedSingleInstanceMeasure"; 
+	public static final String DIRECTLYDEPENDON = "DirectlyDependOn";
+	public static final String END = "end"; 
+	public static final String FROM = "from"; 
+	public static final String FUNCTIONALPROPERTY = "FunctionalProperty";
+	public static final String IMPLIEDBPFLOWELEMENT = "ImpliedBPFlowElement"; 
+	public static final String IMPLIEDXORGATEWAYFOR = "ImpliedXorGatewayFor"; 
+	public static final String INDIRECTLYDEPENDON = "IndirectlyDependOn";
+	public static final String INTERMEDIATE1 = "Intermediate1";
+	public static final String ISCALCULATED = "isCalculated"; 
+	public static final String ISCOUNTIN = "isCountIn"; 
+	public static final String ISFROMFOR = "isFromFor"; 
+	public static final String ISGROUPEDBY = "isGroupedBy"; 
+	public static final String ISINPATHFOR = "isInPathFor"; 
+	public static final String ISMEASUREDIN = "isMeasuredIn"; 
+	public static final String ISMETBY = "isMetBy"; 
+	public static final String ISTOFOR = "isToFor"; 
+	public static final String ISUSEDINCONDITION = "isUsedInCondition"; 
+	public static final String GROUPS = "groups"; 
+	public static final String LINEARTIMEMEASURE = "LinearTimeMeasure"; 
+	public static final String MEASURESDATA = "measuresData"; 
+	public static final String MEETS = "meets"; 
+	public static final String PRECEDES = "precedes"; 
+	public static final String PROCESSINSTANCECONDITION = "ProcessInstanceCondition";
+	public static final String STATECONDITIONMEASURE = "StateConditionMeasure"; 
+	public static final String START = "start"; 
+	public static final String SUCCEEDS = "succeeds"; 
+	public static final String TIMEINSTANCE = "TimeInstance"; 
+	public static final String TIMEINSTANT = "TimeInstant"; 
+	public static final String TIMEMEASURE = "TimeMeasure"; 
+	public static final String TO = "to"; 
+	public static final String WHEN = "when";  
+	public static final String WRITERACTIVITYFOR = "WriterActivityFor";
+}

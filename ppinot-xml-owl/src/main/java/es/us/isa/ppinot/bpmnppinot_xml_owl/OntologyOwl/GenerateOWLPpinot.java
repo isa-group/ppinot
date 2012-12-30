@@ -26,7 +26,6 @@ import es.us.isa.isabpm.ppinot.model.base.DataPropertyConditionInstanceMeasure;
 import es.us.isa.isabpm.ppinot.model.base.StateConditionInstanceMeasure;
 import es.us.isa.isabpm.ppinot.model.base.TimeInstanceMeasure;
 import es.us.isa.isabpm.ppinot.model.state.GenericState;
-import es.us.isa.ppinot.bpmnppinot_xml_owl.notation.Translator;
 import es.us.isa.ppinot.bpmnppinot_xml_owl.notation.Vocabulary;
 import es.us.isa.isabpm.ppinot.model.condition.StateCondition;
 import es.us.isa.isabpm.ppinot.model.condition.DataPropertyCondition;
@@ -97,13 +96,13 @@ public class GenerateOWLPpinot {
 		
 		// adiciona el axioma con la medida
         OWLNamedIndividual measureIndividual = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+nameCountMeasure) );
-        OWLClass measureClass = factory.getOWLClass(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.COUNTMEASURE)));
+        OWLClass measureClass = factory.getOWLClass(IRI.create(orgppinot+"#"+Vocabulary.COUNTMEASURE));
         OWLClassAssertionAxiom classAssertionAxiom = factory.getOWLClassAssertionAxiom(measureClass, measureIndividual);
         ppinotMan.addAxiom(ppinotOnt, classAssertionAxiom);
 
 		// adiciona el axioma que indica el momento en que se aplica la medida
-        OWLNamedIndividual whenPropertyIndividual = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+Translator.translate(Vocabulary.TIMEINSTANCE)+nameCountMeasure) );
-        OWLObjectPropertyExpression whenObjectProperty = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.WHEN)));
+        OWLNamedIndividual whenPropertyIndividual = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+Vocabulary.TIMEINSTANCE+nameCountMeasure) );
+        OWLObjectPropertyExpression whenObjectProperty = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.WHEN));
         OWLObjectPropertyAssertionAxiom whenObjectPropertyAssertionAxiom = factory.getOWLObjectPropertyAssertionAxiom(whenObjectProperty, measureIndividual, whenPropertyIndividual);
         ppinotMan.addAxiom(ppinotOnt, whenObjectPropertyAssertionAxiom);
         
@@ -112,9 +111,9 @@ public class GenerateOWLPpinot {
         IRI classIri;
         if(type == "Activity"){
         	if(endActivity){
-        		classIri = IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.ACTIVITYEND));
+        		classIri = IRI.create(orgppinot+"#"+Vocabulary.ACTIVITYEND);
         	}else{
-        		classIri = IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.ACTIVITYSTART));
+        		classIri = IRI.create(orgppinot+"#"+Vocabulary.ACTIVITYSTART);
         	}
         }else{
         	classIri = IRI.create(orgbpmn+"#"+type);
@@ -126,7 +125,7 @@ public class GenerateOWLPpinot {
         // adiciona el axioma que indica que la propiedad appliesTo del individual whenPropertyIndividual tiene el valor bpmnElement
         String elementName = timeInstant[0];
         OWLNamedIndividual bpmnElement = factory.getOWLNamedIndividual( IRI.create(fileOWLBpmn+"#"+elementName) );
-        OWLObjectPropertyExpression appliesToObjectProperty = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.APPLIESTO)));
+        OWLObjectPropertyExpression appliesToObjectProperty = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.APPLIESTO));
         OWLObjectPropertyAssertionAxiom propertyAssertionappliesTo = factory.getOWLObjectPropertyAssertionAxiom(appliesToObjectProperty, whenPropertyIndividual, bpmnElement);
         ppinotMan.addAxiom(ppinotOnt, propertyAssertionappliesTo);
         
@@ -157,22 +156,22 @@ public class GenerateOWLPpinot {
         OWLNamedIndividual measureIndividual = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+nameTimeMeasure) );
         IRI classIri;
         if (timeMeasureType!=null && timeMeasureType.toLowerCase().contentEquals("cyclic"))
-        	classIri = IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.CYCLICTIMEMEASURE));
+        	classIri = IRI.create(orgppinot+"#"+Vocabulary.CYCLICTIMEMEASURE);
         else
-        	classIri = IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.LINEARTIMEMEASURE));
+        	classIri = IRI.create(orgppinot+"#"+Vocabulary.LINEARTIMEMEASURE);
         OWLClass measureClass = factory.getOWLClass( classIri );
         OWLClassAssertionAxiom classAssertionAxiom = factory.getOWLClassAssertionAxiom(measureClass, measureIndividual);
         ppinotMan.addAxiom(ppinotOnt, classAssertionAxiom);
         
         // adiciona el axioma que indica el valor de la propiedad from de la medida
         String nameActivityFrom = timeInstantActivityFrom[0];
-        OWLObjectPropertyExpression fromObjectProperty = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.FROM)));
-        OWLNamedIndividual fromIndividual = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+Translator.translate(Vocabulary.START)+nameActivityFrom) );
+        OWLObjectPropertyExpression fromObjectProperty = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.FROM));
+        OWLNamedIndividual fromIndividual = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+Vocabulary.START+nameActivityFrom) );
         OWLObjectPropertyAssertionAxiom fromObjectPropertyAssertionAxiom = factory.getOWLObjectPropertyAssertionAxiom(fromObjectProperty, measureIndividual, fromIndividual);
         ppinotMan.addAxiom(ppinotOnt, fromObjectPropertyAssertionAxiom);
         
         // adiciona el  axioma que indica la actividad desde la cual se aplica la medida
-        OWLObjectPropertyExpression fromAppliesTo = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.APPLIESTO)));
+        OWLObjectPropertyExpression fromAppliesTo = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.APPLIESTO));
         OWLNamedIndividual fromDataObjectElement = factory.getOWLNamedIndividual( IRI.create(fileOWLBpmn+"#"+nameActivityFrom) );
         OWLObjectPropertyAssertionAxiom fromAppliesToObjectPropertyAssertionAxiom = factory.getOWLObjectPropertyAssertionAxiom(fromAppliesTo, fromIndividual, fromDataObjectElement);
         ppinotMan.addAxiom(ppinotOnt, fromAppliesToObjectPropertyAssertionAxiom);
@@ -180,13 +179,13 @@ public class GenerateOWLPpinot {
         
         // adiciona el axioma que indica el valor de la propiedad to de la medida
         String nameActivityTo = timeInstantActivityTo[0];
-        OWLObjectPropertyExpression toObjectProperty = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.TO)));
-        OWLNamedIndividual toIndividual = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+Translator.translate(Vocabulary.END)+nameActivityTo) );
+        OWLObjectPropertyExpression toObjectProperty = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.TO));
+        OWLNamedIndividual toIndividual = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+Vocabulary.END+nameActivityTo) );
         OWLObjectPropertyAssertionAxiom toObjectPropertyAssertionAxiom = factory.getOWLObjectPropertyAssertionAxiom(toObjectProperty, measureIndividual, toIndividual);
         ppinotMan.addAxiom(ppinotOnt, toObjectPropertyAssertionAxiom);
         
         // adiciona el  axioma que indica la actividad hasta la cual se aplica la medida
-        OWLObjectPropertyExpression toAppliesTo = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.APPLIESTO)));
+        OWLObjectPropertyExpression toAppliesTo = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.APPLIESTO));
         OWLNamedIndividual toDataObjectElement = factory.getOWLNamedIndividual( IRI.create(fileOWLBpmn+"#"+nameActivityTo) );
         OWLObjectPropertyAssertionAxiom toAppliesToObjectPropertyAssertionAxiom = factory.getOWLObjectPropertyAssertionAxiom(toAppliesTo, toIndividual, toDataObjectElement);
         ppinotMan.addAxiom(ppinotOnt, toAppliesToObjectPropertyAssertionAxiom);
@@ -196,9 +195,9 @@ public class GenerateOWLPpinot {
         IRI fromIri;
         if(typeActivityFrom == "Activity"){
         	if(conectorEndFrom){
-        		fromIri = IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.ACTIVITYEND));
+        		fromIri = IRI.create(orgppinot+"#"+Vocabulary.ACTIVITYEND);
         	}else{
-        		fromIri = IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.ACTIVITYSTART));
+        		fromIri = IRI.create(orgppinot+"#"+Vocabulary.ACTIVITYSTART);
         	}
         }else{
         	fromIri = IRI.create(orgbpmn+"#"+typeActivityFrom);
@@ -211,9 +210,9 @@ public class GenerateOWLPpinot {
         IRI toIri;
         if(typeActivityTo == "Activity"){
         	if(conectorEndTo){
-        		toIri = IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.ACTIVITYEND));
+        		toIri = IRI.create(orgppinot+"#"+Vocabulary.ACTIVITYEND);
         	}else{
-        		toIri = IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.ACTIVITYSTART));
+        		toIri = IRI.create(orgppinot+"#"+Vocabulary.ACTIVITYSTART);
         	}
         }else{
         	toIri = IRI.create(orgbpmn+"#"+typeActivityFrom);
@@ -245,25 +244,25 @@ public class GenerateOWLPpinot {
 
         // adiciona el axioma de la clase de la medida
         OWLNamedIndividual DataObjNameIndividualMeasure = factory.getOWLNamedIndividual(IRI.create(fileOWLPpinot+"#"+nameElementCondMeasure));
-        OWLClass classCountMeasure = factory.getOWLClass( IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.STATECONDITIONMEASURE)) );
+        OWLClass classCountMeasure = factory.getOWLClass( IRI.create(orgppinot+"#"+Vocabulary.STATECONDITIONMEASURE)) ;
         OWLClassAssertionAxiom classAssertionCountMeasure = factory.getOWLClassAssertionAxiom(classCountMeasure, DataObjNameIndividualMeasure);
         ppinotMan.addAxiom(ppinotOnt, classAssertionCountMeasure);
 
         // adiciona el axioma con la restriccion de la medida
         OWLNamedIndividual dataObjectInstant = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+nameElementCondMeasure+restriction) );
-        OWLObjectPropertyExpression meetsIC = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.MEETS)));
+        OWLObjectPropertyExpression meetsIC = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.MEETS));
         OWLObjectPropertyAssertionAxiom propertyAssertionmeets = factory.getOWLObjectPropertyAssertionAxiom(meetsIC, DataObjNameIndividualMeasure, dataObjectInstant);
         ppinotMan.addAxiom(ppinotOnt, propertyAssertionmeets);
         
         // adiciona el axioma con la clase de la restriccion
-        OWLClass restrictionClass = factory.getOWLClass( IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.FUNCTIONALPROPERTY)) );
+        OWLClass restrictionClass = factory.getOWLClass( IRI.create(orgppinot+"#"+Vocabulary.FUNCTIONALPROPERTY)) ;
         OWLClassAssertionAxiom restrictionClassAssertionAxiom = factory.getOWLClassAssertionAxiom(restrictionClass, dataObjectInstant);
         ppinotMan.addAxiom(ppinotOnt, restrictionClassAssertionAxiom);
 
         // adiciona el axioma que indica a que elemento se aplica la medida
         String nameElement = elementConditionActivity[0];
         OWLNamedIndividual dataObjectElement = factory.getOWLNamedIndividual( IRI.create(orgbpmn+"#"+nameElement) );
-        OWLObjectPropertyExpression appliesTo = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.APPLIESTO)));
+        OWLObjectPropertyExpression appliesTo = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.APPLIESTO));
         OWLObjectPropertyAssertionAxiom propertyAssertionappliesTo = factory.getOWLObjectPropertyAssertionAxiom(appliesTo, dataObjectInstant, dataObjectElement);
         ppinotMan.addAxiom(ppinotOnt, propertyAssertionappliesTo);
          
@@ -287,23 +286,23 @@ public class GenerateOWLPpinot {
 		
 		// adiciona el axioma que indica la clase de la medida
 		OWLNamedIndividual DataObjNameIndividualMeasure = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+nameDataCondMeasure) );
-        OWLClass classCountMeasure = factory.getOWLClass( IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.DATAPROPERTYCONDITIONMEASURE)) );
+        OWLClass classCountMeasure = factory.getOWLClass( IRI.create(orgppinot+"#"+Vocabulary.DATAPROPERTYCONDITIONMEASURE)) ;
         OWLClassAssertionAxiom classAssertionCountMeasure = factory.getOWLClassAssertionAxiom(classCountMeasure, DataObjNameIndividualMeasure);
         ppinotMan.addAxiom(ppinotOnt, classAssertionCountMeasure);
 		
 		// adiciona el axioma de la restriccion de la medida
-        OWLObjectPropertyExpression meetsIC = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.MEETS)));
+        OWLObjectPropertyExpression meetsIC = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.MEETS));
         OWLNamedIndividual dataObjectInstant = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+nameDataCondMeasure+restriction) );
         OWLObjectPropertyAssertionAxiom propertyAssertionmeets = factory.getOWLObjectPropertyAssertionAxiom(meetsIC, DataObjNameIndividualMeasure, dataObjectInstant);
         ppinotMan.addAxiom(ppinotOnt, propertyAssertionmeets);
         
         // adiciona el axioma con la clase de la restriccion
-        OWLClass restrictionClass = factory.getOWLClass( IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.FUNCTIONALPROPERTY)) );
+        OWLClass restrictionClass = factory.getOWLClass( IRI.create(orgppinot+"#"+Vocabulary.FUNCTIONALPROPERTY)) ;
         OWLClassAssertionAxiom restrictionClassAssertionAxiom = factory.getOWLClassAssertionAxiom(restrictionClass, dataObjectInstant);
         ppinotMan.addAxiom(ppinotOnt, restrictionClassAssertionAxiom);
        
         // adiciona el axioma que indica el elemento al que se aplica la medida
-        OWLObjectPropertyExpression appliesTo = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.APPLIESTO)));
+        OWLObjectPropertyExpression appliesTo = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.APPLIESTO));
         OWLNamedIndividual dataObjectElement = factory.getOWLNamedIndividual( IRI.create(fileOWLBpmn+"#"+dataObject) );
         OWLObjectPropertyAssertionAxiom propertyAssertionappliesTo = factory.getOWLObjectPropertyAssertionAxiom(appliesTo, dataObjectInstant, dataObjectElement);
         ppinotMan.addAxiom(ppinotOnt, propertyAssertionappliesTo);	
@@ -328,12 +327,12 @@ public class GenerateOWLPpinot {
 
 		// adiciona el axioma que indica la clase de la medida
         OWLNamedIndividual DataObjNameIndividualMeasure = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+nameElementMeasure) );
-        OWLClass classCountMeasure = factory.getOWLClass( IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.DATAMEASURE)) );
+        OWLClass classCountMeasure = factory.getOWLClass( IRI.create(orgppinot+"#"+Vocabulary.DATAMEASURE)) ;
         OWLClassAssertionAxiom classAssertionCountMeasure = factory.getOWLClassAssertionAxiom(classCountMeasure, DataObjNameIndividualMeasure);
         ppinotMan.addAxiom(ppinotOnt, classAssertionCountMeasure);
 		
         // adiciona el axioma que indica a que elemento se aplica la medida
-        OWLObjectPropertyExpression appliesTo = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.MEASURESDATA)));
+        OWLObjectPropertyExpression appliesTo = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.MEASURESDATA));
         OWLNamedIndividual dataObjectInstant = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+dataObject) );
         OWLObjectPropertyAssertionAxiom propertyAssertionmeets = factory.getOWLObjectPropertyAssertionAxiom(appliesTo, DataObjNameIndividualMeasure, dataObjectInstant);
         ppinotMan.addAxiom(ppinotOnt, propertyAssertionmeets);
@@ -371,25 +370,25 @@ public class GenerateOWLPpinot {
 		
 		// adiciona el axioma que indica la medida que esta siendo agregada
         OWLNamedIndividual DataObjNameIndividual = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+nameCountAggregatedMeasure) );
-        OWLObjectPropertyExpression aggregates = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.AGGREGATES)));
+        OWLObjectPropertyExpression aggregates = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.AGGREGATES));
         OWLObjectPropertyAssertionAxiom propertyAssertion = factory.getOWLObjectPropertyAssertionAxiom(aggregates, DataObjNameIndividualMeasure, DataObjNameIndividual);
         ppinotMan.addAxiom(ppinotOnt, propertyAssertion);
          
         // adiciona el axioma que indica la clase de la medida que esta siendo agregada
-        OWLClass classIntermediateCountMeasure = factory.getOWLClass( IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.COUNTMEASURE)) );
+        OWLClass classIntermediateCountMeasure = factory.getOWLClass( IRI.create(orgppinot+"#"+Vocabulary.COUNTMEASURE)) ;
         OWLClassAssertionAxiom classIntermediateAssertionCountMeasure = factory.getOWLClassAssertionAxiom(classIntermediateCountMeasure, DataObjNameIndividual);
         ppinotMan.addAxiom(ppinotOnt, classIntermediateAssertionCountMeasure);
         //--------------------------------------------
         
         // adiciona el axioma que indica en que momento se aplica la medida
-        OWLObjectPropertyExpression meets = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.WHEN)));
-        OWLNamedIndividual dataObjectInstant = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+Translator.translate(Vocabulary.TIMEINSTANT)+nameCountAggregatedMeasure) );
+        OWLObjectPropertyExpression meets = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.WHEN));
+        OWLNamedIndividual dataObjectInstant = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+Vocabulary.TIMEINSTANT+nameCountAggregatedMeasure) );
         OWLObjectPropertyAssertionAxiom propertyAssertionmeets = factory.getOWLObjectPropertyAssertionAxiom(meets, DataObjNameIndividual, dataObjectInstant);
         ppinotMan.addAxiom(ppinotOnt, propertyAssertionmeets);
         
         // adiciona el axioma que indica a que elemento se aplica la medida
         String nameElement = timeInstant[0];
-        OWLObjectPropertyExpression appliesTo = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.APPLIESTO)));
+        OWLObjectPropertyExpression appliesTo = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.APPLIESTO));
         OWLNamedIndividual dataObjectElement = factory.getOWLNamedIndividual( IRI.create(fileOWLBpmn+"#"+nameElement) );
         OWLObjectPropertyAssertionAxiom propertyAssertionappliesTo = factory.getOWLObjectPropertyAssertionAxiom(appliesTo, dataObjectInstant, dataObjectElement);
         ppinotMan.addAxiom(ppinotOnt, propertyAssertionappliesTo);
@@ -399,9 +398,9 @@ public class GenerateOWLPpinot {
         IRI classIri;
         if(type == "Activity"){
         	if(endActivity){
-        		classIri = IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.ACTIVITYEND));
+        		classIri = IRI.create(orgppinot+"#"+Vocabulary.ACTIVITYEND);
         	}else{
-        		classIri = IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.ACTIVITYSTART));
+        		classIri = IRI.create(orgppinot+"#"+Vocabulary.ACTIVITYSTART);
         	}
         }else{
         	classIri = IRI.create(orgbpmn+"#"+type);
@@ -450,26 +449,26 @@ public class GenerateOWLPpinot {
 			
 		// adiciona el axioma que indica la medida que esta siendo agregada
 	    OWLNamedIndividual DataObjNameIndividual = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+nameTimeAggregatedMeasure) );
-	    OWLObjectPropertyExpression aggregates = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.AGGREGATES)));
+	    OWLObjectPropertyExpression aggregates = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.AGGREGATES));
 	    OWLObjectPropertyAssertionAxiom propertyAssertion = factory.getOWLObjectPropertyAssertionAxiom(aggregates, DataObjNameIndividualMeasure, DataObjNameIndividual);
 	    ppinotMan.addAxiom(ppinotOnt, propertyAssertion);
 	      
 	    // adiciona el axioma que indica la clase de la medida que esta siendo agregada
-	    OWLClass classIntermediateMeasure = factory.getOWLClass( IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.TIMEMEASURE)) );
+	    OWLClass classIntermediateMeasure = factory.getOWLClass( IRI.create(orgppinot+"#"+Vocabulary.TIMEMEASURE)) ;
 	    OWLClassAssertionAxiom classIntermediateAssertionMeasure = factory.getOWLClassAssertionAxiom(classIntermediateMeasure, DataObjNameIndividual);
 	    ppinotMan.addAxiom(ppinotOnt, classIntermediateAssertionMeasure);
 	    //--------------------------------------------
 
 	    // FROM
         // adiciona el axioma que indica en que momento se aplica la medida
-        OWLObjectPropertyExpression from = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.FROM)));
-        OWLNamedIndividual fromDataObjectInstant = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+Translator.translate(Vocabulary.TIMEINSTANT)+nameTimeAggregatedMeasure+"From") );
+        OWLObjectPropertyExpression from = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.FROM));
+        OWLNamedIndividual fromDataObjectInstant = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+Vocabulary.TIMEINSTANT+nameTimeAggregatedMeasure+"From") );
         OWLObjectPropertyAssertionAxiom fromPropertyAssertionmeets = factory.getOWLObjectPropertyAssertionAxiom(from, DataObjNameIndividual, fromDataObjectInstant);
         ppinotMan.addAxiom(ppinotOnt, fromPropertyAssertionmeets);
         
         // adiciona el axioma que indica a que elemento se aplica la medida
         String nameElementFrom = timeInstantActivityFrom[0];
-        OWLObjectPropertyExpression fromAppliesTo = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.APPLIESTO)));
+        OWLObjectPropertyExpression fromAppliesTo = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.APPLIESTO));
         OWLNamedIndividual fromDataObjectElement = factory.getOWLNamedIndividual( IRI.create(fileOWLBpmn+"#"+nameElementFrom) );
         OWLObjectPropertyAssertionAxiom fromPropertyAssertionappliesTo = factory.getOWLObjectPropertyAssertionAxiom(fromAppliesTo, fromDataObjectInstant, fromDataObjectElement);
         ppinotMan.addAxiom(ppinotOnt, fromPropertyAssertionappliesTo);
@@ -479,9 +478,9 @@ public class GenerateOWLPpinot {
         IRI classIriFrom;
         if(typeFrom == "Activity"){
         	if(conectorEndFrom){
-        		classIriFrom = IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.ACTIVITYEND));
+        		classIriFrom = IRI.create(orgppinot+"#"+Vocabulary.ACTIVITYEND);
         	}else{
-        		classIriFrom = IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.ACTIVITYSTART));
+        		classIriFrom = IRI.create(orgppinot+"#"+Vocabulary.ACTIVITYSTART);
         	}
         }else{
         	classIriFrom = IRI.create(orgbpmn+"#"+typeFrom);
@@ -492,14 +491,14 @@ public class GenerateOWLPpinot {
  
 	    // TO
         // adiciona el axioma que indica en que momento se aplica la medida
-        OWLObjectPropertyExpression to = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.TO)));
-        OWLNamedIndividual toDataObjectInstant = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+Translator.translate(Vocabulary.TIMEINSTANT)+nameTimeAggregatedMeasure+"To") );
+        OWLObjectPropertyExpression to = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.TO));
+        OWLNamedIndividual toDataObjectInstant = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+Vocabulary.TIMEINSTANT+nameTimeAggregatedMeasure+"To") );
         OWLObjectPropertyAssertionAxiom toPropertyAssertionmeets = factory.getOWLObjectPropertyAssertionAxiom(to, DataObjNameIndividual, toDataObjectInstant);
         ppinotMan.addAxiom(ppinotOnt, toPropertyAssertionmeets);
         
         // adiciona el axioma que indica a que elemento se aplica la medida
         String nameElementTo = timeInstantActivityTo[0];
-        OWLObjectPropertyExpression toAppliesTo = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.APPLIESTO)));
+        OWLObjectPropertyExpression toAppliesTo = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.APPLIESTO));
         OWLNamedIndividual toDataObjectElement = factory.getOWLNamedIndividual( IRI.create(fileOWLBpmn+"#"+nameElementTo) );
         OWLObjectPropertyAssertionAxiom toPropertyAssertionappliesTo = factory.getOWLObjectPropertyAssertionAxiom(toAppliesTo, toDataObjectInstant, toDataObjectElement);
         ppinotMan.addAxiom(ppinotOnt, toPropertyAssertionappliesTo);
@@ -509,9 +508,9 @@ public class GenerateOWLPpinot {
         IRI classIriTo;
         if(typeTo == "Activity"){
         	if(conectorEndTo){
-        		classIriTo = IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.ACTIVITYEND));
+        		classIriTo = IRI.create(orgppinot+"#"+Vocabulary.ACTIVITYEND);
         	}else{
-        		classIriTo = IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.ACTIVITYSTART));
+        		classIriTo = IRI.create(orgppinot+"#"+Vocabulary.ACTIVITYSTART);
         	}
         }else{
         	classIriTo = IRI.create(orgbpmn+"#"+typeFrom);
@@ -560,35 +559,35 @@ public class GenerateOWLPpinot {
 			
 		// adiciona el axioma que indica la medida que esta siendo agregada
 	    OWLNamedIndividual DataObjNameIndividual = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+nameElementCondMeasure) );
-	    OWLObjectPropertyExpression aggregates = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.AGGREGATES)));
+	    OWLObjectPropertyExpression aggregates = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.AGGREGATES));
 	    OWLObjectPropertyAssertionAxiom propertyAssertion = factory.getOWLObjectPropertyAssertionAxiom(aggregates, DataObjNameIndividualMeasure, DataObjNameIndividual);
 	    ppinotMan.addAxiom(ppinotOnt, propertyAssertion);
 	      
 	    // adiciona el axioma que indica la clase de la medida que esta siendo agregada
-	    OWLClass classIntermediateMeasure = factory.getOWLClass( IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.STATECONDITIONMEASURE)) );
+	    OWLClass classIntermediateMeasure = factory.getOWLClass( IRI.create(orgppinot+"#"+Vocabulary.STATECONDITIONMEASURE)) ;
 	    OWLClassAssertionAxiom classIntermediateAssertionMeasure = factory.getOWLClassAssertionAxiom(classIntermediateMeasure, DataObjNameIndividual);
 	    ppinotMan.addAxiom(ppinotOnt, classIntermediateAssertionMeasure);
 	    //--------------------------------------------
 		
 		// adiciona el axioma de la restriccion de la medida
-        OWLObjectPropertyExpression meetsIC = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.MEETS)));
+        OWLObjectPropertyExpression meetsIC = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.MEETS));
         OWLNamedIndividual dataObjectInstant = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+nameElementCondMeasure+restriction) );
         OWLObjectPropertyAssertionAxiom propertyAssertionmeets = factory.getOWLObjectPropertyAssertionAxiom(meetsIC, DataObjNameIndividual, dataObjectInstant);
         ppinotMan.addAxiom(ppinotOnt, propertyAssertionmeets);
         
         // adiciona el axioma con la clase de la restriccion
-        OWLClass restrictionClass = factory.getOWLClass( IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.FUNCTIONALPROPERTY)) );
+        OWLClass restrictionClass = factory.getOWLClass( IRI.create(orgppinot+"#"+Vocabulary.FUNCTIONALPROPERTY)) ;
         OWLClassAssertionAxiom restrictionClassAssertionAxiom = factory.getOWLClassAssertionAxiom(restrictionClass, dataObjectInstant);
         ppinotMan.addAxiom(ppinotOnt, restrictionClassAssertionAxiom);
        
         // adiciona el axioma que indica el elemento al que se aplica la medida
-        OWLObjectPropertyExpression appliesTo = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.APPLIESTO)));
+        OWLObjectPropertyExpression appliesTo = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.APPLIESTO));
         OWLNamedIndividual dataObjectElement = factory.getOWLNamedIndividual( IRI.create(fileOWLBpmn+"#"+elementConditionActivity[0]) );
         OWLObjectPropertyAssertionAxiom propertyAssertionappliesTo = factory.getOWLObjectPropertyAssertionAxiom(appliesTo, dataObjectInstant, dataObjectElement);
         ppinotMan.addAxiom(ppinotOnt, propertyAssertionappliesTo);	
 
         ArrayList<Object> dataQueries = new ArrayList<Object>();
-        dataQueries.add(nameElementCondMeasure+Translator.translate(Vocabulary.INTERMEDIATE1));
+        dataQueries.add(nameElementCondMeasure+Vocabulary.INTERMEDIATE1);
         dataQueries.add(DataObjNameIndividualMeasure);
         dataQueries.add(nameElementCondMeasure);
         dataQueries.add(DataObjNameIndividual);
@@ -624,29 +623,29 @@ public class GenerateOWLPpinot {
 			
 		// adiciona el axioma que indica la medida que esta siendo agregada
 	    OWLNamedIndividual DataObjNameIndividual = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+nameDataCondMeasure) );
-	    OWLObjectPropertyExpression aggregates = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.AGGREGATES)));
+	    OWLObjectPropertyExpression aggregates = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.AGGREGATES));
 	    OWLObjectPropertyAssertionAxiom propertyAssertion = factory.getOWLObjectPropertyAssertionAxiom(aggregates, DataObjNameIndividualMeasure, DataObjNameIndividual);
 	    ppinotMan.addAxiom(ppinotOnt, propertyAssertion);
 	      
 	    // adiciona el axioma que indica la clase de la medida que esta siendo agregada
-	    OWLClass classIntermediateMeasure = factory.getOWLClass( IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.DATAPROPERTYCONDITIONMEASURE)) );
+	    OWLClass classIntermediateMeasure = factory.getOWLClass( IRI.create(orgppinot+"#"+Vocabulary.DATAPROPERTYCONDITIONMEASURE)) ;
 	    OWLClassAssertionAxiom classIntermediateAssertionMeasure = factory.getOWLClassAssertionAxiom(classIntermediateMeasure, DataObjNameIndividual);
 	    ppinotMan.addAxiom(ppinotOnt, classIntermediateAssertionMeasure);
 	    //--------------------------------------------
 
 		// adiciona el axioma de la restriccion de la medida
-        OWLObjectPropertyExpression meetsIC = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.MEETS)));
+        OWLObjectPropertyExpression meetsIC = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.MEETS));
         OWLNamedIndividual dataObjectInstant = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+nameDataCondMeasure+restriction) );
         OWLObjectPropertyAssertionAxiom propertyAssertionmeets = factory.getOWLObjectPropertyAssertionAxiom(meetsIC, DataObjNameIndividual, dataObjectInstant);
         ppinotMan.addAxiom(ppinotOnt, propertyAssertionmeets);
         
         // adiciona el axioma con la clase de la restriccion
-        OWLClass restrictionClass = factory.getOWLClass( IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.FUNCTIONALPROPERTY)) );
+        OWLClass restrictionClass = factory.getOWLClass( IRI.create(orgppinot+"#"+Vocabulary.FUNCTIONALPROPERTY)) ;
         OWLClassAssertionAxiom restrictionClassAssertionAxiom = factory.getOWLClassAssertionAxiom(restrictionClass, dataObjectInstant);
         ppinotMan.addAxiom(ppinotOnt, restrictionClassAssertionAxiom);
        
         // adiciona el axioma que indica el elemento al que se aplica la medida
-        OWLObjectPropertyExpression appliesTo = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.APPLIESTO)));
+        OWLObjectPropertyExpression appliesTo = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.APPLIESTO));
         OWLNamedIndividual dataObjectElement = factory.getOWLNamedIndividual( IRI.create(fileOWLBpmn+"#"+dataObject) );
         OWLObjectPropertyAssertionAxiom propertyAssertionappliesTo = factory.getOWLObjectPropertyAssertionAxiom(appliesTo, dataObjectInstant, dataObjectElement);
         ppinotMan.addAxiom(ppinotOnt, propertyAssertionappliesTo);	
@@ -688,18 +687,18 @@ public class GenerateOWLPpinot {
 			
 		// adiciona el axioma que indica la medida que esta siendo agregada
 	    OWLNamedIndividual DataObjNameIndividual = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+nameElementMeasure) );
-	    OWLObjectPropertyExpression aggregates = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.AGGREGATES)));
+	    OWLObjectPropertyExpression aggregates = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.AGGREGATES));
 	    OWLObjectPropertyAssertionAxiom propertyAssertion = factory.getOWLObjectPropertyAssertionAxiom(aggregates, DataObjNameIndividualMeasure, DataObjNameIndividual);
 	    ppinotMan.addAxiom(ppinotOnt, propertyAssertion);
 	      
 	    // adiciona el axioma que indica la clase de la medida que esta siendo agregada
-	    OWLClass classIntermediateMeasure = factory.getOWLClass( IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.DATAMEASURE)) );
+	    OWLClass classIntermediateMeasure = factory.getOWLClass( IRI.create(orgppinot+"#"+Vocabulary.DATAMEASURE)) ;
 	    OWLClassAssertionAxiom classIntermediateAssertionMeasure = factory.getOWLClassAssertionAxiom(classIntermediateMeasure, DataObjNameIndividual);
 	    ppinotMan.addAxiom(ppinotOnt, classIntermediateAssertionMeasure);
 	    //--------------------------------------------
 		
         // adiciona el axioma que indica a que elemento se aplica la medida
-        OWLObjectPropertyExpression appliesTo = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.MEASURESDATA)));
+        OWLObjectPropertyExpression appliesTo = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.MEASURESDATA));
         OWLNamedIndividual dataObjectInstant = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+dataObject) );
         OWLObjectPropertyAssertionAxiom propertyAssertionmeets = factory.getOWLObjectPropertyAssertionAxiom(appliesTo, DataObjNameIndividual, dataObjectInstant);
         ppinotMan.addAxiom(ppinotOnt, propertyAssertionmeets);
@@ -788,18 +787,18 @@ public class GenerateOWLPpinot {
 			
 		// adiciona el axioma que indica la medida que esta siendo agregada
 	    OWLNamedIndividual DataObjNameIndividual = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+nameElementMeasure) );
-	    OWLObjectPropertyExpression aggregates = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.AGGREGATES)));
+	    OWLObjectPropertyExpression aggregates = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.AGGREGATES));
 	    OWLObjectPropertyAssertionAxiom propertyAssertion = factory.getOWLObjectPropertyAssertionAxiom(aggregates, DataObjNameIndividualMeasure, DataObjNameIndividual);
 	    ppinotMan.addAxiom(ppinotOnt, propertyAssertion);
 	      
 	    // adiciona el axioma que indica la clase de la medida que esta siendo agregada
-	    OWLClass classIntermediateMeasure = factory.getOWLClass( IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.DERIVEDSINGLEINSTANCEMEASURE)) );
+	    OWLClass classIntermediateMeasure = factory.getOWLClass( IRI.create(orgppinot+"#"+Vocabulary.DERIVEDSINGLEINSTANCEMEASURE));
 	    OWLClassAssertionAxiom classIntermediateAssertionMeasure = factory.getOWLClassAssertionAxiom(classIntermediateMeasure, DataObjNameIndividual);
 	    ppinotMan.addAxiom(ppinotOnt, classIntermediateAssertionMeasure);
 	    //--------------------------------------------
 		
 		// adiciona el axioma con la relacion de la medida A y la medida derivada
-		OWLObjectPropertyExpression isCalculated = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.ISCALCULATED)));
+		OWLObjectPropertyExpression isCalculated = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.ISCALCULATED));
 		OWLNamedIndividual measureA = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+nameMeasureA) );
 		OWLObjectPropertyAssertionAxiom propertyAssertionmeetsA = factory.getOWLObjectPropertyAssertionAxiom(isCalculated, DataObjNameIndividual, measureA);
 		ppinotMan.addAxiom(ppinotOnt, propertyAssertionmeetsA);
@@ -891,12 +890,12 @@ public class GenerateOWLPpinot {
 		
 		// adiciona el axioma de la medida
 		OWLNamedIndividual DataObjNameIndividualMeasure = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+nameDerivedMultiInstance) );
-        OWLClass classDerivedMeasure = factory.getOWLClass(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.DERIVEDMULTIINSTANCEMEASURE)));
+        OWLClass classDerivedMeasure = factory.getOWLClass(IRI.create(orgppinot+"#"+Vocabulary.DERIVEDMULTIINSTANCEMEASURE));
         OWLClassAssertionAxiom classAssertionDerivedMeasure = factory.getOWLClassAssertionAxiom(classDerivedMeasure, DataObjNameIndividualMeasure);
         ppinotMan.addAxiom(ppinotOnt, classAssertionDerivedMeasure);
         
         // adiciona el axioma con la relacion de la medida A y la medida derivada
-        OWLObjectPropertyExpression isCalculated = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.ISCALCULATED)));
+        OWLObjectPropertyExpression isCalculated = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.ISCALCULATED));
         OWLNamedIndividual measureA = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+nameMeasureA ));
         OWLObjectPropertyAssertionAxiom propertyAssertionmeetsA = factory.getOWLObjectPropertyAssertionAxiom(isCalculated, DataObjNameIndividualMeasure, measureA);
         ppinotMan.addAxiom(ppinotOnt, propertyAssertionmeetsA);
@@ -981,12 +980,12 @@ public class GenerateOWLPpinot {
 		        
 		// adiciona el axioma de la medida
 		OWLNamedIndividual DataObjNameIndividualMeasure = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+nameDerivedSingleInstance) );
-		OWLClass classDerivedMeasure = factory.getOWLClass( IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.DERIVEDSINGLEINSTANCEMEASURE)) );
+		OWLClass classDerivedMeasure = factory.getOWLClass( IRI.create(orgppinot+"#"+Vocabulary.DERIVEDSINGLEINSTANCEMEASURE));
 		OWLClassAssertionAxiom classAssertionDerivedMeasure = factory.getOWLClassAssertionAxiom(classDerivedMeasure, DataObjNameIndividualMeasure);
 		ppinotMan.addAxiom(ppinotOnt, classAssertionDerivedMeasure);
 
         // adiciona el axioma con la relacion de la medida A y la medida derivada
-		OWLObjectPropertyExpression isCalculated = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Translator.translate(Vocabulary.ISCALCULATED)));
+		OWLObjectPropertyExpression isCalculated = factory.getOWLObjectProperty(IRI.create(orgppinot+"#"+Vocabulary.ISCALCULATED));
 		OWLNamedIndividual measureA = factory.getOWLNamedIndividual( IRI.create(fileOWLPpinot+"#"+nameMeasureA) );
 		OWLObjectPropertyAssertionAxiom propertyAssertionmeetsA = factory.getOWLObjectPropertyAssertionAxiom(isCalculated, DataObjNameIndividualMeasure, measureA);
 		ppinotMan.addAxiom(ppinotOnt, propertyAssertionmeetsA);

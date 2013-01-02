@@ -1,4 +1,4 @@
-package es.us.isa.ppinot.bpmnppinot_xml_owl.notation;
+package es.us.isa.ppinot.owl.notation;
 
 public final class Vocabulary {
 	

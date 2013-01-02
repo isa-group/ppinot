@@ -1,4 +1,4 @@
-package es.us.isa.ppinot.bpmnppinot_xml_owl.OntologyOwl;
+package es.us.isa.ppinot.owl.converter;
 
 import es.us.isa.isabpm.ppinot.model.aggregated.AggregatedMeasure;
 import es.us.isa.isabpm.ppinot.model.base.CountInstanceMeasure;

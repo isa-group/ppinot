@@ -1,4 +1,4 @@
-package es.us.isa.ppinot.bpmnppinot_xml_owl.OntologyOwl;
+package es.us.isa.bpmn.owl.converter;
 
 import java.io.File;
 import java.io.IOException;

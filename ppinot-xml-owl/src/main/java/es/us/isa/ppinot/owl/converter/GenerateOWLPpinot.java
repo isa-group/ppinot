@@ -1,4 +1,4 @@
-package es.us.isa.ppinot.bpmnppinot_xml_owl.OntologyOwl;
+package es.us.isa.ppinot.owl.converter;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.xml.bind.JAXBElement;
 //import org.apache.bcel.generic.NEW;
+import es.us.isa.bpmn.owl.converter.UtilsObjectOWLBpmn;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
@@ -26,7 +27,7 @@ import es.us.isa.isabpm.ppinot.model.base.DataPropertyConditionInstanceMeasure;
 import es.us.isa.isabpm.ppinot.model.base.StateConditionInstanceMeasure;
 import es.us.isa.isabpm.ppinot.model.base.TimeInstanceMeasure;
 import es.us.isa.isabpm.ppinot.model.state.GenericState;
-import es.us.isa.ppinot.bpmnppinot_xml_owl.notation.Vocabulary;
+import es.us.isa.ppinot.owl.notation.Vocabulary;
 import es.us.isa.isabpm.ppinot.model.condition.StateCondition;
 import es.us.isa.isabpm.ppinot.model.condition.DataPropertyCondition;
 import es.us.isa.isabpm.ppinot.model.derived.DerivedMultiInstanceMeasure;
@@ -419,10 +420,7 @@ public class GenerateOWLPpinot {
         
 	}
 
-	/**Funcion que se encarga de convertir las medidas de tipo TimeAggregatedMeasure en su correspondiente codigo owl 
-	 * @param <K>
-	 * @return 
-	 * @throws Exception **/
+	/**Funcion que se encarga de convertir las medidas de tipo TimeAggregatedMeasure en su correspondiente codigo owl **/
 	public  ArrayList<Object> converterTimeAggregatedMeasureOWL(AggregatedMeasure element, JAXBElement jaxbElement) throws Exception 
 	{
 			
@@ -528,11 +526,7 @@ public class GenerateOWLPpinot {
         return dataQueries;
 	}
 
-	/**Funcion que se encarga de convertir las medidas de tipo StateConditionAggregatedMeasure en su correspondiente codigo owl 
-	 * @param functionAgg 
-	 * @param restriction 
-	 * @return 
-	 * @throws Exception **/
+	/**Funcion que se encarga de convertir las medidas de tipo StateConditionAggregatedMeasure en su correspondiente codigo owl **/
 	public ArrayList<Object> converterStateConditionAggregatedMeasureOWL(AggregatedMeasure element, JAXBElement jaxbElement) throws Exception 
 	{
 		

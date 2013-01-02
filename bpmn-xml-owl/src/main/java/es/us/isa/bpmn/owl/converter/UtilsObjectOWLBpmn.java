@@ -1,4 +1,4 @@
-package es.us.isa.ppinot.bpmnppinot_xml_owl.OntologyOwl;
+package es.us.isa.bpmn.owl.converter;
 
 /**
  * @autor Ana Belen Sanchez Jerez
@@ -140,8 +140,7 @@ public class UtilsObjectOWLBpmn {
 		return completedName;
 	}
 	
-	/**Funcion para obtener los directly precedes de los elementos del modelo bpmn
-	 * @param element2 **/
+	/**Funcion para obtener los directly precedes de los elementos del modelo bpmn **/
 	public static List<String> getDirectlyPrecedes(List<TSequenceFlow> sequenceFlowList, Object task) {
 		Iterator<?> itr = sequenceFlowList.iterator(); 
 		List<String> targetList = new ArrayList<String>();

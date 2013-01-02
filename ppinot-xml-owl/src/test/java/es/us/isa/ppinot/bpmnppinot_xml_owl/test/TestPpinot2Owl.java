@@ -27,8 +27,8 @@ import es.us.isa.isabpm.ppinot.xmlClasses.bpmn20.TStartEvent;
 import es.us.isa.isabpm.ppinot.xmlClasses.bpmn20.TSubProcess;
 import es.us.isa.isabpm.ppinot.xmlClasses.bpmn20.TTask;
 import es.us.isa.isabpm.ppinot.xmlExtracter.PpiNotXmlExtracter;
-import es.us.isa.ppinot.bpmnppinot_xml_owl.OntologyOwl.InObjectsOutOWLBpmn;
-import es.us.isa.ppinot.bpmnppinot_xml_owl.OntologyOwl.InObjectsOutOWLPpinot;
+import es.us.isa.bpmn.owl.converter.InObjectsOutOWLBpmn;
+import es.us.isa.ppinot.owl.converter.InObjectsOutOWLPpinot;
 import es.us.isa.ppinot.bpmnppinot_xml_owl.xmlExtracter.ppinotBpmn20.Bpmn20XmlExtracter;
 
 public class TestPpinot2Owl {

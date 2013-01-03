@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-import javax.xml.bind.JAXBElement;
 import org.semanticweb.owlapi.model.AddImport;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -12,19 +11,19 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 
-import es.us.isa.isabpm.ppinot.model.aggregated.AggregatedMeasure;
-import es.us.isa.isabpm.ppinot.model.base.CountInstanceMeasure;
-import es.us.isa.isabpm.ppinot.model.base.DataPropertyConditionInstanceMeasure;
-import es.us.isa.isabpm.ppinot.model.base.DataInstanceMeasure;
-import es.us.isa.isabpm.ppinot.model.derived.DerivedSingleInstanceMeasure;
-import es.us.isa.isabpm.ppinot.model.derived.DerivedMultiInstanceMeasure;
-import es.us.isa.isabpm.ppinot.model.base.TimeInstanceMeasure;
-import es.us.isa.isabpm.ppinot.model.base.StateConditionInstanceMeasure;
+import es.us.isa.bpmn.xmlExtracter.Bpmn20XmlExtracter;
+import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
+import es.us.isa.ppinot.model.base.CountInstanceMeasure;
+import es.us.isa.ppinot.model.base.DataInstanceMeasure;
+import es.us.isa.ppinot.model.base.DataPropertyConditionInstanceMeasure;
+import es.us.isa.ppinot.model.base.StateConditionInstanceMeasure;
+import es.us.isa.ppinot.model.base.TimeInstanceMeasure;
+import es.us.isa.ppinot.model.derived.DerivedMultiInstanceMeasure;
+import es.us.isa.ppinot.model.derived.DerivedSingleInstanceMeasure;
 
 /**
  * @author Ana Belen Sanchez Jerez
  * **/
-@SuppressWarnings("rawtypes")
 public class InObjectsOutOWLPpinot {
 
 	private OWLOntologyManager ppinotMan;
@@ -77,53 +76,53 @@ public class InObjectsOutOWLPpinot {
 	}
 	
 	/***Declaraciones en owl de la medida countInstanceMeasure de PPINOT ***/
-	public void getDeclarationIndividualsCountInstanceMeasure(List<CountInstanceMeasure> countInstanceMeasure, JAXBElement jaxbElement) throws Exception {
+	public void getDeclarationIndividualsCountInstanceMeasure(List<CountInstanceMeasure> countInstanceMeasure, Bpmn20XmlExtracter bpmn20XmlExtracter) throws Exception {
 		Iterator<?> itr = countInstanceMeasure.iterator(); 
 		while(itr.hasNext()) {
 			CountInstanceMeasure element = (CountInstanceMeasure) itr.next();
 			
-		    converter.converterCountInstanceMeasureOWL(element, jaxbElement);
+		    converter.converterCountInstanceMeasureOWL(element, bpmn20XmlExtracter);
 		}
 		
 	}
 	
 	/***Declaraciones en owl de la medida timeInstanceMeasure de PPINOT ***/
-	public void getDeclarationIndividualsTimeInstanceMeasure(List<TimeInstanceMeasure> timeMeasure, JAXBElement jaxbElement) throws Exception {
+	public void getDeclarationIndividualsTimeInstanceMeasure(List<TimeInstanceMeasure> timeMeasure, Bpmn20XmlExtracter bpmn20XmlExtracter) throws Exception {
 		Iterator<?> itr = timeMeasure.iterator(); 
 		while(itr.hasNext()) {
 			TimeInstanceMeasure element = (TimeInstanceMeasure) itr.next();
 			
-			converter.converterTimeInstanceMeasureOWL(element, jaxbElement);
+			converter.converterTimeInstanceMeasureOWL(element, bpmn20XmlExtracter);
 		}	
 	}
 	
 	/***Declaraciones en owl de la medida StateConditionInstanceMeasure de PPINOT ***/
-	public void getDeclarationIndividualsStateConditionInstanceMeasure(List<StateConditionInstanceMeasure> elementConditionMeasure, JAXBElement jaxbElement) throws Exception {
+	public void getDeclarationIndividualsStateConditionInstanceMeasure(List<StateConditionInstanceMeasure> elementConditionMeasure, Bpmn20XmlExtracter bpmn20XmlExtracter) throws Exception {
 		Iterator<?> itr = elementConditionMeasure.iterator(); 
 		while(itr.hasNext()) {
 			StateConditionInstanceMeasure element = (StateConditionInstanceMeasure) itr.next();
 			
-		    converter.converterStateConditionInstanceMeasureOWL(element, jaxbElement);
+		    converter.converterStateConditionInstanceMeasureOWL(element, bpmn20XmlExtracter);
 		}	
 	}
 	
 	/***Declaraciones en owl de la medida DataPropertyConditionInstanceMeasure de PPINOT ***/
-	public void getDeclarationIndividualsDataPropertyConditionInstanceMeasure(List<DataPropertyConditionInstanceMeasure> dataConditionMeasure, JAXBElement jaxbElement) throws Exception {
+	public void getDeclarationIndividualsDataPropertyConditionInstanceMeasure(List<DataPropertyConditionInstanceMeasure> dataConditionMeasure) throws Exception {
 		Iterator<?> itr = dataConditionMeasure.iterator(); 
 		while(itr.hasNext()) {
 			DataPropertyConditionInstanceMeasure element = (DataPropertyConditionInstanceMeasure) itr.next();
 	
-			converter.converterDataPropertyConditionInstanceMeasureOWL(element, jaxbElement);
+			converter.converterDataPropertyConditionInstanceMeasureOWL(element);
 		}	
 	}
 	
 	/***Declaraciones en owl de la medida DataInstanceMeasure de PPINOT ***/
-	public void getDeclarationIndividualsDataInstanceMeasure(List<DataInstanceMeasure> dataInstanceMeasure, JAXBElement jaxbElement) throws Exception {
+	public void getDeclarationIndividualsDataInstanceMeasure(List<DataInstanceMeasure> dataInstanceMeasure) throws Exception {
 		Iterator<?> itr = dataInstanceMeasure.iterator(); 
 		while(itr.hasNext()) {
 			DataInstanceMeasure element = (DataInstanceMeasure) itr.next();
 			
-		    converter.converterDataInstanceMeasureOWL(element, jaxbElement);
+		    converter.converterDataInstanceMeasureOWL(element);
 		}	
 	}
 
@@ -133,12 +132,12 @@ public class InObjectsOutOWLPpinot {
 	 * @throws Exception ***/
 	
 	/***Declaraciones en owl de la medida countAggregatedMeasure de PPINOT ***/
-	public void getDeclarationIndividualsCountAggregatedMeasure(List<AggregatedMeasure> countAggregatedMeasure, JAXBElement jaxbElement) throws Exception {
+	public void getDeclarationIndividualsCountAggregatedMeasure(List<AggregatedMeasure> countAggregatedMeasure, Bpmn20XmlExtracter bpmn20XmlExtracter) throws Exception {
 		Iterator<?> itr = countAggregatedMeasure.iterator(); 
 		while(itr.hasNext()) {
 			AggregatedMeasure element = (AggregatedMeasure) itr.next();
 			
-			converter.converterCountAggregatedMeasureOWL(element, jaxbElement);
+			converter.converterCountAggregatedMeasureOWL(element, bpmn20XmlExtracter);
 		}
 		
 	}
@@ -147,54 +146,54 @@ public class InObjectsOutOWLPpinot {
 //***********************************************************************************/
 	
 	/***Declaraciones en owl de la medida timeAggregatedMeasure de PPINOT ***/
-	public void getDeclarationIndividualsTimeAggregatedMeasure(List<AggregatedMeasure> timeAggregatedMeasure, JAXBElement jaxbElement) throws Exception {
+	public void getDeclarationIndividualsTimeAggregatedMeasure(List<AggregatedMeasure> timeAggregatedMeasure, Bpmn20XmlExtracter bpmn20XmlExtracter) throws Exception {
 		Iterator<?> itr = timeAggregatedMeasure.iterator(); 
 		while(itr.hasNext()) {
 			AggregatedMeasure element = (AggregatedMeasure) itr.next();
 	
-		    converter.converterTimeAggregatedMeasureOWL(element, jaxbElement);
+		    converter.converterTimeAggregatedMeasureOWL(element, bpmn20XmlExtracter);
 		}
 		
 	}
 	
 	
 	/***Declaraciones en owl de la medida StateConditionAggregatedMeasure de PPINOT ***/
-	public void getDeclarationIndividualsStateConditionAggregatedMeasure(List<AggregatedMeasure> elementConditionAggregatedMeasure, JAXBElement jaxbElement) throws Exception {
+	public void getDeclarationIndividualsStateConditionAggregatedMeasure(List<AggregatedMeasure> elementConditionAggregatedMeasure, Bpmn20XmlExtracter bpmn20XmlExtracter) throws Exception {
 		Iterator<?> itr = elementConditionAggregatedMeasure.iterator(); 
 		while(itr.hasNext()) {
 			AggregatedMeasure element = (AggregatedMeasure) itr.next();
 			
-			converter.converterStateConditionAggregatedMeasureOWL(element, jaxbElement);
+			converter.converterStateConditionAggregatedMeasureOWL(element, bpmn20XmlExtracter);
 		}	
 	}
 	
 	/***Declaraciones en owl de la medida DataPropertyConditionAggregatedMeasure de PPINOT ***/
-	public void getDeclarationIndividualsDataPropertyConditionAggregatedMeasure(List<AggregatedMeasure> dataConditionAggregatedMeasure, JAXBElement jaxbElement) throws Exception {
+	public void getDeclarationIndividualsDataPropertyConditionAggregatedMeasure(List<AggregatedMeasure> dataConditionAggregatedMeasure) throws Exception {
 		Iterator<?> itr = dataConditionAggregatedMeasure.iterator(); 
 		while(itr.hasNext()) {
 			AggregatedMeasure element = (AggregatedMeasure) itr.next();
 			
-			converter.converterDataPropertyConditionAggregatedMeasureOWL(element, jaxbElement);
+			converter.converterDataPropertyConditionAggregatedMeasureOWL(element);
 		}	
 	}
 	
 	/***Declaraciones en owl de la medida DataAggregatedMeasure de PPINOT ***/
-	public void getDeclarationIndividualsDataAggregatedMeasure(List<AggregatedMeasure> dataAggregatedMeasure, JAXBElement jaxbElement) throws Exception {
+	public void getDeclarationIndividualsDataAggregatedMeasure(List<AggregatedMeasure> dataAggregatedMeasure) throws Exception {
 		Iterator<?> itr = dataAggregatedMeasure.iterator(); 
 		while(itr.hasNext()) {
 			AggregatedMeasure element = (AggregatedMeasure) itr.next();
 			
-			converter.converterDataAggregatedMeasureOWL(element, jaxbElement);
+			converter.converterDataAggregatedMeasureOWL(element);
 		}	
 	}
 	
-	public void getDeclarationIndividualsDerivedSingleInstanceAggregatedMeasure(List<AggregatedMeasure> dataAggregatedMeasure, JAXBElement jaxbElement) throws Exception {
+	public void getDeclarationIndividualsDerivedSingleInstanceAggregatedMeasure(List<AggregatedMeasure> dataAggregatedMeasure, Bpmn20XmlExtracter bpmn20XmlExtracter) throws Exception {
 		
 		Iterator<?> itr = dataAggregatedMeasure.iterator(); 
 		while(itr.hasNext()) {
 			AggregatedMeasure element = (AggregatedMeasure) itr.next();
 			
-			converter.converterDerivedSingleInstanceAggregatedMeasureOWL(element, jaxbElement);
+			converter.converterDerivedSingleInstanceAggregatedMeasureOWL(element, bpmn20XmlExtracter);
 		}	
 	}
 
@@ -203,13 +202,13 @@ public class InObjectsOutOWLPpinot {
 //***********************************************************************************/
 	
 	/***Declaraciones en owl de la medida DerivedMultiInstanceMeasure de PPINOT ***/
-	public void getDeclarationIndividualsDerivedMultiInstanceMeasure(List<DerivedMultiInstanceMeasure> derivedProcessMeasure, JAXBElement jaxbElement) throws Exception {
+	public void getDeclarationIndividualsDerivedMultiInstanceMeasure(List<DerivedMultiInstanceMeasure> derivedProcessMeasure, Bpmn20XmlExtracter bpmn20XmlExtracter) throws Exception {
 		
 		Iterator<?> itr = derivedProcessMeasure.iterator(); 
 		while(itr.hasNext()) {
 			DerivedMultiInstanceMeasure element = (DerivedMultiInstanceMeasure) itr.next();
 
-		    converter.converterDerivedMultiInstanceMeasureOWL(element, jaxbElement);
+		    converter.converterDerivedMultiInstanceMeasureOWL(element, bpmn20XmlExtracter);
 		}
 	}
 
@@ -217,7 +216,7 @@ public class InObjectsOutOWLPpinot {
 //***********************************************************************************/
 //***********************************************************************************/
 	
-	public void getDeclarationIndividualsDerivedSingleInstanceMeasure(List<DerivedSingleInstanceMeasure> derivedInstanceMeasure, JAXBElement jaxbElement) throws Exception {
+	public void getDeclarationIndividualsDerivedSingleInstanceMeasure(List<DerivedSingleInstanceMeasure> derivedInstanceMeasure, Bpmn20XmlExtracter bpmn20XmlExtracter) throws Exception {
 		//Para las derivadas voy a procesar las medidas aggregated que contiene por separado utilizando 
 		//las funciones definidas anteriormente
 		
@@ -225,7 +224,7 @@ public class InObjectsOutOWLPpinot {
 		while(itr.hasNext()) {
 			DerivedSingleInstanceMeasure element = (DerivedSingleInstanceMeasure) itr.next();
 
-		    converter.converterDerivedSingleInstanceMeasureOWL(element, jaxbElement);
+		    converter.converterDerivedSingleInstanceMeasureOWL(element, bpmn20XmlExtracter);
 		}
 	}
 	

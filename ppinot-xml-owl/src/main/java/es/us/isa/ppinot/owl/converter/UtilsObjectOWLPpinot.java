@@ -1,12 +1,12 @@
 package es.us.isa.ppinot.owl.converter;
 
-import es.us.isa.isabpm.ppinot.model.aggregated.AggregatedMeasure;
-import es.us.isa.isabpm.ppinot.model.base.CountInstanceMeasure;
-import es.us.isa.isabpm.ppinot.model.base.DataPropertyConditionInstanceMeasure;
-import es.us.isa.isabpm.ppinot.model.base.DataInstanceMeasure;
-import es.us.isa.isabpm.ppinot.model.base.TimeInstanceMeasure;
-import es.us.isa.isabpm.ppinot.model.base.StateConditionInstanceMeasure;
-import es.us.isa.isabpm.ppinot.model.MeasureDefinition;
+import es.us.isa.ppinot.model.MeasureDefinition;
+import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
+import es.us.isa.ppinot.model.base.CountInstanceMeasure;
+import es.us.isa.ppinot.model.base.DataInstanceMeasure;
+import es.us.isa.ppinot.model.base.DataPropertyConditionInstanceMeasure;
+import es.us.isa.ppinot.model.base.StateConditionInstanceMeasure;
+import es.us.isa.ppinot.model.base.TimeInstanceMeasure;
 
 public class UtilsObjectOWLPpinot {
 	
@@ -95,6 +95,11 @@ public class UtilsObjectOWLPpinot {
 		String nameMeasure= element.getName();
 		nameMeasure = nameMeasure.replaceAll(" ", "");
 		return nameMeasure;
+	}
+	
+	public static String getCleanName(String name) {
+		
+		return name.replaceAll(" ", "").replaceAll("\r\n", "").replaceAll("\n", "");
 	}
 }
 

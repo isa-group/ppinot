@@ -1,7 +1,9 @@
 package es.us.isa.bpmn.owl.converter;
 
-import es.us.isa.isabpm.ppinot.xmlClasses.bpmn20.TDefinitions;
+import es.us.isa.bpmn.xmlExtracter.Bpmn20XmlExtracter;
+
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
 /**
  * User: resinas
@@ -10,6 +12,6 @@ import org.semanticweb.owlapi.model.OWLOntology;
  */
 public interface BPMN2OWL {
 
-    public OWLOntology convertToOwlOntology(TDefinitions bpmnDefinitions);
+    public OWLOntology convertToOwlOntology(Bpmn20XmlExtracter bpmn20XmlExtracter) throws OWLOntologyCreationException;
 
 }

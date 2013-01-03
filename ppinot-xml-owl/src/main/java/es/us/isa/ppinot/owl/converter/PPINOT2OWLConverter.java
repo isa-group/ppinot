@@ -2,7 +2,8 @@ package es.us.isa.ppinot.owl.converter;
 
 import es.us.isa.bpmn.owl.converter.BPMN2OWL;
 import es.us.isa.bpmn.owl.converter.BPMN2OWLConverter;
-import es.us.isa.isabpm.ppinot.xmlClasses.bpmn20.TDefinitions;
+import es.us.isa.bpmn.xmlClasses.bpmn20.TDefinitions;
+
 import org.semanticweb.owlapi.model.AddImport;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;

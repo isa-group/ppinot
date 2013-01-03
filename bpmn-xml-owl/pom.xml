@@ -46,8 +46,8 @@
 
     <dependencies>
 	    <dependency>
-	      <groupId>es.us.isa.isabpm.ppinot</groupId>
-	      <artifactId>ppinot-model</artifactId>
+	      <groupId>es.us.isa.bpmn</groupId>
+	      <artifactId>bpmn-model</artifactId>
 	      <version>1.0.4</version>
 	    </dependency>
 

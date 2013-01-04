@@ -1,6 +1,6 @@
 package es.us.isa.bpmn.owl.converter;
 
-import es.us.isa.bpmn.xmlExtracter.Bpmn20XmlExtracter;
+import es.us.isa.bpmn.xmlExtracter.XmlExtracter;
 
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
@@ -10,8 +10,8 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
  * Date: 02/01/13
  * Time: 14:40
  */
-public interface BPMN2OWL {
+public interface ToOWLConverterInterface {
 
-    public OWLOntology convertToOwlOntology(Bpmn20XmlExtracter bpmn20XmlExtracter) throws OWLOntologyCreationException;
+    public OWLOntology convertToOwlOntology(XmlExtracter xmlExtracter) throws OWLOntologyCreationException;
 
 }

@@ -1,20 +1,13 @@
 package es.us.isa.bpmn.owl.converter;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.semanticweb.owlapi.model.AddImport;
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.model.OWLOntologyStorageException;
-
 import es.us.isa.bpmn.owl.notation.Vocabulary;
 import es.us.isa.bpmn.xmlClasses.bpmn20.TDataObject;
 import es.us.isa.bpmn.xmlClasses.bpmn20.TDataOutputAssociation;
@@ -28,34 +21,29 @@ import es.us.isa.bpmn.xmlClasses.bpmn20.TStartEvent;
 import es.us.isa.bpmn.xmlClasses.bpmn20.TSubProcess;
 import es.us.isa.bpmn.xmlClasses.bpmn20.TTask;
 import es.us.isa.bpmn.xmlExtracter.Bpmn20XmlExtracter;
+import es.us.isa.bpmn.xmlExtracter.XmlExtracter;
 
 /**
- * @author Edelia Garcia
+ * 
+ * @author Edelia
+ * 
  */
-public class BPMN2OWLConverter implements BPMN2OWL {
+public class BPMN2OWLConverter extends ToOWLConverter {
 
-	private OWLOntologyManager manager;	// OWLOntologyManager utilizado
-	private String baseIRI;				// IRI de la ontologia creada
-
-	private OWLOntology ontology;		// Ontologia a la que se adicionan los axiomas
-	private GenerateBpmnOWL converter;
-	private String ontologyURI;			// URI de la ontologia creada
+	private GenerateBpmnAxioms converter;
 	
 	public BPMN2OWLConverter(String baseIRI, OWLOntologyManager manager){
 		
-		this.baseIRI = baseIRI;
-		this.manager = manager;
+		super( baseIRI, manager);
 	}
 	
     @Override
-	public OWLOntology convertToOwlOntology(Bpmn20XmlExtracter bpmn20XmlExtracter) throws OWLOntologyCreationException {
-
-    	ontologyURI = baseIRI + bpmn20XmlExtracter.getProcess().getId() + ".owl";
+	protected void generateOntology(XmlExtracter xmlExtracter) throws OWLOntologyCreationException {
     	
-		ontology = manager.createOntology(IRI.create(ontologyURI));
-		manager.applyChange(new AddImport(ontology, manager.getOWLDataFactory().getOWLImportsDeclaration( IRI.create( Vocabulary.URI ) )));
-
-		converter = new GenerateBpmnOWL(manager.getOWLDataFactory(), manager, ontology, ontologyURI);
+    	String[] uris = { Vocabulary.URI };
+    	this.addOntologyImports(uris);
+    	
+    	Bpmn20XmlExtracter bpmn20XmlExtracter = (Bpmn20XmlExtracter) xmlExtracter;
 		
 		List<TSequenceFlow> sequenceFlows = bpmn20XmlExtracter.getSequenceFlowList();
 		List <TDataObject> dataObjectList = bpmn20XmlExtracter.getDataObjectList();
@@ -67,30 +55,6 @@ public class BPMN2OWLConverter implements BPMN2OWL {
 		this.getDeclarationIndividualsXorGateways( bpmn20XmlExtracter.getExclusiveGatewayList(), sequenceFlows);
 		this.getDeclarationIndividualsGateways( bpmn20XmlExtracter.getGatewayList(), sequenceFlows);
 		this.getDeclarationIndividualsDataObject(dataObjectList);
-
-		return this.ontology;
-	}
-	
-	public String getOntologyURI() {
-		return ontologyURI;
-	}
-	
-	public void saveOntology(String caminoDestino, String bpmnFilename) {
-		
-		try {
-			
-			File bpmnFile = new File(caminoDestino + bpmnFilename);
-			bpmnFile.createNewFile();
-			
-			manager.saveOntology(ontology, IRI.create(bpmnFile.toURI()));
-		} catch (OWLOntologyStorageException e) {
-
-			e.printStackTrace();
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}
-		
 	}
 	
 	/***Declaraciones en owl de taskList de BPMN2.0 ***/
@@ -238,8 +202,8 @@ public class BPMN2OWLConverter implements BPMN2OWL {
 			
 			TDataObject tdataobject = (TDataObject) itObj.next();
 			if(tdataobject.getId().trim().equals(idDataObject.trim())){
-				name = tdataobject.getName();
-				name = name.replaceAll(" ", "");
+				
+				name = this.getCleanName(tdataobject);
 				enc = true;
 			}
 		}

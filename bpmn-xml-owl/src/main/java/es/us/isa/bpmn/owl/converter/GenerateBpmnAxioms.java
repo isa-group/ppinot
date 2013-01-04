@@ -21,7 +21,7 @@ import es.us.isa.bpmn.owl.notation.Vocabulary;
  * Clase donde se van a definir las funciones que convierten los datos pasados por parametros
  * en instancias en owl 
 **/
-public class GenerateBpmnOWL {
+public class GenerateBpmnAxioms {
 
 	private OWLOntologyManager manager;	// OWLOntologyManager utilizado
 	private OWLOntology ontology;		// Ontologia a la que se adicionan los axiomas
@@ -29,7 +29,7 @@ public class GenerateBpmnOWL {
 	private String ontologyURI; 		// URI de la ontologia generada
 	
 	/**Constructor de GenerateOWL **/
-	public GenerateBpmnOWL(OWLDataFactory factory, OWLOntologyManager manager, OWLOntology ontology, 
+	public GenerateBpmnAxioms(OWLDataFactory factory, OWLOntologyManager manager, OWLOntology ontology, 
 			String ontologyURI){
 
 		this.factory = factory;

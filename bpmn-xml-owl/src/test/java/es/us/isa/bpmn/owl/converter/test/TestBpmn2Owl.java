@@ -54,7 +54,7 @@ public class TestBpmn2Owl {
 	@Test
 	public void testBase() {
 		
-		baseIRI = "http://www.isa.us.es/ontologies/";
+		baseIRI = "http://www.isa.us.es/ontologies/bpmn/";
 		
 		caminoOrigen = "D:/eclipse-appweb-indigo/repository_isa/";
 		caminoDestino = "D:/tmp-nuevo/";
@@ -68,7 +68,7 @@ public class TestBpmn2Owl {
 	@Test
 	public void testAggregated() {
 		
-		baseIRI = "http://www.isa.us.es/ontologies/";
+		baseIRI = "http://www.isa.us.es/ontologies/bpmn/";
 		
 		caminoOrigen = "D:/eclipse-appweb-indigo/repository_isa/";
 		caminoDestino = "D:/tmp-nuevo/";
@@ -82,7 +82,7 @@ public class TestBpmn2Owl {
 	@Test
 	public void testDerived() {
 		
-		baseIRI = "http://www.isa.us.es/ontologies/";
+		baseIRI = "http://www.isa.us.es/ontologies/bpmn/";
 		
 		caminoOrigen = "D:/eclipse-appweb-indigo/repository_isa/";
 		caminoDestino = "D:/tmp-nuevo/";
@@ -96,7 +96,7 @@ public class TestBpmn2Owl {
 	@Test
 	public void testAggregatedConnector() {
 		
-		baseIRI = "http://www.isa.us.es/ontologies/";
+		baseIRI = "http://www.isa.us.es/ontologies/bpmn/";
 		
 		caminoOrigen = "D:/eclipse-appweb-indigo/repository_isa/";
 		caminoDestino = "D:/tmp-nuevo/";

@@ -30,7 +30,7 @@ import es.us.isa.bpmn.xmlExtracter.XmlExtracter;
  */
 public class BPMN2OWLConverter extends ToOWLConverter {
 
-	private GenerateBpmnAxioms converter;
+	private GenerateBpmnAxioms generator;
 	
 	public BPMN2OWLConverter(String baseIRI, OWLOntologyManager manager){
 		
@@ -43,6 +43,8 @@ public class BPMN2OWLConverter extends ToOWLConverter {
     	String[] uris = { Vocabulary.URI };
     	this.addOntologyImports(uris);
     	
+		generator = new GenerateBpmnAxioms(
+				this.getManager().getOWLDataFactory(), this.getManager(), this.getOntology(), this.getOntologyURI()); 
     	Bpmn20XmlExtracter bpmn20XmlExtracter = (Bpmn20XmlExtracter) xmlExtracter;
 		
 		List<TSequenceFlow> sequenceFlows = bpmn20XmlExtracter.getSequenceFlowList();
@@ -80,7 +82,7 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 				nameDataObj = this.getNameDataObject(((QName) tDataOutputAssociation.getTargetRef()).getLocalPart(), dataObjectList);
 			}
 		    List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, obj);
-			converter.converterActivityOWL(nameTask, nameDataObj, elementsDirectlyPrecedes);
+			generator.converterActivityOWL(nameTask, nameDataObj, elementsDirectlyPrecedes);
 		}
 	}
 	
@@ -105,7 +107,7 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 				nameDataObj = this.getNameDataObject(((QName) tDataOutputAssociation.getTargetRef()).getLocalPart(), dataObjectList);
 			}
 			 List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, obj);
-		    converter.converterActivityOWL(nameActivity, nameDataObj, elementsDirectlyPrecedes);
+		    generator.converterActivityOWL(nameActivity, nameDataObj, elementsDirectlyPrecedes);
 		}
 	}
 	
@@ -123,7 +125,7 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			String nameEvent = this.getCleanName(element);
 			
 			List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, obj);
-		    converter.converterStartEventOWL(nameEvent, elementsDirectlyPrecedes);
+		    generator.converterStartEventOWL(nameEvent, elementsDirectlyPrecedes);
 		    
 		}
 	}
@@ -139,7 +141,7 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
 			String nameEvent = this.getCleanName(element);
 			
-		    converter.converterEndEventOWL(nameEvent);
+		    generator.converterEndEventOWL(nameEvent);
 		}
 	}
 	
@@ -156,7 +158,7 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			String nameGtw = this.getCleanName(element);
 			
 			List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, obj);
-		    converter.converterXorGatewayOWL(nameGtw,elementsDirectlyPrecedes);
+		    generator.converterXorGatewayOWL(nameGtw,elementsDirectlyPrecedes);
 		}
 		
 	}
@@ -174,7 +176,7 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			String nameGtw = this.getCleanName(element);
 			
 			List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, obj);
-		    converter.converterGatewayOWL(nameGtw,elementsDirectlyPrecedes);
+		    generator.converterGatewayOWL(nameGtw,elementsDirectlyPrecedes);
 		}
 	}
 	
@@ -189,7 +191,7 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
 			String nameDataObj = this.getCleanName(element);
 			
-		    converter.converterDataObjectOWL(nameDataObj);
+		    generator.converterDataObjectOWL(nameDataObj);
 		}
 	}
 	

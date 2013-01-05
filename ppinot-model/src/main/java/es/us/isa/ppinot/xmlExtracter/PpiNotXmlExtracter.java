@@ -2989,7 +2989,7 @@ public class PpiNotXmlExtracter extends XmlExtracter {
 	}
 
 	@Override
-	protected void generateModelLists() {
+	public void generateModelLists() {
 		
 		
 		Map<String, CountInstanceMeasure> map1 = new HashMap<String, CountInstanceMeasure>();

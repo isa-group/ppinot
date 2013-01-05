@@ -70,7 +70,7 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			TTask element = (TTask) obj;
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameTask = this.getCleanName(element);
+			String nameTask = BPMN2OWLConverter.getBpmnId(element);
 			
 			//Tambien voy a necesitar el dataobject al que se conecta en el caso de hacerlo
 			String nameDataObj = null;
@@ -96,7 +96,7 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			TSubProcess element = (TSubProcess) obj;
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameActivity = this.getCleanName(element);
+			String nameActivity = BPMN2OWLConverter.getBpmnId(element);
 			
 			String nameDataObj = null;
 			List<TDataOutputAssociation> dataOutput = element.getDataOutputAssociation();
@@ -122,7 +122,7 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			TStartEvent element = (TStartEvent) obj;
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameEvent = this.getCleanName(element);
+			String nameEvent = BPMN2OWLConverter.getBpmnId(element);
 			
 			List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, obj);
 		    generator.converterStartEventOWL(nameEvent, elementsDirectlyPrecedes);
@@ -139,7 +139,7 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			TEndEvent element = (TEndEvent) itr.next();
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameEvent = this.getCleanName(element);
+			String nameEvent = BPMN2OWLConverter.getBpmnId(element);
 			
 		    generator.converterEndEventOWL(nameEvent);
 		}
@@ -155,7 +155,7 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			TExclusiveGateway element = (TExclusiveGateway) obj;
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameGtw = this.getCleanName(element);
+			String nameGtw = BPMN2OWLConverter.getBpmnId(element);
 			
 			List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, obj);
 		    generator.converterXorGatewayOWL(nameGtw,elementsDirectlyPrecedes);
@@ -173,7 +173,7 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			TGateway element = (TGateway) obj;
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameGtw = this.getCleanName(element);
+			String nameGtw = BPMN2OWLConverter.getBpmnId(element);
 			
 			List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, obj);
 		    generator.converterGatewayOWL(nameGtw,elementsDirectlyPrecedes);
@@ -189,7 +189,7 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			TDataObject element = (TDataObject) itr.next();
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameDataObj = this.getCleanName(element);
+			String nameDataObj = BPMN2OWLConverter.getBpmnId(element);
 			
 		    generator.converterDataObjectOWL(nameDataObj);
 		}
@@ -205,33 +205,9 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			TDataObject tdataobject = (TDataObject) itObj.next();
 			if(tdataobject.getId().trim().equals(idDataObject.trim())){
 				
-				name = this.getCleanName(tdataobject);
+				name = BPMN2OWLConverter.getBpmnId(tdataobject);
 				enc = true;
 			}
-		}
-		return name;
-	}
-	
-	private String getCleanName(Object obj) {
-		
-		String name = "";
-		if (obj instanceof TFlowNode) {
-			
-			TFlowNode node = (TFlowNode) obj;
-			name = node.getName();
-			if (name.contentEquals(""))
-				name = node.getId();
-			else
-				name = name.replaceAll(" ", "").replaceAll("\r\n", "").replaceAll("\n", "");
-		} else
-		if (obj instanceof TFlowElement) {
-			
-			TFlowElement node = (TFlowElement) obj;
-			name = node.getName();
-			if (name.contentEquals(""))
-				name = node.getId();
-			else
-				name = name.replaceAll(" ", "").replaceAll("\r\n", "").replaceAll("\n", "");
 		}
 		return name;
 	}
@@ -246,11 +222,27 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			TSequenceFlow element = (TSequenceFlow) itr.next();
 			if(element.getSourceRef().equals(task)){
 				
-				targetList.add( this.getCleanName( element.getTargetRef() ) );
+				targetList.add( BPMN2OWLConverter.getBpmnId( element.getTargetRef() ) );
 			}
 		}
 		
 		return targetList;
+	}
+	
+	public static String getBpmnId(Object obj) {
+		
+		String id = "";
+		if (obj instanceof TFlowNode) {
+			
+			TFlowNode node = (TFlowNode) obj;
+			id = node.getId();
+		} else
+		if (obj instanceof TFlowElement) {
+			
+			TFlowElement node = (TFlowElement) obj;
+			id = node.getId();
+		}
+		return id;
 	}
 	
 }

@@ -25,7 +25,7 @@ public class TestPpinot2Owl {
 	private String bpmnNomFichDestino;
 	private String ppinotNomFichDestino;
 	
-	private Boolean bpmn2Owl() {
+	private Boolean ppinot2Owl() {
 		
 		try {
 			
@@ -84,7 +84,7 @@ public class TestPpinot2Owl {
 		bpmnNomFichDestino = "ExpressionsOWLBpmn base.owl";
 		ppinotNomFichDestino = "ExpressionsOWLPpinot base.owl";
 		
-		assertTrue(bpmn2Owl());
+		assertTrue(ppinot2Owl());
 	}
 
 	@Test
@@ -100,7 +100,7 @@ public class TestPpinot2Owl {
 		bpmnNomFichDestino = "ExpressionsOWLBpmn aggregated.owl";
 		ppinotNomFichDestino = "ExpressionsOWLPpinot aggregated.owl";
 		
-		assertTrue(bpmn2Owl());
+		assertTrue(ppinot2Owl());
 	}
 
 	@Test
@@ -116,7 +116,7 @@ public class TestPpinot2Owl {
 		bpmnNomFichDestino = "ExpressionsOWLBpmn derived.owl";
 		ppinotNomFichDestino = "ExpressionsOWLPpinot derived.owl";
 		
-		assertTrue(bpmn2Owl());
+		assertTrue(ppinot2Owl());
 	}
 
 	@Test
@@ -132,7 +132,7 @@ public class TestPpinot2Owl {
 		bpmnNomFichDestino = "ExpressionsOWLBpmn aggregated connector.owl";
 		ppinotNomFichDestino = "ExpressionsOWLPpinot aggregated connector.owl";
 		
-		assertTrue(bpmn2Owl());
+		assertTrue(ppinot2Owl());
 	}
 
 }

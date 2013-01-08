@@ -848,7 +848,7 @@ public class GeneratePpinotAxioms {
 		}
 
 		String measureIdA = medidaA.getId(); 
-		String measureIdB = medidaB.getId();
+		String measureIdB = "";
 
 		//MedidasA
 		if(medidaA instanceof TimeInstanceMeasure){
@@ -870,7 +870,9 @@ public class GeneratePpinotAxioms {
 		
 		//MedidasB
 		if (medidaB!=null) {
-			
+
+			measureIdB = medidaB.getId();
+
 			if(medidaB instanceof TimeInstanceMeasure){
 				
 				this.converterTimeInstanceMeasureOWL((TimeInstanceMeasure) medidaB, bpmn20XmlExtracter);

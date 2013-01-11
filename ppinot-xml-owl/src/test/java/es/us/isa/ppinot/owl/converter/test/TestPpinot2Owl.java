@@ -25,6 +25,9 @@ public class TestPpinot2Owl {
 	private String bpmnNomFichDestino;
 	private String ppinotNomFichDestino;
 	
+	private BPMN2OWLConverter bpmnConverter;
+	private PPINOT2OWLConverter ppinotConverter;
+	
 	private Boolean ppinot2Owl() {
 		
 		try {
@@ -37,7 +40,7 @@ public class TestPpinot2Owl {
 			bpmnExtracter.generateModelLists();
 			
 			// convierte a owl
-			BPMN2OWLConverter bpmnConverter = new BPMN2OWLConverter(bpmnBaseIRI, OWLManager.createOWLOntologyManager());
+			bpmnConverter = new BPMN2OWLConverter(bpmnBaseIRI, OWLManager.createOWLOntologyManager());
 			bpmnConverter.convertToOwlOntology(bpmnExtracter);
 	
 			// guarda la ontologia generada
@@ -52,18 +55,21 @@ public class TestPpinot2Owl {
 			ppinotExtracter.generateModelLists();
 			
 			// convierte a owl
-			PPINOT2OWLConverter ppinotConverter = new PPINOT2OWLConverter(ppinotBaseIRI, OWLManager.createOWLOntologyManager());
+			ppinotConverter = new PPINOT2OWLConverter(ppinotBaseIRI, OWLManager.createOWLOntologyManager());
 			ppinotConverter.setBpmnData( bpmnConverter.getOntologyURI(), bpmnExtracter);
 			ppinotConverter.convertToOwlOntology(ppinotExtracter);
 	
 			// guarda la ontologia generada
 			ppinotConverter.saveOntology(caminoDestino, ppinotNomFichDestino);
-			
+
 			return true;
 		} catch (JAXBException e) {
 
 			e.printStackTrace();
 		} catch (OWLOntologyCreationException e) {
+
+			e.printStackTrace();
+		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
@@ -84,7 +90,22 @@ public class TestPpinot2Owl {
 		bpmnNomFichDestino = "ExpressionsOWLBpmn base.owl";
 		ppinotNomFichDestino = "ExpressionsOWLPpinot base.owl";
 		
-		assertTrue(ppinot2Owl());
+		if (ppinot2Owl()) {
+		
+			TestAnalyser analyser = new TestAnalyser(bpmnConverter.getOntologyURI(), ppinotConverter.getOntologyURI(), ppinotConverter.getOntology());
+			assertTrue(
+					analyser.isTask("sid-364A55D5-916D-4669-B4A5-29E82CACEB8C") &&	// Task 1
+					analyser.isTask("sid-0B0B61E3-89F3-4028-9746-D122688C2E93") &&	// Task 2
+					analyser.isStartEvent("sid-922FB2BD-6FB9-4C99-A0FF-B29F3BBC2FB2") &&
+					analyser.isEndEvent("sid-7AA7F58F-7769-4E20-831C-E3051C61D97C") &&
+					analyser.isDataObject("sid-9832DD51-05CF-4B45-BB61-C46740621C4F") &&
+					analyser.idDirectlyPreceding("sid-922FB2BD-6FB9-4C99-A0FF-B29F3BBC2FB2", "sid-364A55D5-916D-4669-B4A5-29E82CACEB8C") &&
+					analyser.idDirectlyPreceding("sid-364A55D5-916D-4669-B4A5-29E82CACEB8C", "sid-0B0B61E3-89F3-4028-9746-D122688C2E93") &&
+					analyser.idDirectlyPreceding("sid-0B0B61E3-89F3-4028-9746-D122688C2E93", "sid-7AA7F58F-7769-4E20-831C-E3051C61D97C") &&
+					analyser.idDataInputOf("sid-9832DD51-05CF-4B45-BB61-C46740621C4F", "sid-0B0B61E3-89F3-4028-9746-D122688C2E93")
+					);
+		} else
+			assertTrue(false);
 	}
 
 	@Test

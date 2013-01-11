@@ -203,7 +203,7 @@ public class Bpmn20XmlExtracter extends XmlExtracter {
 		while (it.hasNext()) {
 			
 			TTask element = (TTask) it.next();
-			if(element.getId()== idActivity){
+			if(element.getId().contentEquals(idActivity)){
 				obj = element;
 				break;
 			}
@@ -219,7 +219,7 @@ public class Bpmn20XmlExtracter extends XmlExtracter {
 		while (itsub.hasNext()) {
 			
 			TSubProcess element = (TSubProcess) itsub.next();
-			if(element.getId()== idActivity){
+			if(element.getId().contentEquals(idActivity)){
 				obj = element;
 				break;
 			}
@@ -234,7 +234,7 @@ public class Bpmn20XmlExtracter extends XmlExtracter {
 		while (itObj.hasNext()) {
 			
 			TDataObject element = (TDataObject) itObj.next();
-			if(element.getId()== idActivity){
+			if(element.getId().contentEquals(idActivity)){
 				obj = element;
 				break;
 			}
@@ -249,7 +249,7 @@ public class Bpmn20XmlExtracter extends XmlExtracter {
 		while (itstart.hasNext()) {
 			
 			TStartEvent element = (TStartEvent) itstart.next();
-			if(element.getId()== idActivity){
+			if(element.getId().contentEquals(idActivity)){
 				obj = element;
 				break;
 			}
@@ -264,7 +264,7 @@ public class Bpmn20XmlExtracter extends XmlExtracter {
 		while (itend.hasNext()) {
 			
 			TEndEvent element = (TEndEvent) itend.next();
-			if(element.getId()== idActivity){
+			if(element.getId().contentEquals(idActivity)){
 				obj = element;
 				break;
 			}

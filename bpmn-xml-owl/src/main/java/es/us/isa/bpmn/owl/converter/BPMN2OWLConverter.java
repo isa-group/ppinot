@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import es.us.isa.bpmn.owl.notation.Vocabulary;
+import es.us.isa.bpmn.xmlClasses.bpmn20.TDataInputAssociation;
 import es.us.isa.bpmn.xmlClasses.bpmn20.TDataObject;
 import es.us.isa.bpmn.xmlClasses.bpmn20.TDataOutputAssociation;
 import es.us.isa.bpmn.xmlClasses.bpmn20.TEndEvent;
@@ -73,16 +75,29 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			String nameTask = BPMN2OWLConverter.getBpmnId(element);
 			
 			//Tambien voy a necesitar el dataobject al que se conecta en el caso de hacerlo
-			String nameDataObj = null;
+			String nameOutputDataObj = null;
 			List<TDataOutputAssociation> dataOutput = element.getDataOutputAssociation();
-			
-			//Se supone que solo hay un dataobject por actividad
 			for (TDataOutputAssociation tDataOutputAssociation : dataOutput) {
 				
-				nameDataObj = this.getNameDataObject(((QName) tDataOutputAssociation.getTargetRef()).getLocalPart(), dataObjectList);
+				nameOutputDataObj = this.getNameDataObject(((QName) tDataOutputAssociation.getTargetRef()).getLocalPart(), dataObjectList);
 			}
-		    List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, obj);
-			generator.converterActivityOWL(nameTask, nameDataObj, elementsDirectlyPrecedes);
+
+			List<String> nameInputDataObjList = new ArrayList<String>();
+			List<TDataInputAssociation> dataInput = element.getDataInputAssociation();
+			for (TDataInputAssociation tDataInputAssociation : dataInput) {
+				
+				List<JAXBElement<Object>> XXX = tDataInputAssociation.getSourceRef();
+
+				Iterator<JAXBElement<Object>> itObj = XXX.iterator();
+				while (itObj.hasNext()) {
+					
+					JAXBElement<Object> tdataobject = (JAXBElement<Object>) itObj.next();
+					nameInputDataObjList.add( ((TDataObject) tdataobject.getValue()).getId() );
+				}
+			}
+
+			List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, obj);
+			generator.converterActivityOWL(nameTask, nameInputDataObjList, nameOutputDataObj, elementsDirectlyPrecedes);
 		}
 	}
 	
@@ -98,16 +113,31 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
 			String nameActivity = BPMN2OWLConverter.getBpmnId(element);
 			
-			String nameDataObj = null;
-			List<TDataOutputAssociation> dataOutput = element.getDataOutputAssociation();
 			
-			//Se supone que solo hay un dataobject por actividad
+			//Tambien voy a necesitar el dataobject al que se conecta en el caso de hacerlo
+			String nameOutputDataObj = null;
+			List<TDataOutputAssociation> dataOutput = element.getDataOutputAssociation();
 			for (TDataOutputAssociation tDataOutputAssociation : dataOutput) {
 				
-				nameDataObj = this.getNameDataObject(((QName) tDataOutputAssociation.getTargetRef()).getLocalPart(), dataObjectList);
+				nameOutputDataObj = this.getNameDataObject(((QName) tDataOutputAssociation.getTargetRef()).getLocalPart(), dataObjectList);
 			}
-			 List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, obj);
-		    generator.converterActivityOWL(nameActivity, nameDataObj, elementsDirectlyPrecedes);
+
+			List<String> nameInputDataObjList = new ArrayList<String>();
+			List<TDataInputAssociation> dataInput = element.getDataInputAssociation();
+			for (TDataInputAssociation tDataInputAssociation : dataInput) {
+				
+				List<JAXBElement<Object>> XXX = tDataInputAssociation.getSourceRef();
+
+				Iterator<JAXBElement<Object>> itObj = XXX.iterator();
+				while (itObj.hasNext()) {
+					
+					JAXBElement<Object> tdataobject = (JAXBElement<Object>) itObj.next();
+					nameInputDataObjList.add( ((TDataObject) tdataobject.getValue()).getId() );
+				}
+			}
+
+			List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, obj);
+		    generator.converterActivityOWL(nameActivity, nameInputDataObjList, nameOutputDataObj, elementsDirectlyPrecedes);
 		}
 	}
 	

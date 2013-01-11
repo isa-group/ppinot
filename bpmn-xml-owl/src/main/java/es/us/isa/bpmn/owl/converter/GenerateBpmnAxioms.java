@@ -21,7 +21,7 @@ import es.us.isa.bpmn.owl.notation.Vocabulary;
  * Clase donde se van a definir las funciones que convierten los datos pasados por parametros
  * en instancias en owl 
 **/
-public class GenerateBpmnAxioms {
+class GenerateBpmnAxioms {
 
 	private OWLDataFactory factory;		// Factory utilizada para generar los elementos owl
 	private OWLOntologyManager manager;	// OWLOntologyManager utilizado
@@ -30,7 +30,7 @@ public class GenerateBpmnAxioms {
 	private String generatedOntologyURI; 		// URI de la ontologia generada
 	
 	/**Constructor de GenerateOWL **/
-	public GenerateBpmnAxioms(OWLDataFactory factory, OWLOntologyManager manager, OWLOntology ontology, 
+	GenerateBpmnAxioms(OWLDataFactory factory, OWLOntologyManager manager, OWLOntology ontology, 
 			String generatedOntologyURI){
 
 		this.factory = factory;
@@ -41,20 +41,28 @@ public class GenerateBpmnAxioms {
 	}
 	
 	/**Funcion para convertir elementos de tipo Activity a individuals en codigo owl
-	 * @param nameDataObj 
+	 * @param nameOutputDataObj 
 	 * @param elementsDirectlyPrecedes **/
-	public void converterActivityOWL(String nameActivity, String nameDataObj, List<String> elementsDirectlyPrecedes){
+	void converterActivityOWL(String nameActivity, List<String> nameInputDataObjList, String nameOutputDataObj, List<String> elementsDirectlyPrecedes){
 		
-		IRI iri2 = IRI.create(generatedOntologyURI+"#"+nameActivity);
- 		IRI iri3 = IRI.create(generatedOntologyURI+"#"+nameDataObj);
+		IRI activityIRI = IRI.create(generatedOntologyURI+"#"+nameActivity);
 		
-        OWLNamedIndividual taskNameIndividual = factory.getOWLNamedIndividual(iri2);
+        OWLNamedIndividual taskNameIndividual = factory.getOWLNamedIndividual(activityIRI);
         OWLClass activityClass = factory.getOWLClass(IRI.create(Vocabulary.ACTIVITY_URI));
         OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(activityClass, taskNameIndividual);
         
-        if(nameDataObj != null){
-        	OWLObjectPropertyExpression output = factory.getOWLObjectProperty(IRI.create(Vocabulary.DATAOUTPUTASSOCIATION_URI));
-        	OWLNamedIndividual dataObjNameIndividualMeasure = factory.getOWLNamedIndividual(iri3);
+        for(String nameInputDataObj : nameInputDataObjList){
+     		IRI dataInputObjectIRI = IRI.create(generatedOntologyURI+"#"+nameInputDataObj);
+        	OWLObjectPropertyExpression input = factory.getOWLObjectProperty(IRI.create(Vocabulary.DATAINPUT_URI));
+        	OWLNamedIndividual dataObjNameIndividualMeasure = factory.getOWLNamedIndividual(dataInputObjectIRI);
+        	OWLObjectPropertyAssertionAxiom propertyAssertion = factory.getOWLObjectPropertyAssertionAxiom(input, taskNameIndividual, dataObjNameIndividualMeasure);
+        	manager.addAxiom(ontology, propertyAssertion);
+        }
+        
+        if(nameOutputDataObj != null){
+     		IRI dataOutputObjectIRI = IRI.create(generatedOntologyURI+"#"+nameOutputDataObj);
+     		OWLObjectPropertyExpression output = factory.getOWLObjectProperty(IRI.create(Vocabulary.DATAOUTPUT_URI));
+        	OWLNamedIndividual dataObjNameIndividualMeasure = factory.getOWLNamedIndividual(dataOutputObjectIRI);
         	OWLObjectPropertyAssertionAxiom propertyAssertion = factory.getOWLObjectPropertyAssertionAxiom(output, taskNameIndividual, dataObjNameIndividualMeasure);
         	manager.addAxiom(ontology, propertyAssertion);
         }
@@ -76,7 +84,7 @@ public class GenerateBpmnAxioms {
 
 	/**Funcion para convertir elementos de tipo StartEvent a individuals en codigo owl
 	 * @param elementsDirectlyPrecedes **/
-	public void converterStartEventOWL(String nameEvent, List<String> elementsDirectlyPrecedes) {
+	void converterStartEventOWL(String nameEvent, List<String> elementsDirectlyPrecedes) {
 		
 		IRI iri2 = IRI.create(generatedOntologyURI+"#"+nameEvent);
  		
@@ -99,7 +107,7 @@ public class GenerateBpmnAxioms {
 	}
 	
 	/**Funcion para convertir elementos de tipo EndEvent a individuals en codigo owl**/
-	public void converterEndEventOWL(String nameEvent) {
+	void converterEndEventOWL(String nameEvent) {
 		
 		IRI iri2 = IRI.create(generatedOntologyURI+"#"+nameEvent);
  		
@@ -111,7 +119,7 @@ public class GenerateBpmnAxioms {
 
 	/**Funcion para convertir elementos de tipo XorGateway a individuals en codigo owl
 	 * @param elementsDirectlyPrecedes **/
-	public void converterXorGatewayOWL(String nameGtw, List<String> elementsDirectlyPrecedes) {
+	void converterXorGatewayOWL(String nameGtw, List<String> elementsDirectlyPrecedes) {
 		
 		IRI iri2 = IRI.create(generatedOntologyURI+"#"+nameGtw);
  		
@@ -134,7 +142,7 @@ public class GenerateBpmnAxioms {
 
 	/**Funcion para convertir elementos de tipo Gateway a individuals en codigo owl
 	 * @param elementsDirectlyPrecedes **/
-	public void converterGatewayOWL(String nameGtw, List<String> elementsDirectlyPrecedes) {
+	void converterGatewayOWL(String nameGtw, List<String> elementsDirectlyPrecedes) {
 		
 		IRI iri2 = IRI.create(generatedOntologyURI+"#"+nameGtw);
  		
@@ -155,7 +163,7 @@ public class GenerateBpmnAxioms {
 	}
 
 	/**Funcion para convertir elementos de tipo DataObject a individuals en codigo owl**/
-	public void converterDataObjectOWL(String nameDataObj) {
+	void converterDataObjectOWL(String nameDataObj) {
 		
 		IRI iri2 = IRI.create(generatedOntologyURI+"#"+nameDataObj);
  		

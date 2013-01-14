@@ -1,6 +1,7 @@
 package es.us.isa.bpmn.xmlExtracter;
 
 import java.io.File;
+import java.io.InputStream;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -9,15 +10,15 @@ import es.us.isa.bpmn.xmlClasses.bpmn20.TDefinitions;
 import es.us.isa.bpmn.xmlClasses.bpmn20.TProcess;
 
 /**
- * Clase que a partir de un xml con información de PPIs permite obtener instancias de las clases en un paquete. Estas clases
+ * Clase que a partir de un xml con informaciï¿½n de PPIs permite obtener instancias de las clases en un paquete. Estas clases
  * debieron generarse con jaxb (por ejemplo, ver <a href="../ppinotXML/package-summary.html">el paquete ppinotXML</a>). A partir de esos objetos permite obtener listas de instancias 
  * de las clases en el paquete <a href="../historyreport/measuredefinition/package-summary.html">historyreport.measuredefinition</a> que son utilizadas en un objeto subclase de <a href="../historyreport/HistoryReport.html">HistoryReport</a> para obtener 
  * el reporte solicitado en el xml.
  * <p>
- * Publica métodos abstractos que deben ser implementados mediante una clase como <a href="prueba/PpiNotXmlExtracter.html">PpiNotXmlExtracter</a> en el paquete xmlExtracter.prueba,
- * de manera que la aplicación pueda utilizarse con diferentes xsd simplemente modificando el paquete del cual se hace uso. 
+ * Publica mï¿½todos abstractos que deben ser implementados mediante una clase como <a href="prueba/PpiNotXmlExtracter.html">PpiNotXmlExtracter</a> en el paquete xmlExtracter.prueba,
+ * de manera que la aplicaciï¿½n pueda utilizarse con diferentes xsd simplemente modificando el paquete del cual se hace uso. 
  * 
- * @author Edelia García González
+ * @author Edelia Garcï¿½a Gonzï¿½lez
  * @version 1.0
  *
  */
@@ -45,7 +46,6 @@ public abstract class XmlExtracter {
 	 * Constructor de la clase.
 	 * Crea el objeto para convertir un xml en instancias de las clases en el paquete pack.
 	 * 
-	 * @param pack Nombre del paquete desde el cual se obtienen las clases generadas con jaxb
 	 * @throws JAXBException
 	 */
 	public XmlExtracter() throws JAXBException {
@@ -56,7 +56,7 @@ public abstract class XmlExtracter {
 	}
 
 	/**
-	 * Inicializa el JAXBContext y los ObjectFactory en dependencia de la ubicación de los paquetes con las clases que permiten
+	 * Inicializa el JAXBContext y los ObjectFactory en dependencia de la ubicaciï¿½n de los paquetes con las clases que permiten
 	 * exportar y exportar a xml
 	 * 
 	 */
@@ -66,7 +66,7 @@ public abstract class XmlExtracter {
 	 * Da valor al atributo jc
 	 * Objeto con instancias de las clases en el paquete de BPMN, que es utilizado para exportar e importar xml
 	 * 
-	 * @param of Valor del atributo
+	 * @param jc Valor del atributo
 	 */
     protected void setJc(JAXBContext jc) {
 		this.jc = jc;
@@ -113,7 +113,7 @@ public abstract class XmlExtracter {
 	}
 	
 	/**
-	 * Carga el fichero file, del cual se obtendrán los objetos
+	 * Carga el fichero file, del cual se obtendrï¿½n los objetos
 	 * 
 	 * @param file
 	 * @throws JAXBException
@@ -126,11 +126,18 @@ public abstract class XmlExtracter {
 		this.generateModelLists();
 	}
 
+    public void unmarshall(InputStream stream) throws JAXBException {
+        JAXBElement<?> element = (JAXBElement<?>) jc.createUnmarshaller().unmarshal(stream);
+
+        this.setImportElement(element);
+        this.generateModelLists();
+    }
+
 	/**
 	 * Crea un fichero xml a partir de los objetos instancias de las clases en el paquete pack, que se encuentran en el atributo proccessType
 	 * 
 	 * @param path Camino del fichero xml
-	 * @param nomFich Nombre del fichero xml
+	 * @param file Nombre del fichero xml
 	 */
 	public void marshall(String path, String file, String procId) {
         try {
@@ -146,7 +153,7 @@ public abstract class XmlExtracter {
     }
 	
 	/**
-	 * Genera el objeto JAXBElement que permite exportar a un xml, una vez que se han ejecutado los métodos set anteriores
+	 * Genera el objeto JAXBElement que permite exportar a un xml, una vez que se han ejecutado los mï¿½todos set anteriores
 	 */
 	protected abstract void generateExportElement(String procId);
 	

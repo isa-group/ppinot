@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:ns2="http://bpmndi.org" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:ppinot="http://www.isa.us.es/ppinot" xmlns:signavio="http://www.signavio.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exporter="Signavio Process Editor, http://www.signavio.com" exporterVersion="" expressionLanguage="http://www.w3.org/1999/XPath" id="sid-2b94f932-bd43-4c41-ae8e-7126a248eb61" targetNamespace="http://www.signavio.com/bpmn20" typeLanguage="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd">
+   <process id="sid-bfe3c3a9-8d68-4717-b149-a17bae4d85ff" isExecutable="false">
+      <extensionElements>
+         <ppinot:ppiset>
+            <ppinot:countMeasure description="" id="sid-31EDBFC8-132E-42FD-94EB-330187F56AE4" name="Count1" scale="" unitofmeasure=""/>
+            <ppinot:aggregatedMeasure aggregationfunction="Sum" id="sid-C87139EB-DB41-4515-96F7-12200A024FE4" name="Aggregated1"/>
+            <ppinot:derivedSingleInstanceMeasure description="" function="doble" id="sid-951D10E8-024A-48A6-A103-BC2EBC7BEFDC" name="DerivedSingleInstance1" scale="" unitofmeasure=""/>
+            <ppinot:appliesToElementConnector id="sid-93E00A29-C475-4BB1-99CC-9A2A2C7CF049" sourceRef="sid-31EDBFC8-132E-42FD-94EB-330187F56AE4" state="" targetRef="sid-1BC2E6C5-FC04-42C8-8D3D-27F7A20485D6" when="Start"/>
+            <ppinot:uses id="sid-B2975B8B-E9A9-4F20-95A0-8BC401A69FEF" sourceRef="sid-951D10E8-024A-48A6-A103-BC2EBC7BEFDC" targetRef="sid-31EDBFC8-132E-42FD-94EB-330187F56AE4" variable=""/>
+            <ppinot:aggregates id="sid-68CD54E0-33B7-4F0F-B467-1B5536AF243A" sourceRef="sid-C87139EB-DB41-4515-96F7-12200A024FE4" targetRef="sid-31EDBFC8-132E-42FD-94EB-330187F56AE4"/>
+         </ppinot:ppiset>
+      </extensionElements>
+      <startEvent id="sid-0B3CFFD6-68F2-4E7D-BDCA-769B546204F2" name="">
+         <extensionElements>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffff"/>
+         </extensionElements>
+         <outgoing>sid-EAD28292-A4F0-40A5-A5C2-D9E887E72A1D</outgoing>
+      </startEvent>
+      <task completionQuantity="1" id="sid-1BC2E6C5-FC04-42C8-8D3D-27F7A20485D6" isForCompensation="false" name="Task1" startQuantity="1">
+         <extensionElements>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffcc"/>
+         </extensionElements>
+         <incoming>sid-EAD28292-A4F0-40A5-A5C2-D9E887E72A1D</incoming>
+         <outgoing>sid-F5DE916E-D14A-412B-9D53-82EB584EFC54</outgoing>
+      </task>
+      <task completionQuantity="1" id="sid-93E91437-3D1C-4BFA-AB2F-03CD15543C0A" isForCompensation="false" name="Task2" startQuantity="1">
+         <extensionElements>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffcc"/>
+         </extensionElements>
+         <incoming>sid-F5DE916E-D14A-412B-9D53-82EB584EFC54</incoming>
+         <outgoing>sid-3A02E825-DA99-4D4D-9D26-180E569F7EA5</outgoing>
+      </task>
+      <endEvent id="sid-E19E267A-C3A9-48DB-AA17-64353BEB7875" name="">
+         <extensionElements>
+            <signavio:signavioMetaData metaKey="bgcolor" metaValue="#ffffff"/>
+         </extensionElements>
+         <incoming>sid-3A02E825-DA99-4D4D-9D26-180E569F7EA5</incoming>
+      </endEvent>
+      <sequenceFlow id="sid-EAD28292-A4F0-40A5-A5C2-D9E887E72A1D" name="" sourceRef="sid-0B3CFFD6-68F2-4E7D-BDCA-769B546204F2" targetRef="sid-1BC2E6C5-FC04-42C8-8D3D-27F7A20485D6"/>
+      <sequenceFlow id="sid-F5DE916E-D14A-412B-9D53-82EB584EFC54" name="" sourceRef="sid-1BC2E6C5-FC04-42C8-8D3D-27F7A20485D6" targetRef="sid-93E91437-3D1C-4BFA-AB2F-03CD15543C0A"/>
+      <sequenceFlow id="sid-3A02E825-DA99-4D4D-9D26-180E569F7EA5" name="" sourceRef="sid-93E91437-3D1C-4BFA-AB2F-03CD15543C0A" targetRef="sid-E19E267A-C3A9-48DB-AA17-64353BEB7875"/>
+   </process>
+   <bpmndi:BPMNDiagram id="sid-7e0aa4b6-b139-4692-9e76-6403d208bfd6">
+      <bpmndi:BPMNPlane bpmnElement="sid-bfe3c3a9-8d68-4717-b149-a17bae4d85ff" id="sid-9483116f-b502-4827-8dfc-5068cbf4ee23">
+         <bpmndi:BPMNShape bpmnElement="sid-0B3CFFD6-68F2-4E7D-BDCA-769B546204F2" id="sid-0B3CFFD6-68F2-4E7D-BDCA-769B546204F2_gui">
+            <omgdc:Bounds height="30.0" width="30.0" x="185.0" y="189.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-1BC2E6C5-FC04-42C8-8D3D-27F7A20485D6" id="sid-1BC2E6C5-FC04-42C8-8D3D-27F7A20485D6_gui">
+            <omgdc:Bounds height="80.0" width="100.0" x="347.0" y="164.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-93E91437-3D1C-4BFA-AB2F-03CD15543C0A" id="sid-93E91437-3D1C-4BFA-AB2F-03CD15543C0A_gui">
+            <omgdc:Bounds height="80.0" width="100.0" x="525.0" y="164.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNShape bpmnElement="sid-E19E267A-C3A9-48DB-AA17-64353BEB7875" id="sid-E19E267A-C3A9-48DB-AA17-64353BEB7875_gui">
+            <omgdc:Bounds height="28.0" width="28.0" x="711.0" y="190.0"/>
+         </bpmndi:BPMNShape>
+         <bpmndi:BPMNEdge bpmnElement="sid-F5DE916E-D14A-412B-9D53-82EB584EFC54" id="sid-F5DE916E-D14A-412B-9D53-82EB584EFC54_gui">
+            <omgdi:waypoint x="447.0" y="204.0"/>
+            <omgdi:waypoint x="525.0" y="204.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="sid-EAD28292-A4F0-40A5-A5C2-D9E887E72A1D" id="sid-EAD28292-A4F0-40A5-A5C2-D9E887E72A1D_gui">
+            <omgdi:waypoint x="215.0" y="204.0"/>
+            <omgdi:waypoint x="347.0" y="204.0"/>
+         </bpmndi:BPMNEdge>
+         <bpmndi:BPMNEdge bpmnElement="sid-3A02E825-DA99-4D4D-9D26-180E569F7EA5" id="sid-3A02E825-DA99-4D4D-9D26-180E569F7EA5_gui">
+            <omgdi:waypoint x="625.0" y="204.0"/>
+            <omgdi:waypoint x="711.0" y="204.0"/>
+         </bpmndi:BPMNEdge>
+      </bpmndi:BPMNPlane>
+   </bpmndi:BPMNDiagram>
+</definitions>

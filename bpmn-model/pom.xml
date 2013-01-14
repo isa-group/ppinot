@@ -4,7 +4,7 @@
   <artifactId>bpmn-model</artifactId>
   <version>1.0.4</version>
   <packaging>jar</packaging>
-  <name>PPINot XML Input and Output</name>
+  <name>BPMN Model</name>
   
 	<distributionManagement>
 		<repository>

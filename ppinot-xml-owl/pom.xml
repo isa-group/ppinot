@@ -6,7 +6,7 @@
   <artifactId>ppinot-xml-owl</artifactId>
   <version>1.1.8</version>
 
-    <name>PPINOT XML Input and OWL Output</name>
+    <name>PPINOT XML to OWL Mapper</name>
 
 	<distributionManagement>
         <repository>

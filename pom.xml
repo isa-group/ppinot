@@ -1,0 +1,74 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<name>PPINOT</name>
+	<description>Process Performance Indicators Notation and Tool</description>
+	<groupId>es.us.isa.ppinot</groupId>
+	<artifactId>ppinot</artifactId>
+
+	<version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<distributionManagement>
+		<repository>
+			<id>isa.devel.archiva.internal</id>
+			<name>ISA group maven repo</name>
+			<url>http://devel.isa.us.es/archiva/repository/internal/</url>
+		</repository>
+	</distributionManagement>
+
+	<repositories>
+		<repository>
+			<id>isa.devel.archiva.internal</id>
+			<name>ISA group maven repo</name>
+			<url>http://devel.isa.us.es/archiva/repository/internal/</url>
+		</repository>
+	</repositories>
+
+	<url>http://www.isa.us.es/ppinot</url>
+	<licenses>
+		<license>
+			<name>Apache v2</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+		</license>
+	</licenses>
+	<organization>
+		<name>Universidad de Sevilla</name>
+		<url>http://www.us.es</url>
+	</organization>
+
+	<scm>
+		<connection>scm:git:http://bitbucket.org/isagroup/ppinot.git</connection>
+		<developerConnection>scm:git:https://git@bitbucket.org/isagroup/ppinot.git</developerConnection>
+		<url>https://bitbucket.org/isagroup/ppinot/</url>
+		<tag>HEAD</tag>
+	</scm>
+	<issueManagement>
+		<system>bitbucket</system>
+		<url>https://bitbucket.org/isagroup/ppinot/issues</url>
+	</issueManagement>
+	
+	<modules>
+		<module>bpmn-model</module>
+		<module>bpmn-xml-owl</module>
+		<module>ppinot-model</module>
+		<module>ppinot-xml-owl</module>
+		<module>signavio-platform-extension-bpmn2_0</module>
+		<module>ppinot-templates</module>
+	</modules>
+</project>

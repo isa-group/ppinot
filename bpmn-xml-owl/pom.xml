@@ -6,7 +6,7 @@
   <artifactId>bpmn-xml-owl</artifactId>
   <version>1.1.8</version>
 
-    <name>BPMN XML Input and OWL Output</name>
+    <name>BPMN XML to OWL Mapper</name>
 
 	<distributionManagement>
         <repository>

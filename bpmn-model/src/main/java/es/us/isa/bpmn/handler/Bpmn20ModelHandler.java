@@ -1,10 +1,9 @@
-package es.us.isa.bpmn.xmlExtracter;
+package es.us.isa.bpmn.handler;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 
@@ -24,7 +23,7 @@ import es.us.isa.bpmn.xmlClasses.bpmn20.TTask;
  * @author Ana Belen Sanchez Jerez
  * **/
 
-public class Bpmn20XmlExtracter extends XmlExtracter {
+public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandlerInterface {
 
 	private List <TTask> taskList;
 	private List <TStartEvent> startEventList;
@@ -35,7 +34,7 @@ public class Bpmn20XmlExtracter extends XmlExtracter {
 	private List <TGateway> gatewayList;
 	private List <TSubProcess> subProcessList;
 
-	public Bpmn20XmlExtracter() throws JAXBException {
+	public Bpmn20ModelHandler() throws JAXBException {
 		
 		super();
 	}
@@ -80,8 +79,9 @@ public class Bpmn20XmlExtracter extends XmlExtracter {
 		return subProcessList;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@Override
-	protected void iniExtracter() throws JAXBException {
+	protected void iniLoader() throws JAXBException {
 		
 		taskList = new ArrayList<TTask>();
 		startEventList = new ArrayList<TStartEvent>();
@@ -92,16 +92,12 @@ public class Bpmn20XmlExtracter extends XmlExtracter {
 		gatewayList = new ArrayList<TGateway>();
 		subProcessList = new ArrayList<TSubProcess>();
 
-		// crea el JAXBContext para hacer marshall y unmarshall
-		this.setJc( JAXBContext.newInstance( 
-				es.us.isa.bpmn.xmlClasses.bpmn20.ObjectFactory.class, 
-				es.us.isa.bpmn.xmlClasses.bpmndi.ObjectFactory.class ) );
-
-		// crea un objeto de la clase ObjectFactory para Bpmn
-        this.setFactory( new es.us.isa.bpmn.xmlClasses.bpmn20.ObjectFactory() );
+		// configura las clases para leer y guardar como xml
+		Class[] classList = {es.us.isa.bpmn.xmlClasses.bpmn20.ObjectFactory.class, es.us.isa.bpmn.xmlClasses.bpmndi.ObjectFactory.class};
+		this.xmlConfig( classList, es.us.isa.bpmn.xmlClasses.bpmn20.ObjectFactory.class );
 	}
 	
-	public ObjectFactory getFactory() {
+	protected ObjectFactory getFactory() {
 	
 		return (ObjectFactory) super.getFactory();
 	}
@@ -112,7 +108,7 @@ public class Bpmn20XmlExtracter extends XmlExtracter {
 	}
 	
 	@Override
-	public void generateModelLists(){
+	protected void generateModelLists(){
 		
 		TProcess process= (TProcess) ((TDefinitions) this.getImportElement().getValue()).getRootElement().get(0).getValue();
 		
@@ -195,7 +191,6 @@ public class Bpmn20XmlExtracter extends XmlExtracter {
 		}
 	}
 	
-	/** Devuelve el tipo de la Actividad**/
 	public TTask isTask(String idActivity) throws Exception{
 		
 		Iterator<TTask> it = this.getTaskList().iterator();
@@ -270,5 +265,10 @@ public class Bpmn20XmlExtracter extends XmlExtracter {
 			}
 		}
 		return obj;
+	}
+
+	public TProcess getProcess() {
+		
+		return (TProcess) ((TDefinitions) this.getImportElement().getValue()).getRootElement().get(0).getValue();
 	}
 }

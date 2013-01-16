@@ -1,4 +1,4 @@
-package es.us.isa.ppinot.xmlExtracter;
+package es.us.isa.ppinot.handler;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

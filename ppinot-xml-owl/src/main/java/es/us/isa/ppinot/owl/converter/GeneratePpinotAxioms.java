@@ -5,7 +5,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
 
-import es.us.isa.bpmn.xmlExtracter.Bpmn20XmlExtracter;
+import es.us.isa.bpmn.handler.Bpmn20ModelHandlerInterface;
 
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -74,7 +74,7 @@ class GeneratePpinotAxioms {
 	/**Funcion que se encarga de convertir las medidas de tipo countInstanceMeasure en su correspondiente codigo owl 
 	 * @return 
 	 * @throws Exception **/
-	OWLNamedIndividual converterCountInstanceMeasureOWL(CountInstanceMeasure element, Bpmn20XmlExtracter bpmn20XmlExtracter) throws Exception 
+	OWLNamedIndividual converterCountInstanceMeasureOWL(CountInstanceMeasure element, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception 
 	{
 
 		// obtiene el nombre de la actividad
@@ -83,7 +83,7 @@ class GeneratePpinotAxioms {
 		Boolean endActivity = element.getWhen().getChangesToState().getState()==GenericState.END;
 		// obtiene el nombre y el tipo de la actividad a la que se aplica la medida
         String elementName = element.getWhen().getAppliesTo();
-        String type = this.getNameTypeActivity(elementName, bpmn20XmlExtracter);
+        String type = this.getNameTypeActivity(elementName, bpmn20ModelHandler);
 		
 		// adiciona el axioma con la medida
         OWLNamedIndividual measureIndividual = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+nameCountMeasure) );
@@ -116,7 +116,7 @@ class GeneratePpinotAxioms {
 	/**Funcion que se encarga de convertir las medidas de tipo TimeInstanceMeasure en su correspondiente codigo owl 
 	 * @return 
 	 * @throws Exception **/
-	OWLIndividual converterTimeInstanceMeasureOWL(TimeInstanceMeasure element, Bpmn20XmlExtracter bpmn20XmlExtracter) throws Exception 
+	OWLIndividual converterTimeInstanceMeasureOWL(TimeInstanceMeasure element, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception 
 	
 	{
 		
@@ -130,8 +130,8 @@ class GeneratePpinotAxioms {
 		
 		String timeMeasureType = element.getTimeMeasureType();
 		
-		String typeActivityFrom = this.getNameTypeActivity(activityFrom, bpmn20XmlExtracter);
-		String typeActivityTo = this.getNameTypeActivity(activityTo, bpmn20XmlExtracter);
+		String typeActivityFrom = this.getNameTypeActivity(activityFrom, bpmn20ModelHandler);
+		String typeActivityTo = this.getNameTypeActivity(activityTo, bpmn20ModelHandler);
 		
         // adiciona el axioma que indica que la medida es de la clase CyclicTimeMeasure o LinearTimeMeasure
         OWLNamedIndividual measureIndividual = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+nameTimeMeasure) );
@@ -188,7 +188,7 @@ class GeneratePpinotAxioms {
 	 * @return 
 	 * @throws Exception 
 	 **/
-	OWLNamedIndividual converterStateConditionInstanceMeasureOWL(StateConditionInstanceMeasure element, Bpmn20XmlExtracter bpmn20XmlExtracter) throws Exception 
+	OWLNamedIndividual converterStateConditionInstanceMeasureOWL(StateConditionInstanceMeasure element, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception 
 	{
 		
 		String nameElementCondMeasure= element.getId();
@@ -214,7 +214,7 @@ class GeneratePpinotAxioms {
         manager.addAxiom(ontology, restrictionClassAssertionAxiom);
 
         // adiciona el axioma que indica a que elemento se aplica la medida
-        OWLNamedIndividual dataObjectElement = factory.getOWLNamedIndividual( IRI.create(bpmnOntologyURI+"#"+activity) );
+        OWLNamedIndividual dataObjectElement = factory.getOWLNamedIndividual( IRI.create(bpmnGeneratedOntologyURI+"#"+activity) );
         OWLObjectPropertyExpression appliesTo = factory.getOWLObjectProperty(IRI.create(Vocabulary.APPLIESTO_URI));
         OWLObjectPropertyAssertionAxiom propertyAssertionappliesTo = factory.getOWLObjectPropertyAssertionAxiom(appliesTo, dataObjectInstant, dataObjectElement);
         manager.addAxiom(ontology, propertyAssertionappliesTo);
@@ -280,7 +280,7 @@ class GeneratePpinotAxioms {
 		
         // adiciona el axioma que indica a que elemento se aplica la medida
         OWLObjectPropertyExpression appliesTo = factory.getOWLObjectProperty(IRI.create(Vocabulary.MEASURESDATA_URI));
-        OWLNamedIndividual dataObjectInstant = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+dataObject) );
+        OWLNamedIndividual dataObjectInstant = factory.getOWLNamedIndividual( IRI.create(bpmnGeneratedOntologyURI+"#"+dataObject) );
         OWLObjectPropertyAssertionAxiom propertyAssertionmeets = factory.getOWLObjectPropertyAssertionAxiom(appliesTo, DataObjNameIndividualMeasure, dataObjectInstant);
         manager.addAxiom(ontology, propertyAssertionmeets);
         
@@ -293,7 +293,7 @@ class GeneratePpinotAxioms {
 	/**Funcion que se encarga de convertir las medidas de tipo countAggregatedMeasure en su correspondiente codigo owl 
 	 * @return 
 	 * @throws Exception **/
-	ArrayList<Object> converterCountAggregatedMeasureOWL(AggregatedMeasure element, Bpmn20XmlExtracter bpmn20XmlExtracter) throws Exception {
+	ArrayList<Object> converterCountAggregatedMeasureOWL(AggregatedMeasure element, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception {
 
 		String nameCountAggregatedMeasure= element.getBaseMeasure().getId();
 
@@ -303,7 +303,7 @@ class GeneratePpinotAxioms {
 		Boolean endActivity = element2.getWhen().getChangesToState().getState()==GenericState.END;
 		
 		String elementId = element2.getWhen().getAppliesTo();
-        String type = this.getNameTypeActivity(elementId, bpmn20XmlExtracter);
+        String type = this.getNameTypeActivity(elementId, bpmn20ModelHandler);
 
 		/* Las entradas de las individuals para definir las medidas, los nombres de estas entradas, salvo el nombre de la medida, 
 		 * deben ser generados aleatoriamente porque no hay forma de obtener esos datos del modelo y ni interesan. 
@@ -356,7 +356,7 @@ class GeneratePpinotAxioms {
 	}
 
 	/**Funcion que se encarga de convertir las medidas de tipo TimeAggregatedMeasure en su correspondiente codigo owl **/
-	ArrayList<Object> converterTimeAggregatedMeasureOWL(AggregatedMeasure element, Bpmn20XmlExtracter bpmn20XmlExtracter) throws Exception 
+	ArrayList<Object> converterTimeAggregatedMeasureOWL(AggregatedMeasure element, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception 
 	{
 			
 		String nameTimeAggregatedMeasure = element.getBaseMeasure().getId();
@@ -369,8 +369,10 @@ class GeneratePpinotAxioms {
 		String activityFrom = element2.getFrom().getAppliesTo();
 		String activityTo = element2.getTo().getAppliesTo();
 		
-        String typeFrom = this.getNameTypeActivity(activityFrom, bpmn20XmlExtracter);
-        String typeTo = this.getNameTypeActivity(activityTo, bpmn20XmlExtracter);
+		String timeMeasureType = element2.getTimeMeasureType();
+		
+        String typeFrom = this.getNameTypeActivity(activityFrom, bpmn20ModelHandler);
+        String typeTo = this.getNameTypeActivity(activityTo, bpmn20ModelHandler);
 		       
 	    // adiciona el axioma que indica la clase de la medida
 	    OWLNamedIndividual DataObjNameIndividualMeasure = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+nameTimeAggregatedMeasure+"Intermediate1") );
@@ -385,7 +387,12 @@ class GeneratePpinotAxioms {
 	    manager.addAxiom(ontology, propertyAssertion);
 	      
 	    // adiciona el axioma que indica la clase de la medida que esta siendo agregada
-	    OWLClass classIntermediateMeasure = factory.getOWLClass( IRI.create(Vocabulary.TIMEMEASURE_URI)) ;
+	    IRI classIri;
+        if (timeMeasureType!=null && timeMeasureType.toLowerCase().contentEquals("cyclic"))
+        	classIri = IRI.create(Vocabulary.CYCLICTIMEMEASURE_URI);
+        else
+        	classIri = IRI.create(Vocabulary.LINEARTIMEMEASURE_URI);
+	    OWLClass classIntermediateMeasure = factory.getOWLClass( classIri ) ;
 	    OWLClassAssertionAxiom classIntermediateAssertionMeasure = factory.getOWLClassAssertionAxiom(classIntermediateMeasure, DataObjNameIndividual);
 	    manager.addAxiom(ontology, classIntermediateAssertionMeasure);
 	    //--------------------------------------------
@@ -438,7 +445,7 @@ class GeneratePpinotAxioms {
 	}
 
 	/**Funcion que se encarga de convertir las medidas de tipo StateConditionAggregatedMeasure en su correspondiente codigo owl **/
-	ArrayList<Object> converterStateConditionAggregatedMeasureOWL(AggregatedMeasure element, Bpmn20XmlExtracter bpmn20XmlExtracter) throws Exception 
+	ArrayList<Object> converterStateConditionAggregatedMeasureOWL(AggregatedMeasure element, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception 
 	{
 		
 		String functionAgg = element.getAggregationFunction();
@@ -449,7 +456,7 @@ class GeneratePpinotAxioms {
 
 		String restriction = GeneratePpinotAxioms.getCleanRestriction( ((StateCondition) element2.getCondition()).getState().getStateString() );
 		
-		String elementConditionType = this.getNameTypeActivity(activity, bpmn20XmlExtracter);
+		String elementConditionType = this.getNameTypeActivity(activity, bpmn20ModelHandler);
 	       
 	    // adiciona el axioma que indica la clase de la medida
 	    OWLNamedIndividual DataObjNameIndividualMeasure = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+nameElementCondMeasure+"Intermediate1") );
@@ -482,7 +489,7 @@ class GeneratePpinotAxioms {
        
         // adiciona el axioma que indica el elemento al que se aplica la medida
         OWLObjectPropertyExpression appliesTo = factory.getOWLObjectProperty(IRI.create(Vocabulary.APPLIESTO_URI));
-        OWLNamedIndividual dataObjectElement = factory.getOWLNamedIndividual( IRI.create(bpmnGeneratedOntologyURI+"#"+elementConditionType) );
+        OWLNamedIndividual dataObjectElement = factory.getOWLNamedIndividual( IRI.create(bpmnGeneratedOntologyURI+"#"+activity) );
         OWLObjectPropertyAssertionAxiom propertyAssertionappliesTo = factory.getOWLObjectPropertyAssertionAxiom(appliesTo, dataObjectInstant, dataObjectElement);
         manager.addAxiom(ontology, propertyAssertionappliesTo);	
 
@@ -589,7 +596,7 @@ class GeneratePpinotAxioms {
 		
         // adiciona el axioma que indica a que elemento se aplica la medida
         OWLObjectPropertyExpression appliesTo = factory.getOWLObjectProperty(IRI.create(Vocabulary.MEASURESDATA_URI));
-        OWLNamedIndividual dataObjectInstant = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+dataObject) );
+        OWLNamedIndividual dataObjectInstant = factory.getOWLNamedIndividual( IRI.create(bpmnGeneratedOntologyURI+"#"+dataObject) );
         OWLObjectPropertyAssertionAxiom propertyAssertionmeets = factory.getOWLObjectPropertyAssertionAxiom(appliesTo, DataObjNameIndividual, dataObjectInstant);
         manager.addAxiom(ontology, propertyAssertionmeets);
         
@@ -602,7 +609,7 @@ class GeneratePpinotAxioms {
         return dataQueries;
 	}
 	
-	ArrayList<Object> converterDerivedSingleInstanceAggregatedMeasureOWL(AggregatedMeasure element, Bpmn20XmlExtracter bpmn20XmlExtracter) throws Exception {
+	ArrayList<Object> converterDerivedSingleInstanceAggregatedMeasureOWL(AggregatedMeasure element, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception {
 		
 		String functionAgg = element.getAggregationFunction();
 		DerivedSingleInstanceMeasure element2 = (DerivedSingleInstanceMeasure) element.getBaseMeasure();
@@ -623,13 +630,13 @@ class GeneratePpinotAxioms {
 		//MedidasA
 		if(medidaA instanceof TimeInstanceMeasure){
 			
-			this.converterTimeInstanceMeasureOWL((TimeInstanceMeasure) medidaA, bpmn20XmlExtracter);
+			this.converterTimeInstanceMeasureOWL((TimeInstanceMeasure) medidaA, bpmn20ModelHandler);
 		}else if(medidaA instanceof CountInstanceMeasure){
 			
-			this.converterCountInstanceMeasureOWL((CountInstanceMeasure) medidaA, bpmn20XmlExtracter);
+			this.converterCountInstanceMeasureOWL((CountInstanceMeasure) medidaA, bpmn20ModelHandler);
 		}else if(medidaA instanceof StateConditionInstanceMeasure){
 			
-			this.converterStateConditionInstanceMeasureOWL((StateConditionInstanceMeasure) medidaA, bpmn20XmlExtracter);
+			this.converterStateConditionInstanceMeasureOWL((StateConditionInstanceMeasure) medidaA, bpmn20ModelHandler);
 		}else if(medidaA instanceof DataInstanceMeasure){
 			
 			this.converterDataInstanceMeasureOWL((DataInstanceMeasure) medidaA);
@@ -641,13 +648,13 @@ class GeneratePpinotAxioms {
 		//MedidasB
 		if(medidaB instanceof TimeInstanceMeasure){
 			
-			this.converterTimeInstanceMeasureOWL((TimeInstanceMeasure) medidaB, bpmn20XmlExtracter);
+			this.converterTimeInstanceMeasureOWL((TimeInstanceMeasure) medidaB, bpmn20ModelHandler);
 		}else if(medidaB instanceof CountInstanceMeasure){	
 			
-			this.converterCountInstanceMeasureOWL((CountInstanceMeasure) medidaB, bpmn20XmlExtracter);
+			this.converterCountInstanceMeasureOWL((CountInstanceMeasure) medidaB, bpmn20ModelHandler);
 		}else if(medidaB instanceof StateConditionInstanceMeasure){
 			
-			this.converterStateConditionInstanceMeasureOWL((StateConditionInstanceMeasure) medidaB, bpmn20XmlExtracter);
+			this.converterStateConditionInstanceMeasureOWL((StateConditionInstanceMeasure) medidaB, bpmn20ModelHandler);
 		}else if(medidaB instanceof DataInstanceMeasure){
 			
 			this.converterDataInstanceMeasureOWL((DataInstanceMeasure) medidaB);
@@ -702,7 +709,7 @@ class GeneratePpinotAxioms {
 	/**Funcion que se encarga de convertir las medidas de tipo DerivedMultiInstanceMeasure 
 	 * en su correspondiente codigo owl 
 	 * @throws Exception **/
-	void converterDerivedMultiInstanceMeasureOWL(DerivedMultiInstanceMeasure element, Bpmn20XmlExtracter bpmn20XmlExtracter) throws Exception {
+	void converterDerivedMultiInstanceMeasureOWL(DerivedMultiInstanceMeasure element, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception {
 		
 		Map<String, MeasureDefinition> mapaMedidas = element.getUsedMeasureMap();
 		Set keys = mapaMedidas.keySet();
@@ -716,45 +723,43 @@ class GeneratePpinotAxioms {
 		String measureIdA = medidaA.getId(); 
 		String measureIdB = medidaB.getId();
 
-		//MedidasA
-		if(medidaA instanceof TimeInstanceMeasure){
+		//MedidaA
+		if(medidaA instanceof AggregatedMeasure && ((AggregatedMeasure) medidaA).getBaseMeasure() instanceof TimeInstanceMeasure){
 			
-			this.converterTimeInstanceMeasureOWL((TimeInstanceMeasure) medidaA, bpmn20XmlExtracter);
-		}else if(medidaA instanceof CountInstanceMeasure){
+			this.converterTimeAggregatedMeasureOWL((AggregatedMeasure) medidaA, bpmn20ModelHandler);
+		}else if(medidaA instanceof AggregatedMeasure && ((AggregatedMeasure) medidaA).getBaseMeasure() instanceof CountInstanceMeasure){
 			
-			this.converterCountInstanceMeasureOWL((CountInstanceMeasure) medidaA, bpmn20XmlExtracter);
-		}else if(medidaA instanceof StateConditionInstanceMeasure){
+			this.converterCountAggregatedMeasureOWL((AggregatedMeasure) medidaA, bpmn20ModelHandler);
+		}else if(medidaA instanceof AggregatedMeasure && ((AggregatedMeasure) medidaA).getBaseMeasure() instanceof StateConditionInstanceMeasure){
 			
-			this.converterStateConditionInstanceMeasureOWL((StateConditionInstanceMeasure) medidaA, bpmn20XmlExtracter);
-		}else if(medidaA instanceof DataInstanceMeasure){
+			this.converterStateConditionAggregatedMeasureOWL((AggregatedMeasure) medidaA, bpmn20ModelHandler);
+		}else if(medidaA instanceof AggregatedMeasure && ((AggregatedMeasure) medidaA).getBaseMeasure() instanceof DataInstanceMeasure){
 			
-			this.converterDataInstanceMeasureOWL((DataInstanceMeasure) medidaA);
-		}else if(medidaA instanceof DataPropertyConditionInstanceMeasure){
+			this.converterDataAggregatedMeasureOWL((AggregatedMeasure) medidaA);
+		}else if(medidaA instanceof AggregatedMeasure && ((AggregatedMeasure) medidaA).getBaseMeasure() instanceof DataPropertyConditionInstanceMeasure){
 			
-			this.converterDataPropertyConditionInstanceMeasureOWL((DataPropertyConditionInstanceMeasure) medidaA);
+			this.converterDataPropertyConditionAggregatedMeasureOWL((AggregatedMeasure) medidaA);
 		}
 		
-		//MedidasB
-		if(medidaB instanceof TimeInstanceMeasure){
+		//MedidaB
+		if(medidaB instanceof AggregatedMeasure && ((AggregatedMeasure) medidaB).getBaseMeasure() instanceof TimeInstanceMeasure){
 			
-			this.converterTimeInstanceMeasureOWL((TimeInstanceMeasure) medidaB, bpmn20XmlExtracter);
-		}else if(medidaB instanceof CountInstanceMeasure){	
+			this.converterTimeAggregatedMeasureOWL((AggregatedMeasure) medidaB, bpmn20ModelHandler);
+		}else if(medidaB instanceof AggregatedMeasure && ((AggregatedMeasure) medidaB).getBaseMeasure() instanceof CountInstanceMeasure){	
 			
-			this.converterCountInstanceMeasureOWL((CountInstanceMeasure) medidaB, bpmn20XmlExtracter);
-		}else if(medidaB instanceof StateConditionInstanceMeasure){
+			this.converterCountAggregatedMeasureOWL((AggregatedMeasure) medidaB, bpmn20ModelHandler);
+		}else if(medidaB instanceof AggregatedMeasure && ((AggregatedMeasure) medidaB).getBaseMeasure() instanceof StateConditionInstanceMeasure){
 			
-			this.converterStateConditionInstanceMeasureOWL((StateConditionInstanceMeasure) medidaB, bpmn20XmlExtracter);
-		}else if(medidaB instanceof DataInstanceMeasure){
+			this.converterStateConditionAggregatedMeasureOWL((AggregatedMeasure) medidaB, bpmn20ModelHandler);
+		}else if(medidaB instanceof AggregatedMeasure && ((AggregatedMeasure) medidaB).getBaseMeasure() instanceof DataInstanceMeasure){
 			
-			this.converterDataInstanceMeasureOWL((DataInstanceMeasure) medidaB);
-		}else if(medidaB instanceof DataPropertyConditionInstanceMeasure){
+			this.converterDataAggregatedMeasureOWL((AggregatedMeasure) medidaB);
+		}else if(medidaB instanceof AggregatedMeasure && ((AggregatedMeasure) medidaB).getBaseMeasure() instanceof DataPropertyConditionInstanceMeasure){
 			
-			this.converterDataPropertyConditionInstanceMeasureOWL((DataPropertyConditionInstanceMeasure) medidaB);
+			this.converterDataPropertyConditionAggregatedMeasureOWL((AggregatedMeasure) medidaB);
 		}
 		
-		String nameDerivedMultiInstance = element.getName()+"Intermediate1";
-		measureIdA = measureIdA + "Intermediate1";
-		measureIdB = measureIdB + "Intermediate1";
+		String nameDerivedMultiInstance = element.getName();
 		
 		// adiciona el axioma de la medida
 		OWLNamedIndividual DataObjNameIndividualMeasure = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+nameDerivedMultiInstance) );
@@ -777,7 +782,7 @@ class GeneratePpinotAxioms {
 	/**Funcion que se encarga de convertir las medidas de tipo DerivedSingleInstanceMeasure 
 	 * en su correspondiente codigo owl 
 	 * @throws Exception **/
-	void converterDerivedSingleInstanceMeasureOWL(DerivedSingleInstanceMeasure element, Bpmn20XmlExtracter bpmn20XmlExtracter) throws Exception {
+	void converterDerivedSingleInstanceMeasureOWL(DerivedSingleInstanceMeasure element, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception {
 		
 		Map<String, MeasureDefinition> mapaMedidas = element.getUsedMeasureMap();
 		Set keys = mapaMedidas.keySet();
@@ -799,13 +804,13 @@ class GeneratePpinotAxioms {
 		//MedidasA
 		if(medidaA instanceof TimeInstanceMeasure){
 			
-			this.converterTimeInstanceMeasureOWL((TimeInstanceMeasure) medidaA, bpmn20XmlExtracter);
+			this.converterTimeInstanceMeasureOWL((TimeInstanceMeasure) medidaA, bpmn20ModelHandler);
 		}else if(medidaA instanceof CountInstanceMeasure){
 			
-			this.converterCountInstanceMeasureOWL((CountInstanceMeasure) medidaA, bpmn20XmlExtracter);
+			this.converterCountInstanceMeasureOWL((CountInstanceMeasure) medidaA, bpmn20ModelHandler);
 		}else if(medidaA instanceof StateConditionInstanceMeasure){
 			
-			this.converterStateConditionInstanceMeasureOWL((StateConditionInstanceMeasure) medidaA, bpmn20XmlExtracter);
+			this.converterStateConditionInstanceMeasureOWL((StateConditionInstanceMeasure) medidaA, bpmn20ModelHandler);
 		}else if(medidaA instanceof DataInstanceMeasure){
 			
 			this.converterDataInstanceMeasureOWL((DataInstanceMeasure) medidaA);
@@ -821,13 +826,13 @@ class GeneratePpinotAxioms {
 
 			if(medidaB instanceof TimeInstanceMeasure){
 				
-				this.converterTimeInstanceMeasureOWL((TimeInstanceMeasure) medidaB, bpmn20XmlExtracter);
+				this.converterTimeInstanceMeasureOWL((TimeInstanceMeasure) medidaB, bpmn20ModelHandler);
 			}else if(medidaB instanceof CountInstanceMeasure){	
 				
-				this.converterCountInstanceMeasureOWL((CountInstanceMeasure) medidaB, bpmn20XmlExtracter);
+				this.converterCountInstanceMeasureOWL((CountInstanceMeasure) medidaB, bpmn20ModelHandler);
 			}else if(medidaB instanceof StateConditionInstanceMeasure){
 				
-				this.converterStateConditionInstanceMeasureOWL((StateConditionInstanceMeasure) medidaB, bpmn20XmlExtracter);
+				this.converterStateConditionInstanceMeasureOWL((StateConditionInstanceMeasure) medidaB, bpmn20ModelHandler);
 			}else if(medidaB instanceof DataInstanceMeasure){
 				
 				this.converterDataInstanceMeasureOWL((DataInstanceMeasure) medidaB);
@@ -862,34 +867,34 @@ class GeneratePpinotAxioms {
 
 	
 	/** Devuelve el tipo de la Actividad**/
-	private String getNameTypeActivity(String id, Bpmn20XmlExtracter bpmn20XmlExtracter) throws Exception{
+	private String getNameTypeActivity(String id, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception{
 		
 		String type = null;
-		Object obj = bpmn20XmlExtracter.isTask(id);
+		Object obj = bpmn20ModelHandler.isTask(id);
 		if (obj!=null)
 			
 			type = Vocabulary.ACTIVITY;
 		else {
 			
-			obj = bpmn20XmlExtracter.isSubProcess(id);
+			obj = bpmn20ModelHandler.isSubProcess(id);
 			if (obj!=null)
 				
 				type = Vocabulary.ACTIVITY;
 			else {
 				
-				obj = bpmn20XmlExtracter.isDataObject(id);
+				obj = bpmn20ModelHandler.isDataObject(id);
 				if (obj!=null)
 					
 					type = Vocabulary.DATASTATECHANGE;
 				else {
 					
-					obj = bpmn20XmlExtracter.isStartEvent(id);
+					obj = bpmn20ModelHandler.isStartEvent(id);
 					if (obj!=null)
 						
 						type = Vocabulary.EVENTTRIGGER;
 					else {
 						
-						obj = bpmn20XmlExtracter.isEndEvent(id);
+						obj = bpmn20ModelHandler.isEndEvent(id);
 						if (obj!=null)
 							type = Vocabulary.EVENTTRIGGER;
 					}

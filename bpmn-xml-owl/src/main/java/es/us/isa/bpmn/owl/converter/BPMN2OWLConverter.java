@@ -9,6 +9,9 @@ import javax.xml.namespace.QName;
 
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+
+import es.us.isa.bpmn.handler.Bpmn20ModelHandler;
+import es.us.isa.bpmn.handler.ModelHandleInterface;
 import es.us.isa.bpmn.owl.notation.Vocabulary;
 import es.us.isa.bpmn.xmlClasses.bpmn20.TDataInputAssociation;
 import es.us.isa.bpmn.xmlClasses.bpmn20.TDataObject;
@@ -22,15 +25,13 @@ import es.us.isa.bpmn.xmlClasses.bpmn20.TSequenceFlow;
 import es.us.isa.bpmn.xmlClasses.bpmn20.TStartEvent;
 import es.us.isa.bpmn.xmlClasses.bpmn20.TSubProcess;
 import es.us.isa.bpmn.xmlClasses.bpmn20.TTask;
-import es.us.isa.bpmn.xmlExtracter.Bpmn20XmlExtracter;
-import es.us.isa.bpmn.xmlExtracter.XmlExtracter;
 
 /**
  * 
  * @author Edelia
  * 
  */
-public class BPMN2OWLConverter extends ToOWLConverter {
+public class BPMN2OWLConverter extends ToOWLConverter implements BPMN2OWLConverterInterface {
 
 	private GenerateBpmnAxioms generator;
 	
@@ -40,24 +41,24 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 	}
 	
     @Override
-	protected void generateOntology(XmlExtracter xmlExtracter) throws OWLOntologyCreationException {
+	protected void generateOntology(ModelHandleInterface modelHandler) throws OWLOntologyCreationException {
     	
     	String[] uris = { Vocabulary.URI };
     	this.addOntologyImports(uris);
     	
 		generator = new GenerateBpmnAxioms(
 				this.getManager().getOWLDataFactory(), this.getManager(), this.getOntology(), this.getOntologyURI()); 
-    	Bpmn20XmlExtracter bpmn20XmlExtracter = (Bpmn20XmlExtracter) xmlExtracter;
+    	Bpmn20ModelHandler bpmn20ModelHandler = (Bpmn20ModelHandler) modelHandler;
 		
-		List<TSequenceFlow> sequenceFlows = bpmn20XmlExtracter.getSequenceFlowList();
-		List <TDataObject> dataObjectList = bpmn20XmlExtracter.getDataObjectList();
+		List<TSequenceFlow> sequenceFlows = bpmn20ModelHandler.getSequenceFlowList();
+		List <TDataObject> dataObjectList = bpmn20ModelHandler.getDataObjectList();
 		
-		this.getDeclarationIndividualsTask( bpmn20XmlExtracter.getTaskList(), dataObjectList, sequenceFlows);
-		this.getDeclarationIndividualsSubProcess( bpmn20XmlExtracter.getSubProcessList(), dataObjectList, sequenceFlows);
-		this.getDeclarationIndividualsStartEvent( bpmn20XmlExtracter.getStartEventList(), sequenceFlows);
-		this.getDeclarationIndividualsEndEvent( bpmn20XmlExtracter.getEndEventList() );
-		this.getDeclarationIndividualsXorGateways( bpmn20XmlExtracter.getExclusiveGatewayList(), sequenceFlows);
-		this.getDeclarationIndividualsGateways( bpmn20XmlExtracter.getGatewayList(), sequenceFlows);
+		this.getDeclarationIndividualsTask( bpmn20ModelHandler.getTaskList(), dataObjectList, sequenceFlows);
+		this.getDeclarationIndividualsSubProcess( bpmn20ModelHandler.getSubProcessList(), dataObjectList, sequenceFlows);
+		this.getDeclarationIndividualsStartEvent( bpmn20ModelHandler.getStartEventList(), sequenceFlows);
+		this.getDeclarationIndividualsEndEvent( bpmn20ModelHandler.getEndEventList() );
+		this.getDeclarationIndividualsXorGateways( bpmn20ModelHandler.getExclusiveGatewayList(), sequenceFlows);
+		this.getDeclarationIndividualsGateways( bpmn20ModelHandler.getGatewayList(), sequenceFlows);
 		this.getDeclarationIndividualsDataObject(dataObjectList);
 	}
 	
@@ -72,7 +73,7 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			TTask element = (TTask) obj;
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameTask = BPMN2OWLConverter.getBpmnId(element);
+			String nameTask = this.getBpmnId(element);
 			
 			//Tambien voy a necesitar el dataobject al que se conecta en el caso de hacerlo
 			String nameOutputDataObj = null;
@@ -111,7 +112,7 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			TSubProcess element = (TSubProcess) obj;
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameActivity = BPMN2OWLConverter.getBpmnId(element);
+			String nameActivity = this.getBpmnId(element);
 			
 			
 			//Tambien voy a necesitar el dataobject al que se conecta en el caso de hacerlo
@@ -152,7 +153,7 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			TStartEvent element = (TStartEvent) obj;
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameEvent = BPMN2OWLConverter.getBpmnId(element);
+			String nameEvent = this.getBpmnId(element);
 			
 			List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, obj);
 		    generator.converterStartEventOWL(nameEvent, elementsDirectlyPrecedes);
@@ -169,7 +170,7 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			TEndEvent element = (TEndEvent) itr.next();
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameEvent = BPMN2OWLConverter.getBpmnId(element);
+			String nameEvent = this.getBpmnId(element);
 			
 		    generator.converterEndEventOWL(nameEvent);
 		}
@@ -185,7 +186,7 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			TExclusiveGateway element = (TExclusiveGateway) obj;
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameGtw = BPMN2OWLConverter.getBpmnId(element);
+			String nameGtw = this.getBpmnId(element);
 			
 			List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, obj);
 		    generator.converterXorGatewayOWL(nameGtw,elementsDirectlyPrecedes);
@@ -203,7 +204,7 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			TGateway element = (TGateway) obj;
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameGtw = BPMN2OWLConverter.getBpmnId(element);
+			String nameGtw = this.getBpmnId(element);
 			
 			List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, obj);
 		    generator.converterGatewayOWL(nameGtw,elementsDirectlyPrecedes);
@@ -219,7 +220,7 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			TDataObject element = (TDataObject) itr.next();
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameDataObj = BPMN2OWLConverter.getBpmnId(element);
+			String nameDataObj = this.getBpmnId(element);
 			
 		    generator.converterDataObjectOWL(nameDataObj);
 		}
@@ -235,7 +236,7 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			TDataObject tdataobject = (TDataObject) itObj.next();
 			if(tdataobject.getId().trim().equals(idDataObject.trim())){
 				
-				name = BPMN2OWLConverter.getBpmnId(tdataobject);
+				name = this.getBpmnId(tdataobject);
 				enc = true;
 			}
 		}
@@ -252,14 +253,14 @@ public class BPMN2OWLConverter extends ToOWLConverter {
 			TSequenceFlow element = (TSequenceFlow) itr.next();
 			if(element.getSourceRef().equals(task)){
 				
-				targetList.add( BPMN2OWLConverter.getBpmnId( element.getTargetRef() ) );
+				targetList.add( this.getBpmnId( element.getTargetRef() ) );
 			}
 		}
 		
 		return targetList;
 	}
 	
-	public static String getBpmnId(Object obj) {
+	private String getBpmnId(Object obj) {
 		
 		String id = "";
 		if (obj instanceof TFlowNode) {

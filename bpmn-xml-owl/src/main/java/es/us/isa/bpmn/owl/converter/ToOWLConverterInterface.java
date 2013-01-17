@@ -1,7 +1,6 @@
 package es.us.isa.bpmn.owl.converter;
 
-import es.us.isa.bpmn.xmlExtracter.XmlExtracter;
-
+import es.us.isa.bpmn.handler.ModelHandleInterface;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
@@ -12,6 +11,7 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
  */
 public interface ToOWLConverterInterface {
 
-    public OWLOntology convertToOwlOntology(XmlExtracter xmlExtracter) throws OWLOntologyCreationException;
-
+    public OWLOntology convertToOwlOntology(ModelHandleInterface modelHandler) throws OWLOntologyCreationException;
+    public String getOntologyURI();
+    public void saveOntology(String caminoDestino, String bpmnFilename);
 }

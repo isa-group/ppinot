@@ -271,4 +271,10 @@ public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandl
 		
 		return (TProcess) ((TDefinitions) this.getImportElement().getValue()).getRootElement().get(0).getValue();
 	}
+
+	@Override
+	public String getProcId() {
+		
+		return this.getProcess().getId();
+	}
 }

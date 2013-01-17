@@ -10,14 +10,14 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 
-import es.us.isa.bpmn.xmlExtracter.XmlExtracter;
+import es.us.isa.bpmn.handler.ModelHandleInterface;
 
 /**
  * 
  * @author Edelia
  *
  */
-public abstract class ToOWLConverter implements ToOWLConverterInterface {
+public abstract class ToOWLConverter {
 
 	private OWLOntologyManager manager;	// OWLOntologyManager utilizado
 	private String baseIRI;				// IRI de la ontologia creada
@@ -32,14 +32,13 @@ public abstract class ToOWLConverter implements ToOWLConverterInterface {
 		this.setManager(manager);
 	}
 
-	@Override
-	public OWLOntology convertToOwlOntology(XmlExtracter xmlExtracter) throws OWLOntologyCreationException {
+	public OWLOntology convertToOwlOntology(ModelHandleInterface modelHandler) throws OWLOntologyCreationException {
 
-    	setOntologyURI(getBaseIRI() + xmlExtracter.getProcess().getId() + ".owl");
+    	setOntologyURI(getBaseIRI() + modelHandler.getProcId() + ".owl");
     	
 		setOntology(getManager().createOntology(IRI.create(getOntologyURI())));
 
-		this.generateOntology(xmlExtracter);
+		this.generateOntology(modelHandler);
 		
 		return this.getOntology();
 	}
@@ -50,7 +49,7 @@ public abstract class ToOWLConverter implements ToOWLConverterInterface {
 			getManager().applyChange(new AddImport(getOntology(), getManager().getOWLDataFactory().getOWLImportsDeclaration( IRI.create( uris[i] ) )));
 	}
 	
-	protected abstract void generateOntology(XmlExtracter xmlExtracter) throws OWLOntologyCreationException;
+	protected abstract void generateOntology(ModelHandleInterface modelHandler) throws OWLOntologyCreationException;
 	
 	public void saveOntology(String caminoDestino, String bpmnFilename) {
 		

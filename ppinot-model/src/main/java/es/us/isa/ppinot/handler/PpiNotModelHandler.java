@@ -70,7 +70,7 @@ import javax.xml.bind.JAXBException;
  * @version 1.0
  *
  */
-public class PpiNotModelHandler extends ModelHandler {
+public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandlerInterface {
 
 	/**
 	 * Objeto con instancias de las clases en el paquete de BPMN, que es utilizado para exportar e importar xml
@@ -2467,7 +2467,7 @@ public class PpiNotModelHandler extends ModelHandler {
 	    }
 	}
 	
-	public void setPpiModel(Map<String, PPI> modelMap) {
+	public void setPpiModelMap(Map<String, PPI> modelMap) {
 		
 	    if (modelMap!=null) {
 	    	

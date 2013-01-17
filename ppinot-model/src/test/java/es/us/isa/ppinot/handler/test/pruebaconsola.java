@@ -80,7 +80,7 @@ public class pruebaconsola {
 		ppiNotModelHandler.setDerivedSingleInstanceModelMap(derivedInstanceMeasure);
 		ppiNotModelHandler.setDerivedMultiInstanceModelMap(derivedProcessMeasure);
 
-		ppiNotModelHandler.setPpiModel(ppi);
+		ppiNotModelHandler.setPpiModelMap(ppi);
 		
 		ppiNotModelHandler.save(camino, nomFichDestino, procId);
 		

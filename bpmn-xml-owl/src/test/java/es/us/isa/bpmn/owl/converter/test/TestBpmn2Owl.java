@@ -22,12 +22,12 @@ public class TestBpmn2Owl {
 		
 		try {
 			
-			String caminoOrigen = "D:/eclipse-appweb-indigo/repository_isa/";
-			String caminoDestino = "D:/tmp-nuevo/";
+			String caminoOrigen = "D:/eclipse-appweb-indigo/ppinot-repository/bpmn-xml-owl/target/test-classes/xml/";
+			String caminoDestino = "D:/eclipse-appweb-indigo/ppinot-repository/bpmn-xml-owl/target/test-classes/owl/";
 
 			// importa el xml
 			Bpmn20ModelHandlerInterface modelHandler = new Bpmn20ModelHandler();
-			modelHandler.load(caminoOrigen, "prueba "+sourceFile);
+			modelHandler.load(caminoOrigen, sourceFile);
 //			modelHandler.load( getClass().getResourceAsStream("xml/"+sourceFile) );
 			
 			// convierte a owl
@@ -109,7 +109,7 @@ public class TestBpmn2Owl {
 	@Test
 	public void testAggregatedConnector() {
 		
-		assertTrue(bpmn2Owl("http://www.isa.us.es/ontologies/bpmn/", "aggregated connector.bpmn20.xml"));
+		assertTrue(bpmn2Owl("http://www.isa.us.es/ontologies/bpmn/", "aggregated-connector.bpmn20.xml"));
 
         BpmnTestAnalyser analyser = new BpmnTestAnalyser(bpmnOntology);
         assertTrue("Start event is there", analyser.isStartEvent("sid-0B3CFFD6-68F2-4E7D-BDCA-769B546204F2"));
@@ -120,6 +120,55 @@ public class TestBpmn2Owl {
         assertTrue("Task 1 precedes Task 2", analyser.isDirectlyPreceding("sid-1BC2E6C5-FC04-42C8-8D3D-27F7A20485D6", "sid-93E91437-3D1C-4BFA-AB2F-03CD15543C0A"));
         assertTrue("Task 2 precedes end event", analyser.isDirectlyPreceding("sid-93E91437-3D1C-4BFA-AB2F-03CD15543C0A", "sid-E19E267A-C3A9-48DB-AA17-64353BEB7875"));
 
+	}
+
+	@Test
+	public void testIsgroupedbyConnector() {
+		
+		assertTrue(bpmn2Owl("http://www.isa.us.es/ontologies/bpmn/", "isgroupedby-connector.bpmn20.xml"));
+
+        BpmnTestAnalyser analyser = new BpmnTestAnalyser(bpmnOntology);
+        assertTrue("Start event is there", analyser.isStartEvent("sid-872B1F52-741D-4E46-A10F-90BB305157DE"));
+        assertTrue("Task 1 is there", analyser.isTask("sid-DB049C83-0C6F-4643-993D-9087B1C0D0CB"));
+        assertTrue("Task 2 is there", analyser.isTask("sid-B001BA42-6F8F-4EC0-BF6D-AB46F4F5EF8E") );
+        assertTrue("End event is there", analyser.isEndEvent("sid-CAD45C6B-7093-4FAA-A303-B76B21D335C4"));
+        assertTrue("Start event precedes Task 1", analyser.isDirectlyPreceding("sid-872B1F52-741D-4E46-A10F-90BB305157DE", "sid-DB049C83-0C6F-4643-993D-9087B1C0D0CB"));
+        assertTrue("Task 1 precedes Task 2", analyser.isDirectlyPreceding("sid-DB049C83-0C6F-4643-993D-9087B1C0D0CB", "sid-B001BA42-6F8F-4EC0-BF6D-AB46F4F5EF8E"));
+        assertTrue("Task 2 precedes end event", analyser.isDirectlyPreceding("sid-B001BA42-6F8F-4EC0-BF6D-AB46F4F5EF8E", "sid-CAD45C6B-7093-4FAA-A303-B76B21D335C4"));
+        assertTrue("Data object is there", analyser.isDataObject("sid-58AEF45E-1C11-4923-9071-290DB1DD0F0D"));
+        assertTrue("Data object is input of Task 2", analyser.isDataInputOf("sid-58AEF45E-1C11-4923-9071-290DB1DD0F0D", "sid-B001BA42-6F8F-4EC0-BF6D-AB46F4F5EF8E"));
+	}
+
+	@Test
+	public void testLanes() {
+		
+		assertTrue(bpmn2Owl("http://www.isa.us.es/ontologies/bpmn/", "lanes.bpmn20.xml"));
+
+        BpmnTestAnalyser analyser = new BpmnTestAnalyser(bpmnOntology);
+        assertTrue("Start event is there", analyser.isStartEvent("sid-5874CAE4-A5D5-42E9-9E3C-FF970E86587F"));
+        assertTrue("Task 1 is there", analyser.isTask("sid-AE412B24-8E94-4C0C-A83E-40A3A2CFFFDC"));
+        assertTrue("Task 2 is there", analyser.isTask("sid-95F066C0-7680-421B-A18D-2FFDF98D44CD") );
+        assertTrue("Task 3 is there", analyser.isTask("sid-E7776982-9DCD-48D1-BF8E-BEC23728B124") );
+        assertTrue("End event is there", analyser.isEndEvent("sid-02D283F8-3695-438E-A507-CB8FD28581BC"));
+        assertTrue("Start event precedes Task 1", analyser.isDirectlyPreceding("sid-5874CAE4-A5D5-42E9-9E3C-FF970E86587F", "sid-AE412B24-8E94-4C0C-A83E-40A3A2CFFFDC"));
+        assertTrue("Task 1 precedes Task 2", analyser.isDirectlyPreceding("sid-AE412B24-8E94-4C0C-A83E-40A3A2CFFFDC", "sid-95F066C0-7680-421B-A18D-2FFDF98D44CD"));
+        assertTrue("Task 2 precedes Task 3", analyser.isDirectlyPreceding("sid-95F066C0-7680-421B-A18D-2FFDF98D44CD", "sid-E7776982-9DCD-48D1-BF8E-BEC23728B124"));
+        assertTrue("Task 3 precedes End Event", analyser.isDirectlyPreceding("sid-E7776982-9DCD-48D1-BF8E-BEC23728B124", "sid-02D283F8-3695-438E-A507-CB8FD28581BC"));
+	}
+
+	@Test
+	public void testPpi() {
+		
+		assertTrue(bpmn2Owl("http://www.isa.us.es/ontologies/bpmn/", "ppi.bpmn20.xml"));
+
+        BpmnTestAnalyser analyser = new BpmnTestAnalyser(bpmnOntology);
+        assertTrue("Start event is there", analyser.isStartEvent("sid-9A9977D6-5D29-4FE5-B999-BBA1DF17B4C1"));
+        assertTrue("Task 1 is there", analyser.isTask("sid-680678C2-CDEE-4852-85E7-CAA68E08DF78"));
+        assertTrue("Task 2 is there", analyser.isTask("sid-A96CA54F-FEAC-4E71-AE44-BDE3C98FB11B") );
+        assertTrue("End event is there", analyser.isEndEvent("sid-7E04B962-CCB7-400E-A820-8A065602111F"));
+        assertTrue("Start event precedes Task 1", analyser.isDirectlyPreceding("sid-9A9977D6-5D29-4FE5-B999-BBA1DF17B4C1", "sid-680678C2-CDEE-4852-85E7-CAA68E08DF78"));
+        assertTrue("Task 1 precedes Task 2", analyser.isDirectlyPreceding("sid-680678C2-CDEE-4852-85E7-CAA68E08DF78", "sid-A96CA54F-FEAC-4E71-AE44-BDE3C98FB11B"));
+        assertTrue("Task 2 precedes end event", analyser.isDirectlyPreceding("sid-A96CA54F-FEAC-4E71-AE44-BDE3C98FB11B", "sid-7E04B962-CCB7-400E-A820-8A065602111F"));
 	}
 
 }

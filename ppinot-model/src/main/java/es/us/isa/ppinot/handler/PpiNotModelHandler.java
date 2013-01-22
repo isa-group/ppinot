@@ -18,6 +18,8 @@ import es.us.isa.ppinot.model.base.TimeInstanceMeasure;
 import es.us.isa.ppinot.model.condition.DataPropertyCondition;
 import es.us.isa.ppinot.model.condition.StateCondition;
 import es.us.isa.ppinot.model.condition.TimeInstantCondition;
+import es.us.isa.ppinot.model.condition.TimeMeasureType;
+import es.us.isa.ppinot.model.derived.DerivedMeasure;
 import es.us.isa.ppinot.model.derived.DerivedMultiInstanceMeasure;
 import es.us.isa.ppinot.model.derived.DerivedSingleInstanceMeasure;
 import es.us.isa.ppinot.model.state.GenericState;
@@ -117,8 +119,8 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	private Map<String, AggregatedMeasure> dataPropertyConditionAggregatedModelMap;
 	private Map<String, AggregatedMeasure> derivedSingleInstanceAggregatedModelMap;
 
-	private Map<String, DerivedSingleInstanceMeasure> derivedSingleInstanceModelMap;
-	private Map<String, DerivedMultiInstanceMeasure> derivedMultiInstanceModelMap;
+	private Map<String, DerivedMeasure> derivedSingleInstanceModelMap;
+	private Map<String, DerivedMeasure> derivedMultiInstanceModelMap;
 
 	private Map<String, PPI> ppiModelMap;
 	
@@ -176,8 +178,8 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		dataPropertyConditionAggregatedModelMap = new HashMap<String, AggregatedMeasure>();
 		derivedSingleInstanceAggregatedModelMap = new HashMap<String, AggregatedMeasure>();
 
-		derivedSingleInstanceModelMap = new HashMap<String, DerivedSingleInstanceMeasure>();
-		derivedMultiInstanceModelMap = new HashMap<String, DerivedMultiInstanceMeasure>();
+		derivedSingleInstanceModelMap = new HashMap<String, DerivedMeasure>();
+		derivedMultiInstanceModelMap = new HashMap<String, DerivedMeasure>();
 
 		ppiModelMap = new HashMap<String, PPI>();
 
@@ -272,61 +274,6 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		return (process==null)?"":process.getId();
 	}
 
-	private void removeTimeInstanceMeasureMap(String id) {
-		
-		this.timeInstanceModelMap.remove(id);
-	}
-
-	private void removeCountInstanceMeasureMap(String id) {
-		
-		this.countInstanceModelMap.remove(id);
-	}
-	
-	private void removeStateConditionInstanceMeasureMap(String id) {
-		
-		this.stateConditionInstanceModelMap.remove(id);
-	}
-
-	private void removeDataInstanceMeasureMap(String id) {
-		
-		this.dataInstanceModelMap.remove(id);
-	}
-
-	private void removeDataPropertyConditionInstanceMeasureMap(String id) {
-		
-		this.dataPropertyConditionInstanceModelMap.remove(id);
-	}
-
-	private void removeTimeAggregatedMeasureMap(String id) {
-		
-		this.timeAggregatedModelMap.remove(id);
-	}
-
-	private void removeCountAggregatedMeasureMap(String id) {
-		
-		this.countAggregatedModelMap.remove(id);
-	}
-
-	private void removeStateConditionAggregatedMeasureMap(String id) {
-		
-		this.stateConditionAggregatedModelMap.remove(id);
-	}
-
-	private void removeDataAggregatedMeasureMap(String id) {
-		
-		this.dataAggregatedModelMap.remove(id);
-	}
-
-	private void removeDataPropertyConditionAggregatedMeasureMap(String id) {
-		
-		this.dataPropertyConditionAggregatedModelMap.remove(id);
-	}
-
-	private void removeDerivedSingleInstanceAggregatedMeasureMap(String id) {
-		
-		this.derivedSingleInstanceAggregatedModelMap.remove(id);
-	}
-
 	@SuppressWarnings("unused")
 	private void removePpiModelMap(String id) {
 		
@@ -391,63 +338,63 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		if (this.countInstanceModelMap.containsKey(id)) {
 			measure = this.countInstanceModelMap.get(id);
 			if (remove)
-				this.removeCountInstanceMeasureMap(id);
+				this.countInstanceModelMap.remove(id);
 		} else
 		if (this.timeInstanceModelMap.containsKey(id)) {
 			measure = this.timeInstanceModelMap.get(id);
 			if (remove)
-				this.removeTimeInstanceMeasureMap(id);
+				this.timeInstanceModelMap.remove(id);
 		} else
 		if (this.stateConditionInstanceModelMap.containsKey(id)) {
 			measure = this.stateConditionInstanceModelMap.get(id);
 			if (remove)
-				this.removeStateConditionInstanceMeasureMap(id);
+				this.stateConditionInstanceModelMap.remove(id);
 		} else
 		if (this.dataInstanceModelMap.containsKey(id)) {
 			measure = this.dataInstanceModelMap.get(id);
 			if (remove)
-				this.removeDataInstanceMeasureMap(id);
+				this.dataInstanceModelMap.remove(id);
 		} else
 		if (this.dataPropertyConditionInstanceModelMap.containsKey(id)) {
 			measure = this.dataPropertyConditionInstanceModelMap.get(id);
 			if (remove)
-				this.removeDataPropertyConditionInstanceMeasureMap(id);
+				this.dataPropertyConditionInstanceModelMap.remove(id);
 		} else
 		if (this.countAggregatedModelMap.containsKey(id)) {
 			measure = this.countAggregatedModelMap.get(id);
 			if (remove)
-				this.removeCountAggregatedMeasureMap(id);
+				this.countAggregatedModelMap.remove(id);
 		} else
 		if (this.timeAggregatedModelMap.containsKey(id)) {
 			measure = this.timeAggregatedModelMap.get(id);
 			if (remove)
-				this.removeTimeAggregatedMeasureMap(id);
+				this.timeAggregatedModelMap.remove(id);
 		} else
 		if (this.stateConditionAggregatedModelMap.containsKey(id)) {
 			measure = this.stateConditionAggregatedModelMap.get(id);
 			if (remove)
-				this.removeStateConditionAggregatedMeasureMap(id);
+				this.stateConditionAggregatedModelMap.remove(id);
 		} else
 		if (this.dataAggregatedModelMap.containsKey(id)) {
 			measure = this.dataAggregatedModelMap.get(id);
 			if (remove)
-				this.removeDataAggregatedMeasureMap(id);
+				this.dataAggregatedModelMap.remove(id);
 		} else
 		if (this.dataPropertyConditionAggregatedModelMap.containsKey(id)) {
 			measure = this.dataPropertyConditionAggregatedModelMap.get(id);
 			if (remove)
-				this.removeDataPropertyConditionAggregatedMeasureMap(id);
+				this.dataPropertyConditionAggregatedModelMap.remove(id);
 		} else 
 		if (this.derivedSingleInstanceAggregatedModelMap.containsKey(id)) {
 			measure = this.derivedSingleInstanceAggregatedModelMap.get(id);
 			if (remove)
-				this.removeDerivedSingleInstanceAggregatedMeasureMap(id);
+				measure = this.derivedSingleInstanceAggregatedModelMap.get(id);
 		} else {
 
-			Iterator<Entry<String, DerivedSingleInstanceMeasure>> itInst = this.derivedSingleInstanceModelMap.entrySet().iterator();
+			Iterator<Entry<String, DerivedMeasure>> itInst = this.derivedSingleInstanceModelMap.entrySet().iterator();
 		    while (itInst.hasNext()) {
-		        Map.Entry<String, DerivedSingleInstanceMeasure> pairs = (Map.Entry<String, DerivedSingleInstanceMeasure>)itInst.next();
-		        DerivedSingleInstanceMeasure m = (DerivedSingleInstanceMeasure) pairs.getValue();
+		        Map.Entry<String, DerivedMeasure> pairs = (Map.Entry<String, DerivedMeasure>)itInst.next();
+		        DerivedMeasure m = (DerivedMeasure) pairs.getValue();
 
 		        measure = m.getUsedMeasureId(id);
 				if (measure!=null) {
@@ -456,10 +403,10 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 			}
 		
 		    if (measure==null) {
-				Iterator<Entry<String, DerivedMultiInstanceMeasure>> itInstP = this.derivedMultiInstanceModelMap.entrySet().iterator();
+				Iterator<Entry<String, DerivedMeasure>> itInstP = this.derivedMultiInstanceModelMap.entrySet().iterator();
 			    while (itInstP.hasNext()) {
-			        Map.Entry<String, DerivedMultiInstanceMeasure> pairs = (Map.Entry<String, DerivedMultiInstanceMeasure>)itInstP.next();
-			        DerivedMultiInstanceMeasure m = (DerivedMultiInstanceMeasure) pairs.getValue();
+			        Map.Entry<String, DerivedMeasure> pairs = (Map.Entry<String, DerivedMeasure>)itInstP.next();
+			        DerivedMeasure m = (DerivedMeasure) pairs.getValue();
 
 			        measure = m.getUsedMeasureId(id);
 					if (measure!=null) {
@@ -676,6 +623,8 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		TTimeConnector conFrom = map.get("From");
 		TTimeConnector conTo = map.get("To");
 		
+		TimeMeasureType timeMeasureType = (measure.getTimeMeasureType().toLowerCase().contentEquals("cyclic"))?TimeMeasureType.CYCLIC:TimeMeasureType.LINEAR;
+		
 		TimeInstanceMeasure def = null;
 		if (map.size()==2)
 			def = new TimeInstanceMeasure( 
@@ -690,7 +639,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 					new TimeInstantCondition(
 							((TBaseElement) conTo.getTargetRef()).getId(), 
 							new RuntimeState(conTo.getWhen())),
-					measure.getTimeMeasureType(),  
+					timeMeasureType,  
 					measure.getSingleInstanceAggFunction());
 		else
 			def = new TimeInstanceMeasure( 
@@ -701,8 +650,8 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 					measure.getUnitofmeasure(),
 					null,  
 					null,
-					"",
-					"" );
+					timeMeasureType,
+					measure.getSingleInstanceAggFunction() );
 		return def;
 	}
 	private CountInstanceMeasure obtainModel(TCountMeasure measure) {
@@ -1098,7 +1047,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	private DerivedSingleInstanceMeasure obtainModel(TDerivedSingleInstanceMeasure measure) {
 		
 		if (this.derivedSingleInstanceModelMap.containsKey(measure.getId()))
-			return this.derivedSingleInstanceModelMap.get(measure.getId());
+			return (DerivedSingleInstanceMeasure) this.derivedSingleInstanceModelMap.get(measure.getId());
 		
 		// crea la definición de la medida DerivedSingleInstanceMeasure a partir de la información en el xml
 		// la medida a la cual se aplica la medida se obtiene del conector
@@ -1121,7 +1070,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	private DerivedMultiInstanceMeasure obtainModel(TDerivedMultiInstanceMeasure measure) {
 		
 		if (this.derivedMultiInstanceModelMap.containsKey(measure.getId()))
-			return this.derivedMultiInstanceModelMap.get(measure.getId());
+			return (DerivedMultiInstanceMeasure) this.derivedMultiInstanceModelMap.get(measure.getId());
 		
 		// crea la definición de la medida DerivedMultiInstanceMeasure a partir de la información en el xml
 		// la medida a la cual se aplica la medida se obtiene del conector
@@ -1330,7 +1279,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	 * 
 	 * @return Lista de medidas
 	 */
-	public Map<String, DerivedSingleInstanceMeasure> getDerivedSingleInstanceModelMap() {
+	public Map<String, DerivedMeasure> getDerivedSingleInstanceModelMap() {
 		
 		return derivedSingleInstanceModelMap;
 	}
@@ -1340,7 +1289,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	 * 
 	 * @return Lista de medidas
 	 */
-	public Map<String, DerivedMultiInstanceMeasure> getDerivedMultiInstanceModelMap() {
+	public Map<String, DerivedMeasure> getDerivedMultiInstanceModelMap() {
 		
 		return derivedMultiInstanceModelMap;
 	}
@@ -2257,14 +2206,14 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	}
 
 	@SuppressWarnings("unchecked")
-	public void setDerivedSingleInstanceModelMap(Map<String, DerivedSingleInstanceMeasure> modelMap) {
+	public void setDerivedSingleInstanceModelMap(Map<String, DerivedMeasure> modelMap) {
 
 	    if (modelMap!=null) {
 	    	
-			Iterator<Entry<String, DerivedSingleInstanceMeasure>> itInst = modelMap.entrySet().iterator();
+			Iterator<Entry<String, DerivedMeasure>> itInst = modelMap.entrySet().iterator();
 		    while (itInst.hasNext()) {
-		        Map.Entry<String, DerivedSingleInstanceMeasure> pairs = (Map.Entry<String, DerivedSingleInstanceMeasure>)itInst.next();
-		        DerivedSingleInstanceMeasure def = pairs.getValue();
+		        Map.Entry<String, DerivedMeasure> pairs = (Map.Entry<String, DerivedMeasure>)itInst.next();
+		        DerivedSingleInstanceMeasure def = (DerivedSingleInstanceMeasure) pairs.getValue();
 		    		
 		    	Map<String,Object> map = this.obtainInfo(def);
 	    		
@@ -2361,14 +2310,14 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	}
 
 	@SuppressWarnings("unchecked")
-	public void setDerivedMultiInstanceModelMap(Map<String, DerivedMultiInstanceMeasure> modelMap) {
+	public void setDerivedMultiInstanceModelMap(Map<String, DerivedMeasure> modelMap) {
 
 	    if (modelMap!=null) {
 	    	
-			Iterator<Entry<String, DerivedMultiInstanceMeasure>> itInst = modelMap.entrySet().iterator();
+			Iterator<Entry<String, DerivedMeasure>> itInst = modelMap.entrySet().iterator();
 		    while (itInst.hasNext()) {
-		        Map.Entry<String, DerivedMultiInstanceMeasure> pairs = (Map.Entry<String, DerivedMultiInstanceMeasure>)itInst.next();
-		        DerivedMultiInstanceMeasure def = pairs.getValue();
+		        Map.Entry<String, DerivedMeasure> pairs = (Map.Entry<String, DerivedMeasure>)itInst.next();
+		        DerivedMultiInstanceMeasure def = (DerivedMultiInstanceMeasure) pairs.getValue();
 		    		
 		    	Map<String,Object> map = this.obtainInfo(def);
 	    		

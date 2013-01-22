@@ -7,7 +7,7 @@
                <ppinot:countMeasure description="" id="sid-4ca76a0a-5e7a-4ad8-a35c-23319b904340" name="Count1" scale="" unitofmeasure=""/>
             </ppinot:aggregatedMeasure>
             <ppinot:aggregatedMeasure aggregationfunction="Sum" id="sid-C11F5344-C7B6-43EF-B6CD-4064C1AE8BA9" name="Time1" samplingfrequency="Mensual">
-               <ppinot:timeMeasure description="" id="sid-0c306446-8c69-449a-8da4-d2780209b03b" name="Time1" scale="" singleInstanceAggFunction="Minimum" timeMeasureType="Linear" unitofmeasure=""/>
+               <ppinot:timeMeasure description="" id="sid-0c306446-8c69-449a-8da4-d2780209b03b" name="Time1" scale="" singleInstanceAggFunction="Minimum" timeMeasureType="Cyclic" unitofmeasure=""/>
             </ppinot:aggregatedMeasure>
             <ppinot:aggregatedMeasure aggregationfunction="Sum" id="sid-8A0FCBF6-2486-4855-9D33-1921E646BB6C" name="StateCondition1" samplingfrequency="Trimestral">
                <ppinot:stateConditionMeasure description="" id="sid-9cee8a2a-e4a6-4211-a9d8-5f4948cd63e7" name="StateCondition1" scale="" unitofmeasure=""/>

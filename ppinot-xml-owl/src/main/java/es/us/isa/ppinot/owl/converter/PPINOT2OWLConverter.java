@@ -11,12 +11,14 @@ import es.us.isa.bpmn.handler.Bpmn20ModelHandlerInterface;
 import es.us.isa.bpmn.handler.ModelHandleInterface;
 import es.us.isa.bpmn.owl.converter.ToOWLConverter;
 import es.us.isa.ppinot.handler.PpiNotModelHandler;
+import es.us.isa.ppinot.model.PPI;
 import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
 import es.us.isa.ppinot.model.base.CountInstanceMeasure;
 import es.us.isa.ppinot.model.base.DataInstanceMeasure;
 import es.us.isa.ppinot.model.base.DataPropertyConditionInstanceMeasure;
 import es.us.isa.ppinot.model.base.StateConditionInstanceMeasure;
 import es.us.isa.ppinot.model.base.TimeInstanceMeasure;
+import es.us.isa.ppinot.model.derived.DerivedMeasure;
 import es.us.isa.ppinot.model.derived.DerivedMultiInstanceMeasure;
 import es.us.isa.ppinot.model.derived.DerivedSingleInstanceMeasure;
 import es.us.isa.ppinot.owl.notation.Vocabulary;
@@ -60,16 +62,19 @@ public class PPINOT2OWLConverter extends ToOWLConverter implements PPINOT2OWLCon
 			this.getDeclarationIndividualsStateConditionInstanceMeasure( ppiNotModelHandler.getStateConditionInstanceModelMap());
 			this.getDeclarationIndividualsDataPropertyConditionInstanceMeasure( ppiNotModelHandler.getDataPropertyConditionInstanceModelMap());
 			this.getDeclarationIndividualsDataInstanceMeasure( ppiNotModelHandler.getDataInstanceModelMap() );
-			
-			this.getDeclarationIndividualsCountAggregatedMeasure( ppiNotModelHandler.getCountAggregatedModelMap());
-			this.getDeclarationIndividualsTimeAggregatedMeasure( ppiNotModelHandler.getTimeAggregatedModelMap());
-			this.getDeclarationIndividualsStateConditionAggregatedMeasure( ppiNotModelHandler.getStateConditionAggregatedModelMap());
-			this.getDeclarationIndividualsDataPropertyConditionAggregatedMeasure( ppiNotModelHandler.getDataPropertyConditionAggregatedModelMap());
-			this.getDeclarationIndividualsDataAggregatedMeasure( ppiNotModelHandler.getDataAggregatedModelMap());
+
+			this.getDeclarationIndividualsAggregatedMeasure( ppiNotModelHandler.getCountAggregatedModelMap());
+			this.getDeclarationIndividualsAggregatedMeasure( ppiNotModelHandler.getTimeAggregatedModelMap());
+			this.getDeclarationIndividualsAggregatedMeasure( ppiNotModelHandler.getStateConditionAggregatedModelMap());
+			this.getDeclarationIndividualsAggregatedMeasure( ppiNotModelHandler.getDataPropertyConditionAggregatedModelMap());
+			this.getDeclarationIndividualsAggregatedMeasure( ppiNotModelHandler.getDataAggregatedModelMap());
+
 			this.getDeclarationIndividualsDerivedSingleInstanceAggregatedMeasure( ppiNotModelHandler.getDerivedSingleInstanceAggregatedModelMap());
 	
-			this.getDeclarationIndividualsDerivedMultiInstanceMeasure( ppiNotModelHandler.getDerivedMultiInstanceModelMap());
-			this.getDeclarationIndividualsDerivedSingleInstanceMeasure( ppiNotModelHandler.getDerivedSingleInstanceModelMap());
+			this.getDeclarationIndividualsDerivedMeasure( ppiNotModelHandler.getDerivedMultiInstanceModelMap());
+			this.getDeclarationIndividualsDerivedMeasure( ppiNotModelHandler.getDerivedSingleInstanceModelMap());
+			
+			this.getDeclarationIndividualsPpiMeasure( ppiNotModelHandler.getPpiModelMap());
 		} catch (Exception e) {
 			
 			e.printStackTrace();
@@ -143,77 +148,21 @@ public class PPINOT2OWLConverter extends ToOWLConverter implements PPINOT2OWLCon
 		}	
 	}
 
-	/***Declaraciones en owl de medidas de tipo countAggregatedMeasure 
-	 * @param jaxbElement 
-	 * @param taskList 
-	 * @throws Exception ***/
+//***********************************************************************************/
+//***********************************************************************************/
 	
-	/***Declaraciones en owl de la medida countAggregatedMeasure de PPINOT ***/
-	private void getDeclarationIndividualsCountAggregatedMeasure(Map<String, AggregatedMeasure> modelMap) throws Exception {
+	private void getDeclarationIndividualsAggregatedMeasure(Map<String, AggregatedMeasure> modelMap) throws Exception {
 		
 		Iterator<Entry<String, AggregatedMeasure>> itInst = modelMap.entrySet().iterator();
 	    while (itInst.hasNext()) {
 	        Map.Entry<String, AggregatedMeasure> pairs = (Map.Entry<String, AggregatedMeasure>)itInst.next();
 	        AggregatedMeasure element = pairs.getValue();
 			
-			generator.converterCountAggregatedMeasureOWL(element, bpmn20ModelHandler);
+			generator.converterAggregatedMeasureOWL(element, bpmn20ModelHandler);
 		}
 		
 	}
 
-//***********************************************************************************/
-//***********************************************************************************/
-	
-	/***Declaraciones en owl de la medida timeAggregatedMeasure de PPINOT ***/
-	private void getDeclarationIndividualsTimeAggregatedMeasure(Map<String, AggregatedMeasure> modelMap) throws Exception {
-		
-		Iterator<Entry<String, AggregatedMeasure>> itInst = modelMap.entrySet().iterator();
-	    while (itInst.hasNext()) {
-	        Map.Entry<String, AggregatedMeasure> pairs = (Map.Entry<String, AggregatedMeasure>)itInst.next();
-	        AggregatedMeasure element = pairs.getValue();
-	
-		    generator.converterTimeAggregatedMeasureOWL(element, bpmn20ModelHandler);
-		}
-		
-	}
-	
-	
-	/***Declaraciones en owl de la medida StateConditionAggregatedMeasure de PPINOT ***/
-	private void getDeclarationIndividualsStateConditionAggregatedMeasure(Map<String, AggregatedMeasure> modelMap) throws Exception {
-		
-		Iterator<Entry<String, AggregatedMeasure>> itInst = modelMap.entrySet().iterator();
-	    while (itInst.hasNext()) {
-	        Map.Entry<String, AggregatedMeasure> pairs = (Map.Entry<String, AggregatedMeasure>)itInst.next();
-	        AggregatedMeasure element = pairs.getValue();
-			
-			generator.converterStateConditionAggregatedMeasureOWL(element, bpmn20ModelHandler);
-		}	
-	}
-	
-	/***Declaraciones en owl de la medida DataPropertyConditionAggregatedMeasure de PPINOT ***/
-	private void getDeclarationIndividualsDataPropertyConditionAggregatedMeasure(Map<String, AggregatedMeasure> modelMap) throws Exception {
-		
-		Iterator<Entry<String, AggregatedMeasure>> itInst = modelMap.entrySet().iterator();
-	    while (itInst.hasNext()) {
-	        Map.Entry<String, AggregatedMeasure> pairs = (Map.Entry<String, AggregatedMeasure>)itInst.next();
-	        AggregatedMeasure element = pairs.getValue();
-			
-			generator.converterDataPropertyConditionAggregatedMeasureOWL(element);
-		}	
-	}
-	
-	/***Declaraciones en owl de la medida DataAggregatedMeasure de PPINOT ***/
-	private void getDeclarationIndividualsDataAggregatedMeasure(Map<String, AggregatedMeasure> modelMap) throws Exception {
-		
-		Iterator<Entry<String, AggregatedMeasure>> itInst = modelMap.entrySet().iterator();
-	    while (itInst.hasNext()) {
-	        Map.Entry<String, AggregatedMeasure> pairs = (Map.Entry<String, AggregatedMeasure>)itInst.next();
-	        AggregatedMeasure element = pairs.getValue();
-			
-			generator.converterDataAggregatedMeasureOWL(element);
-		}	
-	}
-	
 	private void getDeclarationIndividualsDerivedSingleInstanceAggregatedMeasure(Map<String, AggregatedMeasure> modelMap) throws Exception {
 		
 		Iterator<Entry<String, AggregatedMeasure>> itInst = modelMap.entrySet().iterator();
@@ -230,30 +179,25 @@ public class PPINOT2OWLConverter extends ToOWLConverter implements PPINOT2OWLCon
 //***********************************************************************************/
 	
 	/***Declaraciones en owl de la medida DerivedMultiInstanceMeasure de PPINOT ***/
-	private void getDeclarationIndividualsDerivedMultiInstanceMeasure(Map<String, DerivedMultiInstanceMeasure> modelMap) throws Exception {
+	private void getDeclarationIndividualsDerivedMeasure(Map<String, DerivedMeasure> modelMap) throws Exception {
 		
-		Iterator<Entry<String, DerivedMultiInstanceMeasure>> itInst = modelMap.entrySet().iterator();
+		Iterator<Entry<String, DerivedMeasure>> itInst = modelMap.entrySet().iterator();
 	    while (itInst.hasNext()) {
-	        Map.Entry<String, DerivedMultiInstanceMeasure> pairs = (Map.Entry<String, DerivedMultiInstanceMeasure>)itInst.next();
-	        DerivedMultiInstanceMeasure element = pairs.getValue();
+	        Map.Entry<String, DerivedMeasure> pairs = (Map.Entry<String, DerivedMeasure>)itInst.next();
+	        DerivedMeasure element = pairs.getValue();
 
-		    generator.converterDerivedMultiInstanceMeasureOWL(element, bpmn20ModelHandler);
-		}
-	}
-
-//***********************************************************************************/
-//***********************************************************************************/
-//***********************************************************************************/
-	
-	private void getDeclarationIndividualsDerivedSingleInstanceMeasure(Map<String, DerivedSingleInstanceMeasure> modelMap) throws Exception {
-
-		Iterator<Entry<String, DerivedSingleInstanceMeasure>> itInst = modelMap.entrySet().iterator();
-	    while (itInst.hasNext()) {
-	        Map.Entry<String, DerivedSingleInstanceMeasure> pairs = (Map.Entry<String, DerivedSingleInstanceMeasure>)itInst.next();
-	        DerivedSingleInstanceMeasure element = pairs.getValue();
-
-		    generator.converterDerivedSingleInstanceMeasureOWL(element, bpmn20ModelHandler);
+		    generator.converterDerivedMeasureOWL(element, bpmn20ModelHandler);
 		}
 	}
 	
+	private void getDeclarationIndividualsPpiMeasure(Map<String, PPI> modelMap) throws Exception {
+
+		Iterator<Entry<String, PPI>> itInst = modelMap.entrySet().iterator();
+	    while (itInst.hasNext()) {
+	        Map.Entry<String, PPI> pairs = (Map.Entry<String, PPI>)itInst.next();
+	        PPI element = pairs.getValue();
+
+		    generator.converterPpiOWL(element, bpmn20ModelHandler);
+		}
+	}
 }

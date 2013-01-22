@@ -1,6 +1,6 @@
 package es.us.isa.bpmn.handler;
 
-import java.util.List;
+import java.util.Map;
 
 import es.us.isa.bpmn.xmlClasses.bpmn20.TDataObject;
 import es.us.isa.bpmn.xmlClasses.bpmn20.TEndEvent;
@@ -17,18 +17,12 @@ public interface Bpmn20ModelHandlerInterface extends ModelHandleInterface {
 	
 	public TProcess getProcess();
 	
-	public List<TTask> getTaskList();
-	public List<TStartEvent> getStartEventList();
-	public List<TEndEvent> getEndEventList();
-	public List<TDataObject> getDataObjectList();
-	public List<TSequenceFlow> getSequenceFlowList();
-	public List<TGateway> getGatewayList();
-	public List<TExclusiveGateway> getExclusiveGatewayList();
-	public List<TSubProcess> getSubProcessList();
-
-	public TTask isTask(String idActivity) throws Exception;
-	public TSubProcess isSubProcess(String idActivity) throws Exception;
-	public TDataObject isDataObject(String idActivity) throws Exception;
-	public TStartEvent isStartEvent(String idActivity) throws Exception;
-	public TEndEvent isEndEvent(String idActivity) throws Exception;
+	public Map<String, TTask> getTaskMap();
+	public Map<String, TStartEvent> getStartEventMap();
+	public Map<String, TEndEvent> getEndEventMap();
+	public Map<String, TDataObject> getDataObjectMap();
+	public Map<String, TSequenceFlow> getSequenceFlowMap();
+	public Map<String, TGateway> getGatewayMap();
+	public Map<String, TExclusiveGateway> getExclusiveGatewayMap();
+	public Map<String, TSubProcess> getSubProcessMap();
 }

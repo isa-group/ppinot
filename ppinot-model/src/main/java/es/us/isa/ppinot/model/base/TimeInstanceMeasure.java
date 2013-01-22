@@ -1,6 +1,7 @@
 package es.us.isa.ppinot.model.base;
 
 import es.us.isa.ppinot.model.condition.TimeInstantCondition;
+import es.us.isa.ppinot.model.condition.TimeMeasureType;
 
 /**
  * Clase con la información de un PPI del tipo ElapsedTimeInstanceMeasure
@@ -20,7 +21,7 @@ public class TimeInstanceMeasure extends BaseMeasure {
 	 */
 	private TimeInstantCondition to;
 
-	private String timeMeasureType;
+	private TimeMeasureType timeMeasureType;
 
 	private String singleInstanceAggFunction;
 
@@ -34,7 +35,7 @@ public class TimeInstanceMeasure extends BaseMeasure {
     	
 		this.setFrom(null);
 		this.setTo(null);
-		this.setTimeMeasureType("");
+		this.setTimeMeasureType(TimeMeasureType.LINEAR);
 		this.setSingleInstanceAggFunction("");
 	}
 	
@@ -54,7 +55,7 @@ public class TimeInstanceMeasure extends BaseMeasure {
 	 * @param atEndTo Momento en que se aplica en la actividad final
 	 */
 	public TimeInstanceMeasure(String id, String name, String description, String scale, String unitOfMeasure,
-			TimeInstantCondition from, TimeInstantCondition to, String timeMeasureType, String singleInstanceAggFunction) {
+			TimeInstantCondition from, TimeInstantCondition to, TimeMeasureType timeMeasureType, String singleInstanceAggFunction) {
 		super(id, name, description, scale, unitOfMeasure);
 		this.setFrom(from);
 		this.setTo(to);
@@ -67,7 +68,7 @@ public class TimeInstanceMeasure extends BaseMeasure {
 	 * 
 	 * @return Valor del atributo
 	 */
-	public String getTimeMeasureType() {
+	public TimeMeasureType getTimeMeasureType() {
 		return this.timeMeasureType;
 	}
 
@@ -76,7 +77,7 @@ public class TimeInstanceMeasure extends BaseMeasure {
 	 * 
 	 * @param Valor del atributo
 	 */
-	public void setTimeMeasureType(String timeMeasureType) {
+	public void setTimeMeasureType(TimeMeasureType timeMeasureType) {
 		this.timeMeasureType = timeMeasureType;
 	}
 

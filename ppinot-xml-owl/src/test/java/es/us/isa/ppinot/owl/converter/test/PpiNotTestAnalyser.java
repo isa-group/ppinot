@@ -68,9 +68,14 @@ public class PpiNotTestAnalyser {
         return b;
 	}
 
-	public Boolean isTimeIntanceMeasure(String measureId) {
+	public Boolean isLinearTimeIntanceMeasure(String measureId) {
 		
 		return this.checkObjectClass(measureId, Vocabulary.LINEARTIMEMEASURE_URI);
+	}
+
+	public Boolean isCyclicTimeIntanceMeasure(String measureId) {
+		
+		return this.checkObjectClass(measureId, Vocabulary.CYCLICTIMEMEASURE_URI);
 	}
 
 	public Boolean isStateConditionInstanceMeasure(String measureId) {
@@ -103,6 +108,11 @@ public class PpiNotTestAnalyser {
 		return this.checkObjectClass(measureId, Vocabulary.DERIVEDSINGLEINSTANCEMEASURE_URI);
 	}
 
+	public Boolean isPpi(String measureId) {
+		
+		return this.checkObjectClass(measureId, Vocabulary.PPI_URI);
+	}
+
 	public Boolean isActivityStart(String id) {
 		
 		return this.checkObjectClass(id, Vocabulary.ACTIVITYSTART_URI);
@@ -116,6 +126,16 @@ public class PpiNotTestAnalyser {
 	public Boolean isFuntionalProperty(String id) {
 		
 		return this.checkObjectClass(id, Vocabulary.FUNCTIONALPROPERTY_URI);
+	}
+
+	public Boolean isStateCondition(String id) {
+		
+		return this.checkObjectClass(id, Vocabulary.STATECONDITION_URI);
+	}
+
+	public Boolean isDataPropertyCondition(String id) {
+		
+		return this.checkObjectClass(id, Vocabulary.DATAPROPERTYCONDITION_URI);
 	}
 	
 	public Boolean isFrom(String measureId, String elementId) {
@@ -156,5 +176,10 @@ public class PpiNotTestAnalyser {
 	public Boolean isCalculated(String measureId, String elementId) {
 		
 		return this.checkObjectProperty(measureId, elementId, Vocabulary.ISCALCULATED_URI);
+	}
+	
+	public Boolean isDefinition(String ppiId, String measureId) {
+		
+		return this.checkObjectProperty(ppinotOntologyURI, ppiId, ppinotOntologyURI, measureId, Vocabulary.DEFINITION_URI);
 	}
 }

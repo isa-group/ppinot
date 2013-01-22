@@ -1,8 +1,9 @@
 package es.us.isa.bpmn.handler;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -25,14 +26,14 @@ import es.us.isa.bpmn.xmlClasses.bpmn20.TTask;
 
 public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandlerInterface {
 
-	private List <TTask> taskList;
-	private List <TStartEvent> startEventList;
-	private List <TEndEvent> endEventList;
-	private List <TDataObject> dataObjectList;
-	private List <TSequenceFlow> sequenceFlowList;
-	private List <TExclusiveGateway> exclusiveGtwList;
-	private List <TGateway> gatewayList;
-	private List <TSubProcess> subProcessList;
+	private Map<String, TTask> taskList;
+	private Map<String, TStartEvent> startEventList;
+	private Map<String, TEndEvent> endEventList;
+	private Map<String, TDataObject> dataObjectList;
+	private Map<String, TSequenceFlow> sequenceFlowList;
+	private Map<String, TExclusiveGateway> exclusiveGtwList;
+	private Map<String, TGateway> gatewayList;
+	private Map<String, TSubProcess> subProcessList;
 
 	public Bpmn20ModelHandler() throws JAXBException {
 		
@@ -40,42 +41,42 @@ public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandl
 	}
 	
 	/** Devuelve la lista de Tareas del modelo del proceso Bpmn2.0**/
-	public List<TTask> getTaskList(){
+	public Map<String, TTask> getTaskMap(){
 		return taskList;        	
 	}
 	
 	/** Devuelve la lista de StartEvent del modelo del proceso Bpmn2.0**/
-	public List<TStartEvent> getStartEventList(){
+	public Map<String, TStartEvent> getStartEventMap(){
 		return startEventList;
 	}
 	
 	/** Devuelve la lista de EndEvent del modelo del proceso Bpmn2.0**/
-	public List<TEndEvent> getEndEventList(){
+	public Map<String, TEndEvent> getEndEventMap(){
 		return endEventList;
 	}
 	
 	/** Devuelve la lista de DataObject del modelo del proceso Bpmn2.0**/
-	public List<TDataObject> getDataObjectList(){
+	public Map<String, TDataObject> getDataObjectMap(){
 		return dataObjectList;
 	}
 	
 	/** Devuelve la lista de SequenceFlow del modelo del proceso Bpmn2.0**/
-	public List<TSequenceFlow> getSequenceFlowList(){
+	public Map<String, TSequenceFlow> getSequenceFlowMap(){
 		return sequenceFlowList;
 	}
 	
 	/** Devuelve la lista de Gateway del modelo del proceso Bpmn2.0**/
-	public List<TGateway> getGatewayList(){
+	public Map<String, TGateway> getGatewayMap(){
 		return gatewayList;
 	}
 	
 	/** Devuelve la lista de SequenceFlow del modelo del proceso Bpmn2.0**/
-	public List<TExclusiveGateway> getExclusiveGatewayList(){
+	public Map<String, TExclusiveGateway> getExclusiveGatewayMap(){
 		return exclusiveGtwList;
 	}
 	
 	/** Devuelve la lista de SubProcess del modelo del proceso Bpmn2.0**/
-	public List<TSubProcess> getSubProcessList(){
+	public Map<String, TSubProcess> getSubProcessMap(){
 		return subProcessList;
 	}
 	
@@ -83,14 +84,14 @@ public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandl
 	@Override
 	protected void iniLoader() throws JAXBException {
 		
-		taskList = new ArrayList<TTask>();
-		startEventList = new ArrayList<TStartEvent>();
-		endEventList = new ArrayList<TEndEvent>();
-		dataObjectList = new ArrayList<TDataObject>();
-		sequenceFlowList = new ArrayList<TSequenceFlow>();
-		exclusiveGtwList = new ArrayList<TExclusiveGateway>();
-		gatewayList = new ArrayList<TGateway>();
-		subProcessList = new ArrayList<TSubProcess>();
+		taskList = new HashMap<String, TTask>();
+		startEventList = new HashMap<String, TStartEvent>();
+		endEventList = new HashMap<String, TEndEvent>();
+		dataObjectList = new HashMap<String, TDataObject>();
+		sequenceFlowList = new HashMap<String, TSequenceFlow>();
+		exclusiveGtwList = new HashMap<String, TExclusiveGateway>();
+		gatewayList = new HashMap<String, TGateway>();
+		subProcessList = new HashMap<String, TSubProcess>();
 
 		// configura las clases para leer y guardar como xml
 		Class[] classList = {es.us.isa.bpmn.xmlClasses.bpmn20.ObjectFactory.class, es.us.isa.bpmn.xmlClasses.bpmndi.ObjectFactory.class};
@@ -110,7 +111,25 @@ public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandl
 	@Override
 	protected void generateModelLists(){
 		
-		TProcess process= (TProcess) ((TDefinitions) this.getImportElement().getValue()).getRootElement().get(0).getValue();
+		Object object = ((TDefinitions) this.getImportElement().getValue()).getRootElement().get(0).getValue();
+		if (object instanceof TProcess) {
+			
+			this.generateProcessModelLists((TProcess) object);
+		} else {
+			
+			for (JAXBElement<?> element : ((TDefinitions) this.getImportElement().getValue()).getRootElement()) {
+				
+				Object participant = element.getValue();
+				if (participant instanceof TProcess) {
+					
+					this.generateProcessModelLists((TProcess) participant);
+				}
+			}
+		}
+		
+	}
+	
+	private void generateProcessModelLists(TProcess process){
 		
 		List<?> flowElements= process.getFlowElement();
 		
@@ -129,14 +148,14 @@ public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandl
 		    	startEvent.getName();
 		    	
 		    	//Esto es para obtener obtener el tipo de StartEvent que es y acceder a la clase TTimerEventDefinition en este caso
-		    	startEventList.add((TStartEvent)startEvent);
+		    	startEventList.put(startEvent.getId(), (TStartEvent)startEvent);
 		    	
 		    	
 		    }else if(contentElement instanceof TEndEvent){
 		    	
 		    	TEndEvent endEvent = (TEndEvent) contentElement;
 		    	endEvent.getName();
-		    	endEventList.add(endEvent);
+		    	endEventList.put(endEvent.getId(), endEvent);
 		    }
 		    
 		    //Activity Elements
@@ -144,7 +163,7 @@ public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandl
 		    
 		    	TTask task = (TTask) contentElement;
 		    	task.getName();
-		    	taskList.add(task);
+		    	taskList.put(task.getId(), task);
 		    }
 		    
 		    //Activity Elements
@@ -152,7 +171,7 @@ public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandl
 		    
 		    	TSubProcess subprocess = (TSubProcess) contentElement;
 		    	subprocess.getName();
-		    	subProcessList.add(subprocess);
+		    	subProcessList.put(subprocess.getId(), subprocess);
 		    }
 		    
 		    
@@ -160,7 +179,7 @@ public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandl
 		    else if(contentElement instanceof TDataObject){
 		    	TDataObject dataObject = (TDataObject) contentElement;
 		    	dataObject.getName();
-		    	dataObjectList.add(dataObject);
+		    	dataObjectList.put(dataObject.getId(), dataObject);
 		    	
 		    }
 		    
@@ -168,7 +187,7 @@ public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandl
 		    else if(contentElement instanceof TSequenceFlow){
 		    	TSequenceFlow sequenceFlow = (TSequenceFlow) contentElement;
 		    	sequenceFlow.getName();
-		    	sequenceFlowList.add(sequenceFlow);
+		    	sequenceFlowList.put(sequenceFlow.getId(), sequenceFlow);
 		    }
 		    
 		    //Adela me ha dicho que le interesa diferenciar el XOR Gateways de los demás,
@@ -178,7 +197,7 @@ public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandl
 		    	
 		    	TExclusiveGateway exclusivegtw = (TExclusiveGateway) contentElement;
 		    	exclusivegtw.getName();
-		    	exclusiveGtwList.add(exclusivegtw);
+		    	exclusiveGtwList.put(exclusivegtw.getId(), exclusivegtw);
 		    }
 		    
 		    //Gateway Elements
@@ -186,90 +205,32 @@ public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandl
 		    	
 		    	TGateway gtw = (TGateway) contentElement;
 		    	gtw.getName();
-		    	gatewayList.add(gtw);
+		    	gatewayList.put(gtw.getId(), gtw);
 		    }
 		}
-	}
-	
-	public TTask isTask(String idActivity) throws Exception{
-		
-		Iterator<TTask> it = this.getTaskList().iterator();
-		TTask obj = null;
-		while (it.hasNext()) {
-			
-			TTask element = (TTask) it.next();
-			if(element.getId().contentEquals(idActivity)){
-				obj = element;
-				break;
-			}
-		}
-
-		return obj;
-	}
-	
-	public TSubProcess isSubProcess(String idActivity) throws Exception{
-		
-		Iterator<TSubProcess> itsub = this.getSubProcessList().iterator();
-		TSubProcess obj = null;
-		while (itsub.hasNext()) {
-			
-			TSubProcess element = (TSubProcess) itsub.next();
-			if(element.getId().contentEquals(idActivity)){
-				obj = element;
-				break;
-			}
-		}
-		return obj;
-	}
-	
-	public TDataObject isDataObject(String idActivity) throws Exception{
-		
-		Iterator<TDataObject> itObj = this.getDataObjectList().iterator();
-		TDataObject obj = null;
-		while (itObj.hasNext()) {
-			
-			TDataObject element = (TDataObject) itObj.next();
-			if(element.getId().contentEquals(idActivity)){
-				obj = element;
-				break;
-			}
-		}
-		return obj;
-	}
-	
-	public TStartEvent isStartEvent(String idActivity) throws Exception{
-		
-		Iterator<TStartEvent> itstart = this.getStartEventList().iterator();
-		TStartEvent obj = null;
-		while (itstart.hasNext()) {
-			
-			TStartEvent element = (TStartEvent) itstart.next();
-			if(element.getId().contentEquals(idActivity)){
-				obj = element;
-				break;
-			}
-		}
-		return obj;
-	}
-	
-	public TEndEvent isEndEvent(String idActivity) throws Exception{
-		
-		Iterator<TEndEvent> itend = this.getEndEventList().iterator();
-		TEndEvent obj = null;
-		while (itend.hasNext()) {
-			
-			TEndEvent element = (TEndEvent) itend.next();
-			if(element.getId().contentEquals(idActivity)){
-				obj = element;
-				break;
-			}
-		}
-		return obj;
 	}
 
 	public TProcess getProcess() {
 		
-		return (TProcess) ((TDefinitions) this.getImportElement().getValue()).getRootElement().get(0).getValue();
+		TProcess process = null;
+		Object object = ((TDefinitions) this.getImportElement().getValue()).getRootElement().get(0).getValue();
+		if (object instanceof TProcess) {
+			
+			process = (TProcess) object;
+		} else {
+			
+			for (JAXBElement<?> element : ((TDefinitions) this.getImportElement().getValue()).getRootElement()) {
+				
+				Object participant = element.getValue();
+				if (participant instanceof TProcess) {
+					
+					process = (TProcess) participant;
+					break;
+				}
+			}
+		}
+		
+		return process;
 	}
 
 	@Override

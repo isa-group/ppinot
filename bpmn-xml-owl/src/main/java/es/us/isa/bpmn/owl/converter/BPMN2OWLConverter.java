@@ -3,6 +3,8 @@ package es.us.isa.bpmn.owl.converter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
@@ -50,37 +52,35 @@ public class BPMN2OWLConverter extends ToOWLConverter implements BPMN2OWLConvert
 				this.getManager().getOWLDataFactory(), this.getManager(), this.getOntology(), this.getOntologyURI()); 
     	Bpmn20ModelHandler bpmn20ModelHandler = (Bpmn20ModelHandler) modelHandler;
 		
-		List<TSequenceFlow> sequenceFlows = bpmn20ModelHandler.getSequenceFlowList();
-		List <TDataObject> dataObjectList = bpmn20ModelHandler.getDataObjectList();
+		Map<String, TSequenceFlow> sequenceFlows = bpmn20ModelHandler.getSequenceFlowMap();
+		Map<String, TDataObject> dataObjectList = bpmn20ModelHandler.getDataObjectMap();
 		
-		this.getDeclarationIndividualsTask( bpmn20ModelHandler.getTaskList(), dataObjectList, sequenceFlows);
-		this.getDeclarationIndividualsSubProcess( bpmn20ModelHandler.getSubProcessList(), dataObjectList, sequenceFlows);
-		this.getDeclarationIndividualsStartEvent( bpmn20ModelHandler.getStartEventList(), sequenceFlows);
-		this.getDeclarationIndividualsEndEvent( bpmn20ModelHandler.getEndEventList() );
-		this.getDeclarationIndividualsXorGateways( bpmn20ModelHandler.getExclusiveGatewayList(), sequenceFlows);
-		this.getDeclarationIndividualsGateways( bpmn20ModelHandler.getGatewayList(), sequenceFlows);
+		this.getDeclarationIndividualsTask( bpmn20ModelHandler.getTaskMap(), dataObjectList, sequenceFlows);
+		this.getDeclarationIndividualsSubProcess( bpmn20ModelHandler.getSubProcessMap(), dataObjectList, sequenceFlows);
+		this.getDeclarationIndividualsStartEvent( bpmn20ModelHandler.getStartEventMap(), sequenceFlows);
+		this.getDeclarationIndividualsEndEvent( bpmn20ModelHandler.getEndEventMap() );
+		this.getDeclarationIndividualsXorGateways( bpmn20ModelHandler.getExclusiveGatewayMap(), sequenceFlows);
+		this.getDeclarationIndividualsGateways( bpmn20ModelHandler.getGatewayMap(), sequenceFlows);
 		this.getDeclarationIndividualsDataObject(dataObjectList);
 	}
 	
 	/***Declaraciones en owl de taskList de BPMN2.0 ***/
-	private void getDeclarationIndividualsTask (List<TTask> taskList, List <TDataObject> dataObjectList, List<TSequenceFlow> sequenceFlows){
-		
-		//Funcion para crear los individuals de los elementos Task
-		Iterator<?> itr = taskList.iterator(); 
-		while(itr.hasNext()) {
-			
-			Object obj = itr.next();
-			TTask element = (TTask) obj;
+	private void getDeclarationIndividualsTask (Map<String, TTask> taskList, Map<String, TDataObject> dataObjectList, Map<String, TSequenceFlow> sequenceFlows){
+
+		Iterator<Entry<String, TTask>> itInst = taskList.entrySet().iterator();
+	    while (itInst.hasNext()) {
+	        Map.Entry<String, TTask> pairs = (Map.Entry<String, TTask>)itInst.next();
+	        TTask element = pairs.getValue();
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameTask = this.getBpmnId(element);
+			String nameTask = element.getId();
 			
 			//Tambien voy a necesitar el dataobject al que se conecta en el caso de hacerlo
 			String nameOutputDataObj = null;
 			List<TDataOutputAssociation> dataOutput = element.getDataOutputAssociation();
 			for (TDataOutputAssociation tDataOutputAssociation : dataOutput) {
 				
-				nameOutputDataObj = this.getNameDataObject(((QName) tDataOutputAssociation.getTargetRef()).getLocalPart(), dataObjectList);
+				nameOutputDataObj = ((QName) tDataOutputAssociation.getTargetRef()).getLocalPart();
 			}
 
 			List<String> nameInputDataObjList = new ArrayList<String>();
@@ -97,22 +97,21 @@ public class BPMN2OWLConverter extends ToOWLConverter implements BPMN2OWLConvert
 				}
 			}
 
-			List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, obj);
+			List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, element);
 			generator.converterActivityOWL(nameTask, nameInputDataObjList, nameOutputDataObj, elementsDirectlyPrecedes);
 		}
 	}
 	
 	/***Declaraciones en owl de subProcess de BPMN2.0 ***/
-	private void getDeclarationIndividualsSubProcess (List<TSubProcess> subprocessList, List <TDataObject> dataObjectList, List<TSequenceFlow> sequenceFlows){
+	private void getDeclarationIndividualsSubProcess (Map<String, TSubProcess> subprocessList, Map<String, TDataObject> dataObjectList, Map<String, TSequenceFlow> sequenceFlows){
 		
-		Iterator<?> itr = subprocessList.iterator(); 
-		while(itr.hasNext()) {
-			
-			Object obj = itr.next();
-			TSubProcess element = (TSubProcess) obj;
+		Iterator<Entry<String, TSubProcess>> itInst = subprocessList.entrySet().iterator();
+	    while (itInst.hasNext()) {
+	        Map.Entry<String, TSubProcess> pairs = (Map.Entry<String, TSubProcess>)itInst.next();
+	        TSubProcess element = pairs.getValue();
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameActivity = this.getBpmnId(element);
+			String nameActivity = element.getId();
 			
 			
 			//Tambien voy a necesitar el dataobject al que se conecta en el caso de hacerlo
@@ -120,7 +119,7 @@ public class BPMN2OWLConverter extends ToOWLConverter implements BPMN2OWLConvert
 			List<TDataOutputAssociation> dataOutput = element.getDataOutputAssociation();
 			for (TDataOutputAssociation tDataOutputAssociation : dataOutput) {
 				
-				nameOutputDataObj = this.getNameDataObject(((QName) tDataOutputAssociation.getTargetRef()).getLocalPart(), dataObjectList);
+				nameOutputDataObj = ((QName) tDataOutputAssociation.getTargetRef()).getLocalPart();
 			}
 
 			List<String> nameInputDataObjList = new ArrayList<String>();
@@ -137,120 +136,100 @@ public class BPMN2OWLConverter extends ToOWLConverter implements BPMN2OWLConvert
 				}
 			}
 
-			List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, obj);
+			List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, element);
 		    generator.converterActivityOWL(nameActivity, nameInputDataObjList, nameOutputDataObj, elementsDirectlyPrecedes);
 		}
 	}
 	
 	/***Declaraciones en owl de startEvents de BPMN2.0 ***/
-	private void getDeclarationIndividualsStartEvent (List<TStartEvent> startEventList, List<TSequenceFlow> sequenceFlows){
+	private void getDeclarationIndividualsStartEvent (Map<String, TStartEvent> startEventList, Map<String, TSequenceFlow> sequenceFlows){
 		
-		//Funcion para crear los individuals de los elementos startEvent
-		Iterator<?> itr = startEventList.iterator(); 
-		while(itr.hasNext()) {
-			
-			Object obj = itr.next();
-			TStartEvent element = (TStartEvent) obj;
+		Iterator<Entry<String, TStartEvent>> itInst = startEventList.entrySet().iterator();
+	    while (itInst.hasNext()) {
+	        Map.Entry<String, TStartEvent> pairs = (Map.Entry<String, TStartEvent>)itInst.next();
+	        TStartEvent element = pairs.getValue();
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameEvent = this.getBpmnId(element);
+			String nameEvent = element.getId();
 			
-			List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, obj);
+			List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, element);
 		    generator.converterStartEventOWL(nameEvent, elementsDirectlyPrecedes);
 		    
 		}
 	}
 	
 	/***Declaraciones en owl de EndEvents de BPMN2.0 ***/
-	private void getDeclarationIndividualsEndEvent (List<TEndEvent> endEventList){
+	private void getDeclarationIndividualsEndEvent (Map<String, TEndEvent> endEventList){
 		
-		Iterator<?> itr = endEventList.iterator(); 
-		while(itr.hasNext()) {
-			
-			TEndEvent element = (TEndEvent) itr.next();
+		Iterator<Entry<String, TEndEvent>> itInst = endEventList.entrySet().iterator();
+	    while (itInst.hasNext()) {
+	        Map.Entry<String, TEndEvent> pairs = (Map.Entry<String, TEndEvent>)itInst.next();
+	        TEndEvent element = pairs.getValue();
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameEvent = this.getBpmnId(element);
+			String nameEvent = element.getId();
 			
 		    generator.converterEndEventOWL(nameEvent);
 		}
 	}
 	
 	/***Declaraciones en owl de exclusiveGateways de BPMN2.0 ***/
-	private void getDeclarationIndividualsXorGateways(List<TExclusiveGateway> exclusiveGateways, List<TSequenceFlow> sequenceFlows) {
+	private void getDeclarationIndividualsXorGateways(Map<String, TExclusiveGateway> exclusiveGateways, Map<String, TSequenceFlow> sequenceFlows) {
 		
-		Iterator<?> itr = exclusiveGateways.iterator(); 
-		while(itr.hasNext()) {
-			
-			Object obj = itr.next();
-			TExclusiveGateway element = (TExclusiveGateway) obj;
+		Iterator<Entry<String, TExclusiveGateway>> itInst = exclusiveGateways.entrySet().iterator();
+	    while (itInst.hasNext()) {
+	        Map.Entry<String, TExclusiveGateway> pairs = (Map.Entry<String, TExclusiveGateway>)itInst.next();
+	        TExclusiveGateway element = pairs.getValue();
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameGtw = this.getBpmnId(element);
+			String nameGtw = element.getId();
 			
-			List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, obj);
+			List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, element);
 		    generator.converterXorGatewayOWL(nameGtw,elementsDirectlyPrecedes);
 		}
 		
 	}
 	
 	/***Declaraciones en owl de Gateways generales de BPMN2.0 ***/
-	private void getDeclarationIndividualsGateways(List<TGateway> TGatewaysList, List<TSequenceFlow> sequenceFlows) {
+	private void getDeclarationIndividualsGateways(Map<String, TGateway> TGatewaysList, Map<String, TSequenceFlow> sequenceFlows) {
 		
-		Iterator<?> itr = TGatewaysList.iterator(); 
-		while(itr.hasNext()) {
-			
-			Object obj = itr.next();
-			TGateway element = (TGateway) obj;
+		Iterator<Entry<String, TGateway>> itInst = TGatewaysList.entrySet().iterator();
+	    while (itInst.hasNext()) {
+	        Map.Entry<String, TGateway> pairs = (Map.Entry<String, TGateway>)itInst.next();
+	        TGateway element = pairs.getValue();
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameGtw = this.getBpmnId(element);
+			String nameGtw = element.getId();
 			
-			List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, obj);
+			List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, element);
 		    generator.converterGatewayOWL(nameGtw,elementsDirectlyPrecedes);
 		}
 	}
 	
 	/***Declaraciones en owl de DataObjects de BPMN2.0 ***/
-	private void getDeclarationIndividualsDataObject(List<TDataObject> dataObjectList) {
+	private void getDeclarationIndividualsDataObject(Map<String, TDataObject> dataObjectList) {
 		
-		Iterator<?> itr = dataObjectList.iterator(); 
-		while(itr.hasNext()) {
-			
-			TDataObject element = (TDataObject) itr.next();
+		Iterator<Entry<String, TDataObject>> itInst = dataObjectList.entrySet().iterator();
+	    while (itInst.hasNext()) {
+	        Map.Entry<String, TDataObject> pairs = (Map.Entry<String, TDataObject>)itInst.next();
+	        TDataObject element = pairs.getValue();
 			
 			//Por cada tarea tengo que ir convirtiendo a su declaracion de instanciacion en OWL
-			String nameDataObj = this.getBpmnId(element);
+			String nameDataObj = element.getId();
 			
 		    generator.converterDataObjectOWL(nameDataObj);
 		}
 	}
 	
-	private String getNameDataObject(String idDataObject, List <TDataObject> dataObjectList){
-
-		Iterator<TDataObject> itObj = dataObjectList.iterator();
-		Boolean enc = false;
-		String name = null;
-		while (itObj.hasNext() && !enc) {
-			
-			TDataObject tdataobject = (TDataObject) itObj.next();
-			if(tdataobject.getId().trim().equals(idDataObject.trim())){
-				
-				name = this.getBpmnId(tdataobject);
-				enc = true;
-			}
-		}
-		return name;
-	}
-	
-	private List<String> getDirectlyPrecedes(List<TSequenceFlow> sequenceFlowList, Object task) {
+	private List<String> getDirectlyPrecedes(Map<String, TSequenceFlow> sequenceFlowList, Object task) {
 		
-		Iterator<?> itr = sequenceFlowList.iterator(); 
 		List<String> targetList = new ArrayList<String>();
 		
-		while(itr.hasNext()) {
+		Iterator<Entry<String, TSequenceFlow>> itInst = sequenceFlowList.entrySet().iterator();
+	    while (itInst.hasNext()) {
+	        Map.Entry<String, TSequenceFlow> pairs = (Map.Entry<String, TSequenceFlow>)itInst.next();
+	        TSequenceFlow element = pairs.getValue();
 			
-			TSequenceFlow element = (TSequenceFlow) itr.next();
 			if(element.getSourceRef().equals(task)){
 				
 				targetList.add( this.getBpmnId( element.getTargetRef() ) );

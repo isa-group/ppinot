@@ -10,8 +10,7 @@ import es.us.isa.ppinot.model.base.DataInstanceMeasure;
 import es.us.isa.ppinot.model.base.DataPropertyConditionInstanceMeasure;
 import es.us.isa.ppinot.model.base.StateConditionInstanceMeasure;
 import es.us.isa.ppinot.model.base.TimeInstanceMeasure;
-import es.us.isa.ppinot.model.derived.DerivedMultiInstanceMeasure;
-import es.us.isa.ppinot.model.derived.DerivedSingleInstanceMeasure;
+import es.us.isa.ppinot.model.derived.DerivedMeasure;
 
 public interface PpiNotModelHandlerInterface extends ModelHandleInterface {
 
@@ -26,8 +25,8 @@ public interface PpiNotModelHandlerInterface extends ModelHandleInterface {
 	public Map<String, AggregatedMeasure> getDataAggregatedModelMap();
 	public Map<String, AggregatedMeasure> getDataPropertyConditionAggregatedModelMap();
 	public Map<String, AggregatedMeasure> getDerivedSingleInstanceAggregatedModelMap();
-	public Map<String, DerivedSingleInstanceMeasure> getDerivedSingleInstanceModelMap();
-	public Map<String, DerivedMultiInstanceMeasure> getDerivedMultiInstanceModelMap();
+	public Map<String, DerivedMeasure> getDerivedSingleInstanceModelMap();
+	public Map<String, DerivedMeasure> getDerivedMultiInstanceModelMap();
 	public Map<String, PPI> getPpiModelMap();
 	
 	public void setTimeModelMap(Map<String, TimeInstanceMeasure> modelMap);
@@ -41,7 +40,7 @@ public interface PpiNotModelHandlerInterface extends ModelHandleInterface {
 	public void setDataAggregatedModelMap(Map<String, AggregatedMeasure> modelMap);
 	public void setDataPropertyConditionAggregatedModelMap(Map<String, AggregatedMeasure> modelMap);
 	public void setDerivedSingleInstanceAggregatedModelMap(Map<String, AggregatedMeasure> modelMap);
-	public void setDerivedSingleInstanceModelMap(Map<String, DerivedSingleInstanceMeasure> modelMap);
-	public void setDerivedMultiInstanceModelMap(Map<String, DerivedMultiInstanceMeasure> modelMap);
+	public void setDerivedSingleInstanceModelMap(Map<String, DerivedMeasure> modelMap);
+	public void setDerivedMultiInstanceModelMap(Map<String, DerivedMeasure> modelMap);
 	public void setPpiModelMap(Map<String, PPI> modelMap);
 }

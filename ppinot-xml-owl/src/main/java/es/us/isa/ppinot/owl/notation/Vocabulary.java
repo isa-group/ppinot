@@ -16,8 +16,10 @@ public final class Vocabulary {
 	public static final String CYCLICTIMEMEASURE_URI = URINT + "CyclicTimeMeasure";
 	public static final String DATAOUPUTASSOCIATION_URI = URINT + "DataOutputAssociation";
 	public static final String DATAMEASURE_URI = URINT + "DataMeasure"; 
+	public static final String DATAPROPERTYCONDITION_URI = URINT + "DataPropertyCondition"; 
 	public static final String DATAPROPERTYCONDITIONMEASURE_URI = URINT + "DataPropertyConditionMeasure"; 
 	public static final String DATAPROPERTY_URI = URINT + "dataProperty"; 
+	public static final String DEFINITION_URI = URINT + "definition"; 
 	public static final String DEPENDSDIRECTLYON_URI = URINT + "dependsDirectlyOn"; 
 	public static final String DEPENDSINDIRECTLYON_URI = URINT + "dependsIndirectlyOn"; 
 	public static final String DERIVEDMULTIINSTANCEMEASURE_URI = URINT + "DerivedMultiInstanceMeasure"; 
@@ -41,8 +43,10 @@ public final class Vocabulary {
 	public static final String LINEARTIMEMEASURE_URI = URINT + "LinearTimeMeasure"; 
 	public static final String MEASURESDATA_URI = URINT + "measuresData"; 
 	public static final String MEETS_URI = URINT + "meets"; 
+	public static final String PPI_URI = URINT + "PPI"; 
 	public static final String PRECEDES_URI = URINT + "precedes"; 
 	public static final String PROCESSINSTANCECONDITION_URI = URINT + "ProcessInstanceCondition";
+	public static final String STATECONDITION_URI = URINT + "StateCondition"; 
 	public static final String STATECONDITIONMEASURE_URI = URINT + "StateConditionMeasure"; 
 	public static final String SUCCEEDS_URI = URINT + "succeeds"; 
 	public static final String TO_URI = URINT + "to"; 
@@ -62,7 +66,6 @@ public final class Vocabulary {
 	public static final String INTERMEDIATE1 = "Intermediate1";
 	public static final String RESTRICTION = "Restriction"; 
 	public static final String START = "start"; 
-	public static final String TIMEINSTANCE = "TimeInstance"; 
 	public static final String TIMEINSTANT = "TimeInstant";
 	
 	// funciones de agregacion en el xml

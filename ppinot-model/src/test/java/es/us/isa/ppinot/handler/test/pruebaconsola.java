@@ -10,8 +10,7 @@ import es.us.isa.ppinot.model.base.DataInstanceMeasure;
 import es.us.isa.ppinot.model.base.DataPropertyConditionInstanceMeasure;
 import es.us.isa.ppinot.model.base.StateConditionInstanceMeasure;
 import es.us.isa.ppinot.model.base.TimeInstanceMeasure;
-import es.us.isa.ppinot.model.derived.DerivedMultiInstanceMeasure;
-import es.us.isa.ppinot.model.derived.DerivedSingleInstanceMeasure;
+import es.us.isa.ppinot.model.derived.DerivedMeasure;
 
 public class pruebaconsola {
 
@@ -59,8 +58,8 @@ public class pruebaconsola {
 		Map<String, AggregatedMeasure> dataAggregatedMeasure = ppiNotModelHandler.getDataAggregatedModelMap();
 		Map<String, AggregatedMeasure> dataConditionAggregatedMeasure = ppiNotModelHandler.getDataPropertyConditionAggregatedModelMap();
 
-		Map<String, DerivedSingleInstanceMeasure> derivedInstanceMeasure = ppiNotModelHandler.getDerivedSingleInstanceModelMap();
-		Map<String, DerivedMultiInstanceMeasure> derivedProcessMeasure = ppiNotModelHandler.getDerivedMultiInstanceModelMap();
+		Map<String, DerivedMeasure> derivedInstanceMeasure = ppiNotModelHandler.getDerivedSingleInstanceModelMap();
+		Map<String, DerivedMeasure> derivedProcessMeasure = ppiNotModelHandler.getDerivedMultiInstanceModelMap();
 
 		Map<String, PPI> ppi = ppiNotModelHandler.getPpiModelMap();
 		

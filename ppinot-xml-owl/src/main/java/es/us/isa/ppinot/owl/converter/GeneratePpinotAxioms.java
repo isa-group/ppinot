@@ -2,7 +2,9 @@ package es.us.isa.ppinot.owl.converter;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import es.us.isa.bpmn.handler.Bpmn20ModelHandlerInterface;
@@ -19,6 +21,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 import es.us.isa.ppinot.model.MeasureDefinition;
+import es.us.isa.ppinot.model.PPI;
 import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
 import es.us.isa.ppinot.model.base.CountInstanceMeasure;
 import es.us.isa.ppinot.model.base.DataInstanceMeasure;
@@ -27,6 +30,8 @@ import es.us.isa.ppinot.model.base.StateConditionInstanceMeasure;
 import es.us.isa.ppinot.model.base.TimeInstanceMeasure;
 import es.us.isa.ppinot.model.condition.DataPropertyCondition;
 import es.us.isa.ppinot.model.condition.StateCondition;
+import es.us.isa.ppinot.model.condition.TimeMeasureType;
+import es.us.isa.ppinot.model.derived.DerivedMeasure;
 import es.us.isa.ppinot.model.derived.DerivedMultiInstanceMeasure;
 import es.us.isa.ppinot.model.derived.DerivedSingleInstanceMeasure;
 import es.us.isa.ppinot.model.state.GenericState;
@@ -92,7 +97,7 @@ class GeneratePpinotAxioms {
         manager.addAxiom(ontology, classAssertionAxiom);
 
 		// adiciona el axioma que indica el momento en que se aplica la medida
-        OWLNamedIndividual whenPropertyIndividual = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+Vocabulary.TIMEINSTANCE+nameCountMeasure) );
+        OWLNamedIndividual whenPropertyIndividual = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+Vocabulary.TIMEINSTANT+nameCountMeasure) );
         OWLObjectPropertyExpression whenObjectProperty = factory.getOWLObjectProperty( IRI.create(Vocabulary.WHEN_URI) );
         OWLObjectPropertyAssertionAxiom whenObjectPropertyAssertionAxiom = factory.getOWLObjectPropertyAssertionAxiom(whenObjectProperty, measureIndividual, whenPropertyIndividual);
         manager.addAxiom(ontology, whenObjectPropertyAssertionAxiom);
@@ -128,7 +133,7 @@ class GeneratePpinotAxioms {
 		String activityFrom = element.getFrom().getAppliesTo();
 		String activityTo = element.getTo().getAppliesTo();
 		
-		String timeMeasureType = element.getTimeMeasureType();
+		TimeMeasureType timeMeasureType = element.getTimeMeasureType();
 		
 		String typeActivityFrom = this.getNameTypeActivity(activityFrom, bpmn20ModelHandler);
 		String typeActivityTo = this.getNameTypeActivity(activityTo, bpmn20ModelHandler);
@@ -136,7 +141,7 @@ class GeneratePpinotAxioms {
         // adiciona el axioma que indica que la medida es de la clase CyclicTimeMeasure o LinearTimeMeasure
         OWLNamedIndividual measureIndividual = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+nameTimeMeasure) );
         IRI classIri;
-        if (timeMeasureType!=null && timeMeasureType.toLowerCase().contentEquals("cyclic"))
+        if (timeMeasureType==TimeMeasureType.CYCLIC)
         	classIri = IRI.create(Vocabulary.CYCLICTIMEMEASURE_URI);
         else
         	classIri = IRI.create(Vocabulary.LINEARTIMEMEASURE_URI);
@@ -209,7 +214,7 @@ class GeneratePpinotAxioms {
         manager.addAxiom(ontology, propertyAssertionmeets);
         
         // adiciona el axioma con la clase de la restriccion
-        OWLClass restrictionClass = factory.getOWLClass( IRI.create(Vocabulary.FUNCTIONALPROPERTY_URI)) ;
+        OWLClass restrictionClass = factory.getOWLClass( IRI.create(Vocabulary.STATECONDITION_URI)) ;
         OWLClassAssertionAxiom restrictionClassAssertionAxiom = factory.getOWLClassAssertionAxiom(restrictionClass, dataObjectInstant);
         manager.addAxiom(ontology, restrictionClassAssertionAxiom);
 
@@ -247,7 +252,7 @@ class GeneratePpinotAxioms {
         manager.addAxiom(ontology, propertyAssertionmeets);
         
         // adiciona el axioma con la clase de la restriccion
-        OWLClass restrictionClass = factory.getOWLClass( IRI.create(Vocabulary.FUNCTIONALPROPERTY_URI)) ;
+        OWLClass restrictionClass = factory.getOWLClass( IRI.create(Vocabulary.DATAPROPERTYCONDITION_URI)) ;
         OWLClassAssertionAxiom restrictionClassAssertionAxiom = factory.getOWLClassAssertionAxiom(restrictionClass, dataObjectInstant);
         manager.addAxiom(ontology, restrictionClassAssertionAxiom);
        
@@ -270,8 +275,6 @@ class GeneratePpinotAxioms {
 
 		String dataObject = ((DataPropertyCondition) element.getCondition()).getAppliesTo();
 
-		String restriction = GeneratePpinotAxioms.getCleanRestriction( ((DataPropertyCondition) element.getCondition()).getRestriction() );
-
 		// adiciona el axioma que indica la clase de la medida
         OWLNamedIndividual DataObjNameIndividualMeasure = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+nameElementMeasure) );
         OWLClass classCountMeasure = factory.getOWLClass( IRI.create(Vocabulary.DATAMEASURE_URI)) ;
@@ -290,323 +293,43 @@ class GeneratePpinotAxioms {
 /**********************************************************************/
 /**********************************************************************/
 
-	/**Funcion que se encarga de convertir las medidas de tipo countAggregatedMeasure en su correspondiente codigo owl 
-	 * @return 
-	 * @throws Exception **/
-	ArrayList<Object> converterCountAggregatedMeasureOWL(AggregatedMeasure element, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception {
-
-		String nameCountAggregatedMeasure= element.getBaseMeasure().getId();
-
-		String functionAgg = element.getAggregationFunction();
-		
-		CountInstanceMeasure element2 = (CountInstanceMeasure) element.getBaseMeasure();
-		Boolean endActivity = element2.getWhen().getChangesToState().getState()==GenericState.END;
-		
-		String elementId = element2.getWhen().getAppliesTo();
-        String type = this.getNameTypeActivity(elementId, bpmn20ModelHandler);
-
-		/* Las entradas de las individuals para definir las medidas, los nombres de estas entradas, salvo el nombre de la medida, 
-		 * deben ser generados aleatoriamente porque no hay forma de obtener esos datos del modelo y ni interesan. 
-		 * Sin embargo, el project del final tengo que obtenerlo del conector isGroupBy de su campo condition.*/
-	       
-        // adiciona el axioma que indica la clase de la medida
-        OWLNamedIndividual DataObjNameIndividualMeasure = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+nameCountAggregatedMeasure+"Intermediate1") );
-        OWLClass DataObj = factory.getOWLClass(IRI.create( funcAggr.get(functionAgg) ));
-        OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(DataObj, DataObjNameIndividualMeasure);
-        manager.addAxiom(ontology, classAssertion);	
-		
-		// adiciona el axioma que indica la medida que esta siendo agregada
-        OWLNamedIndividual DataObjNameIndividual = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+nameCountAggregatedMeasure) );
-        OWLObjectPropertyExpression aggregates = factory.getOWLObjectProperty(IRI.create(Vocabulary.AGGREGATES_URI));
-        OWLObjectPropertyAssertionAxiom propertyAssertion = factory.getOWLObjectPropertyAssertionAxiom(aggregates, DataObjNameIndividualMeasure, DataObjNameIndividual);
-        manager.addAxiom(ontology, propertyAssertion);
-         
-        // adiciona el axioma que indica la clase de la medida que esta siendo agregada
-        OWLClass classIntermediateCountMeasure = factory.getOWLClass( IRI.create(Vocabulary.COUNTMEASURE_URI)) ;
-        OWLClassAssertionAxiom classIntermediateAssertionCountMeasure = factory.getOWLClassAssertionAxiom(classIntermediateCountMeasure, DataObjNameIndividual);
-        manager.addAxiom(ontology, classIntermediateAssertionCountMeasure);
-        //--------------------------------------------
-        
-        // adiciona el axioma que indica en que momento se aplica la medida
-        OWLObjectPropertyExpression meets = factory.getOWLObjectProperty(IRI.create(Vocabulary.WHEN_URI));
-        OWLNamedIndividual dataObjectInstant = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+Vocabulary.TIMEINSTANT+nameCountAggregatedMeasure) );
-        OWLObjectPropertyAssertionAxiom propertyAssertionmeets = factory.getOWLObjectPropertyAssertionAxiom(meets, DataObjNameIndividual, dataObjectInstant);
-        manager.addAxiom(ontology, propertyAssertionmeets);
-        
-        // adiciona el axioma que indica a que elemento se aplica la medida
-        OWLObjectPropertyExpression appliesTo = factory.getOWLObjectProperty(IRI.create(Vocabulary.APPLIESTO_URI));
-        OWLNamedIndividual dataObjectElement = factory.getOWLNamedIndividual( IRI.create(bpmnGeneratedOntologyURI+"#"+elementId) );
-        OWLObjectPropertyAssertionAxiom propertyAssertionappliesTo = factory.getOWLObjectPropertyAssertionAxiom(appliesTo, dataObjectInstant, dataObjectElement);
-        manager.addAxiom(ontology, propertyAssertionappliesTo);
-        
-        // adiciona la clase del momento en que se aplica la medida
-        IRI classIri = this.timeInstantClassIRI(type, endActivity);
-        OWLClass classCountTimeInstance = factory.getOWLClass(classIri);
-        OWLClassAssertionAxiom classAssertionTimeInst = factory.getOWLClassAssertionAxiom(classCountTimeInstance, dataObjectInstant);
-        manager.addAxiom(ontology, classAssertionTimeInst);	
-        
-        ArrayList<Object> dataQueries = new ArrayList<Object>();
-        dataQueries.add(nameCountAggregatedMeasure+"Intermediate1");
-        dataQueries.add(DataObjNameIndividualMeasure);
-        dataQueries.add(nameCountAggregatedMeasure);
-        dataQueries.add(DataObjNameIndividual);
-     
-        return dataQueries;
-        
-	}
-
-	/**Funcion que se encarga de convertir las medidas de tipo TimeAggregatedMeasure en su correspondiente codigo owl **/
-	ArrayList<Object> converterTimeAggregatedMeasureOWL(AggregatedMeasure element, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception 
-	{
-			
-		String nameTimeAggregatedMeasure = element.getBaseMeasure().getId();
-	
-		String functionAgg = element.getAggregationFunction();
-		
-		TimeInstanceMeasure element2 = (TimeInstanceMeasure) element.getBaseMeasure();
-		Boolean conectorEndFrom = element2.getFrom().getChangesToState().getState()==GenericState.END;
-		Boolean conectorEndTo = element2.getTo().getChangesToState().getState()==GenericState.END;
-		String activityFrom = element2.getFrom().getAppliesTo();
-		String activityTo = element2.getTo().getAppliesTo();
-		
-		String timeMeasureType = element2.getTimeMeasureType();
-		
-        String typeFrom = this.getNameTypeActivity(activityFrom, bpmn20ModelHandler);
-        String typeTo = this.getNameTypeActivity(activityTo, bpmn20ModelHandler);
-		       
-	    // adiciona el axioma que indica la clase de la medida
-	    OWLNamedIndividual DataObjNameIndividualMeasure = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+nameTimeAggregatedMeasure+"Intermediate1") );
-	    OWLClass DataObj = factory.getOWLClass(IRI.create( funcAggr.get(functionAgg) ));
-	    OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(DataObj, DataObjNameIndividualMeasure);
-	    manager.addAxiom(ontology, classAssertion);	
-			
-		// adiciona el axioma que indica la medida que esta siendo agregada
-	    OWLNamedIndividual DataObjNameIndividual = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+nameTimeAggregatedMeasure) );
-	    OWLObjectPropertyExpression aggregates = factory.getOWLObjectProperty(IRI.create(Vocabulary.AGGREGATES_URI));
-	    OWLObjectPropertyAssertionAxiom propertyAssertion = factory.getOWLObjectPropertyAssertionAxiom(aggregates, DataObjNameIndividualMeasure, DataObjNameIndividual);
-	    manager.addAxiom(ontology, propertyAssertion);
-	      
-	    // adiciona el axioma que indica la clase de la medida que esta siendo agregada
-	    IRI classIri;
-        if (timeMeasureType!=null && timeMeasureType.toLowerCase().contentEquals("cyclic"))
-        	classIri = IRI.create(Vocabulary.CYCLICTIMEMEASURE_URI);
-        else
-        	classIri = IRI.create(Vocabulary.LINEARTIMEMEASURE_URI);
-	    OWLClass classIntermediateMeasure = factory.getOWLClass( classIri ) ;
-	    OWLClassAssertionAxiom classIntermediateAssertionMeasure = factory.getOWLClassAssertionAxiom(classIntermediateMeasure, DataObjNameIndividual);
-	    manager.addAxiom(ontology, classIntermediateAssertionMeasure);
-	    //--------------------------------------------
-
-	    // FROM
-        // adiciona el axioma que indica en que momento se aplica la medida
-        OWLObjectPropertyExpression from = factory.getOWLObjectProperty(IRI.create(Vocabulary.FROM_URI));
-        OWLNamedIndividual fromDataObjectInstant = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+Vocabulary.TIMEINSTANT+nameTimeAggregatedMeasure+"From") );
-        OWLObjectPropertyAssertionAxiom fromPropertyAssertionmeets = factory.getOWLObjectPropertyAssertionAxiom(from, DataObjNameIndividual, fromDataObjectInstant);
-        manager.addAxiom(ontology, fromPropertyAssertionmeets);
-        
-        // adiciona el axioma que indica a que elemento se aplica la medida
-        OWLObjectPropertyExpression fromAppliesTo = factory.getOWLObjectProperty(IRI.create(Vocabulary.APPLIESTO_URI));
-        OWLNamedIndividual fromDataObjectElement = factory.getOWLNamedIndividual( IRI.create(bpmnGeneratedOntologyURI+"#"+activityFrom) );
-        OWLObjectPropertyAssertionAxiom fromPropertyAssertionappliesTo = factory.getOWLObjectPropertyAssertionAxiom(fromAppliesTo, fromDataObjectInstant, fromDataObjectElement);
-        manager.addAxiom(ontology, fromPropertyAssertionappliesTo);
-        
-        // adiciona la clase del momento en que se aplica la medida
-        IRI classIriFrom = this.timeInstantClassIRI(typeFrom, conectorEndFrom);
-        OWLClass fromClassCountTimeInstance = factory.getOWLClass(classIriFrom);
-        OWLClassAssertionAxiom fromClassAssertionTimeInst = factory.getOWLClassAssertionAxiom(fromClassCountTimeInstance, fromDataObjectInstant);
-        manager.addAxiom(ontology, fromClassAssertionTimeInst);	
- 
-	    // TO
-        // adiciona el axioma que indica en que momento se aplica la medida
-        OWLObjectPropertyExpression to = factory.getOWLObjectProperty(IRI.create(Vocabulary.TO_URI));
-        OWLNamedIndividual toDataObjectInstant = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+Vocabulary.TIMEINSTANT+nameTimeAggregatedMeasure+"To") );
-        OWLObjectPropertyAssertionAxiom toPropertyAssertionmeets = factory.getOWLObjectPropertyAssertionAxiom(to, DataObjNameIndividual, toDataObjectInstant);
-        manager.addAxiom(ontology, toPropertyAssertionmeets);
-        
-        // adiciona el axioma que indica a que elemento se aplica la medida
-        OWLObjectPropertyExpression toAppliesTo = factory.getOWLObjectProperty(IRI.create(Vocabulary.APPLIESTO_URI));
-        OWLNamedIndividual toDataObjectElement = factory.getOWLNamedIndividual( IRI.create(bpmnGeneratedOntologyURI+"#"+activityTo) );
-        OWLObjectPropertyAssertionAxiom toPropertyAssertionappliesTo = factory.getOWLObjectPropertyAssertionAxiom(toAppliesTo, toDataObjectInstant, toDataObjectElement);
-        manager.addAxiom(ontology, toPropertyAssertionappliesTo);
-        
-        // adiciona la clase del momento en que se aplica la medida
-        IRI classIriTo = this.timeInstantClassIRI(typeTo, conectorEndTo);
-        OWLClass toClassCountTimeInstance = factory.getOWLClass(classIriTo);
-        OWLClassAssertionAxiom toClassAssertionTimeInst = factory.getOWLClassAssertionAxiom(toClassCountTimeInstance, toDataObjectInstant);
-        manager.addAxiom(ontology, toClassAssertionTimeInst);	
-        
-        ArrayList<Object> dataQueries = new ArrayList<Object>();
-        dataQueries.add(nameTimeAggregatedMeasure+"Intermediate1");
-        dataQueries.add(DataObjNameIndividualMeasure);
-        dataQueries.add(nameTimeAggregatedMeasure);
-        dataQueries.add(DataObjNameIndividual);
-     
-        return dataQueries;
-	}
-
-	/**Funcion que se encarga de convertir las medidas de tipo StateConditionAggregatedMeasure en su correspondiente codigo owl **/
-	ArrayList<Object> converterStateConditionAggregatedMeasureOWL(AggregatedMeasure element, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception 
+	void converterAggregatedMeasureOWL(AggregatedMeasure element, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception 
 	{
 		
-		String functionAgg = element.getAggregationFunction();
-		StateConditionInstanceMeasure element2 = (StateConditionInstanceMeasure) element.getBaseMeasure();
-		String nameElementCondMeasure = element2.getId();
-
-		String activity = ((StateCondition) element2.getCondition()).getAppliesTo();
-
-		String restriction = GeneratePpinotAxioms.getCleanRestriction( ((StateCondition) element2.getCondition()).getState().getStateString() );
+		// adiciona la medida base
+		MeasureDefinition baseMeasure = element.getBaseMeasure();
 		
-		String elementConditionType = this.getNameTypeActivity(activity, bpmn20ModelHandler);
-	       
-	    // adiciona el axioma que indica la clase de la medida
-	    OWLNamedIndividual DataObjNameIndividualMeasure = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+nameElementCondMeasure+"Intermediate1") );
-	    OWLClass DataObj = factory.getOWLClass(IRI.create( funcAggr.get(functionAgg) ));
-	    OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(DataObj, DataObjNameIndividualMeasure);
+		if (baseMeasure instanceof TimeInstanceMeasure)
+			this.converterTimeInstanceMeasureOWL((TimeInstanceMeasure) baseMeasure, bpmn20ModelHandler);
+		else
+		if (baseMeasure instanceof CountInstanceMeasure)
+			this.converterCountInstanceMeasureOWL((CountInstanceMeasure) baseMeasure, bpmn20ModelHandler);
+		else
+		if (baseMeasure instanceof StateConditionInstanceMeasure)
+			this.converterStateConditionInstanceMeasureOWL((StateConditionInstanceMeasure) baseMeasure, bpmn20ModelHandler);
+		else
+		if (baseMeasure instanceof DataInstanceMeasure)
+			this.converterDataInstanceMeasureOWL((DataInstanceMeasure) baseMeasure);
+		else
+		if (baseMeasure instanceof DataPropertyConditionInstanceMeasure)
+			this.converterDataPropertyConditionInstanceMeasureOWL((DataPropertyConditionInstanceMeasure) baseMeasure);
+			
+        // adiciona la medida agregada
+		String aggMeasureId = element.getId();
+		String aggFuntion = element.getAggregationFunction();
+		String baseMeasureId = baseMeasure.getId();
+		
+	    	// adiciona el axioma que indica la clase de la medida de la medida agregada
+	    OWLNamedIndividual aggMeasureIndividual = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+aggMeasureId) );
+	    OWLClass DataObj = factory.getOWLClass(IRI.create( funcAggr.get(aggFuntion) ));
+	    OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(DataObj, aggMeasureIndividual);
 	    manager.addAxiom(ontology, classAssertion);	
 			
-		// adiciona el axioma que indica la medida que esta siendo agregada
-	    OWLNamedIndividual DataObjNameIndividual = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+nameElementCondMeasure) );
+			// adiciona el axioma que indica la medida base que esta siendo agregada
+	    OWLNamedIndividual baseMeasureIndividual = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+baseMeasureId) );
 	    OWLObjectPropertyExpression aggregates = factory.getOWLObjectProperty(IRI.create(Vocabulary.AGGREGATES_URI));
-	    OWLObjectPropertyAssertionAxiom propertyAssertion = factory.getOWLObjectPropertyAssertionAxiom(aggregates, DataObjNameIndividualMeasure, DataObjNameIndividual);
+	    OWLObjectPropertyAssertionAxiom propertyAssertion = factory.getOWLObjectPropertyAssertionAxiom(aggregates, aggMeasureIndividual, baseMeasureIndividual);
 	    manager.addAxiom(ontology, propertyAssertion);
-	      
-	    // adiciona el axioma que indica la clase de la medida que esta siendo agregada
-	    OWLClass classIntermediateMeasure = factory.getOWLClass( IRI.create(Vocabulary.STATECONDITIONMEASURE_URI)) ;
-	    OWLClassAssertionAxiom classIntermediateAssertionMeasure = factory.getOWLClassAssertionAxiom(classIntermediateMeasure, DataObjNameIndividual);
-	    manager.addAxiom(ontology, classIntermediateAssertionMeasure);
-	    //--------------------------------------------
-		
-		// adiciona el axioma de la restriccion de la medida
-        OWLObjectPropertyExpression meetsIC = factory.getOWLObjectProperty(IRI.create(Vocabulary.MEETS_URI));
-        OWLNamedIndividual dataObjectInstant = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+nameElementCondMeasure+restriction) );
-        OWLObjectPropertyAssertionAxiom propertyAssertionmeets = factory.getOWLObjectPropertyAssertionAxiom(meetsIC, DataObjNameIndividual, dataObjectInstant);
-        manager.addAxiom(ontology, propertyAssertionmeets);
-        
-        // adiciona el axioma con la clase de la restriccion
-        OWLClass restrictionClass = factory.getOWLClass( IRI.create(Vocabulary.FUNCTIONALPROPERTY_URI)) ;
-        OWLClassAssertionAxiom restrictionClassAssertionAxiom = factory.getOWLClassAssertionAxiom(restrictionClass, dataObjectInstant);
-        manager.addAxiom(ontology, restrictionClassAssertionAxiom);
-       
-        // adiciona el axioma que indica el elemento al que se aplica la medida
-        OWLObjectPropertyExpression appliesTo = factory.getOWLObjectProperty(IRI.create(Vocabulary.APPLIESTO_URI));
-        OWLNamedIndividual dataObjectElement = factory.getOWLNamedIndividual( IRI.create(bpmnGeneratedOntologyURI+"#"+activity) );
-        OWLObjectPropertyAssertionAxiom propertyAssertionappliesTo = factory.getOWLObjectPropertyAssertionAxiom(appliesTo, dataObjectInstant, dataObjectElement);
-        manager.addAxiom(ontology, propertyAssertionappliesTo);	
-
-        ArrayList<Object> dataQueries = new ArrayList<Object>();
-        dataQueries.add(nameElementCondMeasure+Vocabulary.INTERMEDIATE1);
-        dataQueries.add(DataObjNameIndividualMeasure);
-        dataQueries.add(nameElementCondMeasure);
-        dataQueries.add(DataObjNameIndividual);
-     
-        return dataQueries;
-		
-	}
-
-	/**Funcion que se encarga de convertir las medidas de tipo DataPropertyConditionAggregatedeMeasure en su correspondiente codigo owl 
-	 * @return 
-	 **/
-	ArrayList<Object> converterDataPropertyConditionAggregatedMeasureOWL(AggregatedMeasure element) 
-	{
-		
-		String functionAgg = element.getAggregationFunction();
-		DataPropertyConditionInstanceMeasure element2 = (DataPropertyConditionInstanceMeasure) element.getBaseMeasure();
-		String nameDataCondMeasure= element2.getId();
-
-		String dataObject = ((DataPropertyCondition) element2.getCondition()).getAppliesTo();
-
-		String restriction = GeneratePpinotAxioms.getCleanRestriction( ((DataPropertyCondition) element2.getCondition()).getRestriction() );
-	       
-	    // adiciona el axioma que indica la clase de la medida
-	    OWLNamedIndividual DataObjNameIndividualMeasure = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+nameDataCondMeasure+"Intermediate1") );
-	    OWLClass DataObj = factory.getOWLClass(IRI.create( funcAggr.get(functionAgg) ));
-	    OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(DataObj, DataObjNameIndividualMeasure);
-	    manager.addAxiom(ontology, classAssertion);	
-			
-		// adiciona el axioma que indica la medida que esta siendo agregada
-	    OWLNamedIndividual DataObjNameIndividual = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+nameDataCondMeasure) );
-	    OWLObjectPropertyExpression aggregates = factory.getOWLObjectProperty(IRI.create(Vocabulary.AGGREGATES_URI));
-	    OWLObjectPropertyAssertionAxiom propertyAssertion = factory.getOWLObjectPropertyAssertionAxiom(aggregates, DataObjNameIndividualMeasure, DataObjNameIndividual);
-	    manager.addAxiom(ontology, propertyAssertion);
-	      
-	    // adiciona el axioma que indica la clase de la medida que esta siendo agregada
-	    OWLClass classIntermediateMeasure = factory.getOWLClass( IRI.create(Vocabulary.DATAPROPERTYCONDITIONMEASURE_URI)) ;
-	    OWLClassAssertionAxiom classIntermediateAssertionMeasure = factory.getOWLClassAssertionAxiom(classIntermediateMeasure, DataObjNameIndividual);
-	    manager.addAxiom(ontology, classIntermediateAssertionMeasure);
-	    //--------------------------------------------
-
-		// adiciona el axioma de la restriccion de la medida
-        OWLObjectPropertyExpression meetsIC = factory.getOWLObjectProperty(IRI.create(Vocabulary.MEETS_URI));
-        OWLNamedIndividual dataObjectInstant = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+nameDataCondMeasure+restriction) );
-        OWLObjectPropertyAssertionAxiom propertyAssertionmeets = factory.getOWLObjectPropertyAssertionAxiom(meetsIC, DataObjNameIndividual, dataObjectInstant);
-        manager.addAxiom(ontology, propertyAssertionmeets);
-        
-        // adiciona el axioma con la clase de la restriccion
-        OWLClass restrictionClass = factory.getOWLClass( IRI.create(Vocabulary.FUNCTIONALPROPERTY_URI)) ;
-        OWLClassAssertionAxiom restrictionClassAssertionAxiom = factory.getOWLClassAssertionAxiom(restrictionClass, dataObjectInstant);
-        manager.addAxiom(ontology, restrictionClassAssertionAxiom);
-       
-        // adiciona el axioma que indica el elemento al que se aplica la medida
-        OWLObjectPropertyExpression appliesTo = factory.getOWLObjectProperty(IRI.create(Vocabulary.APPLIESTO_URI));
-        OWLNamedIndividual dataObjectElement = factory.getOWLNamedIndividual( IRI.create(bpmnGeneratedOntologyURI+"#"+dataObject) );
-        OWLObjectPropertyAssertionAxiom propertyAssertionappliesTo = factory.getOWLObjectPropertyAssertionAxiom(appliesTo, dataObjectInstant, dataObjectElement);
-        manager.addAxiom(ontology, propertyAssertionappliesTo);	
-        
-        ArrayList<Object> dataQueries = new ArrayList<Object>();
-        dataQueries.add(nameDataCondMeasure+"Intermediate1");
-        dataQueries.add(DataObjNameIndividualMeasure);
-        dataQueries.add(nameDataCondMeasure);
-        dataQueries.add(DataObjNameIndividual);
-     
-        return dataQueries;
-        
-	}
-
-	/**Funcion que se encarga de convertir las medidas de tipo DataAggregatedMeasure en su correspondiente codigo owl 
-	 * @return 
-	 **/
-	ArrayList<Object> converterDataAggregatedMeasureOWL(AggregatedMeasure element) 
-	{
-		
-		String functionAgg = element.getAggregationFunction();
-		DataInstanceMeasure element2 = (DataInstanceMeasure) element.getBaseMeasure();
-		String nameElementMeasure= element2.getId();
-
-		String dataObject = ((DataPropertyCondition) element2.getCondition()).getAppliesTo();
-
-		String restriction = GeneratePpinotAxioms.getCleanRestriction( ((DataPropertyCondition) element2.getCondition()).getRestriction() );
-	       
-	    // adiciona el axioma que indica la clase de la medida
-	    OWLNamedIndividual DataObjNameIndividualMeasure = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+nameElementMeasure+"Intermediate1") );
-	    OWLClass DataObj = factory.getOWLClass(IRI.create( funcAggr.get(functionAgg) ));
-	    OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(DataObj, DataObjNameIndividualMeasure);
-	    manager.addAxiom(ontology, classAssertion);	
-			
-		// adiciona el axioma que indica la medida que esta siendo agregada
-	    OWLNamedIndividual DataObjNameIndividual = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+nameElementMeasure) );
-	    OWLObjectPropertyExpression aggregates = factory.getOWLObjectProperty(IRI.create(Vocabulary.AGGREGATES_URI));
-	    OWLObjectPropertyAssertionAxiom propertyAssertion = factory.getOWLObjectPropertyAssertionAxiom(aggregates, DataObjNameIndividualMeasure, DataObjNameIndividual);
-	    manager.addAxiom(ontology, propertyAssertion);
-	      
-	    // adiciona el axioma que indica la clase de la medida que esta siendo agregada
-	    OWLClass classIntermediateMeasure = factory.getOWLClass( IRI.create(Vocabulary.DATAMEASURE_URI)) ;
-	    OWLClassAssertionAxiom classIntermediateAssertionMeasure = factory.getOWLClassAssertionAxiom(classIntermediateMeasure, DataObjNameIndividual);
-	    manager.addAxiom(ontology, classIntermediateAssertionMeasure);
-	    //--------------------------------------------
-		
-        // adiciona el axioma que indica a que elemento se aplica la medida
-        OWLObjectPropertyExpression appliesTo = factory.getOWLObjectProperty(IRI.create(Vocabulary.MEASURESDATA_URI));
-        OWLNamedIndividual dataObjectInstant = factory.getOWLNamedIndividual( IRI.create(bpmnGeneratedOntologyURI+"#"+dataObject) );
-        OWLObjectPropertyAssertionAxiom propertyAssertionmeets = factory.getOWLObjectPropertyAssertionAxiom(appliesTo, DataObjNameIndividual, dataObjectInstant);
-        manager.addAxiom(ontology, propertyAssertionmeets);
-        
-        ArrayList<Object> dataQueries = new ArrayList<Object>();
-        dataQueries.add(nameElementMeasure+Vocabulary.INTERMEDIATE1);
-        dataQueries.add(DataObjNameIndividualMeasure);
-        dataQueries.add(nameElementMeasure);
-        dataQueries.add(DataObjNameIndividual);
-     
-        return dataQueries;
 	}
 	
 	ArrayList<Object> converterDerivedSingleInstanceAggregatedMeasureOWL(AggregatedMeasure element, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception {
@@ -626,7 +349,7 @@ class GeneratePpinotAxioms {
 		
 		String measureIdA = medidaA.getId(); 
 		String measureIdB = medidaB.getId();
-		
+/*		
 		//MedidasA
 		if(medidaA instanceof TimeInstanceMeasure){
 			
@@ -662,7 +385,7 @@ class GeneratePpinotAxioms {
 			
 			this.converterDataPropertyConditionInstanceMeasureOWL((DataPropertyConditionInstanceMeasure) medidaB);
 		}
-		
+*/		
 	       
 	    // adiciona el axioma que indica la clase de la medida
 	    OWLNamedIndividual DataObjNameIndividualMeasure = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+nameElementMeasure+"Intermediate1") );
@@ -701,168 +424,64 @@ class GeneratePpinotAxioms {
      
         return dataQueries;
 	}
-	
+
 /**********************************************************************/
 /**********************************************************************/
 /**********************************************************************/
 
-	/**Funcion que se encarga de convertir las medidas de tipo DerivedMultiInstanceMeasure 
-	 * en su correspondiente codigo owl 
-	 * @throws Exception **/
-	void converterDerivedMultiInstanceMeasureOWL(DerivedMultiInstanceMeasure element, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception {
-		
-		Map<String, MeasureDefinition> mapaMedidas = element.getUsedMeasureMap();
-		Set keys = mapaMedidas.keySet();
-		Object akeys[] = keys.toArray();
-		String keymedA = (String) akeys[0];
-		String keymedB = (String) akeys[1];
-		
-		MeasureDefinition medidaA = mapaMedidas.get(keymedA);
-		MeasureDefinition medidaB = mapaMedidas.get(keymedB);
-		
-		String measureIdA = medidaA.getId(); 
-		String measureIdB = medidaB.getId();
+	void converterDerivedMeasureOWL(DerivedMeasure element, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception {
 
-		//MedidaA
-		if(medidaA instanceof AggregatedMeasure && ((AggregatedMeasure) medidaA).getBaseMeasure() instanceof TimeInstanceMeasure){
-			
-			this.converterTimeAggregatedMeasureOWL((AggregatedMeasure) medidaA, bpmn20ModelHandler);
-		}else if(medidaA instanceof AggregatedMeasure && ((AggregatedMeasure) medidaA).getBaseMeasure() instanceof CountInstanceMeasure){
-			
-			this.converterCountAggregatedMeasureOWL((AggregatedMeasure) medidaA, bpmn20ModelHandler);
-		}else if(medidaA instanceof AggregatedMeasure && ((AggregatedMeasure) medidaA).getBaseMeasure() instanceof StateConditionInstanceMeasure){
-			
-			this.converterStateConditionAggregatedMeasureOWL((AggregatedMeasure) medidaA, bpmn20ModelHandler);
-		}else if(medidaA instanceof AggregatedMeasure && ((AggregatedMeasure) medidaA).getBaseMeasure() instanceof DataInstanceMeasure){
-			
-			this.converterDataAggregatedMeasureOWL((AggregatedMeasure) medidaA);
-		}else if(medidaA instanceof AggregatedMeasure && ((AggregatedMeasure) medidaA).getBaseMeasure() instanceof DataPropertyConditionInstanceMeasure){
-			
-			this.converterDataPropertyConditionAggregatedMeasureOWL((AggregatedMeasure) medidaA);
-		}
-		
-		//MedidaB
-		if(medidaB instanceof AggregatedMeasure && ((AggregatedMeasure) medidaB).getBaseMeasure() instanceof TimeInstanceMeasure){
-			
-			this.converterTimeAggregatedMeasureOWL((AggregatedMeasure) medidaB, bpmn20ModelHandler);
-		}else if(medidaB instanceof AggregatedMeasure && ((AggregatedMeasure) medidaB).getBaseMeasure() instanceof CountInstanceMeasure){	
-			
-			this.converterCountAggregatedMeasureOWL((AggregatedMeasure) medidaB, bpmn20ModelHandler);
-		}else if(medidaB instanceof AggregatedMeasure && ((AggregatedMeasure) medidaB).getBaseMeasure() instanceof StateConditionInstanceMeasure){
-			
-			this.converterStateConditionAggregatedMeasureOWL((AggregatedMeasure) medidaB, bpmn20ModelHandler);
-		}else if(medidaB instanceof AggregatedMeasure && ((AggregatedMeasure) medidaB).getBaseMeasure() instanceof DataInstanceMeasure){
-			
-			this.converterDataAggregatedMeasureOWL((AggregatedMeasure) medidaB);
-		}else if(medidaB instanceof AggregatedMeasure && ((AggregatedMeasure) medidaB).getBaseMeasure() instanceof DataPropertyConditionInstanceMeasure){
-			
-			this.converterDataPropertyConditionAggregatedMeasureOWL((AggregatedMeasure) medidaB);
-		}
-		
-		String nameDerivedMultiInstance = element.getName();
-		
-		// adiciona el axioma de la medida
-		OWLNamedIndividual DataObjNameIndividualMeasure = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+nameDerivedMultiInstance) );
-        OWLClass classDerivedMeasure = factory.getOWLClass(IRI.create(Vocabulary.DERIVEDMULTIINSTANCEMEASURE_URI));
-        OWLClassAssertionAxiom classAssertionDerivedMeasure = factory.getOWLClassAssertionAxiom(classDerivedMeasure, DataObjNameIndividualMeasure);
-        manager.addAxiom(ontology, classAssertionDerivedMeasure);
-        
-        // adiciona el axioma con la relacion de la medida A y la medida derivada
-        OWLObjectPropertyExpression isCalculated = factory.getOWLObjectProperty(IRI.create(Vocabulary.ISCALCULATED_URI));
-        OWLNamedIndividual measureA = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+measureIdA ));
-        OWLObjectPropertyAssertionAxiom propertyAssertionmeetsA = factory.getOWLObjectPropertyAssertionAxiom(isCalculated, DataObjNameIndividualMeasure, measureA);
-        manager.addAxiom(ontology, propertyAssertionmeetsA);
-
-        // adiciona el axioma con la relacion de la medida A y la medida derivada
-        OWLNamedIndividual measureB = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+measureIdB) );
-        OWLObjectPropertyAssertionAxiom propertyAssertionmeetsB = factory.getOWLObjectPropertyAssertionAxiom(isCalculated, DataObjNameIndividualMeasure, measureB);
-        manager.addAxiom(ontology, propertyAssertionmeetsB);
-	}
-
-	/**Funcion que se encarga de convertir las medidas de tipo DerivedSingleInstanceMeasure 
-	 * en su correspondiente codigo owl 
-	 * @throws Exception **/
-	void converterDerivedSingleInstanceMeasureOWL(DerivedSingleInstanceMeasure element, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception {
-		
-		Map<String, MeasureDefinition> mapaMedidas = element.getUsedMeasureMap();
-		Set keys = mapaMedidas.keySet();
-		Object akeys[] = keys.toArray();
-		String keymedA = (String) akeys[0];
-		String keymedB = "";
-		if (akeys.length>1)
-			keymedB = (String) akeys[1];
-		
-		MeasureDefinition medidaA = mapaMedidas.get(keymedA);
-		MeasureDefinition medidaB = null;
-		if (akeys.length>1) {
-			medidaB = mapaMedidas.get(keymedB);
-		}
-
-		String measureIdA = medidaA.getId(); 
-		String measureIdB = "";
-
-		//MedidasA
-		if(medidaA instanceof TimeInstanceMeasure){
-			
-			this.converterTimeInstanceMeasureOWL((TimeInstanceMeasure) medidaA, bpmn20ModelHandler);
-		}else if(medidaA instanceof CountInstanceMeasure){
-			
-			this.converterCountInstanceMeasureOWL((CountInstanceMeasure) medidaA, bpmn20ModelHandler);
-		}else if(medidaA instanceof StateConditionInstanceMeasure){
-			
-			this.converterStateConditionInstanceMeasureOWL((StateConditionInstanceMeasure) medidaA, bpmn20ModelHandler);
-		}else if(medidaA instanceof DataInstanceMeasure){
-			
-			this.converterDataInstanceMeasureOWL((DataInstanceMeasure) medidaA);
-		}else if(medidaA instanceof DataPropertyConditionInstanceMeasure){
-			
-			this.converterDataPropertyConditionInstanceMeasureOWL((DataPropertyConditionInstanceMeasure) medidaA);
-		}
-		
-		//MedidasB
-		if (medidaB!=null) {
-
-			measureIdB = medidaB.getId();
-
-			if(medidaB instanceof TimeInstanceMeasure){
-				
-				this.converterTimeInstanceMeasureOWL((TimeInstanceMeasure) medidaB, bpmn20ModelHandler);
-			}else if(medidaB instanceof CountInstanceMeasure){	
-				
-				this.converterCountInstanceMeasureOWL((CountInstanceMeasure) medidaB, bpmn20ModelHandler);
-			}else if(medidaB instanceof StateConditionInstanceMeasure){
-				
-				this.converterStateConditionInstanceMeasureOWL((StateConditionInstanceMeasure) medidaB, bpmn20ModelHandler);
-			}else if(medidaB instanceof DataInstanceMeasure){
-				
-				this.converterDataInstanceMeasureOWL((DataInstanceMeasure) medidaB);
-			}else if(medidaB instanceof DataPropertyConditionInstanceMeasure){
-				
-				this.converterDataPropertyConditionInstanceMeasureOWL((DataPropertyConditionInstanceMeasure) medidaB);
-			}
-		}
-
-		String nameDerivedSingleInstance = element.getName();
+		String derivedMeasureId = element.getId();
 		        
-		// adiciona el axioma de la medida
-		OWLNamedIndividual DataObjNameIndividualMeasure = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+nameDerivedSingleInstance) );
-		OWLClass classDerivedMeasure = factory.getOWLClass( IRI.create(Vocabulary.DERIVEDSINGLEINSTANCEMEASURE_URI));
-		OWLClassAssertionAxiom classAssertionDerivedMeasure = factory.getOWLClassAssertionAxiom(classDerivedMeasure, DataObjNameIndividualMeasure);
+		// adiciona el axioma de la medida derivada
+		OWLNamedIndividual derivedMeasureIndividual = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+derivedMeasureId) );
+		OWLClass classDerivedMeasure;
+		if (element instanceof DerivedMultiInstanceMeasure)
+			classDerivedMeasure = factory.getOWLClass( IRI.create(Vocabulary.DERIVEDMULTIINSTANCEMEASURE_URI));
+		else
+			classDerivedMeasure = factory.getOWLClass( IRI.create(Vocabulary.DERIVEDSINGLEINSTANCEMEASURE_URI));
+		OWLClassAssertionAxiom classAssertionDerivedMeasure = factory.getOWLClassAssertionAxiom(classDerivedMeasure, derivedMeasureIndividual);
 		manager.addAxiom(ontology, classAssertionDerivedMeasure);
 
-        // adiciona el axioma con la relacion de la medida A y la medida derivada
-		OWLObjectPropertyExpression isCalculated = factory.getOWLObjectProperty(IRI.create(Vocabulary.ISCALCULATED_URI));
-		OWLNamedIndividual measureA = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+measureIdA) );
-		OWLObjectPropertyAssertionAxiom propertyAssertionmeetsA = factory.getOWLObjectPropertyAssertionAxiom(isCalculated, DataObjNameIndividualMeasure, measureA);
-		manager.addAxiom(ontology, propertyAssertionmeetsA);
-
-        // adiciona el axioma con la relacion de la medida A y la medida derivada
-		if (!measureIdB.isEmpty()) {
-			OWLNamedIndividual measureB = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+measureIdB) );
-			OWLObjectPropertyAssertionAxiom propertyAssertionmeetsB = factory.getOWLObjectPropertyAssertionAxiom(isCalculated, DataObjNameIndividualMeasure, measureB);
-			manager.addAxiom(ontology, propertyAssertionmeetsB);
-		}
+		// adiciona las relaciones entre la medida derivada y las medidas utilizadas en el calculo
+		Map<String, MeasureDefinition> mapaMedidas = element.getUsedMeasureMap();
 		
+		Iterator<Entry<String, MeasureDefinition>> itInst = mapaMedidas.entrySet().iterator();
+	    while (itInst.hasNext()) {
+	        Map.Entry<String, MeasureDefinition> pairs = (Map.Entry<String, MeasureDefinition>)itInst.next();
+	        MeasureDefinition measureA = pairs.getValue();
+			
+			String measureIdA = measureA.getId(); 
+
+			// adiciona el axioma con la relacion de la medida A y la medida derivada
+			OWLObjectPropertyExpression isCalculated = factory.getOWLObjectProperty(IRI.create(Vocabulary.ISCALCULATED_URI));
+			OWLNamedIndividual measureIndividualA = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+measureIdA) );
+			OWLObjectPropertyAssertionAxiom propertyAssertionmeetsA = factory.getOWLObjectPropertyAssertionAxiom(isCalculated, derivedMeasureIndividual, measureIndividualA);
+			manager.addAxiom(ontology, propertyAssertionmeetsA);
+	    }
+	}
+
+	/**Funcion que se encarga de convertir los PPI 
+	 * en su correspondiente codigo owl 
+	 * @throws Exception **/
+	void converterPpiOWL(PPI element, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception {
+		
+		String ppiId = element.getId();
+		
+		MeasureDefinition measuredBy = element.getMeasuredBy();
+		String measureId = measuredBy.getId();
+		
+		// adiciona el axioma que indica la clase del PPI
+	    OWLNamedIndividual ppiIndividual = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+ppiId) );
+	    OWLClass ppiClass = factory.getOWLClass( IRI.create(Vocabulary.PPI_URI));
+	    OWLClassAssertionAxiom ppiClassAxiom = factory.getOWLClassAssertionAxiom(ppiClass, ppiIndividual);
+	    manager.addAxiom(ontology, ppiClassAxiom);
+		
+		// adiciona el axioma con la relacion entre el PPI y la medida
+		OWLObjectPropertyExpression definition = factory.getOWLObjectProperty(IRI.create(Vocabulary.DEFINITION_URI));
+		OWLNamedIndividual measureIndividual = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+measureId) );
+		OWLObjectPropertyAssertionAxiom definitionAxiom = factory.getOWLObjectPropertyAssertionAxiom(definition, ppiIndividual, measureIndividual);
+		manager.addAxiom(ontology, definitionAxiom);
 	}
 
 	
@@ -870,34 +489,24 @@ class GeneratePpinotAxioms {
 	private String getNameTypeActivity(String id, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception{
 		
 		String type = null;
-		Object obj = bpmn20ModelHandler.isTask(id);
-		if (obj!=null)
+		if (bpmn20ModelHandler.getTaskMap().containsKey(id))
 			
 			type = Vocabulary.ACTIVITY;
 		else {
 			
-			obj = bpmn20ModelHandler.isSubProcess(id);
-			if (obj!=null)
+			if (bpmn20ModelHandler.getSubProcessMap().containsKey(id))
 				
 				type = Vocabulary.ACTIVITY;
 			else {
 				
-				obj = bpmn20ModelHandler.isDataObject(id);
-				if (obj!=null)
+				if (bpmn20ModelHandler.getDataObjectMap().containsKey(id))
 					
 					type = Vocabulary.DATASTATECHANGE;
 				else {
 					
-					obj = bpmn20ModelHandler.isStartEvent(id);
-					if (obj!=null)
+					if (bpmn20ModelHandler.getStartEventMap().containsKey(id) || bpmn20ModelHandler.getEndEventMap().containsKey(id))
 						
 						type = Vocabulary.EVENTTRIGGER;
-					else {
-						
-						obj = bpmn20ModelHandler.isEndEvent(id);
-						if (obj!=null)
-							type = Vocabulary.EVENTTRIGGER;
-					}
 				}
 			}
 		}

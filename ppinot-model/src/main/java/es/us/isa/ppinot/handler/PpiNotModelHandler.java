@@ -1,7 +1,6 @@
 package es.us.isa.ppinot.handler;
 
 import es.us.isa.bpmn.handler.ModelHandler;
-import es.us.isa.bpmn.xmlClasses.bpmn20.TBaseElement;
 import es.us.isa.bpmn.xmlClasses.bpmn20.TExtensionElements;
 import es.us.isa.bpmn.xmlClasses.bpmn20.TTask;
 import es.us.isa.bpmn.xmlClasses.bpmn20.TDataObject;
@@ -9,30 +8,23 @@ import es.us.isa.bpmn.xmlClasses.bpmn20.TDefinitions;
 import es.us.isa.bpmn.xmlClasses.bpmn20.TProcess;
 import es.us.isa.ppinot.model.*;
 import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
-import es.us.isa.ppinot.model.base.BaseMeasure;
 import es.us.isa.ppinot.model.base.CountInstanceMeasure;
 import es.us.isa.ppinot.model.base.DataInstanceMeasure;
 import es.us.isa.ppinot.model.base.DataPropertyConditionInstanceMeasure;
 import es.us.isa.ppinot.model.base.StateConditionInstanceMeasure;
 import es.us.isa.ppinot.model.base.TimeInstanceMeasure;
-import es.us.isa.ppinot.model.condition.DataPropertyCondition;
-import es.us.isa.ppinot.model.condition.StateCondition;
-import es.us.isa.ppinot.model.condition.TimeInstantCondition;
-import es.us.isa.ppinot.model.condition.TimeMeasureType;
 import es.us.isa.ppinot.model.derived.DerivedMeasure;
 import es.us.isa.ppinot.model.derived.DerivedMultiInstanceMeasure;
 import es.us.isa.ppinot.model.derived.DerivedSingleInstanceMeasure;
-import es.us.isa.ppinot.model.state.GenericState;
-import es.us.isa.ppinot.model.state.RuntimeState;
 import es.us.isa.ppinot.xmlClasses.ppinot.ObjectFactory;
 import es.us.isa.ppinot.xmlClasses.ppinot.TAggregatedMeasure;
 import es.us.isa.ppinot.xmlClasses.ppinot.TAggregates;
 import es.us.isa.ppinot.xmlClasses.ppinot.TAppliesToDataConnector;
 import es.us.isa.ppinot.xmlClasses.ppinot.TAppliesToElementConnector;
-import es.us.isa.ppinot.xmlClasses.ppinot.TBaseMeasure;
 import es.us.isa.ppinot.xmlClasses.ppinot.TCountMeasure;
 import es.us.isa.ppinot.xmlClasses.ppinot.TDataMeasure;
 import es.us.isa.ppinot.xmlClasses.ppinot.TDataPropertyConditionMeasure;
+import es.us.isa.ppinot.xmlClasses.ppinot.TDerivedMeasure;
 import es.us.isa.ppinot.xmlClasses.ppinot.TDerivedMultiInstanceMeasure;
 import es.us.isa.ppinot.xmlClasses.ppinot.TDerivedSingleInstanceMeasure;
 import es.us.isa.ppinot.xmlClasses.ppinot.TIsGroupedBy;
@@ -58,28 +50,9 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 
 
-/**
- * Clase que permite obtener la información de los PPI en un xml. Devuelve listas con instancias de las clases definidas en el
- * paquete <a href="../../historyreport/measuredefinition/package-summary.html">historyreport.measuredefinition</a>. Para realizar esto se utilizan las clases en <a href="../../ppinotXML/package-summary.html">el paquete ppinotXML<a> que fueron 
- * generadas con jaxb. Esta clase permite que la aplicación web que muestra el reporte de los PPI pueda adaptarse a cualquier 
- * formato del xml donde se especifican los PPI. Solo es necesario modificar esta clase y el paquete generado con jaxb a 
- * partir del xsd.
- * <p>
- * A partir de esos objetos permite obtener listas de instancias de las clases en el paquete <a href="../../historyreport/measuredefinition/package-summary.html">historyreport.measuredefinition</a> que 
- * son utilizadas en un objeto subclase de <a href="../../historyreport/HistoryReport.html">HistoryReport.html</a> para obtener el reporte solicitado en el xml.
- * 
- * @author Edelia García González
- * @version 1.0
- *
- */
 public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandlerInterface {
 
-	/**
-	 * Objeto con instancias de las clases en el paquete de BPMN, que es utilizado para exportar e importar xml
-	 */
 	private es.us.isa.bpmn.xmlClasses.bpmn20.ObjectFactory bpmnFactory;
-	
-	private Integer contador = 0;
 	
 	// PPINOT XML classes
 	private Map<String, TCountMeasure> countMap;
@@ -124,22 +97,14 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 
 	private Map<String, PPI> ppiModelMap;
 	
-	/**
-	 * Constructor de la clase
-	 * 
-	 * @throws JAXBException
-	 */
+	private GeneratePpiNotModel generatePpiNotModel;
+	private GeneratePpiNotInfo generatePpiNotInfo;
+	
 	public PpiNotModelHandler() throws JAXBException {
 
 		super();
 	}
 
-	/**
-	 * Inicializa el JAXBContext y los ObjectFactory en dependencia de la ubicación de los paquetes con las clases que permiten
-	 * exportar y exportar a xml
-	 * @throws JAXBException 
-	 * 
-	 */
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected void iniLoader() throws JAXBException {
@@ -192,56 +157,17 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		this.xmlConfig( classList, es.us.isa.ppinot.xmlClasses.ppinot.ObjectFactory.class );
         
         this.bpmnFactory = new es.us.isa.bpmn.xmlClasses.bpmn20.ObjectFactory();
+        
+		this.generatePpiNotModel = new GeneratePpiNotModel();
+		
+		this.generatePpiNotInfo = new GeneratePpiNotInfo();
 	}
 	
 	protected ObjectFactory getFactory() {
 	
 		return (ObjectFactory) super.getFactory();
 	}
-
-	/**
-	 * Obtiene el elemento PpiSetType del xml
-	 * Se considera que existirá un solo proceso, con un solo extensionElements, cuyo primer elemento es un ppiset
-	 * 
-	 * @return El elemento PpiSetType del xml
-	 */
-	private TPpiset getPpiset() {
-		
-		// obtiene el proceso creado a partir de la información en el xml
-		TProcess process = null;
-		TPpiset ppiset = null;
-		
-		Object object = ((TDefinitions) this.getImportElement().getValue()).getRootElement().get(0).getValue();
-		if (object instanceof TProcess) {
-			
-			process = (TProcess) object;
-			ppiset = (TPpiset) ((JAXBElement<?>) process.getExtensionElements().getAny().get(0)).getValue();
-		} else {
-			
-			for (JAXBElement<?> element : ((TDefinitions) this.getImportElement().getValue()).getRootElement()) {
-				
-				Object participant = element.getValue();
-				if (participant instanceof TProcess &&
-					((TProcess) participant).getExtensionElements()!=null &&
-					((TProcess) participant).getExtensionElements().getAny()!=null &&
-					((TProcess) participant).getExtensionElements().getAny().get(0)!=null &&
-					((JAXBElement<?>) ((TProcess) participant).getExtensionElements().getAny().get(0)).getValue() instanceof TPpiset
-				   ) {
-					
-					ppiset = (TPpiset) ((JAXBElement<?>) ((TProcess) participant).getExtensionElements().getAny().get(0)).getValue();
-					break;
-				}
-			}
-		}
-
-		return ppiset;
-	}
 	
-	/**
-	 * Devuelve el id del proceso
-	 * 
-	 * @return
-	 */
 	public String getProcId() {
 		
 		// obtiene el ProcessType creado a partir de la información en el xml
@@ -273,245 +199,77 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		// obtiene el id del proceso
 		return (process==null)?"":process.getId();
 	}
-
-	@SuppressWarnings("unused")
-	private void removePpiModelMap(String id) {
+	
+	public Map<String, CountInstanceMeasure> getCountInstanceModelMap() {
 		
-		this.ppiModelMap.remove(id);
+		return countInstanceModelMap;
 	}
 
-	/**
-	 * Busca un conector MeasureConnector que salga de la medida measure
-	 * 
-	 * @param ppi La medida de la que se busca el conector
-	 * @return Conector de la medida
-	 */
-	@SuppressWarnings("rawtypes")
-	private TMeasureConnector findMeasureConnector(TMeasure measure, Class cl) {
+	public Map<String, TimeInstanceMeasure> getTimeInstanceModelMap() {
+
+		return timeInstanceModelMap;
+	}
+
+	public Map<String, StateConditionInstanceMeasure> getStateConditionInstanceModelMap() {
 		
-		TMeasureConnector connector = null;
-		for( JAXBElement<?> element : this.getPpiset().getMeasureConnector() ) {
-			
-			if( cl.isInstance(element.getValue()) ) {
-				
-				TMeasureConnector con = (TMeasureConnector) element.getValue();
-				if (con.getSourceRef()!=null && con.getSourceRef().equals(measure)) {
-					
-					connector = con;
-					break;
-				}
-			}
-		}
+		return stateConditionInstanceModelMap;
+	}
+
+	public Map<String, DataInstanceMeasure> getDataInstanceModelMap() {
 		
-		return connector;
+		return dataInstanceModelMap;
+	}
+
+	public Map<String, DataPropertyConditionInstanceMeasure> getDataPropertyConditionInstanceModelMap() {
+		
+		return dataPropertyConditionInstanceModelMap;
 	}
 	
-	/**
-	 * Busca un conector Uses que salga de la medida measure
-	 * 
-	 * @param ppi La medida de la que se busca el conector
-	 * @return Conector de la medida
-	 */
-	private List<TUses> findUses(TMeasure measure) {
-		
-		List<TUses> connectorList = new ArrayList<TUses>();
-		for( JAXBElement<?> element : this.getPpiset().getMeasureConnector() ) {
-			
-			if(element.getValue() instanceof TUses) {
+	public Map<String, AggregatedMeasure> getTimeAggregatedModelMap() {
 
-				TUses con = (TUses) element.getValue();
-				if (con.getSourceRef()!=null && con.getSourceRef().equals(measure)) {
-					
-					connectorList.add(con);
-				}
-			}
-		}
-		
-		return connectorList;
+		return timeAggregatedModelMap;
 	}
 
-	private MeasureDefinition findConnectedMeasure(TMeasureConnector con, Boolean remove) {
-	
-		String id = ((TMeasure) con.getTargetRef()).getId();
-		MeasureDefinition measure = null;
-		
-		if (this.countInstanceModelMap.containsKey(id)) {
-			measure = this.countInstanceModelMap.get(id);
-			if (remove)
-				this.countInstanceModelMap.remove(id);
-		} else
-		if (this.timeInstanceModelMap.containsKey(id)) {
-			measure = this.timeInstanceModelMap.get(id);
-			if (remove)
-				this.timeInstanceModelMap.remove(id);
-		} else
-		if (this.stateConditionInstanceModelMap.containsKey(id)) {
-			measure = this.stateConditionInstanceModelMap.get(id);
-			if (remove)
-				this.stateConditionInstanceModelMap.remove(id);
-		} else
-		if (this.dataInstanceModelMap.containsKey(id)) {
-			measure = this.dataInstanceModelMap.get(id);
-			if (remove)
-				this.dataInstanceModelMap.remove(id);
-		} else
-		if (this.dataPropertyConditionInstanceModelMap.containsKey(id)) {
-			measure = this.dataPropertyConditionInstanceModelMap.get(id);
-			if (remove)
-				this.dataPropertyConditionInstanceModelMap.remove(id);
-		} else
-		if (this.countAggregatedModelMap.containsKey(id)) {
-			measure = this.countAggregatedModelMap.get(id);
-			if (remove)
-				this.countAggregatedModelMap.remove(id);
-		} else
-		if (this.timeAggregatedModelMap.containsKey(id)) {
-			measure = this.timeAggregatedModelMap.get(id);
-			if (remove)
-				this.timeAggregatedModelMap.remove(id);
-		} else
-		if (this.stateConditionAggregatedModelMap.containsKey(id)) {
-			measure = this.stateConditionAggregatedModelMap.get(id);
-			if (remove)
-				this.stateConditionAggregatedModelMap.remove(id);
-		} else
-		if (this.dataAggregatedModelMap.containsKey(id)) {
-			measure = this.dataAggregatedModelMap.get(id);
-			if (remove)
-				this.dataAggregatedModelMap.remove(id);
-		} else
-		if (this.dataPropertyConditionAggregatedModelMap.containsKey(id)) {
-			measure = this.dataPropertyConditionAggregatedModelMap.get(id);
-			if (remove)
-				this.dataPropertyConditionAggregatedModelMap.remove(id);
-		} else 
-		if (this.derivedSingleInstanceAggregatedModelMap.containsKey(id)) {
-			measure = this.derivedSingleInstanceAggregatedModelMap.get(id);
-			if (remove)
-				measure = this.derivedSingleInstanceAggregatedModelMap.get(id);
-		} else {
+	public Map<String, AggregatedMeasure> getCountAggregatedModelMap() {
 
-			Iterator<Entry<String, DerivedMeasure>> itInst = this.derivedSingleInstanceModelMap.entrySet().iterator();
-		    while (itInst.hasNext()) {
-		        Map.Entry<String, DerivedMeasure> pairs = (Map.Entry<String, DerivedMeasure>)itInst.next();
-		        DerivedMeasure m = (DerivedMeasure) pairs.getValue();
-
-		        measure = m.getUsedMeasureId(id);
-				if (measure!=null) {
-					break;
-				}
-			}
-		
-		    if (measure==null) {
-				Iterator<Entry<String, DerivedMeasure>> itInstP = this.derivedMultiInstanceModelMap.entrySet().iterator();
-			    while (itInstP.hasNext()) {
-			        Map.Entry<String, DerivedMeasure> pairs = (Map.Entry<String, DerivedMeasure>)itInstP.next();
-			        DerivedMeasure m = (DerivedMeasure) pairs.getValue();
-
-			        measure = m.getUsedMeasureId(id);
-					if (measure!=null) {
-						break;
-					}
-				}
-		    }
-		}
-		
-		return measure;
+		return countAggregatedModelMap;
 	}
-	/**
-	 * Busca los conectores TimeConnector que salgan de una medida
-	 * 
-	 * @param ppi La medida de la que se busca los conectores
-	 * @return Mapa con los conectores de la medida. El conector desde el que se aplica la medida se devuelve en la llave From y el conector hasta el cual se aplica la medida se devuelve en la llave To
-	 */
-	private Map<String, TTimeConnector> findTimeConnectors(TMeasure measure) {
-		
-		Map<String, TTimeConnector> map = new HashMap<String, TTimeConnector>();
-		for( JAXBElement<?> element : this.getPpiset().getMeasureConnector() ) {
-			
-			if(element.getValue() instanceof TTimeConnector) {
 
-				TTimeConnector con = (TTimeConnector) element.getValue();
-				if (con.getSourceRef()!=null && con.getSourceRef().equals(measure)) {
-					
-					map.put(con.getConditiontype(), con);
-					if (map.size()==2)
-						break;
-				}
-			}
-		}
-		return map;
+	public Map<String, AggregatedMeasure> getStateConditionAggregatedModelMap() {
+
+		return stateConditionAggregatedModelMap;
+	}
+
+	public Map<String, AggregatedMeasure> getDataAggregatedModelMap() {
+
+		return dataAggregatedModelMap;
 	}
 	
-	/**
-	 * Obtiene los datos del período que se desea analizar, a partir de la propiedad analisysPeriod de una medida agregada 
-	 * 
-	 * @param period Cadena con el período de análisis
-	 * @return Mapa con los datos del período de análisis
-	 */
-	private Map<String, String> parseAnalysisPeriod(String period) {
-		
-		Map<String, String> map = new HashMap<String, String>();
+	public Map<String, AggregatedMeasure> getDataPropertyConditionAggregatedModelMap() {
 
-		if (period.contentEquals("")) {
-			
-			map.put("year", "");
-			map.put("period", "");
-			map.put("startDate", "");
-			map.put("endDate", "");
-			map.put("inStart", "");
-			map.put("inEnd", "");
-		}
-		else
-			try {
-				Pattern patron = Pattern.compile("(interval)\\((\\d{4}\\/\\d{2}\\/\\d{2}),(\\d{4}\\/\\d{2}\\/\\d{2})\\,(true|false)\\,(true|false)\\)|(period)\\((\\d{4}),(trimestre|semestre|mes)\\,(true|false)\\,(true|false)\\)");
-				Matcher matcher = patron.matcher( period );
-				matcher.find();
-	
-				if (matcher.group(6)!=null && matcher.group(6).contentEquals("period")) {
-					
-					map.put("year", matcher.group(7));
-					map.put("period", matcher.group(8));
-					map.put("startDate", "");
-					map.put("endDate", "");
-					map.put("inStart", (matcher.group(9).compareTo("true")==0)?"yes":"");
-					map.put("inEnd", (matcher.group(10).compareTo("true")==0)?"yes":"");
-				}
-				else 
-				if (matcher.group(1).contentEquals("interval")) {
-					
-					map.put("year", "");
-					map.put("period", "");
-					map.put("startDate", matcher.group(2));
-					map.put("endDate", matcher.group(3));
-					map.put("inStart", (matcher.group(4).compareTo("true")==0)?"yes":"");
-					map.put("inEnd", (matcher.group(5).compareTo("true")==0)?"yes":"");
-				} 
-
-			}  catch (Exception e) {
-				
-				map.put("year", "");
-				map.put("period", "");
-				map.put("startDate", "");
-				map.put("endDate", "");
-				map.put("inStart", "");
-				map.put("inEnd", "");
-			}
-		
-		return map;
+		return dataPropertyConditionAggregatedModelMap;
 	}
 	
-	/**
-	 * Genera el valor de la propiedad analisysPeriod a partir de la información del período de análisis
-	 * 
-	 * @param year Año
-	 * @param period Si se desea los resultados por mes, trimestre o semestre
-	 * @param startDate Fecha inicial del período de análisis
-	 * @param endDate Fecha final del período de análisis
-	 * @param inStart Si se incluye en el análisis los procesos que se inician antes del inicio del período y terminan después de este 
-	 * @param inEnd Si se incluye en el análisis los procesos que se inician antes del final del período y terminan después de este
-	 * @return
-	 */
+	public Map<String, AggregatedMeasure> getDerivedSingleInstanceAggregatedModelMap() {
+
+		return derivedSingleInstanceAggregatedModelMap;
+	}
+
+	public Map<String, DerivedMeasure> getDerivedSingleInstanceModelMap() {
+		
+		return derivedSingleInstanceModelMap;
+	}
+
+	public Map<String, DerivedMeasure> getDerivedMultiInstanceModelMap() {
+		
+		return derivedMultiInstanceModelMap;
+	}
+	
+	public Map<String, PPI> getPpiModelMap() {
+		
+		return ppiModelMap;
+	}
+	
 	private String generateAnalisysPeriod(String year, String period, Date startDate, Date endDate, Boolean inStart, Boolean inEnd) {
 		
 		String startDateString = Utils.formatString(startDate);
@@ -532,55 +290,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		
 		return analisysPeriod;
 	}
-
-	/**
-	 * Obtiene los valores de referencia para evaluar el grado de satisfacción de un ppi, a partir de la propiedad target
-	 * 
-	 * @param target Valor de la propiedad target de un ppi
-	 * @return Mapa con los valores de referencia. El valor mínimo se devuelve con la llave refMin y el valor máximo con la llave refMax
-	 */
-	private Map<String, Double> parseTarget(String target) {
-		
-		Map<String, Double> map = new HashMap<String, Double>();
-
-		try {
-			Pattern patron = Pattern.compile("(\\-{0,1}[0-9]+\\.{0,1}[0-9]*)\\-(\\-{0,1}[0-9]+\\.{0,1}[0-9]*)|(>|<|=|@)(\\-{0,1}[0-9]+\\.{0,1}[0-9]*)");
-			Matcher matcher = patron.matcher( target );
-			matcher.find();
-
-			if (matcher.group(3)!=null && matcher.group(3).contentEquals("=")) {
-			
-				map.put("refMin", Utils.stringToDouble(matcher.group(4)));
-				map.put("refMax", Utils.stringToDouble(matcher.group(4)));
-			} else
-			if (matcher.group(3)!=null && matcher.group(3).contentEquals(">")) {
-				
-				map.put("refMin", Utils.stringToDouble(matcher.group(4)));
-			} else
-			if (matcher.group(3)!=null && matcher.group(3).contentEquals("<")) {
-				
-				map.put("refMax", Utils.stringToDouble(matcher.group(4)));
-			} else 
-			if (matcher.group(1)!=null && matcher.group(2)!=null) {
-				map.put("refMin", Utils.stringToDouble(matcher.group(1)));
-				map.put("refMax", Utils.stringToDouble(matcher.group(2)));
-			} 
-		}  catch (Exception e) {
-			
-			map.put("refMin", null);
-			map.put("refMax", null);
-		}
-		
-		return map;
-	}
 	
-	/**
-	 * Genera el valor de la propiedad target de un ppi, a partir de los valores de referencia de este
-	 * 
-	 * @param refMin Valor mínimo que debería tomar la medida en el ppi
-	 * @param refMax Valor máximo que debería tomar la medida en el ppi
-	 * @return Valor de la propiedad target del ppi
-	 */
 	private String generateTarget(Double refMin, Double refMax) {
 		
 		String target = "";
@@ -603,500 +313,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		} 
 		return target;
 	}
-	
-	/**
-	 * Obtienen instancias de alguna de las clases definidas en el paquete <a href="../../historyreport/measuredefinition/package-summary.html">historyreport.measuredefinition</a>,
-	 * a partir de un objeto obtenido mediante el unmarshall de un xml, cuyas clases están definidas en <a href="../../ppinotXML/package-summary.html">el paquete ppinotXML<a>.
-	 * Son utilizadas en la implementación de los métodos abstractos que obtienen las listas de las medidas utilizadas en la appweb (getCountInstanceMeasure, getTimeInstanceMeasure, etc).
-	 * 
-	 * @param measure Objeto producido por el unmarshall
-	 * @return Objeto con la medida que es utilizado por la appweb
-	 */
-	private TimeInstanceMeasure obtainModel(TTimeMeasure measure) {
-		
-		if (this.timeInstanceModelMap.containsKey(measure.getId()))
-			return this.timeInstanceModelMap.get(measure.getId());
-		
-		// crea la definición de la medida TimeMeasure a partir de la información en el xml
-		// las actividades a la cuales se aplica la medida se obtiene de los conectores
-		Map<String, TTimeConnector> map = findTimeConnectors(measure);
-		TTimeConnector conFrom = map.get("From");
-		TTimeConnector conTo = map.get("To");
-		
-		TimeMeasureType timeMeasureType = (measure.getTimeMeasureType().toLowerCase().contentEquals("cyclic"))?TimeMeasureType.CYCLIC:TimeMeasureType.LINEAR;
-		
-		TimeInstanceMeasure def = null;
-		if (map.size()==2)
-			def = new TimeInstanceMeasure( 
-					measure.getId(), 
-					measure.getName(), 
-					measure.getDescription(),
-					measure.getScale(),
-					measure.getUnitofmeasure(),
-					new TimeInstantCondition(
-							((TBaseElement) conFrom.getTargetRef()).getId(), 
-							new RuntimeState(conFrom.getWhen())),
-					new TimeInstantCondition(
-							((TBaseElement) conTo.getTargetRef()).getId(), 
-							new RuntimeState(conTo.getWhen())),
-					timeMeasureType,  
-					measure.getSingleInstanceAggFunction());
-		else
-			def = new TimeInstanceMeasure( 
-					measure.getId(), 
-					measure.getName(), 
-					measure.getDescription(),
-					measure.getScale(),
-					measure.getUnitofmeasure(),
-					null,  
-					null,
-					timeMeasureType,
-					measure.getSingleInstanceAggFunction() );
-		return def;
-	}
-	private CountInstanceMeasure obtainModel(TCountMeasure measure) {
-		
-		if (this.countInstanceModelMap.containsKey(measure.getId()))
-			return this.countInstanceModelMap.get(measure.getId());
-		
-		// crea la definición de la medida CountMeasure a partir de la información en el xml
-		// la actividad a la cual se aplica la medida se obtiene del conector
-		TMeasureConnector connector = findMeasureConnector(measure, TAppliesToElementConnector.class);
-		CountInstanceMeasure def = null;
-		if (connector!=null)
-			def = new CountInstanceMeasure( 
-					measure.getId(), 
-					measure.getName(), 
-					measure.getDescription(),
-					measure.getScale(),
-					measure.getUnitofmeasure(),
-					new TimeInstantCondition(
-							((TBaseElement) connector.getTargetRef()).getId(), 
-							new RuntimeState(((TAppliesToElementConnector) connector).getWhen())) );  
-		else
-			def = new CountInstanceMeasure( 
-					measure.getId(), 
-					measure.getName(), 
-					measure.getDescription(),
-					measure.getScale(),
-					measure.getUnitofmeasure(),
-					null );
 
-		return def;
-	}
-	private StateConditionInstanceMeasure obtainModel(TStateConditionMeasure measure) {
-		
-		if (this.stateConditionInstanceModelMap.containsKey(measure.getId()))
-			return this.stateConditionInstanceModelMap.get(measure.getId());
-		
-		// crea la definición de la medida StateConditionMeasure a partir de la información en el xml
-		// la tarea a la cual se aplica la medida se obtiene del conector
-		TMeasureConnector connector = findMeasureConnector(measure, TAppliesToElementConnector.class);
-		
-		StateConditionInstanceMeasure def = null;
-		if (connector!=null)
-			def = new StateConditionInstanceMeasure( 
-					measure.getId(), 
-					measure.getName(), 
-					measure.getDescription(),
-					measure.getScale(),
-					measure.getUnitofmeasure(),
-					new StateCondition( 
-							((TBaseElement) connector.getTargetRef()).getId(),  
-							new RuntimeState(((TAppliesToElementConnector) connector).getState())) );
-		else
-			def = new StateConditionInstanceMeasure( 
-					measure.getId(), 
-					measure.getName(), 
-					measure.getDescription(),
-					measure.getScale(),
-					measure.getUnitofmeasure(),
-					null );
-		return def;
-	}
-	private DataInstanceMeasure obtainModel(TDataMeasure measure) {
-		
-		if (this.dataInstanceModelMap.containsKey(measure.getId()))
-			return this.dataInstanceModelMap.get(measure.getId());
-
-		// crea la definición de la medida DataMeasure a partir de la información en el xml
-		// el dataobject al cual se aplica la medida se obtiene del conector
-		TMeasureConnector connector = findMeasureConnector(measure, TAppliesToDataConnector.class);
-		
-		DataInstanceMeasure def = null;
-		if (connector!=null)
-			def = new DataInstanceMeasure( 
-					measure.getId(), 
-					measure.getName(), 
-					measure.getDescription(),
-					measure.getScale(),
-					measure.getUnitofmeasure(),
-					new DataContentSelection( 
-							((TAppliesToDataConnector) connector).getDataContentSelection(),
-							((TDataObject) connector.getTargetRef()).getName() ),
-					new DataPropertyCondition( 
-							((TDataObject) connector.getTargetRef()).getName(),  
-							((TAppliesToDataConnector) connector).getRestriction(),
-							new RuntimeState(((TAppliesToDataConnector) connector).getState()) ) );
-		else
-			def = new DataInstanceMeasure( 
-					measure.getId(), 
-					measure.getName(), 
-					measure.getDescription(),
-					measure.getScale(),
-					measure.getUnitofmeasure(),
-					null,
-					null );
-		return def;
-	}
-	private DataPropertyConditionInstanceMeasure obtainModel(TDataPropertyConditionMeasure measure) {
-		
-		if (this.dataPropertyConditionInstanceModelMap.containsKey(measure.getId()))
-			return this.dataPropertyConditionInstanceModelMap.get(measure.getId());
-		
-		// crea la definición de la medida DataPropertyConditionMeasure a partir de la información en el xml
-		// la actividad a la cual se aplica la medida se obtiene del conector
-		TMeasureConnector connector = findMeasureConnector(measure, TAppliesToDataConnector.class);
-		
-		DataPropertyConditionInstanceMeasure def = null;
-		if (connector!=null) 
-			def = new DataPropertyConditionInstanceMeasure( 
-					measure.getId(), 
-					measure.getName(), 
-					measure.getDescription(),
-					measure.getScale(),
-					measure.getUnitofmeasure(),
-					new DataPropertyCondition( 
-							((TDataObject) ((TAppliesToDataConnector) connector).getTargetRef()).getName(), 
-							((TAppliesToDataConnector) connector).getRestriction(),
-							new RuntimeState(((TAppliesToDataConnector) connector).getState()) ) );
-		else
-			def = new DataPropertyConditionInstanceMeasure( 
-					measure.getId(), 
-					measure.getName(), 
-					measure.getDescription(),
-					measure.getScale(),
-					measure.getUnitofmeasure(),
-					null );
-		return def;
-	}
-	private AggregatedMeasure obtainModel( TAggregatedMeasure measure, BaseMeasure baseModel) {
-		
-		if (this.timeAggregatedModelMap.containsKey(measure.getId()))
-			return this.timeAggregatedModelMap.get(measure.getId());
-		
-		AggregatedMeasure def = new AggregatedMeasure( 
-				measure.getId(), 
-				measure.getName(), 
-				measure.getDescription(),
-				measure.getScale(),
-				measure.getUnitofmeasure(),
-				measure.getAggregationfunction(), 
-				measure.getSamplingfrequency(),
-				baseModel
-				);
-
-		TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class);
-		if (con!=null) {
-			def.setGroupedBy( new DataContentSelection(((TIsGroupedBy) con).getDataContentSelection(), 
-					((TDataObject) con.getTargetRef()).getName()) );
-		}
-		
-		return def;
-	}
-	private AggregatedMeasure obtainModel( TAggregatedMeasure measure, TTimeMeasure baseMeasure) {
-		
-		if (this.timeAggregatedModelMap.containsKey(measure.getId()))
-			return this.timeAggregatedModelMap.get(measure.getId());
-		
-		// crea la definición de una medida agregada TimeMeasure a partir de la información en el xml
-		// las actividades a laa cuales se aplica la medida se obtienen de los conectores de la medida agregada
-		AggregatedMeasure def = null;
-		
-		Map<String, TTimeConnector> mapCon = findTimeConnectors(measure);
-		TTimeConnector conFrom = mapCon.get("From");
-		TTimeConnector conTo = mapCon.get("To");
-		
-		if (mapCon.size()==2) {
-
-			// crea la definición de la medida de instancia que tiene la información para calcular la medida agregada
-			// las actividades a las cuales se aplica la medida se obtiene de los conectores de la medida agregada
-			TimeInstanceMeasure baseModel = this.obtainModel(baseMeasure);
-			baseModel.setFrom(new TimeInstantCondition( ((TBaseElement) conFrom.getTargetRef()).getId(), new RuntimeState(conFrom.getWhen())));	// si se mide al inicio o al final de la actividad inicial
-			baseModel.setTo(new TimeInstantCondition( ((TBaseElement) conTo.getTargetRef()).getId(), new RuntimeState(conTo.getWhen())));		// si se mide al inicio o al final de la actividad final
-			
-			// crea la medida agregada. La información del período de análisis se obtiene de la propiedad analysisPeriod
-			def = new AggregatedMeasure( 
-					measure.getId(), 
-					measure.getName(), 
-					measure.getDescription(),
-					measure.getScale(),
-					measure.getUnitofmeasure(),
-					measure.getAggregationfunction(), 
-					measure.getSamplingfrequency(),
-					baseModel
-					);
-
-			TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class);
-			if (con!=null) {
-				def.setGroupedBy( new DataContentSelection(((TIsGroupedBy) con).getDataContentSelection(), 
-						((TDataObject) con.getTargetRef()).getName()) );
-			}
-		}
-		
-		return def;
-	}
-	private AggregatedMeasure obtainModel( TAggregatedMeasure measure, TCountMeasure baseMeasure) {
-		
-		if (this.countAggregatedModelMap.containsKey(measure.getId()))
-			return this.countAggregatedModelMap.get(measure.getId());
-		
-		// crea la definición de una medida agregada CountMeasure a partir de la información en el xml
-		// la actividad a la cual se aplica la medida se obtiene del conector de la medida agregada
-		AggregatedMeasure def = null;
-		
-		TMeasureConnector connector = findMeasureConnector(measure, TAppliesToElementConnector.class);
-		
-		if (connector!=null) {
-
-			// crea la definición de la medida de instancia que tiene la información para calcular la medida agregada
-			// la actividad a la cual se aplica la medida se obtiene del conector de la medida agregada
-			CountInstanceMeasure baseModel = this.obtainModel(baseMeasure);
-			baseModel.setWhen(new TimeInstantCondition(((TBaseElement) connector.getTargetRef()).getId(), new RuntimeState(((TAppliesToElementConnector) connector).getWhen())));
-			
-			// crea la medida agregada. La información del período de análisis se obtiene de la propiedad analysisPeriod
-			def = new AggregatedMeasure( 
-					measure.getId(), 
-					measure.getName(), 
-					measure.getDescription(),
-					measure.getScale(),
-					measure.getUnitofmeasure(),
-					measure.getAggregationfunction(), 
-					measure.getSamplingfrequency(),
-					baseModel);
-
-			TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class);
-			if (con!=null) {
-				def.setGroupedBy( new DataContentSelection(((TIsGroupedBy) con).getDataContentSelection(), 
-						((TDataObject) con.getTargetRef()).getName()) );
-			}
-		}
-		
-		return def;
-	}
-	private AggregatedMeasure obtainModel( TAggregatedMeasure measure, TStateConditionMeasure baseMeasure) {
-		
-		if (this.stateConditionAggregatedModelMap.containsKey(measure.getId()))
-			return this.stateConditionAggregatedModelMap.get(measure.getId());
-		
-		// crea la definición de una medida agregada StateConditionMeasure a partir de la información en el xml
-		// la actividad a la cual se aplica la medida se obtiene del conector de la medida agregada
-		AggregatedMeasure def = null;
-		
-		TMeasureConnector connector = findMeasureConnector(measure, TAppliesToElementConnector.class);
-		
-		if (connector!=null) {
-
-			// crea la definición de la medida de instancia que tiene la información para calcular la medida agregada
-			// la actividad a la cual se aplica la medida se obtiene del conector de la medida agregada
-			StateConditionInstanceMeasure baseModel = this.obtainModel(baseMeasure);
-			baseModel.setCondition(new StateCondition( ((TBaseElement) connector.getTargetRef()).getId(), new RuntimeState(((TAppliesToElementConnector) connector).getState())));
-			
-			// crea la medida agregada. La información del período de análisis se obtiene de la propiedad analysisPeriod
-			def = new AggregatedMeasure( 
-					measure.getId(), 
-					measure.getName(), 
-					measure.getDescription(),
-					measure.getScale(),
-					measure.getUnitofmeasure(),
-					measure.getAggregationfunction(), 
-					measure.getSamplingfrequency(),
-					baseModel);
-
-			TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class);
-			if (con!=null) {
-				def.setGroupedBy( new DataContentSelection(((TIsGroupedBy) con).getDataContentSelection(), 
-						((TDataObject) con.getTargetRef()).getName()) );
-			}
-		}
-		
-		return def;
-	}
-	private AggregatedMeasure obtainModel( TAggregatedMeasure measure, TDataMeasure baseMeasure) {
-		
-		if (this.dataAggregatedModelMap.containsKey(measure.getId()))
-			return this.dataAggregatedModelMap.get(measure.getId());
-		
-		// crea la definición de una medida agregada DataMeasure a partir de la información en el xml
-		// el dataobject a la cual se aplica la medida se obtiene del conector de la medida agregada
-		AggregatedMeasure def = null;
-		
-		// crea la medida agregada. La información del período de análisis se obtiene de la propiedad analysisPeriod
-		TMeasureConnector connector = findMeasureConnector(measure, TAppliesToDataConnector.class);
-		
-		if (connector!=null) {
-
-			// crea la definición de la medida de instancia que tiene la información para calcular la medida agregada
-			// el dataobject al cual se aplica la medida se obtiene del conector de la medida agregada
-			DataInstanceMeasure baseModel = this.obtainModel(baseMeasure);
-			baseModel.setDataContentSelection( new DataContentSelection( 
-					((TAppliesToDataConnector) connector).getDataContentSelection(),
-					((TDataObject) connector.getTargetRef()).getName()) );
-			baseModel.setCondition( new DataPropertyCondition( 
-					((TDataObject) connector.getTargetRef()).getName(), 
-					((TAppliesToDataConnector) connector).getRestriction(),
-					new RuntimeState(((TAppliesToDataConnector) connector).getState()) ) );
-			
-			def = new AggregatedMeasure( 
-					measure.getId(), 
-					measure.getName(), 
-					measure.getDescription(),
-					measure.getScale(),
-					measure.getUnitofmeasure(),
-					measure.getAggregationfunction(), 
-					measure.getSamplingfrequency(), 
-					baseModel);
-
-			TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class);
-			if (con!=null) {
-				def.setGroupedBy( new DataContentSelection(((TIsGroupedBy) con).getDataContentSelection(), 
-						((TDataObject) con.getTargetRef()).getName()) );
-			}
-		}
-		
-		return def;
-	}
-	private AggregatedMeasure obtainModel( TAggregatedMeasure measure, TDataPropertyConditionMeasure baseMeasure) {
-		
-		if (this.dataPropertyConditionAggregatedModelMap.containsKey(measure.getId()))
-			return this.dataPropertyConditionAggregatedModelMap.get(measure.getId());
-		
-		// crea la definición de una medida agregada DataPropertyConditionMeasure a partir de la información en el xml
-		// el dataobject a la cual se aplica la medida se obtiene del conector de la medida agregada
-		AggregatedMeasure def = null;
-		
-		// crea la medida agregada. La información del período de análisis se obtiene de la propiedad analysisPeriod
-		TMeasureConnector connector = findMeasureConnector(measure, TAppliesToDataConnector.class);
-		
-		if (connector!=null) {
-
-			// crea la definición de la medida de instancia que tiene la información para calcular la medida agregada
-			// el dataobject al cual se aplica la medida se obtiene del conector de la medida agregada
-			DataPropertyConditionInstanceMeasure baseModel = this.obtainModel(baseMeasure);
-			baseModel.setCondition( new DataPropertyCondition(
-					((TDataObject) ((TAppliesToDataConnector) connector).getTargetRef()).getName(), 
-					((TAppliesToDataConnector) connector).getRestriction(),
-					new RuntimeState(((TAppliesToDataConnector) connector).getState()) ) );
-			
-			def = new AggregatedMeasure( 
-					measure.getId(), 
-					measure.getName(), 
-					measure.getDescription(),
-					measure.getScale(),
-					measure.getUnitofmeasure(),
-					measure.getAggregationfunction(), 
-					measure.getSamplingfrequency(),
-					baseModel);
-
-			TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class);
-			if (con!=null) {
-				def.setGroupedBy( new DataContentSelection(((TIsGroupedBy) con).getDataContentSelection(), 
-						((TDataObject) con.getTargetRef()).getName()) );
-			}
-		}
-		
-		return def;
-	}
-	private AggregatedMeasure obtainModel( TAggregatedMeasure measure, TDerivedSingleInstanceMeasure baseMeasure) {
-		
-		if (this.derivedSingleInstanceAggregatedModelMap.containsKey(measure.getId()))
-			return this.derivedSingleInstanceAggregatedModelMap.get(measure.getId());
-		
-		// crea la definición de una medida agregada DataPropertyConditionMeasure a partir de la información en el xml
-		// el dataobject a la cual se aplica la medida se obtiene del conector de la medida agregada
-		AggregatedMeasure def = null;
-		
-
-		// crea la definición de la medida de instancia que tiene la información para calcular la medida agregada
-		// el dataobject al cual se aplica la medida se obtiene del conector de la medida agregada
-		DerivedSingleInstanceMeasure baseModel = this.obtainModel(baseMeasure);
-
-		for (TUses connector : findUses(measure)) {
-			
-			baseModel.addUsedMeasure( this.findConnectedMeasure(connector, false) );
-		}
-		
-		def = new AggregatedMeasure( 
-				measure.getId(), 
-				measure.getName(), 
-				measure.getDescription(),
-				measure.getScale(),
-				measure.getUnitofmeasure(),
-				measure.getAggregationfunction(), 
-				measure.getSamplingfrequency(),
-				baseModel);
-
-		TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class);
-		if (con!=null) {
-			def.setGroupedBy( new DataContentSelection(((TIsGroupedBy) con).getDataContentSelection(), 
-					((TDataObject) con.getTargetRef()).getName()) );
-		}
-		
-		return def;
-	}
-	private DerivedSingleInstanceMeasure obtainModel(TDerivedSingleInstanceMeasure measure) {
-		
-		if (this.derivedSingleInstanceModelMap.containsKey(measure.getId()))
-			return (DerivedSingleInstanceMeasure) this.derivedSingleInstanceModelMap.get(measure.getId());
-		
-		// crea la definición de la medida DerivedSingleInstanceMeasure a partir de la información en el xml
-		// la medida a la cual se aplica la medida se obtiene del conector
-		DerivedSingleInstanceMeasure def = new DerivedSingleInstanceMeasure( 
-				measure.getId(), 
-				measure.getName(), 
-				measure.getDescription(),
-				measure.getScale(),
-				measure.getUnitofmeasure(),
-				measure.getFunction() );
-
-		for (TUses connector : findUses(measure)) {
-			
-//			def.addUsedMeasure( this.findConnectedMeasure(connector, true) );
-			def.addUsedMeasure( this.findConnectedMeasure(connector, false) );
-		}
-
-		return def;
-	}
-	private DerivedMultiInstanceMeasure obtainModel(TDerivedMultiInstanceMeasure measure) {
-		
-		if (this.derivedMultiInstanceModelMap.containsKey(measure.getId()))
-			return (DerivedMultiInstanceMeasure) this.derivedMultiInstanceModelMap.get(measure.getId());
-		
-		// crea la definición de la medida DerivedMultiInstanceMeasure a partir de la información en el xml
-		// la medida a la cual se aplica la medida se obtiene del conector
-		DerivedMultiInstanceMeasure def = new DerivedMultiInstanceMeasure( 
-				measure.getId(), 
-				measure.getName(), 
-				measure.getDescription(),
-				measure.getScale(),
-				measure.getUnitofmeasure(),
-				measure.getFunction() );
-
-		for (TUses connector : findUses(measure)) {
-			
-//			def.addUsedMeasure( this.findConnectedMeasure(connector, true) );
-			def.addUsedMeasure( this.findConnectedMeasure(connector, false) );
-		}
-
-		return def;
-	}
-
-	/**
-	 * Genera una tarea para un conector del tipo AppliesTo cuando se va a exportar un xml
-	 * 
-	 * @param con Conector
-	 * @return Tarea generada
-	 */
 	private TTask chainTask(TMeasureConnector con) {
 		
     	TTask task = this.bpmnFactory.createTTask();
@@ -1106,714 +323,360 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
     	return task;
 	}
 
-	/**
-	 * Genera una dataobject para un conector del tipo AppliesTo cuando se va a exportar un xml
-	 * 
-	 * @param con Conector
-	 * @return Dataobject generado
-	 */
 	private TDataObject chainDataobject(TMeasureConnector con) {
 		
 		TDataObject dataobject = this.bpmnFactory.createTDataObject();
-		dataobject.setId(this.generarId("dataobject", ""));
+		dataobject.setId(this.generatePpiNotInfo.generarId("dataobject", ""));
 		dataobject.setName((String) con.getTargetRef());
     	con.setTargetRef(dataobject);
     	
     	return dataobject;
 	}
 	
-	/**
-	 * Da valor a refMax y refMin de una medida, en el caso que se encuentre en un PPI
-	 * 
-	 * @param medida en el xml
-	 * @param medida para la appweb
-	 */
-	private void searchPpi(Object object, MeasureDefinition def) {
+	private TMeasure findBaseMeasure(MeasureDefinition def) {
 		
-		// determina si la medida está incluida en algún ppi. el refMin y el refMax de la medida es el definido en el ppi
-		for (TPpi ppi : this.getPpiset().getPpi()) {
+		ObjectFactory factory = this.getFactory();
+		TMeasure measure = null;
+		if (def instanceof TimeInstanceMeasure) {
 			
-			if(ppi.getMeasuredBy().equals(object)) {
-				
-				Map<String, Double> targetMap = this.parseTarget(ppi.getTarget());
-				
-				Map<String, String> analysisperiodMap = parseAnalysisPeriod(ppi.getScope());
-				
-				PPI ppiModel = new PPI(
-						ppi.getId(), 
-						ppi.getName(), 
-						ppi.getDescription(), 
-						ppi.getGoals(), 
-						ppi.getResponsible(), 
-						ppi.getInformed(), 
-						ppi.getInformed(),
-						new Target( targetMap.get("refMax"), targetMap.get("refMin")), 
-			    		new Scope( analysisperiodMap.get("year"), 
-			    				analysisperiodMap.get("period"), 
-			    				Utils.parseDate(analysisperiodMap.get("startDate")), 
-			    				Utils.parseDate(analysisperiodMap.get("endDate")), 
-			    				analysisperiodMap.get("inStart").contentEquals("yes"), 
-			    				analysisperiodMap.get("inEnd").contentEquals("yes")));
-				
-				ppiModel.setMeasuredBy(def);
-				
-				this.ppiModelMap.put(ppi.getId(), ppiModel);
-				
-				break;
-			}
-		}
-	}
-	
-	/**********************************************************************************************************************
-	 * 
-	 * Implementaciones de los métodos que devuelven listas de medidas para ser utilizadas en la appweb
-	 * 
-	 **********************************************************************************************************************/
-	/**
-	 * Devuelve una lista con las medidas del tipo CountMeasure, para ser utilizada en la appweb
-	 * 
-	 * @return Lista de medidas
-	 */
-	public Map<String, CountInstanceMeasure> getCountInstanceModelMap() {
+			measure = this.timeMap.get(def.getId());
+	    	if (measure==null) {
+	    		
+		    	Map<String,Object> map = this.generatePpiNotInfo.obtainInfo((TimeInstanceMeasure) def, factory);
+	    		
+	    		if (map.containsKey("measure")) {
+	    			
+	    			measure = (TMeasure) map.get("measure");
+	    			this.timeMap.put(((TTimeMeasure) map.get("measure")).getId(), (TTimeMeasure) measure);
+			    	
+		    		if (map.containsKey("connectorFrom")) {
+		    	    	
+		    			TTimeConnector con = (TTimeConnector) map.get("connectorFrom");
+		    	    	TTask task = chainTask(con);
+		    	    	this.taskMap.put(task.getId(), task);
 		
-		return countInstanceModelMap;
-	}
-
-	/**
-	 * Devuelve una lista con las medidas del tipo TimeMeasure, para ser utilizada en la appweb
-	 * 
-	 * @return Lista de medidas
-	 */
-	public Map<String, TimeInstanceMeasure> getTimeInstanceModelMap() {
-
-		return timeInstanceModelMap;
-	}
-
-	/**
-	 * Devuelve una lista con las medidas del tipo StateConditionMeasure, para ser utilizada en la appweb
-	 * 
-	 * @return Lista de medidas
-	 */
-	public Map<String, StateConditionInstanceMeasure> getStateConditionInstanceModelMap() {
+		    	    	this.timeConnectorMap.put(con.getId(), con);
+		    		}
+			    	
+		    		if (map.containsKey("connectorTo")) {
+		    	    	
+		    			TTimeConnector con = (TTimeConnector) map.get("connectorTo");
+		    	    	TTask task = chainTask(con);
+		    	    	this.taskMap.put(task.getId(), task);
 		
-		return stateConditionInstanceModelMap;
-	}
-
-	/**
-	 * Devuelve una lista con las medidas del tipo DataMeasure, para ser utilizada en la appweb
-	 * 
-	 * @return Lista de medidas
-	 */
-	public Map<String, DataInstanceMeasure> getDataInstanceModelMap() {
-		
-		return dataInstanceModelMap;
-	}
-
-	/**
-	 * Devuelve una lista con las medidas del tipo DataPropertyConditionMeasure, para ser utilizada en la appweb
-	 * 
-	 * @return Lista de medidas
-	 */
-	public Map<String, DataPropertyConditionInstanceMeasure> getDataPropertyConditionInstanceModelMap() {
-		
-		return dataPropertyConditionInstanceModelMap;
-	}
-	
-	/**
-	 * Devuelve una lista con las medidas agregadas del tipo TimeMeasure, para ser utilizada en la appweb
-	 * 
-	 * @return Lista de medidas
-	 */
-	public Map<String, AggregatedMeasure> getTimeAggregatedModelMap() {
-
-		return timeAggregatedModelMap;
-	}
-
-	/**
-	 * Devuelve una lista con las medidas agregadas del tipo CountMeasure, para ser utilizada en la appweb
-	 * 
-	 * @return Lista de medidas
-	 */
-	public Map<String, AggregatedMeasure> getCountAggregatedModelMap() {
-
-		return countAggregatedModelMap;
-	}
-
-	/**
-	 * Devuelve una lista con las medidas agregadas del tipo StateConditionMeasure, para ser utilizada en la appweb
-	 * 
-	 * @return Lista de medidas
-	 */
-	public Map<String, AggregatedMeasure> getStateConditionAggregatedModelMap() {
-
-		return stateConditionAggregatedModelMap;
-	}
-
-	/**
-	 * Devuelve una lista con las medidas agregadas del tipo DataMeasure, para ser utilizada en la appweb
-	 * 
-	 * @return Lista de medidas
-	 */
-	public Map<String, AggregatedMeasure> getDataAggregatedModelMap() {
-
-		return dataAggregatedModelMap;
-	}
-	
-	/**
-	 * Devuelve una lista con las medidas agregadas del tipo DataPropertyConditionMeasure, para ser utilizada en la appweb
-	 * 
-	 * @return Lista de medidas
-	 */
-	public Map<String, AggregatedMeasure> getDataPropertyConditionAggregatedModelMap() {
-
-		return dataPropertyConditionAggregatedModelMap;
-	}
-	
-	public Map<String, AggregatedMeasure> getDerivedSingleInstanceAggregatedModelMap() {
-
-		return derivedSingleInstanceAggregatedModelMap;
-	}
-
-	/**
-	 * Devuelve una lista con las medidas derivadas del tipo DerivedSingleInstanceMeasure, para ser utilizada en la appweb
-	 * 
-	 * @return Lista de medidas
-	 */
-	public Map<String, DerivedMeasure> getDerivedSingleInstanceModelMap() {
-		
-		return derivedSingleInstanceModelMap;
-	}
-
-	/**
-	 * Devuelve una lista con las medidas derivadas del tipo DerivedMultiInstanceMeasure, para ser utilizada en la appweb
-	 * 
-	 * @return Lista de medidas
-	 */
-	public Map<String, DerivedMeasure> getDerivedMultiInstanceModelMap() {
-		
-		return derivedMultiInstanceModelMap;
-	}
-	
-	public Map<String, PPI> getPpiModelMap() {
-		
-		return ppiModelMap;
-	}
-
-	/**
-	 * Genera el id
-	 * 
-	 * @param prefix Prefijo del id si no se sugiere alguno
-	 * @param id Id sugerido
-	 * @return Nuevo Id
-	 */
-	private String generarId(String prefix, String id) {
-		
-		this.contador++;
-		return (id=="")?prefix+"_"+this.contador:id;
-	}
-
-	private Map<String,Object> obtainUsedInfo( MeasureDefinition usedModel) {
-
-		Map<String,Object> usedMap = new HashMap<String,Object>();
-		if (usedModel instanceof CountInstanceMeasure)
-			usedMap = this.obtainInfo((CountInstanceMeasure) usedModel);
-		else
-		if (usedModel instanceof TimeInstanceMeasure) 
-			usedMap = this.obtainInfo((TimeInstanceMeasure) usedModel);
-		else
-		if (usedModel instanceof StateConditionInstanceMeasure) 
-			usedMap = this.obtainInfo((StateConditionInstanceMeasure) usedModel);
-		else
-		if (usedModel instanceof DataInstanceMeasure) 
-			usedMap = this.obtainInfo((DataInstanceMeasure) usedModel);
-		else
-		if (usedModel instanceof DataPropertyConditionInstanceMeasure)
-			usedMap = this.obtainInfo((DataPropertyConditionInstanceMeasure) usedModel);
-		else
-		if (usedModel instanceof AggregatedMeasure)
-			usedMap = this.obtainInfo((AggregatedMeasure) usedModel);
-		else
-		if (usedModel instanceof AggregatedMeasure) 
-			usedMap = this.obtainInfo((AggregatedMeasure) usedModel);
-		else
-		if (usedModel instanceof AggregatedMeasure) 
-			usedMap = this.obtainInfo((AggregatedMeasure) usedModel);
-		else
-		if (usedModel instanceof AggregatedMeasure) 
-			usedMap = this.obtainInfo((AggregatedMeasure) usedModel);
-		else
-		if (usedModel instanceof AggregatedMeasure)
-			usedMap = this.obtainInfo((AggregatedMeasure) usedModel);
-		return usedMap;
-	}
-	
-	/**
-	 * Obtienen instancias de las clases definidas en <a href="../../ppinotXML/package-summary.html">el paquete ppinotXML<a>, para exportar a XML, 
-	 * a partir de instancias de las clases definidas en el paquete <a href="../../historyreport/measuredefinition/package-summary.html">historyreport.measuredefinition</a>,
-	 * Son utilizadas en la implementación de los métodos abstractos que obtienen las listas para exportar a XML (getCountMeasureInfo, getTimeMeasureInfo, etc).
-	 * 
-	 * @param def Objeto con una medida que es utilizado por la appweb
-	 * @return Mapa con objetos para ser utilizados en un marshall. Pueden crearse medidas, conectores y ppi.
-	 */
-	private Map<String,Object> obtainInfo(TimeInstanceMeasure def) {
-		
-		Map<String,Object> map = new HashMap<String,Object>();
-		if (this.timeMap.containsKey(def.getId())) {
+		    	    	this.timeConnectorMap.put(con.getId(), con);
+		    		}
+	    		}
+	    	}
+		} else
+		if (def instanceof CountInstanceMeasure) {
 			
-			map.put("createdMeasure", map.get(def.getId()));
-			return map;
+			measure = this.countMap.get(def.getId());
+	    	if (measure==null) {
+	    		
+		    	Map<String,Object> map = this.generatePpiNotInfo.obtainInfo((CountInstanceMeasure) def, factory);
+	    		
+	    		if (map.containsKey("measure")) {
+	    			
+	    			measure = (TMeasure) map.get("measure");
+		    		if (map.containsKey("measure"))
+		    			this.countMap.put(((TCountMeasure) map.get("measure")).getId(), (TCountMeasure) measure);
+		    		
+		    		if (map.containsKey("connector")) {
+		    	    	
+		    	    	TAppliesToElementConnector con = (TAppliesToElementConnector) map.get("connector");
+		    	    	TTask task = chainTask(con);
+		    	    	this.taskMap.put(task.getId(), task);
+		
+		    	    	this.appliesToElementConnectorMap.put(con.getId(), con);
+		    		}
+	    		}
+	    	}
+		} else
+		if (def instanceof StateConditionInstanceMeasure) {
+				
+			measure = this.stateConditionMap.get(def.getId());
+	    	if (measure==null) {
+	    		
+		    	Map<String,Object> map = this.generatePpiNotInfo.obtainInfo((StateConditionInstanceMeasure) def, factory);
+	    		
+	    		if (map.containsKey("measure")) {
+	    			
+	    			measure = (TMeasure) map.get("measure");
+		    		if (map.containsKey("measure"))
+		    			this.stateConditionMap.put(((TStateConditionMeasure) map.get("measure")).getId(), (TStateConditionMeasure) measure);
+		    		
+		    		if (map.containsKey("connector")) {
+		    	    	
+		    	    	TAppliesToElementConnector con = (TAppliesToElementConnector) map.get("connector");
+		    	    	TTask task = chainTask(con);
+		    	    	this.taskMap.put(task.getId(), task);
+	
+		    	    	this.appliesToElementConnectorMap.put(con.getId(), con);
+		    		}
+	    		}
+	    	}
+		} else
+		if (def instanceof DataInstanceMeasure) {
+				
+			measure = this.dataMap.get(def.getId());
+	    	if (measure==null) {
+	    		
+		    	Map<String,Object> map = this.generatePpiNotInfo.obtainInfo((DataInstanceMeasure) def, factory);
+	    		
+	    		if (map.containsKey("measure")) {
+	    			
+	    			measure = (TMeasure) map.get("measure");
+		    		if (map.containsKey("measure"))
+		    			this.dataMap.put(((TDataMeasure) map.get("measure")).getId(), (TDataMeasure) measure);
+		    		
+		    		if (map.containsKey("connector")) {
+		    	    	
+		    	    	TAppliesToDataConnector con = (TAppliesToDataConnector) map.get("connector");
+		    	    	TDataObject dataobject = chainDataobject(con);
+		    	    	this.dataobjectMap.put(dataobject.getId(), dataobject);
+	
+		    	    	this.appliesToDataConnectorMap.put(con.getId(), con);
+		    		}
+	    		}
+	    	}
+		} else
+		if (def instanceof DataPropertyConditionInstanceMeasure) {
+				
+			measure = this.dataPropertyConditionMap.get(def.getId());
+	    	if (measure==null) {
+	    		
+		    	Map<String,Object> map = this.generatePpiNotInfo.obtainInfo((DataPropertyConditionInstanceMeasure) def, factory);
+	    		
+	    		if (map.containsKey("measure")) {
+	    			
+	    			measure = (TMeasure) map.get("measure");
+		    		if (map.containsKey("measure"))
+		    			this.dataPropertyConditionMap.put(((TDataPropertyConditionMeasure) map.get("measure")).getId(), (TDataPropertyConditionMeasure) measure);
+		    		
+		    		if (map.containsKey("connector")) {
+		    	    	
+		    	    	TAppliesToDataConnector con = (TAppliesToDataConnector) map.get("connector");
+		    	    	TDataObject dataobject = chainDataobject(con);
+		    	    	this.dataobjectMap.put(dataobject.getId(), dataobject);
+	
+		    	    	this.appliesToDataConnectorMap.put(con.getId(), con);
+		    		}
+	    		}
+	    	}
 		}
 		
-		TTimeMeasure measure = this.getFactory().createTTimeMeasure();
-		
-		measure.setId(generarId("timeMeasure", def.getId()));
-		measure.setName(def.getName());
-		measure.setDescription(def.getDescription());
-		measure.setScale(def.getScale());
-		measure.setUnitofmeasure(def.getUnitOfMeasure());
-
-		TTimeConnector conFrom = this.getFactory().createTTimeConnector();
-		
-		conFrom.setId(generarId("timeConnector", ""));
-		conFrom.setSourceRef(measure);
-		conFrom.setTargetRef(def.getFrom().getAppliesTo());
-		conFrom.setWhen((def.getFrom().getChangesToState().getState()==GenericState.END)?"End":"Start");
-		conFrom.setConditiontype("From");
-
-		TTimeConnector conTo = this.getFactory().createTTimeConnector();
-		
-		conTo.setId(generarId("timeConnector", ""));
-		conTo.setSourceRef(measure);
-		conTo.setTargetRef(def.getTo().getAppliesTo());
-		conTo.setWhen((def.getTo().getChangesToState().getState()==GenericState.END)?"End":"Start");
-		conTo.setConditiontype("To");
-		
-		map.put("connectorFrom", conFrom);
-		map.put("connectorTo", conTo);
-		map.put("measure", measure);
-		
-		return map;
+		return measure;
 	}
-	private Map<String,Object> obtainInfo(	CountInstanceMeasure def) {
-		
-		Map<String,Object> map = new HashMap<String,Object>();
-		if (this.countMap.containsKey(def.getId())) {
-			
-			map.put("createdMeasure", this.countMap.get(def.getId()));
-			return map;
-		}
-		
-		TCountMeasure measure = this.getFactory().createTCountMeasure();
-		
-		measure.setId(generarId("countMeasure", def.getId()));
-		measure.setName(def.getName());
-		measure.setDescription(def.getDescription());
-		measure.setScale(def.getScale());
-		measure.setUnitofmeasure(def.getUnitOfMeasure());
-
-		TAppliesToElementConnector con = this.getFactory().createTAppliesToElementConnector();
-		
-		con.setId(generarId("appliesToElementConnector", ""));
-		con.setSourceRef(measure);
-		con.setTargetRef(def.getWhen().getAppliesTo());
-		con.setWhen((def.getWhen().getChangesToState().getState()==GenericState.END)?"End":"Start");
-		
-		map.put("connector", con);
-		map.put("measure", measure);
-		
-		return map;
-	}
-	private Map<String,Object> obtainInfo(StateConditionInstanceMeasure def) {
-		
-		Map<String,Object> map = new HashMap<String,Object>();
-		if (this.stateConditionMap.containsKey(def.getId())){
-			
-			map.put("createdMeasure", this.stateConditionMap.get(def.getId()));
-			return map;
-		}
-		
-		TStateConditionMeasure measure = this.getFactory().createTStateConditionMeasure();
-		
-		measure.setId(generarId("stateConditionMeasure", def.getId()));
-		measure.setName(def.getName());
-		measure.setDescription(def.getDescription());
-		measure.setScale(def.getScale());
-		measure.setUnitofmeasure(def.getUnitOfMeasure());
-
-		TAppliesToElementConnector con = this.getFactory().createTAppliesToElementConnector();
-		
-		con.setId(generarId("appliesToElementConnector", ""));
-		con.setSourceRef(measure);
-		con.setTargetRef(((StateCondition) def.getCondition()).getAppliesTo());
-		con.setState((((StateCondition) def.getCondition()).getState().getState()==GenericState.END)?"End":"Start");
-		
-		map.put("connector", con);
-		map.put("measure", measure);
-		
-		return map;
-	}
-	private Map<String,Object> obtainInfo(DataInstanceMeasure def) {
-		
-		Map<String,Object> map = new HashMap<String,Object>();
-		if (this.dataMap.containsKey(def.getId())){
-			
-			map.put("createdMeasure", this.dataMap.get(def.getId()));
-			return map;
-		}
-		
-		TDataMeasure measure = this.getFactory().createTDataMeasure();
-		
-		measure.setId(generarId("dataMeasure", def.getId()));
-		measure.setName(def.getName());
-		measure.setDescription(def.getDescription());
-		measure.setScale(def.getScale());
-		measure.setUnitofmeasure(def.getUnitOfMeasure());
-
-		TAppliesToDataConnector con = this.getFactory().createTAppliesToDataConnector();
-		
-		con.setId(generarId("appliesToDataConnector", ""));
-		con.setSourceRef(measure);
-		con.setTargetRef(def.getDataContentSelection().getDataobject());
-		con.setDataContentSelection(def.getDataContentSelection().getSelection());
-		con.setRestriction(def.getCondition().getRestriction());
-		con.setState(def.getCondition().getStateConsidered().getStateString());
-		
-		map.put("connector", con);
-		map.put("measure", measure);
-		
-		return map;
-	}
-	private Map<String,Object> obtainInfo(DataPropertyConditionInstanceMeasure def) {
-		
-		Map<String,Object> map = new HashMap<String,Object>();
-		if (this.dataPropertyConditionMap.containsKey(def.getId())){
-			
-			map.put("createdMeasure", this.dataPropertyConditionMap.get(def.getId()));
-			return map;
-		}
-		
-		TDataPropertyConditionMeasure measure = this.getFactory().createTDataPropertyConditionMeasure();
-		
-		measure.setId(generarId("dataPropertyConditionMeasure", def.getId()));
-		measure.setName(def.getName());
-		measure.setDescription(def.getDescription());
-		measure.setScale(def.getScale());
-		measure.setUnitofmeasure(def.getUnitOfMeasure());
-
-		TAppliesToDataConnector con = this.getFactory().createTAppliesToDataConnector();
-		
-		con.setId(generarId("appliesToDataConnector", ""));
-		con.setSourceRef(measure);
-		con.setTargetRef(((DataPropertyCondition) def.getCondition()).getAppliesTo());
-		con.setRestriction(((DataPropertyCondition) def.getCondition()).getRestriction());
-		con.setState(((DataPropertyCondition) def.getCondition()).getStateConsidered().getStateString());
-		
-		map.put("connector", con);
-		map.put("measure", measure);
-		
-		return map;
-	}
-	private Map<String,Object> obtainInfo(AggregatedMeasure def) {
-		
-		Map<String,Object> map = new HashMap<String,Object>();
-		if (this.aggregatedMap.containsKey(def.getId())){
-			
-			map.put("createdMeasure", this.aggregatedMap.get(def.getId()));
-			return map;
-		}
-		
-		TAggregatedMeasure measure = this.getFactory().createTAggregatedMeasure();
-
-		measure.setId(generarId("aggregatedMeasure", def.getId()));
-		measure.setName(def.getName());
-		measure.setDescription(def.getDescription());
-		measure.setScale(def.getScale());
-		measure.setUnitofmeasure(def.getUnitOfMeasure());
-		measure.setSamplingfrequency(def.getSamplingFrequency());
-		
-		measure.setAggregationfunction(def.getAggregationFunction());
-		
-		if (!def.getGroupedBy().getSelection().contentEquals("") || !def.getGroupedBy().getDataobject().contentEquals("")) {
-			
-			TIsGroupedBy con = this.getFactory().createTIsGroupedBy();
-			
-			con.setId(generarId("isGroupedBy", ""));
-			con.setSourceRef(measure);
-			con.setTargetRef(def.getGroupedBy().getDataobject());
-			
-			map.put("connectorIsGroupedBy", con);
-		}
-
-		if (def.getAggregates()) {
-			
-			TAggregates con = this.getFactory().createTAggregates();
-			
-			con.setId(generarId("aggregates", ""));
-			con.setSourceRef(measure);
-			
-			TBaseMeasure baseMeasure = null;
-			if (def.getBaseMeasure() instanceof TimeInstanceMeasure) {
-				
-				baseMeasure = this.timeMap.get(def.getBaseMeasure().getId());
-			} else
-			if (def.getBaseMeasure() instanceof CountInstanceMeasure) {
 	
-				baseMeasure = this.countMap.get(def.getBaseMeasure().getId());
-			} else
-			if (def.getBaseMeasure() instanceof StateConditionInstanceMeasure) {
+	private TMeasure findAggregatedMeasure(MeasureDefinition def) {
+		
+		TMeasure measure = this.aggregatedMap.get(def.getId());
+		if (measure!=null)
+			return measure;
 	
-				baseMeasure = this.stateConditionMap.get(def.getBaseMeasure().getId());
-			} else
-			if (def.getBaseMeasure() instanceof DataInstanceMeasure) {
-	
-				baseMeasure = this.dataMap.get(def.getBaseMeasure().getId());
-			} else
-			if (def.getBaseMeasure() instanceof DataPropertyConditionInstanceMeasure) {
-	
-				baseMeasure = this.dataPropertyConditionMap.get(def.getBaseMeasure().getId());
-			}
+		ObjectFactory factory = this.getFactory();
+		
+		Map<String,Object> map = this.generatePpiNotInfo.obtainInfo((AggregatedMeasure) def, factory);
+
+		measure = (TMeasure) map.get("measure");
+		
+		if (measure!=null) {
+	    	
+			this.aggregatedMap.put(((TAggregatedMeasure) map.get("measure")).getId(), (TAggregatedMeasure) measure);
 			
-			con.setTargetRef(baseMeasure);
-			
-			map.put("measure", measure);
-			map.put("connectorAggregates", con);
-		} else {
-			if (def.getBaseMeasure() instanceof TimeInstanceMeasure) {
-				
-				Map<String,Object> instanceMap = this.obtainInfo((TimeInstanceMeasure) def.getBaseMeasure());
-				((TTimeConnector) instanceMap.get("connectorFrom")).setSourceRef(measure);
-				((TTimeConnector) instanceMap.get("connectorTo")).setSourceRef(measure);
-				
-				measure.setBaseMeasure(this.getFactory().createTimeMeasure((TTimeMeasure) instanceMap.get("measure")));
-				
-				map.put("connectorFrom", instanceMap.get("connectorFrom"));
-				map.put("connectorTo", instanceMap.get("connectorTo"));
-				map.put("measure", measure);
-			} else
-			if (def.getBaseMeasure() instanceof CountInstanceMeasure) {
-	
-				Map<String,Object> instanceMap = this.obtainInfo((CountInstanceMeasure) def.getBaseMeasure());
-				((TAppliesToElementConnector) instanceMap.get("connector")).setSourceRef(measure);
-				
-				measure.setBaseMeasure(this.getFactory().createCountMeasure((TCountMeasure) instanceMap.get("measure")));
-				
-				map.put("connector", instanceMap.get("connector"));
-				map.put("measure", measure);
-			} else
-			if (def.getBaseMeasure() instanceof StateConditionInstanceMeasure) {
-	
-				Map<String,Object> instanceMap = this.obtainInfo((StateConditionInstanceMeasure) def.getBaseMeasure());
-				((TAppliesToElementConnector) instanceMap.get("connector")).setSourceRef(measure);
-				
-				measure.setBaseMeasure(this.getFactory().createStateConditionMeasure((TStateConditionMeasure) instanceMap.get("measure")));
-				
-				map.put("connector", instanceMap.get("connector"));
-				map.put("measure", measure);
-			} else
-			if (def.getBaseMeasure() instanceof DataInstanceMeasure) {
-	
-				Map<String,Object> instanceMap = this.obtainInfo((DataInstanceMeasure) def.getBaseMeasure());
-				((TAppliesToDataConnector) instanceMap.get("connector")).setSourceRef(measure);
-				
-				measure.setBaseMeasure(this.getFactory().createDataMeasure((TDataMeasure) instanceMap.get("measure")));
-				
-				map.put("connector", instanceMap.get("connector"));
-				map.put("measure", measure);
-			} else
-			if (def.getBaseMeasure() instanceof DataPropertyConditionInstanceMeasure) {
-	
-				Map<String,Object> instanceMap = this.obtainInfo((DataPropertyConditionInstanceMeasure) def.getBaseMeasure());
-				((TAppliesToDataConnector) instanceMap.get("connector")).setSourceRef(measure);
-				
-				measure.setBaseMeasure(this.getFactory().createDataPropertyConditionMeasure((TDataPropertyConditionMeasure) instanceMap.get("measure")));
-				
-				map.put("connector", instanceMap.get("connector"));
-				map.put("measure", measure);
-			}
+    		if (map.containsKey("connectorIsGroupedBy")) {
+    	    	
+    	    	TIsGroupedBy con = (TIsGroupedBy) map.get("connectorIsGroupedBy");
+    	    	TDataObject dataobject = chainDataobject(con);
+    	    	this.dataobjectMap.put(dataobject.getId(), dataobject);
+
+    	    	this.isGroupedByMap.put(con.getId(), con);
+    		}
+
+			MeasureDefinition baseMeasureModel = ((AggregatedMeasure) def).getBaseMeasure(); 
+    		
+    		if (((AggregatedMeasure) def).getAggregates()) {
+    			
+    			TAggregates con = this.getFactory().createTAggregates();
+    			
+    			TMeasure baseMeasure = this.findBaseMeasure(baseMeasureModel);
+    			if (baseMeasure==null) 
+    				baseMeasure = this.findDerivedMeasure(baseMeasureModel);
+    			
+    			con.setId(this.generatePpiNotInfo.generarId("aggregates", ""));
+    			con.setSourceRef(measure);
+    			con.setTargetRef(baseMeasure);
+    			
+    	    	this.aggregatesMap.put(con.getId(), con);
+    		} else {
+    			if (baseMeasureModel instanceof TimeInstanceMeasure) {
+    				
+    				Map<String,Object> instanceMap = this.generatePpiNotInfo.obtainInfo((TimeInstanceMeasure) baseMeasureModel, factory);
+    				
+    	    		if (instanceMap.containsKey("measure")) {
+    	    			
+    	    			((TAggregatedMeasure) measure).setBaseMeasure(factory.createTimeMeasure((TTimeMeasure) instanceMap.get("measure")));
+	    	    		if (instanceMap.containsKey("connectorFrom")) {
+	    	    	    	
+	    	    	    	TTimeConnector con = (TTimeConnector) instanceMap.get("connectorFrom");
+	    	    	    	con.setSourceRef(measure);
+	    	    	    	TTask task = chainTask(con);
+	    	    	    	this.taskMap.put(task.getId(), task);
+	    	
+	    	    	    	this.timeConnectorMap.put(con.getId(), con);
+	    	    		}
+	    	    		if (instanceMap.containsKey("connectorTo")) {
+	    	    	    	
+	    	    	    	TTimeConnector con = (TTimeConnector) instanceMap.get("connectorTo");
+	    	    	    	con.setSourceRef(measure);
+	    	    	    	TTask task = chainTask(con);
+	    	    	    	this.taskMap.put(task.getId(), task);
+	    	
+	    	    	    	this.timeConnectorMap.put(con.getId(), con);
+	    	    		}
+    	    		}
+    			} else
+    			if (baseMeasureModel instanceof CountInstanceMeasure) {
+    	
+    				Map<String,Object> instanceMap = this.generatePpiNotInfo.obtainInfo((CountInstanceMeasure) baseMeasureModel, factory);
+    				
+    	    		if (instanceMap.containsKey("measure")) {
+    	    			
+    	    			((TAggregatedMeasure) measure).setBaseMeasure(factory.createCountMeasure((TCountMeasure) instanceMap.get("measure")));
+ 			    		if (instanceMap.containsKey("connector")) {
+			    	    	
+			    	    	TAppliesToElementConnector con = (TAppliesToElementConnector) instanceMap.get("connector");
+	    	    	    	con.setSourceRef(measure);
+			    	    	TTask task = chainTask(con);
+			    	    	this.taskMap.put(task.getId(), task);
+		
+			    	    	this.appliesToElementConnectorMap.put(con.getId(), con);
+			    		}
+    	    		}
+    			} else
+    			if (baseMeasureModel instanceof StateConditionInstanceMeasure) {
+    	
+    				Map<String,Object> instanceMap = this.generatePpiNotInfo.obtainInfo((StateConditionInstanceMeasure) baseMeasureModel, factory);
+     				
+    	    		if (instanceMap.containsKey("measure")) {
+    	    			
+    	    			((TAggregatedMeasure) measure).setBaseMeasure(factory.createStateConditionMeasure((TStateConditionMeasure) instanceMap.get("measure")));
+	    				if (instanceMap.containsKey("connector")) {
+			    	    	
+			    	    	TAppliesToElementConnector con = (TAppliesToElementConnector) instanceMap.get("connector");
+		   	    	    	con.setSourceRef(measure);
+			    	    	TTask task = chainTask(con);
+			    	    	this.taskMap.put(task.getId(), task);
+		
+			    	    	this.appliesToElementConnectorMap.put(con.getId(), con);
+			    		}
+	    			}
+    			} else
+    			if (baseMeasureModel instanceof DataInstanceMeasure) {
+    	
+    				Map<String,Object> instanceMap = this.generatePpiNotInfo.obtainInfo((DataInstanceMeasure) baseMeasureModel, factory);
+    				
+    	    		if (instanceMap.containsKey("measure")) {
+    	    			
+    	    			((TAggregatedMeasure) measure).setBaseMeasure(factory.createDataMeasure((TDataMeasure) instanceMap.get("measure")));
+ 			    		if (instanceMap.containsKey("connector")) {
+			    	    	
+			    	    	TAppliesToDataConnector con = (TAppliesToDataConnector) instanceMap.get("connector");
+		   	    	    	con.setSourceRef(measure);
+			    	    	TDataObject dataobject = chainDataobject(con);
+			    	    	this.dataobjectMap.put(((TAggregatedMeasure) map.get("measure")).getId(), dataobject);
+		
+			    	    	this.appliesToDataConnectorMap.put(con.getId(), con);
+			    		}
+    			}
+    			} else
+    			if (baseMeasureModel instanceof DataPropertyConditionInstanceMeasure) {
+    	
+    				Map<String,Object> instanceMap = this.generatePpiNotInfo.obtainInfo((DataPropertyConditionInstanceMeasure) baseMeasureModel, factory);
+    				
+    	    		if (instanceMap.containsKey("measure")) {
+    	    			
+    	    			((TAggregatedMeasure) measure).setBaseMeasure(factory.createDataPropertyConditionMeasure((TDataPropertyConditionMeasure) instanceMap.get("measure")));
+	    				if (instanceMap.containsKey("connector")) {
+			    	    	
+			    	    	TAppliesToDataConnector con = (TAppliesToDataConnector) instanceMap.get("connector");
+		   	    	    	con.setSourceRef(measure);
+			    	    	TDataObject dataobject = chainDataobject(con);
+			    	    	this.dataobjectMap.put(dataobject.getId(), dataobject);
+		
+			    	    	this.appliesToDataConnectorMap.put(con.getId(), con);
+			    		}
+    	    		}
+    			}
+    		}
 		}
 		
-		return map;
-	}
-	private Map<String,Object> obtainInfo( DerivedSingleInstanceMeasure def) {
-		
-		Map<String,Object> map = new HashMap<String,Object>();
-		if (this.derivedSingleInstanceMap.containsKey(def.getId())){
-			
-			map.put("createdMeasure", this.derivedSingleInstanceMap.get(def.getId()));
-			return map;
-		}
-		
-		TDerivedSingleInstanceMeasure measure = this.getFactory().createTDerivedSingleInstanceMeasure();
-		
-		measure.setId(generarId("derivedSingleInstanceMeasure", def.getId()));
-		measure.setName(def.getName());
-		measure.setDescription(def.getDescription());
-		measure.setScale(def.getScale());
-		measure.setUnitofmeasure(def.getUnitOfMeasure());
-
-		measure.setFunction(def.getFunction());
-		
-		List<TMeasure> usedList = new ArrayList<TMeasure>();
-		List<TAppliesToElementConnector> connectorElementList = new ArrayList<TAppliesToElementConnector>();
-		List<TAppliesToDataConnector> connectorDataList = new ArrayList<TAppliesToDataConnector>();
-		List<TTimeConnector> connectorFromList = new ArrayList<TTimeConnector>();
-		List<TTimeConnector> connectorToList = new ArrayList<TTimeConnector>();
-		List<TUses> connectorUsesList = new ArrayList<TUses>();
-		List<TAggregates> connectorAggregatesList = new ArrayList<TAggregates>();
-		List<TIsGroupedBy> connectorIsGroupedByList = new ArrayList<TIsGroupedBy>();
-
-		Iterator<Entry<String, MeasureDefinition>> itInst = def.getUsedMeasureMap().entrySet().iterator();
-	    while (itInst.hasNext()) {
-	        Map.Entry<String, MeasureDefinition> pairs = (Map.Entry<String, MeasureDefinition>)itInst.next();
-	    	String variable = pairs.getKey();
-	    	MeasureDefinition usedMeasure = pairs.getValue();
-		
-			Map<String,Object> usedMap = this.obtainUsedInfo(usedMeasure);
-
-			TUses con = this.getFactory().createTUses();
-			con.setId(generarId("uses", ""));
-			con.setVariable(variable);
-			con.setSourceRef(measure);
-			if (usedMap.containsKey("measure")) 
-				con.setTargetRef(usedMap.get("measure"));
-			else
-				con.setTargetRef(usedMap.get("createdMeasure"));
-			
-			connectorUsesList.add(con);
-			
-			if (usedMap.containsKey("measure")) {
-				
-				if (usedMap.containsKey("connector")) {
-					
-					if (usedMap.get("connector") instanceof TAppliesToElementConnector)
-						connectorElementList.add((TAppliesToElementConnector) usedMap.get("connector"));
-					else
-					if (usedMap.get("connector") instanceof TAppliesToDataConnector)
-						connectorDataList.add((TAppliesToDataConnector) usedMap.get("connector"));
-					else
-					if (usedMap.get("connector") instanceof TAggregates)
-						connectorAggregatesList.add((TAggregates) usedMap.get("connector"));
-					else
-					if (usedMap.get("connector") instanceof TIsGroupedBy)
-						connectorIsGroupedByList.add((TIsGroupedBy) usedMap.get("connector"));
-				}
-				if (usedMap.containsKey("connectorFrom"))
-					connectorFromList.add((TTimeConnector) usedMap.get("connectorFrom"));
-				if (usedMap.containsKey("connectorTo"))
-					connectorToList.add((TTimeConnector) usedMap.get("connectorTo"));
-				usedList.add((TMeasure) usedMap.get("measure"));
-			}
-	    }
-
-		List<TMeasureConnector> connectorList = new ArrayList<TMeasureConnector>();
-		connectorList.addAll(connectorElementList);
-		connectorList.addAll(connectorDataList);
-		connectorList.addAll(connectorAggregatesList);
-		connectorList.addAll(connectorIsGroupedByList);
-	    
-		map.put("measure", measure);
-
-		map.put("used", usedList);
-		map.put("connectorUses", connectorUsesList);
-		map.put("connector", connectorList);
-		map.put("connectorFrom", connectorFromList);
-		map.put("connectorTo", connectorToList);
-		
-		return map;
-	}
-	private Map<String,Object> obtainInfo(	DerivedMultiInstanceMeasure def) {
-		
-		Map<String,Object> map = new HashMap<String,Object>();
-		if (this.derivedSingleInstanceMap.containsKey(def.getId())){
-			
-			map.put("createdMeasure", this.derivedSingleInstanceMap.get(def.getId()));
-			return map;
-		}
-		
-		TDerivedMultiInstanceMeasure measure = this.getFactory().createTDerivedMultiInstanceMeasure();
-		
-		measure.setId(generarId("derivedMultiInstanceMeasure", def.getId()));
-		measure.setName(def.getName());
-		measure.setDescription(def.getDescription());
-		measure.setScale(def.getScale());
-		measure.setUnitofmeasure(def.getUnitOfMeasure());
-
-		measure.setFunction(def.getFunction());
-		
-		List<TMeasure> usedList = new ArrayList<TMeasure>();
-		List<TAppliesToElementConnector> connectorElementList = new ArrayList<TAppliesToElementConnector>();
-		List<TAppliesToDataConnector> connectorDataList = new ArrayList<TAppliesToDataConnector>();
-		List<TTimeConnector> connectorFromList = new ArrayList<TTimeConnector>();
-		List<TTimeConnector> connectorToList = new ArrayList<TTimeConnector>();
-		List<TUses> connectorUsesList = new ArrayList<TUses>();
-		List<TAggregates> connectorAggregatesList = new ArrayList<TAggregates>();
-		List<TIsGroupedBy> connectorIsGroupedByList = new ArrayList<TIsGroupedBy>();
-
-		Iterator<Entry<String, MeasureDefinition>> itInst = def.getUsedMeasureMap().entrySet().iterator();
-	    while (itInst.hasNext()) {
-	        Map.Entry<String, MeasureDefinition> pairs = (Map.Entry<String, MeasureDefinition>)itInst.next();
-	    	String variable = pairs.getKey();
-	    	MeasureDefinition usedMeasure = pairs.getValue();
-		
-			Map<String,Object> usedMap = this.obtainUsedInfo(usedMeasure);
-
-			TUses con = this.getFactory().createTUses();
-			con.setId(generarId("uses", ""));
-			con.setVariable(variable);
-			con.setSourceRef(measure);
-			if (usedMap.containsKey("measure")) 
-				con.setTargetRef(usedMap.get("measure"));
-			else
-				con.setTargetRef(usedMap.get("createdMeasure"));
-			
-			connectorUsesList.add(con);
-			
-			if (usedMap.containsKey("measure")) {
-				
-				if (usedMap.containsKey("connector")) {
-					
-					if (usedMap.get("connector") instanceof TAppliesToElementConnector)
-						connectorElementList.add((TAppliesToElementConnector) usedMap.get("connector"));
-					else
-					if (usedMap.get("connector") instanceof TAppliesToDataConnector)
-						connectorDataList.add((TAppliesToDataConnector) usedMap.get("connector"));
-					else
-					if (usedMap.get("connector") instanceof TAggregates)
-						connectorAggregatesList.add((TAggregates) usedMap.get("connector"));
-					else
-					if (usedMap.get("connector") instanceof TIsGroupedBy)
-						connectorIsGroupedByList.add((TIsGroupedBy) usedMap.get("connector"));
-				}
-				if (usedMap.containsKey("connectorFrom"))
-					connectorFromList.add((TTimeConnector) usedMap.get("connectorFrom"));
-				if (usedMap.containsKey("connectorTo"))
-					connectorToList.add((TTimeConnector) usedMap.get("connectorTo"));
-				usedList.add((TMeasure) usedMap.get("measure"));
-			}
-	    }
-
-		List<TMeasureConnector> connectorList = new ArrayList<TMeasureConnector>();
-		connectorList.addAll(connectorElementList);
-		connectorList.addAll(connectorDataList);
-		connectorList.addAll(connectorAggregatesList);
-		connectorList.addAll(connectorIsGroupedByList);
-
-		map.put("measure", measure);
-
-		map.put("used", usedList);
-		map.put("connectorUses", connectorUsesList);
-		map.put("connector", connectorList);
-		map.put("connectorFrom", connectorFromList);
-		map.put("connectorTo", connectorToList);
-		
-		return map;
+		return measure;
 	}
 
-	/**********************************************************************************************************************
-	 * 
-	 * Implementaciones de los métodos que devuelven listas de medidas para ser exportadas en un xml
-	 * 
-	 **********************************************************************************************************************/
+	private TMeasure findDerivedMeasure(MeasureDefinition def) {
+		
+		Boolean wasCreated = false;
+		TMeasure measure = null;
+		
+		if (def instanceof DerivedSingleInstanceMeasure) {
+		
+			measure = this.derivedSingleInstanceMap.get(def.getId());
+	    	if (measure==null) {
+	    		
+				Map<String,Object> map = this.generatePpiNotInfo.obtainInfo((DerivedSingleInstanceMeasure) def, this.getFactory());
+    		
+				measure = (TMeasure) map.get("measure");
+	    		if (measure!=null) {
+	    			
+	    			wasCreated = true;
+	    			this.derivedSingleInstanceMap.put(((TDerivedSingleInstanceMeasure) measure).getId(), (TDerivedSingleInstanceMeasure) measure);
+	    		}
+		    }
+		} else
+		if (def instanceof DerivedMultiInstanceMeasure) {
+			
+			measure = this.derivedMultiInstanceMap.get(def.getId());
+	    	if (measure==null) {
+	    		
+				Map<String,Object> map = this.generatePpiNotInfo.obtainInfo((DerivedMultiInstanceMeasure) def, this.getFactory());
+    		
+				measure = (TMeasure) map.get("measure");
+	    		if (measure!=null) {
+	    			
+	    			wasCreated = true;
+	    			this.derivedMultiInstanceMap.put(((TDerivedMultiInstanceMeasure) measure).getId(), (TDerivedMultiInstanceMeasure) measure);
+	    		}
+		    }
+		}
+
+		if (wasCreated) {
+			
+			Iterator<Entry<String, MeasureDefinition>> itInst = ((DerivedMeasure) def).getUsedMeasureMap().entrySet().iterator();
+		    while (itInst.hasNext()) {
+		        Map.Entry<String, MeasureDefinition> pairs = (Map.Entry<String, MeasureDefinition>)itInst.next();
+		    	String variable = pairs.getKey();
+		    	MeasureDefinition usedMeasureModel = pairs.getValue();
+			
+    			TMeasure usedMeasure = this.findBaseMeasure(usedMeasureModel);
+    			if (usedMeasure==null) 
+    				usedMeasure = this.findAggregatedMeasure(usedMeasureModel);
+    			if (usedMeasure==null) 
+    				usedMeasure = this.findDerivedMeasure(usedMeasureModel);
+
+				TUses con = this.getFactory().createTUses();
+				con.setId(this.generatePpiNotInfo.generarId("uses", ""));
+				con.setVariable(variable);
+				con.setSourceRef(measure);
+				con.setTargetRef(usedMeasure);
+				
+   				this.usesMap.put(con.getId(), con);
+		    }
+		}
+		return measure;
+	}
+		
 	public void setTimeModelMap(Map<String, TimeInstanceMeasure> modelMap) {
 
 	    if (modelMap!=null) {
@@ -1822,29 +685,8 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		    while (itInst.hasNext()) {
 		        Map.Entry<String, TimeInstanceMeasure> pairs = (Map.Entry<String, TimeInstanceMeasure>)itInst.next();
 		    	TimeInstanceMeasure def = pairs.getValue();
-		    		
-		    	Map<String,Object> map = this.obtainInfo(def);
-	    		
-	    		if (map.containsKey("measure"))
-	    			this.timeMap.put(((TTimeMeasure) map.get("measure")).getId(), (TTimeMeasure) map.get("measure"));
-		    	
-	    		if (map.containsKey("connectorFrom")) {
-	    	    	
-	    			TTimeConnector con = (TTimeConnector) map.get("connectorFrom");
-	    	    	TTask task = chainTask(con);
-	    	    	this.taskMap.put(task.getId(), task);
 
-	    	    	this.timeConnectorMap.put(con.getId(), con);
-	    		}
-		    	
-	    		if (map.containsKey("connectorTo")) {
-	    	    	
-	    			TTimeConnector con = (TTimeConnector) map.get("connectorTo");
-	    	    	TTask task = chainTask(con);
-	    	    	this.taskMap.put(task.getId(), task);
-
-	    	    	this.timeConnectorMap.put(con.getId(), con);
-	    		}
+		    	this.findBaseMeasure(def);
 		    }
 	    }
 	}
@@ -1858,19 +700,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		        Map.Entry<String, CountInstanceMeasure> pairs = (Map.Entry<String, CountInstanceMeasure>)itInst.next();
 		        CountInstanceMeasure def = pairs.getValue();
 		    		
-		    	Map<String,Object> map = this.obtainInfo(def);
-	    		
-	    		if (map.containsKey("measure"))
-	    			this.countMap.put(((TCountMeasure) map.get("measure")).getId(), (TCountMeasure) map.get("measure"));
-	    		
-	    		if (map.containsKey("connector")) {
-	    	    	
-	    	    	TAppliesToElementConnector con = (TAppliesToElementConnector) map.get("connector");
-	    	    	TTask task = chainTask(con);
-	    	    	this.taskMap.put(task.getId(), task);
-
-	    	    	this.appliesToElementConnectorMap.put(con.getId(), con);
-	    		}
+		    	this.findBaseMeasure(def);
 		    }
 	    }
 	}
@@ -1884,22 +714,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		        Map.Entry<String, StateConditionInstanceMeasure> pairs = (Map.Entry<String, StateConditionInstanceMeasure>)itInst.next();
 		        StateConditionInstanceMeasure def = pairs.getValue();
 		    		
-		    	Map<String,Object> map = this.obtainInfo(def);
-	    		
-	    		if (map.containsKey("measure"))
-	    			this.stateConditionMap.put(((TStateConditionMeasure) map.get("measure")).getId(), (TStateConditionMeasure) map.get("measure"));
-	    		
-//	    		if (map.containsKey("ppi"))
-//	    			this.getPpiList().add((TPpi) map.get("ppi"));
-	    		
-	    		if (map.containsKey("connector")) {
-	    	    	
-	    	    	TAppliesToElementConnector con = (TAppliesToElementConnector) map.get("connector");
-	    	    	TTask task = chainTask(con);
-	    	    	this.taskMap.put(task.getId(), task);
-
-	    	    	this.appliesToElementConnectorMap.put(con.getId(), con);
-	    		}
+		    	this.findBaseMeasure(def);
 		    }
 	    }
 	}
@@ -1913,19 +728,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		        Map.Entry<String, DataInstanceMeasure> pairs = (Map.Entry<String, DataInstanceMeasure>)itInst.next();
 		        DataInstanceMeasure def = pairs.getValue();
 		    		
-		    	Map<String,Object> map = this.obtainInfo(def);
-	    		
-	    		if (map.containsKey("measure"))
-	    			this.dataMap.put(((TDataMeasure) map.get("measure")).getId(), (TDataMeasure) map.get("measure"));
-	    		
-	    		if (map.containsKey("connector")) {
-	    	    	
-	    	    	TAppliesToDataConnector con = (TAppliesToDataConnector) map.get("connector");
-	    	    	TDataObject dataobject = chainDataobject(con);
-	    	    	this.dataobjectMap.put(dataobject.getId(), dataobject);
-
-	    	    	this.appliesToDataConnectorMap.put(con.getId(), con);
-	    		}
+		    	this.findBaseMeasure(def);
 		    }
 	    }
 	}
@@ -1939,19 +742,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		        Map.Entry<String, DataPropertyConditionInstanceMeasure> pairs = (Map.Entry<String, DataPropertyConditionInstanceMeasure>)itInst.next();
 		        DataPropertyConditionInstanceMeasure def = pairs.getValue();
 		    		
-		    	Map<String,Object> map = this.obtainInfo(def);
-	    		
-	    		if (map.containsKey("measure"))
-	    			this.dataPropertyConditionMap.put(((TDataPropertyConditionMeasure) map.get("measure")).getId(), (TDataPropertyConditionMeasure) map.get("measure"));
-	    		
-	    		if (map.containsKey("connector")) {
-	    	    	
-	    	    	TAppliesToDataConnector con = (TAppliesToDataConnector) map.get("connector");
-	    	    	TDataObject dataobject = chainDataobject(con);
-	    	    	this.dataobjectMap.put(dataobject.getId(), dataobject);
-
-	    	    	this.appliesToDataConnectorMap.put(con.getId(), con);
-	    		}
+		    	this.findBaseMeasure(def);
 		    }
 	    }
 	}
@@ -1965,46 +756,8 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		        Map.Entry<String, AggregatedMeasure> pairs = (Map.Entry<String, AggregatedMeasure>)itInst.next();
 		        AggregatedMeasure def = pairs.getValue();
 		    	
-				Map<String,Object> map = this.obtainInfo(def);
-
-	    		if (map.containsKey("measure"))
-	    			this.aggregatedMap.put(((TAggregatedMeasure) map.get("measure")).getId(), (TAggregatedMeasure) map.get("measure"));
-		    	
-	    		if (map.containsKey("connectorAggregates")) {
-	    	    	
-	    	    	TAggregates con = (TAggregates) map.get("connectorAggregates");
-
-	    	    	this.aggregatesMap.put(con.getId(), con);
-	    		}
-		    	
-	    		if (map.containsKey("connectorIsGroupedBy")) {
-	    	    	
-	    	    	TIsGroupedBy con = (TIsGroupedBy) map.get("connectorIsGroupedBy");
-	    	    	TDataObject dataobject = chainDataobject(con);
-	    	    	this.dataobjectMap.put(dataobject.getId(), dataobject);
-
-	    	    	this.isGroupedByMap.put(con.getId(), con);
-	    		}
-		    	
-	    		if (map.containsKey("connectorFrom")) {
-	    	    	
-	    	    	TTimeConnector con = (TTimeConnector) map.get("connectorFrom");
-	    	    	TTask task = chainTask(con);
-	    	    	this.taskMap.put(task.getId(), task);
-
-	    	    	this.timeConnectorMap.put(con.getId(), con);
-	    		}
-		    	
-	    		if (map.containsKey("connectorTo")) {
-	    	    	
-	    	    	TTimeConnector con = (TTimeConnector) map.get("connectorTo");
-	    	    	TTask task = chainTask(con);
-	    	    	this.taskMap.put(task.getId(), task);
-
-	    	    	this.timeConnectorMap.put(con.getId(), con);
-	    		}
-	
-			}
+		        this.findAggregatedMeasure(def);
+		    }
     	}
 	}
 
@@ -2017,36 +770,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		        Map.Entry<String, AggregatedMeasure> pairs = (Map.Entry<String, AggregatedMeasure>)itInst.next();
 		        AggregatedMeasure def = pairs.getValue();
 		    	
-				Map<String,Object> map = this.obtainInfo(def);
-
-	    		if (map.containsKey("measure"))
-	    			this.aggregatedMap.put(((TAggregatedMeasure) map.get("measure")).getId(), (TAggregatedMeasure) map.get("measure"));
-		    	
-	    		if (map.containsKey("connectorAggregates")) {
-	    	    	
-	    	    	TAggregates con = (TAggregates) map.get("connectorAggregates");
-
-	    	    	this.aggregatesMap.put(con.getId(), con);
-	    		}
-		    	
-	    		if (map.containsKey("connectorIsGroupedBy")) {
-	    	    	
-	    	    	TIsGroupedBy con = (TIsGroupedBy) map.get("connectorIsGroupedBy");
-	    	    	TDataObject dataobject = chainDataobject(con);
-	    	    	this.dataobjectMap.put(dataobject.getId(), dataobject);
-
-	    	    	this.isGroupedByMap.put(con.getId(), con);
-	    		}
-		    	
-	    		if (map.containsKey("connector")) {
-	    	    	
-	    	    	TAppliesToElementConnector con = (TAppliesToElementConnector) map.get("connector");
-	    	    	TTask task = chainTask(con);
-	    	    	this.taskMap.put(task.getId(), task);
-
-	    	    	this.appliesToElementConnectorMap.put(con.getId(), con);
-	    		}
-	
+		        this.findAggregatedMeasure(def);
 			}
     	}
 	}
@@ -2060,36 +784,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		        Map.Entry<String, AggregatedMeasure> pairs = (Map.Entry<String, AggregatedMeasure>)itInst.next();
 		        AggregatedMeasure def = pairs.getValue();
 		    	
-				Map<String,Object> map = this.obtainInfo(def);
-
-	    		if (map.containsKey("measure"))
-	    			this.aggregatedMap.put(((TAggregatedMeasure) map.get("measure")).getId(), (TAggregatedMeasure) map.get("measure"));
-		    	
-	    		if (map.containsKey("connectorAggregates")) {
-	    	    	
-	    	    	TAggregates con = (TAggregates) map.get("connectorAggregates");
-
-	    	    	this.aggregatesMap.put(con.getId(), con);
-	    		}
-		    	
-	    		if (map.containsKey("connectorIsGroupedBy")) {
-	    	    	
-	    	    	TIsGroupedBy con = (TIsGroupedBy) map.get("connectorIsGroupedBy");
-	    	    	TDataObject dataobject = chainDataobject(con);
-	    	    	this.dataobjectMap.put(dataobject.getId(), dataobject);
-
-	    	    	this.isGroupedByMap.put(con.getId(), con);
-	    		}
-		    	
-	    		if (map.containsKey("connector")) {
-	    	    	
-	    	    	TAppliesToElementConnector con = (TAppliesToElementConnector) map.get("connector");
-	    	    	TTask task = chainTask(con);
-	    	    	this.taskMap.put(task.getId(), task);
-
-	    	    	this.appliesToElementConnectorMap.put(con.getId(), con);
-	    		}
-	
+		        this.findAggregatedMeasure(def);
 			}
     	}
 	}
@@ -2103,36 +798,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		        Map.Entry<String, AggregatedMeasure> pairs = (Map.Entry<String, AggregatedMeasure>)itInst.next();
 		        AggregatedMeasure def = pairs.getValue();
 		    	
-				Map<String,Object> map = this.obtainInfo(def);
-
-	    		if (map.containsKey("measure"))
-	    			this.aggregatedMap.put(((TAggregatedMeasure) map.get("measure")).getId(), (TAggregatedMeasure) map.get("measure"));
-		    	
-	    		if (map.containsKey("connectorAggregates")) {
-	    	    	
-	    	    	TAggregates con = (TAggregates) map.get("connectorAggregates");
-
-	    	    	this.aggregatesMap.put(con.getId(), con);
-	    		}
-		    	
-	    		if (map.containsKey("connectorIsGroupedBy")) {
-	    	    	
-	    	    	TIsGroupedBy con = (TIsGroupedBy) map.get("connectorIsGroupedBy");
-	    	    	TDataObject dataobject = chainDataobject(con);
-	    	    	this.dataobjectMap.put(dataobject.getId(), dataobject);
-
-	    	    	this.isGroupedByMap.put(con.getId(), con);
-	    		}
-		    	
-	    		if (map.containsKey("connector")) {
-	    	    	
-	    	    	TAppliesToDataConnector con = (TAppliesToDataConnector) map.get("connector");
-	    	    	TDataObject dataobject = chainDataobject(con);
-	    	    	this.dataobjectMap.put(((TAggregatedMeasure) map.get("measure")).getId(), dataobject);
-
-	    	    	this.appliesToDataConnectorMap.put(con.getId(), con);
-	    		}
-	
+		        this.findAggregatedMeasure(def);
 			}
     	}
 	}
@@ -2146,41 +812,11 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		        Map.Entry<String, AggregatedMeasure> pairs = (Map.Entry<String, AggregatedMeasure>)itInst.next();
 		        AggregatedMeasure def = pairs.getValue();
 		    	
-				Map<String,Object> map = this.obtainInfo(def);
-
-	    		if (map.containsKey("measure"))
-	    			this.aggregatedMap.put(((TAggregatedMeasure) map.get("measure")).getId(), (TAggregatedMeasure) map.get("measure"));
-		    	
-	    		if (map.containsKey("connectorAggregates")) {
-	    	    	
-	    	    	TAggregates con = (TAggregates) map.get("connectorAggregates");
-
-	    	    	this.aggregatesMap.put(con.getId(), con);
-	    		}
-		    	
-	    		if (map.containsKey("connectorIsGroupedBy")) {
-	    	    	
-	    	    	TIsGroupedBy con = (TIsGroupedBy) map.get("connectorIsGroupedBy");
-	    	    	TDataObject dataobject = chainDataobject(con);
-	    	    	this.dataobjectMap.put(dataobject.getId(), dataobject);
-
-	    	    	this.isGroupedByMap.put(con.getId(), con);
-	    		}
-		    	
-	    		if (map.containsKey("connector")) {
-	    	    	
-	    	    	TAppliesToDataConnector con = (TAppliesToDataConnector) map.get("connector");
-	    	    	TDataObject dataobject = chainDataobject(con);
-	    	    	this.dataobjectMap.put(dataobject.getId(), dataobject);
-
-	    	    	this.appliesToDataConnectorMap.put(con.getId(), con);
-	    		}
-	
+		        this.findAggregatedMeasure(def);
 			}
     	}
 	}
 
-	@SuppressWarnings("unchecked")
 	public void setDerivedSingleInstanceAggregatedModelMap(Map<String, AggregatedMeasure> modelMap) {
 
 	    if (modelMap!=null) {
@@ -2190,22 +826,11 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		        Map.Entry<String, AggregatedMeasure> pairs = (Map.Entry<String, AggregatedMeasure>)itInst.next();
 		        AggregatedMeasure def = pairs.getValue();
 		    	
-				Map<String,Object> map = this.obtainInfo(def);
-
-	    		if (map.containsKey("measure"))
-	    			this.aggregatedMap.put(((TAggregatedMeasure) map.get("measure")).getId(), (TAggregatedMeasure) map.get("measure"));
-		    	
-	    		if (map.containsKey("connectorUses")) {
-	    			
-	    			for ( TUses con : (List<TUses>) map.get("connectorUses"))
-	    				this.usesMap.put(con.getId(), con);
-	    		}
-	
+		        this.findAggregatedMeasure(def);
 			}
     	}
 	}
 
-	@SuppressWarnings("unchecked")
 	public void setDerivedSingleInstanceModelMap(Map<String, DerivedMeasure> modelMap) {
 
 	    if (modelMap!=null) {
@@ -2215,101 +840,11 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		        Map.Entry<String, DerivedMeasure> pairs = (Map.Entry<String, DerivedMeasure>)itInst.next();
 		        DerivedSingleInstanceMeasure def = (DerivedSingleInstanceMeasure) pairs.getValue();
 		    		
-		    	Map<String,Object> map = this.obtainInfo(def);
-	    		
-	    		if (map.containsKey("measure"))
-	    			this.derivedSingleInstanceMap.put(((TDerivedSingleInstanceMeasure) map.get("measure")).getId(), (TDerivedSingleInstanceMeasure) map.get("measure"));
-	    		
-	    		if (map.containsKey("connectorUses")) {
-	    			
-	    			for ( TUses con : (List<TUses>) map.get("connectorUses"))
-	    				this.usesMap.put(con.getId(), con);
-	    		}
-/*
-	    		if (map.containsKey("used")) {
-	    			
-	    			for ( TMeasure usedMeasure : (List<TMeasure>) map.get("used")) {
-
-		    			if (usedMeasure instanceof TCountMeasure)
-		    				this.countMap.put(((TCountMeasure) usedMeasure).getId(), (TCountMeasure) usedMeasure);
-		    			else
-		    			if (usedMeasure instanceof TTimeMeasure) 
-		    				this.timeMap.put(((TTimeMeasure) usedMeasure).getId(), (TTimeMeasure) usedMeasure);
-		    			else
-		    			if (usedMeasure instanceof TStateConditionMeasure) 
-		    				this.stateConditionMap.put(((TStateConditionMeasure) usedMeasure).getId(), (TStateConditionMeasure) usedMeasure);
-		    			else
-		    			if (usedMeasure instanceof TDataMeasure) 
-		    				this.dataMap.put(((TDataMeasure) usedMeasure).getId(), (TDataMeasure) usedMeasure);
-		    			else
-		    			if (usedMeasure instanceof TDataPropertyConditionMeasure)
-		    				this.dataPropertyConditionMap.put(((TDataPropertyConditionMeasure) usedMeasure).getId(), (TDataPropertyConditionMeasure) usedMeasure);
-		    			else
-		    			if (usedMeasure instanceof TAggregatedMeasure)
-		    				this.aggregatedMap.put(((TAggregatedMeasure) usedMeasure).getId(), (TAggregatedMeasure) usedMeasure);
-		    		
-			    		if (map.containsKey("connector")) {
-			    	    	
-			    			for ( TMeasureConnector con : (List<TMeasureConnector>) map.get("connector")) {
-			    				
-			    				if (con.getSourceRef()==usedMeasure) {
-			    					
-					    			if (usedMeasure instanceof TDataMeasure || usedMeasure instanceof TDataPropertyConditionMeasure) {
-					    				
-						    	    	TDataObject dataobject = chainDataobject(con);
-						    	    	this.dataobjectMap.put(dataobject.getId(), dataobject);
-					    			} else {
-					    				
-						    	    	TTask task = chainTask(con);
-						    	    	this.taskMap.put(task.getId(), task);
-					    			}
-			
-									if (con instanceof TAppliesToElementConnector)
-						    	    	this.appliesToElementConnectorMap.put(con.getId(), (TAppliesToElementConnector) con);
-									else
-									if (con instanceof TAppliesToDataConnector)
-						    	    	this.appliesToDataConnectorMap.put(con.getId(), (TAppliesToDataConnector) con);
-									else
-									if (con instanceof TAggregates)
-						    	    	this.aggregatesMap.put(con.getId(), (TAggregates) con);
-									else
-									if (con instanceof TIsGroupedBy)
-						    	    	this.isGroupedByMap.put(con.getId(), (TIsGroupedBy) con);
-
-					    	    	break;
-			    				}
-			    			}
-			    		}
-	    			}
-			    	
-		    		if (map.containsKey("connectorFrom")) {
-		    	    	
-		    			for ( TTimeConnector con : (List<TTimeConnector>) map.get("connectorFrom")) {
-		    	    	
-			    	    	TTask task = chainTask(con);
-			    	    	this.taskMap.put(task.getId(), task);
-			    	    	
-			    	    	this.timeConnectorMap.put(con.getId(), con);
-		    			}
-		    		}
-			    	
-		    		if (map.containsKey("connectorTo")) {
-		    	    	
-		    			for ( TTimeConnector con : (List<TTimeConnector>) map.get("connectorTo")) {
-		    	    	
-			    	    	TTask task = chainTask(con);
-			    	    	this.taskMap.put(task.getId(), task);
-	
-			    	    	this.timeConnectorMap.put(con.getId(), con);
-		    			}
-		    		}
-	    		}
-*/
+		        this.findDerivedMeasure(def);
 		    }
 	    }
 	}
 
-	@SuppressWarnings("unchecked")
 	public void setDerivedMultiInstanceModelMap(Map<String, DerivedMeasure> modelMap) {
 
 	    if (modelMap!=null) {
@@ -2319,99 +854,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		        Map.Entry<String, DerivedMeasure> pairs = (Map.Entry<String, DerivedMeasure>)itInst.next();
 		        DerivedMultiInstanceMeasure def = (DerivedMultiInstanceMeasure) pairs.getValue();
 		    		
-		    	Map<String,Object> map = this.obtainInfo(def);
-	    		
-	    		if (map.containsKey("measure"))
-	    			this.derivedMultiInstanceMap.put(((TDerivedMultiInstanceMeasure) map.get("measure")).getId(), (TDerivedMultiInstanceMeasure) map.get("measure"));
-	    		
-	    		if (map.containsKey("connectorUses")) {
-	    			
-	    			for ( TUses con : (List<TUses>) map.get("connectorUses"))
-	    				this.usesMap.put(con.getId(), con);
-	    		}
-/*
-	    		if (map.containsKey("used")) {
-	    			
-	    			for ( TMeasure usedMeasure : (List<TMeasure>) map.get("used")) {
-
-		    			if (usedMeasure instanceof TCountMeasure)
-		    				this.countMap.put(((TCountMeasure) usedMeasure).getId(), (TCountMeasure) usedMeasure);
-		    			else
-		    			if (usedMeasure instanceof TTimeMeasure) 
-		    				this.timeMap.put(((TTimeMeasure) usedMeasure).getId(), (TTimeMeasure) usedMeasure);
-		    			else
-		    			if (usedMeasure instanceof TStateConditionMeasure) 
-		    				this.stateConditionMap.put(((TStateConditionMeasure) usedMeasure).getId(), (TStateConditionMeasure) usedMeasure);
-		    			else
-		    			if (usedMeasure instanceof TDataMeasure) 
-		    				this.dataMap.put(((TDataMeasure) usedMeasure).getId(), (TDataMeasure) usedMeasure);
-		    			else
-		    			if (usedMeasure instanceof TDataPropertyConditionMeasure)
-		    				this.dataPropertyConditionMap.put(((TDataPropertyConditionMeasure) usedMeasure).getId(), (TDataPropertyConditionMeasure) usedMeasure);
-		    			else
-		    			if (usedMeasure instanceof TAggregatedMeasure)
-		    				this.aggregatedMap.put(((TAggregatedMeasure) usedMeasure).getId(), (TAggregatedMeasure) usedMeasure);
-		    		
-			    		if (map.containsKey("connector")) {
-			    	    	
-			    			for ( TMeasureConnector con : (List<TMeasureConnector>) map.get("connector")) {
-			    				
-			    				if (con.getSourceRef()==usedMeasure) {
-			    				
-					    			if ((usedMeasure instanceof TAggregatedMeasure && 
-					    					(((TAggregatedMeasure) usedMeasure).getBaseMeasure().getValue() instanceof TDataMeasure || 
-					    					 ((TAggregatedMeasure) usedMeasure).getBaseMeasure().getValue() instanceof TDataPropertyConditionMeasure)) ||
-					    				usedMeasure instanceof TDataMeasure || usedMeasure instanceof TDataPropertyConditionMeasure) {
-					    				
-						    	    	TDataObject dataobject = chainDataobject(con);
-						    	    	this.dataobjectMap.put(dataobject.getId(), dataobject);
-					    			} else {
-					    				
-						    	    	TTask task = chainTask(con);
-						    	    	this.taskMap.put(task.getId(), task);
-					    			}
-			
-									if (con instanceof TAppliesToElementConnector)
-						    	    	this.appliesToElementConnectorMap.put(con.getId(), (TAppliesToElementConnector) con);
-									else
-									if (con instanceof TAppliesToDataConnector)
-						    	    	this.appliesToDataConnectorMap.put(con.getId(), (TAppliesToDataConnector) con);
-									else
-									if (con instanceof TAggregates)
-						    	    	this.aggregatesMap.put(con.getId(), (TAggregates) con);
-									else
-									if (con instanceof TIsGroupedBy)
-						    	    	this.isGroupedByMap.put(con.getId(), (TIsGroupedBy) con);
-
-					    	    	break;
-			    				}
-			    			}
-			    		}
-	    			}
-			    	
-		    		if (map.containsKey("connectorFrom")) {
-		    	    	
-		    			for ( TTimeConnector con : (List<TTimeConnector>) map.get("connectorFrom")) {
-		    	    	
-			    	    	TTask task = chainTask(con);
-			    	    	this.taskMap.put(task.getId(), task);
-			    	    	
-			    	    	this.timeConnectorMap.put(con.getId(), con);
-		    			}
-		    		}
-			    	
-		    		if (map.containsKey("connectorTo")) {
-		    	    	
-		    			for ( TTimeConnector con : (List<TTimeConnector>) map.get("connectorTo")) {
-		    	    	
-			    	    	TTask task = chainTask(con);
-			    	    	this.taskMap.put(task.getId(), task);
-	
-			    	    	this.timeConnectorMap.put(con.getId(), con);
-		    			}
-		    		}
-	    		}
-*/
+		        this.findDerivedMeasure(def);
 		    }
 	    }
 	}
@@ -2439,32 +882,11 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 				
 		        MeasureDefinition m = def.getMeasuredBy();
 
-				TMeasure md = null;
-				if (m instanceof TimeInstanceMeasure)
-					md = this.timeMap.get(m.getId());
-				else
-				if (m instanceof CountInstanceMeasure)
-					md = this.countMap.get(m.getId());
-				else
-				if (m instanceof StateConditionInstanceMeasure)
-					md = this.stateConditionMap.get(m.getId());
-				else
-				if (m instanceof DataInstanceMeasure)
-					md = this.dataMap.get(m.getId());
-				else
-				if (m instanceof DataPropertyConditionInstanceMeasure)
-					md = this.dataPropertyConditionMap.get(m.getId());
-				else
-
-				if (m instanceof AggregatedMeasure)
-					md = this.aggregatedMap.get(m.getId());
-				else
-
-				if (m instanceof DerivedSingleInstanceMeasure)
-					md = this.derivedSingleInstanceMap.get(m.getId());
-				else
-				if (m instanceof DerivedMultiInstanceMeasure)
-					md = this.derivedMultiInstanceMap.get(m.getId());
+				TMeasure md = this.findBaseMeasure(m);
+				if (md==null)
+					md = this.findAggregatedMeasure(m);
+				if (md==null)
+					md = this.findDerivedMeasure(m);
 
 		    	ppi.setMeasuredBy(md);
 					
@@ -2476,6 +898,8 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 
 	@Override
 	protected void generateExportElement(String procId) {
+		
+		this.generatePpiNotInfo = new GeneratePpiNotInfo();
 		
 	    TPpiset ppiset = this.getFactory().createTPpiset();
 	    ppiset.setId("ppiset_1");
@@ -2597,7 +1021,466 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
     	
         this.setExportElement( this.bpmnFactory.createDefinitions(definitions) );
 		
-        this.contador = 0;
+	}
+	
+	private MeasureDefinition findBaseMeasureModel(Object jaxbValue) {
+		
+		TPpiset ppiset = this.getPpiset();
+		String id = ((TMeasure) jaxbValue).getId();
+		Boolean wasCreated = false;
+		MeasureDefinition def = null;
+		
+		if(jaxbValue instanceof TCountMeasure) {
+			
+			def = this.countInstanceModelMap.get(id);
+			if (def==null) {
+				def = this.generatePpiNotModel.obtainModel((TCountMeasure) jaxbValue, ppiset);
+				wasCreated = def!=null;
+				if (wasCreated) {
+					this.countInstanceModelMap.put( def.getId(), (CountInstanceMeasure) def );
+				}
+			}
+		} else
+		if(jaxbValue instanceof TTimeMeasure) {
+
+			def = this.timeInstanceModelMap.get(id);
+			if (def==null) {
+				def = this.generatePpiNotModel.obtainModel((TTimeMeasure) jaxbValue, ppiset);
+				wasCreated = def!=null;
+				if (wasCreated) {
+					this.timeInstanceModelMap.put( def.getId(), (TimeInstanceMeasure) def );
+				}
+			}
+		} else
+		if(jaxbValue instanceof TStateConditionMeasure) {
+
+			def = this.stateConditionInstanceModelMap.get(id);
+			if (def==null) {
+				def = this.generatePpiNotModel.obtainModel((TStateConditionMeasure) jaxbValue, ppiset);
+				wasCreated = def!=null;
+				if (wasCreated) {
+					this.stateConditionInstanceModelMap.put( def.getId(), (StateConditionInstanceMeasure) def );
+				}
+			}
+		} else
+		if(jaxbValue instanceof TDataMeasure) {
+
+			def = this.dataInstanceModelMap.get(id);
+			if (def==null) {
+				def = this.generatePpiNotModel.obtainModel((TDataMeasure) jaxbValue, ppiset);
+				wasCreated = def!=null;
+				if (wasCreated) {
+					this.dataInstanceModelMap.put( def.getId(), (DataInstanceMeasure) def );
+				}
+			}
+		} else
+		if(jaxbValue instanceof TDataPropertyConditionMeasure) {
+
+			def = this.dataPropertyConditionInstanceModelMap.get(id);
+			if (def==null) {
+				def = this.generatePpiNotModel.obtainModel((TDataPropertyConditionMeasure) jaxbValue, ppiset);
+				wasCreated = def!=null;
+				if (wasCreated) {
+					this.dataPropertyConditionInstanceModelMap.put( def.getId(), (DataPropertyConditionInstanceMeasure) def );
+				}
+			}
+		}
+		
+		if (wasCreated) {
+			
+			this.searchPpi(jaxbValue, def);
+		}
+
+		return def;
+	}
+	
+	private MeasureDefinition findAggregatedMeasureModel(TAggregatedMeasure measure) {
+		
+		TPpiset ppiset = this.getPpiset();
+		String id = measure.getId();
+		Boolean wasCreated = false;
+		AggregatedMeasure def = null;
+		
+		if(measure.getBaseMeasure()==null) {
+			
+			TAggregates connector = (TAggregates) this.generatePpiNotModel.findMeasureConnector(measure, TAggregates.class, ppiset);
+			
+			if (connector!=null) {
+				
+				MeasureDefinition baseModel = this.findConnectedMeasure(connector);
+
+				if(baseModel instanceof TimeInstanceMeasure ) {
+					
+					def = this.timeAggregatedModelMap.get(id);
+					if (def==null) {
+						def = this.generatePpiNotModel.obtainModel(measure, baseModel, ppiset);
+						wasCreated = def!=null;
+						if (wasCreated) {
+							this.timeAggregatedModelMap.put( def.getId(), def );
+						}
+					}
+				} else
+				if(baseModel instanceof CountInstanceMeasure ) {
+					
+					def = this.countAggregatedModelMap.get(id);
+					if (def==null) {
+						def = this.generatePpiNotModel.obtainModel(measure, baseModel, ppiset);
+						wasCreated = def!=null;
+						if (wasCreated) {
+							this.countAggregatedModelMap.put( def.getId(), def );
+						}
+					}
+				} else
+				if(baseModel instanceof StateConditionInstanceMeasure ) {
+					
+					def = this.stateConditionAggregatedModelMap.get(id);
+					if (def==null) {
+						def = this.generatePpiNotModel.obtainModel(measure, baseModel, ppiset);
+						wasCreated = def!=null;
+						if (wasCreated) {
+							this.stateConditionAggregatedModelMap.put( def.getId(), def );
+						}
+					}
+				} else
+				if(baseModel instanceof DataInstanceMeasure ) {
+					
+					def = this.dataAggregatedModelMap.get(id);
+					if (def==null) {
+						def = this.generatePpiNotModel.obtainModel(measure, baseModel, ppiset);
+						wasCreated = def!=null;
+						if (wasCreated) {
+							this.dataAggregatedModelMap.put( def.getId(), def );
+						}
+					}
+				} else
+				if(baseModel instanceof DataPropertyConditionInstanceMeasure ) {
+					
+					def = this.dataPropertyConditionAggregatedModelMap.get(id);
+					if (def==null) {
+						def = this.generatePpiNotModel.obtainModel(measure, baseModel, ppiset);
+						wasCreated = def!=null;
+						if (wasCreated) {
+							this.dataPropertyConditionAggregatedModelMap.put( def.getId(), def );
+						}
+					}
+				} else
+				if(baseModel instanceof DerivedSingleInstanceMeasure ) {
+					
+					def = this.derivedSingleInstanceAggregatedModelMap.get(id);
+					if (def==null) {
+						def = this.generatePpiNotModel.obtainModel(measure, baseModel, ppiset);
+						wasCreated = def!=null;
+						if (wasCreated) {
+
+							for (TUses con : this.generatePpiNotModel.findUses(this.derivedSingleInstanceMap.get(baseModel.getId()), ppiset)) {
+								
+								((DerivedMeasure) baseModel).addUsedMeasure( con.getVariable(), this.findConnectedMeasure(con) );
+							}
+							this.derivedSingleInstanceAggregatedModelMap.put( def.getId(), def );
+						}
+					}
+				}
+				
+				if (wasCreated) {
+					
+					def.setAggregates(true);
+				}
+			}
+		} else {
+			
+			TMeasure baseMeasure = measure.getBaseMeasure().getValue();
+		
+			if(baseMeasure instanceof TTimeMeasure ) {
+
+				def = this.timeAggregatedModelMap.get(id);
+				if (def==null) {
+					def = this.generatePpiNotModel.obtainModel(measure, (TTimeMeasure) baseMeasure, ppiset);
+					wasCreated = def!=null;
+					if (wasCreated) {
+						this.timeAggregatedModelMap.put( def.getId(), def );
+					}
+				}
+			} else
+			if(baseMeasure instanceof TCountMeasure ) {
+				
+				def = this.countAggregatedModelMap.get(id);
+				if (def==null) {
+					def = this.generatePpiNotModel.obtainModel(measure, (TCountMeasure) baseMeasure, ppiset);
+					wasCreated = def!=null;
+					if (wasCreated) {
+						this.countAggregatedModelMap.put( def.getId(), def );
+					}
+				
+				}
+			} else
+			if(baseMeasure instanceof TStateConditionMeasure ) {
+				
+				def = this.stateConditionAggregatedModelMap.get(id);
+				if (def==null) {
+					def = this.generatePpiNotModel.obtainModel(measure, (TStateConditionMeasure) baseMeasure, ppiset);
+					wasCreated = def!=null;
+					if (wasCreated) {
+						this.stateConditionAggregatedModelMap.put( def.getId(), def );
+					}
+				}
+			} else
+			if(baseMeasure instanceof TDataMeasure ) {
+				
+				def = this.dataAggregatedModelMap.get(id);
+				if (def==null) {
+					def = this.generatePpiNotModel.obtainModel(measure, (TDataMeasure) baseMeasure, ppiset);
+					wasCreated = def!=null;
+					if (wasCreated) {
+						this.dataAggregatedModelMap.put( def.getId(), def );
+					}
+				}
+			} else
+			if(baseMeasure instanceof TDataPropertyConditionMeasure ) {
+				
+				def = this.dataPropertyConditionAggregatedModelMap.get(id);
+				if (def==null) {
+					def = this.generatePpiNotModel.obtainModel(measure, (TDataPropertyConditionMeasure) baseMeasure, ppiset);
+					wasCreated = def!=null;
+					if (wasCreated) {
+						this.dataPropertyConditionAggregatedModelMap.put( def.getId(), def );
+					}
+				}
+			} else
+			if(baseMeasure instanceof TDerivedSingleInstanceMeasure ) {
+				
+				def = this.derivedSingleInstanceAggregatedModelMap.get(id);
+				if (def==null) {
+					def = this.generatePpiNotModel.obtainModel(measure, (TDerivedSingleInstanceMeasure) baseMeasure, ppiset);
+					wasCreated = def!=null;
+					if (wasCreated) {
+
+						MeasureDefinition baseModel = def.getBaseMeasure();
+						for (TUses connector : this.generatePpiNotModel.findUses(baseMeasure, ppiset)) {
+							
+							((DerivedMeasure) baseModel).addUsedMeasure( connector.getVariable(), this.findConnectedMeasure(connector) );
+						}
+						this.derivedSingleInstanceAggregatedModelMap.put( def.getId(), def );
+					}
+				}
+			}
+		}
+		
+		if (wasCreated) {
+			
+			this.searchPpi(measure, def);
+		}
+		
+		return def;
+	}
+	
+	private MeasureDefinition findDerivedMeasureModel(Object jaxbValue) {
+		
+		TPpiset ppiset = this.getPpiset();
+		String id = ((TMeasure) jaxbValue).getId();
+		Boolean wasCreated = false;
+		MeasureDefinition def = null;
+		
+		if(jaxbValue instanceof TDerivedSingleInstanceMeasure) {
+			
+			def = this.derivedSingleInstanceModelMap.get(id);
+			if (def==null) {
+				def = this.generatePpiNotModel.obtainModel((TDerivedSingleInstanceMeasure) jaxbValue);
+				wasCreated = def!=null;
+				if (wasCreated) {
+					this.derivedSingleInstanceModelMap.put(def.getId(), (DerivedMeasure) def);
+				}
+			}
+		} else
+		if(jaxbValue instanceof TDerivedMultiInstanceMeasure) {
+			
+			def = this.derivedMultiInstanceModelMap.get(id);
+			if (def==null) {
+				def = this.generatePpiNotModel.obtainModel((TDerivedMultiInstanceMeasure) jaxbValue);
+				wasCreated = def!=null;
+				if (wasCreated) {
+					this.derivedMultiInstanceModelMap.put( def.getId(), (DerivedMeasure) def );
+				}
+			}
+		}
+		
+		if (wasCreated) {
+			
+			for (TUses connector : this.generatePpiNotModel.findUses((TDerivedMeasure) jaxbValue, ppiset)) {
+				
+				((DerivedMeasure) def).addUsedMeasure( connector.getVariable(), this.findConnectedMeasure(connector) );
+			}
+			this.searchPpi(jaxbValue, def);
+		}
+		
+		return def;
+	}
+
+	private TPpiset getPpiset() {
+		
+		// obtiene el proceso creado a partir de la información en el xml
+		TProcess process = null;
+		TPpiset ppiset = null;
+		
+		Object object = ((TDefinitions) this.getImportElement().getValue()).getRootElement().get(0).getValue();
+		if (object instanceof TProcess) {
+			
+			process = (TProcess) object;
+			ppiset = (TPpiset) ((JAXBElement<?>) process.getExtensionElements().getAny().get(0)).getValue();
+		} else {
+			
+			for (JAXBElement<?> element : ((TDefinitions) this.getImportElement().getValue()).getRootElement()) {
+				
+				Object participant = element.getValue();
+				if (participant instanceof TProcess &&
+					((TProcess) participant).getExtensionElements()!=null &&
+					((TProcess) participant).getExtensionElements().getAny()!=null &&
+					((TProcess) participant).getExtensionElements().getAny().get(0)!=null &&
+					((JAXBElement<?>) ((TProcess) participant).getExtensionElements().getAny().get(0)).getValue() instanceof TPpiset
+				   ) {
+					
+					ppiset = (TPpiset) ((JAXBElement<?>) ((TProcess) participant).getExtensionElements().getAny().get(0)).getValue();
+					break;
+				}
+			}
+		}
+
+		return ppiset;
+	}
+	
+	private Map<String, String> parseAnalysisPeriod(String period) {
+		
+		Map<String, String> map = new HashMap<String, String>();
+
+		if (period.contentEquals("")) {
+			
+			map.put("year", "");
+			map.put("period", "");
+			map.put("startDate", "");
+			map.put("endDate", "");
+			map.put("inStart", "");
+			map.put("inEnd", "");
+		}
+		else
+			try {
+				Pattern patron = Pattern.compile("(interval)\\((\\d{4}\\/\\d{2}\\/\\d{2}),(\\d{4}\\/\\d{2}\\/\\d{2})\\,(true|false)\\,(true|false)\\)|(period)\\((\\d{4}),(trimestre|semestre|mes)\\,(true|false)\\,(true|false)\\)");
+				Matcher matcher = patron.matcher( period );
+				matcher.find();
+	
+				if (matcher.group(6)!=null && matcher.group(6).contentEquals("period")) {
+					
+					map.put("year", matcher.group(7));
+					map.put("period", matcher.group(8));
+					map.put("startDate", "");
+					map.put("endDate", "");
+					map.put("inStart", (matcher.group(9).compareTo("true")==0)?"yes":"");
+					map.put("inEnd", (matcher.group(10).compareTo("true")==0)?"yes":"");
+				}
+				else 
+				if (matcher.group(1).contentEquals("interval")) {
+					
+					map.put("year", "");
+					map.put("period", "");
+					map.put("startDate", matcher.group(2));
+					map.put("endDate", matcher.group(3));
+					map.put("inStart", (matcher.group(4).compareTo("true")==0)?"yes":"");
+					map.put("inEnd", (matcher.group(5).compareTo("true")==0)?"yes":"");
+				} 
+
+			}  catch (Exception e) {
+				
+				map.put("year", "");
+				map.put("period", "");
+				map.put("startDate", "");
+				map.put("endDate", "");
+				map.put("inStart", "");
+				map.put("inEnd", "");
+			}
+		
+		return map;
+	}
+
+	private Map<String, Double> parseTarget(String target) {
+		
+		Map<String, Double> map = new HashMap<String, Double>();
+
+		try {
+			Pattern patron = Pattern.compile("(\\-{0,1}[0-9]+\\.{0,1}[0-9]*)\\-(\\-{0,1}[0-9]+\\.{0,1}[0-9]*)|(>|<|=|@)(\\-{0,1}[0-9]+\\.{0,1}[0-9]*)");
+			Matcher matcher = patron.matcher( target );
+			matcher.find();
+
+			if (matcher.group(3)!=null && matcher.group(3).contentEquals("=")) {
+			
+				map.put("refMin", Utils.stringToDouble(matcher.group(4)));
+				map.put("refMax", Utils.stringToDouble(matcher.group(4)));
+			} else
+			if (matcher.group(3)!=null && matcher.group(3).contentEquals(">")) {
+				
+				map.put("refMin", Utils.stringToDouble(matcher.group(4)));
+			} else
+			if (matcher.group(3)!=null && matcher.group(3).contentEquals("<")) {
+				
+				map.put("refMax", Utils.stringToDouble(matcher.group(4)));
+			} else 
+			if (matcher.group(1)!=null && matcher.group(2)!=null) {
+				map.put("refMin", Utils.stringToDouble(matcher.group(1)));
+				map.put("refMax", Utils.stringToDouble(matcher.group(2)));
+			} 
+		}  catch (Exception e) {
+			
+			map.put("refMin", null);
+			map.put("refMax", null);
+		}
+		
+		return map;
+	}
+	
+	private void searchPpi(Object object, MeasureDefinition def) {
+		
+		for (TPpi ppi : this.getPpiset().getPpi()) {
+			
+			if(ppi.getMeasuredBy().equals(object)) {
+				
+				Map<String, Double> targetMap = this.parseTarget(ppi.getTarget());
+				
+				Map<String, String> analysisperiodMap = parseAnalysisPeriod(ppi.getScope());
+				
+				PPI ppiModel = new PPI(
+						ppi.getId(), 
+						ppi.getName(), 
+						ppi.getDescription(), 
+						ppi.getGoals(), 
+						ppi.getResponsible(), 
+						ppi.getInformed(), 
+						ppi.getInformed(),
+						new Target( targetMap.get("refMax"), targetMap.get("refMin")), 
+			    		new Scope( analysisperiodMap.get("year"), 
+			    				analysisperiodMap.get("period"), 
+			    				Utils.parseDate(analysisperiodMap.get("startDate")), 
+			    				Utils.parseDate(analysisperiodMap.get("endDate")), 
+			    				analysisperiodMap.get("inStart").contentEquals("yes"), 
+			    				analysisperiodMap.get("inEnd").contentEquals("yes")));
+				
+				ppiModel.setMeasuredBy(def);
+				
+				this.ppiModelMap.put(ppi.getId(), ppiModel);
+				
+				break;
+			}
+		}
+	}
+
+	private MeasureDefinition findConnectedMeasure(TMeasureConnector con) {
+	
+		Object target = con.getTargetRef();
+		MeasureDefinition def  = this.findBaseMeasureModel( target );
+
+		if (def==null && target instanceof TAggregatedMeasure)
+			def = this.findAggregatedMeasureModel( (TAggregatedMeasure) target );
+
+		if (def==null)
+			def = this.findDerivedMeasureModel( target );
+
+		return def;
 	}
 
 	@Override
@@ -2605,221 +1488,18 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		
 		for( JAXBElement<?> element : this.getPpiset().getBaseMeasure() ) {
 			
-			if(element.getValue() instanceof TCountMeasure) {
-
-				CountInstanceMeasure def = obtainModel((TCountMeasure) element.getValue());
-
-				this.searchPpi(element.getValue(), def);
-				
-				if (def!=null) {
-					this.countInstanceModelMap.put( def.getId(), def );
-				}
-			}
+			this.findBaseMeasureModel( element.getValue() );
 		}
 
-		for( JAXBElement<?> element : this.getPpiset().getBaseMeasure() ) {
-			
-			if(element.getValue() instanceof TTimeMeasure) {
-
-				TimeInstanceMeasure def = obtainModel((TTimeMeasure) element.getValue());
-
-				this.searchPpi(element.getValue(), def);
-				
-				if (def!=null) {
-					this.timeInstanceModelMap.put( def.getId(), def );
-				}
-			}
-		}
-		
-		for( JAXBElement<?> element : this.getPpiset().getBaseMeasure() ) {
-			
-			if(element.getValue() instanceof TStateConditionMeasure) {
-
-				StateConditionInstanceMeasure def = this.obtainModel((TStateConditionMeasure) element.getValue());
-
-				this.searchPpi(element.getValue(), def);
-				
-				if (def!=null) {
-					this.stateConditionInstanceModelMap.put( def.getId(), def );
-				}
-			}
-		}
-		
-		for( JAXBElement<?> element : this.getPpiset().getBaseMeasure() ) {
-			
-			if(element.getValue() instanceof TDataMeasure) {
-
-				DataInstanceMeasure def = this.obtainModel((TDataMeasure) element.getValue());
-
-				this.searchPpi(element.getValue(), def);
-				
-				if (def!=null) {
-					this.dataInstanceModelMap.put( def.getId(), def );
-				}
-			}
-		}
-		
-		for( JAXBElement<?> element : this.getPpiset().getBaseMeasure() ) {
-			
-			if(element.getValue() instanceof TDataPropertyConditionMeasure) {
-
-				DataPropertyConditionInstanceMeasure def = this.obtainModel((TDataPropertyConditionMeasure) element.getValue());
-
-				this.searchPpi(element.getValue(), def);
-				
-				if (def!=null) {
-					this.dataPropertyConditionInstanceModelMap.put( def.getId(), def );
-				}
-			}
-		}
-
-		// las medidas agregadas
 		for( TAggregatedMeasure measure : this.getPpiset().getAggregatedMeasure()) {
 			
-			TMeasure baseMeasure;
-
-			if(measure.getBaseMeasure()==null) {
-				
-				TAggregates connector = (TAggregates) this.findMeasureConnector(measure, TAggregates.class);
-				
-				if (connector!=null) {
-					
-					MeasureDefinition baseModel = this.findConnectedMeasure(connector, false);
-
-					AggregatedMeasure def = this.obtainModel(measure, (BaseMeasure) baseModel);
-					
-					if (def!=null) {
-						
-						def.setAggregates(true);
-						this.searchPpi(measure, def);
-						
-						if(baseModel instanceof TimeInstanceMeasure ) {
-							
-							this.timeAggregatedModelMap.put( def.getId(), def );
-						} else
-						if(baseModel instanceof CountInstanceMeasure ) {
-							
-							this.countAggregatedModelMap.put( def.getId(), def );
-						} else
-						if(baseModel instanceof StateConditionInstanceMeasure ) {
-							
-							this.stateConditionAggregatedModelMap.put( def.getId(), def );
-						} else
-						if(baseModel instanceof DataInstanceMeasure ) {
-							
-							this.dataAggregatedModelMap.put( def.getId(), def );
-						} else
-						if(baseModel instanceof DataPropertyConditionInstanceMeasure ) {
-							
-							this.dataPropertyConditionAggregatedModelMap.put( def.getId(), def );
-						} else
-						if(baseModel instanceof DerivedSingleInstanceMeasure ) {
-							
-							this.dataPropertyConditionAggregatedModelMap.put( def.getId(), def );
-						}
-					}
-				}
-			} else {
-				
-				baseMeasure = measure.getBaseMeasure().getValue();
-			
-				if(baseMeasure instanceof TTimeMeasure ) {
-	
-					AggregatedMeasure def = this.obtainModel(measure, (TTimeMeasure) baseMeasure);
-	
-					this.searchPpi(measure, def);
-					
-					if (def!=null) {
-						this.timeAggregatedModelMap.put( def.getId(), def );
-					}
-				} else
-				if(baseMeasure instanceof TCountMeasure ) {
-					
-					AggregatedMeasure def = this.obtainModel(measure, (TCountMeasure) baseMeasure);
-	
-					this.searchPpi(measure, def);
-					
-					if (def!=null) {
-						this.countAggregatedModelMap.put( def.getId(), def );
-					}
-				} else
-				if(baseMeasure instanceof TStateConditionMeasure ) {
-					
-					AggregatedMeasure def = this.obtainModel(measure, (TStateConditionMeasure) baseMeasure);
-	
-					this.searchPpi(measure, def);
-					
-					if (def!=null) {
-						this.stateConditionAggregatedModelMap.put( def.getId(), def );
-					}
-				} else
-				if(baseMeasure instanceof TDataMeasure ) {
-					
-					AggregatedMeasure def = this.obtainModel(measure, (TDataMeasure) baseMeasure);
-	
-					this.searchPpi(measure, def);
-					
-					if (def!=null) {
-						this.dataAggregatedModelMap.put( def.getId(), def );
-					}
-				} else
-				if(baseMeasure instanceof TDataPropertyConditionMeasure ) {
-					
-					AggregatedMeasure def = this.obtainModel(measure, (TDataPropertyConditionMeasure) baseMeasure);
-	
-					this.searchPpi(measure, def);
-					
-					if (def!=null) {
-						this.dataPropertyConditionAggregatedModelMap.put( def.getId(), def );
-					}
-				} else
-				if(baseMeasure instanceof TDerivedSingleInstanceMeasure ) {
-					
-					AggregatedMeasure def = this.obtainModel(measure, (TDerivedSingleInstanceMeasure) baseMeasure);
-	
-					this.searchPpi(measure, def);
-					
-					if (def!=null) {
-						this.derivedSingleInstanceAggregatedModelMap.put( def.getId(), def );
-					}
-				}
-			}
+			this.findAggregatedMeasureModel( measure );
 		}
 
-		
-		// Medidas derivadas
 		for( JAXBElement<?> element : this.getPpiset().getDerivedMeasure()) {
 				
-			if(element.getValue() instanceof TDerivedSingleInstanceMeasure) {
-				
-				TDerivedSingleInstanceMeasure measure = (TDerivedSingleInstanceMeasure) element.getValue();
-				
-				DerivedSingleInstanceMeasure def = this.obtainModel(measure);
-
-				this.searchPpi(measure, def);
-				
-				if (def!=null) {
-					this.derivedSingleInstanceModelMap.put(def.getId(), def);
-				}
-			}
+			this.findDerivedMeasureModel( element.getValue() );
 		}
-		
-		for( JAXBElement<?> element : this.getPpiset().getDerivedMeasure()) {
-			
-			if(element.getValue() instanceof TDerivedMultiInstanceMeasure) {
-				
-				TDerivedMultiInstanceMeasure measure = (TDerivedMultiInstanceMeasure) element.getValue();
-				
-				DerivedMultiInstanceMeasure def = this.obtainModel(measure);
-
-				this.searchPpi(measure, def);
-				
-				if (def!=null) {
-					this.derivedMultiInstanceModelMap.put( def.getId(), def );
-				}
-			}
-		}
-		
 	}
 
 }

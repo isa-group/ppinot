@@ -81,9 +81,9 @@ public class DerivedMeasure extends MeasureDefinition {
     	return this.usedMeasureIdMap;
     }
     
-    public void addUsedMeasure(MeasureDefinition measure) {
+    public void addUsedMeasure(String variable, MeasureDefinition measure) {
     	
-    	this.getUsedMeasureMap().put(measure.getId(), measure);
+    	this.getUsedMeasureMap().put((variable.contentEquals(""))?measure.getId():variable, measure);
     }
     
     public MeasureDefinition getUsedMeasureId(String id) {

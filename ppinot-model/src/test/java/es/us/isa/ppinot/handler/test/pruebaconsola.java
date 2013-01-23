@@ -36,8 +36,11 @@ public class pruebaconsola {
 //		String nomFichOrigen = "prueba aggregated connector.bpmn20.xml";
 //		String nomFichDestino = "aggregated connector-exportado.xml";
 
-		String nomFichOrigen = "prueba ppi.bpmn20.xml";
-		String nomFichDestino = "ppi-exportado.xml";
+//		String nomFichOrigen = "prueba ppi.bpmn20.xml";
+//		String nomFichDestino = "ppi-exportado.xml";
+		
+		String nomFichOrigen = "prueba single-instance-derived-aggregated.bpmn20.xml";
+		String nomFichDestino = "single-instance-derived-aggregated-exportado.xml";
 		
 		PpiNotModelHandler ppiNotModelHandler = new PpiNotModelHandler();
 
@@ -57,6 +60,7 @@ public class pruebaconsola {
 		Map<String, AggregatedMeasure> elementConditionAggregatedMeasure = ppiNotModelHandler.getStateConditionAggregatedModelMap();
 		Map<String, AggregatedMeasure> dataAggregatedMeasure = ppiNotModelHandler.getDataAggregatedModelMap();
 		Map<String, AggregatedMeasure> dataConditionAggregatedMeasure = ppiNotModelHandler.getDataPropertyConditionAggregatedModelMap();
+		Map<String, AggregatedMeasure> derivedSingleInstanceAggregatedMeasure = ppiNotModelHandler.getDerivedSingleInstanceAggregatedModelMap();
 
 		Map<String, DerivedMeasure> derivedInstanceMeasure = ppiNotModelHandler.getDerivedSingleInstanceModelMap();
 		Map<String, DerivedMeasure> derivedProcessMeasure = ppiNotModelHandler.getDerivedMultiInstanceModelMap();
@@ -75,6 +79,7 @@ public class pruebaconsola {
 		ppiNotModelHandler.setStateConditionAggregatedModelMap(elementConditionAggregatedMeasure);
 		ppiNotModelHandler.setDataAggregatedModelMap(dataAggregatedMeasure);
 		ppiNotModelHandler.setDataPropertyConditionAggregatedModelMap(dataConditionAggregatedMeasure);
+		ppiNotModelHandler.setDerivedSingleInstanceAggregatedModelMap(derivedSingleInstanceAggregatedMeasure);
 
 		ppiNotModelHandler.setDerivedSingleInstanceModelMap(derivedInstanceMeasure);
 		ppiNotModelHandler.setDerivedMultiInstanceModelMap(derivedProcessMeasure);

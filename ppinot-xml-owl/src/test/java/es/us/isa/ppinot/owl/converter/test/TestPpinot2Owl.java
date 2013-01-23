@@ -87,7 +87,7 @@ public class TestPpinot2Owl {
 
         PpiNotTestAnalyser analyser = new PpiNotTestAnalyser(ppinotOntology, bpmnOntologyURI);
         
-        // time measure
+        // time instance measure
         assertTrue(analyser.isLinearTimeIntanceMeasure("sid-3B70F4A1-8F9F-4909-A3AC-8F06FBDC6C97"));
         assertTrue(analyser.isFrom("sid-3B70F4A1-8F9F-4909-A3AC-8F06FBDC6C97", "startsid-364A55D5-916D-4669-B4A5-29E82CACEB8C"));
         assertTrue(analyser.isTo("sid-3B70F4A1-8F9F-4909-A3AC-8F06FBDC6C97", "endsid-0B0B61E3-89F3-4028-9746-D122688C2E93"));
@@ -96,19 +96,19 @@ public class TestPpinot2Owl {
         assertTrue(analyser.isAppliedTo("startsid-364A55D5-916D-4669-B4A5-29E82CACEB8C", "sid-364A55D5-916D-4669-B4A5-29E82CACEB8C"));
         assertTrue(analyser.isAppliedTo("endsid-0B0B61E3-89F3-4028-9746-D122688C2E93", "sid-0B0B61E3-89F3-4028-9746-D122688C2E93"));
 
-        // count measure
+        // count instance measure
         assertTrue(analyser.isCountInstanceMeasure("sid-F23CA3E1-9D3C-46B5-BB7F-E37E27DB729E"));
         assertTrue(analyser.isWhen("sid-F23CA3E1-9D3C-46B5-BB7F-E37E27DB729E", "TimeInstantsid-F23CA3E1-9D3C-46B5-BB7F-E37E27DB729E"));
         assertTrue(analyser.isActivityStart("TimeInstantsid-F23CA3E1-9D3C-46B5-BB7F-E37E27DB729E"));
         assertTrue(analyser.isAppliedTo("TimeInstantsid-F23CA3E1-9D3C-46B5-BB7F-E37E27DB729E", "sid-364A55D5-916D-4669-B4A5-29E82CACEB8C"));
         
-        // state condition measure
+        // state condition instance measure
         assertTrue(analyser.isStateConditionInstanceMeasure("sid-70636F2E-63D1-47D3-A17C-8832E2F4890F"));
         assertTrue(analyser.isMeets("sid-70636F2E-63D1-47D3-A17C-8832E2F4890F", "sid-70636F2E-63D1-47D3-A17C-8832E2F4890FRunning"));
         assertTrue(analyser.isStateCondition("sid-70636F2E-63D1-47D3-A17C-8832E2F4890FRunning"));
         assertTrue(analyser.isAppliedTo("sid-70636F2E-63D1-47D3-A17C-8832E2F4890FRunning", "sid-0B0B61E3-89F3-4028-9746-D122688C2E93"));
 
-        // data intansce measure
+        // data instance measure
         assertTrue(analyser.isDataInstanceMeasure("sid-98764615-A771-4C7D-8619-16008DAE4679"));
         assertTrue(analyser.isMeasuresData("sid-98764615-A771-4C7D-8619-16008DAE4679", "Dataobject1"));
         
@@ -127,7 +127,7 @@ public class TestPpinot2Owl {
 
         PpiNotTestAnalyser analyser = new PpiNotTestAnalyser(ppinotOntology, bpmnOntologyURI);
         
-        // time measure
+        // time aggregated measure
         assertTrue(analyser.isAggregates("sid-C11F5344-C7B6-43EF-B6CD-4064C1AE8BA9", "sid-0c306446-8c69-449a-8da4-d2780209b03b"));
         assertTrue(analyser.isCyclicTimeIntanceMeasure("sid-0c306446-8c69-449a-8da4-d2780209b03b"));
         assertTrue(analyser.isFrom("sid-0c306446-8c69-449a-8da4-d2780209b03b", "startsid-D5274D42-55B0-46A0-8EB6-B99B186D3873"));
@@ -137,26 +137,26 @@ public class TestPpinot2Owl {
         assertTrue(analyser.isAppliedTo("startsid-D5274D42-55B0-46A0-8EB6-B99B186D3873", "sid-D5274D42-55B0-46A0-8EB6-B99B186D3873"));
         assertTrue(analyser.isAppliedTo("endsid-2171B3CC-36ED-43B6-B6B8-339732CCB2BD", "sid-2171B3CC-36ED-43B6-B6B8-339732CCB2BD"));
 
-        // count measure
+        // count aggregated measure
         assertTrue(analyser.isAggregates("sid-85ADE8CD-C32A-4F59-B519-F9A59D9FF38A", "sid-4ca76a0a-5e7a-4ad8-a35c-23319b904340"));
         assertTrue(analyser.isCountInstanceMeasure("sid-4ca76a0a-5e7a-4ad8-a35c-23319b904340"));
         assertTrue(analyser.isWhen("sid-4ca76a0a-5e7a-4ad8-a35c-23319b904340", "TimeInstantsid-4ca76a0a-5e7a-4ad8-a35c-23319b904340"));
         assertTrue(analyser.isActivityStart("TimeInstantsid-4ca76a0a-5e7a-4ad8-a35c-23319b904340"));
         assertTrue(analyser.isAppliedTo("TimeInstantsid-4ca76a0a-5e7a-4ad8-a35c-23319b904340", "sid-D5274D42-55B0-46A0-8EB6-B99B186D3873"));
         
-        // state condition measure
+        // state condition aggregated measure
         assertTrue(analyser.isAggregates("sid-8A0FCBF6-2486-4855-9D33-1921E646BB6C", "sid-9cee8a2a-e4a6-4211-a9d8-5f4948cd63e7"));
        	assertTrue(analyser.isStateConditionInstanceMeasure("sid-9cee8a2a-e4a6-4211-a9d8-5f4948cd63e7"));
         assertTrue(analyser.isMeets("sid-9cee8a2a-e4a6-4211-a9d8-5f4948cd63e7", "sid-9cee8a2a-e4a6-4211-a9d8-5f4948cd63e7Running"));
         assertTrue(analyser.isStateCondition("sid-9cee8a2a-e4a6-4211-a9d8-5f4948cd63e7Running"));
         assertTrue(analyser.isAppliedTo("sid-9cee8a2a-e4a6-4211-a9d8-5f4948cd63e7Running", "sid-2171B3CC-36ED-43B6-B6B8-339732CCB2BD"));
 
-        // data intansce measure
+        // data aggregated measure
         assertTrue(analyser.isAggregates("sid-58F97E64-1E94-4F39-A597-5854A11428B5", "sid-fb7bdcc9-d180-46ea-85a3-1072e21307fd"));
         assertTrue(analyser.isDataInstanceMeasure("sid-fb7bdcc9-d180-46ea-85a3-1072e21307fd"));
         assertTrue(analyser.isMeasuresData("sid-fb7bdcc9-d180-46ea-85a3-1072e21307fd", "Dataobject1"));
         
-        // data condition instance measure
+        // data condition aggregated measure
         assertTrue(analyser.isAggregates("sid-06FF961A-1AF5-4EAB-A72F-E5B5B6356629", "sid-7cbea7e7-436d-417c-ac30-fd56113f6b92"));
         assertTrue(analyser.isDataPropertyConditionInstanceMeasure("sid-7cbea7e7-436d-417c-ac30-fd56113f6b92"));
         assertTrue(analyser.isMeets("sid-7cbea7e7-436d-417c-ac30-fd56113f6b92", "sid-7cbea7e7-436d-417c-ac30-fd56113f6b92Restriction"));
@@ -202,6 +202,31 @@ public class TestPpinot2Owl {
         assertTrue(analyser.isDataInstanceMeasure("sid-46ee571c-7158-4cff-ad97-07e96fe59627"));
         assertTrue(analyser.isMeasuresData("sid-46ee571c-7158-4cff-ad97-07e96fe59627", "Dataobject1"));
 	}
+	
+	@Test
+	public void testIsgroupedbyConnector() {
+		String nomFichOrigen = "isgroupedby-connector.bpmn20.xml";
+
+		assertTrue(ppinot2Owl(nomFichOrigen));
+
+        PpiNotTestAnalyser analyser = new PpiNotTestAnalyser(ppinotOntology, bpmnOntologyURI);
+
+        // count aggregated measure sid-276FC2FA-BA15-46A7-8203-ADD1F2C834EC
+        assertTrue(analyser.isAggregates("sid-276FC2FA-BA15-46A7-8203-ADD1F2C834EC", "sid-13863188-2979-4fcd-90bf-7af4054ccc5b"));
+        assertTrue(analyser.isCountInstanceMeasure("sid-13863188-2979-4fcd-90bf-7af4054ccc5b"));
+        assertTrue(analyser.isWhen("sid-13863188-2979-4fcd-90bf-7af4054ccc5b", "TimeInstantsid-13863188-2979-4fcd-90bf-7af4054ccc5b"));
+        assertTrue(analyser.isActivityStart("TimeInstantsid-13863188-2979-4fcd-90bf-7af4054ccc5b"));
+        assertTrue(analyser.isAppliedTo("TimeInstantsid-13863188-2979-4fcd-90bf-7af4054ccc5b", "sid-B001BA42-6F8F-4EC0-BF6D-AB46F4F5EF8E"));
+        assertTrue(analyser.isGroupedBy("sid-276FC2FA-BA15-46A7-8203-ADD1F2C834EC", "Dataobject1"));
+
+        // count aggregated measure sid-905C337C-96E4-4D41-8465-62DD8A36221C
+        assertTrue(analyser.isAggregates("sid-905C337C-96E4-4D41-8465-62DD8A36221C", "sid-F2220D80-9C7F-419A-88D6-CE6A11ED5339"));
+        assertTrue(analyser.isCountInstanceMeasure("sid-F2220D80-9C7F-419A-88D6-CE6A11ED5339"));
+        assertTrue(analyser.isWhen("sid-F2220D80-9C7F-419A-88D6-CE6A11ED5339", "TimeInstantsid-F2220D80-9C7F-419A-88D6-CE6A11ED5339"));
+        assertTrue(analyser.isActivityStart("TimeInstantsid-F2220D80-9C7F-419A-88D6-CE6A11ED5339"));
+        assertTrue(analyser.isAppliedTo("TimeInstantsid-F2220D80-9C7F-419A-88D6-CE6A11ED5339", "sid-DB049C83-0C6F-4643-993D-9087B1C0D0CB"));
+        assertTrue(analyser.isGroupedBy("sid-905C337C-96E4-4D41-8465-62DD8A36221C", "Dataobject1"));
+	}
 
 	@Test
 	public void testAggregatedConnector() {
@@ -221,16 +246,6 @@ public class TestPpinot2Owl {
         assertTrue(analyser.isDerivedSingleInstanceMeasure("sid-951D10E8-024A-48A6-A103-BC2EBC7BEFDC"));
         assertTrue(analyser.isCalculated("sid-951D10E8-024A-48A6-A103-BC2EBC7BEFDC", "sid-31EDBFC8-132E-42FD-94EB-330187F56AE4"));
 	}
-	
-/* FALTA
- * y falta las medidas agregadas derivadas
-	@Test
-	public void testIsgroupedbyConnector() {
-		String nomFichOrigen = "isgroupedby-connector.bpmn20.xml";
-
-		assertTrue(ppinot2Owl(nomFichOrigen));
-	}
-*/
 	
 	@Test
 	public void testLanes() {
@@ -284,6 +299,26 @@ public class TestPpinot2Owl {
         assertTrue(analyser.isActivityEnd("endsid-A96CA54F-FEAC-4E71-AE44-BDE3C98FB11B"));
         assertTrue(analyser.isAppliedTo("startsid-680678C2-CDEE-4852-85E7-CAA68E08DF78", "sid-680678C2-CDEE-4852-85E7-CAA68E08DF78"));
         assertTrue(analyser.isAppliedTo("endsid-A96CA54F-FEAC-4E71-AE44-BDE3C98FB11B", "sid-A96CA54F-FEAC-4E71-AE44-BDE3C98FB11B"));
+	}
+
+	@Test
+	public void testSingleInstanceDerivedAggregated() {
+		String nomFichOrigen = "single-instance-derived-aggregated.bpmn20.xml";
+
+		assertTrue(ppinot2Owl(nomFichOrigen));
+        PpiNotTestAnalyser analyser = new PpiNotTestAnalyser(ppinotOntology, bpmnOntologyURI);
+
+        // count measure
+        assertTrue(analyser.isAggregates("sid-C87139EB-DB41-4515-96F7-12200A024FE4", "sid-951D10E8-024A-48A6-A103-BC2EBC7BEFDC"));
+        
+        assertTrue(analyser.isDerivedSingleInstanceMeasure("sid-951D10E8-024A-48A6-A103-BC2EBC7BEFDC"));
+        assertTrue(analyser.isCalculated("sid-951D10E8-024A-48A6-A103-BC2EBC7BEFDC", "sid-31EDBFC8-132E-42FD-94EB-330187F56AE4"));
+        
+        assertTrue(analyser.isCountInstanceMeasure("sid-31EDBFC8-132E-42FD-94EB-330187F56AE4"));
+        assertTrue(analyser.isWhen("sid-31EDBFC8-132E-42FD-94EB-330187F56AE4", "TimeInstantsid-31EDBFC8-132E-42FD-94EB-330187F56AE4"));
+        assertTrue(analyser.isActivityStart("TimeInstantsid-31EDBFC8-132E-42FD-94EB-330187F56AE4"));
+        assertTrue(analyser.isAppliedTo("TimeInstantsid-31EDBFC8-132E-42FD-94EB-330187F56AE4", "sid-1BC2E6C5-FC04-42C8-8D3D-27F7A20485D6"));
+
 	}
 
 }

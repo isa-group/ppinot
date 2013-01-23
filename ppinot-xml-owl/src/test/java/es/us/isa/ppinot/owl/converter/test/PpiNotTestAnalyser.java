@@ -182,4 +182,9 @@ public class PpiNotTestAnalyser {
 		
 		return this.checkObjectProperty(ppinotOntologyURI, ppiId, ppinotOntologyURI, measureId, Vocabulary.DEFINITION_URI);
 	}
+	
+	public Boolean isGroupedBy(String measureId, String dataobjectId) {
+		
+		return this.checkObjectProperty(ppinotOntologyURI, measureId, bpmnOntologyURI, dataobjectId, Vocabulary.ISGROUPEDBY_URI);
+	}
 }

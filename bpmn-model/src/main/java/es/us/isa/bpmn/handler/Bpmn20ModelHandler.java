@@ -21,9 +21,11 @@ import es.us.isa.bpmn.xmlClasses.bpmn20.TSubProcess;
 import es.us.isa.bpmn.xmlClasses.bpmn20.TTask;
 
 /**
- * @author Ana Belen Sanchez Jerez
- * **/
-
+ * 
+ * 
+ * @author Edelia
+ *
+ */
 public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandlerInterface {
 
 	private Map<String, TTask> taskList;
@@ -40,42 +42,58 @@ public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandl
 		super();
 	}
 	
-	/** Devuelve la lista de Tareas del modelo del proceso Bpmn2.0**/
+	/** 
+	 * Devuelve la lista de Tareas del modelo del proceso Bpmn2.0
+	 */
 	public Map<String, TTask> getTaskMap(){
 		return taskList;        	
 	}
 	
-	/** Devuelve la lista de StartEvent del modelo del proceso Bpmn2.0**/
+	/** 
+	 * Devuelve la lista de StartEvent del modelo del proceso Bpmn2.0
+	 */
 	public Map<String, TStartEvent> getStartEventMap(){
 		return startEventList;
 	}
 	
-	/** Devuelve la lista de EndEvent del modelo del proceso Bpmn2.0**/
+	/**
+	 * Devuelve la lista de EndEvent del modelo del proceso Bpmn2.0
+	 */
 	public Map<String, TEndEvent> getEndEventMap(){
 		return endEventList;
 	}
 	
-	/** Devuelve la lista de DataObject del modelo del proceso Bpmn2.0**/
+	/**
+	 * Devuelve la lista de DataObject del modelo del proceso Bpmn2.0
+	 */
 	public Map<String, TDataObject> getDataObjectMap(){
 		return dataObjectList;
 	}
 	
-	/** Devuelve la lista de SequenceFlow del modelo del proceso Bpmn2.0**/
+	/**
+	 * Devuelve la lista de SequenceFlow del modelo del proceso Bpmn2.0
+	 */
 	public Map<String, TSequenceFlow> getSequenceFlowMap(){
 		return sequenceFlowList;
 	}
 	
-	/** Devuelve la lista de Gateway del modelo del proceso Bpmn2.0**/
+	/**
+	 * Devuelve la lista de Gateway del modelo del proceso Bpmn2.0
+	 */
 	public Map<String, TGateway> getGatewayMap(){
 		return gatewayList;
 	}
 	
-	/** Devuelve la lista de SequenceFlow del modelo del proceso Bpmn2.0**/
+	/**
+	 * Devuelve la lista de SequenceFlow del modelo del proceso Bpmn2.0
+	 */
 	public Map<String, TExclusiveGateway> getExclusiveGatewayMap(){
 		return exclusiveGtwList;
 	}
 	
-	/** Devuelve la lista de SubProcess del modelo del proceso Bpmn2.0**/
+	/**
+	 * Devuelve la lista de SubProcess del modelo del proceso Bpmn2.0
+	 */
 	public Map<String, TSubProcess> getSubProcessMap(){
 		return subProcessList;
 	}

@@ -9,16 +9,10 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 
 /**
- * Clase que a partir de un xml con informaciï¿½n de PPIs permite obtener instancias de las clases en un paquete. Estas clases
- * debieron generarse con jaxb (por ejemplo, ver <a href="../ppinotXML/package-summary.html">el paquete ppinotXML</a>). A partir de esos objetos permite obtener listas de instancias 
- * de las clases en el paquete <a href="../historyreport/measuredefinition/package-summary.html">historyreport.measuredefinition</a> que son utilizadas en un objeto subclase de <a href="../historyreport/HistoryReport.html">HistoryReport</a> para obtener 
- * el reporte solicitado en el xml.
- * <p>
- * Publica mï¿½todos abstractos que deben ser implementados mediante una clase como <a href="prueba/PpiNotModelHandler.html">PpiNotModelHandler</a> en el paquete modelHandler.prueba,
- * de manera que la aplicaciï¿½n pueda utilizarse con diferentes xsd simplemente modificando el paquete del cual se hace uso. 
+ * Clase abstracta a partir de la cual heredan las clases que cargan un XML y obtienen clases, y viceversa, que a partir de las clases
+ * del modelo, exportan a XML
  * 
- * @author Edelia Garcï¿½a Gonzï¿½lez
- * @version 1.0
+ * @author Edelia
  *
  */
 @SuppressWarnings("rawtypes")
@@ -54,6 +48,12 @@ public abstract class ModelHandler {
 		this.iniLoader();
 	}
 	
+	/**
+	 * Configuración para importar y exportar XML
+	 * 
+	 * @param classList Arreglo con las clases para leer y guardar como xml 
+	 * @param factory Factory utilizada
+	 */
 	protected void xmlConfig(Class[] classList, Class factory) {
 		
 		try {
@@ -95,19 +95,24 @@ public abstract class ModelHandler {
 		this.exportElement = exportElement;
 	}
 
+	/**
+	 * Devuelve la factory utilizada 
+	 * 
+	 * @return
+	 */
 	protected Object getFactory() {
 		return factory;
 	}
 
 	/**
-	 * Inicializa el JAXBContext y los ObjectFactory en dependencia de la ubicaciï¿½n de los paquetes con las clases que permiten
-	 * exportar y exportar a xml
+	 * Realiza las inicializaciones propias de la clase que implementa a ModelHandler. En esta inicialización hay que incluir
+	 * la llamada a xmlConfig para configurar las clases a generar y la factory
 	 * 
 	 */
 	protected abstract void iniLoader() throws JAXBException;
 	
 	/**
-	 * Genera el objeto JAXBElement que permite exportar a un xml, una vez que se han ejecutado los mï¿½todos set anteriores
+	 * Genera el objeto JAXBElement que permite exportar a un xml
 	 */
 	protected abstract void generateExportElement(String procId);
 	
@@ -117,33 +122,43 @@ public abstract class ModelHandler {
 	protected abstract void generateModelLists();
 	
 	/**
-	 * Carga el fichero file, del cual se obtendrï¿½n los objetos
+	 * Carga el fichero del cual se obtendrán los objetos
 	 * 
-	 * @param file
+	 * @param path Camino del archivo
+	 * @param file Nombre del archivo
 	 * @throws JAXBException
 	 */
 	public void load(String path, String file) throws JAXBException {
 		
-		// crea un objeto del tipo JAXBElement que permite acceder a los objetos obtenidos del fichero xml
+		// hace el unmarshall a las clases generadas por Jaxb
 		this.importElement = (JAXBElement) this.jc.createUnmarshaller().unmarshal( new File(path,  file) );
 		
+        // obtiene los objetos del modelo, a partir de los objetos obtenidos del unmarshall
 		this.generateModelLists();
 	}
 
-    public void load(InputStream stream) throws JAXBException {
+    /**
+	 * Carga el stream del cual se obtendrán los objetos
+     * 
+     * @param stream 
+     * @throws JAXBException
+     */
+	public void load(InputStream stream) throws JAXBException {
     	
-        JAXBElement<?> element = (JAXBElement<?>) jc.createUnmarshaller().unmarshal(stream);
+		// hace el unmarshall a las clases generadas por Jaxb
+		this.importElement =  (JAXBElement<?>) jc.createUnmarshaller().unmarshal(stream);
 
-        this.importElement = element;
+        // obtiene los objetos del modelo, a partir de los objetos obtenidos del unmarshall
         this.generateModelLists();
     }
 
 	/**
-	 * Crea un fichero xml a partir de los objetos instancias de las clases en el paquete pack, que se encuentran en el atributo proccessType
+	 * Salva el xml a un archivo 
 	 * 
-	 * @param path Camino del fichero xml
-	 * @param file Nombre del fichero xml
-	 * @throws JAXBException 
+	 * @param path Camino
+	 * @param file Nombre del fichero
+	 * @param procId Id del proceso
+	 * @throws JAXBException
 	 */
 	public void save(String path, String file, String procId) throws JAXBException {
 		
@@ -154,6 +169,13 @@ public abstract class ModelHandler {
         this.jc.createMarshaller().marshal( this.exportElement, new File(path, file) );
     }
 	
+	/**
+	 * Salva el xml a stream
+	 * 
+	 * @param stream
+	 * @param procId Id del proceso
+	 * @throws JAXBException
+	 */
 	public void save(OutputStream stream, String procId) throws JAXBException {
 
 		// genera un objeto del tipo JAXBElement con los objetos que pueden ser exportados a un fichero xml

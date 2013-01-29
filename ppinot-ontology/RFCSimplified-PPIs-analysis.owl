@@ -1,0 +1,515 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY ppinot "http://www.isa.us.es/ontologies/ppinot.owl#" >
+    <!ENTITY AbstractBP "http://www.isa.us.es/ontologies/AbstractBP.owl#" >
+    <!ENTITY RFCSimplified "http://www.isa.us.es/ontologies/RFCSimplified.owl#" >
+    <!ENTITY RFCSimplified-PPIs "http://www.isa.us.es/ontologies/RFCSimplified-PPIs.owl#" >
+    <!ENTITY ppinot-relationships "http://www.isa.us.es/ontologies/ppinot-relationships.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#"
+     xml:base="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:AbstractBP="http://www.isa.us.es/ontologies/AbstractBP.owl#"
+     xmlns:ppinot-relationships="http://www.isa.us.es/ontologies/ppinot-relationships.owl#"
+     xmlns:RFCSimplified="http://www.isa.us.es/ontologies/RFCSimplified.owl#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:ppinot="http://www.isa.us.es/ontologies/ppinot.owl#">
+    <owl:Ontology rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl">    	
+        <owl:imports rdf:resource="http://www.isa.us.es/ontologies/RFCSimplified-PPIs.owl"/>
+        <owl:imports rdf:resource="http://www.isa.us.es/ontologies/ppinot-relationships.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#AssociatedPPIAnalyseRFC -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#AssociatedPPIAnalyseRFC">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty>
+                    <rdf:Description>
+                        <owl:inverseOf rdf:resource="&ppinot-relationships;involvedIn"/>
+                    </rdf:Description>
+                </owl:onProperty>
+                <owl:hasValue rdf:resource="&RFCSimplified;AnalyseRFC"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&ppinot;PPI"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#DataMeasuredAffectedISs -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#DataMeasuredAffectedISs">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty>
+                    <rdf:Description>
+                        <owl:inverseOf rdf:resource="&ppinot;data"/>
+                    </rdf:Description>
+                </owl:onProperty>
+                <owl:someValuesFrom>
+                    <owl:Restriction>
+                        <owl:onProperty>
+                            <rdf:Description>
+                                <owl:inverseOf rdf:resource="&ppinot;measuresData"/>
+                            </rdf:Description>
+                        </owl:onProperty>
+                        <owl:hasValue rdf:resource="&RFCSimplified-PPIs;AffectedInformationSystems"/>
+                    </owl:Restriction>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&AbstractBP;BPElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#ElemCondCorrectiveRFC -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#ElemCondCorrectiveRFC">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty>
+                    <rdf:Description>
+                        <owl:inverseOf rdf:resource="&ppinot;appliesTo"/>
+                    </rdf:Description>
+                </owl:onProperty>
+                <owl:someValuesFrom>
+                    <owl:Restriction>
+                        <owl:onProperty>
+                            <rdf:Description>
+                                <owl:inverseOf rdf:resource="&ppinot;meets"/>
+                            </rdf:Description>
+                        </owl:onProperty>
+                        <owl:hasValue rdf:resource="&RFCSimplified-PPIs;CorrectiveRFC"/>
+                    </owl:Restriction>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&AbstractBP;BPElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#ElemCountRFCApprovedCountM -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#ElemCountRFCApprovedCountM">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty>
+                    <rdf:Description>
+                        <owl:inverseOf rdf:resource="&ppinot;appliesTo"/>
+                    </rdf:Description>
+                </owl:onProperty>
+                <owl:someValuesFrom>
+                    <owl:Restriction>
+                        <owl:onProperty>
+                            <rdf:Description>
+                                <owl:inverseOf rdf:resource="&ppinot;when"/>
+                            </rdf:Description>
+                        </owl:onProperty>
+                        <owl:hasValue rdf:resource="&RFCSimplified-PPIs;RFCApprovedCountM"/>
+                    </owl:Restriction>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&AbstractBP;BPElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#ElemEndProcessDuration -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#ElemEndProcessDuration">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&AbstractBP;BPElement"/>
+                    <owl:Restriction>
+                        <owl:onProperty>
+                            <rdf:Description>
+                                <owl:inverseOf rdf:resource="&ppinot;appliesTo"/>
+                            </rdf:Description>
+                        </owl:onProperty>
+                        <owl:someValuesFrom>
+                            <owl:Restriction>
+                                <owl:onProperty>
+                                    <rdf:Description>
+                                        <owl:inverseOf rdf:resource="&ppinot;to"/>
+                                    </rdf:Description>
+                                </owl:onProperty>
+                                <owl:hasValue rdf:resource="&RFCSimplified-PPIs;ProcessDuration"/>
+                            </owl:Restriction>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&AbstractBP;BPElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#ElemPathProcessDuration -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#ElemPathProcessDuration">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&AbstractBP;BPElement"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&AbstractBP;precedes"/>
+                        <owl:someValuesFrom>
+                            <owl:Restriction>
+                                <owl:onProperty>
+                                    <rdf:Description>
+                                        <owl:inverseOf rdf:resource="&ppinot;appliesTo"/>
+                                    </rdf:Description>
+                                </owl:onProperty>
+                                <owl:someValuesFrom>
+                                    <owl:Restriction>
+                                        <owl:onProperty>
+                                            <rdf:Description>
+                                                <owl:inverseOf rdf:resource="&ppinot;to"/>
+                                            </rdf:Description>
+                                        </owl:onProperty>
+                                        <owl:hasValue rdf:resource="&RFCSimplified-PPIs;ProcessDuration"/>
+                                    </owl:Restriction>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&AbstractBP;succeeds"/>
+                        <owl:someValuesFrom>
+                            <owl:Restriction>
+                                <owl:onProperty>
+                                    <rdf:Description>
+                                        <owl:inverseOf rdf:resource="&ppinot;appliesTo"/>
+                                    </rdf:Description>
+                                </owl:onProperty>
+                                <owl:someValuesFrom>
+                                    <owl:Restriction>
+                                        <owl:onProperty>
+                                            <rdf:Description>
+                                                <owl:inverseOf rdf:resource="&ppinot;from"/>
+                                            </rdf:Description>
+                                        </owl:onProperty>
+                                        <owl:hasValue rdf:resource="&RFCSimplified-PPIs;ProcessDuration"/>
+                                    </owl:Restriction>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&AbstractBP;BPElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#ElemStartProcessDuration -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#ElemStartProcessDuration">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&AbstractBP;BPElement"/>
+                    <owl:Restriction>
+                        <owl:onProperty>
+                            <rdf:Description>
+                                <owl:inverseOf rdf:resource="&ppinot;appliesTo"/>
+                            </rdf:Description>
+                        </owl:onProperty>
+                        <owl:someValuesFrom>
+                            <owl:Restriction>
+                                <owl:onProperty>
+                                    <rdf:Description>
+                                        <owl:inverseOf rdf:resource="&ppinot;from"/>
+                                    </rdf:Description>
+                                </owl:onProperty>
+                                <owl:hasValue rdf:resource="&RFCSimplified-PPIs;ProcessDuration"/>
+                            </owl:Restriction>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&AbstractBP;BPElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#ElemWritersAffectedISs -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#ElemWritersAffectedISs">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&AbstractBP;dataOutput"/>
+                <owl:someValuesFrom rdf:resource="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#DataMeasuredAffectedISs"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&AbstractBP;BPElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#ElemWritersCorrectiveRFC -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#ElemWritersCorrectiveRFC">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&AbstractBP;dataOutput"/>
+                <owl:someValuesFrom>
+                    <owl:Class>
+                        <owl:intersectionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&AbstractBP;DataObject"/>
+                            <rdf:Description rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#ElemCondCorrectiveRFC"/>
+                        </owl:intersectionOf>
+                    </owl:Class>
+                </owl:someValuesFrom>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&AbstractBP;BPElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#InvAffectedISs -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#InvAffectedISs">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#DataMeasuredAffectedISs"/>
+                    <rdf:Description rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#ElemWritersAffectedISs"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ppinot-relationships;inv"/>
+                <owl:hasValue rdf:resource="&RFCSimplified-PPIs;AffectedInformationSystems"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&AbstractBP;BPElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#InvAvgRFCLifetime -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#InvAvgRFCLifetime">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ppinot-relationships;inv"/>
+                <owl:hasValue rdf:resource="&RFCSimplified-PPIs;AvgRFCLifetime"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&ppinot-relationships;inv"/>
+                        <owl:someValuesFrom>
+                            <owl:Restriction>
+                                <owl:onProperty>
+                                    <rdf:Description>
+                                        <owl:inverseOf rdf:resource="&ppinot;aggregates"/>
+                                    </rdf:Description>
+                                </owl:onProperty>
+                                <owl:hasValue rdf:resource="&RFCSimplified-PPIs;AvgRFCLifetime"/>
+                            </owl:Restriction>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty>
+                            <rdf:Description>
+                                <owl:inverseOf rdf:resource="&ppinot;data"/>
+                            </rdf:Description>
+                        </owl:onProperty>
+                        <owl:someValuesFrom>
+                            <owl:Restriction>
+                                <owl:onProperty>
+                                    <rdf:Description>
+                                        <owl:inverseOf rdf:resource="&ppinot;isGroupedBy"/>
+                                    </rdf:Description>
+                                </owl:onProperty>
+                                <owl:hasValue rdf:resource="&RFCSimplified-PPIs;AvgRFCLifetime"/>
+                            </owl:Restriction>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&AbstractBP;BPElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#InvCorrectiveOuOfApproved -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#InvCorrectiveOuOfApproved">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#InvCorrectiveRFC"/>
+                    <rdf:Description rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#InvRFCApprovedCountM"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ppinot-relationships;inv"/>
+                <owl:hasValue rdf:resource="&RFCSimplified-PPIs;PercentageCorrectiveRFCOutOfapproved"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&AbstractBP;BPElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#InvCorrectiveRFC -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#InvCorrectiveRFC">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ppinot-relationships;inv"/>
+                <owl:hasValue rdf:resource="&RFCSimplified-PPIs;CorrectiveRFC"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#ElemCondCorrectiveRFC"/>
+                    <rdf:Description rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#ElemWritersCorrectiveRFC"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&AbstractBP;BPElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#InvProcessDuration -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#InvProcessDuration">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#ElemEndProcessDuration"/>
+                    <rdf:Description rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#ElemPathProcessDuration"/>
+                    <rdf:Description rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#ElemStartProcessDuration"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ppinot-relationships;inv"/>
+                <owl:hasValue rdf:resource="&RFCSimplified-PPIs;ProcessDuration"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&AbstractBP;BPElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#InvRFCApprovedCountM -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#InvRFCApprovedCountM">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&ppinot-relationships;inv"/>
+                <owl:hasValue rdf:resource="&RFCSimplified-PPIs;RFCApprovedCountM"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#ElemCountRFCApprovedCountM"/>
+                    <rdf:Description rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#InvolvedXorRFCApproved"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&AbstractBP;BPElement"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#InvolvedXorRFCApproved -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/RFCSimplified-PPIs-analysis.owl#InvolvedXorRFCApproved">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&AbstractBP;XorGateway"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&AbstractBP;precedes"/>
+                        <owl:someValuesFrom>
+                            <owl:Restriction>
+                                <owl:onProperty>
+                                    <rdf:Description>
+                                        <owl:inverseOf rdf:resource="&ppinot;appliesTo"/>
+                                    </rdf:Description>
+                                </owl:onProperty>
+                                <owl:someValuesFrom>
+                                    <owl:Restriction>
+                                        <owl:onProperty>
+                                            <rdf:Description>
+                                                <owl:inverseOf rdf:resource="&ppinot;when"/>
+                                            </rdf:Description>
+                                        </owl:onProperty>
+                                        <owl:hasValue rdf:resource="&RFCSimplified-PPIs;RFCApprovedCountM"/>
+                                    </owl:Restriction>
+                                </owl:someValuesFrom>
+                            </owl:Restriction>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&AbstractBP;XorGateway"/>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.2.2.1785) http://owlapi.sourceforge.net -->
+

@@ -20,6 +20,12 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import es.us.isa.bpmn.owl.converter.BPMN2OWLConverter;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
+/**
+ * Clase con los casos de prueba del proyecto
+ * 
+ * @author Edelia
+ *
+ */
 public class TestPpinot2Owl {
 
 	private String bpmnBaseIRI = "http://www.isa.us.es/ontologies/bpmn/";
@@ -28,6 +34,13 @@ public class TestPpinot2Owl {
 
     private OWLOntology ppinotOntology;
 
+	/**
+	 * Genera la ontología OWL con la URI especificada a partir de un xml
+	 * 
+	 * @param baseIRI URI de la ontología creada
+	 * @param sourceFile XML a partir del cual se crea la ontología
+	 * @return
+	 */
 	private Boolean ppinot2Owl(String sourceFile) {
 		
 		String caminoOrigen = "D:/eclipse-appweb-indigo/ppinot-repository/ppinot-xml-owl/target/test-classes/xml/";

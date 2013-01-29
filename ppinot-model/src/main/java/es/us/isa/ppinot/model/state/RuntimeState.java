@@ -1,21 +1,42 @@
 package es.us.isa.ppinot.model.state;
 
+/**
+ * Clase con el estado de la ejecución de un elemento BPMN. Maneja la conversión de un estado del cadena a Enum y viceversa
+ * 
+ * @author Edelia
+ *
+ */
 @SuppressWarnings("rawtypes")
 public class RuntimeState {
 	
+	// estado del tipo Enum
 	private Enum state;
+	// la cadena correspondiente al estado
 	private String stateStr;
 	
+	/**
+	 * Constructor de la clase
+	 */
 	public RuntimeState() {
 		super();
 		this.stateStr = "";
 	}
 	
+	/**
+	 * Constructor de la clase
+	 * 
+	 * @param state Estado del tipo Enum
+	 */
 	public RuntimeState(Enum state) {
 		super();
 		this.setState(state);
 	}
 	
+	/**
+	 * Constructor de la clase
+	 * 
+	 * @param state Estado del tipo String
+	 */
 	public RuntimeState(String stateStr) {
 		super();
 		Enum stateEnum = GenericState.START;
@@ -39,14 +60,32 @@ public class RuntimeState {
 		this.setState(stateEnum);
 	}
 	
+	/**
+     * Devuelve el atributo state:
+     * Estado del tipo Enum
+     * 
+     * @return Valor del atributo
+     */
 	public Enum getState() {
 		return state;
 	}
 	
+    /**
+     * Da valor al atributo state:
+     * Estado del tipo Enum
+     * 
+     * @param value Valor del atributo
+     */
 	public void setState(Enum state) {
 		this.state = state;
 	}
 	
+	/**
+     * Devuelve el atributo stateStr:
+     * La cadena correspondiente al estado
+     * 
+     * @return Valor del atributo
+     */
 	public String getStateString() {
 		return stateStr;
 	}

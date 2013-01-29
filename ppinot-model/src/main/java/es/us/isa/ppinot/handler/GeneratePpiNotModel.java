@@ -41,8 +41,21 @@ import es.us.isa.ppinot.xmlClasses.ppinot.TTimeConnector;
 import es.us.isa.ppinot.xmlClasses.ppinot.TTimeMeasure;
 import es.us.isa.ppinot.xmlClasses.ppinot.TUses;
 
+/**
+ * Clase para obtener instancias de clases del modelo a partir de instancias de clases Jaxb
+ * 
+ * @author Edelia
+ *
+ */
 public class GeneratePpiNotModel {
 	
+	/**
+	 * Obtiene el objeto del modelo de una medida TimeInstanceMeasure a partir del un objeto Jaxb 
+	 * 
+	 * @param measure Objeto Jaxb de la medida
+	 * @param ppiset Objeto Jaxb del elemento ppiset
+	 * @return Objeto del modelo de la medida
+	 */
 	TimeInstanceMeasure obtainModel(TTimeMeasure measure, TPpiset ppiset) {
 		
 		// crea la definición de la medida TimeMeasure a partir de la información en el xml
@@ -83,6 +96,13 @@ public class GeneratePpiNotModel {
 		return def;
 	}
 	
+	/**
+	 * Obtiene el objeto del modelo de una medida CountInstanceMeasure a partir del un objeto Jaxb 
+	 * 
+	 * @param measure Objeto Jaxb de la medida
+	 * @param ppiset Objeto Jaxb del elemento ppiset
+	 * @return Objeto del modelo de la medida
+	 */
 	CountInstanceMeasure obtainModel(TCountMeasure measure, TPpiset ppiset) {
 		
 		// crea la definición de la medida CountMeasure a partir de la información en el xml
@@ -110,6 +130,14 @@ public class GeneratePpiNotModel {
 
 		return def;
 	}
+
+	/**
+	 * Obtiene el objeto del modelo de una medida StateConditionInstanceMeasure a partir del un objeto Jaxb 
+	 * 
+	 * @param measure Objeto Jaxb de la medida
+	 * @param ppiset Objeto Jaxb del elemento ppiset
+	 * @return Objeto del modelo de la medida
+	 */
 	StateConditionInstanceMeasure obtainModel(TStateConditionMeasure measure, TPpiset ppiset) {
 		
 		// crea la definición de la medida StateConditionMeasure a partir de la información en el xml
@@ -138,6 +166,13 @@ public class GeneratePpiNotModel {
 		return def;
 	}
 	
+	/**
+	 * Obtiene el objeto del modelo de una medida DataInstanceMeasure a partir del un objeto Jaxb 
+	 * 
+	 * @param measure Objeto Jaxb de la medida
+	 * @param ppiset Objeto Jaxb del elemento ppiset
+	 * @return Objeto del modelo de la medida
+	 */
 	DataInstanceMeasure obtainModel(TDataMeasure measure, TPpiset ppiset) {
 
 		// crea la definición de la medida DataMeasure a partir de la información en el xml
@@ -171,6 +206,13 @@ public class GeneratePpiNotModel {
 		return def;
 	}
 	
+	/**
+	 * Obtiene el objeto del modelo de una medida DataPropertyConditionInstanceMeasure a partir del un objeto Jaxb 
+	 * 
+	 * @param measure Objeto Jaxb de la medida
+	 * @param ppiset Objeto Jaxb del elemento ppiset
+	 * @return Objeto del modelo de la medida
+	 */
 	DataPropertyConditionInstanceMeasure obtainModel(TDataPropertyConditionMeasure measure, TPpiset ppiset) {
 		
 		// crea la definición de la medida DataPropertyConditionMeasure a partir de la información en el xml
@@ -200,6 +242,15 @@ public class GeneratePpiNotModel {
 		return def;
 	}
 	
+	/**
+	 * Obtiene el objeto del modelo de una medida agregada a partir del un objeto Jaxb de la medida agregada y el objeto en el modelo de 
+	 * la medida base a la cual se aplica
+	 * 
+	 * @param measure Objeto Jaxb de la medida
+	 * @param baseModel Objeto del modelo de la medida base
+	 * @param ppiset Objeto Jaxb del elemento ppiset
+	 * @return Objeto del modelo de la medida
+	 */
 	AggregatedMeasure obtainModel( TAggregatedMeasure measure, MeasureDefinition baseModel, TPpiset ppiset) {
 		
 		AggregatedMeasure def = new AggregatedMeasure( 
@@ -213,6 +264,8 @@ public class GeneratePpiNotModel {
 				baseModel
 				);
 
+		// determina si la medida agregada está asociada a un conector isgroupedby, y si es así se setea la propiedad correspondiente de la
+		// medida
 		TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class, ppiset);
 		if (con!=null) {
 			def.setGroupedBy( new DataContentSelection(((TIsGroupedBy) con).getDataContentSelection(), 
@@ -222,6 +275,15 @@ public class GeneratePpiNotModel {
 		return def;
 	}
 	
+	/**
+	 * Obtiene el objeto del modelo de una medida agregada a partir del un objeto Jaxb de la medida agregada y el objeto Jaxb de 
+	 * la medida base TimeInstanceMeasure
+	 * 
+	 * @param measure Objeto Jaxb de la medida
+	 * @param baseModel Objeto Jaxb de la medida base
+	 * @param ppiset Objeto Jaxb del elemento ppiset
+	 * @return Objeto del modelo de la medida
+	 */
 	AggregatedMeasure obtainModel( TAggregatedMeasure measure, TTimeMeasure baseMeasure, TPpiset ppiset) {
 		
 		// crea la definición de una medida agregada TimeMeasure a partir de la información en el xml
@@ -252,6 +314,8 @@ public class GeneratePpiNotModel {
 					baseModel
 					);
 
+			// determina si la medida agregada está asociada a un conector isgroupedby, y si es así se setea la propiedad correspondiente de la
+			// medida
 			TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class, ppiset);
 			if (con!=null) {
 				def.setGroupedBy( new DataContentSelection(((TIsGroupedBy) con).getDataContentSelection(), 
@@ -262,6 +326,15 @@ public class GeneratePpiNotModel {
 		return def;
 	}
 	
+	/**
+	 * Obtiene el objeto del modelo de una medida agregada a partir del un objeto Jaxb de la medida agregada y el objeto Jaxb de 
+	 * la medida base CountInstanceMeasure
+	 * 
+	 * @param measure Objeto Jaxb de la medida
+	 * @param baseModel Objeto Jaxb de la medida base
+	 * @param ppiset Objeto Jaxb del elemento ppiset
+	 * @return Objeto del modelo de la medida
+	 */
 	AggregatedMeasure obtainModel( TAggregatedMeasure measure, TCountMeasure baseMeasure, TPpiset ppiset) {
 		
 		// crea la definición de una medida agregada CountMeasure a partir de la información en el xml
@@ -288,6 +361,8 @@ public class GeneratePpiNotModel {
 					measure.getSamplingfrequency(),
 					baseModel);
 
+			// determina si la medida agregada está asociada a un conector isgroupedby, y si es así se setea la propiedad correspondiente de la
+			// medida
 			TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class, ppiset);
 			if (con!=null) {
 				def.setGroupedBy( new DataContentSelection(((TIsGroupedBy) con).getDataContentSelection(), 
@@ -298,6 +373,15 @@ public class GeneratePpiNotModel {
 		return def;
 	}
 	
+	/**
+	 * Obtiene el objeto del modelo de una medida agregada a partir del un objeto Jaxb de la medida agregada y el objeto Jaxb de 
+	 * la medida base StateConditionInstanceMeasure
+	 * 
+	 * @param measure Objeto Jaxb de la medida
+	 * @param baseModel Objeto Jaxb de la medida base
+	 * @param ppiset Objeto Jaxb del elemento ppiset
+	 * @return Objeto del modelo de la medida
+	 */
 	AggregatedMeasure obtainModel( TAggregatedMeasure measure, TStateConditionMeasure baseMeasure, TPpiset ppiset) {
 		
 		// crea la definición de una medida agregada StateConditionMeasure a partir de la información en el xml
@@ -324,6 +408,8 @@ public class GeneratePpiNotModel {
 					measure.getSamplingfrequency(),
 					baseModel);
 
+			// determina si la medida agregada está asociada a un conector isgroupedby, y si es así se setea la propiedad correspondiente de la
+			// medida
 			TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class, ppiset);
 			if (con!=null) {
 				def.setGroupedBy( new DataContentSelection(((TIsGroupedBy) con).getDataContentSelection(), 
@@ -334,6 +420,15 @@ public class GeneratePpiNotModel {
 		return def;
 	}
 	
+	/**
+	 * Obtiene el objeto del modelo de una medida agregada a partir del un objeto Jaxb de la medida agregada y el objeto Jaxb de 
+	 * la medida base DataInstanceMeasure
+	 * 
+	 * @param measure Objeto Jaxb de la medida
+	 * @param baseModel Objeto Jaxb de la medida base
+	 * @param ppiset Objeto Jaxb del elemento ppiset
+	 * @return Objeto del modelo de la medida
+	 */
 	AggregatedMeasure obtainModel( TAggregatedMeasure measure, TDataMeasure baseMeasure, TPpiset ppiset) {
 		
 		// crea la definición de una medida agregada DataMeasure a partir de la información en el xml
@@ -366,6 +461,8 @@ public class GeneratePpiNotModel {
 					measure.getSamplingfrequency(), 
 					baseModel);
 
+			// determina si la medida agregada está asociada a un conector isgroupedby, y si es así se setea la propiedad correspondiente de la
+			// medida
 			TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class, ppiset);
 			if (con!=null) {
 				def.setGroupedBy( new DataContentSelection(((TIsGroupedBy) con).getDataContentSelection(), 
@@ -376,6 +473,15 @@ public class GeneratePpiNotModel {
 		return def;
 	}
 	
+	/**
+	 * Obtiene el objeto del modelo de una medida agregada a partir del un objeto Jaxb de la medida agregada y el objeto Jaxb de 
+	 * la medida base DataPropertyConditionInstanceMeasure
+	 * 
+	 * @param measure Objeto Jaxb de la medida
+	 * @param baseModel Objeto Jaxb de la medida base
+	 * @param ppiset Objeto Jaxb del elemento ppiset
+	 * @return Objeto del modelo de la medida
+	 */
 	AggregatedMeasure obtainModel( TAggregatedMeasure measure, TDataPropertyConditionMeasure baseMeasure, TPpiset ppiset) {
 		
 		// crea la definición de una medida agregada DataPropertyConditionMeasure a partir de la información en el xml
@@ -405,6 +511,8 @@ public class GeneratePpiNotModel {
 					measure.getSamplingfrequency(),
 					baseModel);
 
+			// determina si la medida agregada está asociada a un conector isgroupedby, y si es así se setea la propiedad correspondiente de la
+			// medida
 			TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class, ppiset);
 			if (con!=null) {
 				def.setGroupedBy( new DataContentSelection(((TIsGroupedBy) con).getDataContentSelection(), 
@@ -415,6 +523,15 @@ public class GeneratePpiNotModel {
 		return def;
 	}
 	
+	/**
+	 * Obtiene el objeto del modelo de una medida agregada a partir del un objeto Jaxb de la medida agregada y el objeto Jaxb de 
+	 * la medida base DerivedSingleInstanceMeasure
+	 * 
+	 * @param measure Objeto Jaxb de la medida
+	 * @param baseModel Objeto Jaxb de la medida base
+	 * @param ppiset Objeto Jaxb del elemento ppiset
+	 * @return Objeto del modelo de la medida
+	 */
 	AggregatedMeasure obtainModel( TAggregatedMeasure measure, TDerivedSingleInstanceMeasure baseMeasure, TPpiset ppiset) {
 		
 		// crea la definición de una medida agregada DataPropertyConditionMeasure a partir de la información en el xml
@@ -436,6 +553,8 @@ public class GeneratePpiNotModel {
 				measure.getSamplingfrequency(),
 				baseModel);
 
+		// determina si la medida agregada está asociada a un conector isgroupedby, y si es así se setea la propiedad correspondiente de la
+		// medida
 		TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class, ppiset);
 		if (con!=null) {
 			def.setGroupedBy( new DataContentSelection(((TIsGroupedBy) con).getDataContentSelection(), 
@@ -445,6 +564,12 @@ public class GeneratePpiNotModel {
 		return def;
 	}
 	
+	/**
+	 * Obtiene el objeto del modelo de una medida DerivedSingleInstanceMeasure a partir del un objeto Jaxb
+	 * 
+	 * @param measure Objeto Jaxb de la medida
+	 * @return Objeto del modelo de la medida
+	 */
 	DerivedSingleInstanceMeasure obtainModel(TDerivedSingleInstanceMeasure measure) {
 		
 		// crea la definición de la medida DerivedSingleInstanceMeasure a partir de la información en el xml
@@ -460,6 +585,12 @@ public class GeneratePpiNotModel {
 		return def;
 	}
 	
+	/**
+	 * Obtiene el objeto del modelo de una medida DerivedMultiInstanceMeasure a partir del un objeto Jaxb
+	 * 
+	 * @param measure Objeto Jaxb de la medida
+	 * @return Objeto del modelo de la medida
+	 */
 	DerivedMultiInstanceMeasure obtainModel(TDerivedMultiInstanceMeasure measure) {
 		
 		// crea la definición de la medida DerivedMultiInstanceMeasure a partir de la información en el xml
@@ -475,6 +606,13 @@ public class GeneratePpiNotModel {
 		return def;
 	}
 	
+	/**
+	 * Devuelve los conectores uses que parten de una medida derivada
+	 * 
+	 * @param measure Objeto Jaxb de la medida
+	 * @param ppiset Objeto Jaxb del ppiset
+	 * @return Lista de conectores uses
+	 */
 	List<TUses> findUses(TMeasure measure, TPpiset ppiset) {
 		
 		List<TUses> connectorList = new ArrayList<TUses>();
@@ -493,6 +631,13 @@ public class GeneratePpiNotModel {
 		return connectorList;
 	}
 
+	/**
+	 * Obtiene los conectores timeconnector asociados con una medida TimeInstanceMeasure
+	 * 
+	 * @param measure Objeto Jaxb de la medida
+	 * @param ppiset Objeto Jaxb del ppiset
+	 * @return Map de conectores timeconnector. El key del map indica si se trata del conector from o del to
+	 */
 	Map<String, TTimeConnector> findTimeConnectors(TMeasure measure, TPpiset ppiset) {
 		
 		Map<String, TTimeConnector> map = new HashMap<String, TTimeConnector>();
@@ -512,6 +657,14 @@ public class GeneratePpiNotModel {
 		return map;
 	}
 
+	/**
+	 * Obtiene un conector de la clase indicada cuyo source sea la medida indicada
+	 * 
+	 * @param measure Objeto Jaxb de la medida
+	 * @param cl Clase del conector que se desea buscar 
+	 * @param ppiset Objeto Jaxb del ppiset
+	 * @return Objeto Jaxb del conector
+	 */
 	@SuppressWarnings("rawtypes")
 	TMeasureConnector findMeasureConnector(TMeasure measure, Class cl, TPpiset ppiset) {
 		

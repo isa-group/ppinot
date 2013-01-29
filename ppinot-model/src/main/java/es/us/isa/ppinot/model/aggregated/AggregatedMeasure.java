@@ -13,23 +13,18 @@ import es.us.isa.ppinot.model.base.BaseMeasure;
  */
 public class AggregatedMeasure extends MeasureDefinition {
     
-    /**
-     * Función de agregación que se aplica
-     */
+    // Función de agregación que se aplica
     private String aggregationFunction;
 
     protected String samplingFrequency;
     
+    // Información para agrupar la medida
     private DataContentSelection groupedBy;
 
-   /**
-     * La medida que se agrega
-     */
+    // La medida que se agrega
     protected MeasureDefinition baseMeasure;
     
-    /**
-     * Indica si la medida utiliza el conector aggregates o no
-     */
+    // Indica si la medida utiliza el conector aggregates o no
     protected Boolean aggregates;
 
 	/**
@@ -52,11 +47,12 @@ public class AggregatedMeasure extends MeasureDefinition {
      * 
      * @param id Id de la medida
      * @param name Nombre de la medida
-     * @param description Descripció de la medida
+     * @param description Descripción de la medida
      * @param scale Escala de la medida
      * @param measureUnit Unidad de medida
      * @param aggregationFunction Función de la medida
      * @param samplingFrequency
+     * @param baseMeasure La medida que se agrega
      */
     public AggregatedMeasure(String id, String name, String description, String scale, String unitOfMeasure,
     		String aggregationFunction, String samplingFrequency, MeasureDefinition baseMeasure) {
@@ -91,10 +87,22 @@ public class AggregatedMeasure extends MeasureDefinition {
         this.aggregationFunction = value;
     }
     
+    /**
+     * Devuelve el atributo samplingFrequency:
+     * 
+     * 
+     * @return Valor del atributo
+     */
     public String getSamplingFrequency() {
 		return this.samplingFrequency;
 	}
 
+    /**
+     * Da valor al atributo samplingFrequency:
+     * 
+     * 
+     * @param value Valor del atributo
+     */
 	public void setSamplingFrequency(String samplingFrequency) {
 		this.samplingFrequency = samplingFrequency;
 	}
@@ -121,18 +129,42 @@ public class AggregatedMeasure extends MeasureDefinition {
     	this.baseMeasure = baseMeasure;
     }
 
+    /**
+     * Devuelve el atributo aggregates:
+     * Indica si la medida utiliza el conector aggregates o no
+     * 
+     * @return La medida que se agrega
+     */
     public Boolean getAggregates() {
 		return aggregates;
 	}
 
+    /**
+     * Da valor al atributo aggregates:
+     * Indica si la medida utiliza el conector aggregates o no
+     * 
+     * @param baseMeasure La medida que se agrega
+     */
 	public void setAggregates(Boolean aggregates) {
 		this.aggregates = aggregates;
 	}
 
+    /**
+     * Devuelve el atributo groupedBy:
+     * Información para agrupar la medida
+     * 
+     * @return La medida que se agrega
+     */
 	public DataContentSelection getGroupedBy() {
 		return groupedBy;
 	}
 
+    /**
+     * Da valor al atributo groupedBy:
+     * Información para agrupar la medida
+     * 
+     * @param baseMeasure La medida que se agrega
+     */
 	public void setGroupedBy(DataContentSelection groupedBy) {
 		this.groupedBy = groupedBy;
 	}

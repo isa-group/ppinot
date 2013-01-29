@@ -12,17 +12,13 @@ import es.us.isa.ppinot.model.condition.TimeMeasureType;
  */
 public class TimeInstanceMeasure extends BaseMeasure {
 	
-	/**
-	 * Momento en el cual se toma la medida en la actividad inicial (el inicio o el final)
-	 */
+	// Momento en el cual se toma la medida en la actividad inicial (el inicio o el final)
 	private TimeInstantCondition from;
-	/**
-	 * Momento en el cual se toma la medida en la actividad final (el inicio o el final)
-	 */
+	// Momento en el cual se toma la medida en la actividad final (el inicio o el final)
 	private TimeInstantCondition to;
-
+	// Tipo de la medida (cíclica o lineal)
 	private TimeMeasureType timeMeasureType;
-
+	// Función de agregación
 	private String singleInstanceAggFunction;
 
 	/**
@@ -47,12 +43,10 @@ public class TimeInstanceMeasure extends BaseMeasure {
      * @param description Descripció de la medida
      * @param scale Escala de la medida
      * @param unitOfMeasure Unidad de medida
-     * @param refMax Límite máximo de la referencia de la medida
-     * @param refMin Límite mínimo de la referencia de la medida
-	 * @param activityFrom Identificador de la actividad inicial a la que se le aplica la medida
-	 * @param atEndFrom Momento en que se aplica en la actividad inicial
-	 * @param activityTo Identificador de la actividad final a la que se le aplica la medida
-	 * @param atEndTo Momento en que se aplica en la actividad final
+	 * @param from Momento en el cual se toma la medida en la actividad inicial (el inicio o el final)
+	 * @param to Momento en el cual se toma la medida en la actividad final (el inicio o el final)
+	 * @param timeMeasureType Tipo de la medida (cíclica o lineal)
+	 * @param singleInstanceAggFunction Función de agregación
 	 */
 	public TimeInstanceMeasure(String id, String name, String description, String scale, String unitOfMeasure,
 			TimeInstantCondition from, TimeInstantCondition to, TimeMeasureType timeMeasureType, String singleInstanceAggFunction) {
@@ -65,6 +59,7 @@ public class TimeInstanceMeasure extends BaseMeasure {
 
 	/**
 	 * Devuelve el atributo timeMeasureType
+	 * Tipo de la medida (cíclica o lineal)
 	 * 
 	 * @return Valor del atributo
 	 */
@@ -74,6 +69,7 @@ public class TimeInstanceMeasure extends BaseMeasure {
 
 	/**
 	 * Da valor al atributo timeMeasureType
+	 * Tipo de la medida (cíclica o lineal)
 	 * 
 	 * @param Valor del atributo
 	 */
@@ -82,7 +78,8 @@ public class TimeInstanceMeasure extends BaseMeasure {
 	}
 
 	/**
-	 * Devuelve el atributo atEndTo
+	 * Devuelve el atributo singleInstanceAggFunction
+	 * Función de agregación
 	 * 
 	 * @return Valor del atributo
 	 */
@@ -91,7 +88,8 @@ public class TimeInstanceMeasure extends BaseMeasure {
 	}
 
 	/**
-	 * Da valor al atributo atEndTo
+	 * Da valor al atributo singleInstanceAggFunction
+	 * Función de agregación
 	 * 
 	 * @param Valor del atributo
 	 */
@@ -99,18 +97,42 @@ public class TimeInstanceMeasure extends BaseMeasure {
 		this.singleInstanceAggFunction = singleInstanceAggFunction;
 	}
 
+	/**
+     * Devuelve el atributo from:
+     * Momento en el cual se toma la medida en la actividad inicial (el inicio o el final)
+     * 
+     * @return Valor del atributo
+     */
 	public TimeInstantCondition getFrom() {
 		return from;
 	}
 
+    /**
+     * Da valor al atributo from:
+     * Momento en el cual se toma la medida en la actividad inicial (el inicio o el final)
+     * 
+     * @param value Valor del atributo
+     */
 	public void setFrom(TimeInstantCondition from) {
 		this.from = from;
 	}
 
+	/**
+     * Devuelve el atributo to:
+     * Momento en el cual se toma la medida en la actividad final (el inicio o el final)
+     * 
+     * @return Valor del atributo
+     */
 	public TimeInstantCondition getTo() {
 		return to;
 	}
 
+    /**
+     * Da valor al atributo to:
+     * Momento en el cual se toma la medida en la actividad final (el inicio o el final)
+     * 
+     * @param value Valor del atributo
+     */
 	public void setTo(TimeInstantCondition to) {
 		this.to = to;
 	}

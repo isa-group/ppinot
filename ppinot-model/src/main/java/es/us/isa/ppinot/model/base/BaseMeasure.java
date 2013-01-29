@@ -2,6 +2,12 @@ package es.us.isa.ppinot.model.base;
 
 import es.us.isa.ppinot.model.MeasureDefinition;
 
+/**
+ * Clase de las medidas base
+ * 
+ * @author Edelia
+ *
+ */
 public class BaseMeasure extends MeasureDefinition {
 	
 	/**
@@ -16,7 +22,7 @@ public class BaseMeasure extends MeasureDefinition {
 	 * 
      * @param id Id de la medida
      * @param name Nombre de la medida
-     * @param description Descripció de la medida
+     * @param description Descripción de la medida
      * @param scale Escala de la medida
      * @param unitOfMeasure Unidad de medida
 	 */

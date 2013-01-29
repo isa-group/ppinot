@@ -4,7 +4,7 @@ import es.us.isa.ppinot.model.DataContentSelection;
 import es.us.isa.ppinot.model.condition.DataPropertyCondition;
 
 /**
- * Clase con la información de un PPI del tipo DataInstanceMeasure
+ * Clase con la información de una medida DataInstanceMeasure
  * 
  * @author Edelia García González
  * @version 1.0
@@ -12,8 +12,9 @@ import es.us.isa.ppinot.model.condition.DataPropertyCondition;
  */
 public class DataInstanceMeasure extends BaseMeasure {
 	
+	// Dataobject y propiedad a la que se le aplica la medida
 	private DataContentSelection dataContentSelection;
-	
+	// Condición de la medida
 	private DataPropertyCondition condition;
 	
 	/**
@@ -33,8 +34,8 @@ public class DataInstanceMeasure extends BaseMeasure {
      * @param description Descripció de la medida
      * @param scale Escala de la medida
      * @param unitOfMeasure Unidad de medida
-	 * @param dataobject Identificador del Dataobject al que se le aplica la medida
-	 * @param property Propiedad que se desea consultar
+	 * @param dataContentSelection Dataobject y propiedad a la que se le aplica la medida
+	 * @param condition Condición de la medida
 	 */
 	public DataInstanceMeasure(String id, String name, String description, String scale, String unitOfMeasure,
 			DataContentSelection dataContentSelection, DataPropertyCondition condition) {
@@ -44,8 +45,8 @@ public class DataInstanceMeasure extends BaseMeasure {
 	}
 
 	/**
-	 * Devuelve el atributo property
-	 * Propiedad que se desea consultar
+	 * Devuelve el atributo dataContentSelection
+	 * Dataobject y propiedad a la que se le aplica la medida
 	 * 
 	 * @return Valor del atributo
 	 */
@@ -54,8 +55,8 @@ public class DataInstanceMeasure extends BaseMeasure {
 	}
 
 	/**
-	 * Da valor al atributo property
-	 * Propiedad que se desea consultar
+	 * Da valor al atributo dataContentSelection
+	 * Dataobject y propiedad a la que se le aplica la medida
 	 * 
 	 * @param Valor del atributo
 	 */
@@ -63,10 +64,22 @@ public class DataInstanceMeasure extends BaseMeasure {
 		this.dataContentSelection = dataContentSelection;
 	}
 
+	/**
+	 * Devuelve el atributo condition
+	 * Condición de la medida
+	 * 
+	 * @return Valor del atributo
+	 */
 	public DataPropertyCondition getCondition() {
 		return condition;
 	}
 
+	/**
+	 * Da valor al atributo condition
+	 * Condición de la medida
+	 * 
+	 * @param Valor del atributo
+	 */
 	public void setCondition(DataPropertyCondition condition) {
 		this.condition = condition;
 	}

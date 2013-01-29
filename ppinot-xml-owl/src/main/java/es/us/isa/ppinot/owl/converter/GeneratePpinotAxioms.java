@@ -34,19 +34,35 @@ import es.us.isa.ppinot.model.derived.DerivedSingleInstanceMeasure;
 import es.us.isa.ppinot.model.state.GenericState;
 import es.us.isa.ppinot.owl.notation.Vocabulary;
 
+/**
+ * Clase mediante la cual se generan los axiomas que se adicionan a una ontología PPINOT
+ * 
+ * @author Edelia
+ *
+ */
 class GeneratePpinotAxioms {
 	
-	private OWLDataFactory factory;
-	private OWLOntologyManager manager;
-	private OWLOntology ontology;
+	private OWLDataFactory factory;			// Factory utilizada para generar los elementos owl
+	private OWLOntologyManager manager;		// OWLOntologyManager utilizado
+	private OWLOntology ontology;			// Ontologia a la que se adicionan los axiomas
 
-	private String bpmnOntologyURI; 
-	private String bpmnGeneratedOntologyURI; 
-	private String ppinotGeneratedOntologyURI;
+	private String bpmnOntologyURI; 			// URI de la ontología BPMN relacionada con el proceso
+	private String bpmnGeneratedOntologyURI; 	// Objeto que maneja el modelo con la información del BPMN relacionado con el proceso
+	private String ppinotGeneratedOntologyURI;	// URI de la ontologia generada
 	
-	private Hashtable<String, String>funcAggr; 
+	private Hashtable<String, String>funcAggr; 	// map para los nombres de funciones agregadas, que son de una manera en el XML y de otra en el OWL
 	
-	GeneratePpinotAxioms(OWLDataFactory factory,	OWLOntologyManager manager, OWLOntology ontology, 
+	/**
+	 * Constructor de la clase
+	 * 
+	 * @param factory Factory utilizada para generar los elementos owl
+	 * @param manager OWLOntologyManager utilizado
+	 * @param ontology Ontologia a la que se adicionan los axiomas
+	 * @param bpmnOntologyURI URI de la ontología BPMN relacionada con el proceso
+	 * @param bpmnGeneratedOntologyURI Objeto que maneja el modelo con la información del BPMN relacionado con el proceso
+	 * @param ppinotGeneratedOntologyURI URI de la ontologia generada
+	 */
+	GeneratePpinotAxioms(OWLDataFactory factory, OWLOntologyManager manager, OWLOntology ontology, 
 			String bpmnOntologyURI, String bpmnGeneratedOntologyURI, String ppinotGeneratedOntologyURI){
 		
 		this.factory = factory;
@@ -67,8 +83,14 @@ class GeneratePpinotAxioms {
 		
 	}
 
-//***********************************************************************************/
-
+	/**
+	 * Genera los axiomas correspondientes a una medida CountInstanceMeasure
+	 * 
+	 * @param element Objeto del modelo de la medida
+	 * @param bpmn20ModelHandler Manejador del modelo BPMN correspondiente al mismo proceso de la medida
+	 * @return Objeto OWL de la medida
+	 * @throws Exception
+	 */
 	OWLNamedIndividual converterCountInstanceMeasureOWL(CountInstanceMeasure element, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception 
 	{
 
@@ -107,6 +129,14 @@ class GeneratePpinotAxioms {
         return measureIndividual;
 	}
 
+	/**
+	 * Genera los axiomas correspondientes a una medida TimeInstanceMeasure
+	 * 
+	 * @param element Objeto del modelo de la medida
+	 * @param bpmn20ModelHandler Manejador del modelo BPMN correspondiente al mismo proceso de la medida
+	 * @return Objeto OWL de la medida
+	 * @throws Exception
+	 */
 	OWLIndividual converterTimeInstanceMeasureOWL(TimeInstanceMeasure element, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception 
 	
 	{
@@ -175,6 +205,14 @@ class GeneratePpinotAxioms {
 		return measureIndividual;
 	}
 
+	/**
+	 * Genera los axiomas correspondientes a una medida StateConditionInstanceMeasure
+	 * 
+	 * @param element Objeto del modelo de la medida
+	 * @param bpmn20ModelHandler Manejador del modelo BPMN correspondiente al mismo proceso de la medida
+	 * @return Objeto OWL de la medida
+	 * @throws Exception
+	 */
 	OWLNamedIndividual converterStateConditionInstanceMeasureOWL(StateConditionInstanceMeasure element, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception 
 	{
 		
@@ -209,6 +247,14 @@ class GeneratePpinotAxioms {
         return DataObjNameIndividualMeasure;
 	}
 
+	/**
+	 * Genera los axiomas correspondientes a una medida DataPropertyConditionInstanceMeasure
+	 * 
+	 * @param element Objeto del modelo de la medida
+	 * @param bpmn20ModelHandler Manejador del modelo BPMN correspondiente al mismo proceso de la medida
+	 * @return Objeto OWL de la medida
+	 * @throws Exception
+	 */
 	OWLIndividual converterDataPropertyConditionInstanceMeasureOWL(DataPropertyConditionInstanceMeasure element) 
 	{
 		
@@ -244,6 +290,14 @@ class GeneratePpinotAxioms {
         return DataObjNameIndividualMeasure;
 	}
 
+	/**
+	 * Genera los axiomas correspondientes a una medida DataInstanceMeasure
+	 * 
+	 * @param element Objeto del modelo de la medida
+	 * @param bpmn20ModelHandler Manejador del modelo BPMN correspondiente al mismo proceso de la medida
+	 * @return Objeto OWL de la medida
+	 * @throws Exception
+	 */
 	OWLNamedIndividual converterDataInstanceMeasureOWL(DataInstanceMeasure element) 
 	{
 		
@@ -265,10 +319,15 @@ class GeneratePpinotAxioms {
         
         return DataObjNameIndividualMeasure;
 	}
-	
-//**********************************************************************/
-//**********************************************************************/
 
+	/**
+	 * Genera los axiomas correspondientes a una medida agregada
+	 * 
+	 * @param element Objeto del modelo de la medida
+	 * @param bpmn20ModelHandler Manejador del modelo BPMN correspondiente al mismo proceso de la medida
+	 * @return Objeto OWL de la medida
+	 * @throws Exception
+	 */
 	void converterAggregatedMeasureOWL(AggregatedMeasure element, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception 
 	{
 		
@@ -320,10 +379,14 @@ class GeneratePpinotAxioms {
 	    }
 	}
 
-//**********************************************************************/
-//**********************************************************************/
-//**********************************************************************/
-
+	/**
+	 * Genera los axiomas correspondientes a una medida derivada
+	 * 
+	 * @param element Objeto del modelo de la medida
+	 * @param bpmn20ModelHandler Manejador del modelo BPMN correspondiente al mismo proceso de la medida
+	 * @return Objeto OWL de la medida
+	 * @throws Exception
+	 */
 	void converterDerivedMeasureOWL(DerivedMeasure element, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception {
 
 		String derivedMeasureId = element.getId();
@@ -355,12 +418,15 @@ class GeneratePpinotAxioms {
 			manager.addAxiom(ontology, propertyAssertionmeetsA);
 	    }
 	}
-
-//**********************************************************************/
-//**********************************************************************/
-//**********************************************************************/
-//**********************************************************************/
 	
+	/**
+	 * Genera los axiomas correspondientes a un PPI
+	 * 
+	 * @param element Objeto del modelo del PPI
+	 * @param bpmn20ModelHandler Manejador del modelo BPMN correspondiente al mismo proceso del PPI
+	 * @return Objeto OWL de la medida
+	 * @throws Exception
+	 */
 	void converterPpiOWL(PPI element, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception {
 		
 		String ppiId = element.getId();
@@ -381,7 +447,14 @@ class GeneratePpinotAxioms {
 		manager.addAxiom(ontology, definitionAxiom);
 	}
 
-	
+	/**
+	 * Obtiene el tipo de un elemento BPMN a partir de su id
+	 * 
+	 * @param id Id del elemento
+	 * @param bpmn20ModelHandler Manejador del modelo BPMN del elemento
+	 * @return Nombre del tipo del elemento
+	 * @throws Exception
+	 */
 	private String getNameTypeActivity(String id, Bpmn20ModelHandlerInterface bpmn20ModelHandler) throws Exception{
 		
 		String type = null;
@@ -410,6 +483,13 @@ class GeneratePpinotAxioms {
 		return type; 		
 	}
 	
+	/**
+	 * Obtiene el IRI de la clase del momento en el cual se aplica una medida
+	 * 
+	 * @param type Tipo de un elemento BPMN al que se aplica la medida
+	 * @param endActivity Si la medida se aplica al inicio o al final de la ejecución del elemento
+	 * @return
+	 */
 	private IRI timeInstantClassIRI(String type, Boolean endActivity ) {
 		
         IRI classIri;
@@ -426,6 +506,12 @@ class GeneratePpinotAxioms {
         return classIri;
 	}
 
+	/**
+	 * Procesa una restriccion para eliminarle el signo = y evitar que sea una cadena vacía
+	 * 
+	 * @param restriction Restriccion
+	 * @return Restriccion después de procesarla
+	 */
 	private String getCleanRestriction(String restriction) {
 		
 		restriction = restriction.replace("=", "");

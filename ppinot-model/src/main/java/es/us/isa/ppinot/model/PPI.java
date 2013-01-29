@@ -3,11 +3,15 @@ package es.us.isa.ppinot.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase de los PPI
+ * 
+ * @author Edelia
+ *
+ */
 public class PPI {
 
-	/**
-	 * Propiedades con las que se define el PPI
-	 */
+	// Propiedades con las que se define el PPI
 	private String id;
 	private String name;
 	private String description;
@@ -18,14 +22,10 @@ public class PPI {
 	private Target target;
 	private Scope scope;
 
-	/**
-     * Medidas del PPI
-     */
+	// Medida asociada al PPI
     private MeasureDefinition measuredBy;
 
-	/**
-     * Los resultados de evaluar el PPI para cada una de las medidas
-     */
+	// Los resultados de evaluar el PPI para cada una de las medidas
 		// Valores calculados de las medidas
 	private List<String> valueString;
 		// Porcentaje en que se satisface el PPI
@@ -33,7 +33,11 @@ public class PPI {
 		// Porcentaje normalizado para promediar con otros PPI
 	private List<Double> normalized;
     
-    public PPI() {
+    /**
+     * Constructor de la clase
+     * 
+     */
+	public PPI() {
     	super();
 
     	this.setId("");
@@ -50,7 +54,20 @@ public class PPI {
     	this.iniPPI();
     }
     
-    public PPI(
+    /**
+     * Constructor de la clase
+     * 
+     * @param id Id del PPI
+     * @param name Nombre
+     * @param description Descripción
+     * @param goals 
+     * @param responsible
+     * @param informed
+     * @param comments Comentarios
+     * @param target Objeto Target que indica el rango de valores que en que se espera que esté la medida asociada
+     * @param scope Objeto Scope que indica el período de tiempo en el cual se calcula el PPI
+     */
+	public PPI(
     		String id, String name, String description, String goals, String responsible, String informed, String comments,
     		Target target, Scope scope) {
     	
@@ -71,7 +88,10 @@ public class PPI {
     	this.iniPPI();
     }
 
-    private void iniPPI() {
+    /**
+     * Inicializaciones
+     */
+	private void iniPPI() {
     	
        	this.measuredBy = null;
        	this.valueString = new ArrayList<String>();
@@ -81,7 +101,7 @@ public class PPI {
     
 	/**
      * Devuelve el atributo id:
-     * Id de la medida
+     * Id del PPI
      * 
      * @return Valor del atributo
      */
@@ -91,7 +111,7 @@ public class PPI {
 
     /**
      * Da valor al atributo id:
-     * Nombre de la medida
+     * Id del PPI
      * 
      * @param value Valor del atributo
      */
@@ -104,7 +124,7 @@ public class PPI {
 
 	/**
      * Devuelve el atributo name:
-     * Nombre de la medida
+     * Nombre del PPI
      * 
      * @return Valor del atributo
      */
@@ -114,7 +134,7 @@ public class PPI {
 
     /**
      * Da valor al atributo name:
-     * Nombre de la medida
+     * Nombre del PPI
      * 
      * @param name Valor del atributo
      */
@@ -127,7 +147,7 @@ public class PPI {
 
 	/**
      * Devuelve el atributo description:
-     * Descripción de la medida
+     * Descripción del PPI
      * 
      * @return Valor del atributo
      */
@@ -137,7 +157,7 @@ public class PPI {
 
     /**
      * Da valor al atributo description:
-     * Descripción de la medida
+     * Descripción del PPI
      * 
      * @param name Valor del atributo
      */
@@ -145,92 +165,210 @@ public class PPI {
 		this.description = description;
 	}
     
+	/**
+     * Devuelve el atributo goals:
+     * 
+     * 
+     * @return Valor del atributo
+     */
 	public String getGoals() {
 		return this.goals;
 	}
 	
+    /**
+     * Da valor al atributo goals:
+     * 
+     * 
+     * @param name Valor del atributo
+     */
 	public void setGoals(String goals) {
 		this.goals = goals;
 	}
 	
+	/**
+     * Devuelve el atributo responsible:
+     * 
+     * 
+     * @return Valor del atributo
+     */
 	public String getResponsible() {
 		return this.responsible;
 	}
 	
+    /**
+     * Da valor al atributo responsible:
+     * 
+     * 
+     * @param name Valor del atributo
+     */
 	public void setResponsible(String responsible) {
 		this.responsible = responsible;
 	}
 	
+	/**
+     * Devuelve el atributo informed:
+     * 
+     * 
+     * @return Valor del atributo
+     */
 	public String getInformed() {
 		return this.informed;
 	}
 	
+    /**
+     * Da valor al atributo informed:
+     * 
+     * 
+     * @param name Valor del atributo
+     */
 	public void setInformed(String informed) {
 		this.informed = informed;
 	}
 	
+	/**
+     * Devuelve el atributo comments:
+     * Comentarios
+     * 
+     * @return Valor del atributo
+     */
 	public String getComments() {
 		return this.comments;
 	}
 	
+    /**
+     * Da valor al atributo comments:
+     * Comentarios
+     * 
+     * @param name Valor del atributo
+     */
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
     
+	/**
+     * Devuelve el atributo target:
+     * Objeto Target que indica el rango de valores que en que se espera que esté la medida asociada
+     * 
+     * @return Valor del atributo
+     */
     public Target getTarget() {
 		return target;
 	}
 
+    /**
+     * Da valor al atributo target:
+     * Objeto Target que indica el rango de valores que en que se espera que esté la medida asociada
+     * 
+     * @param name Valor del atributo
+     */
 	public void setTarget(Target target) {
 		this.target = target;
 	}
 
+	/**
+     * Devuelve el atributo target:
+     * Objeto Scope que indica el período de tiempo en el cual se calcula el PPI
+     * 
+     * @return Valor del atributo
+     */
 	public Scope getScope() {
 		return scope;
 	}
 
+    /**
+     * Da valor al atributo scope:
+     * Objeto Scope que indica el período de tiempo en el cual se calcula el PPI
+     * 
+     * @param name Valor del atributo
+     */
 	public void setScope(Scope scope) {
 		this.scope = scope;
 	}
  
-    /**
-     * Manejar las medidas y sus valores 
+	/**
+     * Devuelve el atributo measureBy:
+     * Medida asociada con el PPI
      * 
+     * @return Valor del atributo
      */
-	
     public MeasureDefinition getMeasuredBy() {
 		return measuredBy;
 	}
 
+    /**
+     * Da valor al atributo measuredBy:
+     * Medida asociada con el PPI
+     * 
+     * @param name Valor del atributo
+     */
     public void setMeasuredBy(MeasureDefinition measure) {
 		
 		this.measuredBy = measure;
 	}
 	
+	/**
+     * Devuelve el atributo valueString:
+     * Lista de String con los valores del PPI para cada uno de los períodos de tiempo evaluados
+     * 
+     * @return Valor del atributo
+     */
 	public List<String> getValueString() {
 		return valueString;
 	}
 
+    /**
+     * Da valor al atributo valueString:
+     * Lista de String con los valores del PPI para cada uno de los períodos de tiempo evaluados
+     * 
+     * @param name Valor del atributo
+     */
 	public void setValueString(List<String> valueString) {
 		this.valueString = valueString;
 	}
 
+	/**
+     * Devuelve el atributo success:
+     * Lista de Double que indican si se satisface PPI para cada uno de los períodos de tiempo evaluados
+     * 
+     * @return Valor del atributo
+     */
 	public List<Double> getSuccess() {
 		return success;
 	}
 
+    /**
+     * Da valor al atributo success:
+     * Lista de Double que indican si se satisface PPI para cada uno de los períodos de tiempo evaluados
+     * 
+     * @param name Valor del atributo
+     */
 	public void setSuccess(List<Double> success) {
 		this.success = success;
 	}
 
+	/**
+     * Devuelve el atributo normalized:
+     * Lista de Double con los valores del PPI para cada uno de los períodos de tiempo evaluados
+     * 
+     * @return Valor del atributo
+     */
 	public List<Double> getNormalized() {
 		return normalized;
 	}
 
+    /**
+     * Da valor al atributo normalized:
+     * Lista de Double con los valores del PPI para cada uno de los períodos de tiempo evaluados
+     * 
+     * @param name Valor del atributo
+     */
 	public void setNormalized(List<Double> normalized) {
 		this.normalized = normalized;
 	}
 
+	/**
+	 * Evalúa el PPI
+	 */
 	public void evaluate() {
 		
 		
@@ -298,6 +436,12 @@ public class PPI {
 	}
 
 	
+	/**
+	 * Indica si se debe marcar 
+	 * 
+	 * @param i
+	 * @return
+	 */
 	public Boolean toMark(int i) {
 		
 		Boolean mark = false;
@@ -327,6 +471,10 @@ public class PPI {
 		return mark;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public List<Boolean> getToMark() {
 		
 		List<Boolean> list = new ArrayList<Boolean>();
@@ -337,6 +485,10 @@ public class PPI {
 		return list;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Double averageNormalize() {
 		
 		Double norm = 0.0;

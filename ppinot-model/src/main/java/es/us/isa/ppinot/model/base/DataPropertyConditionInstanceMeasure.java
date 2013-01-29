@@ -26,8 +26,7 @@ public class DataPropertyConditionInstanceMeasure extends ConditionMeasure {
      * @param description Descripció de la medida
      * @param scale Escala de la medida
      * @param unitOfMeasure Unidad de medida
-	 * @param dataobject Identificador del Dataobject al que se le aplica la medida
-	 * @param state Estado que se desea consultar
+	 * @param condition Condición de la medida
 	 */
 	public DataPropertyConditionInstanceMeasure(String id, String name, String description, String scale, String unitOfMeasure,
 			DataPropertyCondition condition) {

@@ -9,8 +9,19 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 
 /**
- * Clase abstracta a partir de la cual heredan las clases que cargan un XML y obtienen clases, y viceversa, que a partir de las clases
- * del modelo, exportan a XML
+ * Clase abstracta a partir de la cual heredan las clases que permiten exportar e importar a XML. 
+ * 
+ * Cuando se importa de xml se obtiene la información que contiene en instancias de clases generadas con Jaxb (clases Jaxb) y a partir de 
+ * esas instancias se puede obtener instancias de clases que modelen esa información (clases del modelo), es decir:
+ * 
+ * código xml -> instancias de clases Jabx -> clases del modelo
+ * 
+ * Esto permite que si cambia la sintaxis del xml (con lo cual cambian las clases Jaxb), los proyectos que utilicen las clases del modelo 
+ * no sufren cambios. 
+ * 
+ * Esta clase tiene las siguientes funciones:
+ * - Carga un xml y obtiene las clases del modelo.
+ * - A partir de las clases del modelo genera un xml.
  * 
  * @author Edelia
  *
@@ -18,26 +29,21 @@ import javax.xml.bind.JAXBException;
 @SuppressWarnings("rawtypes")
 public abstract class ModelHandler {
 	
-	/**
-	 * Objeto con instancias de las clases en los xml, que es utilizado para exportar e importar xml
-	 */
+	// Objeto factory utilizado para generar instancias de las clases Jaxb
 	private Object factory;
 	
+	// Objeto JAXBElement utilizado para manejar el xml
 	private JAXBContext jc;
 	
-	/**
-	 * Objeto JAXBElement que se obtiene del unmarshall de un xml
-	 */
+	// Objeto JAXBElement que se obtiene del unmarshall de un xml (a partir de un archivo xml obtener clases Jaxb)
 	private JAXBElement importElement;
 
-	/**
-	 * Objeto JAXBElement que se utiliza para hacer el marshall de un xml
-	 */
+	// Objeto JAXBElement que se utiliza para hacer el marshall de un xml (a partir de las clases Jaxb salvar el archivo xml)
 	private JAXBElement exportElement;
 	
 	/**
 	 * Constructor de la clase.
-	 * Crea el objeto para convertir un xml en instancias de las clases en el paquete pack.
+	 * Realiza las inicializaciones implementadas en las subclases mediante iniLoader.
 	 * 
 	 * @throws JAXBException
 	 */
@@ -49,7 +55,8 @@ public abstract class ModelHandler {
 	}
 	
 	/**
-	 * Configuración para importar y exportar XML
+	 * Configuración para importar y exportar XML.
+	 * Este método debe ser invocado en el iniLoader de la subclase, para especificar las clases Jaxb y la clase factory utilizadas. 
 	 * 
 	 * @param classList Arreglo con las clases para leer y guardar como xml 
 	 * @param factory Factory utilizada
@@ -58,10 +65,10 @@ public abstract class ModelHandler {
 		
 		try {
 			
-			// crea el JAXBContext para hacer marshall y unmarshall
+			// crea el JAXBContext para manejar los XML
 			this.jc = JAXBContext.newInstance( classList );
 	    	
-			// crea un objeto de la clase factory idicada
+			// crea un objeto de la clase factory indicada
 			this.factory = factory.newInstance();
 		} catch (JAXBException e1) {
 
@@ -98,31 +105,38 @@ public abstract class ModelHandler {
 	/**
 	 * Devuelve la factory utilizada 
 	 * 
-	 * @return
+	 * @return Objeto factory
 	 */
 	protected Object getFactory() {
 		return factory;
 	}
 
 	/**
-	 * Realiza las inicializaciones propias de la clase que implementa a ModelHandler. En esta inicialización hay que incluir
-	 * la llamada a xmlConfig para configurar las clases a generar y la factory
+	 * Realiza las inicializaciones propias de la clase que implementa a ModelHandler. 
+	 * En esta inicialización hay que incluir la llamada a xmlConfig para configurar las clases Jaxb y la clase factory.
 	 * 
+	 * @throws JAXBException
 	 */
 	protected abstract void iniLoader() throws JAXBException;
 	
 	/**
-	 * Genera el objeto JAXBElement que permite exportar a un xml
+	 * Genera las instancias de clases Jaxb a partir de instancias de clases del modelo. 
+	 * Tiene que ser implementado en las subclases.
+	 * Genera el JAXBElement para exportar, por lo que debe finalizar invocando a this.setExportElement
+	 * 
+	 * @param procId Id del proceso en el xml. Es utilizado para formar el nombre del archivo xml generado
 	 */
 	protected abstract void generateExportElement(String procId);
 	
 	/**
-	 * Genera las listas de definiciones de medidas a partir de un xml importado
+	 * Genera las instancias de clases del modelo a partir de instancias de clases Jabx. 
+	 * Tiene que ser implementado en las subclases.
+	 * Utiliza el elemento JAXBElement para importar, invocando a this.getExportElement
 	 */
 	protected abstract void generateModelLists();
 	
 	/**
-	 * Carga el fichero del cual se obtendrán los objetos
+	 * Genera las instancias de clases del modelo a partir del xml en un archivo
 	 * 
 	 * @param path Camino del archivo
 	 * @param file Nombre del archivo
@@ -138,7 +152,7 @@ public abstract class ModelHandler {
 	}
 
     /**
-	 * Carga el stream del cual se obtendrán los objetos
+	 * Genera las instancias de clases del modelo a partir del xml en un stream
      * 
      * @param stream 
      * @throws JAXBException
@@ -153,7 +167,7 @@ public abstract class ModelHandler {
     }
 
 	/**
-	 * Salva el xml a un archivo 
+	 * Salva el xml a un archivo, a partir de las instancias de clases del modelo
 	 * 
 	 * @param path Camino
 	 * @param file Nombre del fichero
@@ -170,7 +184,7 @@ public abstract class ModelHandler {
     }
 	
 	/**
-	 * Salva el xml a stream
+	 * Salva el xml a un stream, a partir de las instancias de clases del modelo
 	 * 
 	 * @param stream
 	 * @param procId Id del proceso

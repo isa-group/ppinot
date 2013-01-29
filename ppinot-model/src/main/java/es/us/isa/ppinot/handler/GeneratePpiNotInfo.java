@@ -27,10 +27,23 @@ import es.us.isa.ppinot.xmlClasses.ppinot.TStateConditionMeasure;
 import es.us.isa.ppinot.xmlClasses.ppinot.TTimeConnector;
 import es.us.isa.ppinot.xmlClasses.ppinot.TTimeMeasure;
 
+/**
+ * Clase para obtener instancias de clases Jabx a partir de instancias de clases del modelo
+ * 
+ * @author Edelia
+ *
+ */
 public class GeneratePpiNotInfo {
 	
 	private Integer contador = 0;
 	
+	/**
+	 * Genera los objetos Jaxb de una medida TimeInstanceMeasure a partir del objeto del modelo
+	 * 
+	 * @param def Objeto del modelo de la medida
+	 * @param factory Objeto factory para generar objetos Jaxb
+	 * @return Map con los objetos Jaxb asociados con la medida
+	 */
 	Map<String,Object> obtainInfo(TimeInstanceMeasure def, ObjectFactory factory) {
 		
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -66,6 +79,13 @@ public class GeneratePpiNotInfo {
 		return map;
 	}
 	
+	/**
+	 * Genera los objetos Jaxb de una medida CountInstanceMeasure a partir del objeto del modelo
+	 * 
+	 * @param def Objeto del modelo de la medida
+	 * @param factory Objeto factory para generar objetos Jaxb
+	 * @return Map con los objetos Jaxb asociados con la medida
+	 */
 	Map<String,Object> obtainInfo(	CountInstanceMeasure def, ObjectFactory factory) {
 		
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -91,6 +111,13 @@ public class GeneratePpiNotInfo {
 		return map;
 	}
 	
+	/**
+	 * Genera los objetos Jaxb de una medida StateConditionInstanceMeasure a partir del objeto del modelo
+	 * 
+	 * @param def Objeto del modelo de la medida
+	 * @param factory Objeto factory para generar objetos Jaxb
+	 * @return Map con los objetos Jaxb asociados con la medida
+	 */
 	Map<String,Object> obtainInfo(StateConditionInstanceMeasure def, ObjectFactory factory) {
 		
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -116,6 +143,13 @@ public class GeneratePpiNotInfo {
 		return map;
 	}
 	
+	/**
+	 * Genera los objetos Jaxb de una medida DataInstanceMeasure a partir del objeto del modelo
+	 * 
+	 * @param def Objeto del modelo de la medida
+	 * @param factory Objeto factory para generar objetos Jaxb
+	 * @return Map con los objetos Jaxb asociados con la medida
+	 */
 	Map<String,Object> obtainInfo(DataInstanceMeasure def, ObjectFactory factory) {
 		
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -143,6 +177,13 @@ public class GeneratePpiNotInfo {
 		return map;
 	}
 	
+	/**
+	 * Genera los objetos Jaxb de una medida DataPropertyConditionInstanceMeasure a partir del objeto del modelo
+	 * 
+	 * @param def Objeto del modelo de la medida
+	 * @param factory Objeto factory para generar objetos Jaxb
+	 * @return Map con los objetos Jaxb asociados con la medida
+	 */
 	Map<String,Object> obtainInfo(DataPropertyConditionInstanceMeasure def, ObjectFactory factory) {
 		
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -169,6 +210,13 @@ public class GeneratePpiNotInfo {
 		return map;
 	}
 	
+	/**
+	 * Genera los objetos Jaxb de una medida AggregatedMeasure a partir del objeto del modelo
+	 * 
+	 * @param def Objeto del modelo de la medida
+	 * @param factory Objeto factory para generar objetos Jaxb
+	 * @return Map con los objetos Jaxb asociados con la medida
+	 */
 	Map<String,Object> obtainInfo(AggregatedMeasure def, ObjectFactory factory) {
 		
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -200,6 +248,13 @@ public class GeneratePpiNotInfo {
 		return map;
 	}
 	
+	/**
+	 * Genera los objetos Jaxb de una medida DerivedSingleInstanceMeasure a partir del objeto del modelo
+	 * 
+	 * @param def Objeto del modelo de la medida
+	 * @param factory Objeto factory para generar objetos Jaxb
+	 * @return Map con los objetos Jaxb asociados con la medida
+	 */
 	Map<String,Object> obtainInfo( DerivedSingleInstanceMeasure def, ObjectFactory factory) {
 		
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -219,6 +274,13 @@ public class GeneratePpiNotInfo {
 		return map;
 	}
 	
+	/**
+	 * Genera los objetos Jaxb de una medida DerivedMultiInstanceMeasure a partir del objeto del modelo
+	 * 
+	 * @param def Objeto del modelo de la medida
+	 * @param factory Objeto factory para generar objetos Jaxb
+	 * @return Map con los objetos Jaxb asociados con la medida
+	 */
 	Map<String,Object> obtainInfo(	DerivedMultiInstanceMeasure def, ObjectFactory factory) {
 		
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -238,6 +300,13 @@ public class GeneratePpiNotInfo {
 		return map;
 	}
 
+	/**
+	 * Genera el id de un elemento
+	 * 
+	 * @param prefix Prefijo del identificador
+	 * @param id Id 
+	 * @return Id
+	 */
 	String generarId(String prefix, String id) {
 		
 		this.contador++;

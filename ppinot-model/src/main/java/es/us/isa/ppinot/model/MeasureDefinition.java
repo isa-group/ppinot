@@ -8,9 +8,7 @@ package es.us.isa.ppinot.model;
  */
 public abstract class MeasureDefinition {
     
-	/**
-	 * Propiedades comunes para definir todas las medidas
-	 */
+	// Propiedades comunes para definir todas las medidas
     	// Id de la medida
     private String id;
     	// Nombre de la medida
@@ -22,14 +20,10 @@ public abstract class MeasureDefinition {
 		// Unidad de medida del indicador
 	private String unitOfMeasure;
 
-    /**
-	 * Indica si el valor de la medida puede ser calculado y mostrado
-	 */
+    // Indica si el valor de la medida puede ser calculado y mostrado
 	private Boolean cond = false;
 	
-	/**
-	 * Valor de la medida
-	 */
+	// Valor de la medida
 	private String valueString = "";
 	
 	/**

@@ -1,5 +1,11 @@
 package es.us.isa.bpmn.owl.notation;
 
+/**
+ * Clase con el vocabulario utilizado en una ontología BPMN
+ * 
+ * @author Edelia
+ *
+ */
 public final class Vocabulary {
 	
 	public static final String URI = "http://www.isa.us.es/ontologies/bpmn.owl";

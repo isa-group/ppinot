@@ -26,8 +26,7 @@ public class StateConditionInstanceMeasure extends ConditionMeasure {
      * @param description Descripció de la medida
      * @param scale Escala de la medida
      * @param unitOfMeasure Unidad de medida
-	 * @param task Identificador de la tarea a la que se le aplica la medida
-	 * @param state Estado que se desea consultar
+	 * @param condition Condición de la medida
 	 */
 	public StateConditionInstanceMeasure(String id, String name, String description, String scale, String unitOfMeasure,
 			StateCondition condition) {

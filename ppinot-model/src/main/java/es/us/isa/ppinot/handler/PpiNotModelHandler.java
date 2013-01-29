@@ -50,11 +50,18 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 
 
+/**
+ * Clase que permite exportar e importar a XMLs de PPINOT. 
+ * 
+ * @author Edelia
+ *
+ */
 public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandlerInterface {
 
+	// objeto factory para generar instancias de clases Jaxb de BPMN 2.0
 	private es.us.isa.bpmn.xmlClasses.bpmn20.ObjectFactory bpmnFactory;
 	
-	// PPINOT XML classes
+	// mapas con las instancias de las clases Jaxb, obtenidas de importar un xml. La key es el id del elemento. 
 	private Map<String, TCountMeasure> countMap;
 	private Map<String, TTimeMeasure> timeMap;
 	private Map<String, TStateConditionMeasure> stateConditionMap;
@@ -78,7 +85,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 
 	private List<TPpi> ppiList;
 
-	// PPINOT Model Classes
+	// mapas con las instancias de las clases del modelo, obtenidas a partir de las clases Jaxb. La key es el id del elemento. 
 	private Map<String, TimeInstanceMeasure> timeInstanceModelMap;
 	private Map<String, CountInstanceMeasure> countInstanceModelMap;
 	private Map<String, StateConditionInstanceMeasure> stateConditionInstanceModelMap;
@@ -97,14 +104,26 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 
 	private Map<String, PPI> ppiModelMap;
 	
+	// objeto para obtener instancias de clases del modelo a partir de instancias de clases Jaxb
 	private GeneratePpiNotModel generatePpiNotModel;
+	// objeto para obtener instancias de clases Jabx a partir de instancias de clases del modelo
 	private GeneratePpiNotInfo generatePpiNotInfo;
 	
+	/**
+	 * Constructor de la clase
+	 * 
+	 * @throws JAXBException
+	 */
 	public PpiNotModelHandler() throws JAXBException {
 
 		super();
 	}
 
+	/**
+	 * Realiza las inicializaciones. 
+	 * 
+	 * @throws JAXBException
+	 */
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected void iniLoader() throws JAXBException {
@@ -163,23 +182,34 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		this.generatePpiNotInfo = new GeneratePpiNotInfo();
 	}
 	
+	/**
+	 * Devuelve la factory utilizada 
+	 * 
+	 * @return Objeto factory
+	 */
 	protected ObjectFactory getFactory() {
 	
 		return (ObjectFactory) super.getFactory();
 	}
 	
+	/**
+	 * Devuelve el id del proceso involucrado en el xml
+	 * 
+	 * @return Id del proceso
+	 */
 	public String getProcId() {
 		
-		// obtiene el ProcessType creado a partir de la información en el xml
-
 		TProcess process = null;
 		
+		// obtiene el objeto raíz en TDefinition
 		Object object = ((TDefinitions) this.getImportElement().getValue()).getRootElement().get(0).getValue();
 		if (object instanceof TProcess) {
 			
+			// si el objeto obtenido es un proceso
 			process = (TProcess) object;
 		} else {
 			
+			// si el objeto obtenido no es un proceso, se obtiene el primer proceso
 			for (JAXBElement<?> element : ((TDefinitions) this.getImportElement().getValue()).getRootElement()) {
 				
 				Object participant = element.getValue();
@@ -200,76 +230,129 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		return (process==null)?"":process.getId();
 	}
 	
+	/**
+	 * Devuelve el mapa de CountInstanceMeasure
+	 */
 	public Map<String, CountInstanceMeasure> getCountInstanceModelMap() {
 		
 		return countInstanceModelMap;
 	}
 
+	/**
+	 * Devuelve el mapa de TimeInstanceMeasure
+	 */
 	public Map<String, TimeInstanceMeasure> getTimeInstanceModelMap() {
 
 		return timeInstanceModelMap;
 	}
 
+	/**
+	 * Devuelve el mapa de StateConditionInstanceMeasure
+	 */
 	public Map<String, StateConditionInstanceMeasure> getStateConditionInstanceModelMap() {
 		
 		return stateConditionInstanceModelMap;
 	}
 
+	/**
+	 * Devuelve el mapa de DataInstanceMeasure
+	 */
 	public Map<String, DataInstanceMeasure> getDataInstanceModelMap() {
 		
 		return dataInstanceModelMap;
 	}
 
+	/**
+	 * Devuelve el mapa de DataPropertyConditionInstanceMeasure
+	 */
 	public Map<String, DataPropertyConditionInstanceMeasure> getDataPropertyConditionInstanceModelMap() {
 		
 		return dataPropertyConditionInstanceModelMap;
 	}
 	
+	/**
+	 * Devuelve el mapa de las medidas agregadas que involucran una TimeInstanceMeasure
+	 */
 	public Map<String, AggregatedMeasure> getTimeAggregatedModelMap() {
 
 		return timeAggregatedModelMap;
 	}
 
+	/**
+	 * Devuelve el mapa de las medidas agregadas que involucran una CountInstanceMeasure
+	 */
 	public Map<String, AggregatedMeasure> getCountAggregatedModelMap() {
 
 		return countAggregatedModelMap;
 	}
 
+	/**
+	 * Devuelve el mapa de las medidas agregadas que involucran una StateConditionInstanceMeasure
+	 */
 	public Map<String, AggregatedMeasure> getStateConditionAggregatedModelMap() {
 
 		return stateConditionAggregatedModelMap;
 	}
 
+	/**
+	 * Devuelve el mapa de las medidas agregadas que involucran una DataInstanceMeasure
+	 */
 	public Map<String, AggregatedMeasure> getDataAggregatedModelMap() {
 
 		return dataAggregatedModelMap;
 	}
 	
+	/**
+	 * Devuelve el mapa de las medidas agregadas que involucran una DataPropertyConditionInstanceMeasure
+	 */
 	public Map<String, AggregatedMeasure> getDataPropertyConditionAggregatedModelMap() {
 
 		return dataPropertyConditionAggregatedModelMap;
 	}
 	
+	/**
+	 * Devuelve el mapa de las medidas agregadas que involucran una DerivedSingleInstanceMeasure
+	 */
 	public Map<String, AggregatedMeasure> getDerivedSingleInstanceAggregatedModelMap() {
 
 		return derivedSingleInstanceAggregatedModelMap;
 	}
 
+	/**
+	 * Devuelve el mapa de las medidas DerivedSingleInstanceMeasure
+	 */
 	public Map<String, DerivedMeasure> getDerivedSingleInstanceModelMap() {
 		
 		return derivedSingleInstanceModelMap;
 	}
 
+	/**
+	 * Devuelve el mapa de las medidas DerivedMultiInstanceMeasure
+	 */
 	public Map<String, DerivedMeasure> getDerivedMultiInstanceModelMap() {
 		
 		return derivedMultiInstanceModelMap;
 	}
 	
+	/**
+	 * Devuelve el mapa de los PPI
+	 */
 	public Map<String, PPI> getPpiModelMap() {
 		
 		return ppiModelMap;
 	}
 	
+	/**
+	 * Genera el valor de la propiedad analisysPeriod a partir de la información del período de análisis
+	 * 
+	 * @param year Año
+	 * @param period Si se desea los resultados por mes, trimestre o semestre
+	 * @param startDate Fecha inicial del período de análisis
+	 * @param endDate Fecha final del período de análisis
+	 * @param inStart Si se incluye en el análisis los procesos que se inician antes del inicio del período y terminan después de este 
+	 * @param inEnd Si se incluye en el análisis los procesos que se inician antes del final del período y terminan después de este
+	 * @return
+	 */
 	private String generateAnalisysPeriod(String year, String period, Date startDate, Date endDate, Boolean inStart, Boolean inEnd) {
 		
 		String startDateString = Utils.formatString(startDate);
@@ -291,6 +374,13 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		return analisysPeriod;
 	}
 	
+	/**
+	 * Genera el valor de la propiedad target de un ppi, a partir de los valores de referencia de este
+	 * 
+	 * @param refMin Valor mínimo que debería tomar la medida en el ppi
+	 * @param refMax Valor máximo que debería tomar la medida en el ppi
+	 * @return Valor de la propiedad target del ppi
+	 */
 	private String generateTarget(Double refMin, Double refMax) {
 		
 		String target = "";
@@ -314,6 +404,12 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		return target;
 	}
 
+	/**
+	 * Genera una tarea para un conector del tipo AppliesTo cuando se va a exportar un xml
+	 * 
+	 * @param con Conector
+	 * @return Tarea generada
+	 */
 	private TTask chainTask(TMeasureConnector con) {
 		
     	TTask task = this.bpmnFactory.createTTask();
@@ -323,6 +419,12 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
     	return task;
 	}
 
+	/**
+	 * Genera una dataobject para un conector del tipo AppliesTo cuando se va a exportar un xml
+	 * 
+	 * @param con Conector
+	 * @return Dataobject generado
+	 */
 	private TDataObject chainDataobject(TMeasureConnector con) {
 		
 		TDataObject dataobject = this.bpmnFactory.createTDataObject();
@@ -333,25 +435,42 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
     	return dataobject;
 	}
 	
+	/**
+	 * Crea los objetos Jaxb asociados con una medida, si el objeto del modelo proporcionado corresponde a una medida base
+	 * 
+	 * @param def Objeto del modelo
+	 * @return
+	 */
 	private TMeasure findBaseMeasure(MeasureDefinition def) {
 		
+		// de acuerdo a la clase de la medida, se invoca el método correspondiente de this.generatePpiNotInfo
+		// con lo que obtienen los objetos Jaxb asociados con la medida
+		// estos objetos con colocados en el map correspondientes a su clase Jaxb
+		//
+		// cuando los objetos Jaxb son conectores que se aplican a elementos BPMN, se generan los objetos Jaxb de esos elementos
 		ObjectFactory factory = this.getFactory();
 		TMeasure measure = null;
 		if (def instanceof TimeInstanceMeasure) {
 			
+			// si ya fue generado el objeto Jaxb de la medida, se devuelve este
+			// en caso contrario, se generan los objetos Jaxb asociados con la medida
 			measure = this.timeMap.get(def.getId());
 	    	if (measure==null) {
 	    		
+	    		// obtiene un map con los objetos Jaxb asociados con la medida
 		    	Map<String,Object> map = this.generatePpiNotInfo.obtainInfo((TimeInstanceMeasure) def, factory);
 	    		
 	    		if (map.containsKey("measure")) {
 	    			
+	    			// guarda el objeto Jaxb de la medida en el map correspondiente
 	    			measure = (TMeasure) map.get("measure");
 	    			this.timeMap.put(((TTimeMeasure) map.get("measure")).getId(), (TTimeMeasure) measure);
 			    	
+	    			// guarda otros objetos Jaxb asociados con la medida, en sus correspondientes maps
 		    		if (map.containsKey("connectorFrom")) {
 		    	    	
 		    			TTimeConnector con = (TTimeConnector) map.get("connectorFrom");
+		    			// genera la tarea a la que se aplica el conector
 		    	    	TTask task = chainTask(con);
 		    	    	this.taskMap.put(task.getId(), task);
 		
@@ -433,6 +552,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		    		if (map.containsKey("connector")) {
 		    	    	
 		    	    	TAppliesToDataConnector con = (TAppliesToDataConnector) map.get("connector");
+		    	    	// genera el dataobject al que se aplica el conector
 		    	    	TDataObject dataobject = chainDataobject(con);
 		    	    	this.dataobjectMap.put(dataobject.getId(), dataobject);
 	
@@ -469,58 +589,89 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		return measure;
 	}
 	
+	/**
+	 * Crea los objetos Jaxb asociados con una medida, si el objeto del modelo proporcionado corresponde a una medida agregada
+	 * 
+	 * @param def Objeto del modelo
+	 * @return
+	 */
 	private TMeasure findAggregatedMeasure(MeasureDefinition def) {
 		
+		// si ya fue generado el objeto Jaxb de la medida, se devuelve este
+		// en caso contrario, se generan los objetos Jaxb asociados con la medida
 		TMeasure measure = this.aggregatedMap.get(def.getId());
 		if (measure!=null)
 			return measure;
 	
 		ObjectFactory factory = this.getFactory();
 		
+		// obtiene un map con los objetos Jaxb asociados con la medida
 		Map<String,Object> map = this.generatePpiNotInfo.obtainInfo((AggregatedMeasure) def, factory);
 
 		measure = (TMeasure) map.get("measure");
 		
 		if (measure!=null) {
 	    	
+			// guarda el objeto Jaxb de la medida en el map correspondiente
 			this.aggregatedMap.put(((TAggregatedMeasure) map.get("measure")).getId(), (TAggregatedMeasure) measure);
 			
+			// guarda otros objetos Jaxb asociados con la medida, en sus correspondientes maps
     		if (map.containsKey("connectorIsGroupedBy")) {
     	    	
     	    	TIsGroupedBy con = (TIsGroupedBy) map.get("connectorIsGroupedBy");
+    	    	// genera el dataobject al que se aplica el conector
     	    	TDataObject dataobject = chainDataobject(con);
     	    	this.dataobjectMap.put(dataobject.getId(), dataobject);
 
     	    	this.isGroupedByMap.put(con.getId(), con);
     		}
 
-			MeasureDefinition baseMeasureModel = ((AggregatedMeasure) def).getBaseMeasure(); 
+    		// obtiene la medida base
+    		MeasureDefinition baseMeasureModel = ((AggregatedMeasure) def).getBaseMeasure(); 
     		
+    		// si la medida agregada utiliza un conector aggregates
     		if (((AggregatedMeasure) def).getAggregates()) {
     			
+    			// crea el objeto Jaxb del conector aggregates
     			TAggregates con = this.getFactory().createTAggregates();
     			
+    			// genera los objetos Jaxb asociados con la medida base
     			TMeasure baseMeasure = this.findBaseMeasure(baseMeasureModel);
     			if (baseMeasure==null) 
     				baseMeasure = this.findDerivedMeasure(baseMeasureModel);
     			
+    			// da valor a propiedades del objeto Jaxb del conector
     			con.setId(this.generatePpiNotInfo.generarId("aggregates", ""));
     			con.setSourceRef(measure);
     			con.setTargetRef(baseMeasure);
     			
+    			// conserva el objeto Jaxb del conector en el map correspondiente
     	    	this.aggregatesMap.put(con.getId(), con);
     		} else {
+    			
+    			// si la medida agregada no utiliza conector aggregates, 
+    			// de acuerdo a la clase de la medida de la medida base, se invoca el método correspondiente de this.generatePpiNotInfo
+    			// con lo que obtienen los objetos Jaxb asociados con la medida base
+    			// estos objetos con colocados en el map correspondientes a su clase Jaxb
+    			//
+    			// cuando los objetos Jaxb son conectores que se aplican a elementos BPMN, se generan los objetos Jaxb de esos elementos
+    			// y al source de esos conectores se pone como valor el objeto Jaxb de la medida agregada 
     			if (baseMeasureModel instanceof TimeInstanceMeasure) {
     				
+    				// genera los objetos Jaxb de la medida base
     				Map<String,Object> instanceMap = this.generatePpiNotInfo.obtainInfo((TimeInstanceMeasure) baseMeasureModel, factory);
     				
     	    		if (instanceMap.containsKey("measure")) {
     	    			
+    	    			// se le da valor a la propiedad baseMeasure de la medida agregada
     	    			((TAggregatedMeasure) measure).setBaseMeasure(factory.createTimeMeasure((TTimeMeasure) instanceMap.get("measure")));
+    	    			// sitúa otros objetos Jaxb asociados con la medida en sus correspondientes maps
 	    	    		if (instanceMap.containsKey("connectorFrom")) {
 	    	    	    	
 	    	    	    	TTimeConnector con = (TTimeConnector) instanceMap.get("connectorFrom");
+	    	    	    	// indica que el source del conector es la medida agregada (al ser generado, toma como valor la medida base)
 	    	    	    	con.setSourceRef(measure);
+	    	    	    	// genera el objeto Jaxb de la tarea a la que se aplica el conector
 	    	    	    	TTask task = chainTask(con);
 	    	    	    	this.taskMap.put(task.getId(), task);
 	    	
@@ -615,22 +766,36 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		return measure;
 	}
 
+	/**
+	 * Crea los objetos Jaxb asociados con una medida, si el objeto del modelo proporcionado corresponde a una medida derivada
+	 * 
+	 * @param def Objeto del modelo
+	 * @return
+	 */
 	private TMeasure findDerivedMeasure(MeasureDefinition def) {
 		
 		Boolean wasCreated = false;
 		TMeasure measure = null;
 		
+		// de acuerdo a la clase de la medida de la medida, se invoca el método correspondiente de this.generatePpiNotInfo
+		// con lo que obtienen los objetos Jaxb asociados con la medida
+		// estos objetos con colocados en el map correspondientes a su clase Jaxb
 		if (def instanceof DerivedSingleInstanceMeasure) {
 		
+			// si ya fue generado el objeto Jaxb de la medida, se devuelve este
+			// en caso contrario, se generan los objetos Jaxb asociados con la medida
 			measure = this.derivedSingleInstanceMap.get(def.getId());
 	    	if (measure==null) {
 	    		
+				// genera los objetos Jaxb de la medida 
 				Map<String,Object> map = this.generatePpiNotInfo.obtainInfo((DerivedSingleInstanceMeasure) def, this.getFactory());
     		
 				measure = (TMeasure) map.get("measure");
 	    		if (measure!=null) {
 	    			
+	    			// indica que la medida fue creada
 	    			wasCreated = true;
+	    			// guarda el objeto Jaxb de la medida en el map correspondiente
 	    			this.derivedSingleInstanceMap.put(((TDerivedSingleInstanceMeasure) measure).getId(), (TDerivedSingleInstanceMeasure) measure);
 	    		}
 		    }
@@ -651,32 +816,42 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		    }
 		}
 
+		// si la medida fue creada
 		if (wasCreated) {
 			
+			// para cada una de las medidas asociadas con la medida derivada
 			Iterator<Entry<String, MeasureDefinition>> itInst = ((DerivedMeasure) def).getUsedMeasureMap().entrySet().iterator();
 		    while (itInst.hasNext()) {
 		        Map.Entry<String, MeasureDefinition> pairs = (Map.Entry<String, MeasureDefinition>)itInst.next();
 		    	String variable = pairs.getKey();
 		    	MeasureDefinition usedMeasureModel = pairs.getValue();
 			
+		    	// genera los objetos Jaxb asociados con la medida asociada
     			TMeasure usedMeasure = this.findBaseMeasure(usedMeasureModel);
     			if (usedMeasure==null) 
     				usedMeasure = this.findAggregatedMeasure(usedMeasureModel);
     			if (usedMeasure==null) 
     				usedMeasure = this.findDerivedMeasure(usedMeasureModel);
 
+    			// crea el objeto Jaxb del conector uses correspondiente a la medida asociada
 				TUses con = this.getFactory().createTUses();
 				con.setId(this.generatePpiNotInfo.generarId("uses", ""));
 				con.setVariable(variable);
 				con.setSourceRef(measure);
 				con.setTargetRef(usedMeasure);
 				
+				// sitúa el objeto Jaxb del conector en el map correspondiente
    				this.usesMap.put(con.getId(), con);
 		    }
 		}
 		return measure;
 	}
 		
+	/**
+	 * Genera los objetos Jaxb correspondientes a un map de objetos TimeInstanceMeasure
+	 * 
+	 * @param modelMap Map con objetos del modelo
+	 */
 	public void setTimeModelMap(Map<String, TimeInstanceMeasure> modelMap) {
 
 	    if (modelMap!=null) {
@@ -691,6 +866,11 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	    }
 	}
 
+	/**
+	 * Genera los objetos Jaxb correspondientes a un map de objetos CountInstanceMeasure
+	 * 
+	 * @param modelMap Map con objetos del modelo
+	 */
 	public void setCountModelMap(Map<String, CountInstanceMeasure> modelMap) {
 
 	    if (modelMap!=null) {
@@ -705,6 +885,11 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	    }
 	}
 
+	/**
+	 * Genera los objetos Jaxb correspondientes a un map de objetos StateConditionInstanceMeasure
+	 * 
+	 * @param modelMap Map con objetos del modelo
+	 */
 	public void setStateConditionModelMap(Map<String, StateConditionInstanceMeasure> modelMap) {
 
 	    if (modelMap!=null) {
@@ -719,6 +904,11 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	    }
 	}
 
+	/**
+	 * Genera los objetos Jaxb correspondientes a un map de objetos DataInstanceMeasure
+	 * 
+	 * @param modelMap Map con objetos del modelo
+	 */
 	public void setDataModelMap(Map<String, DataInstanceMeasure> modelMap) {
 
 	    if (modelMap!=null) {
@@ -733,6 +923,11 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	    }
 	}
 
+	/**
+	 * Genera los objetos Jaxb correspondientes a un map de objetos DataPropertyConditionInstanceMeasure
+	 * 
+	 * @param modelMap Map con objetos del modelo
+	 */
 	public void setDataPropertyConditionModelMap(Map<String, DataPropertyConditionInstanceMeasure> modelMap) {
 
 	    if (modelMap!=null) {
@@ -747,7 +942,12 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	    }
 	}
 
-	public void setTimeAggregatedModelMap(Map<String, AggregatedMeasure> modelMap) {
+	/**
+	 * Genera los objetos Jaxb correspondientes a un map de objetos AggregatedMeasure
+	 * 
+	 * @param modelMap Map con objetos del modelo
+	 */
+	private void setAggregatedModelMap(Map<String, AggregatedMeasure> modelMap) {
 
 	    if (modelMap!=null) {
 	    	
@@ -760,78 +960,73 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		    }
     	}
 	}
+	
+	/**
+	 * Genera los objetos Jaxb correspondientes a un map de objetos AggregatedMeasure cuyas medidas base sean TimeInstanceMeasure
+	 * 
+	 * @param modelMap Map con objetos del modelo
+	 */
+	public void setTimeAggregatedModelMap(Map<String, AggregatedMeasure> modelMap) {
 
+	    this.setAggregatedModelMap(modelMap);
+	}
+
+	/**
+	 * Genera los objetos Jaxb correspondientes a un map de objetos AggregatedMeasure cuyas medidas base sean CountInstanceMeasure
+	 * 
+	 * @param modelMap Map con objetos del modelo
+	 */
 	public void setCountAggregatedModelMap(Map<String, AggregatedMeasure> modelMap) {
 
-	    if (modelMap!=null) {
-	    	
-			Iterator<Entry<String, AggregatedMeasure>> itInst = modelMap.entrySet().iterator();
-		    while (itInst.hasNext()) {
-		        Map.Entry<String, AggregatedMeasure> pairs = (Map.Entry<String, AggregatedMeasure>)itInst.next();
-		        AggregatedMeasure def = pairs.getValue();
-		    	
-		        this.findAggregatedMeasure(def);
-			}
-    	}
+	    this.setAggregatedModelMap(modelMap);
 	}
 
+	/**
+	 * Genera los objetos Jaxb correspondientes a un map de objetos AggregatedMeasure cuyas medidas base sean StateConditionInstanceMeasure
+	 * 
+	 * @param modelMap Map con objetos del modelo
+	 */
 	public void setStateConditionAggregatedModelMap(Map<String, AggregatedMeasure> modelMap) {
 
-	    if (modelMap!=null) {
-	    	
-			Iterator<Entry<String, AggregatedMeasure>> itInst = modelMap.entrySet().iterator();
-		    while (itInst.hasNext()) {
-		        Map.Entry<String, AggregatedMeasure> pairs = (Map.Entry<String, AggregatedMeasure>)itInst.next();
-		        AggregatedMeasure def = pairs.getValue();
-		    	
-		        this.findAggregatedMeasure(def);
-			}
-    	}
+	    this.setAggregatedModelMap(modelMap);
 	}
 
+	/**
+	 * Genera los objetos Jaxb correspondientes a un map de objetos AggregatedMeasure cuyas medidas base sean DataInstanceMeasure
+	 * 
+	 * @param modelMap Map con objetos del modelo
+	 */
 	public void setDataAggregatedModelMap(Map<String, AggregatedMeasure> modelMap) {
 
-	    if (modelMap!=null) {
-	    	
-			Iterator<Entry<String, AggregatedMeasure>> itInst = modelMap.entrySet().iterator();
-		    while (itInst.hasNext()) {
-		        Map.Entry<String, AggregatedMeasure> pairs = (Map.Entry<String, AggregatedMeasure>)itInst.next();
-		        AggregatedMeasure def = pairs.getValue();
-		    	
-		        this.findAggregatedMeasure(def);
-			}
-    	}
+	    this.setAggregatedModelMap(modelMap);
 	}
 
+	/**
+	 * Genera los objetos Jaxb correspondientes a un map de objetos AggregatedMeasure cuyas medidas base sean DataPropertyConditionInstanceMeasure
+	 * 
+	 * @param modelMap Map con objetos del modelo
+	 */
 	public void setDataPropertyConditionAggregatedModelMap(Map<String, AggregatedMeasure> modelMap) {
 
-	    if (modelMap!=null) {
-	    	
-			Iterator<Entry<String, AggregatedMeasure>> itInst = modelMap.entrySet().iterator();
-		    while (itInst.hasNext()) {
-		        Map.Entry<String, AggregatedMeasure> pairs = (Map.Entry<String, AggregatedMeasure>)itInst.next();
-		        AggregatedMeasure def = pairs.getValue();
-		    	
-		        this.findAggregatedMeasure(def);
-			}
-    	}
+	    this.setAggregatedModelMap(modelMap);
 	}
 
+	/**
+	 * Genera los objetos Jaxb correspondientes a un map de objetos AggregatedMeasure cuyas medidas base sean TimeInstanceMeasure
+	 * 
+	 * @param modelMap Map con objetos del modelo
+	 */
 	public void setDerivedSingleInstanceAggregatedModelMap(Map<String, AggregatedMeasure> modelMap) {
 
-	    if (modelMap!=null) {
-	    	
-			Iterator<Entry<String, AggregatedMeasure>> itInst = modelMap.entrySet().iterator();
-		    while (itInst.hasNext()) {
-		        Map.Entry<String, AggregatedMeasure> pairs = (Map.Entry<String, AggregatedMeasure>)itInst.next();
-		        AggregatedMeasure def = pairs.getValue();
-		    	
-		        this.findAggregatedMeasure(def);
-			}
-    	}
+	    this.setAggregatedModelMap(modelMap);
 	}
 
-	public void setDerivedSingleInstanceModelMap(Map<String, DerivedMeasure> modelMap) {
+	/**
+	 * Genera los objetos Jaxb correspondientes a un map de objetos DerivedMeasure
+	 * 
+	 * @param modelMap Map con objetos del modelo
+	 */
+	public void setDerivedModelMap(Map<String, DerivedMeasure> modelMap) {
 
 	    if (modelMap!=null) {
 	    	
@@ -845,20 +1040,31 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	    }
 	}
 
+	/**
+	 * Genera los objetos Jaxb correspondientes a un map de objetos DerivedSingleInstanceMeasure
+	 * 
+	 * @param modelMap Map con objetos del modelo
+	 */
+	public void setDerivedSingleInstanceModelMap(Map<String, DerivedMeasure> modelMap) {
+
+	    this.setDerivedModelMap(modelMap);
+	}
+
+	/**
+	 * Genera los objetos Jaxb correspondientes a un map de objetos DerivedMultiInstanceMeasure
+	 * 
+	 * @param modelMap Map con objetos del modelo
+	 */
 	public void setDerivedMultiInstanceModelMap(Map<String, DerivedMeasure> modelMap) {
 
-	    if (modelMap!=null) {
-	    	
-			Iterator<Entry<String, DerivedMeasure>> itInst = modelMap.entrySet().iterator();
-		    while (itInst.hasNext()) {
-		        Map.Entry<String, DerivedMeasure> pairs = (Map.Entry<String, DerivedMeasure>)itInst.next();
-		        DerivedMultiInstanceMeasure def = (DerivedMultiInstanceMeasure) pairs.getValue();
-		    		
-		        this.findDerivedMeasure(def);
-		    }
-	    }
+	    this.setDerivedModelMap(modelMap);
 	}
 	
+	/**
+	 * Genera los objetos Jaxb correspondientes a un map de objetos PPI
+	 * 
+	 * @param modelMap Map con objetos del modelo
+	 */
 	public void setPpiModelMap(Map<String, PPI> modelMap) {
 		
 	    if (modelMap!=null) {
@@ -896,14 +1102,24 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	    }
 	}
 
+	/**
+	 * Genera las instancias de clases Jaxb a partir de instancias de clases del modelo que debieron ser seteadas previamente con el método
+	 * set correspondiente a cada tipo de medida. 
+	 * Genera el JAXBElement para exportar, por lo que debe finalizar invocando a this.setExportElement
+	 * 
+	 * @param procId Id del proceso en el xml. Es utilizado para formar el nombre del archivo xml generado
+	 */
 	@Override
 	protected void generateExportElement(String procId) {
 		
+		// inicializa el objeto para generar objetos Jaxb a partir de los objetos del modelos
 		this.generatePpiNotInfo = new GeneratePpiNotInfo();
 		
+		// crea el objeto Jaxb Tppiset, en el que se incluyen todos los objetos Jaxb de las medidas
 	    TPpiset ppiset = this.getFactory().createTPpiset();
 	    ppiset.setId("ppiset_1");
 	    
+	    // adiciona al ppiset cada uno de los objetos Jaxb de las medidas
 		Iterator<Entry<String, TCountMeasure>> itInst1 = this.countMap.entrySet().iterator();
 	    while (itInst1.hasNext()) {
 	        Map.Entry<String, TCountMeasure> pairs = (Map.Entry<String, TCountMeasure>)itInst1.next();
@@ -988,23 +1204,28 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	    	ppiset.getMeasureConnector().add(this.getFactory().createIsGroupedBy((TIsGroupedBy) pairs.getValue()));
 	    }
 	    
+	    // adiciona al ppiset cada uno de los objetos Jaxb de los ppi
 	    for (TPpi ppi : this.ppiList) 
 	    	ppiset.getPpi().add(ppi);
    	
+	    // crea un objeto Jaxb del tipo extensionElements
     	TExtensionElements extensionElements = new TExtensionElements();
 	    extensionElements.getAny().add( this.getFactory().createPpiset(ppiset) );
 		
+	    // crea un objeto Jaxb del tipo process
 	    TProcess process = this.bpmnFactory.createTProcess();
 	    process.setId( procId );
 	    process.setName( procId );
 	    process.setExtensionElements(extensionElements);
 
+	    // adiciona al proceso generado, las tareas generadas (TTask) al crear los objetos Jaxb de las medidas 
 		Iterator<Entry<String, TTask>> itInst12 = this.taskMap.entrySet().iterator();
 	    while (itInst12.hasNext()) {
 	        Map.Entry<String, TTask> pairs = (Map.Entry<String, TTask>)itInst12.next();
 	        process.getFlowElement().add(this.bpmnFactory.createTask((TTask) pairs.getValue()));
 	    }
 
+	    // adiciona al proceso generado, los dataobjets generados (TDataObject) al crear los objetos Jaxb de las medidas 
 		Iterator<Entry<String, TDataObject>> itInst13 = this.dataobjectMap.entrySet().iterator();
 	    while (itInst13.hasNext()) {
 	        Map.Entry<String, TDataObject> pairs = (Map.Entry<String, TDataObject>)itInst13.next();
@@ -1012,6 +1233,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 			process.getFlowElement().add(this.bpmnFactory.createDataObject(value));
 	    }
 
+	    // crea un objeto Jaxb del tipo definitions
 	    TDefinitions definitions = new TDefinitions();
 	    definitions.setId("ppinot-definitions");
 	    definitions.setExpressionLanguage("http://www.w3.org/1999/XPath");
@@ -1019,24 +1241,38 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	    definitions.setTypeLanguage("http://www.w3.org/2001/XMLSchema");
     	definitions.getRootElement().add( this.bpmnFactory.createProcess(process));
     	
+    	// da valor al objeto JAXBElement que se utiliza para hacer el marshall de un xml
         this.setExportElement( this.bpmnFactory.createDefinitions(definitions) );
 		
 	}
 	
+	/**
+	 * Genera un objeto del modelo a partir de un objeto Jaxb si este es una medida base 
+	 * 
+	 * @param jaxbValue Objeto Jaxb
+	 * @return Objeto del modelo
+	 */
 	private MeasureDefinition findBaseMeasureModel(Object jaxbValue) {
 		
+		// obtiene el ppiset en el xml, que es utilizado al generar el objeto del modelo, para obtener los conectores y otros elementos
+		// relacionados con la medida 
 		TPpiset ppiset = this.getPpiset();
+		// inicializaciones
 		String id = ((TMeasure) jaxbValue).getId();
 		Boolean wasCreated = false;
 		MeasureDefinition def = null;
 		
+		// de acuerdo a la clase del objeto Jaxb
 		if(jaxbValue instanceof TCountMeasure) {
 			
+			// se devuelve el objeto del modelo correspondiente, si ya estaba creado  
 			def = this.countInstanceModelMap.get(id);
 			if (def==null) {
+				// genera el objeto del modelo
 				def = this.generatePpiNotModel.obtainModel((TCountMeasure) jaxbValue, ppiset);
 				wasCreated = def!=null;
 				if (wasCreated) {
+					// adiciona el objeto del modelo al map correspondiente
 					this.countInstanceModelMap.put( def.getId(), (CountInstanceMeasure) def );
 				}
 			}
@@ -1088,34 +1324,52 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		
 		if (wasCreated) {
 			
+			// crea el objeto del modelo del PPI asociado a la medida
 			this.searchPpi(jaxbValue, def);
 		}
 
 		return def;
 	}
 	
+	/**
+	 * Genera un objeto del modelo a partir de un objeto Jaxb si este es una medida agregada 
+	 * 
+	 * @param jaxbValue Objeto Jaxb
+	 * @return Objeto del modelo
+	 */
 	private MeasureDefinition findAggregatedMeasureModel(TAggregatedMeasure measure) {
 		
+		// obtiene el ppiset en el xml, que es utilizado al generar el objeto del modelo, para obtener los conectores y otros elementos
+		// relacionados con la medida 
 		TPpiset ppiset = this.getPpiset();
+		// inicializaciones
 		String id = measure.getId();
 		Boolean wasCreated = false;
 		AggregatedMeasure def = null;
 		
+		// si la medida agregada no tiene seteada la propiedad baseMeasure, es que está asociada con un conector aggregates
 		if(measure.getBaseMeasure()==null) {
 			
+			// se obtiene el conector asociado a la medida
 			TAggregates connector = (TAggregates) this.generatePpiNotModel.findMeasureConnector(measure, TAggregates.class, ppiset);
 			
+			// si existe el conector
 			if (connector!=null) {
 				
+				// se obtiene el objeto del modelo de la medida conectada con la medida agregada
 				MeasureDefinition baseModel = this.findConnectedMeasure(connector);
 
+				// de acuerdo a la clase de la medida conectada
 				if(baseModel instanceof TimeInstanceMeasure ) {
 					
+					// se verifica si la medida agregada ya había sido generada
 					def = this.timeAggregatedModelMap.get(id);
 					if (def==null) {
+						// si no había sido generada, se obtiene el objeto del modelo de la medida agregada
 						def = this.generatePpiNotModel.obtainModel(measure, baseModel, ppiset);
 						wasCreated = def!=null;
 						if (wasCreated) {
+							// se adiciona la medida agregada al map correspondiente
 							this.timeAggregatedModelMap.put( def.getId(), def );
 						}
 					}
@@ -1183,20 +1437,26 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 				
 				if (wasCreated) {
 					
+					// si la medida agregada fue creada se indica que está medida está asociada a un conector aggregates
 					def.setAggregates(true);
 				}
 			}
 		} else {
 			
+			// si la medida agregada no está asociada a un conector aggregates, se obtiene su medida base
 			TMeasure baseMeasure = measure.getBaseMeasure().getValue();
 		
+			// de acuerdo a la clase de la medida base
 			if(baseMeasure instanceof TTimeMeasure ) {
 
+				// se verifica si la medida agregada ya había sido generada
 				def = this.timeAggregatedModelMap.get(id);
 				if (def==null) {
+					// si no había sido generada, se obtiene el objeto del modelo de la medida agregada
 					def = this.generatePpiNotModel.obtainModel(measure, (TTimeMeasure) baseMeasure, ppiset);
 					wasCreated = def!=null;
 					if (wasCreated) {
+						// se adiciona la medida agregada al map correspondiente
 						this.timeAggregatedModelMap.put( def.getId(), def );
 					}
 				}
@@ -1267,26 +1527,40 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		
 		if (wasCreated) {
 			
+			// crea el objeto del modelo del PPI asociado a la medida
 			this.searchPpi(measure, def);
 		}
 		
 		return def;
 	}
 	
+	/**
+	 * Genera un objeto del modelo a partir de un objeto Jaxb si este es una medida derivada 
+	 * 
+	 * @param jaxbValue Objeto Jaxb
+	 * @return Objeto del modelo
+	 */
 	private MeasureDefinition findDerivedMeasureModel(Object jaxbValue) {
 		
+		// obtiene el ppiset en el xml, que es utilizado al generar el objeto del modelo, para obtener los conectores y otros elementos
+		// relacionados con la medida 
 		TPpiset ppiset = this.getPpiset();
+		// inicializaciones
 		String id = ((TMeasure) jaxbValue).getId();
 		Boolean wasCreated = false;
 		MeasureDefinition def = null;
 		
+		// de acuerdo a la clase de la medida 
 		if(jaxbValue instanceof TDerivedSingleInstanceMeasure) {
 			
+			// se verifica si la medida ya había sido generada
 			def = this.derivedSingleInstanceModelMap.get(id);
 			if (def==null) {
+				// si no había sido generada, se obtiene el objeto del modelo de la medida 
 				def = this.generatePpiNotModel.obtainModel((TDerivedSingleInstanceMeasure) jaxbValue);
 				wasCreated = def!=null;
 				if (wasCreated) {
+					// se adiciona la medida al map correspondiente
 					this.derivedSingleInstanceModelMap.put(def.getId(), (DerivedMeasure) def);
 				}
 			}
@@ -1305,19 +1579,27 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		
 		if (wasCreated) {
 			
+			// si el objeto del modelo fue creado, se buscan las medidas conectadas a la medida derivada con un conector uses
+			// y esas medidas se adicionan a la lista de variables utilizadas por la medida derivada
 			for (TUses connector : this.generatePpiNotModel.findUses((TDerivedMeasure) jaxbValue, ppiset)) {
 				
 				((DerivedMeasure) def).addUsedMeasure( connector.getVariable(), this.findConnectedMeasure(connector) );
 			}
+			
+			// crea el objeto del modelo del PPI asociado a la medida
 			this.searchPpi(jaxbValue, def);
 		}
 		
 		return def;
 	}
 
+	/**
+	 * Obtiene el objeto Jaxb del tipo ppiset en el proceso
+	 * 
+	 * @return
+	 */
 	private TPpiset getPpiset() {
 		
-		// obtiene el proceso creado a partir de la información en el xml
 		TProcess process = null;
 		TPpiset ppiset = null;
 		
@@ -1347,6 +1629,12 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		return ppiset;
 	}
 	
+	/**
+	 * Obtiene los datos del período que se desea analizar, a partir de la propiedad analisysPeriod de una medida agregada 
+	 * 
+	 * @param period Cadena con el período de análisis
+	 * @return Mapa con los datos del período de análisis
+	 */
 	private Map<String, String> parseAnalysisPeriod(String period) {
 		
 		Map<String, String> map = new HashMap<String, String>();
@@ -1399,6 +1687,12 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		return map;
 	}
 
+	/**
+	 * Obtiene los valores de referencia para evaluar el grado de satisfacción de un ppi, a partir de la propiedad target
+	 * 
+	 * @param target Valor de la propiedad target de un ppi
+	 * @return Mapa con los valores de referencia. El valor mínimo se devuelve con la llave refMin y el valor máximo con la llave refMax
+	 */
 	private Map<String, Double> parseTarget(String target) {
 		
 		Map<String, Double> map = new HashMap<String, Double>();
@@ -1434,6 +1728,12 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		return map;
 	}
 	
+	/**
+	 * Crea el objeto del modelo del PPI asociado a una medida 
+	 * 
+	 * @param object Objeto Jaxb de la medida
+	 * @param def Objeto del modelo de la medida
+	 */
 	private void searchPpi(Object object, MeasureDefinition def) {
 		
 		for (TPpi ppi : this.getPpiset().getPpi()) {
@@ -1469,6 +1769,12 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		}
 	}
 
+	/**
+	 * Obtiene el objeto del modelo de una medida, a la cual se aplica un conector
+	 * 
+	 * @param con Objeto Jaxb de un conector
+	 * @return Objeto del modelo de una medida
+	 */
 	private MeasureDefinition findConnectedMeasure(TMeasureConnector con) {
 	
 		Object target = con.getTargetRef();
@@ -1483,6 +1789,11 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		return def;
 	}
 
+	/**
+	 * Genera las instancias de clases del modelo a partir de instancias de clases Jabx. 
+	 * Después de invocar este método se pueden obtener los objetos del modelo mediante los métodos get correspondientes a cada tipo de medida.
+	 * 
+	 */
 	@Override
 	protected void generateModelLists() {
 		

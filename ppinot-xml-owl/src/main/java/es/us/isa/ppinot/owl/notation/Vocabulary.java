@@ -1,5 +1,11 @@
 package es.us.isa.ppinot.owl.notation;
 
+/**
+ * Clase con el vocabulario utilizado en una ontología PPINOT
+ * 
+ * @author Edelia
+ *
+ */
 public final class Vocabulary {
 	
 	public static final String URI = "http://www.isa.us.es/ontologies/ppinot.owl";

@@ -6,7 +6,7 @@ import java.util.Map;
 import es.us.isa.ppinot.model.MeasureDefinition;
 
 /**
- * Clase con la información de un PPI del tipo AggregatedMeasure
+ * Clase con la información de las medidas derivadas
  * 
  * @author Edelia García González
  * @version 1.0
@@ -15,12 +15,12 @@ import es.us.isa.ppinot.model.MeasureDefinition;
 public class DerivedMeasure extends MeasureDefinition {
     
     /**
-     * Función de agregación que se aplica
+     * Función que se aplica
      */
     private String function;
     
     /**
-     * La medida a partir de la cual se calcula la medida derivada
+     * Medidas a partir de las cuales se calcula la medida derivada
      */
     protected Map<String, MeasureDefinition> usedMeasureIdMap;
 
@@ -37,7 +37,7 @@ public class DerivedMeasure extends MeasureDefinition {
      * 
      * @param id Id de la medida
      * @param name Nombre de la medida
-     * @param description Descripció de la medida
+     * @param description Descripción de la medida
      * @param scale Escala de la medida
      * @param measureUnit Unidad de medida
      * @param func Función de la medida
@@ -50,7 +50,7 @@ public class DerivedMeasure extends MeasureDefinition {
 
     /**
      * Devuelve el atributo func:
-     * Función de agregación que se aplica
+     * Función que se aplica
      * 
      * @return Valor del atributo
      */
@@ -60,7 +60,7 @@ public class DerivedMeasure extends MeasureDefinition {
 
     /**
      * Da valor al atributo func:
-     * Función de agregación que se aplica
+     * Función que se aplica
      * 
      * @param value Valor del atributo
      */
@@ -70,7 +70,7 @@ public class DerivedMeasure extends MeasureDefinition {
      
     /**
      * Devuelve el atributo usedMeasureMap:
-     * La medida que se agrega
+     * Medidas a partir de las cuales se calcula la medida derivada
      * 
      * @return La medida que se agrega
      */
@@ -81,11 +81,23 @@ public class DerivedMeasure extends MeasureDefinition {
     	return this.usedMeasureIdMap;
     }
     
+    /**
+     * Adiciona una medida que se utiliza para calcular la medida derivada
+     * 
+     * @param variable Nombre de variable asociada a la medida
+     * @param measure Medida utilizada para calcular la medida derivada
+     */
     public void addUsedMeasure(String variable, MeasureDefinition measure) {
     	
     	this.getUsedMeasureMap().put((variable.contentEquals(""))?measure.getId():variable, measure);
     }
     
+    /**
+     * Devuelve una medida utilizada para el cáculo a partir de su id
+     * 
+     * @param id Id de medida
+     * @return Objeto de la medida
+     */
     public MeasureDefinition getUsedMeasureId(String id) {
     	
     	return this.getUsedMeasureMap().get(id);

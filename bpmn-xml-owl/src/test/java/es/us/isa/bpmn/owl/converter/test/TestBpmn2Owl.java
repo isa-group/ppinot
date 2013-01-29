@@ -14,10 +14,24 @@ import es.us.isa.bpmn.handler.Bpmn20ModelHandler;
 import es.us.isa.bpmn.handler.Bpmn20ModelHandlerInterface;
 import es.us.isa.bpmn.owl.converter.BPMN2OWLConverter;
 
+/**
+ * Clase con los casos de prueba del proyecto
+ * 
+ * @author Edelia
+ *
+ */
 public class TestBpmn2Owl {
 
+	// ontología creada
 	private OWLOntology bpmnOntology;
 	
+	/**
+	 * Genera la ontología OWL con la URI especificada a partir de un xml
+	 * 
+	 * @param baseIRI URI de la ontología creada
+	 * @param sourceFile XML a partir del cual se crea la ontología
+	 * @return
+	 */
 	private Boolean bpmn2Owl(String baseIRI, String sourceFile) {
 		
 		try {
@@ -46,7 +60,7 @@ public class TestBpmn2Owl {
 
 			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		

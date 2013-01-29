@@ -21,7 +21,7 @@ import es.us.isa.bpmn.xmlClasses.bpmn20.TSubProcess;
 import es.us.isa.bpmn.xmlClasses.bpmn20.TTask;
 
 /**
- * 
+ * Clase que importa y exporta xmls de BPMN 2.0
  * 
  * @author Edelia
  *
@@ -37,67 +37,77 @@ public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandl
 	private Map<String, TGateway> gatewayList;
 	private Map<String, TSubProcess> subProcessList;
 
+	/**
+	 * Constructor de la clase
+	 * 
+	 * @throws JAXBException
+	 */
 	public Bpmn20ModelHandler() throws JAXBException {
 		
 		super();
 	}
 	
 	/** 
-	 * Devuelve la lista de Tareas del modelo del proceso Bpmn2.0
+	 * Devuelve el mapa de TTask en el proceso. El id es la key en el mapa.
 	 */
 	public Map<String, TTask> getTaskMap(){
 		return taskList;        	
 	}
 	
 	/** 
-	 * Devuelve la lista de StartEvent del modelo del proceso Bpmn2.0
+	 * Devuelve el mapa de StartEvent en el proceso. El id es la key en el mapa.
 	 */
 	public Map<String, TStartEvent> getStartEventMap(){
 		return startEventList;
 	}
 	
 	/**
-	 * Devuelve la lista de EndEvent del modelo del proceso Bpmn2.0
+	 * Devuelve el mapa de EndEvent en el proceso. El id es la key en el mapa.
 	 */
 	public Map<String, TEndEvent> getEndEventMap(){
 		return endEventList;
 	}
 	
 	/**
-	 * Devuelve la lista de DataObject del modelo del proceso Bpmn2.0
+	 * Devuelve el mapa de DataObject en el proceso. El id es la key en el mapa.
 	 */
 	public Map<String, TDataObject> getDataObjectMap(){
 		return dataObjectList;
 	}
 	
 	/**
-	 * Devuelve la lista de SequenceFlow del modelo del proceso Bpmn2.0
+	 * Devuelve el mapa de SequenceFlow en el proceso. El id es la key en el mapa.
 	 */
 	public Map<String, TSequenceFlow> getSequenceFlowMap(){
 		return sequenceFlowList;
 	}
 	
 	/**
-	 * Devuelve la lista de Gateway del modelo del proceso Bpmn2.0
+	 * Devuelve el mapa de Gateway en el proceso. El id es la key en el mapa.
 	 */
 	public Map<String, TGateway> getGatewayMap(){
 		return gatewayList;
 	}
 	
 	/**
-	 * Devuelve la lista de SequenceFlow del modelo del proceso Bpmn2.0
+	 * Devuelve el mapa de SequenceFlow en el proceso. El id es la key en el mapa.
 	 */
 	public Map<String, TExclusiveGateway> getExclusiveGatewayMap(){
 		return exclusiveGtwList;
 	}
 	
 	/**
-	 * Devuelve la lista de SubProcess del modelo del proceso Bpmn2.0
+	 * Devuelve el mapa de SubProcess en el proceso. El id es la key en el mapa.
 	 */
 	public Map<String, TSubProcess> getSubProcessMap(){
 		return subProcessList;
 	}
 	
+	/**
+	 * Realiza las inicializaciones.
+	 * 
+	 * @throws JAXBException
+	 */
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected void iniLoader() throws JAXBException {
@@ -116,16 +126,29 @@ public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandl
 		this.xmlConfig( classList, es.us.isa.bpmn.xmlClasses.bpmn20.ObjectFactory.class );
 	}
 	
+	/**
+	 * Devuelve la factory utilizada 
+	 * 
+	 * @return Objeto factory
+	 */
 	protected ObjectFactory getFactory() {
 	
 		return (ObjectFactory) super.getFactory();
 	}
 
+	/**
+	 * No está implementado
+	 * 
+	 * @param procId Id del proceso en el xml. Es utilizado para formar el nombre del archivo xml generado
+	 */
 	@Override
 	protected void generateExportElement(String procId) {
 		
 	}
 	
+	/**
+	 * Genera las instancias de clases del modelo a partir de instancias de clases Jabx. 
+	 */
 	@Override
 	protected void generateModelLists(){
 		
@@ -147,25 +170,28 @@ public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandl
 		
 	}
 	
+	/**
+	 * Genera las instancias de clases del modelo, del proceso indicado
+	 * 
+	 * @param process Clase Jaxb del proceso
+	 */
 	private void generateProcessModelLists(TProcess process){
 		
 		List<?> flowElements= process.getFlowElement();
 		
 		Iterator<?> itr = flowElements.iterator(); 
 		
-		//Iteremos sobre todos los elementos obtenidos BPMN20
+		// itera por todos los elementos en el proceso, y de acuerdo a su tipo lo sitúa en el mapa correspondiente
 		while(itr.hasNext()) {
 			
 			JAXBElement<?> element = (JAXBElement<?>) itr.next();
 		    Object contentElement = element.getValue();
 		    
-		    //Event Elements
 		    if (contentElement instanceof TStartEvent) {
 		    	
 		    	TStartEvent startEvent = (TStartEvent) contentElement;
 		    	startEvent.getName();
 		    	
-		    	//Esto es para obtener obtener el tipo de StartEvent que es y acceder a la clase TTimerEventDefinition en este caso
 		    	startEventList.put(startEvent.getId(), (TStartEvent)startEvent);
 		    	
 		    	
@@ -176,7 +202,6 @@ public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandl
 		    	endEventList.put(endEvent.getId(), endEvent);
 		    }
 		    
-		    //Activity Elements
 		    else if(contentElement instanceof TTask) {
 		    
 		    	TTask task = (TTask) contentElement;
@@ -184,7 +209,6 @@ public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandl
 		    	taskList.put(task.getId(), task);
 		    }
 		    
-		    //Activity Elements
 		    else if(contentElement instanceof TSubProcess) {
 		    
 		    	TSubProcess subprocess = (TSubProcess) contentElement;
@@ -193,7 +217,6 @@ public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandl
 		    }
 		    
 		    
-		    //Data Elements
 		    else if(contentElement instanceof TDataObject){
 		    	TDataObject dataObject = (TDataObject) contentElement;
 		    	dataObject.getName();
@@ -201,16 +224,12 @@ public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandl
 		    	
 		    }
 		    
-		    //Sequence Elements
 		    else if(contentElement instanceof TSequenceFlow){
 		    	TSequenceFlow sequenceFlow = (TSequenceFlow) contentElement;
 		    	sequenceFlow.getName();
 		    	sequenceFlowList.put(sequenceFlow.getId(), sequenceFlow);
 		    }
 		    
-		    //Adela me ha dicho que le interesa diferenciar el XOR Gateways de los demÃ¡s,
-		    //Pero el resto de Gateways se van a tratar igual, independientemente del tipo
-		    //TExclusiveGateway Elements
 		    else if(contentElement instanceof TExclusiveGateway){
 		    	
 		    	TExclusiveGateway exclusivegtw = (TExclusiveGateway) contentElement;
@@ -218,7 +237,6 @@ public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandl
 		    	exclusiveGtwList.put(exclusivegtw.getId(), exclusivegtw);
 		    }
 		    
-		    //Gateway Elements
 		    else if(contentElement instanceof TGateway){
 		    	
 		    	TGateway gtw = (TGateway) contentElement;
@@ -228,6 +246,11 @@ public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandl
 		}
 	}
 
+	/**
+	 * Devuelve el objeto Jaxb del proceso
+	 * 
+	 * @return Objeto TProcess
+	 */
 	public TProcess getProcess() {
 		
 		TProcess process = null;
@@ -251,6 +274,11 @@ public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandl
 		return process;
 	}
 
+	/**
+	 * Devuelve el id del proceso involucrado en el xml
+	 * 
+	 * @return Id del proceso
+	 */
 	@Override
 	public String getProcId() {
 		

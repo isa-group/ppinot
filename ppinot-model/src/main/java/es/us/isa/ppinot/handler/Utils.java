@@ -6,6 +6,12 @@ import java.util.Formatter;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+/**
+ * Utilidades
+ * 
+ * @author Edelia
+ *
+ */
 public class Utils {
 
 	public static String FORMATDATE = "yyyy/MM/dd";
@@ -13,7 +19,7 @@ public class Utils {
 	public static Integer STARTYEAR = 2009;
 
 	/**
-	 * Genera un objeto Date a partir de una cadena
+	 * Genera un objeto Date a partir de una cadena con una fecha
 	 * 
 	 * @param dateString Cadena
 	 * @return Objeto Date
@@ -32,6 +38,12 @@ public class Utils {
 		return date;
 	}
 	
+	/**
+	 * Genera un objeto Date a partir de una cadena con fecha y hora
+	 * 
+	 * @param dateString Cadena
+	 * @return Objeto Date
+	 */
 	public static Date parseDateHour(String dateString) {
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat( FORMATDATEHOUR );
@@ -46,6 +58,12 @@ public class Utils {
 		return date;
 	}
 
+	/**
+	 * Genera una cadena a partir de un objeto Date con una fecha
+	 * 
+	 * @param date Objeto Date
+	 * @return Cadena
+	 */
 	public static String formatString(Date date) {
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat( FORMATDATE );
@@ -55,6 +73,12 @@ public class Utils {
 		return string;
 	}
 
+	/**
+	 * Genera una cadena a partir de un objeto Date con una fecha y hora
+	 * 
+	 * @param date Objeto Date
+	 * @return Cadena
+	 */
 	public static String formatStringHour(Date date) {
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat( FORMATDATEHOUR );
@@ -64,6 +88,12 @@ public class Utils {
 		return string;
 	}
 	
+	/**
+	 * Convierte un doble a cadena
+	 * 
+	 * @param doub Double
+	 * @return Cadena
+	 */
 	public static String doubleToString(Double doub) {
 		
 		if (doub==null)
@@ -72,6 +102,12 @@ public class Utils {
 			return String.valueOf(doub);
 	}
 	
+	/**
+	 * Convierte una cadena a doble
+	 * 
+	 * @param doub Cadena
+	 * @return Double
+	 */
 	public static Double stringToDouble(String string) {
 		
 		if (string==null || string=="")
@@ -80,6 +116,12 @@ public class Utils {
 			return Double.valueOf(string);
 	}
 	
+	/**
+	 * Convierte un boolean a cadena
+	 * 
+	 * @param bool Boolean
+	 * @return Cadena
+	 */
 	public static String booleanToStringInteger(Boolean bool) {
 		
 		String str = "0"; 
@@ -88,6 +130,12 @@ public class Utils {
 		return str;
 	}
 	
+	/**
+	 * Foamatea una cadena con un decimal. Devuelve una cadena con el número con dos lugares decimales
+	 * 
+	 * @param str Cadena
+	 * @return Cadena
+	 */
 	public static String numberFormat( String str) {
 
 		try {
@@ -107,6 +155,11 @@ public class Utils {
 		}
 	}
 	
+	/**
+	 * Obtiene el año actual
+	 * 
+	 * @return Entero con el año actual
+	 */
 	public static Integer currentYear() {
 		
 		GregorianCalendar gFechaActual = new GregorianCalendar(); 

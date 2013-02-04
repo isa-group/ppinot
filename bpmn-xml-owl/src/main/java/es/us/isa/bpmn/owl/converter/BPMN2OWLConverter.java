@@ -1,32 +1,19 @@
 package es.us.isa.bpmn.owl.converter;
 
+import es.us.isa.bpmn.handler.Bpmn20ModelHandler;
+import es.us.isa.bpmn.handler.ModelHandleInterface;
+import es.us.isa.bpmn.owl.notation.Vocabulary;
+import es.us.isa.bpmn.xmlClasses.bpmn20.*;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import javax.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
-
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
-
-import es.us.isa.bpmn.handler.Bpmn20ModelHandler;
-import es.us.isa.bpmn.handler.ModelHandleInterface;
-import es.us.isa.bpmn.owl.notation.Vocabulary;
-import es.us.isa.bpmn.xmlClasses.bpmn20.TDataInputAssociation;
-import es.us.isa.bpmn.xmlClasses.bpmn20.TDataObject;
-import es.us.isa.bpmn.xmlClasses.bpmn20.TDataOutputAssociation;
-import es.us.isa.bpmn.xmlClasses.bpmn20.TEndEvent;
-import es.us.isa.bpmn.xmlClasses.bpmn20.TExclusiveGateway;
-import es.us.isa.bpmn.xmlClasses.bpmn20.TFlowElement;
-import es.us.isa.bpmn.xmlClasses.bpmn20.TFlowNode;
-import es.us.isa.bpmn.xmlClasses.bpmn20.TGateway;
-import es.us.isa.bpmn.xmlClasses.bpmn20.TSequenceFlow;
-import es.us.isa.bpmn.xmlClasses.bpmn20.TStartEvent;
-import es.us.isa.bpmn.xmlClasses.bpmn20.TSubProcess;
-import es.us.isa.bpmn.xmlClasses.bpmn20.TTask;
 
 /**
  * Clases que convierten a owl, a partir de los objetos del modelo en un ModelHandleInterface para BPMN
@@ -36,7 +23,7 @@ import es.us.isa.bpmn.xmlClasses.bpmn20.TTask;
  */
 public class BPMN2OWLConverter extends ToOWLConverter implements BPMN2OWLConverterInterface {
 
-	// objeto mediante el cual se generan los axiomas que se adicionan a la ontología creada
+	// objeto mediante el cual se generan los axiomas que se adicionan a la ontologï¿½a creada
 	private GenerateBpmnAxioms generator;
 	
 	/**
@@ -51,19 +38,19 @@ public class BPMN2OWLConverter extends ToOWLConverter implements BPMN2OWLConvert
 	}
 	
 	/**
-	 * Ejecuta las operaciones propias de cada subclase para generar la ontología a partir de un ModelHandleInterface
+	 * Ejecuta las operaciones propias de cada subclase para generar la ontologï¿½a a partir de un ModelHandleInterface
 	 * 
-	 * @param modelHandler Objeto ModelHandleInterface a partir del cual se genera la ontología
+	 * @param modelHandler Objeto ModelHandleInterface a partir del cual se genera la ontologï¿½a
 	 * @throws OWLOntologyCreationException
 	 */
     @Override
 	protected void generateOntology(ModelHandleInterface modelHandler) throws OWLOntologyCreationException {
     	
-    	// adiciona las declaraciones que indican las ontologías importadas en la ontología generada
-    	String[] uris = { Vocabulary.URI };
+    	// adiciona las declaraciones que indican las ontologï¿½as importadas en la ontologï¿½a generada
+    	String[] uris = { Vocabulary.ABSTRACTBP_URI};
     	this.addOntologyImports(uris);
     	
-    	// crea el objeto mediante el cual se generan los axiomas que se adicionan a la ontología creada
+    	// crea el objeto mediante el cual se generan los axiomas que se adicionan a la ontologï¿½a creada
 		generator = new GenerateBpmnAxioms(
 				this.getManager().getOWLDataFactory(), this.getManager(), this.getOntology(), this.getOntologyURI()); 
 		
@@ -72,7 +59,7 @@ public class BPMN2OWLConverter extends ToOWLConverter implements BPMN2OWLConvert
 		Map<String, TSequenceFlow> sequenceFlows = bpmn20ModelHandler.getSequenceFlowMap();
 		Map<String, TDataObject> dataObjectList = bpmn20ModelHandler.getDataObjectMap();
 		
-		// adiciona a la ontología cada uno de los tipos de elementos BPMN
+		// adiciona a la ontologï¿½a cada uno de los tipos de elementos BPMN
 		this.getDeclarationIndividualsTask( bpmn20ModelHandler.getTaskMap(), dataObjectList, sequenceFlows);
 		this.getDeclarationIndividualsSubProcess( bpmn20ModelHandler.getSubProcessMap(), dataObjectList, sequenceFlows);
 		this.getDeclarationIndividualsStartEvent( bpmn20ModelHandler.getStartEventMap(), sequenceFlows);
@@ -83,7 +70,7 @@ public class BPMN2OWLConverter extends ToOWLConverter implements BPMN2OWLConvert
 	}
 	
 	/**
-	 * Adiciona a la ontología los elementos del tipo task
+	 * Adiciona a la ontologï¿½a los elementos del tipo task
 	 * 
 	 * @param taskList Map de las tareas
 	 * @param dataObjectList Mapa de los dataobjects en el proceso
@@ -131,7 +118,7 @@ public class BPMN2OWLConverter extends ToOWLConverter implements BPMN2OWLConvert
 	}
 	
 	/**
-	 * Adiciona a la ontología los elementos del tipo subprocess
+	 * Adiciona a la ontologï¿½a los elementos del tipo subprocess
 	 * 
 	 * @param subprocessList Mapa de subprocess
 	 * @param dataObjectList Mapa de los dataobjects en el proceso
@@ -180,7 +167,7 @@ public class BPMN2OWLConverter extends ToOWLConverter implements BPMN2OWLConvert
 	}
 	
 	/**
-	 * Adiciona a la ontología los elementos del tipo startEvent
+	 * Adiciona a la ontologï¿½a los elementos del tipo startEvent
 	 * 
 	 * @param startEventList Mapa de startEvent
 	 * @param sequenceFlows Mapa de los conectores sequenceFlow del proceso
@@ -206,7 +193,7 @@ public class BPMN2OWLConverter extends ToOWLConverter implements BPMN2OWLConvert
 	}
 	
 	/**
-	 * Adiciona a la ontología los elementos del tipo endEvent
+	 * Adiciona a la ontologï¿½a los elementos del tipo endEvent
 	 * 
 	 * @param endEventList Mapa de endEvent
 	 */
@@ -227,7 +214,7 @@ public class BPMN2OWLConverter extends ToOWLConverter implements BPMN2OWLConvert
 	}
 	
 	/**
-	 * Adiciona a la ontología los elementos del tipo xorGateways
+	 * Adiciona a la ontologï¿½a los elementos del tipo xorGateways
 	 * 
 	 * @param exclusiveGateways Mapa de xorGateways
 	 * @param sequenceFlows Mapa de los conectores sequenceFlow del proceso
@@ -253,7 +240,7 @@ public class BPMN2OWLConverter extends ToOWLConverter implements BPMN2OWLConvert
 	}
 	
 	/**
-	 * Adiciona a la ontología los elementos del tipo gateway
+	 * Adiciona a la ontologï¿½a los elementos del tipo gateway
 	 * 
 	 * @param gatewaysList Mapa de gateways
 	 * @param sequenceFlows Mapa de los conectores sequenceFlow del proceso
@@ -278,7 +265,7 @@ public class BPMN2OWLConverter extends ToOWLConverter implements BPMN2OWLConvert
 	}
 	
 	/**
-	 * Adiciona a la ontología los elementos del tipo dataObject
+	 * Adiciona a la ontologï¿½a los elementos del tipo dataObject
 	 * 
 	 * @param dataObjectList Mapa de dataObject
 	 */
@@ -301,7 +288,7 @@ public class BPMN2OWLConverter extends ToOWLConverter implements BPMN2OWLConvert
 	/**
 	 * Obtiene los identificadores de los elementos BPMN a los que precede un elemento dado
 	 * 
-	 * @param sequenceFlows Mapa de los conectores sequenceFlow del proceso
+	 * @param sequenceFlowList Mapa de los conectores sequenceFlow del proceso
 	 * @param task Elemento del que se desea conocer los elementos que precede
 	 * @return Lista de identificadores de los elementos BPMN identificados
 	 */

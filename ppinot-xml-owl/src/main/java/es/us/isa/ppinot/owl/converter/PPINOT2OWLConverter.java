@@ -1,25 +1,20 @@
 package es.us.isa.ppinot.owl.converter;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
-
 import es.us.isa.bpmn.handler.Bpmn20ModelHandlerInterface;
 import es.us.isa.bpmn.handler.ModelHandleInterface;
 import es.us.isa.bpmn.owl.converter.ToOWLConverter;
 import es.us.isa.ppinot.handler.PpiNotModelHandler;
 import es.us.isa.ppinot.model.PPI;
 import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
-import es.us.isa.ppinot.model.base.CountInstanceMeasure;
-import es.us.isa.ppinot.model.base.DataInstanceMeasure;
-import es.us.isa.ppinot.model.base.DataPropertyConditionInstanceMeasure;
-import es.us.isa.ppinot.model.base.StateConditionInstanceMeasure;
-import es.us.isa.ppinot.model.base.TimeInstanceMeasure;
+import es.us.isa.ppinot.model.base.*;
 import es.us.isa.ppinot.model.derived.DerivedMeasure;
 import es.us.isa.ppinot.owl.notation.Vocabulary;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyManager;
+
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Clases que convierten a owl, a partir de los objetos del modelo en un ModelHandleInterface para PPINOT
@@ -29,14 +24,14 @@ import es.us.isa.ppinot.owl.notation.Vocabulary;
  */
 public class PPINOT2OWLConverter extends ToOWLConverter implements PPINOT2OWLConverterInterface {
 	 
-	// URI de la ontología base BPMN 2.0
+	// URI de la ontologï¿½a base BPMN 2.0
 	private String bpmnOntologyURI;
-	// URI de la ontología BPMN relacionada con el proceso
+	// URI de la ontologï¿½a BPMN relacionada con el proceso
 	private String bpmnGeneratedOntologyURI;
-	// Objeto que maneja el modelo con la información del BPMN relacionado con el proceso
+	// Objeto que maneja el modelo con la informaciï¿½n del BPMN relacionado con el proceso
 	private Bpmn20ModelHandlerInterface bpmn20ModelHandler;
 	
-	// objeto mediante el cual se generan los axiomas que se adicionan a la ontología creada
+	// objeto mediante el cual se generan los axiomas que se adicionan a la ontologï¿½a creada
 	private GeneratePpinotAxioms generator;
 	
 	/**
@@ -51,19 +46,19 @@ public class PPINOT2OWLConverter extends ToOWLConverter implements PPINOT2OWLCon
 	}
 	
 	/**
-	 * Ejecuta las operaciones propias de cada subclase para generar la ontología a partir de un ModelHandleInterface
+	 * Ejecuta las operaciones propias de cada subclase para generar la ontologï¿½a a partir de un ModelHandleInterface
 	 * 
-	 * @param modelHandler Objeto ModelHandleInterface a partir del cual se genera la ontología
+	 * @param modelHandler Objeto ModelHandleInterface a partir del cual se genera la ontologï¿½a
 	 * @throws OWLOntologyCreationException
 	 */
     @Override
 	protected void generateOntology(ModelHandleInterface modelHandler) throws OWLOntologyCreationException {
     	
-    	// adiciona las declaraciones que indican las ontologías importadas en la ontología generada
+    	// adiciona las declaraciones que indican las ontologï¿½as importadas en la ontologï¿½a generada
     	String[] uris = { bpmnOntologyURI, Vocabulary.URI, bpmnGeneratedOntologyURI };
     	this.addOntologyImports(uris);
     	
-    	// crea el objeto mediante el cual se generan los axiomas que se adicionan a la ontología creada
+    	// crea el objeto mediante el cual se generan los axiomas que se adicionan a la ontologï¿½a creada
 		generator = new GeneratePpinotAxioms(
 				this.getManager().getOWLDataFactory(), this.getManager(), this.getOntology(), 
 				bpmnOntologyURI, bpmnGeneratedOntologyURI, this.getOntologyURI());
@@ -73,7 +68,7 @@ public class PPINOT2OWLConverter extends ToOWLConverter implements PPINOT2OWLCon
 
 		try {
 			
-			// adiciona a la ontología cada uno de los tipos de elementos PPINOT
+			// adiciona a la ontologï¿½a cada uno de los tipos de elementos PPINOT
 			this.getDeclarationIndividualsCountInstanceMeasure( ppiNotModelHandler.getCountInstanceModelMap());
 
 			this.getDeclarationIndividualsTimeInstanceMeasure( ppiNotModelHandler.getTimeInstanceModelMap());
@@ -99,20 +94,20 @@ public class PPINOT2OWLConverter extends ToOWLConverter implements PPINOT2OWLCon
 	}
 	
 	/**
-	 * Da valor a propiedades de la clase que tienen información sobre el BPMN relacionado con el mismo proceso
+	 * Da valor a propiedades de la clase que tienen informaciï¿½n sobre el BPMN relacionado con el mismo proceso
 	 * 
-	 * @param bpmnGeneratedOntologyURI URI de la ontología BPMN relacionada con el proceso
-	 * @param bpmn20ModelHandler Objeto que maneja el modelo con la información del BPMN relacionado con el proceso
+	 * @param bpmnGeneratedOntologyURI URI de la ontologï¿½a BPMN relacionada con el proceso
+	 * @param bpmn20ModelHandler Objeto que maneja el modelo con la informaciï¿½n del BPMN relacionado con el proceso
 	 */
     public void setBpmnData(String bpmnGeneratedOntologyURI, Bpmn20ModelHandlerInterface bpmn20ModelHandler) {
 
-    	this.bpmnOntologyURI = es.us.isa.bpmn.owl.notation.Vocabulary.URI;
+    	this.bpmnOntologyURI = es.us.isa.bpmn.owl.notation.Vocabulary.ABSTRACTBP_URI;
     	this.bpmnGeneratedOntologyURI = bpmnGeneratedOntologyURI;
     	this.bpmn20ModelHandler = bpmn20ModelHandler;
     }
     
 	/**
-	 * Adiciona a la ontología las medidas CountInstanceMeasure
+	 * Adiciona a la ontologï¿½a las medidas CountInstanceMeasure
 	 * 
 	 * @param modelMap Map de las medidas
 	 * @throws Exception
@@ -129,7 +124,7 @@ public class PPINOT2OWLConverter extends ToOWLConverter implements PPINOT2OWLCon
 	}
 	
 	/**
-	 * Adiciona a la ontología las medidas TimeInstanceMeasure
+	 * Adiciona a la ontologï¿½a las medidas TimeInstanceMeasure
 	 * 
 	 * @param modelMap Map de las medidas
 	 * @throws Exception
@@ -146,7 +141,7 @@ public class PPINOT2OWLConverter extends ToOWLConverter implements PPINOT2OWLCon
 	}
 	
 	/**
-	 * Adiciona a la ontología las medidas StateConditionInstanceMeasure
+	 * Adiciona a la ontologï¿½a las medidas StateConditionInstanceMeasure
 	 * 
 	 * @param modelMap Map de las medidas
 	 * @throws Exception
@@ -163,7 +158,7 @@ public class PPINOT2OWLConverter extends ToOWLConverter implements PPINOT2OWLCon
 	}
 	
 	/**
-	 * Adiciona a la ontología las medidas DataPropertyConditionInstanceMeasure
+	 * Adiciona a la ontologï¿½a las medidas DataPropertyConditionInstanceMeasure
 	 * 
 	 * @param modelMap Map de las medidas
 	 * @throws Exception
@@ -180,7 +175,7 @@ public class PPINOT2OWLConverter extends ToOWLConverter implements PPINOT2OWLCon
 	}
 	
 	/**
-	 * Adiciona a la ontología las medidas DataInstanceMeasure
+	 * Adiciona a la ontologï¿½a las medidas DataInstanceMeasure
 	 * 
 	 * @param modelMap Map de las medidas
 	 * @throws Exception
@@ -197,7 +192,7 @@ public class PPINOT2OWLConverter extends ToOWLConverter implements PPINOT2OWLCon
 	}
 	
 	/**
-	 * Adiciona a la ontología las medidas AggregatedMeasure
+	 * Adiciona a la ontologï¿½a las medidas AggregatedMeasure
 	 * 
 	 * @param modelMap Map de las medidas
 	 * @throws Exception
@@ -215,7 +210,7 @@ public class PPINOT2OWLConverter extends ToOWLConverter implements PPINOT2OWLCon
 	}
 	
 	/**
-	 * Adiciona a la ontología las medidas DerivedMeasure
+	 * Adiciona a la ontologï¿½a las medidas DerivedMeasure
 	 * 
 	 * @param modelMap Map de las medidas
 	 * @throws Exception
@@ -232,7 +227,7 @@ public class PPINOT2OWLConverter extends ToOWLConverter implements PPINOT2OWLCon
 	}
 	
 	/**
-	 * Adiciona a la ontología los Ppi
+	 * Adiciona a la ontologï¿½a los Ppi
 	 * 
 	 * @param modelMap Map de las medidas
 	 * @throws Exception

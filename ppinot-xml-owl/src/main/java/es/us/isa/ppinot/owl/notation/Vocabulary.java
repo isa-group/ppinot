@@ -1,7 +1,7 @@
 package es.us.isa.ppinot.owl.notation;
 
 /**
- * Clase con el vocabulario utilizado en una ontología PPINOT
+ * Clase con el vocabulario utilizado en una ontologï¿½a PPINOT
  * 
  * @author Edelia
  *
@@ -17,7 +17,8 @@ public final class Vocabulary {
 	public static final String ACTIVITYSTART_URI = URINT + "ActivityStart";
 	public static final String AGGREGATEDMEASURE_URI = URINT + "AggregatedMeasure";
 	public static final String AGGREGATES_URI = URINT + "aggregates"; 
-	public static final String APPLIESTO_URI = URINT + "appliesTo"; 
+	public static final String APPLIESTO_URI = URINT + "appliesTo";
+    public static final String CHANGESTOSTATE_URI = URINT + "changesToState";
 	public static final String COUNTMEASURE_URI = URINT + "CountMeasure"; 
 	public static final String CYCLICTIMEMEASURE_URI = URINT + "CyclicTimeMeasure";
 	public static final String DATAOUPUTASSOCIATION_URI = URINT + "DataOutputAssociation";
@@ -54,8 +55,10 @@ public final class Vocabulary {
 	public static final String PROCESSINSTANCECONDITION_URI = URINT + "ProcessInstanceCondition";
 	public static final String STATECONDITION_URI = URINT + "StateCondition"; 
 	public static final String STATECONDITIONMEASURE_URI = URINT + "StateConditionMeasure"; 
-	public static final String SUCCEEDS_URI = URINT + "succeeds"; 
-	public static final String TO_URI = URINT + "to"; 
+	public static final String SUCCEEDS_URI = URINT + "succeeds";
+    public static final String STATE_URI = URINT + "state";
+    public static final String TIMEMEASURE_URI = URINT + "TimeMeasure";
+    public static final String TO_URI = URINT + "to"; 
 	public static final String WHEN_URI = URINT + "when";  
 	public static final String WRITERACTIVITYFOR_URI = URINT + "WriterActivityFor";
 

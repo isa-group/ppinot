@@ -65,6 +65,7 @@ public class DLPPINotAnalyser implements PPINotAnalyser {
         AnalysisOntologyBuilder builder = new AnalysisOntologyBuilder(owlManager);
         String analysisURI = ppinotBaseIRI + bpmnModelHandler.getProcId() + "-analysis.owl";
         analysisOntology = builder.buildAnalysisOntology(analysisURI, ppinotOntology);
+
         engine = new DLQueryEngine(reasonerFactory.createReasoner(analysisOntology));
 
     }
@@ -76,9 +77,9 @@ public class DLPPINotAnalyser implements PPINotAnalyser {
 
     @Override
     public Set<String> measuredBPElements(Set<String> ppiId) {
-        DLQueryBuilder builder = new DLQueryBuilder("?measuredBy some ?ppis")
+        DLQueryBuilder builder = new DLQueryBuilder("?measuredBy some ?ppiId")
                 .setParameter("measuredBy", RelationshipsVocabulary.MEASUREDBY_URI)
-                .setParameter("ppis", conversor.toOwlId(ppinotOntology.getOntologyID().getOntologyIRI(), ppiId));
+                .setParameter("ppiId", conversor.toOwlId(ppinotOntology.getOntologyID().getOntologyIRI(), ppiId));
 
         Set<OWLNamedIndividual> result = engine.getInstances(builder.toString(), false);
         return conversor.toId(result);
@@ -86,7 +87,12 @@ public class DLPPINotAnalyser implements PPINotAnalyser {
 
     @Override
     public Set<String> measuredPPIs(String bpElementId) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        DLQueryBuilder builder = new DLQueryBuilder("inv(?measuredBy) value ?bpElementId")
+                .setParameter("measuredBy", RelationshipsVocabulary.MEASUREDBY_URI)
+                .setParameter("bpElementId", conversor.toOwlId(ppinotOntology.getOntologyID().getOntologyIRI(), bpElementId));
+
+        Set<OWLNamedIndividual> result = engine.getInstances(builder.toString(), false);
+        return conversor.toId(result);
     }
 
     @Override
@@ -95,12 +101,12 @@ public class DLPPINotAnalyser implements PPINotAnalyser {
     }
 
     @Override
-    public Set<String> notInvolvedBPElements(Set<String> ppiId) {
+    public Set<String> notInvolvedBPElements() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public Set<String> involvedInAllBPElements(Set<String> ppiId) {
+    public Set<String> involvedInAllBPElements() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

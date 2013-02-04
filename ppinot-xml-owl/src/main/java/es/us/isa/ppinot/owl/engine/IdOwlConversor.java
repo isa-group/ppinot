@@ -22,6 +22,10 @@ public class IdOwlConversor {
 
     }
 
+    public String toOwlId(IRI prefix, String id) {
+        return prefix.toString() + "#" + id;
+    }
+
     public Set<String> toOwlId(IRI prefix, Set<String> ids) {
         Set<String> result = new HashSet<String>();
         for(String id: ids) {

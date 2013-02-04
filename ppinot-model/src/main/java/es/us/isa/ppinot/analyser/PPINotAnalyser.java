@@ -12,8 +12,8 @@ public interface PPINotAnalyser {
     public Set<String> measuredPPIs(String bpElementId);
 
     public Set<String> involvedBPElements(Set<String> ppiId);
-    public Set<String> notInvolvedBPElements(Set<String> ppiId);
-    public Set<String> involvedInAllBPElements(Set<String> ppiId);
+    public Set<String> notInvolvedBPElements();
+    public Set<String> involvedInAllBPElements();
 
     public Set<String> associatedPPIs(String bpElementId);
 

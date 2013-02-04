@@ -17,10 +17,12 @@ public class TimeAxiomBuilder extends AbstractMeasureAxiomBuilder {
 
     @Override
     protected Collection<OWLIndividual> getIndividuals(OWLOntology analysisOntology, OWLOntology ppinotOntology) {
+
         OWLDataFactory factory = ppinotOntology.getOWLOntologyManager().getOWLDataFactory();
         OWLClass cyclicTimeMeasure = factory.getOWLClass(IRI.create(Vocabulary.CYCLICTIMEMEASURE_URI));
         OWLClass linearTimeMeasure = factory.getOWLClass(IRI.create(Vocabulary.LINEARTIMEMEASURE_URI));
         OWLClass timeMeasure = factory.getOWLClass(IRI.create(Vocabulary.TIMEMEASURE_URI));
+
         Set<OWLIndividual> individuals = cyclicTimeMeasure.getIndividuals(ppinotOntology);
         individuals.addAll(linearTimeMeasure.getIndividuals(ppinotOntology));
         individuals.addAll(timeMeasure.getIndividuals(ppinotOntology));
@@ -34,9 +36,9 @@ public class TimeAxiomBuilder extends AbstractMeasureAxiomBuilder {
         sb.append("?inv value ?i");
         sb.append(" EquivalentTo ");
         sb.append(" inv(?appliesTo) some (inv(?from) value ?i and not(?changesToState some ?endState))");
-        sb.append(" and ");
+        sb.append(" or ");
         sb.append(" inv(?appliesTo) some (inv(?to) value ?i and not(?changesToState some ?startState))");
-        sb.append(" and ");
+        sb.append(" or ");
         sb.append(" ( ?succ some (inv(?appliesTo) some (inv(?from) value ?i)) and ");
         sb.append("   ?prec some (inv(?appliesTo) some (inv(?to) value ?i)) ) ");
 

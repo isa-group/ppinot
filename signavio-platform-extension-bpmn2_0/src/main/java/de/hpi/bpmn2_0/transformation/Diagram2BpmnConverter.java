@@ -932,8 +932,9 @@ System.out.println("--> AbstractDataObject - "+node);
 		}
 System.out.println("despues getAllNodesRecursively ---> allPpi - " + allPpi.size()+", allPpiCon - "+ allPpiCon.size()+", allPpiPpi - "+ allPpiPpi.size());
 		/* EDE: */
+		Process currentProcess =  null;
 		while (allParticipantNodes.size() > 0) {
-			Process currentProcess = new Process();
+			currentProcess = new Process();
 			currentProcess.setId("");
 			
 			if(this.definitions.getName() != null 
@@ -941,16 +942,22 @@ System.out.println("despues getAllNodesRecursively ---> allPpi - " + allPpi.size
 				currentProcess.setName(this.definitions.getName());
 			}
 
-System.out.println("to process participant node - "+allNodes.get(0).getClass().getName());			
-System.out.println("1 ---> allPpi - " + allPpi.size()+", allPpiCon - "+ allPpiCon.size()+", allPpiPpi - "+ allPpiPpi.size());
+//System.out.println("to process participant node - "+allNodes.get(0).getClass().getName());			
+//System.out.println("1 ---> allPpi - " + allPpi.size()+", allPpiCon - "+ allPpiCon.size()+", allPpiPpi - "+ allPpiPpi.size());
 			addNode(currentProcess,
 					this.getBpmnElementForNode(allParticipantNodes.get(0)), allParticipantNodes, ppiset, allPpi, allPpiCon, allPpiPpi);
 System.out.println("2 ---> allPpi - " + allPpi.size()+", allPpiCon - "+ allPpiCon.size()+", allPpiPpi - "+ allPpiPpi.size());
+
+			// Generate Process Id if necessary
+			if(!currentProcess.hasId()) {
+//System.out.println("no tenia id");
+				currentProcess.setId(SignavioUUID.generate());
+			}
+//System.out.println("**** ID CURRENTPROCESS - "+currentProcess.getId());
 		}
-		/* fin EDE */
 
 		/* Identify components within allNodes */
-		Process currentProcess =  null;
+/* fin EDE */
 		while (allNodes.size() > 0) {
 			currentProcess = new Process();
 			currentProcess.setId("");
@@ -970,8 +977,10 @@ System.out.println("2 ---> allPpi - " + allPpi.size()+", allPpiCon - "+ allPpiCo
 			
 			// Generate Process Id if necessary
 			if(!currentProcess.hasId()) {
+//System.out.println("no tenia id");
 				currentProcess.setId(SignavioUUID.generate());
 			}
+//System.out.println("**** ID CURRENTPROCESS - "+currentProcess.getId());
 		}
 
 		/* EDE: se adicionan los ppi que no tienen conectores */
@@ -984,7 +993,17 @@ System.out.println("2 ---> allPpi - " + allPpi.size()+", allPpiCon - "+ allPpiCo
 					&& this.definitions.getName().length() > 0) {
 				currentProcess.setName(this.definitions.getName());
 			}
+			
+			if(!currentProcess.hasId()) {
+//System.out.println("no tenia id");
+				currentProcess.setId(SignavioUUID.generate());
+			}
+//System.out.println("**** ID CURRENTPROCESS - "+currentProcess.getId());
 		}
+		
+		if (!this.processes.contains(currentProcess))
+			this.processes.add(currentProcess);
+			
 		if (allPpiCon.size()==0) {
 			
 			List<Object> toremove = new ArrayList<Object>();
@@ -1048,12 +1067,34 @@ System.out.println("2 ---> allPpi - " + allPpi.size()+", allPpiCon - "+ allPpiCo
 
 		// inserta el ppiset en el proceso
 		if (currentProcess.getExtensionElements()==null) {
+System.out.println("NO hay extensions elements -"+currentProcess.getId()+"---");
 			ExtensionElements extensionElements = new ExtensionElements();
 			extensionElements.getAny().add(ppiset);
 			currentProcess.setExtensionElements(extensionElements);
-		} else
+		} else {
+System.out.println("hay extensions elements");
 			currentProcess.getExtensionElements().add(ppiset);
-
+		}
+/*
+if (ppiset!=null) {
+System.out.println("ppiset es NO NULL");
+System.out.println(ppiset.getCountMeasure().size());
+System.out.println(ppiset.getTimeMeasure().size());
+System.out.println(ppiset.getDataPropertyConditionMeasure().size());
+System.out.println(ppiset.getStateConditionMeasure().size());
+System.out.println(ppiset.getDataMeasure().size());
+System.out.println(ppiset.getAggregatedMeasure().size());
+System.out.println(ppiset.getDerivedSingleInstanceMeasure().size());
+System.out.println(ppiset.getDerivedMultiInstanceMeasure().size());
+System.out.println(ppiset.getAppliesToElementConnector().size());
+System.out.println(ppiset.getAppliesToDataConnector().size());
+System.out.println(ppiset.getTimeConnector().size());
+System.out.println(ppiset.getUses().size());
+System.out.println(ppiset.getAggregates().size());
+System.out.println(ppiset.getIsGroupedBy().size());
+} else
+System.out.println("ppiset es NULL");
+*/		
 		/* fin EDE */
 
 		this.addSequenceFlowsToProcess();

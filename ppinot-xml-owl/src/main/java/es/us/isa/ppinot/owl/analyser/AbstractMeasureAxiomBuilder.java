@@ -2,7 +2,10 @@ package es.us.isa.ppinot.owl.analyser;
 
 import es.us.isa.ppinot.owl.engine.DLQueryBuilder;
 import es.us.isa.ppinot.owl.engine.DLQueryParser;
-import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.model.OWLAxiom;
+import org.semanticweb.owlapi.model.OWLIndividual;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
+import org.semanticweb.owlapi.model.OWLOntology;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -14,8 +17,7 @@ import java.util.Set;
  * Time: 21:53
  */
 public abstract class AbstractMeasureAxiomBuilder {
-    public Set<? extends OWLAxiom> buildAxioms(OWLOntology analysisOntology, OWLOntology ppinotOntology) {
-        OWLDataFactory factory = ppinotOntology.getOWLOntologyManager().getOWLDataFactory();
+    public Set<OWLAxiom> buildAxioms(OWLOntology analysisOntology, OWLOntology ppinotOntology) {
         DLQueryParser parser = new DLQueryParser(analysisOntology);
         Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
 

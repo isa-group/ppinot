@@ -22,7 +22,7 @@ public class DLQueryBuilder {
     }
 
     public DLQueryBuilder setParameter(String parameter, String value) {
-        parameters.put(parameter, value);
+        parameters.put(parameter, "<"+value+">");
         return this;
     }
 

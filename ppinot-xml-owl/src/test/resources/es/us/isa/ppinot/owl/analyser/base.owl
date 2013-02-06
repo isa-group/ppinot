@@ -1,0 +1,241 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#"
+     xml:base="http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848="http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:ppinot="http://www.isa.us.es/ontologies/ppinot.owl#"
+     xmlns:sid-4936fb97-f79a-4a2e-8958-dfc71d0bc8482="http://www.isa.us.es/ontologies/bpmn/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#">
+    <owl:Ontology rdf:about="http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl">
+        <owl:imports rdf:resource="http://www.isa.us.es/ontologies/AbstractBP.owl"/>
+        <owl:imports rdf:resource="http://www.isa.us.es/ontologies/ppinot.owl"/>
+        <owl:imports rdf:resource="http://www.isa.us.es/ontologies/bpmn/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#appliesTo -->
+
+    <owl:ObjectProperty rdf:about="http://www.isa.us.es/ontologies/ppinot.owl#appliesTo"/>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#from -->
+
+    <owl:ObjectProperty rdf:about="http://www.isa.us.es/ontologies/ppinot.owl#from"/>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#measuresData -->
+
+    <owl:ObjectProperty rdf:about="http://www.isa.us.es/ontologies/ppinot.owl#measuresData"/>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#meets -->
+
+    <owl:ObjectProperty rdf:about="http://www.isa.us.es/ontologies/ppinot.owl#meets"/>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#to -->
+
+    <owl:ObjectProperty rdf:about="http://www.isa.us.es/ontologies/ppinot.owl#to"/>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#when -->
+
+    <owl:ObjectProperty rdf:about="http://www.isa.us.es/ontologies/ppinot.owl#when"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#ActivityEnd -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/ppinot.owl#ActivityEnd"/>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#ActivityStart -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/ppinot.owl#ActivityStart"/>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#CountMeasure -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/ppinot.owl#CountMeasure"/>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#DataMeasure -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/ppinot.owl#DataMeasure"/>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#DataPropertyCondition -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/ppinot.owl#DataPropertyCondition"/>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#DataPropertyConditionMeasure -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/ppinot.owl#DataPropertyConditionMeasure"/>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#LinearTimeMeasure -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/ppinot.owl#LinearTimeMeasure"/>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#StateCondition -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/ppinot.owl#StateCondition"/>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot.owl#StateConditionMeasure -->
+
+    <owl:Class rdf:about="http://www.isa.us.es/ontologies/ppinot.owl#StateConditionMeasure"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/bpmn/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#Dataobject1 -->
+
+    <owl:NamedIndividual rdf:about="http://www.isa.us.es/ontologies/bpmn/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#Dataobject1"/>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#TimeInstantsid-F23CA3E1-9D3C-46B5-BB7F-E37E27DB729E -->
+
+    <owl:NamedIndividual rdf:about="http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#TimeInstantsid-F23CA3E1-9D3C-46B5-BB7F-E37E27DB729E">
+        <rdf:type rdf:resource="http://www.isa.us.es/ontologies/ppinot.owl#ActivityStart"/>
+        <ppinot:appliesTo rdf:resource="http://www.isa.us.es/ontologies/bpmn/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#sid-364A55D5-916D-4669-B4A5-29E82CACEB8C"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#endsid-0B0B61E3-89F3-4028-9746-D122688C2E93 -->
+
+    <owl:NamedIndividual rdf:about="http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#endsid-0B0B61E3-89F3-4028-9746-D122688C2E93">
+        <rdf:type rdf:resource="http://www.isa.us.es/ontologies/ppinot.owl#ActivityEnd"/>
+        <ppinot:appliesTo rdf:resource="http://www.isa.us.es/ontologies/bpmn/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#sid-0B0B61E3-89F3-4028-9746-D122688C2E93"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#sid-3B70F4A1-8F9F-4909-A3AC-8F06FBDC6C97 -->
+
+    <owl:NamedIndividual rdf:about="http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#sid-3B70F4A1-8F9F-4909-A3AC-8F06FBDC6C97">
+        <rdf:type rdf:resource="http://www.isa.us.es/ontologies/ppinot.owl#LinearTimeMeasure"/>
+        <ppinot:to rdf:resource="http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#endsid-0B0B61E3-89F3-4028-9746-D122688C2E93"/>
+        <ppinot:from rdf:resource="http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#startsid-364A55D5-916D-4669-B4A5-29E82CACEB8C"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#sid-70636F2E-63D1-47D3-A17C-8832E2F4890F -->
+
+    <owl:NamedIndividual rdf:about="http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#sid-70636F2E-63D1-47D3-A17C-8832E2F4890F">
+        <rdf:type rdf:resource="http://www.isa.us.es/ontologies/ppinot.owl#StateConditionMeasure"/>
+        <ppinot:meets rdf:resource="http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#sid-70636F2E-63D1-47D3-A17C-8832E2F4890FRunning"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#sid-70636F2E-63D1-47D3-A17C-8832E2F4890FRunning -->
+
+    <owl:NamedIndividual rdf:about="http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#sid-70636F2E-63D1-47D3-A17C-8832E2F4890FRunning">
+        <rdf:type rdf:resource="http://www.isa.us.es/ontologies/ppinot.owl#StateCondition"/>
+        <ppinot:appliesTo rdf:resource="http://www.isa.us.es/ontologies/bpmn/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#sid-0B0B61E3-89F3-4028-9746-D122688C2E93"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#sid-7B5191F7-B178-47CB-AC6E-0A99C1577DC3 -->
+
+    <owl:NamedIndividual rdf:about="http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#sid-7B5191F7-B178-47CB-AC6E-0A99C1577DC3">
+        <rdf:type rdf:resource="http://www.isa.us.es/ontologies/ppinot.owl#DataPropertyConditionMeasure"/>
+        <ppinot:meets rdf:resource="http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#sid-7B5191F7-B178-47CB-AC6E-0A99C1577DC3Restriction"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#sid-7B5191F7-B178-47CB-AC6E-0A99C1577DC3Restriction -->
+
+    <owl:NamedIndividual rdf:about="http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#sid-7B5191F7-B178-47CB-AC6E-0A99C1577DC3Restriction">
+        <rdf:type rdf:resource="http://www.isa.us.es/ontologies/ppinot.owl#DataPropertyCondition"/>
+        <ppinot:appliesTo rdf:resource="http://www.isa.us.es/ontologies/bpmn/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#Dataobject1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#sid-98764615-A771-4C7D-8619-16008DAE4679 -->
+
+    <owl:NamedIndividual rdf:about="http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#sid-98764615-A771-4C7D-8619-16008DAE4679">
+        <rdf:type rdf:resource="http://www.isa.us.es/ontologies/ppinot.owl#DataMeasure"/>
+        <ppinot:measuresData rdf:resource="http://www.isa.us.es/ontologies/bpmn/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#Dataobject1"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#sid-F23CA3E1-9D3C-46B5-BB7F-E37E27DB729E -->
+
+    <owl:NamedIndividual rdf:about="http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#sid-F23CA3E1-9D3C-46B5-BB7F-E37E27DB729E">
+        <rdf:type rdf:resource="http://www.isa.us.es/ontologies/ppinot.owl#CountMeasure"/>
+        <ppinot:when rdf:resource="http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#TimeInstantsid-F23CA3E1-9D3C-46B5-BB7F-E37E27DB729E"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#startsid-364A55D5-916D-4669-B4A5-29E82CACEB8C -->
+
+    <owl:NamedIndividual rdf:about="http://www.isa.us.es/ontologies/ppinot/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#startsid-364A55D5-916D-4669-B4A5-29E82CACEB8C">
+        <rdf:type rdf:resource="http://www.isa.us.es/ontologies/ppinot.owl#ActivityStart"/>
+        <ppinot:appliesTo rdf:resource="http://www.isa.us.es/ontologies/bpmn/sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848.owl#sid-364A55D5-916D-4669-B4A5-29E82CACEB8C"/>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.2.3.1806) http://owlapi.sourceforge.net -->
+

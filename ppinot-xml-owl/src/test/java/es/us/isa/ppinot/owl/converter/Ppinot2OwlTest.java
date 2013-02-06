@@ -1,24 +1,21 @@
-package es.us.isa.ppinot.owl.converter.test;
-
-import static org.junit.Assert.*;
-
-import javax.xml.bind.JAXBException;
+package es.us.isa.ppinot.owl.converter;
 
 import es.us.isa.bpmn.handler.Bpmn20ModelHandler;
 import es.us.isa.bpmn.handler.Bpmn20ModelHandlerInterface;
+import es.us.isa.bpmn.owl.converter.BPMN2OWLConverter;
 import es.us.isa.bpmn.owl.converter.BPMN2OWLConverterInterface;
 import es.us.isa.ppinot.handler.PpiNotModelHandler;
 import es.us.isa.ppinot.handler.PpiNotModelHandlerInterface;
-import es.us.isa.ppinot.owl.converter.PPINOT2OWLConverter;
-import es.us.isa.ppinot.owl.converter.PPINOT2OWLConverterInterface;
-
 import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-
-import es.us.isa.bpmn.owl.converter.BPMN2OWLConverter;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+
+import javax.xml.bind.JAXBException;
+import java.io.InputStream;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * Clase con los casos de prueba del proyecto
@@ -26,7 +23,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
  * @author Edelia
  *
  */
-public class TestPpinot2Owl {
+public class Ppinot2OwlTest {
 
 	private String bpmnBaseIRI = "http://www.isa.us.es/ontologies/bpmn/";
 	private String ppinotBaseIRI = "http://www.isa.us.es/ontologies/ppinot/";
@@ -35,62 +32,53 @@ public class TestPpinot2Owl {
     private OWLOntology ppinotOntology;
 
 	/**
-	 * Genera la ontología OWL con la URI especificada a partir de un xml
+	 * Genera la ontologï¿½a OWL con la URI especificada a partir de un xml
 	 * 
-	 * @param baseIRI URI de la ontología creada
-	 * @param sourceFile XML a partir del cual se crea la ontología
+	 * @param sourceFile XML a partir del cual se crea la ontologï¿½a
 	 * @return
 	 */
 	private Boolean ppinot2Owl(String sourceFile) {
-		
-		String caminoOrigen = "D:/eclipse-appweb-indigo/ppinot-repository/ppinot-xml-owl/target/test-classes/xml/";
-		String caminoDestino = "D:/eclipse-appweb-indigo/ppinot-repository/ppinot-xml-owl/target/test-classes/owl/";
-		
-		try {
+
+//		String caminoDestino = "D:/eclipse-appweb-indigo/ppinot-repository/ppinot-xml-owl/target/test-classes/owl/";
+        String caminoDestino = "./";
+
+        try {
             OWLOntologyManager owlManager = OWLManager.createOWLOntologyManager();
-//            InputStream sourceStream = getClass().getResourceAsStream(sourceFile);
 
-			// ----- BPMN
+            InputStream sourceStream = getClass().getResourceAsStream(sourceFile);
+            Bpmn20ModelHandlerInterface bpmnModelHandler = new Bpmn20ModelHandler();
+            bpmnModelHandler.load(sourceStream);
 
-			// importa el xml
-			Bpmn20ModelHandlerInterface bpmnModelHandler = new Bpmn20ModelHandler();
-			bpmnModelHandler.load(caminoOrigen, sourceFile);
-//            bpmnModelHandler.load( sourceStream );
-
-			// convierte a owl
             BPMN2OWLConverterInterface bpmnConverter = new BPMN2OWLConverter(bpmnBaseIRI, owlManager);
-			bpmnConverter.convertToOwlOntology(bpmnModelHandler);
-			bpmnOntologyURI = bpmnConverter.getOntologyURI();
-			
-			// ----- PPINOT
+            bpmnConverter.convertToOwlOntology(bpmnModelHandler);
+            bpmnConverter.saveOntology(caminoDestino, bpmnModelHandler.getProcId()+".owl");
+            bpmnOntologyURI = bpmnConverter.getOntologyURI();
 
-			// importa el xml
-			PpiNotModelHandlerInterface ppinotModelHandler = new PpiNotModelHandler();
-			ppinotModelHandler.load(caminoOrigen, sourceFile);
-//			ppinotModelHandler.load( sourceStream );
+            sourceStream =  getClass().getResourceAsStream(sourceFile);
+            PpiNotModelHandlerInterface ppinotModelHandler = new PpiNotModelHandler();
+            ppinotModelHandler.load(sourceStream);
 
-			// convierte a owl
             PPINOT2OWLConverterInterface ppinotConverter = new PPINOT2OWLConverter(ppinotBaseIRI, owlManager);
-			ppinotConverter.setBpmnData( bpmnOntologyURI, bpmnModelHandler);
-			ppinotOntology = ppinotConverter.convertToOwlOntology(ppinotModelHandler);
+            ppinotConverter.setBpmnData(bpmnOntologyURI, bpmnModelHandler);
+            ppinotOntology = ppinotConverter.convertToOwlOntology(ppinotModelHandler);
 
-			// guarda la ontologia generada
-			ppinotConverter.saveOntology(caminoDestino, "ExpressionsOWLPpinot "+sourceFile.substring(0, sourceFile.indexOf("."))+".owl");
+            // guarda la ontologia generada
+            ppinotConverter.saveOntology(caminoDestino, "ExpressionsOWLPpinot " + sourceFile.substring(0, sourceFile.indexOf(".")) + ".owl");
 
-			return true;
-		} catch (JAXBException e) {
+            return true;
+        } catch (JAXBException e) {
 
-			e.printStackTrace();
-		} catch (OWLOntologyCreationException e) {
+            e.printStackTrace();
+        } catch (OWLOntologyCreationException e) {
 
-			e.printStackTrace();
-		} catch (Exception e) {
+            e.printStackTrace();
+        } catch (Exception e) {
 
-			e.printStackTrace();
-		}
-		
-		return false;
-	}
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 
 	@Test
 	public void testBase() {

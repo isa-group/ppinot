@@ -33,14 +33,14 @@ public class TimeAxiomBuilder extends AbstractMeasureAxiomBuilder {
     @Override
     protected DLQueryBuilder getQueryBuilder() {
         StringBuilder sb = new StringBuilder();
-        sb.append("?inv value ?i");
-        sb.append(" EquivalentTo ");
-        sb.append(" inv(?appliesTo) some (inv(?from) value ?i and not(?changesToState some ?endState))");
+        sb.append("?inv some {?i}");
+        sb.append(" EquivalentTo: ");
+        sb.append(" inverse(?appliesTo) some (inverse(?from) some {?i} and not(?changesToState some ?endState))");
         sb.append(" or ");
-        sb.append(" inv(?appliesTo) some (inv(?to) value ?i and not(?changesToState some ?startState))");
+        sb.append(" inverse(?appliesTo) some (inverse(?to) some {?i} and not(?changesToState some ?startState))");
         sb.append(" or ");
-        sb.append(" ( ?succ some (inv(?appliesTo) some (inv(?from) value ?i)) and ");
-        sb.append("   ?prec some (inv(?appliesTo) some (inv(?to) value ?i)) ) ");
+        sb.append(" ( ?succ some (inverse(?appliesTo) some (inverse(?from) some {?i})) and ");
+        sb.append("   ?prec some (inverse(?appliesTo) some (inverse(?to) some {?i})) ) ");
 
         DLQueryBuilder queryBuilder = new DLQueryBuilder(sb.toString());
         queryBuilder.setParameter("inv", RelationshipsVocabulary.INV_URI);

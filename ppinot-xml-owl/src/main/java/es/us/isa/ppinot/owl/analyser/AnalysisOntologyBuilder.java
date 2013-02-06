@@ -36,7 +36,13 @@ public class AnalysisOntologyBuilder {
         return abstractMeasureAxiomBuilders;
     }
 
-    private void addImports(OWLOntology analysisOntology, OWLOntology ppinotOntology) {
+    protected void addImports(OWLOntology analysisOntology, OWLOntology ppinotOntology) {
+        try {
+            owlManager.loadOntology(IRI.create(RelationshipsVocabulary.PPINOT_RELATIONSHIPS_URI));
+        } catch (OWLOntologyCreationException e) {
+            throw new RuntimeException(e);
+        }
+
         owlManager.applyChange(new AddImport(analysisOntology,
                 owlManager.getOWLDataFactory().getOWLImportsDeclaration(IRI.create(RelationshipsVocabulary.PPINOT_RELATIONSHIPS_URI))));
         owlManager.applyChange(new AddImport(analysisOntology,

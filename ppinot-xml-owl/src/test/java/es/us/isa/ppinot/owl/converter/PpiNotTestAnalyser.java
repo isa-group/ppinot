@@ -1,31 +1,24 @@
-package es.us.isa.ppinot.owl.converter.test;
+package es.us.isa.ppinot.owl.converter;
+
+import es.us.isa.ppinot.owl.notation.Vocabulary;
+import org.semanticweb.owlapi.model.*;
 
 import java.util.Set;
 
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLDataFactory;
-import org.semanticweb.owlapi.model.OWLIndividual;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.model.OWLOntology;
-
-import es.us.isa.ppinot.owl.notation.Vocabulary;
-
 
 /**
- * Clase que comprueba si se cumplen ciertas condiciones en una ontología OWL para PPINOT
+ * Clase que comprueba si se cumplen ciertas condiciones en una ontologï¿½a OWL para PPINOT
  * 
  * @author Edelia
  *
  */
 public class PpiNotTestAnalyser {
 
-	// URI de la ontología para PPINOT
+	// URI de la ontologï¿½a para PPINOT
 	private String ppinotOntologyURI;
-	// URI de la ontología para BPMN 2.0 relacionada con el mismo proceso que la de PPINOT
+	// URI de la ontologï¿½a para BPMN 2.0 relacionada con el mismo proceso que la de PPINOT
 	private String bpmnOntologyURI;
-	// Ontología a verificar
+	// Ontologï¿½a a verificar
 	private OWLOntology ppinotOntology;
 	// Objeto factory utilizado para crear objetos OWL
 	private OWLDataFactory factory;
@@ -33,8 +26,8 @@ public class PpiNotTestAnalyser {
 	/**
 	 * Constructor de la clase
 	 *  
-	 * @param ontology Ontología a verificar
-	 * @param bpmnOntologyURI URI de la ontología para BPMN 2.0 relacionada con el mismo proceso que la de PPINOT
+	 * @param ontology Ontologï¿½a a verificar
+	 * @param bpmnOntologyURI URI de la ontologï¿½a para BPMN 2.0 relacionada con el mismo proceso que la de PPINOT
 	 */
 	public PpiNotTestAnalyser(OWLOntology ontology, String bpmnOntologyURI){
 
@@ -67,7 +60,7 @@ public class PpiNotTestAnalyser {
 	}
 	
 	/**
-	 * Verifica si un objeto tiene una propiedad dada con un valor dado y ambos están en la ontología para PPINOT
+	 * Verifica si un objeto tiene una propiedad dada con un valor dado y ambos estï¿½n en la ontologï¿½a para PPINOT
 	 * 
 	 * @param objectIdA Objeto que tiene la propiedad
 	 * @param objectIdB Valor de la propiedad
@@ -112,7 +105,7 @@ public class PpiNotTestAnalyser {
 	/**
 	 * Verifica si un objeto es un linearTimeIntanceMeasure
 	 * 
-	 * @param objectId Id del objeto
+	 * @param measureId Id del objeto
 	 * @return
 	 */
 	public Boolean isLinearTimeIntanceMeasure(String measureId) {
@@ -123,7 +116,7 @@ public class PpiNotTestAnalyser {
 	/**
 	 * Verifica si un objeto es un cyclicTimeIntanceMeasure
 	 * 
-	 * @param objectId Id del objeto
+	 * @param measureId Id del objeto
 	 * @return
 	 */
 	public Boolean isCyclicTimeIntanceMeasure(String measureId) {
@@ -134,7 +127,7 @@ public class PpiNotTestAnalyser {
 	/**
 	 * Verifica si un objeto es un stateConditionInstanceMeasure
 	 * 
-	 * @param objectId Id del objeto
+	 * @param measureId Id del objeto
 	 * @return
 	 */
 	public Boolean isStateConditionInstanceMeasure(String measureId) {
@@ -145,7 +138,7 @@ public class PpiNotTestAnalyser {
 	/**
 	 * Verifica si un objeto es un countInstanceMeasure
 	 * 
-	 * @param objectId Id del objeto
+	 * @param measureId Id del objeto
 	 * @return
 	 */
 	public Boolean isCountInstanceMeasure(String measureId) {
@@ -156,7 +149,7 @@ public class PpiNotTestAnalyser {
 	/**
 	 * Verifica si un objeto es un dataInstanceMeasure
 	 * 
-	 * @param objectId Id del objeto
+	 * @param measureId Id del objeto
 	 * @return
 	 */
 	public Boolean isDataInstanceMeasure(String measureId) {
@@ -167,7 +160,7 @@ public class PpiNotTestAnalyser {
 	/**
 	 * Verifica si un objeto es un dataPropertyConditionInstanceMeasure
 	 * 
-	 * @param objectId Id del objeto
+	 * @param measureId Id del objeto
 	 * @return
 	 */
 	public Boolean isDataPropertyConditionInstanceMeasure(String measureId) {
@@ -178,7 +171,7 @@ public class PpiNotTestAnalyser {
 	/**
 	 * Verifica si un objeto es un derivedMultiInstanceMeasure
 	 * 
-	 * @param objectId Id del objeto
+	 * @param measureId Id del objeto
 	 * @return
 	 */
 	public Boolean isDerivedMultiInstanceMeasure(String measureId) {
@@ -189,7 +182,7 @@ public class PpiNotTestAnalyser {
 	/**
 	 * Verifica si un objeto es un derivedSingleInstanceMeasure
 	 * 
-	 * @param objectId Id del objeto
+	 * @param measureId Id del objeto
 	 * @return
 	 */
 	public Boolean isDerivedSingleInstanceMeasure(String measureId) {
@@ -200,7 +193,7 @@ public class PpiNotTestAnalyser {
 	/**
 	 * Verifica si un objeto es un ppi
 	 * 
-	 * @param objectId Id del objeto
+	 * @param measureId Id del objeto
 	 * @return
 	 */
 	public Boolean isPpi(String measureId) {
@@ -211,7 +204,7 @@ public class PpiNotTestAnalyser {
 	/**
 	 * Verifica si un objeto es un activityStart
 	 * 
-	 * @param objectId Id del objeto
+	 * @param id Id del objeto
 	 * @return
 	 */
 	public Boolean isActivityStart(String id) {
@@ -222,7 +215,7 @@ public class PpiNotTestAnalyser {
 	/**
 	 * Verifica si un objeto es un activityEnd
 	 * 
-	 * @param objectId Id del objeto
+	 * @param id Id del objeto
 	 * @return
 	 */
 	public Boolean isActivityEnd(String id) {
@@ -233,7 +226,7 @@ public class PpiNotTestAnalyser {
 	/**
 	 * Verifica si un objeto es un funtionalProperty
 	 * 
-	 * @param objectId Id del objeto
+	 * @param id Id del objeto
 	 * @return
 	 */
 	public Boolean isFuntionalProperty(String id) {
@@ -244,7 +237,7 @@ public class PpiNotTestAnalyser {
 	/**
 	 * Verifica si un objeto es un stateCondition
 	 * 
-	 * @param objectId Id del objeto
+	 * @param id Id del objeto
 	 * @return
 	 */
 	public Boolean isStateCondition(String id) {
@@ -255,7 +248,7 @@ public class PpiNotTestAnalyser {
 	/**
 	 * Verifica si un objeto es un dataPropertyCondition
 	 * 
-	 * @param objectId Id del objeto
+	 * @param id Id del objeto
 	 * @return
 	 */
 	public Boolean isDataPropertyCondition(String id) {
@@ -264,7 +257,7 @@ public class PpiNotTestAnalyser {
 	}
 	
 	/**
-	 * Verifica si una medida tiene una relación from con un elemento
+	 * Verifica si una medida tiene una relaciï¿½n from con un elemento
 	 * 
 	 * @param measureId Id de la medida
 	 * @param elementId Id del elemento
@@ -276,7 +269,7 @@ public class PpiNotTestAnalyser {
 	}
 	
 	/**
-	 * Verifica si una medida tiene una relación to con un elemento
+	 * Verifica si una medida tiene una relaciï¿½n to con un elemento
 	 * 
 	 * @param measureId Id de la medida
 	 * @param elementId Id del elemento
@@ -288,7 +281,7 @@ public class PpiNotTestAnalyser {
 	}
 	
 	/**
-	 * Verifica si una medida tiene una relación when con un elemento
+	 * Verifica si una medida tiene una relaciï¿½n when con un elemento
 	 * 
 	 * @param measureId Id de la medida
 	 * @param elementId Id del elemento
@@ -300,7 +293,7 @@ public class PpiNotTestAnalyser {
 	}
 	
 	/**
-	 * Verifica si una medida tiene una relación meets con un elemento
+	 * Verifica si una medida tiene una relaciï¿½n meets con un elemento
 	 * 
 	 * @param measureId Id de la medida
 	 * @param elementId Id del elemento
@@ -312,7 +305,7 @@ public class PpiNotTestAnalyser {
 	}
 	
 	/**
-	 * Verifica si un objeto tiene una relación appliesto con un elemento
+	 * Verifica si un objeto tiene una relaciï¿½n appliesto con un elemento
 	 * 
 	 * @param measureId Id del objeto
 	 * @param elementId Id del elemento
@@ -324,10 +317,10 @@ public class PpiNotTestAnalyser {
 	}
 	
 	/**
-	 * Verifica si un objeto tiene una relación measuresdata con un dataobject
+	 * Verifica si un objeto tiene una relaciï¿½n measuresdata con un dataobject
 	 * 
 	 * @param measureId Id del objeto
-	 * @param dataobject Id del elemento
+	 * @param dataobjectId Id del elemento
 	 * @return
 	 */
 	public Boolean isMeasuresData(String measureId, String dataobjectId) {
@@ -336,7 +329,7 @@ public class PpiNotTestAnalyser {
 	}
 	
 	/**
-	 * Verifica si un objeto tiene una relación aggregates con un elemento
+	 * Verifica si un objeto tiene una relaciï¿½n aggregates con un elemento
 	 * 
 	 * @param measureId Id del objeto
 	 * @param elementId Id del elemento
@@ -348,7 +341,7 @@ public class PpiNotTestAnalyser {
 	}
 	
 	/**
-	 * Verifica si un objeto tiene una relación iscalculated con un elemento
+	 * Verifica si un objeto tiene una relaciï¿½n iscalculated con un elemento
 	 * 
 	 * @param measureId Id del objeto
 	 * @param elementId Id del elemento
@@ -360,7 +353,7 @@ public class PpiNotTestAnalyser {
 	}
 	
 	/**
-	 * Verifica si un ppi tiene una relación definition con una medida
+	 * Verifica si un ppi tiene una relaciï¿½n definition con una medida
 	 * 
 	 * @param ppiId Id del ppi
 	 * @param measureId Id de la medida
@@ -372,10 +365,10 @@ public class PpiNotTestAnalyser {
 	}
 	
 	/**
-	 * Verifica si un objeto tiene una relación isgroupedby con un dataobject
+	 * Verifica si un objeto tiene una relaciï¿½n isgroupedby con un dataobject
 	 * 
 	 * @param measureId Id del objeto
-	 * @param dataobject Id del elemento
+	 * @param dataobjectId Id del elemento
 	 * @return
 	 */
 	public Boolean isGroupedBy(String measureId, String dataobjectId) {

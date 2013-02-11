@@ -1,9 +1,13 @@
 package es.us.isa.ppinot.owl.engine;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+
+import org.springframework.util.StringUtils;
 
 /**
  * User: resinas
@@ -22,7 +26,7 @@ public class DLQueryBuilder {
     }
 
     public DLQueryBuilder setParameter(String parameter, String value) {
-        parameters.put(parameter, value);
+        parameters.put(parameter, "<"+value+">");
         return this;
     }
 
@@ -44,6 +48,11 @@ public class DLQueryBuilder {
 
 
     public static String toDLSet(Collection<String> elements) {
+    	
+/*
+    	String[] tmp = new ArrayList<String>(elements).toArray();
+    	StringUtils.join(tmp, ',');
+*/    	
         StringBuilder sb = new StringBuilder("{");
         Iterator<String> it = elements.iterator();
         while(it.hasNext()) {

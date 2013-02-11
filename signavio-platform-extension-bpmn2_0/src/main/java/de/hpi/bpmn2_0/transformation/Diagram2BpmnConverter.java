@@ -159,9 +159,13 @@ public class Diagram2BpmnConverter {
 	private final static String[] edgeIdsArray = { "SequenceFlow",
 			"Association_Undirected", "Association_Unidirectional",
 			"Association_Bidirectional", "MessageFlow", "ConversationLink",
-			/* EDE: */
+/* inicio EDE */
+			/**
+			 * a este arreglo hay que adicionar las clases de los conectores. 
+			 * es utilizado para reconocer si un elemento es un conector o no 
+			 */
 			"appliesToElementConnector", "appliesToDataConnector", "TimeConnector", "uses", "aggregates", "isGroupedBy"
-			/* fin EDE */
+/* fin EDE */
 			};
 
 	public final static HashSet<String> edgeIds = new HashSet<String>(Arrays
@@ -490,8 +494,7 @@ public class Diagram2BpmnConverter {
 
 				FlowElement targetNode = (FlowElement) target.getNode();
 				
-//				if (!appliesIds.contains(shape.getStencilId()))	/* EDE: Para que desde las tareas no exista la conexion con los PPI, sino solo desde los PPI a las tareas */
-					targetNode.getIncoming().add((Edge) bpmnConnector.getNode());
+				targetNode.getIncoming().add((Edge) bpmnConnector.getNode());
 
 				edgeElement.setTargetRef(targetNode);
 
@@ -706,10 +709,10 @@ public class Diagram2BpmnConverter {
 	/**
 	 * Assigns the DataObjectes to the appropriate {@link Process}.
 	 */
-	private void handleDataObjects(Ppiset ppiset, List<CountMeasure> allPpi, List<Edge> allPpiCon, List<Ppi> allPpiPpi) {
+	private void handleDataObjects() {
 		ArrayList<AbstractDataObject> dataObjects = new ArrayList<AbstractDataObject>();
 		
-		this.getAllDataObjects(this.diagramChilds, dataObjects, ppiset, allPpi, allPpiCon, allPpiPpi);
+		this.getAllDataObjects(this.diagramChilds, dataObjects);
 
 		for (AbstractDataObject dataObject : dataObjects) {
 			if (dataObject.getProcess() != null)
@@ -739,7 +742,6 @@ public class Diagram2BpmnConverter {
 				process.addChild(dataObject);
 				dataObject.setProcess(process);
 			}
-
 		}
 	}
 
@@ -752,77 +754,21 @@ public class Diagram2BpmnConverter {
 	 * @param dataObjects
 	 *            The resulting list of {@link AbstractDataObject}
 	 */
-	private void getAllDataObjects(List<BPMNElement> elements,
-			List<AbstractDataObject> dataObjects, Ppiset ppiset, List<CountMeasure> allPpi, List<Edge> allPpiCon, List<Ppi> allPpiPpi) {
+	private void getAllDataObjects(List<BPMNElement> elements, List<AbstractDataObject> dataObjects) {
+		
+		// recorre todos los elementos para buscar los elementos de datos
 		for (BPMNElement element : elements) {
 			if (element.getNode() instanceof Lane
 					|| element.getNode() instanceof SubProcess) {
-System.out.println("--> Lane o Subprocess");
 
-				getAllDataObjects(this.getChildElements(element), dataObjects, ppiset, allPpi, allPpiCon, allPpiPpi);
+				// si se trata de un lane o un subproceso se buscan los elementos de datos en sus hijos
+				getAllDataObjects(this.getChildElements(element), dataObjects);
 				continue;
 			}
-
+			// si se trata de un elemento de datos
 			if (element.getNode() instanceof AbstractDataObject) {
-
+				// adiciona el elemento a la lista
 				dataObjects.add((AbstractDataObject) element.getNode());
-
-				/* EDE: Manejando los PPI relacionados con node */
-				AbstractDataObject node = (AbstractDataObject) element.getNode();
-System.out.println("--> AbstractDataObject - "+node);
-				Process process = null;
-				List<Object> toremove = new ArrayList<Object>();
-				List<Object> findedppi = new ArrayList<Object>();
-					// adiciona al ppiset los ppi conectados con node, y sus conectores
-				for (Edge con : allPpiCon) {
-					
-					if (!con.getTargetRef().equals(node)) {
-						continue;
-					}
-					
-					if (allPpi.contains(con.getSourceRef())) {
-						
-						con.getSourceRef().setProcessRef(process);
-						ppiset.addPpi(con.getSourceRef());
-
-						allPpi.remove(con.getSourceRef());
-						findedppi.add(con.getSourceRef());
-					}
-					
-					con.setProcessRef(process);
-					ppiset.addPpiCon(con);
-
-					toremove.add(con);
-				}
-					// adiciona al ppiset los ppi conectados a los ppi identificados anteriormente, y sus conectores
-				for (Object ppi : findedppi) {
-					
-					for (Edge con : allPpiCon) {
-						
-						if (!con.getTargetRef().equals(ppi)) {
-							continue;
-						}
-						
-						if (allPpi.contains(con.getSourceRef())) {
-							
-							con.getSourceRef().setProcessRef(process);
-							ppiset.addPpi(con.getSourceRef());
-
-							allPpi.remove(con.getSourceRef());
-						}
-						
-						con.setProcessRef(process);
-						ppiset.addPpiCon(con);
-
-						toremove.add(con);
-					}
-				}
-					// elimina de la lista de conectores, aquellos conectores que fueron adicionados al ppiset
-				for (Object con : toremove) {
-					
-					allPpiCon.remove(con);
-				}
-				/* fin EDE */
 			}
 		}
 	}
@@ -858,18 +804,17 @@ System.out.println("--> AbstractDataObject - "+node);
 
 	/**
 	 * Identifies sets of nodes, connected through SequenceFlows.
+	 * 
+	 * EDE: parametros adicionados
+	 * @return Proceso al que se adiciona el ppiset
 	 */
-//	private void identifyProcesses() { /* EDE: Se modifica */
-	private void identifyProcesses(Ppiset ppiset, List<CountMeasure> allPpi, List<Edge> allPpiCon, List<Ppi> allPpiPpi) {
+	private Process identifyProcesses() {
+
 		this.processes = new ArrayList<Process>();
 		this.tmpProcesses = new ArrayList<Process>();
 
 		List<FlowNode> allNodes = new ArrayList<FlowNode>();
-		/* EDE: */
-		List<FlowNode> allParticipantNodes = new ArrayList<FlowNode>();
-		/* fin EDE */
-			// obtiene todos los nodos recursivamente, incluyendo los ppi
-		this.getAllNodesRecursively(this.diagramChilds, allNodes, allParticipantNodes, ppiset, allPpi, allPpiCon, allPpiPpi);
+		this.getAllNodesRecursively(this.diagramChilds, allNodes);
 
 		// handle subprocesses => trivial
 		for (FlowNode flowNode : allNodes) {
@@ -930,34 +875,9 @@ System.out.println("--> AbstractDataObject - "+node);
 			}
 
 		}
-System.out.println("despues getAllNodesRecursively ---> allPpi - " + allPpi.size()+", allPpiCon - "+ allPpiCon.size()+", allPpiPpi - "+ allPpiPpi.size());
-		/* EDE: */
-		Process currentProcess =  null;
-		while (allParticipantNodes.size() > 0) {
-			currentProcess = new Process();
-			currentProcess.setId("");
-			
-			if(this.definitions.getName() != null 
-					&& this.definitions.getName().length() > 0) {
-				currentProcess.setName(this.definitions.getName());
-			}
-
-//System.out.println("to process participant node - "+allNodes.get(0).getClass().getName());			
-//System.out.println("1 ---> allPpi - " + allPpi.size()+", allPpiCon - "+ allPpiCon.size()+", allPpiPpi - "+ allPpiPpi.size());
-			addNode(currentProcess,
-					this.getBpmnElementForNode(allParticipantNodes.get(0)), allParticipantNodes, ppiset, allPpi, allPpiCon, allPpiPpi);
-System.out.println("2 ---> allPpi - " + allPpi.size()+", allPpiCon - "+ allPpiCon.size()+", allPpiPpi - "+ allPpiPpi.size());
-
-			// Generate Process Id if necessary
-			if(!currentProcess.hasId()) {
-//System.out.println("no tenia id");
-				currentProcess.setId(SignavioUUID.generate());
-			}
-//System.out.println("**** ID CURRENTPROCESS - "+currentProcess.getId());
-		}
 
 		/* Identify components within allNodes */
-/* fin EDE */
+		Process currentProcess = null;
 		while (allNodes.size() > 0) {
 			currentProcess = new Process();
 			currentProcess.setId("");
@@ -968,134 +888,13 @@ System.out.println("2 ---> allPpi - " + allPpi.size()+", allPpiCon - "+ allPpiCo
 			}
 			this.processes.add(currentProcess);
 
-System.out.println("to process node - "+allNodes.get(0).getClass().getName());			
-System.out.println("1 ---> allPpi - " + allPpi.size()+", allPpiCon - "+ allPpiCon.size()+", allPpiPpi - "+ allPpiPpi.size());
-			
-			addNode(currentProcess,
-					this.getBpmnElementForNode(allNodes.get(0)), allNodes, ppiset, allPpi, allPpiCon, allPpiPpi);
-System.out.println("2 ---> allPpi - " + allPpi.size()+", allPpiCon - "+ allPpiCon.size()+", allPpiPpi - "+ allPpiPpi.size());
+			addNode(currentProcess,	this.getBpmnElementForNode(allNodes.get(0)), allNodes);
 			
 			// Generate Process Id if necessary
 			if(!currentProcess.hasId()) {
-//System.out.println("no tenia id");
 				currentProcess.setId(SignavioUUID.generate());
 			}
-//System.out.println("**** ID CURRENTPROCESS - "+currentProcess.getId());
 		}
-
-		/* EDE: se adicionan los ppi que no tienen conectores */
-		if (currentProcess==null) {
-			
-			currentProcess = new Process();
-			currentProcess.setId("");
-			
-			if(this.definitions.getName() != null 
-					&& this.definitions.getName().length() > 0) {
-				currentProcess.setName(this.definitions.getName());
-			}
-			
-			if(!currentProcess.hasId()) {
-//System.out.println("no tenia id");
-				currentProcess.setId(SignavioUUID.generate());
-			}
-//System.out.println("**** ID CURRENTPROCESS - "+currentProcess.getId());
-		}
-		
-		if (!this.processes.contains(currentProcess))
-			this.processes.add(currentProcess);
-			
-		if (allPpiCon.size()==0) {
-			
-			List<Object> toremove = new ArrayList<Object>();
-			for (CountMeasure ppi : allPpi) {
-				
-				if (ppi.getOutgoing().size()==0) {
-
-					ppi.setProcessRef(currentProcess);
-					ppiset.addPpi(ppi);
-					toremove.add(ppi);
-				}
-			}
-			
-			for (Object con : toremove) {
-				
-				allPpi.remove(con);
-			}
-		}
-		
-		// se vinculan las base measure con las generic aggregated
-/*
-		if (ppiset.getAggregates().size()>0) {
-			
-			for (Aggregates aggregates : ppiset.getAggregates()) {
-				
-				FlowElement baseMeasure = aggregates.getTargetRef();
-				
-				if (baseMeasure instanceof CountMeasure)
-					((AggregatedMeasure) aggregates.getSourceRef()).getCountMeasure().add((CountMeasure) baseMeasure);
-				else
-				if (baseMeasure instanceof TimeMeasure)
-					((AggregatedMeasure) aggregates.getSourceRef()).getTimeMeasure().add((TimeMeasure) baseMeasure);
-				else
-				if (baseMeasure instanceof DataPropertyConditionMeasure)
-					((AggregatedMeasure) aggregates.getSourceRef()).getDataPropertyConditionMeasure().add((DataPropertyConditionMeasure) baseMeasure);
-				else
-				if (baseMeasure instanceof StateConditionMeasure)
-					((AggregatedMeasure) aggregates.getSourceRef()).getStateConditionMeasure().add((StateConditionMeasure) baseMeasure);
-				else
-				if (baseMeasure instanceof DataMeasure)
-					((AggregatedMeasure) aggregates.getSourceRef()).getDataMeasure().add((DataMeasure) baseMeasure);
-			}
-		}
-*/		
-		// se adicionan los elementos ppi
-		if (allPpiPpi.size()>0) {
-			
-			List<Object> toremove = new ArrayList<Object>();
-			for (Ppi ppi : allPpiPpi) {
-				
-				ppi.setProcessRef(currentProcess);
-				ppiset.addPpi(ppi);
-				toremove.add(ppi);
-			}
-			
-			for (Object con : toremove) {
-				
-				allPpiPpi.remove(con);
-			}
-		}
-
-		// inserta el ppiset en el proceso
-		if (currentProcess.getExtensionElements()==null) {
-System.out.println("NO hay extensions elements -"+currentProcess.getId()+"---");
-			ExtensionElements extensionElements = new ExtensionElements();
-			extensionElements.getAny().add(ppiset);
-			currentProcess.setExtensionElements(extensionElements);
-		} else {
-System.out.println("hay extensions elements");
-			currentProcess.getExtensionElements().add(ppiset);
-		}
-/*
-if (ppiset!=null) {
-System.out.println("ppiset es NO NULL");
-System.out.println(ppiset.getCountMeasure().size());
-System.out.println(ppiset.getTimeMeasure().size());
-System.out.println(ppiset.getDataPropertyConditionMeasure().size());
-System.out.println(ppiset.getStateConditionMeasure().size());
-System.out.println(ppiset.getDataMeasure().size());
-System.out.println(ppiset.getAggregatedMeasure().size());
-System.out.println(ppiset.getDerivedSingleInstanceMeasure().size());
-System.out.println(ppiset.getDerivedMultiInstanceMeasure().size());
-System.out.println(ppiset.getAppliesToElementConnector().size());
-System.out.println(ppiset.getAppliesToDataConnector().size());
-System.out.println(ppiset.getTimeConnector().size());
-System.out.println(ppiset.getUses().size());
-System.out.println(ppiset.getAggregates().size());
-System.out.println(ppiset.getIsGroupedBy().size());
-} else
-System.out.println("ppiset es NULL");
-*/		
-		/* fin EDE */
 
 		this.addSequenceFlowsToProcess();
 
@@ -1108,7 +907,13 @@ System.out.println("ppiset es NULL");
 		
 		/* Remove temporary processes from the list */
 		this.processes.removeAll(this.tmpProcesses);
-//		this.tmpProcesses = null;
+		
+/* inicio EDE */
+		/**
+		 *  Retorna el proceso en el que se incluye el ppiset
+		 */
+		return currentProcess;
+/* fin EDE */
 	}
 
 	/**
@@ -1242,62 +1047,181 @@ System.out.println("ppiset es NULL");
 		return this.bpmnElements.get(node.getId());
 	}
 	
-	/* EDE: */
-	private void addPpiNode(Process process, Object node, Ppiset ppiset, List<CountMeasure> allPpi, List<Edge> allPpiCon, List<Ppi> allPpiPpi) {
+/* inicio EDE */
+	/**
+	 * Crea el ppiset y lo inserta en el proceso
+	 * 
+	 * @param currentProcess Proceso donde se inserta el ppiset
+	 */
+	private void identifyPpis(Process currentProcess) {
+
+		// crea el ppiset
+		Ppiset ppiset = new Ppiset(); 
+		this.createPpisetRecursively(this.diagramChilds, ppiset);
 		
-		List<Object> toremove = new ArrayList<Object>();
-		List<Object> findedppi = new ArrayList<Object>();
-			// adiciona al ppiset los ppi conectados con node, y sus conectores
-		for (Edge con : allPpiCon) {
-
-			if (con.getTargetRef()==null || !con.getTargetRef().equals(node)) {
-				continue;
-			}
+		if (!ppiset.isEmpty()) {
 			
-			if (allPpi.contains(con.getSourceRef())) {
+			// crea un proceso si no hay alguno creado
+	 		if (currentProcess==null) {
 				
-				con.getSourceRef().setProcessRef(process);
-				ppiset.addPpi(con.getSourceRef());
-
-				allPpi.remove(con.getSourceRef());
-				findedppi.add(con.getSourceRef());
-			}
-			
-			con.setProcessRef(process);
-			ppiset.addPpiCon(con);
-
-			toremove.add(con);
-		}
-			// adiciona al ppiset los ppi conectados a los ppi identificados anteriormente, y sus conectores
-		for (Object ppi : findedppi) {
-			
-			for (Edge con : allPpiCon) {
+				currentProcess = new Process();
+				currentProcess.setId("");
 				
-				if (!con.getTargetRef().equals(ppi)) {
-					continue;
+				if(this.definitions.getName() != null 
+						&& this.definitions.getName().length() > 0) {
+					currentProcess.setName(this.definitions.getName());
 				}
 				
-				if (allPpi.contains(con.getSourceRef())) {
-					
-					con.getSourceRef().setProcessRef(process);
-					ppiset.addPpi(con.getSourceRef());
-
-					allPpi.remove(con.getSourceRef());
+				if(!currentProcess.hasId()) {
+					currentProcess.setId(SignavioUUID.generate());
 				}
-				
-				con.setProcessRef(process);
-				ppiset.addPpiCon(con);
-
-				toremove.add(con);
+	
+				this.processes.add(currentProcess);
 			}
-		}
-			// elimina de la lista de conectores, aquellos conectores que fueron adicionados al ppiset
-		for (Object con : toremove) {
-			
-			allPpiCon.remove(con);
+	
+	 		// inserta el ppiset en el proceso
+			if (currentProcess.getExtensionElements()==null) {
+				ExtensionElements extensionElements = new ExtensionElements();
+				extensionElements.getAny().add(ppiset);
+				currentProcess.setExtensionElements(extensionElements);
+			} else {
+				currentProcess.getExtensionElements().add(ppiset);
+			}
 		}
 	}
-	/* fin EDE */
+	
+	/**
+	 * Retrieves all nodes included into the diagram and stop recursion at
+	 * subprocesses.
+	 * 
+	 * @param elements The child elements of a parent BPMN element
+	 * @param measureList Lista de las medidas
+	 * @param conectorList Lista de los conectores relacionados con las medidas
+	 * @param ppiList Lista de los PPI
+	 */
+	private void createPpisetRecursively(List<BPMNElement> elements, Ppiset ppiset) {
+		
+		for (BPMNElement element : elements) {
+
+System.out.println("-> elemento "+element.getNode().getClass().getName());
+			/**
+			 * se conserva la informacion en la lista correspondiente, si el elemento es una medida, un conector relacionado 
+			 * con medidas o un PPI.
+			 * si se trata de un Partipant, se conserva en allRelevantNodes
+			 * De esta manera se colecta toda la informacion necesaria para crear el ppiset
+			 */
+			Object elementNode = element.getNode();
+			
+			if (elementNode instanceof Ppi) {
+				
+				Ppi ppi = ((Ppi) elementNode);
+				
+				for (CountMeasure child : ppi.getCountMeasure()) {
+					
+					ppiset.addPpi(child);
+System.out.println("adiciona "+child.getClass().getName());
+					
+					Ppi node = new Ppi(ppi);
+					node.setMeasuredBy(child);
+					ppiset.addPpi(node);
+System.out.println("adiciona "+node.getClass().getName());
+				}
+				for (TimeMeasure child : ppi.getTimeMeasure()) {
+					
+					ppiset.addPpi(child);
+System.out.println("adiciona "+child.getClass().getName());
+					
+					Ppi node = new Ppi(ppi);
+					node.setMeasuredBy(child);
+					ppiset.addPpi(node);
+System.out.println("adiciona "+node.getClass().getName());
+				}
+				for (DataPropertyConditionMeasure child : ppi.getDataPropertyConditionMeasure()) {
+					
+					ppiset.addPpi(child);
+System.out.println("adiciona "+child.getClass().getName());
+					
+					Ppi node = new Ppi(ppi);
+					node.setMeasuredBy(child);
+					ppiset.addPpi(node);
+System.out.println("adiciona "+node.getClass().getName());
+				}
+				for (StateConditionMeasure child : ppi.getStateConditionMeasure()) {
+					
+					ppiset.addPpi(child);
+System.out.println("adiciona "+child.getClass().getName());
+					
+					Ppi node = new Ppi(ppi);
+					node.setMeasuredBy(child);
+					ppiset.addPpi(node);
+System.out.println("adiciona "+node.getClass().getName());
+				}
+				for (DataMeasure child : ppi.getDataMeasure()) {
+					
+					ppiset.addPpi(child);
+System.out.println("adiciona "+child.getClass().getName());
+					
+					Ppi node = new Ppi(ppi);
+					node.setMeasuredBy(child);
+					ppiset.addPpi(node);
+System.out.println("adiciona "+node.getClass().getName());
+				}
+				for (AggregatedMeasure child : ppi.getAggregatedMeasure()) {
+					
+					ppiset.addPpi(child);
+System.out.println("adiciona "+child.getClass().getName());
+					
+					Ppi node = new Ppi(ppi);
+					node.setMeasuredBy(child);
+					ppiset.addPpi(node);
+System.out.println("adiciona "+node.getClass().getName());
+				}
+				for (DerivedSingleInstanceMeasure child : ppi.getDerivedSingleInstanceMeasure()) {
+					
+					ppiset.addPpi(child);
+System.out.println("adiciona "+child.getClass().getName());
+					
+					Ppi node = new Ppi(ppi);
+					node.setMeasuredBy(child);
+					ppiset.addPpi(node);
+System.out.println("adiciona "+node.getClass().getName());
+				}
+				for (DerivedMultiInstanceMeasure child : ppi.getDerivedMultiInstanceMeasure()) {
+					
+					ppiset.addPpi(child);
+System.out.println("adiciona "+child.getClass().getName());
+					
+					Ppi node = new Ppi(ppi);
+					node.setMeasuredBy(child);
+					ppiset.addPpi(node);
+System.out.println("adiciona "+node.getClass().getName());
+				}
+				
+			} else	
+			if (elementNode instanceof CountMeasure) {
+			
+				CountMeasure node = (CountMeasure) elementNode;
+				ppiset.addPpi(node);
+System.out.println("adiciona "+node.getClass().getName());
+			} else	
+			if (elementNode instanceof AppliesToElementConnector ||
+				elementNode instanceof AppliesToDataConnector ||
+				elementNode instanceof TimeConnector ||
+				elementNode instanceof Uses ||
+				elementNode instanceof Aggregates ||
+				elementNode instanceof IsGroupedBy ) {
+			
+				Edge node = (Edge) elementNode;
+				ppiset.addPpiCon(node);
+System.out.println("adiciona "+node.getClass().getName());
+			} else 
+			if (element.getNode() instanceof Lane || element.getNode() instanceof SubProcess) {
+				
+				createPpisetRecursively(this.getChildElements(element), ppiset);
+			}
+		}
+	}
+/* fin EDE */
 	
 	/**
 	 * Adds the node to the connected set of nodes.
@@ -1305,15 +1229,14 @@ System.out.println("ppiset es NULL");
 	 * @param process
 	 * @param element
 	 * @param allNodes
+	 * 
 	 */
-	private void addNode(Process process, BPMNElement element,
-			List<FlowNode> allNodes, Ppiset ppiset, List<CountMeasure> allPpi, List<Edge> allPpiCon, List<Ppi> allPpiPpi) {
-		
+	private void addNode(Process process, BPMNElement element, List<FlowNode> allNodes) {
+
 		if (!(element.getNode() instanceof FlowNode)
 				|| !allNodes.contains(element.getNode())) {
 			return;
 		}
-		
 		
 		FlowNode node = (FlowNode) element.getNode();
 
@@ -1327,24 +1250,17 @@ System.out.println("ppiset es NULL");
 		node.setProcess(process);
 		process.addChild(node);
 
-		
-		/* EDE: Manejando los PPI relacionados con node */
-		addPpiNode(process, node, ppiset, allPpi, allPpiCon, allPpiPpi);
-		/* fin EDE */
-
 		/* Handle sequence flows */
 		/* Attention: navigate into both directions! */
 		for (SequenceFlow seqFlow : node.getIncomingSequenceFlows()) {
 			if (seqFlow.sourceAndTargetContainedInSamePool()) {
-				addNode(process, this.getBpmnElementForNode((FlowNode) seqFlow
-						.getSourceRef()), allNodes, ppiset, allPpi, allPpiCon, allPpiPpi);
+				addNode(process, this.getBpmnElementForNode((FlowNode) seqFlow.getSourceRef()), allNodes);
 			}
 		}
 
 		for (SequenceFlow seqFlow : node.getOutgoingSequenceFlows()) {
 			if (seqFlow.sourceAndTargetContainedInSamePool()) {
-				addNode(process, this.getBpmnElementForNode((FlowNode) seqFlow
-						.getTargetRef()), allNodes, ppiset, allPpi, allPpiCon, allPpiPpi);
+				addNode(process, this.getBpmnElementForNode((FlowNode) seqFlow.getTargetRef()), allNodes);
 			}
 		}
 
@@ -1352,15 +1268,13 @@ System.out.println("ppiset es NULL");
 		/* Attention: navigate into both directions! */
 		for (Association compFlow : node.getIncomingCompensationFlows()) {
 			if (compFlow.sourceAndTargetContainedInSamePool()) {
-				addNode(process, this.getBpmnElementForNode((FlowNode) compFlow
-						.getSourceRef()), allNodes, ppiset, allPpi, allPpiCon, allPpiPpi);
+				addNode(process, this.getBpmnElementForNode((FlowNode) compFlow.getSourceRef()), allNodes);
 			}
 		}
 
 		for (Association compFlow : node.getOutgoingCompensationFlows()) {
 			if (compFlow.sourceAndTargetContainedInSamePool()) {
-				addNode(process, this.getBpmnElementForNode((FlowNode) compFlow
-						.getTargetRef()), allNodes, ppiset, allPpi, allPpiCon, allPpiPpi);
+				addNode(process, this.getBpmnElementForNode((FlowNode) compFlow.getTargetRef()), allNodes);
 			}
 		}
 
@@ -1368,144 +1282,14 @@ System.out.println("ppiset es NULL");
 		/* Attention: navigate into both directions! */
 		if (node instanceof BoundaryEvent) {
 			if (((BoundaryEvent) node).getAttachedToRef() != null) {
-				addNode(process, this
-						.getBpmnElementForNode(((BoundaryEvent) node)
-								.getAttachedToRef()), allNodes, ppiset, allPpi, allPpiCon, allPpiPpi);
+				addNode(process, this.getBpmnElementForNode(((BoundaryEvent) node).getAttachedToRef()), allNodes);
 			}
 		} else if (node instanceof Activity) {
 			for (BoundaryEvent event : ((Activity) node).getBoundaryEventRefs()) {
-				addNode(process, this.getBpmnElementForNode(event), allNodes, ppiset, allPpi, allPpiCon, allPpiPpi);
+				addNode(process, this.getBpmnElementForNode(event), allNodes);
 			}
 		}
 	}
-
-	/* EDE: */
-	private void holdPpiInfo(Object elementNode, Ppiset ppiset, List<CountMeasure> allPpi, List<Edge> allPpiCon, List<Ppi> allPpiPpi) {
-		
-System.out.println("holdPpiInfo ***>> "+elementNode.getClass().getName());		
-		if (elementNode instanceof Ppi) {
-		
-			Ppi ppi = ((Ppi) elementNode);
-			
-			for (CountMeasure child : ppi.getCountMeasure()) {
-				
-				allPpi.add(child);
-				
-				Ppi node = new Ppi(ppi);
-				node.setMeasuredBy(child);
-				allPpiPpi.add(node);
-			}
-			for (TimeMeasure child : ppi.getTimeMeasure()) {
-				
-				allPpi.add(child);
-				
-				Ppi node = new Ppi(ppi);
-				node.setMeasuredBy(child);
-				allPpiPpi.add(node);
-			}
-			for (DataPropertyConditionMeasure child : ppi.getDataPropertyConditionMeasure()) {
-				
-				allPpi.add(child);
-				
-				Ppi node = new Ppi(ppi);
-				node.setMeasuredBy(child);
-				allPpiPpi.add(node);
-			}
-			for (StateConditionMeasure child : ppi.getStateConditionMeasure()) {
-				
-				allPpi.add(child);
-				
-				Ppi node = new Ppi(ppi);
-				node.setMeasuredBy(child);
-				allPpiPpi.add(node);
-			}
-			for (DataMeasure child : ppi.getDataMeasure()) {
-				
-				allPpi.add(child);
-				
-				Ppi node = new Ppi(ppi);
-				node.setMeasuredBy(child);
-				allPpiPpi.add(node);
-			}
-			for (AggregatedMeasure child : ppi.getAggregatedMeasure()) {
-				
-				allPpi.add(child);
-				
-				Ppi node = new Ppi(ppi);
-				node.setMeasuredBy(child);
-				allPpiPpi.add(node);
-			}
-			for (DerivedSingleInstanceMeasure child : ppi.getDerivedSingleInstanceMeasure()) {
-				
-				allPpi.add(child);
-				
-				Ppi node = new Ppi(ppi);
-				node.setMeasuredBy(child);
-				allPpiPpi.add(node);
-			}
-			for (DerivedMultiInstanceMeasure child : ppi.getDerivedMultiInstanceMeasure()) {
-				
-				allPpi.add(child);
-				
-				Ppi node = new Ppi(ppi);
-				node.setMeasuredBy(child);
-				allPpiPpi.add(node);
-			}
-			
-		} else	
-		if (elementNode instanceof CountMeasure) {
-		
-			CountMeasure node = (CountMeasure) elementNode;
-			allPpi.add(node);
-		} else	/* EDE: Para crear la lista de los PPI en el proceso */
-		if (elementNode instanceof AppliesToElementConnector ||
-			elementNode instanceof AppliesToDataConnector ||
-			elementNode instanceof TimeConnector ||
-			elementNode instanceof Uses ||
-			elementNode instanceof Aggregates ||
-			elementNode instanceof IsGroupedBy ) {
-		
-			Edge node = (Edge) elementNode;
-			allPpiCon.add(node);
-		} 
-	}
-	
-	private void getAllParticipantNodes(Object child, List<FlowNode> allParticipantNodes) {
-		
-System.out.println("en getAllParticipantNode --- child - "+child.getClass().getName());
-		if (child instanceof LaneSet) {
-			
-			LaneSet laneSet = (LaneSet) child;
-			for (Lane lane : laneSet.getAllLanes()) {
-				
-				this.getAllParticipantNodes(lane, allParticipantNodes);
-			}
-		} else
-		if (child instanceof Lane) {
-			
-			Lane lane = (Lane) child;
-			
-			for (FlowNode node : lane.getFlowNodeRef()) {
-				
-				this.getAllParticipantNodes(node, allParticipantNodes);
-			}
-			
-			for (Lane node : lane.getLaneList()) {
-				
-				this.getAllParticipantNodes(node, allParticipantNodes);
-			}
-		} else
-		if (child instanceof FlowNode) {  
-			
-			FlowNode node = (FlowNode) child;
-			if (node instanceof Activity || node instanceof Event
-					|| node instanceof Gateway) {
-System.out.println("adiciona --- node - "+node.getClass().getName());
-				allParticipantNodes.add(node);
-			}
-		}
-	}
-	/* fin EDE */
 	
 	/**
 	 * Retrieves all nodes included into the diagram and stop recursion at
@@ -1516,46 +1300,22 @@ System.out.println("adiciona --- node - "+node.getClass().getName());
 	 * @param allNodes
 	 *            The list to store every element
 	 */
-	private void getAllNodesRecursively(List<BPMNElement> elements,
-			List<FlowNode> allNodes, List<FlowNode> allParticipantNodes, Ppiset ppiset, List<CountMeasure> allPpi, List<Edge> allPpiCon, List<Ppi> allPpiPpi) {
+	private void getAllNodesRecursively(List<BPMNElement> elements, List<FlowNode> allNodes) {
 
 		for (BPMNElement element : elements) {
 
-			/* EDE: Para crear la lista de los PPI en el proceso */
-			if (element.getNode() instanceof Ppi || 
-				element.getNode() instanceof CountMeasure ||
-				element.getNode() instanceof AppliesToElementConnector || 
-				element.getNode() instanceof AppliesToDataConnector || 
-				element.getNode() instanceof TimeConnector || 
-				element.getNode() instanceof Uses ||
-				element.getNode() instanceof Aggregates ||
-				element.getNode() instanceof IsGroupedBy ) {
-				
-				this.holdPpiInfo(element.getNode(), ppiset, allPpi, allPpiCon, allPpiPpi);
-			} else
-			if (element.getNode() instanceof Participant) {
-				
-				for (BPMNElement child : this.getChildElements(element)) {
+			if (element.getNode() instanceof Lane) {
+				getAllNodesRecursively(this.getChildElements(element), allNodes);
+				continue;
+			}
+			if (!(element.getNode() instanceof FlowNode)) {
+				continue;
+			}
 
-					this.getAllParticipantNodes(child.getNode(), allParticipantNodes);
-				}
-			} else {
-			/* fin EDE */
-
-				if (element.getNode() instanceof Lane) {
-					getAllNodesRecursively(this.getChildElements(element), allParticipantNodes, allNodes, ppiset, allPpi, allPpiCon, allPpiPpi);
-					continue;
-				}
-				if (!(element.getNode() instanceof FlowNode)) {
-					continue;
-				}
-	
-				FlowNode node = (FlowNode) element.getNode();
-				if (node instanceof Activity || node instanceof Event
-						|| node instanceof Gateway) {
-					allNodes.add(node);
-				}
-			
+			FlowNode node = (FlowNode) element.getNode();
+			if (node instanceof Activity || node instanceof Event
+					|| node instanceof Gateway) {
+				allNodes.add(node);
 			}
 		}
 	}
@@ -2342,18 +2102,17 @@ System.out.println("adiciona --- node - "+node.getClass().getName());
 		this.setCompensationEventActivityRef();
 		// this.setConversationParticipants();
 
-		/* EDE: inicializaciones para los ppi e indetificar el proceso */ 
-		Ppiset ppiset = new Ppiset(); // crea el ppiset del proceso
-		List<Ppi> allPpiPpi = new ArrayList<Ppi>(); // EDE. Para obtener la lista de los elementos PPI
-		List<CountMeasure> allPpi = new ArrayList<CountMeasure>(); // Para obtener la lista de los PPI 
-		List<Edge> allPpiCon = new ArrayList<Edge>(); // Para obtener la lista de los conectores a los PPI 
-		this.identifyProcesses(ppiset, allPpi, allPpiCon, allPpiPpi);
-//		this.identifyProcesses();
-		/* fin EDE */
-System.out.println("despues identifyProcesses ---> allPpi - " + allPpi.size()+", allPpiCon - "+ allPpiCon.size()+", allPpiPpi - "+ allPpiPpi.size());
+/* inicio EDE */ 
+		/** 
+		 * crea el ppiset y lo inserta en el ultimo proceso identificado
+		 */
+		// obtiene el ultimo proceso
+		Process currentProcess = this.identifyProcesses();
+		// crea el ppiset
+		this.identifyPpis(currentProcess);
+/* fin EDE */
 
-		this.handleDataObjects(ppiset, allPpi, allPpiCon, allPpiPpi);
-System.out.println("despues handleDataObjects ---> allPpi - " + allPpi.size()+", allPpiCon - "+ allPpiCon.size()+", allPpiPpi - "+ allPpiPpi.size());
+		this.handleDataObjects();
 		this.handleArtifacts();
 		this.addAssociationsToProcess();
 		this.addAssociationsToConversation();

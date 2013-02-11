@@ -30,7 +30,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "derivedSingleInstanceMeasure", namespace="http://www.isa.us.es/ppinot")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tDerivedSingleInstanceMeasure")
-@XmlSeeAlso({DerivedMultiInstanceMeasure.class
+@XmlSeeAlso({
+	DerivedMultiInstanceMeasure.class
 })
 public class DerivedSingleInstanceMeasure  
     extends CountMeasure

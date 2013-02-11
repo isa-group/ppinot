@@ -28,8 +28,8 @@ import java.util.Set;
  */
 public class DLPPINotAnalyser implements PPINotAnalyser {
 
-    private static final String bpmnBaseIRI = "http://www.isa.us.es/ontologies/bpmn/";
-    private static final String ppinotBaseIRI = "http://www.isa.us.es/ontologies/ppinot/";
+    public static final String BPMN_BASE_IRI = "http://www.isa.us.es/ontologies/bpmn/";
+    public static final String PPINOT_BASE_IRI = "http://www.isa.us.es/ontologies/ppinot/";
 
     private Bpmn20ModelHandlerInterface bpmnModelHandler;
     private PpiNotModelHandlerInterface ppinotModelHandler;
@@ -51,11 +51,11 @@ public class DLPPINotAnalyser implements PPINotAnalyser {
         conversor = new IdOwlConversor();
 
         try {
-            BPMN2OWLConverterInterface bpmnConverter = new BPMN2OWLConverter(bpmnBaseIRI, owlManager);
+            BPMN2OWLConverterInterface bpmnConverter = new BPMN2OWLConverter(BPMN_BASE_IRI, owlManager);
             bpmnOntology = bpmnConverter.convertToOwlOntology(bpmnModelHandler);
             String bpmnOntologyURI = bpmnConverter.getOntologyURI();
 
-            PPINOT2OWLConverterInterface ppinotConverter = new PPINOT2OWLConverter(ppinotBaseIRI, owlManager);
+            PPINOT2OWLConverterInterface ppinotConverter = new PPINOT2OWLConverter(PPINOT_BASE_IRI, owlManager);
             ppinotConverter.setBpmnData(bpmnOntologyURI, bpmnModelHandler);
             ppinotOntology = ppinotConverter.convertToOwlOntology(ppinotModelHandler);
         } catch (OWLOntologyCreationException e) {
@@ -63,7 +63,7 @@ public class DLPPINotAnalyser implements PPINotAnalyser {
         }
 
         AnalysisOntologyBuilder builder = new AnalysisOntologyBuilder(owlManager);
-        String analysisURI = ppinotBaseIRI + bpmnModelHandler.getProcId() + "-analysis.owl";
+        String analysisURI = PPINOT_BASE_IRI + bpmnModelHandler.getProcId() + "-analysis.owl";
         analysisOntology = builder.buildAnalysisOntology(analysisURI, ppinotOntology);
 
         engine = new DLQueryEngine(reasonerFactory.createReasoner(analysisOntology));

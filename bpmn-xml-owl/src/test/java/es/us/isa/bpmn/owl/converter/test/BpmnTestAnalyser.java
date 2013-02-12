@@ -28,7 +28,7 @@ public class BpmnTestAnalyser extends TestAnalyser {
 	 * @param objectId Id del objeto
 	 * @return
 	 */
-	public Boolean isTask(String objectId) {
+	public Boolean isActivity(String objectId) {
 
         return this.checkObjectClass(objectId, Vocabulary.ACTIVITY_URI);
 	}
@@ -67,6 +67,17 @@ public class BpmnTestAnalyser extends TestAnalyser {
 	}
 	
 	/**
+	 * Verifica si un objeto es un XorGateway
+	 * 
+	 * @param objectId Id del objeto
+	 * @return
+	 */
+	public Boolean isXorGateway(String objectId) {
+		
+        return this.checkObjectClass(objectId, Vocabulary.XORGATEWAY_URI);
+	}
+	
+	/**
 	 * Verifica si un objeto precede directamente a otro
 	 * 
 	 * @param objectIdA Id del objeto que precede
@@ -88,6 +99,18 @@ public class BpmnTestAnalyser extends TestAnalyser {
 	public Boolean isDataInputOf(String objectIdA, String objectIdB) {
 
         return checkObjectProperty(objectIdB, objectIdA, Vocabulary.DATAINPUT_URI);
+	}
+	
+	/**
+	 * Verifica si un objeto es la salida de datos de otro
+	 * 
+	 * @param objectIdA Id del objeto
+	 * @param objectIdB Id del dataobject
+	 * @return
+	 */
+	public Boolean isDataOutputOf(String objectIdA, String objectIdB) {
+
+        return checkObjectProperty(objectIdB, objectIdA, Vocabulary.DATAOUTPUT_URI);
 	}
 
 }

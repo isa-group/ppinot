@@ -8,7 +8,6 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 import javax.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -88,13 +87,6 @@ public class BPMN2OWLConverter extends ToOWLConverter implements BPMN2OWLConvert
 			String nameTask = element.getId();
 			
 			// obtiene los dataobjects con los que se relaciona la tarea
-			String nameOutputDataObj = null;
-			List<TDataOutputAssociation> dataOutput = element.getDataOutputAssociation();
-			for (TDataOutputAssociation tDataOutputAssociation : dataOutput) {
-				
-				nameOutputDataObj = ((QName) tDataOutputAssociation.getTargetRef()).getLocalPart();
-			}
-
 			List<String> nameInputDataObjList = new ArrayList<String>();
 			List<TDataInputAssociation> dataInput = element.getDataInputAssociation();
 			for (TDataInputAssociation tDataInputAssociation : dataInput) {
@@ -109,11 +101,28 @@ public class BPMN2OWLConverter extends ToOWLConverter implements BPMN2OWLConvert
 				}
 			}
 
+			List<String> nameOutputDataObjList = new ArrayList<String>();
+			List<TDataOutputAssociation> dataOutput = element.getDataOutputAssociation();
+			for (TDataOutputAssociation tDataOutputAssociation : dataOutput) {
+				
+				Object XXX = tDataOutputAssociation.getTargetRef();
+
+				if (XXX instanceof TDataObject)
+					nameOutputDataObjList.add( ((TDataObject) XXX).getId() );
+			}
+/*
+			String nameOutputDataObj = null;
+			List<TDataOutputAssociation> dataOutput = element.getDataOutputAssociation();
+			for (TDataOutputAssociation tDataOutputAssociation : dataOutput) {
+				
+				nameOutputDataObj = ((QName) tDataOutputAssociation.getTargetRef()).getLocalPart();
+			}
+*/
 			// obtiene los elementos que son directamente precedidos por la tarea
 			List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, element);
 			
 			// genera los axiomas correspondientes a la tarea
-			generator.converterActivityOWL(nameTask, nameInputDataObjList, nameOutputDataObj, elementsDirectlyPrecedes);
+			generator.converterActivityOWL(nameTask, nameInputDataObjList, nameOutputDataObjList, elementsDirectlyPrecedes);
 		}
 	}
 	
@@ -137,13 +146,6 @@ public class BPMN2OWLConverter extends ToOWLConverter implements BPMN2OWLConvert
 			
 			
 			// obtiene los dataobjects relacionados con el subproceso
-			String nameOutputDataObj = null;
-			List<TDataOutputAssociation> dataOutput = element.getDataOutputAssociation();
-			for (TDataOutputAssociation tDataOutputAssociation : dataOutput) {
-				
-				nameOutputDataObj = ((QName) tDataOutputAssociation.getTargetRef()).getLocalPart();
-			}
-
 			List<String> nameInputDataObjList = new ArrayList<String>();
 			List<TDataInputAssociation> dataInput = element.getDataInputAssociation();
 			for (TDataInputAssociation tDataInputAssociation : dataInput) {
@@ -157,12 +159,29 @@ public class BPMN2OWLConverter extends ToOWLConverter implements BPMN2OWLConvert
 					nameInputDataObjList.add( ((TDataObject) tdataobject.getValue()).getId() );
 				}
 			}
+			
+			List<String> nameOutputDataObjList = new ArrayList<String>();
+			List<TDataOutputAssociation> dataOutput = element.getDataOutputAssociation();
+			for (TDataOutputAssociation tDataOutputAssociation : dataOutput) {
+				
+				Object XXX = tDataOutputAssociation.getTargetRef();
 
+				if (XXX instanceof TDataObject)
+					nameOutputDataObjList.add( ((TDataObject) XXX).getId() );
+			}
+/*
+			String nameOutputDataObj = null;
+			List<TDataOutputAssociation> dataOutput = element.getDataOutputAssociation();
+			for (TDataOutputAssociation tDataOutputAssociation : dataOutput) {
+				
+				nameOutputDataObj = ((QName) tDataOutputAssociation.getTargetRef()).getLocalPart();
+			}
+*/
 			// obtiene los elementos que son directamente precedidos por el subproceso
 			List<String> elementsDirectlyPrecedes = this.getDirectlyPrecedes(sequenceFlows, element);
 			
 			// genera los axiomas correspondientes al subproceso
-		    generator.converterActivityOWL(nameActivity, nameInputDataObjList, nameOutputDataObj, elementsDirectlyPrecedes);
+		    generator.converterActivityOWL(nameActivity, nameInputDataObjList, nameOutputDataObjList, elementsDirectlyPrecedes);
 		}
 	}
 	

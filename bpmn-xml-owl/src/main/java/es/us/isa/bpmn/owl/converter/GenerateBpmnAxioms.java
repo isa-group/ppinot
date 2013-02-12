@@ -55,7 +55,7 @@ class GenerateBpmnAxioms {
 	 * @param nameOutputDataObj Los dataobjects que son salida de datos de la tarea
 	 * @param elementsDirectlyPrecedes Elementos a los que precede directamente la actividad
 	 */
-	void converterActivityOWL(String nameActivity, List<String> nameInputDataObjList, String nameOutputDataObj, List<String> elementsDirectlyPrecedes){
+	void converterActivityOWL(String nameActivity, List<String> nameInputDataObjList, List<String> nameOutputDataObjList, List<String> elementsDirectlyPrecedes){
 		
 		IRI activityIRI = IRI.create(generatedOntologyURI+"#"+nameActivity);
 		
@@ -75,7 +75,7 @@ class GenerateBpmnAxioms {
         }
         
         // adiciona los axiomas que indican los dataObjects que son salidas de datos de la tarea
-        if(nameOutputDataObj != null){
+        for(String nameOutputDataObj : nameOutputDataObjList){
      		IRI dataOutputObjectIRI = IRI.create(generatedOntologyURI+"#"+nameOutputDataObj);
      		OWLObjectPropertyExpression output = factory.getOWLObjectProperty(IRI.create(Vocabulary.DATAOUTPUT_URI));
         	OWLNamedIndividual dataObjNameIndividualMeasure = factory.getOWLNamedIndividual(dataOutputObjectIRI);

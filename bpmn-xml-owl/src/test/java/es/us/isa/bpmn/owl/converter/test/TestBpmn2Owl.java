@@ -217,7 +217,6 @@ public class TestBpmn2Owl {
         assertTrue("Data object RFC approved is output of  Activity Approve RFC", analyser.isDataOutputOf("sid-BF1BF36F-651C-4F36-806B-2A763E8B51A7", "sid-B48C4D43-F606-4F50-A925-4CED784356C2"));
         assertTrue("Data object RFC cancelled is output of  Activity Cancel RFC", analyser.isDataOutputOf("sid-4C915DC6-3144-4441-AC2D-80AE41435C1E", "sid-623CF5C2-B74D-4A14-B383-B24AEE08D474"));
         
-/*
         assertTrue("Process RFC Management is there", analyser.isProcess("sid-86a3f2d3-5064-4589-87bc-9b18dd0d1287"));
         assertTrue("Process RFC Management includes Start event", analyser.includes("sid-86a3f2d3-5064-4589-87bc-9b18dd0d1287", "sid-2DB95E04-AB48-43FE-A67B-B0169885AB4F"));
         assertTrue("Process RFC Management includes Activity Analyse RFC", analyser.includes("sid-86a3f2d3-5064-4589-87bc-9b18dd0d1287", "sid-202DF64D-1397-4599-9D60-3B42B7224F48"));
@@ -232,7 +231,6 @@ public class TestBpmn2Owl {
         assertTrue("Process RFC Management includes Dataobject RFC registered", analyser.includes("sid-86a3f2d3-5064-4589-87bc-9b18dd0d1287", "sid-C59544E2-20D8-42E5-AB67-A1471BAC4D24"));
         assertTrue("Process RFC Management includes Dataobject RFC approved", analyser.includes("sid-86a3f2d3-5064-4589-87bc-9b18dd0d1287", "sid-BF1BF36F-651C-4F36-806B-2A763E8B51A7"));
         assertTrue("Process RFC Management includes Dataobject RFC cancelled", analyser.includes("sid-86a3f2d3-5064-4589-87bc-9b18dd0d1287", "sid-4C915DC6-3144-4441-AC2D-80AE41435C1E"));
-*/
 	}
 
 }

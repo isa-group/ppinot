@@ -23,6 +23,17 @@ public class BpmnTestAnalyser extends TestAnalyser {
 	}
 	
 	/**
+	 * Verifica si un objeto es un proceso
+	 * 
+	 * @param objectId Id del objeto
+	 * @return
+	 */
+	public Boolean isProcess(String objectId) {
+
+        return this.checkObjectClass(objectId, Vocabulary.PROCESS_URI);
+	}
+	
+	/**
 	 * Verifica si un objeto es una tarea
 	 * 
 	 * @param objectId Id del objeto
@@ -75,6 +86,18 @@ public class BpmnTestAnalyser extends TestAnalyser {
 	public Boolean isXorGateway(String objectId) {
 		
         return this.checkObjectClass(objectId, Vocabulary.XORGATEWAY_URI);
+	}
+	
+	/**
+	 * Verifica si un proceso incluye un objeto
+	 * 
+	 * @param processId Id del proceso
+	 * @param objectId Id del objeto 
+	 * @return
+	 */
+	public Boolean includes(String processId, String objectId) {
+
+        return checkObjectProperty(processId, objectId, Vocabulary.INCLUDES_URI);
 	}
 	
 	/**

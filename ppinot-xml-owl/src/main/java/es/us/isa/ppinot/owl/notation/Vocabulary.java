@@ -21,6 +21,8 @@ public final class Vocabulary {
     public static final String CHANGESTOSTATE_URI = URINT + "changesToState";
 	public static final String COUNTMEASURE_URI = URINT + "CountMeasure"; 
 	public static final String CYCLICTIMEMEASURE_URI = URINT + "CyclicTimeMeasure";
+	public static final String DATA_URI = URINT + "data";
+	public static final String DATACONTENTSELECTION_URI = URINT + "DataContentSelection";
 	public static final String DATAOUPUTASSOCIATION_URI = URINT + "DataOutputAssociation";
 	public static final String DATAMEASURE_URI = URINT + "DataMeasure"; 
 	public static final String DATAPROPERTYCONDITION_URI = URINT + "DataPropertyCondition"; 
@@ -70,6 +72,7 @@ public final class Vocabulary {
 	// son partes de una frase en el owl
 	public static final String ACTIVITY = "Activity"; 
 	public static final String DATASTATECHANGE = "DataStateChange"; 
+	public static final String DCSELECTION = "DCSelection";
 	public static final String END = "end"; 
 	public static final String EVENTTRIGGER = "EventTrigger"; 
 	public static final String INTERMEDIATE1 = "Intermediate1";

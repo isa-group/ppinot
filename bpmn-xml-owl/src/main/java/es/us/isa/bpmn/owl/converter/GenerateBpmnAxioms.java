@@ -7,6 +7,7 @@ import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLIndividual;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
@@ -26,6 +27,9 @@ class GenerateBpmnAxioms {
 	private OWLDataFactory factory;		// Factory utilizada para generar los elementos owl
 	private OWLOntologyManager manager;	// OWLOntologyManager utilizado
 	private OWLOntology ontology;		// Ontologia a la que se adicionan los axiomas
+	private String processId;			// id del proceso
+	
+	private OWLIndividual processIndividual; // Individual del proceso
 	
 	private String generatedOntologyURI; 	// URI de la ontologia generada
 	
@@ -38,13 +42,36 @@ class GenerateBpmnAxioms {
 	 * @param generatedOntologyURI URI de la ontologia generada
 	 */
 	GenerateBpmnAxioms(OWLDataFactory factory, OWLOntologyManager manager, OWLOntology ontology, 
-			String generatedOntologyURI){
+			String generatedOntologyURI, String processId){
 
 		this.factory = factory;
 		this.manager = manager;
 		this.ontology = ontology;
+		this.processId = processId;
 
 		this.generatedOntologyURI = generatedOntologyURI;
+		
+		this.converterProcess();
+	}
+	
+	/**
+	 * Adiciona el axioma del proceso
+	 */
+	private void converterProcess() {
+		
+		IRI processIRI = IRI.create(generatedOntologyURI+"#"+processId);
+		
+        processIndividual = factory.getOWLNamedIndividual(processIRI);
+        OWLClass processClass = factory.getOWLClass(IRI.create(Vocabulary.PROCESS_URI));
+        OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(processClass, processIndividual);
+        manager.addAxiom(ontology, classAssertion);
+	}
+	
+	private void converterProcessIncludes(OWLIndividual individual) {
+		
+    	OWLObjectPropertyExpression includes = factory.getOWLObjectProperty(IRI.create(Vocabulary.INCLUDES_URI));
+    	OWLObjectPropertyAssertionAxiom propertyAssertion = factory.getOWLObjectPropertyAssertionAxiom(includes, processIndividual, individual);
+    	manager.addAxiom(ontology, propertyAssertion);
 	}
 	
 	/**
@@ -64,6 +91,8 @@ class GenerateBpmnAxioms {
         OWLClass activityClass = factory.getOWLClass(IRI.create(Vocabulary.ACTIVITY_URI));
         OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(activityClass, taskNameIndividual);
         manager.addAxiom(ontology, classAssertion);
+        
+        this.converterProcessIncludes(taskNameIndividual);
         
         // adiciona los axiomas que indican los dataObjects que son entradas de datos de la tarea
         for(String nameInputDataObj : nameInputDataObjList){
@@ -109,10 +138,12 @@ class GenerateBpmnAxioms {
 		IRI iri2 = IRI.create(generatedOntologyURI+"#"+nameEvent);
  		
 		// adiciona el axioma de la clase del startEvent
-        OWLNamedIndividual EventNameIndividual = factory.getOWLNamedIndividual(iri2);
-        OWLClass StartEvent = factory.getOWLClass(IRI.create(Vocabulary.STARTEVENT_URI));
-        OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(StartEvent, EventNameIndividual);
+        OWLNamedIndividual eventNameIndividual = factory.getOWLNamedIndividual(iri2);
+        OWLClass startEvent = factory.getOWLClass(IRI.create(Vocabulary.STARTEVENT_URI));
+        OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(startEvent, eventNameIndividual);
         manager.addAxiom(ontology, classAssertion);
+        
+        this.converterProcessIncludes(eventNameIndividual);
        
         // adiciona los axiomas que indican los elementos que son directamente precedidos por el startEvent
         if(elementsDirectlyPrecedes.size() > 0){
@@ -122,7 +153,7 @@ class GenerateBpmnAxioms {
         		String elementDirectly = it.next();
         		OWLObjectPropertyExpression directlyPrecedes = factory.getOWLObjectProperty(IRI.create(Vocabulary.DIRECTLYPRECEDES_URI));
         		OWLNamedIndividual DataObjNameElementdirectly = factory.getOWLNamedIndividual(IRI.create(generatedOntologyURI+"#"+elementDirectly));
-        		OWLObjectPropertyAssertionAxiom propertyAssertion2 = factory.getOWLObjectPropertyAssertionAxiom(directlyPrecedes, EventNameIndividual, DataObjNameElementdirectly);
+        		OWLObjectPropertyAssertionAxiom propertyAssertion2 = factory.getOWLObjectPropertyAssertionAxiom(directlyPrecedes, eventNameIndividual, DataObjNameElementdirectly);
         		manager.addAxiom(ontology, propertyAssertion2);
         	}
         }
@@ -138,10 +169,12 @@ class GenerateBpmnAxioms {
 		IRI iri2 = IRI.create(generatedOntologyURI+"#"+nameEvent);
  		
 		// adiciona el axioma de la clase del endEvent
-        OWLNamedIndividual EventNameIndividual = factory.getOWLNamedIndividual(iri2);
-        OWLClass Event = factory.getOWLClass(IRI.create(Vocabulary.ENDEVENT_URI));
-        OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(Event, EventNameIndividual);
+        OWLNamedIndividual eventNameIndividual = factory.getOWLNamedIndividual(iri2);
+        OWLClass event = factory.getOWLClass(IRI.create(Vocabulary.ENDEVENT_URI));
+        OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(event, eventNameIndividual);
         manager.addAxiom(ontology, classAssertion);	
+        
+        this.converterProcessIncludes(eventNameIndividual);
 	}
 
 	/**
@@ -155,10 +188,12 @@ class GenerateBpmnAxioms {
 		IRI iri2 = IRI.create(generatedOntologyURI+"#"+nameGtw);
  		
 		// adiciona el axioma de la clase del xorGateway
-        OWLNamedIndividual GtwNameIndividual = factory.getOWLNamedIndividual(iri2);
-        OWLClass Gtw = factory.getOWLClass(IRI.create(Vocabulary.XORGATEWAY_URI));
-        OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(Gtw, GtwNameIndividual);
+        OWLNamedIndividual gtwNameIndividual = factory.getOWLNamedIndividual(iri2);
+        OWLClass gtw = factory.getOWLClass(IRI.create(Vocabulary.XORGATEWAY_URI));
+        OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(gtw, gtwNameIndividual);
         manager.addAxiom(ontology, classAssertion);	
+        
+        this.converterProcessIncludes(gtwNameIndividual);
         
         // adiciona los axiomas que indican los elementos que son directamente precedidos por el xorGateway
         if(elementsDirectlyPrecedes.size() > 0){
@@ -167,7 +202,7 @@ class GenerateBpmnAxioms {
         		String elementDirectly = it.next();
         		OWLObjectPropertyExpression directlyPrecedes = factory.getOWLObjectProperty(IRI.create(Vocabulary.DIRECTLYPRECEDES_URI));
         		OWLNamedIndividual DataObjNameElementdirectly = factory.getOWLNamedIndividual(IRI.create(generatedOntologyURI+"#"+elementDirectly));
-        		OWLObjectPropertyAssertionAxiom propertyAssertion2 = factory.getOWLObjectPropertyAssertionAxiom(directlyPrecedes, GtwNameIndividual, DataObjNameElementdirectly);
+        		OWLObjectPropertyAssertionAxiom propertyAssertion2 = factory.getOWLObjectPropertyAssertionAxiom(directlyPrecedes, gtwNameIndividual, DataObjNameElementdirectly);
         		manager.addAxiom(ontology, propertyAssertion2);
         	}
         }
@@ -184,10 +219,12 @@ class GenerateBpmnAxioms {
 		IRI iri2 = IRI.create(generatedOntologyURI+"#"+nameGtw);
  		
 		// adiciona el axioma de la clase del gateway
-        OWLNamedIndividual GtwNameIndividual = factory.getOWLNamedIndividual(iri2);
-        OWLClass Gtw = factory.getOWLClass(IRI.create(Vocabulary.GATEWAY_URI));
-        OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(Gtw, GtwNameIndividual);
+        OWLNamedIndividual gtwNameIndividual = factory.getOWLNamedIndividual(iri2);
+        OWLClass gtw = factory.getOWLClass(IRI.create(Vocabulary.GATEWAY_URI));
+        OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(gtw, gtwNameIndividual);
         manager.addAxiom(ontology, classAssertion);	
+        
+        this.converterProcessIncludes(gtwNameIndividual);
         
         // adiciona los axiomas que indican los elementos que son directamente precedidos por el gateway
         if(elementsDirectlyPrecedes.size() > 0){
@@ -196,7 +233,7 @@ class GenerateBpmnAxioms {
         		String elementDirectly = it.next();
         		OWLObjectPropertyExpression directlyPrecedes = factory.getOWLObjectProperty(IRI.create(Vocabulary.DIRECTLYPRECEDES_URI));
         		OWLNamedIndividual DataObjNameElementdirectly = factory.getOWLNamedIndividual(IRI.create(generatedOntologyURI+"#"+elementDirectly));
-        		OWLObjectPropertyAssertionAxiom propertyAssertion2 = factory.getOWLObjectPropertyAssertionAxiom(directlyPrecedes, GtwNameIndividual, DataObjNameElementdirectly);
+        		OWLObjectPropertyAssertionAxiom propertyAssertion2 = factory.getOWLObjectPropertyAssertionAxiom(directlyPrecedes, gtwNameIndividual, DataObjNameElementdirectly);
         		manager.addAxiom(ontology, propertyAssertion2);
         	}
         }
@@ -212,10 +249,12 @@ class GenerateBpmnAxioms {
 		IRI iri2 = IRI.create(generatedOntologyURI+"#"+nameDataObj);
  		
 		// adiciona el axioma de la clase del dataObject
-        OWLNamedIndividual DataObjNameIndividual = factory.getOWLNamedIndividual(iri2);
-        OWLClass DataObj = factory.getOWLClass(IRI.create(Vocabulary.DATAOBJECT_URI));
-        OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(DataObj, DataObjNameIndividual);
+        OWLNamedIndividual dataObjNameIndividual = factory.getOWLNamedIndividual(iri2);
+        OWLClass dataObj = factory.getOWLClass(IRI.create(Vocabulary.DATAOBJECT_URI));
+        OWLClassAssertionAxiom classAssertion = factory.getOWLClassAssertionAxiom(dataObj, dataObjNameIndividual);
         manager.addAxiom(ontology, classAssertion);	
+        
+        this.converterProcessIncludes(dataObjNameIndividual);
 	}
 
 	

@@ -11,8 +11,11 @@ public class DataContentSelection {
 	// Propiedad que se agrupa
 	private String selection;
 	
-	// Dataobject de la propiedad
+	// nombre del dataobject de la propiedad
 	private String dataobject;
+	
+	// id del dataobject de la propiedad
+	private String dataobjectId;
 	
 	/**
 	 * Constructor de la clase
@@ -22,6 +25,7 @@ public class DataContentSelection {
 		super();
     	this.setSelection("");
     	this.setDataobject("");
+    	this.setDataobjectId("");
 	}
 	
 	/**
@@ -30,15 +34,17 @@ public class DataContentSelection {
 	 * @param selection Id de la propiedad que se agrupa
 	 * @param dataobject Id del dataobject
 	 */
-	public DataContentSelection(String selection, String dataobject) {
+	public DataContentSelection(String selection, String dataobject, String dataobjectId) {
 		
 		super();
     	this.setSelection(selection);
     	this.setDataobject(dataobject);
+    	this.setDataobjectId(dataobjectId);
 	}
 	
 	/**
 	 * Devuelve el atributo dataobject
+	 * Nombre del dataobject
 	 * 
 	 * @return Valor de la propiedad
 	 */
@@ -48,12 +54,32 @@ public class DataContentSelection {
 	
 	/**
 	 * Da valor al atributo dataobject
-	 * Id del dataobject
+	 * Nombre del dataobject
 	 * 
 	 * @param dataobject Valor del atributo
 	 */
 	public void setDataobject(String dataobject) {
 		this.dataobject = dataobject;
+	}
+	
+	/**
+	 * Devuelve el atributo dataobject
+	 * Id del dataobject
+	 * 
+	 * @return Valor de la propiedad
+	 */
+	public String getDataobjectId() {
+		return dataobjectId;
+	}
+	
+	/**
+	 * Da valor al atributo dataobjectId
+	 * Id del dataobject
+	 * 
+	 * @param dataobject Valor del atributo
+	 */
+	public void setDataobjectId(String dataobjectId) {
+		this.dataobjectId = dataobjectId;
 	}
 	
 	/**

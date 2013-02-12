@@ -166,7 +166,7 @@ public class GeneratePpiNotInfo {
 		
 		con.setId(generarId("appliesToDataConnector", ""));
 		con.setSourceRef(measure);
-		con.setTargetRef(def.getDataContentSelection().getDataobject());
+		con.setTargetRef(def.getDataContentSelection().getDataobjectId());
 		con.setDataContentSelection(def.getDataContentSelection().getSelection());
 		con.setRestriction(def.getCondition().getRestriction());
 		con.setState(def.getCondition().getStateConsidered().getStateString());
@@ -234,13 +234,13 @@ public class GeneratePpiNotInfo {
 
 		map.put("measure", measure);
 		
-		if (!def.getGroupedBy().getSelection().contentEquals("") || !def.getGroupedBy().getDataobject().contentEquals("")) {
+		if (!def.getGroupedBy().getSelection().contentEquals("") || !def.getGroupedBy().getDataobjectId().contentEquals("")) {
 			
 			TIsGroupedBy con = factory.createTIsGroupedBy();
 			
 			con.setId(generarId("isGroupedBy", ""));
 			con.setSourceRef(measure);
-			con.setTargetRef(def.getGroupedBy().getDataobject());
+			con.setTargetRef(def.getGroupedBy().getDataobjectId());
 			
 			map.put("connectorIsGroupedBy", con);
 		}

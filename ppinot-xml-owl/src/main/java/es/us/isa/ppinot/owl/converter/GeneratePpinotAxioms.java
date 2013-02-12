@@ -312,10 +312,19 @@ class GeneratePpinotAxioms {
         manager.addAxiom(ontology, classAssertionCountMeasure);
 		
         // adiciona el axioma que indica a que elemento se aplica la medida
-        OWLObjectPropertyExpression appliesTo = factory.getOWLObjectProperty(IRI.create(Vocabulary.MEASURESDATA_URI));
-        OWLNamedIndividual dataObjectInstant = factory.getOWLNamedIndividual( IRI.create(bpmnGeneratedOntologyURI+"#"+dataObject) );
-        OWLObjectPropertyAssertionAxiom propertyAssertionmeets = factory.getOWLObjectPropertyAssertionAxiom(appliesTo, DataObjNameIndividualMeasure, dataObjectInstant);
-        manager.addAxiom(ontology, propertyAssertionmeets);
+    	OWLNamedIndividual dataContentSelectionIndividual = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+Vocabulary.DCSELECTION+nameElementMeasure) );
+	    OWLClass dataContentSelectionClass = factory.getOWLClass(IRI.create( Vocabulary.DATACONTENTSELECTION_URI ));
+	    OWLClassAssertionAxiom dataContentSelectionClassAxiom = factory.getOWLClassAssertionAxiom(dataContentSelectionClass, dataContentSelectionIndividual);
+	    manager.addAxiom(ontology, dataContentSelectionClassAxiom);	
+        
+        OWLObjectPropertyExpression isGroupedBy = factory.getOWLObjectProperty(IRI.create(Vocabulary.MEASURESDATA_URI));
+        OWLObjectPropertyAssertionAxiom propertyAssertionGroupBy = factory.getOWLObjectPropertyAssertionAxiom(isGroupedBy, DataObjNameIndividualMeasure, dataContentSelectionIndividual);
+        manager.addAxiom(ontology, propertyAssertionGroupBy);	
+
+        OWLNamedIndividual dataObjectIndividual = factory.getOWLNamedIndividual( IRI.create(bpmnGeneratedOntologyURI+"#"+dataObject) );
+        OWLObjectPropertyExpression dataIndividual = factory.getOWLObjectProperty(IRI.create(Vocabulary.DATA_URI));
+        OWLObjectPropertyAssertionAxiom dataAxiom = factory.getOWLObjectPropertyAssertionAxiom(dataIndividual, dataContentSelectionIndividual, dataObjectIndividual);
+        manager.addAxiom(ontology, dataAxiom);	
         
         return DataObjNameIndividualMeasure;
 	}
@@ -370,12 +379,22 @@ class GeneratePpinotAxioms {
 	    manager.addAxiom(ontology, propertyAssertion);
 	       
         // adiciona el axioma con la propiedad isgroupedby
-	    String dataObject = element.getGroupedBy().getDataobject();
+	    String dataObject = element.getGroupedBy().getDataobjectId();
 	    if (dataObject!=null && !dataObject.contentEquals("")) {
-	        OWLObjectPropertyExpression appliesTo = factory.getOWLObjectProperty(IRI.create(Vocabulary.ISGROUPEDBY_URI));
-	        OWLNamedIndividual dataObjectElement = factory.getOWLNamedIndividual( IRI.create(bpmnGeneratedOntologyURI+"#"+dataObject) );
-	        OWLObjectPropertyAssertionAxiom propertyAssertionGroupBy = factory.getOWLObjectPropertyAssertionAxiom(appliesTo, aggMeasureIndividual, dataObjectElement);
+
+	    	OWLNamedIndividual dataContentSelectionIndividual = factory.getOWLNamedIndividual( IRI.create(ppinotGeneratedOntologyURI+"#"+Vocabulary.DCSELECTION+aggMeasureId) );
+		    OWLClass dataContentSelectionClass = factory.getOWLClass(IRI.create( Vocabulary.DATACONTENTSELECTION_URI ));
+		    OWLClassAssertionAxiom dataContentSelectionClassAxiom = factory.getOWLClassAssertionAxiom(dataContentSelectionClass, dataContentSelectionIndividual);
+		    manager.addAxiom(ontology, dataContentSelectionClassAxiom);	
+	        
+	        OWLObjectPropertyExpression isGroupedBy = factory.getOWLObjectProperty(IRI.create(Vocabulary.ISGROUPEDBY_URI));
+	        OWLObjectPropertyAssertionAxiom propertyAssertionGroupBy = factory.getOWLObjectPropertyAssertionAxiom(isGroupedBy, aggMeasureIndividual, dataContentSelectionIndividual);
 	        manager.addAxiom(ontology, propertyAssertionGroupBy);	
+
+	        OWLNamedIndividual dataObjectIndividual = factory.getOWLNamedIndividual( IRI.create(bpmnGeneratedOntologyURI+"#"+dataObject) );
+	        OWLObjectPropertyExpression dataIndividual = factory.getOWLObjectProperty(IRI.create(Vocabulary.DATA_URI));
+	        OWLObjectPropertyAssertionAxiom dataAxiom = factory.getOWLObjectPropertyAssertionAxiom(dataIndividual, dataContentSelectionIndividual, dataObjectIndividual);
+	        manager.addAxiom(ontology, dataAxiom);	
 	    }
 	}
 

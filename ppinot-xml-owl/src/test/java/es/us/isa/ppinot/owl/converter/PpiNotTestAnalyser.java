@@ -14,9 +14,9 @@ import java.util.Set;
  */
 public class PpiNotTestAnalyser {
 
-	// URI de la ontolog�a para PPINOT
+	// URI de la ontologia para PPINOT
 	private String ppinotOntologyURI;
-	// URI de la ontolog�a para BPMN 2.0 relacionada con el mismo proceso que la de PPINOT
+	// URI de la ontologia para BPMN 2.0 relacionada con el mismo proceso que la de PPINOT
 	private String bpmnOntologyURI;
 	// Ontolog�a a verificar
 	private OWLOntology ppinotOntology;
@@ -51,6 +51,29 @@ public class PpiNotTestAnalyser {
 		Boolean b = false;
         OWLClass taskClass = factory.getOWLClass(IRI.create(classId));
         OWLNamedIndividual individual = factory.getOWLNamedIndividual(IRI.create(ppinotOntologyURI + "#" + objectId));
+
+        Set<OWLIndividual> individuals = taskClass.getIndividuals(ppinotOntology);
+
+        b = individuals.contains(individual);
+        
+        return b;
+	}
+
+	/**
+	 * Verifica si un objeto es de una clase 
+	 * 
+	 * @param objectUri URI del objeto
+	 * @param objectId Id del objeto
+	 * @param classUri URI de la clase
+	 * @param classId Id de la clase
+	 * @return
+	 */
+	protected Boolean checkObjectClass(String objectUri, String objectId, String classUri, String classId) {
+		
+		
+		Boolean b = false;
+        OWLClass taskClass = factory.getOWLClass(IRI.create(classUri + "#" + classId));
+        OWLNamedIndividual individual = factory.getOWLNamedIndividual(IRI.create(objectUri + "#" + objectId));
 
         Set<OWLIndividual> individuals = taskClass.getIndividuals(ppinotOntology);
 
@@ -100,6 +123,21 @@ public class PpiNotTestAnalyser {
         b = individuals.contains(individualB);
 
         return b;
+	}
+
+	/**
+	 * Verifica si un objeto es un aggregatedMeasure
+	 * 
+	 * @param measureId Id del objeto
+	 * @return
+	 */
+	public Boolean isAggregatedMeasure(String measureId) {
+		
+		return this.checkObjectClass(measureId, Vocabulary.AVGAM_URI) ||
+				this.checkObjectClass(measureId, Vocabulary.SUMAM_URI) ||
+				this.checkObjectClass(measureId, Vocabulary.MINAM_URI) ||
+				this.checkObjectClass(measureId, Vocabulary.MAXAM_URI) ||
+				this.checkObjectClass(measureId, Vocabulary.AVGAM_URI);
 	}
 
 	/**
@@ -202,6 +240,17 @@ public class PpiNotTestAnalyser {
 	}
 
 	/**
+	 * Verifica si un objeto es un eventTrigger
+	 * 
+	 * @param id Id del objeto
+	 * @return
+	 */
+	public Boolean isEventTrigger(String id) {
+		
+		return this.checkObjectClass(this.ppinotOntologyURI, id, es.us.isa.bpmn.owl.notation.Vocabulary.ABSTRACTBP_URI, Vocabulary.EVENTTRIGGER);
+	}
+
+	/**
 	 * Verifica si un objeto es un activityStart
 	 * 
 	 * @param id Id del objeto
@@ -255,9 +304,20 @@ public class PpiNotTestAnalyser {
 		
 		return this.checkObjectClass(id, Vocabulary.DATAPROPERTYCONDITION_URI);
 	}
+
+	/**
+	 * Verifica si un objeto es un DataContentSelection
+	 * 
+	 * @param id Id del objeto
+	 * @return
+	 */
+	public Boolean isDataContentSelection(String id) {
+		
+		return this.checkObjectClass(id, Vocabulary.DATACONTENTSELECTION_URI);
+	}
 	
 	/**
-	 * Verifica si una medida tiene una relaci�n from con un elemento
+	 * Verifica si una medida tiene una relacion from con un elemento
 	 * 
 	 * @param measureId Id de la medida
 	 * @param elementId Id del elemento
@@ -269,7 +329,7 @@ public class PpiNotTestAnalyser {
 	}
 	
 	/**
-	 * Verifica si una medida tiene una relaci�n to con un elemento
+	 * Verifica si una medida tiene una relacion to con un elemento
 	 * 
 	 * @param measureId Id de la medida
 	 * @param elementId Id del elemento
@@ -281,7 +341,7 @@ public class PpiNotTestAnalyser {
 	}
 	
 	/**
-	 * Verifica si una medida tiene una relaci�n when con un elemento
+	 * Verifica si una medida tiene una relacion when con un elemento
 	 * 
 	 * @param measureId Id de la medida
 	 * @param elementId Id del elemento
@@ -293,7 +353,7 @@ public class PpiNotTestAnalyser {
 	}
 	
 	/**
-	 * Verifica si una medida tiene una relaci�n meets con un elemento
+	 * Verifica si una medida tiene una relacion meets con un elemento
 	 * 
 	 * @param measureId Id de la medida
 	 * @param elementId Id del elemento
@@ -305,7 +365,7 @@ public class PpiNotTestAnalyser {
 	}
 	
 	/**
-	 * Verifica si un objeto tiene una relaci�n appliesto con un elemento
+	 * Verifica si un objeto tiene una relacion appliesto con un elemento
 	 * 
 	 * @param measureId Id del objeto
 	 * @param elementId Id del elemento
@@ -317,7 +377,7 @@ public class PpiNotTestAnalyser {
 	}
 	
 	/**
-	 * Verifica si un objeto tiene una relaci�n measuresdata con un dataobject
+	 * Verifica si un objeto tiene una relacion measuresdata con un dataobject
 	 * 
 	 * @param measureId Id del objeto
 	 * @param dataobjectId Id del elemento
@@ -325,11 +385,11 @@ public class PpiNotTestAnalyser {
 	 */
 	public Boolean isMeasuresData(String measureId, String dataobjectId) {
 		
-		return this.checkObjectProperty(ppinotOntologyURI, measureId, bpmnOntologyURI, dataobjectId, Vocabulary.MEASURESDATA_URI);
+		return this.checkObjectProperty(measureId, dataobjectId, Vocabulary.MEASURESDATA_URI);
 	}
 	
 	/**
-	 * Verifica si un objeto tiene una relaci�n aggregates con un elemento
+	 * Verifica si un objeto tiene una relacion aggregates con un elemento
 	 * 
 	 * @param measureId Id del objeto
 	 * @param elementId Id del elemento
@@ -341,7 +401,7 @@ public class PpiNotTestAnalyser {
 	}
 	
 	/**
-	 * Verifica si un objeto tiene una relaci�n iscalculated con un elemento
+	 * Verifica si un objeto tiene una relacion iscalculated con un elemento
 	 * 
 	 * @param measureId Id del objeto
 	 * @param elementId Id del elemento
@@ -353,7 +413,7 @@ public class PpiNotTestAnalyser {
 	}
 	
 	/**
-	 * Verifica si un ppi tiene una relaci�n definition con una medida
+	 * Verifica si un ppi tiene una relacion definition con una medida
 	 * 
 	 * @param ppiId Id del ppi
 	 * @param measureId Id de la medida
@@ -365,7 +425,7 @@ public class PpiNotTestAnalyser {
 	}
 	
 	/**
-	 * Verifica si un objeto tiene una relaci�n isgroupedby con un dataobject
+	 * Verifica si un objeto tiene una relacion isgroupedby con un dataobject
 	 * 
 	 * @param measureId Id del objeto
 	 * @param dataobjectId Id del elemento
@@ -373,6 +433,18 @@ public class PpiNotTestAnalyser {
 	 */
 	public Boolean isGroupedBy(String measureId, String dataobjectId) {
 		
-		return this.checkObjectProperty(ppinotOntologyURI, measureId, bpmnOntologyURI, dataobjectId, Vocabulary.ISGROUPEDBY_URI);
+		return this.checkObjectProperty(measureId, dataobjectId, Vocabulary.ISGROUPEDBY_URI);
+	}
+	
+	/**
+	 * Verifica si un objeto tiene una relacion data con un dataobject
+	 * 
+	 * @param measureId Id del objeto
+	 * @param dataobjectId Id del elemento
+	 * @return
+	 */
+	public Boolean isData(String measureId, String dataobjectId) {
+		
+		return this.checkObjectProperty(ppinotOntologyURI, measureId, bpmnOntologyURI, dataobjectId, Vocabulary.DATA_URI);
 	}
 }

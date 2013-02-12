@@ -16,6 +16,9 @@ public class DataPropertyCondition extends ProcessInstanceCondition {
 	// Estado del dataobject
 	private RuntimeState state;
 	
+	// Nombre del dataobject
+	private String dataobject;
+	
 	/**
 	 * Constructor de la clase
 	 */
@@ -23,6 +26,7 @@ public class DataPropertyCondition extends ProcessInstanceCondition {
 		super();
 		this.setRestriction("");
 		this.setStateConsidered(null);
+		this.setDataobject("");
 	}
 	
 	/**
@@ -32,10 +36,11 @@ public class DataPropertyCondition extends ProcessInstanceCondition {
 	 * @param restriction Condición que debe cumplir el dataobject
 	 * @param state Estado del dataobject
 	 */
-	public DataPropertyCondition (String appliesTo, String restriction, RuntimeState state) {
+	public DataPropertyCondition (String appliesTo, String restriction, RuntimeState state, String dataobject) {
 		super(appliesTo);
 		this.setRestriction(restriction);
 		this.setStateConsidered(state);
+		this.setDataobject(dataobject);
 	}
 
 	/**
@@ -76,6 +81,26 @@ public class DataPropertyCondition extends ProcessInstanceCondition {
      */
 	public void setStateConsidered(RuntimeState state) {
 		this.state = state;
+	}
+
+	/**
+     * Devuelve el atributo dataobject:
+     * Nombre del dataobject
+     * 
+     * @return Valor del atributo
+     */
+	public String getDataobject() {
+		return dataobject;
+	}
+
+    /**
+     * Da valor al atributo dataobject:
+     * Nombre del dataobject
+     * 
+     * @param value Valor del atributo
+     */
+	public void setDataobject(String dataobject) {
+		this.dataobject = dataobject;
 	}
 
 }

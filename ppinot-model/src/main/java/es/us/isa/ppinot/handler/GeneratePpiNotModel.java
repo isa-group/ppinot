@@ -189,11 +189,12 @@ public class GeneratePpiNotModel {
 					measure.getUnitofmeasure(),
 					new DataContentSelection( 
 							((TAppliesToDataConnector) connector).getDataContentSelection(),
-							((TDataObject) connector.getTargetRef()).getName() ),
+							((TDataObject) connector.getTargetRef()).getName(), ((TDataObject) connector.getTargetRef()).getId() ),
 					new DataPropertyCondition( 
-							((TDataObject) connector.getTargetRef()).getName(),  
+							((TDataObject) connector.getTargetRef()).getId(),  
 							((TAppliesToDataConnector) connector).getRestriction(),
-							new RuntimeState(((TAppliesToDataConnector) connector).getState()) ) );
+							new RuntimeState(((TAppliesToDataConnector) connector).getState()),
+							((TDataObject) connector.getTargetRef()).getName()) );
 		else
 			def = new DataInstanceMeasure( 
 					measure.getId(), 
@@ -228,9 +229,10 @@ public class GeneratePpiNotModel {
 					measure.getScale(),
 					measure.getUnitofmeasure(),
 					new DataPropertyCondition( 
-							((TDataObject) ((TAppliesToDataConnector) connector).getTargetRef()).getName(), 
+							((TDataObject) ((TAppliesToDataConnector) connector).getTargetRef()).getId(), 
 							((TAppliesToDataConnector) connector).getRestriction(),
-							new RuntimeState(((TAppliesToDataConnector) connector).getState()) ) );
+							new RuntimeState(((TAppliesToDataConnector) connector).getState()),
+							((TDataObject) ((TAppliesToDataConnector) connector).getTargetRef()).getName()) );
 		else
 			def = new DataPropertyConditionInstanceMeasure( 
 					measure.getId(), 
@@ -269,7 +271,7 @@ public class GeneratePpiNotModel {
 		TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class, ppiset);
 		if (con!=null) {
 			def.setGroupedBy( new DataContentSelection(((TIsGroupedBy) con).getDataContentSelection(), 
-					((TDataObject) con.getTargetRef()).getName()) );
+					((TDataObject) con.getTargetRef()).getName(), ((TDataObject) con.getTargetRef()).getId()) );
 		}
 		
 		return def;
@@ -319,7 +321,7 @@ public class GeneratePpiNotModel {
 			TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class, ppiset);
 			if (con!=null) {
 				def.setGroupedBy( new DataContentSelection(((TIsGroupedBy) con).getDataContentSelection(), 
-						((TDataObject) con.getTargetRef()).getName()) );
+						((TDataObject) con.getTargetRef()).getName(), ((TDataObject) con.getTargetRef()).getId()) );
 			}
 		}
 		
@@ -366,7 +368,7 @@ public class GeneratePpiNotModel {
 			TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class, ppiset);
 			if (con!=null) {
 				def.setGroupedBy( new DataContentSelection(((TIsGroupedBy) con).getDataContentSelection(), 
-						((TDataObject) con.getTargetRef()).getName()) );
+						((TDataObject) con.getTargetRef()).getName(), ((TDataObject) con.getTargetRef()).getId()) );
 			}
 		}
 		
@@ -413,7 +415,7 @@ public class GeneratePpiNotModel {
 			TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class, ppiset);
 			if (con!=null) {
 				def.setGroupedBy( new DataContentSelection(((TIsGroupedBy) con).getDataContentSelection(), 
-						((TDataObject) con.getTargetRef()).getName()) );
+						((TDataObject) con.getTargetRef()).getName(), ((TDataObject) con.getTargetRef()).getId()) );
 			}
 		}
 		
@@ -445,11 +447,12 @@ public class GeneratePpiNotModel {
 			DataInstanceMeasure baseModel = this.obtainModel(baseMeasure, ppiset);
 			baseModel.setDataContentSelection( new DataContentSelection( 
 					((TAppliesToDataConnector) connector).getDataContentSelection(),
-					((TDataObject) connector.getTargetRef()).getName()) );
+					((TDataObject) connector.getTargetRef()).getName(), ((TDataObject) connector.getTargetRef()).getId()) );
 			baseModel.setCondition( new DataPropertyCondition( 
-					((TDataObject) connector.getTargetRef()).getName(), 
+					((TDataObject) connector.getTargetRef()).getId(), 
 					((TAppliesToDataConnector) connector).getRestriction(),
-					new RuntimeState(((TAppliesToDataConnector) connector).getState()) ) );
+					new RuntimeState(((TAppliesToDataConnector) connector).getState()),
+					((TDataObject) connector.getTargetRef()).getName()) );
 			
 			def = new AggregatedMeasure( 
 					measure.getId(), 
@@ -466,7 +469,7 @@ public class GeneratePpiNotModel {
 			TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class, ppiset);
 			if (con!=null) {
 				def.setGroupedBy( new DataContentSelection(((TIsGroupedBy) con).getDataContentSelection(), 
-						((TDataObject) con.getTargetRef()).getName()) );
+						((TDataObject) con.getTargetRef()).getName(), ((TDataObject) con.getTargetRef()).getId()) );
 			}
 		}
 		
@@ -497,9 +500,10 @@ public class GeneratePpiNotModel {
 			// el dataobject al cual se aplica la medida se obtiene del conector de la medida agregada
 			DataPropertyConditionInstanceMeasure baseModel = this.obtainModel(baseMeasure, ppiset);
 			baseModel.setCondition( new DataPropertyCondition(
-					((TDataObject) ((TAppliesToDataConnector) connector).getTargetRef()).getName(), 
+					((TDataObject) ((TAppliesToDataConnector) connector).getTargetRef()).getId(), 
 					((TAppliesToDataConnector) connector).getRestriction(),
-					new RuntimeState(((TAppliesToDataConnector) connector).getState()) ) );
+					new RuntimeState(((TAppliesToDataConnector) connector).getState()),
+					((TDataObject) ((TAppliesToDataConnector) connector).getTargetRef()).getName()) );
 			
 			def = new AggregatedMeasure( 
 					measure.getId(), 
@@ -516,7 +520,7 @@ public class GeneratePpiNotModel {
 			TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class, ppiset);
 			if (con!=null) {
 				def.setGroupedBy( new DataContentSelection(((TIsGroupedBy) con).getDataContentSelection(), 
-						((TDataObject) con.getTargetRef()).getName()) );
+						((TDataObject) con.getTargetRef()).getName(), ((TDataObject) con.getTargetRef()).getId()) );
 			}
 		}
 		
@@ -558,7 +562,7 @@ public class GeneratePpiNotModel {
 		TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class, ppiset);
 		if (con!=null) {
 			def.setGroupedBy( new DataContentSelection(((TIsGroupedBy) con).getDataContentSelection(), 
-					((TDataObject) con.getTargetRef()).getName()) );
+					((TDataObject) con.getTargetRef()).getName(), ((TDataObject) con.getTargetRef()).getId()) );
 		}
 		
 		return def;

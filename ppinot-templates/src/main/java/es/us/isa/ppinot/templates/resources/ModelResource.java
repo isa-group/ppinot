@@ -1,23 +1,14 @@
 package es.us.isa.ppinot.templates.resources;
 
-import java.util.List;
-import java.util.logging.Logger;
-
-import javassist.NotFoundException;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.xml.bind.JAXBElement;
-
+import es.us.isa.bpmn.xmlClasses.bpmn20.TDefinitions;
+import es.us.isa.bpmn.xmlClasses.bpmn20.TProcess;
+import es.us.isa.bpmn.xmlClasses.bpmn20.TRootElement;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import ppinotBpmn20.xmlClasses.bpmn20.TDefinitions;
-import ppinotBpmn20.xmlClasses.bpmn20.TProcess;
-import ppinotBpmn20.xmlClasses.bpmn20.TRootElement;
+import javax.ws.rs.*;
+import javax.xml.bind.JAXBElement;
+import java.util.List;
+import java.util.logging.Logger;
 
 @Path("/bp")
 public class ModelResource {
@@ -38,7 +29,7 @@ public class ModelResource {
 				.getRootElement();
 
 		for (JAXBElement<? extends TRootElement> elem : rootElements) {
-			if (elem.getDeclaredType() == ppinotBpmn20.xmlClasses.bpmn20.TProcess.class) {
+			if (elem.getDeclaredType() == TProcess.class) {
 				process = (TProcess) elem.getValue();
 				log.info(process.getId());
 				

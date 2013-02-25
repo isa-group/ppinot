@@ -1,6 +1,6 @@
 package es.us.isa.ppinot.templates.resources;
 
-import ppinotBpmn20.xmlClasses.bpmn20.TDefinitions;
+import es.us.isa.bpmn.xmlClasses.bpmn20.TDefinitions;
 
 public interface IModelRepository {
 

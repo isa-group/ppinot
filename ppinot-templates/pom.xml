@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>es.us.isa</groupId>
+	<groupId>es.us.isa.ppinot</groupId>
 	<artifactId>ppinot-templates</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
@@ -14,9 +14,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>es.us.isa.ppinot</groupId>
-			<artifactId>ppinot-xml-inout</artifactId>
-			<version>1.0.1</version>
+			<groupId>es.us.isa.bpmn</groupId>
+			<artifactId>bpmn-model</artifactId>
+			<version>1.0.4</version>
 		</dependency>
 
 		<!--  Resteasy dependencies  -->
@@ -111,7 +111,6 @@
 				<configuration>
 					<warSourceExcludes>**/WEB-INF/web.xml</warSourceExcludes>
 					<webXml>${basedir}/src/main/webapp/WEB-INF/web.xml</webXml>
-					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 
@@ -142,7 +141,7 @@
 				<executions>
 					<execution>
 						<id>deploy</id>
-						<phase />
+						<phase>none</phase>
 						<goals>
 							<goal>deployer-redeploy</goal>
 						</goals>
@@ -175,20 +174,8 @@
 		</plugins>
 	</build>
 
-	<distributionManagement>
-		<repository>
-			<id>isa.devel.archiva.internal</id>
-			<name>ISA group maven repo</name>
-			<url>http://devel.isa.us.es/archiva/repository/internal/</url>
-		</repository>
-	</distributionManagement>
 
 	<repositories>
-		<repository>
-			<id>isa.devel.archiva.internal</id>
-			<name>ISA group maven repo</name>
-			<url>http://devel.isa.us.es/archiva/repository/internal/</url>
-		</repository>
 		<repository>
 			<id>jboss</id>
 			<url>http://repository.jboss.org/nexus/content/groups/public/</url>

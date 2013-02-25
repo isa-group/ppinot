@@ -1,11 +1,10 @@
 package es.us.isa.ppinot.templates.resources;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import es.us.isa.bpmn.xmlClasses.bpmn20.TDefinitions;
 import org.springframework.stereotype.Repository;
 
-import ppinotBpmn20.xmlClasses.bpmn20.TDefinitions;
+import java.util.HashMap;
+import java.util.Map;
 
 @Repository
 public class MapModelRepository implements IModelRepository {

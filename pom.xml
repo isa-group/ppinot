@@ -52,7 +52,6 @@
 		<module>bpmn-xml-owl</module>
 		<module>ppinot-model</module>
 		<module>ppinot-xml-owl</module>
-		<module>signavio-platform-extension-bpmn2_0</module>
 		<module>ppinot-templates</module>
 	</modules>
 </project>

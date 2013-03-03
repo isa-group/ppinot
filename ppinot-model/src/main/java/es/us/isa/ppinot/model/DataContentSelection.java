@@ -32,7 +32,8 @@ public class DataContentSelection {
 	 * Constructor de la clase
 	 * 
 	 * @param selection Id de la propiedad que se agrupa
-	 * @param dataobject Id del dataobject
+	 * @param dataobject Nombre del dataobject
+	 * @param dataobjectId Id del dataobject
 	 */
 	public DataContentSelection(String selection, String dataobject, String dataobjectId) {
 		

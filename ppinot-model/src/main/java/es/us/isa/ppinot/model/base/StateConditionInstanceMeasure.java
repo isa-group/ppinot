@@ -1,5 +1,6 @@
 package es.us.isa.ppinot.model.base;
 
+import es.us.isa.ppinot.model.condition.ProcessInstanceCondition;
 import es.us.isa.ppinot.model.condition.StateCondition;
 
 /**
@@ -33,5 +34,25 @@ public class StateConditionInstanceMeasure extends ConditionMeasure {
 		super(id, name, description, scale, unitOfMeasure, condition);
 	}
 
+
+	/**
+     * Devuelve el atributo condition:
+     * Condición de la medida
+     * 
+     * @return Valor del atributo
+     */
+	public StateCondition getCondition() {
+		return (StateCondition) super.getCondition();
+	}
+
+    /**
+     * Da valor al atributo condition:
+     * Condición de la medida
+     * 
+     * @param value Valor del atributo
+     */
+	public void setCondition(StateCondition condition) {
+		super.setCondition(condition);
+	}
 
 }

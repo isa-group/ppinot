@@ -137,14 +137,14 @@ public class Ppinot2OwlTest {
         // time aggregated measure
         assertTrue(analyser.isAggregatedMeasure("sid-C11F5344-C7B6-43EF-B6CD-4064C1AE8BA9"));
         assertTrue(analyser.isAggregates("sid-C11F5344-C7B6-43EF-B6CD-4064C1AE8BA9", "sid-0c306446-8c69-449a-8da4-d2780209b03b"));
-        assertTrue(analyser.isCyclicTimeIntanceMeasure("sid-0c306446-8c69-449a-8da4-d2780209b03b"));
+        assertTrue(analyser.isLinearTimeIntanceMeasure("sid-0c306446-8c69-449a-8da4-d2780209b03b"));
         assertTrue(analyser.isFrom("sid-0c306446-8c69-449a-8da4-d2780209b03b", "startsid-D5274D42-55B0-46A0-8EB6-B99B186D3873"));
         assertTrue(analyser.isTo("sid-0c306446-8c69-449a-8da4-d2780209b03b", "endsid-2171B3CC-36ED-43B6-B6B8-339732CCB2BD"));
         assertTrue(analyser.isActivityStart("startsid-D5274D42-55B0-46A0-8EB6-B99B186D3873"));
         assertTrue(analyser.isActivityEnd("endsid-2171B3CC-36ED-43B6-B6B8-339732CCB2BD"));
         assertTrue(analyser.isAppliedTo("startsid-D5274D42-55B0-46A0-8EB6-B99B186D3873", "sid-D5274D42-55B0-46A0-8EB6-B99B186D3873"));
         assertTrue(analyser.isAppliedTo("endsid-2171B3CC-36ED-43B6-B6B8-339732CCB2BD", "sid-2171B3CC-36ED-43B6-B6B8-339732CCB2BD"));
-
+        
         // count aggregated measure
         assertTrue(analyser.isAggregatedMeasure("sid-85ADE8CD-C32A-4F59-B519-F9A59D9FF38A"));
         assertTrue(analyser.isAggregates("sid-85ADE8CD-C32A-4F59-B519-F9A59D9FF38A", "sid-4ca76a0a-5e7a-4ad8-a35c-23319b904340"));
@@ -176,6 +176,7 @@ public class Ppinot2OwlTest {
         assertTrue(analyser.isMeets("sid-7cbea7e7-436d-417c-ac30-fd56113f6b92", "sid-7cbea7e7-436d-417c-ac30-fd56113f6b92Restriction"));
         assertTrue(analyser.isDataPropertyCondition("sid-7cbea7e7-436d-417c-ac30-fd56113f6b92Restriction"));
         assertTrue(analyser.isAppliedTo("sid-7cbea7e7-436d-417c-ac30-fd56113f6b92Restriction", "sid-E55E3010-5D7F-4D21-B968-D4D109D625CA"));
+
 	}
 
 	@Test

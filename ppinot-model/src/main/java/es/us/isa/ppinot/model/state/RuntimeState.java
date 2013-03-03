@@ -35,11 +35,22 @@ public class RuntimeState {
 	/**
 	 * Constructor de la clase
 	 * 
+	 * @param atStart Indica si esta en el estado START o no
+	 */
+	public RuntimeState(Boolean atStart) {
+		super();
+		this.setState((atStart)?GenericState.START:GenericState.END);
+	}
+	
+	/**
+	 * Constructor de la clase
+	 * 
 	 * @param state Estado del tipo String
 	 */
 	public RuntimeState(String stateStr) {
 		super();
-		Enum stateEnum = GenericState.START;
+//		Enum stateEnum = GenericState.START;
+		Enum stateEnum = null;
 		
 		if (stateStr.toLowerCase().contentEquals("start")) stateEnum = GenericState.START;
 		if (stateStr.toLowerCase().contentEquals("end")) stateEnum = GenericState.END;
@@ -55,6 +66,9 @@ public class RuntimeState {
 		if (stateStr.toLowerCase().contentEquals("terminated")) stateEnum = BPMNState.TERMINATED;
 		if (stateStr.toLowerCase().contentEquals("compensating")) stateEnum = BPMNState.COMPENSATING; 
 		if (stateStr.toLowerCase().contentEquals("compensated")) stateEnum = BPMNState.COMPENSATED;
+
+		if (stateStr.toLowerCase().contentEquals("executing")) stateEnum = BPMNState.EXECUTING; 
+		if (stateStr.toLowerCase().contentEquals("deleted")) stateEnum = BPMNState.DELETED;
 		
 		this.stateStr = stateStr;
 		this.setState(stateEnum);

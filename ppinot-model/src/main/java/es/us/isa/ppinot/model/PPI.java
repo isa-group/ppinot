@@ -52,6 +52,8 @@ public class PPI {
     	this.setScope( null );
     	
     	this.iniPPI();
+    	
+    	this.iniValues();
     }
     
     /**
@@ -86,7 +88,14 @@ public class PPI {
     	this.setScope( scope );
 
     	this.iniPPI();
+    	
+    	this.iniValues();
     }
+	
+	public void iniValues() {
+		
+		this.valueString = new ArrayList<String>();
+	}
 
     /**
      * Inicializaciones

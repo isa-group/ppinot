@@ -37,6 +37,7 @@ public abstract class MeasureDefinition {
     	this.setDescription("");
     	this.setScale("");
     	this.setUnitOfMeasure("");
+    	this.iniValue();
 	}
 	
 	/**
@@ -58,6 +59,12 @@ public abstract class MeasureDefinition {
     	this.setDescription(description);
     	this.setScale(scale);
     	this.setUnitOfMeasure(unitOfMeasure);
+    	this.iniValue();
+	}
+	
+	public void iniValue() {
+		
+		this.valueString = "";
 	}
 
 	/**

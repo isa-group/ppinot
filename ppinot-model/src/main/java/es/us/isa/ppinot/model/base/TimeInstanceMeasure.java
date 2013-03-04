@@ -137,4 +137,16 @@ public class TimeInstanceMeasure extends BaseMeasure {
 		this.to = to;
 	}
 	
+	/**
+	 * Indica si la medida puede ser calculada
+	 * 
+	 * @return 
+	 */
+	public Boolean getCond() {
+		
+		return super.getCond() && 
+				this.getFrom().getAppliesTo()!=null && this.getFrom().getAppliesTo()!="" &&
+				this.getTo().getAppliesTo()!=null && this.getTo().getAppliesTo()!="";
+	}
+	
 }

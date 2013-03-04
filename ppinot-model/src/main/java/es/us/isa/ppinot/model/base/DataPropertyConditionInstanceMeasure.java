@@ -1,7 +1,6 @@
 package es.us.isa.ppinot.model.base;
 
 import es.us.isa.ppinot.model.condition.DataPropertyCondition;
-import es.us.isa.ppinot.model.condition.StateCondition;
 
 /**
  * Clase con la información de un PPI del tipo DataPropertyConditionInstanceMeasure
@@ -52,6 +51,18 @@ public class DataPropertyConditionInstanceMeasure extends ConditionMeasure {
      */
 	public void setCondition(DataPropertyCondition condition) {
 		super.setCondition(condition);
+	}
+	
+	/**
+	 * Indica si el valor la medida puede ser calculada
+	 * 
+	 * @return 
+	 */
+	public Boolean getCond() {
+		
+		return super.getCond() &&
+				this.getCondition().getDataobject()!=null && this.getCondition().getDataobject()!="" &&	
+				this.getCondition().getStateConsidered().getStateString()!=null && this.getCondition().getStateConsidered().getStateString()!="";
 	}
 
 }

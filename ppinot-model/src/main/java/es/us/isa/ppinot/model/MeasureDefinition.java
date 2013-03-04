@@ -19,12 +19,6 @@ public abstract class MeasureDefinition {
     private String scale;
 		// Unidad de medida del indicador
 	private String unitOfMeasure;
-
-    // Indica si el valor de la medida puede ser calculado y mostrado
-	private Boolean cond = false;
-	
-	// Valor de la medida
-	private String valueString = "";
 	
 	/**
 	 * Constructor de la clase
@@ -37,7 +31,6 @@ public abstract class MeasureDefinition {
     	this.setDescription("");
     	this.setScale("");
     	this.setUnitOfMeasure("");
-    	this.iniValue();
 	}
 	
 	/**
@@ -59,12 +52,6 @@ public abstract class MeasureDefinition {
     	this.setDescription(description);
     	this.setScale(scale);
     	this.setUnitOfMeasure(unitOfMeasure);
-    	this.iniValue();
-	}
-	
-	public void iniValue() {
-		
-		this.valueString = "";
 	}
 
 	/**
@@ -152,46 +139,6 @@ public abstract class MeasureDefinition {
 	public void setScale(String scale) {
 		this.scale = scale;
 	}
-	
-	/**
-	 * Devuelve el valor del atributo cond:
-	 * Indica si el valor de la medida puede ser calculado y mostrado
-	 * 
-	 * @return Valor del atributo
-	 */
-	public Boolean getCond() {
-		return cond;
-	}
-
-	/**
-	 * Da valor al atributo cond:
-	 * Indica si el valor de la medida puede ser calculado y mostrado
-	 * 
-	 * @param cond Valor del atributo
-	 */
-	public void setCond(Boolean cond) {
-		this.cond = cond;
-	}
-	
-	/**
-	 * Devuelve el valor del atributo valueString:
-	 * Valor calculado de la medida
-	 * 
-	 * @return Valor del atributo
-	 */
-	public String getValueString() {
-		return valueString;
-	}
-	
-	/**
-	 * Da valor al atributo valueString:
-	 * Valor calculado de la medida
-	 * 
-	 * @param valueString Valor del atributo
-	 */
-	public void setValueString(String valueString) {
-		this.valueString = valueString;
-	}
 
 	/**
 	 * Devuelve el valor del atributo unitOfMeasure:
@@ -211,5 +158,15 @@ public abstract class MeasureDefinition {
 	 */
 	public void setUnitOfMeasure(String unitOfMeasure) {
 		this.unitOfMeasure = unitOfMeasure;
+	}
+	
+	/**
+	 * Indica si el valor de la medida puede ser calculado y mostrado
+	 * 
+	 * @return 
+	 */
+	public Boolean getCond() {
+		
+		return this.getId()!=null && !this.getId().contentEquals("");
 	}
 }

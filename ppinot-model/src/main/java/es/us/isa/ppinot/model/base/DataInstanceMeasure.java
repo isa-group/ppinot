@@ -83,5 +83,17 @@ public class DataInstanceMeasure extends BaseMeasure {
 	public void setCondition(DataPropertyCondition condition) {
 		this.condition = condition;
 	}
+	
+	/**
+	 * Indica si el valor la medida puede ser calculada
+	 * 
+	 * @return 
+	 */
+	public Boolean getCond() {
+		
+		return super.getCond() &&
+				this.getDataContentSelection().getDataobject()!=null && this.getDataContentSelection().getDataobject()!="" &&	
+				this.getDataContentSelection().getSelection()!=null && this.getDataContentSelection().getSelection()!="";
+	}
 
 }

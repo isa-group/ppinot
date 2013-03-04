@@ -168,5 +168,17 @@ public class AggregatedMeasure extends MeasureDefinition {
 	public void setGroupedBy(DataContentSelection groupedBy) {
 		this.groupedBy = groupedBy;
 	}
+	
+	/**
+	 * Indica si el valor de la medida puede ser calculado y mostrado
+	 * 
+	 * @return 
+	 */
+	public Boolean getCond() {
+		
+		return super.getCond() && 
+				this.getBaseMeasure().getCond() &&
+				this.getAggregationFunction()!=null && this.getAggregationFunction()!="";
+	}
 
 }

@@ -57,5 +57,16 @@ public class CountInstanceMeasure extends BaseMeasure {
 	public void setWhen(TimeInstantCondition when) {
 		this.when = when;
 	}
+	
+	/**
+	 * Indica si la medida puede ser calculada
+	 * 
+	 * @return 
+	 */
+	public Boolean getCond() {
+		
+		return super.getCond() && 
+				this.getWhen().getAppliesTo()!=null && this.getWhen().getAppliesTo()!="";
+	}
 
 }

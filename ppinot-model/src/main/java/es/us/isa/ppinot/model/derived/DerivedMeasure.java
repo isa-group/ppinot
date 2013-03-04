@@ -1,7 +1,9 @@
 package es.us.isa.ppinot.model.derived;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import es.us.isa.ppinot.model.MeasureDefinition;
 
@@ -102,4 +104,24 @@ public class DerivedMeasure extends MeasureDefinition {
     	
     	return this.getUsedMeasureMap().get(id);
     }
+	
+	/**
+	 * Indica si la medida puede ser calculada
+	 * 
+	 * @return 
+	 */
+	public Boolean getCond() {
+		
+		Boolean cond = super.getCond();
+		
+		Iterator<Entry<String, MeasureDefinition>> itInst = this.getUsedMeasureMap().entrySet().iterator();
+	    while (cond && itInst.hasNext()) {
+	        Map.Entry<String, MeasureDefinition> pairs = (Map.Entry<String, MeasureDefinition>)itInst.next();
+	        MeasureDefinition value = pairs.getValue();
+
+	        cond = cond && value.getCond();
+	    }
+	    
+		return cond;
+	}
 }

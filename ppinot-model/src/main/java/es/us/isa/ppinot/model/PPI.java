@@ -513,4 +513,14 @@ public class PPI {
 			return null;
 	}
 	
+	/**
+	 * Indica si el valor del PPI puede ser calculado y mostrado
+	 * 
+	 * @return 
+	 */
+	public Boolean getCond() {
+		
+		return this.getMeasuredBy()!=null && this.getMeasuredBy().getCond();
+	}
+	
 }

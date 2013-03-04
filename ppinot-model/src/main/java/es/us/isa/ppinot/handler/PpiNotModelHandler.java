@@ -355,8 +355,8 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	 */
 	private String generateAnalisysPeriod(String year, String period, Date startDate, Date endDate, Boolean inStart, Boolean inEnd) {
 		
-		String startDateString = Utils.formatString(startDate);
-		String endDateString = Utils.formatString(endDate);
+		String startDateString = PpiNotModelUtils.formatString(startDate);
+		String endDateString = PpiNotModelUtils.formatString(endDate);
 		String inStartString = (inStart)?"true":"false";
 		String inEndString = (inEnd)?"true":"false";
 
@@ -387,19 +387,19 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		
 		if (refMax!=null && refMin!=null && refMax==refMin) {
 			
-			target = "=" + Utils.doubleToString(refMin);
+			target = "=" + PpiNotModelUtils.doubleToString(refMin);
 		} else
 		if (refMax==null && refMin!=null) {
 			
-			target = ">" + Utils.doubleToString(refMin);
+			target = ">" + PpiNotModelUtils.doubleToString(refMin);
 		} else
 		if (refMin==null && refMax!=null) {
 			
-			target = "<" + Utils.doubleToString(refMax);
+			target = "<" + PpiNotModelUtils.doubleToString(refMax);
 		} else 
 		if (refMax!=null && refMin!=null) {
 			
-			target = Utils.doubleToString(refMin) + "-" + Utils.doubleToString(refMax);
+			target = PpiNotModelUtils.doubleToString(refMin) + "-" + PpiNotModelUtils.doubleToString(refMax);
 		} 
 		return target;
 	}
@@ -1704,20 +1704,20 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 
 			if (matcher.group(3)!=null && matcher.group(3).contentEquals("=")) {
 			
-				map.put("refMin", Utils.stringToDouble(matcher.group(4)));
-				map.put("refMax", Utils.stringToDouble(matcher.group(4)));
+				map.put("refMin", PpiNotModelUtils.stringToDouble(matcher.group(4)));
+				map.put("refMax", PpiNotModelUtils.stringToDouble(matcher.group(4)));
 			} else
 			if (matcher.group(3)!=null && matcher.group(3).contentEquals(">")) {
 				
-				map.put("refMin", Utils.stringToDouble(matcher.group(4)));
+				map.put("refMin", PpiNotModelUtils.stringToDouble(matcher.group(4)));
 			} else
 			if (matcher.group(3)!=null && matcher.group(3).contentEquals("<")) {
 				
-				map.put("refMax", Utils.stringToDouble(matcher.group(4)));
+				map.put("refMax", PpiNotModelUtils.stringToDouble(matcher.group(4)));
 			} else 
 			if (matcher.group(1)!=null && matcher.group(2)!=null) {
-				map.put("refMin", Utils.stringToDouble(matcher.group(1)));
-				map.put("refMax", Utils.stringToDouble(matcher.group(2)));
+				map.put("refMin", PpiNotModelUtils.stringToDouble(matcher.group(1)));
+				map.put("refMax", PpiNotModelUtils.stringToDouble(matcher.group(2)));
 			} 
 		}  catch (Exception e) {
 			
@@ -1755,8 +1755,8 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 						new Target( targetMap.get("refMax"), targetMap.get("refMin")), 
 			    		new Scope( analysisperiodMap.get("year"), 
 			    				analysisperiodMap.get("period"), 
-			    				Utils.parseDate(analysisperiodMap.get("startDate")), 
-			    				Utils.parseDate(analysisperiodMap.get("endDate")), 
+			    				PpiNotModelUtils.parseDate(analysisperiodMap.get("startDate")), 
+			    				PpiNotModelUtils.parseDate(analysisperiodMap.get("endDate")), 
 			    				analysisperiodMap.get("inStart").contentEquals("yes"), 
 			    				analysisperiodMap.get("inEnd").contentEquals("yes")));
 				

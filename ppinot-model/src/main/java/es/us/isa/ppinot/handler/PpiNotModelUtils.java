@@ -12,7 +12,7 @@ import java.util.Locale;
  * @author Edelia
  *
  */
-public class Utils {
+public class PpiNotModelUtils {
 
 	public static String FORMATDATE = "yyyy/MM/dd";
 	public static String FORMATDATEHOUR = "yyyy/MM/dd HH:mm:ss";

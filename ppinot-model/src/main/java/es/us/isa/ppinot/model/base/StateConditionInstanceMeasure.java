@@ -1,6 +1,5 @@
 package es.us.isa.ppinot.model.base;
 
-import es.us.isa.ppinot.model.condition.ProcessInstanceCondition;
 import es.us.isa.ppinot.model.condition.StateCondition;
 
 /**
@@ -53,6 +52,18 @@ public class StateConditionInstanceMeasure extends ConditionMeasure {
      */
 	public void setCondition(StateCondition condition) {
 		super.setCondition(condition);
+	}
+	
+	/**
+	 * Indica si la medida puede ser calculada
+	 * 
+	 * @return 
+	 */
+	public Boolean getCond() {
+		
+		return super.getCond() &&
+				this.getCondition().getAppliesTo()!=null && this.getCondition().getAppliesTo()!="" &&	
+				this.getCondition().getState().getStateString()!=null && this.getCondition().getState().getStateString()!="";
 	}
 
 }

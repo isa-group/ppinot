@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:ns2="http://bpmndi.org" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:ppinot="http://www.isa.us.es/ppinot" xmlns:signavio="http://www.signavio.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exporter="Signavio Process Editor, http://www.signavio.com" exporterVersion="" expressionLanguage="http://www.w3.org/1999/XPath" id="sid-b41edd82-c1a9-48e7-ad46-34c09d2b04d8" targetNamespace="http://www.signavio.com/bpmn20" typeLanguage="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd">
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
+             xmlns:ppinot="http://www.isa.us.es/ppinot" xmlns:signavio="http://www.signavio.com"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             exporter="Signavio Process Editor, http://www.signavio.com" exporterVersion=""
+             expressionLanguage="http://www.w3.org/1999/XPath" id="sid-b41edd82-c1a9-48e7-ad46-34c09d2b04d8"
+             targetNamespace="http://www.signavio.com/bpmn20" typeLanguage="http://www.w3.org/2001/XMLSchema"
+             xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd">
    <process id="sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848" isExecutable="false">
       <extensionElements>
          <ppinot:ppiset>

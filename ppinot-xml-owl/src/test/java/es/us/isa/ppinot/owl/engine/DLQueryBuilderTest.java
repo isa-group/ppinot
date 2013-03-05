@@ -25,7 +25,7 @@ public class DLQueryBuilderTest {
         String query = "inv(?appliesTo) some value";
         DLQueryBuilder builder = new DLQueryBuilder(query);
         builder.setParameter("appliesTo", Vocabulary.APPLIESTO_URI);
-        Assert.assertEquals("inv(" + Vocabulary.APPLIESTO_URI + ") some value", builder.toString());
+        Assert.assertEquals("inv(<" + Vocabulary.APPLIESTO_URI + ">) some value", builder.toString());
     }
 
     @Test
@@ -35,7 +35,7 @@ public class DLQueryBuilderTest {
         builder.setParameter("appliesTo", Vocabulary.APPLIESTO_URI);
         builder.setParameter("inv", Vocabulary.FROM_URI);
         builder.setParameter("state", Vocabulary.STATE_URI);
-        Assert.assertEquals("inv(" + Vocabulary.APPLIESTO_URI + ") some (inv(" + Vocabulary.FROM_URI + ") some " + Vocabulary.STATE_URI + ")", builder.toString());
+        Assert.assertEquals("inv(<" + Vocabulary.APPLIESTO_URI + ">) some (inv(<" + Vocabulary.FROM_URI + ">) some <" + Vocabulary.STATE_URI + ">)", builder.toString());
     }
 
     @Test
@@ -44,6 +44,6 @@ public class DLQueryBuilderTest {
         DLQueryBuilder builder = new DLQueryBuilder(query);
         builder.setParameter("appliesTo", Vocabulary.APPLIESTO_URI);
         builder.setParameter("values", Arrays.asList("one", "two", "three"));
-        Assert.assertEquals("inv(" + Vocabulary.APPLIESTO_URI + ") some {one, two, three}", builder.toString());
+        Assert.assertEquals("inv(<" + Vocabulary.APPLIESTO_URI + ">) some {<one>, <two>, <three>}", builder.toString());
     }
 }

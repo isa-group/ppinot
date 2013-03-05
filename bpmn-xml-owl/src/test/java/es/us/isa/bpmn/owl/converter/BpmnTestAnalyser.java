@@ -1,11 +1,11 @@
-package es.us.isa.bpmn.owl.converter.test;
+package es.us.isa.bpmn.owl.converter;
 
 import es.us.isa.bpmn.owl.notation.Vocabulary;
-import org.semanticweb.owlapi.model.*;
+import org.semanticweb.owlapi.model.OWLOntology;
 
 
 /**
- * Clase que verifica si se cumplen ciertas condiciones en una ontología OWL de BPMN 2.0
+ * Clase que verifica si se cumplen ciertas condiciones en una ontologï¿½a OWL de BPMN 2.0
  * 
  * @author Edelia
  *
@@ -15,7 +15,7 @@ public class BpmnTestAnalyser extends TestAnalyser {
 	/**
 	 * Constructor de la clase
 	 * 
-	 * @param ontology Ontología a verificar
+	 * @param ontology Ontologia a verificar
 	 */
 	public BpmnTestAnalyser(OWLOntology ontology){
 

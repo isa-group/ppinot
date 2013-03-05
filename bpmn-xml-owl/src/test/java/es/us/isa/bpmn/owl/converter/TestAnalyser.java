@@ -1,26 +1,20 @@
-package es.us.isa.bpmn.owl.converter.test;
+package es.us.isa.bpmn.owl.converter;
+
+import org.semanticweb.owlapi.model.*;
 
 import java.util.Set;
 
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLDataFactory;
-import org.semanticweb.owlapi.model.OWLIndividual;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLObjectProperty;
-import org.semanticweb.owlapi.model.OWLOntology;
-
 /**
- * Clase que comprueba si se cumplen ciertas condiciones en una ontología OWL
+ * Clase que comprueba si se cumplen ciertas condiciones en una ontologia OWL
  * 
  * @author Edelia
  *
  */
 public class TestAnalyser {
 
-	// URI de la ontología
+	// URI de la ontologia
 	private String ontologyURI;
-	// Ontología a verificar
+	// Ontologia a verificar
 	private OWLOntology ontology;
 	// Objeto factory utilizado para crear objetos OWL
 	private OWLDataFactory factory;
@@ -28,7 +22,7 @@ public class TestAnalyser {
 	/**
 	 * Constructor de la clase
 	 *  
-	 * @param ontology Ontología a verificar
+	 * @param ontology Ontologia a verificar
 	 */
 	public TestAnalyser(OWLOntology ontology){
 
@@ -82,7 +76,7 @@ public class TestAnalyser {
 
 	/**
      * Devuelve el atributo ontologyURI:
-     * URI de la ontología
+     * URI de la ontologia
      * 
      * @return Valor del atributo
      */
@@ -92,9 +86,9 @@ public class TestAnalyser {
 
     /**
      * Da valor al atributo ontologyURI:
-     * URI de la ontología
+     * URI de la ontologia
      * 
-     * @param value Valor del atributo
+     * @param ontologyURI Valor del atributo
      */
 	protected void setOntologyURI(String ontologyURI) {
 		this.ontologyURI = ontologyURI;
@@ -102,7 +96,7 @@ public class TestAnalyser {
 
 	/**
      * Devuelve el atributo ontology:
-     * Ontología a verificar
+     * Ontologia a verificar
      * 
      * @return Valor del atributo
      */
@@ -112,9 +106,9 @@ public class TestAnalyser {
 
     /**
      * Da valor al atributo ontology:
-     * Ontología a verificar
+     * Ontologia a verificar
      * 
-     * @param value Valor del atributo
+     * @param ontology Valor del atributo
      */
 	protected void setOntology(OWLOntology ontology) {
 		this.ontology = ontology;
@@ -134,7 +128,7 @@ public class TestAnalyser {
      * Da valor al atributo factory:
      * Objeto factory utilizado para crear objetos OWL
      * 
-     * @param value Valor del atributo
+     * @param factory Valor del atributo
      */
 	protected void setFactory(OWLDataFactory factory) {
 		this.factory = factory;

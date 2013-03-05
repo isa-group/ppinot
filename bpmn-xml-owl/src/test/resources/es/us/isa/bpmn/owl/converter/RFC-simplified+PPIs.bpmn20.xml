@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:ns2="http://bpmndi.org" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:ppinot="http://www.isa.us.es/ppinot" xmlns:signavio="http://www.signavio.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" exporter="Signavio Process Editor, http://www.signavio.com" exporterVersion="" expressionLanguage="http://www.w3.org/1999/XPath" id="sid-72cc6827-c00a-4f3c-9818-eab2a5adfa99" targetNamespace="http://www.signavio.com/bpmn20" typeLanguage="http://www.w3.org/2001/XMLSchema" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd">
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
+             xmlns:ppinot="http://www.isa.us.es/ppinot" xmlns:signavio="http://www.signavio.com"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             exporter="Signavio Process Editor, http://www.signavio.com" exporterVersion=""
+             expressionLanguage="http://www.w3.org/1999/XPath" id="sid-72cc6827-c00a-4f3c-9818-eab2a5adfa99"
+             targetNamespace="http://www.signavio.com/bpmn20" typeLanguage="http://www.w3.org/2001/XMLSchema"
+             xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL http://www.omg.org/spec/BPMN/2.0/20100501/BPMN20.xsd">
    <collaboration id="sid-8d690245-e07d-4b1e-81ce-5d8eee805ebb">
       <participant id="sid-101A6AF1-956C-43B3-8589-DA62B9C2B273" name="RFC Management" processRef="sid-1cab0925-8103-446c-af19-53481c282149">
          <extensionElements>

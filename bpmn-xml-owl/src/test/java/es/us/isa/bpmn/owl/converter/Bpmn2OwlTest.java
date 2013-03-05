@@ -1,18 +1,20 @@
-package es.us.isa.bpmn.owl.converter.test;
+package es.us.isa.bpmn.owl.converter;
 
-import static org.junit.Assert.*;
-
-import javax.xml.bind.JAXBException;
-
+import es.us.isa.bpmn.handler.Bpmn20ModelHandler;
+import es.us.isa.bpmn.handler.Bpmn20ModelHandlerInterface;
 import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
-import es.us.isa.bpmn.handler.Bpmn20ModelHandler;
-import es.us.isa.bpmn.handler.Bpmn20ModelHandlerInterface;
-import es.us.isa.bpmn.owl.converter.BPMN2OWLConverter;
+import javax.xml.bind.JAXBException;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * Clase con los casos de prueba del proyecto
@@ -20,29 +22,58 @@ import es.us.isa.bpmn.owl.converter.BPMN2OWLConverter;
  * @author Edelia
  *
  */
-public class TestBpmn2Owl {
+public class Bpmn2OwlTest {
 
-	// ontología creada
+	// ontologia creada
 	private OWLOntology bpmnOntology;
-	
+
+    public File targetDir(String dir){
+        File target = null;
+        URI relPath = null;
+        try {
+            relPath = getClass().getProtectionDomain().getCodeSource().getLocation().toURI();
+            File codeSource = new File(relPath);
+            if ( codeSource.exists() ) {
+                if ( codeSource.isDirectory() ) {
+                    File parentFile = codeSource.getParentFile();
+                    target = new File(parentFile, dir);
+                    if (! target.exists())
+                        target.mkdir();
+                }
+            }
+        } catch (URISyntaxException e) {
+        }
+
+        if (target == null) {
+            try {
+                target = File.createTempFile("test", "target");
+            } catch (IOException e) {
+                throw new IllegalStateException("Cannot create target directory", e);
+            }
+        }
+
+        return target;
+    }
+
 	/**
-	 * Genera la ontología OWL con la URI especificada a partir de un xml
+	 * Genera la ontologia OWL con la URI especificada a partir de un xml
 	 * 
-	 * @param baseIRI URI de la ontología creada
-	 * @param sourceFile XML a partir del cual se crea la ontología
+	 * @param baseIRI URI de la ontologia creada
+	 * @param sourceFile XML a partir del cual se crea la ontologia
 	 * @return
 	 */
 	private Boolean bpmn2Owl(String baseIRI, String sourceFile) {
 		
 		try {
 			
-			String caminoOrigen = "D:/eclipse-appweb-indigo/ppinot-repository/bpmn-xml-owl/target/test-classes/xml/";
-			String caminoDestino = "D:/eclipse-appweb-indigo/ppinot-repository/bpmn-xml-owl/target/test-classes/owl/";
+//			String caminoOrigen = "D:/eclipse-appweb-indigo/ppinot-repository/bpmn-xml-owl/target/test-classes/xml/";
+//			String targetPath = "D:/eclipse-appweb-indigo/ppinot-repository/bpmn-xml-owl/target/test-classes/owl/";
+            String targetPath = targetDir("test-ontologies").getAbsolutePath()+File.separator;
 
 			// importa el xml
 			Bpmn20ModelHandlerInterface modelHandler = new Bpmn20ModelHandler();
-			modelHandler.load(caminoOrigen, sourceFile);
-//			modelHandler.load( getClass().getResourceAsStream("xml/"+sourceFile) );
+//			modelHandler.load(caminoOrigen, sourceFile);
+			modelHandler.load( getClass().getResourceAsStream(sourceFile) );
 			
 			// convierte a owl
 			OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
@@ -50,7 +81,7 @@ public class TestBpmn2Owl {
 			bpmnOntology = converter.convertToOwlOntology(modelHandler);
 	
 			// guarda la ontologia generada
-			converter.saveOntology(caminoDestino, "ExpressionsOWLBpmn "+sourceFile.substring(0, sourceFile.indexOf("."))+".owl");
+			converter.saveOntology(targetPath, "ExpressionsOWLBpmn-"+sourceFile.substring(0, sourceFile.indexOf("."))+".owl");
 			
 			return true;
 		} catch (JAXBException e) {

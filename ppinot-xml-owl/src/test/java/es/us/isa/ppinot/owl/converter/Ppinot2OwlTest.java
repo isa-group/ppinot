@@ -13,7 +13,11 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 
 import javax.xml.bind.JAXBException;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import static org.junit.Assert.assertTrue;
 
@@ -31,43 +35,71 @@ public class Ppinot2OwlTest {
 
     private OWLOntology ppinotOntology;
 
+    public File targetDir(String dir){
+        File target = null;
+        URI relPath = null;
+        try {
+            relPath = getClass().getProtectionDomain().getCodeSource().getLocation().toURI();
+            File codeSource = new File(relPath);
+            if ( codeSource.exists() ) {
+                if ( codeSource.isDirectory() ) {
+                    File parentFile = codeSource.getParentFile();
+                    target = new File(parentFile, dir);
+                    if (! target.exists())
+                        target.mkdir();
+                }
+            }
+        } catch (URISyntaxException e) {
+        }
+
+        if (target == null) {
+            try {
+                target = File.createTempFile("test", "target");
+            } catch (IOException e) {
+                throw new IllegalStateException("Cannot create target directory", e);
+            }
+        }
+
+        return target;
+    }
+
 	/**
-	 * Genera la ontolog�a OWL con la URI especificada a partir de un xml
+	 * Genera la ontologia OWL con la URI especificada a partir de un xml
 	 * 
-	 * @param sourceFile XML a partir del cual se crea la ontolog�a
+	 * @param sourceFile XML a partir del cual se crea la ontologia
 	 * @return
 	 */
 	private Boolean ppinot2Owl(String sourceFile) {
 
-		String caminoOrigen = "D:/eclipse-appweb-indigo/ppinot-repository/bpmn-xml-owl/target/test-classes/xml/";
-		String caminoDestino = "D:/eclipse-appweb-indigo/ppinot-repository/ppinot-xml-owl/target/test-classes/owl/";
-//        String caminoDestino = "./";
+//		String caminoOrigen = "D:/eclipse-appweb-indigo/ppinot-repository/bpmn-xml-owl/target/test-classes/xml/";
+//		String targetPath = "D:/eclipse-appweb-indigo/ppinot-repository/ppinot-xml-owl/target/test-classes/owl/";
+//        String targetPath = "./";
+        String targetPath = targetDir("test-ontologies").getAbsolutePath()+File.separator;
 
         try {
             OWLOntologyManager owlManager = OWLManager.createOWLOntologyManager();
 
-//            InputStream sourceStream = getClass().getResourceAsStream(sourceFile);
+            InputStream sourceStream = getClass().getResourceAsStream(sourceFile);
             Bpmn20ModelHandlerInterface bpmnModelHandler = new Bpmn20ModelHandler();
-            bpmnModelHandler.load(caminoOrigen, sourceFile);
-//            bpmnModelHandler.load(sourceStream);
+//            bpmnModelHandler.load(caminoOrigen, sourceFile);
+            bpmnModelHandler.load(sourceStream);
 
             BPMN2OWLConverterInterface bpmnConverter = new BPMN2OWLConverter(bpmnBaseIRI, owlManager);
             bpmnConverter.convertToOwlOntology(bpmnModelHandler);
-//            bpmnConverter.saveOntology(caminoDestino, bpmnModelHandler.getProcId()+".owl");
-            bpmnConverter.saveOntology(caminoDestino, "ExpressionsOWLBpmn " + sourceFile.substring(0, sourceFile.indexOf(".")) + ".owl");
+            bpmnConverter.saveOntology(targetPath, "ExpressionsOWLBpmn-" + sourceFile.substring(0, sourceFile.indexOf(".")) + ".owl");
             bpmnOntologyURI = bpmnConverter.getOntologyURI();
 
-//            sourceStream =  getClass().getResourceAsStream(sourceFile);
+            sourceStream = getClass().getResourceAsStream(sourceFile);
             PpiNotModelHandlerInterface ppinotModelHandler = new PpiNotModelHandler();
-            ppinotModelHandler.load(caminoOrigen, sourceFile);
-//            ppinotModelHandler.load(sourceStream);
+//            ppinotModelHandler.load(caminoOrigen, sourceFile);
+            ppinotModelHandler.load(sourceStream);
 
             PPINOT2OWLConverterInterface ppinotConverter = new PPINOT2OWLConverter(ppinotBaseIRI, owlManager);
             ppinotConverter.setBpmnData(bpmnOntologyURI, bpmnModelHandler);
             ppinotOntology = ppinotConverter.convertToOwlOntology(ppinotModelHandler);
 
             // guarda la ontologia generada
-            ppinotConverter.saveOntology(caminoDestino, "ExpressionsOWLPpinot " + sourceFile.substring(0, sourceFile.indexOf(".")) + ".owl");
+            ppinotConverter.saveOntology(targetPath, "ExpressionsOWLPpinot-" + sourceFile.substring(0, sourceFile.indexOf(".")) + ".owl");
 
             return true;
         } catch (JAXBException e) {
@@ -137,7 +169,7 @@ public class Ppinot2OwlTest {
         // time aggregated measure
         assertTrue(analyser.isAggregatedMeasure("sid-C11F5344-C7B6-43EF-B6CD-4064C1AE8BA9"));
         assertTrue(analyser.isAggregates("sid-C11F5344-C7B6-43EF-B6CD-4064C1AE8BA9", "sid-0c306446-8c69-449a-8da4-d2780209b03b"));
-        assertTrue(analyser.isLinearTimeIntanceMeasure("sid-0c306446-8c69-449a-8da4-d2780209b03b"));
+        assertTrue(analyser.isCyclicTimeIntanceMeasure("sid-0c306446-8c69-449a-8da4-d2780209b03b"));
         assertTrue(analyser.isFrom("sid-0c306446-8c69-449a-8da4-d2780209b03b", "startsid-D5274D42-55B0-46A0-8EB6-B99B186D3873"));
         assertTrue(analyser.isTo("sid-0c306446-8c69-449a-8da4-d2780209b03b", "endsid-2171B3CC-36ED-43B6-B6B8-339732CCB2BD"));
         assertTrue(analyser.isActivityStart("startsid-D5274D42-55B0-46A0-8EB6-B99B186D3873"));
@@ -350,7 +382,7 @@ public class Ppinot2OwlTest {
 
 	}	
 
-	@Test
+	//@Test
 	public void testMany() {
 		String nomFichOrigen = "RFC-simplified+PPIs.bpmn20.xml";
 
@@ -363,7 +395,7 @@ public class Ppinot2OwlTest {
         assertTrue("PPI2-isDefinition", analyser.isDefinition("sid-b1b40ce5-fc62-4035-ac68-1cfb012ebf01", "sid-5B1C361D-246B-4A1C-A9FD-B045B05F4A4B"));
         assertTrue("PPI2-isAggregatedMeasure", analyser.isAggregatedMeasure("sid-5B1C361D-246B-4A1C-A9FD-B045B05F4A4B"));
         assertTrue("PPI2-isAggregates", analyser.isAggregates("sid-5B1C361D-246B-4A1C-A9FD-B045B05F4A4B", "sid-ffbd4fe1-31d2-4d4d-86f7-f78e6bc64ca8"));
-        assertTrue("PPI2-isLinearTimeIntanceMeasure", analyser.isLinearTimeIntanceMeasure("sid-ffbd4fe1-31d2-4d4d-86f7-f78e6bc64ca8")); 
+        assertTrue("PPI2-isLinearTimeIntanceMeasure", analyser.isLinearTimeIntanceMeasure("sid-ffbd4fe1-31d2-4d4d-86f7-f78e6bc64ca8"));
         assertTrue("PPI2-isFrom", analyser.isFrom("sid-ffbd4fe1-31d2-4d4d-86f7-f78e6bc64ca8", "startsid-DDF4FE82-F265-4834-8F12-B49B59BECEF8"));
         assertTrue("PPI2-isActivityStart", analyser.isActivityStart("startsid-DDF4FE82-F265-4834-8F12-B49B59BECEF8"));
         assertTrue("PPI2-isAppliedTo", analyser.isAppliedTo("startsid-DDF4FE82-F265-4834-8F12-B49B59BECEF8", "sid-DDF4FE82-F265-4834-8F12-B49B59BECEF8"));

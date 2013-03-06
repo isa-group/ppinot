@@ -11,16 +11,16 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 /**
- * Clase que comprueba si se cumplen ciertas condiciones en una ontología OWL
+ * Clase que comprueba si se cumplen ciertas condiciones en una ontologia OWL
  * 
  * @author Edelia
  *
  */
 public class TestAnalyser {
 
-	// URI de la ontología
+	// URI de la ontologia
 	private String ontologyURI;
-	// Ontología a verificar
+	// Ontologia a verificar
 	private OWLOntology ontology;
 	// Objeto factory utilizado para crear objetos OWL
 	private OWLDataFactory factory;
@@ -28,7 +28,7 @@ public class TestAnalyser {
 	/**
 	 * Constructor de la clase
 	 *  
-	 * @param ontology Ontología a verificar
+	 * @param ontology Ontologia a verificar
 	 */
 	public TestAnalyser(OWLOntology ontology){
 
@@ -82,7 +82,7 @@ public class TestAnalyser {
 
 	/**
      * Devuelve el atributo ontologyURI:
-     * URI de la ontología
+     * URI de la ontologia
      * 
      * @return Valor del atributo
      */
@@ -92,7 +92,7 @@ public class TestAnalyser {
 
     /**
      * Da valor al atributo ontologyURI:
-     * URI de la ontología
+     * URI de la ontologia
      * 
      * @param value Valor del atributo
      */
@@ -102,7 +102,7 @@ public class TestAnalyser {
 
 	/**
      * Devuelve el atributo ontology:
-     * Ontología a verificar
+     * Ontologia a verificar
      * 
      * @return Valor del atributo
      */
@@ -112,7 +112,7 @@ public class TestAnalyser {
 
     /**
      * Da valor al atributo ontology:
-     * Ontología a verificar
+     * Ontologia a verificar
      * 
      * @param value Valor del atributo
      */

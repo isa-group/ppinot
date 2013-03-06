@@ -2,10 +2,10 @@ package es.us.isa.ppinot.model;
 
 public class Target {
 	
-	// Límites de la medida asociada a un PPI
-    	// Límite máximo de la referencia de la medida
+	// Limites de la medida asociada a un PPI
+    	// Limite maximo de la referencia de la medida
     private Double refMax;
-     	// Límite mínimo de la referencia de la medida
+     	// Limite minimo de la referencia de la medida
     private Double refMin;
     
     /**
@@ -21,8 +21,8 @@ public class Target {
     /**
      * Constructor de la clase
      * 
-     * @param refMax Límite máximo de la referencia de la medida
-     * @param refMin Límite mínimo de la referencia de la medida
+     * @param refMax Limite maximo de la referencia de la medida
+     * @param refMin Limite minimo de la referencia de la medida
      */
     public Target(Double refMax, Double refMin) {
     	
@@ -33,7 +33,7 @@ public class Target {
 	
 	/**
      * Devuelve el atributo refMin:
-     * Límite máximo de la referencia de la medida
+     * Limite maximo de la referencia de la medida
      * 
      * @return Valor del atributo
      */
@@ -43,7 +43,7 @@ public class Target {
 	
     /**
      * Da valor al atributo refMin:
-     * Límite máximo de la referencia de la medida
+     * Limite maximo de la referencia de la medida
      * 
      * @param value Valor del atributo
      */
@@ -53,7 +53,7 @@ public class Target {
 	
 	/**
      * Devuelve el atributo refMax:
-     * Límite mínimo de la referencia de la medida
+     * Limite minimo de la referencia de la medida
      * 
      * @return Valor del atributo
      */
@@ -63,7 +63,7 @@ public class Target {
 	
     /**
      * Da valor al atributo refMax:
-     * Límite mínimo de la referencia de la medida
+     * Limite minimo de la referencia de la medida
      * 
      * @param value Valor del atributo
      */

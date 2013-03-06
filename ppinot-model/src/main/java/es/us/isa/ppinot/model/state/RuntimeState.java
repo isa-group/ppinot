@@ -1,7 +1,7 @@
 package es.us.isa.ppinot.model.state;
 
 /**
- * Clase con el estado de la ejecución de un elemento BPMN. Maneja la conversión de un estado del cadena a Enum y viceversa
+ * Clase con el estado de la ejecucion de un elemento BPMN. Maneja la conversion de un estado del cadena a Enum y viceversa
  * 
  * @author Edelia
  *

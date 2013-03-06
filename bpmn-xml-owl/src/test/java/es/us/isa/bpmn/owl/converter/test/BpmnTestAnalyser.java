@@ -5,7 +5,7 @@ import org.semanticweb.owlapi.model.*;
 
 
 /**
- * Clase que verifica si se cumplen ciertas condiciones en una ontología OWL de BPMN 2.0
+ * Clase que verifica si se cumplen ciertas condiciones en una ontologia OWL de BPMN 2.0
  * 
  * @author Edelia
  *
@@ -15,7 +15,7 @@ public class BpmnTestAnalyser extends TestAnalyser {
 	/**
 	 * Constructor de la clase
 	 * 
-	 * @param ontology Ontología a verificar
+	 * @param ontology Ontologia a verificar
 	 */
 	public BpmnTestAnalyser(OWLOntology ontology){
 

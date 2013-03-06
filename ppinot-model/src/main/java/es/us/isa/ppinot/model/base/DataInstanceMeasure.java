@@ -4,9 +4,9 @@ import es.us.isa.ppinot.model.DataContentSelection;
 import es.us.isa.ppinot.model.condition.DataPropertyCondition;
 
 /**
- * Clase con la información de una medida DataInstanceMeasure
+ * Clase con la informacion de una medida DataInstanceMeasure
  * 
- * @author Edelia García González
+ * @author Edelia Garcia Gonzalez
  * @version 1.0
  *
  */
@@ -14,7 +14,7 @@ public class DataInstanceMeasure extends BaseMeasure {
 	
 	// Dataobject y propiedad a la que se le aplica la medida
 	private DataContentSelection dataContentSelection;
-	// Condición de la medida
+	// Condicion de la medida
 	private DataPropertyCondition condition;
 	
 	/**
@@ -31,11 +31,11 @@ public class DataInstanceMeasure extends BaseMeasure {
 	 * 
      * @param id Id de la medida
      * @param name Nombre de la medida
-     * @param description Descripció de la medida
+     * @param description Descripcio de la medida
      * @param scale Escala de la medida
      * @param unitOfMeasure Unidad de medida
 	 * @param dataContentSelection Dataobject y propiedad a la que se le aplica la medida
-	 * @param condition Condición de la medida
+	 * @param condition Condicion de la medida
 	 */
 	public DataInstanceMeasure(String id, String name, String description, String scale, String unitOfMeasure,
 			DataContentSelection dataContentSelection, DataPropertyCondition condition) {
@@ -66,7 +66,7 @@ public class DataInstanceMeasure extends BaseMeasure {
 
 	/**
 	 * Devuelve el atributo condition
-	 * Condición de la medida
+	 * Condicion de la medida
 	 * 
 	 * @return Valor del atributo
 	 */
@@ -76,7 +76,7 @@ public class DataInstanceMeasure extends BaseMeasure {
 
 	/**
 	 * Da valor al atributo condition
-	 * Condición de la medida
+	 * Condicion de la medida
 	 * 
 	 * @param Valor del atributo
 	 */

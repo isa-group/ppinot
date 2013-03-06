@@ -17,7 +17,7 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import es.us.isa.bpmn.owl.notation.Vocabulary;
 
 /**
- * Clase mediante la cual se generan los axiomas que se adicionan a una ontología OWL
+ * Clase mediante la cual se generan los axiomas que se adicionan a una ontologia OWL
  * 
  * @author Edelia
  *

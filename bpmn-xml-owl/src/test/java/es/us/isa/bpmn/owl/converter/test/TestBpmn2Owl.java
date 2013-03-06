@@ -22,14 +22,14 @@ import es.us.isa.bpmn.owl.converter.BPMN2OWLConverter;
  */
 public class TestBpmn2Owl {
 
-	// ontología creada
+	// ontologia creada
 	private OWLOntology bpmnOntology;
 	
 	/**
-	 * Genera la ontología OWL con la URI especificada a partir de un xml
+	 * Genera la ontologia OWL con la URI especificada a partir de un xml
 	 * 
-	 * @param baseIRI URI de la ontología creada
-	 * @param sourceFile XML a partir del cual se crea la ontología
+	 * @param baseIRI URI de la ontologia creada
+	 * @param sourceFile XML a partir del cual se crea la ontologia
 	 * @return
 	 */
 	private Boolean bpmn2Owl(String baseIRI, String sourceFile) {

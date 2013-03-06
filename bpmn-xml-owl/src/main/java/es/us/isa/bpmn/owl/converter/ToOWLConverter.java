@@ -40,10 +40,10 @@ public abstract class ToOWLConverter {
 	}
 
 	/**
-	 * Genera una ontología OWL a partir de los objetos del modelo en un ModelHandleInterface
+	 * Genera una ontologia OWL a partir de los objetos del modelo en un ModelHandleInterface
 	 * 
 	 * @param modelHandler Manejador de los objetos del modelo
-	 * @return Ontología OWL
+	 * @return Ontologia OWL
 	 * @throws OWLOntologyCreationException
 	 */
 	public OWLOntology convertToOwlOntology(ModelHandleInterface modelHandler) throws OWLOntologyCreationException {
@@ -58,9 +58,9 @@ public abstract class ToOWLConverter {
 	}
 	
 	/**
-	 * Adiciona las declaraciones imports a la ontología generada. De esta manera se especifican otros ontologías que se importan.
+	 * Adiciona las declaraciones imports a la ontologia generada. De esta manera se especifican otros ontologias que se importan.
 	 * 
-	 * @param uris Arreglo con las URIs de las ontologías importadas
+	 * @param uris Arreglo con las URIs de las ontologias importadas
 	 */
 	protected void addOntologyImports(String[] uris) {
 		
@@ -69,15 +69,15 @@ public abstract class ToOWLConverter {
 	}
 	
 	/**
-	 * Ejecuta las operaciones propias de cada subclase para generar la ontología a partir de un ModelHandleInterface
+	 * Ejecuta las operaciones propias de cada subclase para generar la ontologia a partir de un ModelHandleInterface
 	 * 
-	 * @param modelHandler Objeto ModelHandleInterface a partir del cual se genera la ontología
+	 * @param modelHandler Objeto ModelHandleInterface a partir del cual se genera la ontologia
 	 * @throws OWLOntologyCreationException
 	 */
 	protected abstract void generateOntology(ModelHandleInterface modelHandler) throws OWLOntologyCreationException;
 	
 	/**
-	 * Salva la ontología generada
+	 * Salva la ontologia generada
 	 * 
 	 * @param caminoDestino Camino
 	 * @param bpmnFilename Nombre del archivo

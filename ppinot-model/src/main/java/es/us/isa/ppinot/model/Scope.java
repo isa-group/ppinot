@@ -4,20 +4,20 @@ import java.util.Date;
 
 public class Scope {
 	
-	// Período de tiempo en el cual se desea evaluar la medida
+	// Periodo de tiempo en el cual se desea evaluar la medida
 	// se especifica en la propiedad scope en el proceso modelado en BPMN
     	// Año del cual se desea obtener la medida
     private String year;
-		// Período del año: mes, trimestre o semestre
+		// Periodo del año: mes, trimestre o semestre
     private String period;
-		// Fecha inicial del período del que se desea obtener la medida
+		// Fecha inicial del periodo del que se desea obtener la medida
     private Date startDate;
-    	// Fecha final del período del que se desea obtener la medida
+    	// Fecha final del periodo del que se desea obtener la medida
     private Date endDate;
-    	// En el caso que existan instancias de proceso en que iniciaron antes de la fecha de inicio del período y terminaron después de esta,
+    	// En el caso que existan instancias de proceso en que iniciaron antes de la fecha de inicio del periodo y terminaron despues de esta,
     	// indica si se incluyen o no
     private Boolean inStart;
-    	// En el caso que existan instancias de proceso en que iniciaron antes de la fecha final del período y terminaron después de esta,
+    	// En el caso que existan instancias de proceso en que iniciaron antes de la fecha final del periodo y terminaron despues de esta,
     	// indica si se incluyen o no
     private Boolean inEnd;
     
@@ -39,11 +39,11 @@ public class Scope {
      * Constructor de la clase
      * 
      * @param year Año del cual se desea obtener la medida
-     * @param period Período del año: mes, trimestre o semestre
-     * @param startDate Fecha inicial del período del que se desea obtener la medida
-     * @param endDate Fecha final del período del que se desea obtener la medida
-     * @param inStart En el caso que existan instancias de proceso en que iniciaron antes de la fecha de inicio del período y terminaron después de esta, indica si se incluyen o no
-     * @param inEnd En el caso que existan instancias de proceso en que iniciaron antes de la fecha final del período y terminaron después de esta, indica si se incluyen o no
+     * @param period Periodo del año: mes, trimestre o semestre
+     * @param startDate Fecha inicial del periodo del que se desea obtener la medida
+     * @param endDate Fecha final del periodo del que se desea obtener la medida
+     * @param inStart En el caso que existan instancias de proceso en que iniciaron antes de la fecha de inicio del periodo y terminaron despues de esta, indica si se incluyen o no
+     * @param inEnd En el caso que existan instancias de proceso en que iniciaron antes de la fecha final del periodo y terminaron despues de esta, indica si se incluyen o no
      */
     public Scope(String year, String period, Date startDate, Date endDate, Boolean inStart, Boolean inEnd){
     	super();
@@ -78,7 +78,7 @@ public class Scope {
 	
 	/**
      * Devuelve el atributo period:
-     * Período del año: mes, trimestre o semestre
+     * Periodo del año: mes, trimestre o semestre
      * 
      * @return Valor del atributo
      */
@@ -88,7 +88,7 @@ public class Scope {
 	
     /**
      * Da valor al atributo period:
-     * Período del año: mes, trimestre o semestre
+     * Periodo del año: mes, trimestre o semestre
      * 
      * @param value Valor del atributo
      */
@@ -98,7 +98,7 @@ public class Scope {
 	
 	/**
      * Devuelve el atributo startDate:
-     * Fecha inicial del período del que se desea obtener la medida
+     * Fecha inicial del periodo del que se desea obtener la medida
      * 
      * @return Valor del atributo
      */
@@ -108,7 +108,7 @@ public class Scope {
 	
     /**
      * Da valor al atributo startDate:
-     * Fecha inicial del período del que se desea obtener la medida
+     * Fecha inicial del periodo del que se desea obtener la medida
      * 
      * @param value Valor del atributo
      */
@@ -118,7 +118,7 @@ public class Scope {
 	
 	/**
      * Devuelve el atributo endDate:
-     * Fecha final del período del que se desea obtener la medida
+     * Fecha final del periodo del que se desea obtener la medida
      * 
      * @return Valor del atributo
      */
@@ -128,7 +128,7 @@ public class Scope {
 	
     /**
      * Da valor al atributo endDate:
-     * Fecha final del período del que se desea obtener la medida
+     * Fecha final del periodo del que se desea obtener la medida
      * 
      * @param value Valor del atributo
      */
@@ -138,7 +138,7 @@ public class Scope {
 	
 	/**
      * Devuelve el atributo inStart:
-     * En el caso que existan instancias de proceso en que iniciaron antes de la fecha de inicio del período y terminaron después de esta, indica si se incluyen o no
+     * En el caso que existan instancias de proceso en que iniciaron antes de la fecha de inicio del periodo y terminaron despues de esta, indica si se incluyen o no
      * 
      * @return Valor del atributo
      */
@@ -148,7 +148,7 @@ public class Scope {
 	
     /**
      * Da valor al atributo inStart:
-     * En el caso que existan instancias de proceso en que iniciaron antes de la fecha de inicio del período y terminaron después de esta, indica si se incluyen o no
+     * En el caso que existan instancias de proceso en que iniciaron antes de la fecha de inicio del periodo y terminaron despues de esta, indica si se incluyen o no
      * 
      * @param value Valor del atributo
      */
@@ -158,7 +158,7 @@ public class Scope {
 	
 	/**
      * Devuelve el atributo inEnd:
-     * En el caso que existan instancias de proceso en que iniciaron antes de la fecha final del período y terminaron después de esta, indica si se incluyen o no
+     * En el caso que existan instancias de proceso en que iniciaron antes de la fecha final del periodo y terminaron despues de esta, indica si se incluyen o no
      * 
      * @return Valor del atributo
      */
@@ -168,7 +168,7 @@ public class Scope {
 	
     /**
      * Da valor al atributo inEnd:
-     * En el caso que existan instancias de proceso en que iniciaron antes de la fecha final del período y terminaron después de esta, indica si se incluyen o no
+     * En el caso que existan instancias de proceso en que iniciaron antes de la fecha final del periodo y terminaron despues de esta, indica si se incluyen o no
      * 
      * @param value Valor del atributo
      */

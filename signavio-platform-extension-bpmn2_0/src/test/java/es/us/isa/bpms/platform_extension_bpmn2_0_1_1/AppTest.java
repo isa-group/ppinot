@@ -1,4 +1,4 @@
-package es.us.isa.isabpm.platform_extension_bpmn2_0_1_1;
+package es.us.isa.bpms.platform_extension_bpmn2_0_1_1;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

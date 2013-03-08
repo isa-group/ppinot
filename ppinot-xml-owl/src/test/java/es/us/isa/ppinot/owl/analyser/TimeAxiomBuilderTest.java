@@ -38,7 +38,7 @@ public class TimeAxiomBuilderTest {
         TimeAxiomBuilder b = new TimeAxiomBuilder();
         Collection<OWLIndividual> axioms = b.getIndividuals(null, ontology);
         Assert.assertEquals(1, axioms.size());
-        Assert.assertEquals(BASE_BPMN_OWL_URI +"#sid-3B70F4A1-8F9F-4909-A3AC-8F06FBDC6C97",axioms.iterator().next().toStringID());
+        Assert.assertEquals(DLPPINotAnalyser.PPINOT_BASE_IRI + BASE_BPMN_OWL +"#sid-3B70F4A1-8F9F-4909-A3AC-8F06FBDC6C97",axioms.iterator().next().toStringID());
     }
 
     @Test

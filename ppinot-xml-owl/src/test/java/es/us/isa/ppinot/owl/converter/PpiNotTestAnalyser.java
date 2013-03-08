@@ -7,7 +7,7 @@ import java.util.Set;
 
 
 /**
- * Clase que comprueba si se cumplen ciertas condiciones en una ontolog�a OWL para PPINOT
+ * Clase que comprueba si se cumplen ciertas condiciones en una ontologia OWL para PPINOT
  * 
  * @author Edelia
  *
@@ -18,7 +18,7 @@ public class PpiNotTestAnalyser {
 	private String ppinotOntologyURI;
 	// URI de la ontologia para BPMN 2.0 relacionada con el mismo proceso que la de PPINOT
 	private String bpmnOntologyURI;
-	// Ontolog�a a verificar
+	// Ontologia a verificar
 	private OWLOntology ppinotOntology;
 	// Objeto factory utilizado para crear objetos OWL
 	private OWLDataFactory factory;
@@ -26,8 +26,8 @@ public class PpiNotTestAnalyser {
 	/**
 	 * Constructor de la clase
 	 *  
-	 * @param ontology Ontolog�a a verificar
-	 * @param bpmnOntologyURI URI de la ontolog�a para BPMN 2.0 relacionada con el mismo proceso que la de PPINOT
+	 * @param ontology Ontologia a verificar
+	 * @param bpmnOntologyURI URI de la ontologia para BPMN 2.0 relacionada con el mismo proceso que la de PPINOT
 	 */
 	public PpiNotTestAnalyser(OWLOntology ontology, String bpmnOntologyURI){
 
@@ -83,7 +83,7 @@ public class PpiNotTestAnalyser {
 	}
 	
 	/**
-	 * Verifica si un objeto tiene una propiedad dada con un valor dado y ambos est�n en la ontolog�a para PPINOT
+	 * Verifica si un objeto tiene una propiedad dada con un valor dado y ambos estan en la ontologia para PPINOT
 	 * 
 	 * @param objectIdA Objeto que tiene la propiedad
 	 * @param objectIdB Valor de la propiedad

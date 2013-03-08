@@ -1,79 +1,47 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-
-  <groupId>es.us.isa.bpmn</groupId>
-  <artifactId>bpmn-xml-owl</artifactId>
-  <version>1.1.8</version>
-
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>es.us.isa.bpmn</groupId>
+    <artifactId>bpmn-xml-owl</artifactId>
+    <version>1.1.8-SNAPSHOT</version>
     <name>BPMN XML to OWL Mapper</name>
 
-	<distributionManagement>
-        <repository>
-            <id>isa.devel.archiva.internal</id>
-            <name>ISA group maven repo</name>
-            <url>http://devel.isa.us.es/archiva/repository/internal/</url>
-        </repository>
-     </distributionManagement>
-     <repositories>
-		<repository>
-			<name>Maven Repository</name>
-			<id>code.berkeleybop.org</id>
-			<url>http://code.berkeleybop.org/maven/repository/</url>
-		</repository>
-        <repository>
-            <id>isa.devel.archiva.internal</id>
-            <name>ISA group maven repo</name>
-            <url>http://devel.isa.us.es/archiva/repository/internal/</url>
-        </repository>
-     </repositories>
-    
+    <parent>
+        <groupId>es.us.isa.ppinot</groupId>
+        <artifactId>ppinot</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>..</relativePath>
+    </parent>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                	<source>1.6</source>
-                	<target>1.6</target>
-                </configuration>
-                	
-            </plugin>
-        </plugins>
-    </build>
+    <properties>
+        <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+    </properties>
 
     <dependencies>
-	    <dependency>
-	      <groupId>es.us.isa.bpmn</groupId>
-	      <artifactId>bpmn-model</artifactId>
-	      <version>1.0.4</version>
-	    </dependency>
+        <dependency>
+            <groupId>es.us.isa.bpmn</groupId>
+            <artifactId>bpmn-model</artifactId>
+        </dependency>
 
-		 <dependency>
-      		<groupId>org.springframework</groupId>
-      		<artifactId>spring-core</artifactId>
-      		<version>3.0.0.RELEASE</version>
-    	</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>3.0.0.RELEASE</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.semanticweb</groupId>
-			<artifactId>HermiT</artifactId>
-			<version>1.3.6</version>
-		</dependency>
-		
- 		<dependency>
-			<groupId>owlapi</groupId>
-			<artifactId>owlapi</artifactId>
- 			<version>3.2.3</version> 
-		</dependency>
-		
-	   <dependency>
-	      <groupId>junit</groupId>
-	      <artifactId>junit</artifactId>
-	      <version>4.8.1</version>
-	      <scope>test</scope>
-	    </dependency>
+        <dependency>
+            <groupId>org.semanticweb</groupId>
+            <artifactId>HermiT</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sourceforge.owlapi</groupId>
+            <artifactId>owlapi-distribution</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
     </dependencies>
 </project>

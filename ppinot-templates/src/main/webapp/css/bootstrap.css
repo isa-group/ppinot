@@ -941,9 +941,11 @@ input[type="color"],
   height: 18px;
   padding: 4px;
   margin-bottom: 9px;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 18px;
   color: #555555;
+  width: 100%;
+  min-height: 25px;
 }
 input,
 textarea {

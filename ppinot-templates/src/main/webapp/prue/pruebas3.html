@@ -1,0 +1,589 @@
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<link rel="stylesheet" href="concrete/themes/white.css" type="text/css">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+      .editorcolumn {
+      	width: 7em;
+      }
+    </style>		
+	<script src="redist/prototype.js" type="text/javascript"></script>
+	<script src="redist/scriptaculous/scriptaculous.js" type="text/javascript"></script>
+	<script src="concrete/concrete.js" type="text/javascript"></script>
+	<script src="example1.js" type="text/javascript"></script>
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>  
+    <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+    <script src="prue/TimeMeasure.js" type= "text/javascript"></script>
+
+    <script type= "text/javascript">
+		  $(function(){
+				var det= ["the sum of the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes completed",
+				          "the sum of the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes has finished",
+				          "the sum of the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes canceled",
+				          "the sum of the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes registered",
+				          "the sum of the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes currently",
+				          "the average of the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes completed",
+				          "the average of the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes has finished",
+				          "the average of the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes canceled",
+				          "the average of the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes registered",
+				          "the average of the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes currently",
+				          "the max of the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes completed",
+				          "the max of the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes has finished",
+				          "the max of the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes canceled",
+				          "the max of the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes registered",
+				          "the max of the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes currently",
+				          "the min of the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes completed",
+				          "the min of the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes has finished",
+				          "the min of the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes canceled",
+				          "the min of the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes registered",
+				          "the min of the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes currently",
+				          "the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes completed",
+				          "the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes has finished",
+				          "the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes canceled",
+				          "the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes registered",
+				          "the duration between the time instant when element analyse RFC becomes Active and the time instant when element analyse RFC becomes currently",
+				          "the number of times activity Analyse RFC becomes completed",
+				          "Activity Analyse in committee that is currently active approved RFC that satisfies:type of change= perfective",
+				          "the sum of the number of times data Object RFC becomes registered and is grouped by [property] type of change of [data Object] RFC",
+				          "the average of the number of times data Object RFC becomes registered and is grouped by [property] type of change of [data Object] RFC",
+				          "the max of the number of times data Object RFC becomes registered and is grouped by [property] type of change of [data Object] RFC",
+				          "the min of the number of times data Object RFC becomes registered and is grouped by [property] type of change of [data Object] RFC"
+				          
+				          
+				         ];
+			  
+			  $("#def").autocomplete({source: det});
+			  
+		  }); 
+		   			    	
+		   	</script> 
+		   	<script type= "text/javascript">	    
+		   	$(function()
+		   {
+		   	var targetOnebound=["be less than", 
+		   			    	    "be greater than", 
+		   			    	    "be less than or equal",
+		   			    	    "be greater than or equal"];
+		   	$("#TOB").autocomplete({source: targetOnebound});
+		   });
+	</script>
+	
+</head>
+<body>
+	
+
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+	    <div class="container">
+		    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+		    	<span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		    </a>
+		    <a class="brand" href="#">PPINot Templates Editor</a>
+		    <div class="nav-collapse pull-right">
+		    	<ul class="nav">
+		        	<li><a href="http://www.isa.us.es/ppinot">More information at the PPINot web site</a></li>
+		        </ul>
+		    </div><!--/.nav-collapse -->
+	    </div>
+	</div>
+</div>
+
+<div class="container">
+	
+	<h1>PPI Templates</h1>
+	
+    <div style="position: absolute; left: 39px; top: 45px; " class="ct_cursor ct_cursor_top ct_cursor_left"></div>
+    <div style="position: fixed; display: none; left: 670px; top: 355px; " class="ct_message_popup"></div>
+    
+    <div id="PPI">
+		<table class="ct_element ctc_PPI table table-condensed table-bordered" id="PPI_table" border= 1>
+			<thead>
+				<tr>
+					<td class="ct_class_name" colspan="2">PPI:
+					    <input id= "ppi" name= "PPI_id"  type= "text" value= "PPI<id>" size="8"/>
+					</td> 
+                <tr>
+		   	</thead>
+		   	<tbody>
+				<tr class="ctn_name" id="name">
+					<td class="ct_feature_name editorcolumn">
+					   Name:
+					</td>
+					<td>
+						<input id="Name" name="Name"  type="text" value=""/>
+					</td>
+				</tr>
+				<tr class="ctn_process" id="Process">
+					<td class="ct_feature_name editorcolumn">
+					   Process:
+					</td>
+					<td>
+						<input id="Process" name="Process"  type="text" value=""/>
+					</td>
+				</tr>
+		   		<tr class="ct_attribute ctn_goals" id="Goals">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Goals:
+		   			</td>
+		   			<td>
+						<input id="Goals" name="Goals"  type="text" value=""/>
+					</td>
+		   		</tr>	
+		   		<tr class="ct_containment ctn_definition" id="Definition">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Definition: 
+		   			</td>
+		   			<td>
+		   			     <p>
+		   			         <Span>
+		   			             The PPI is defined as
+		   			         </Span>
+		   			         <input id="def"/>
+		   			     </p>
+		   			    
+                     </td>
+				    
+		   		</tr>
+		   		<tr class="ct_containment ctn_target" id="Target">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Target:
+		   		    </td>
+		   			<td>
+		   			    The PPI value must   <input id="TOB"/>
+					</td>
+					
+		   		</tr>
+		   		<tr class="ct_attribute ctn_unit" id="Unit">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Unit:
+		   			</td>
+		   			<td>
+						<input id="Unit" name="Unit"  type="text" value=""/>
+					</td>
+		   		</tr>
+		   		<tr class="ct_reference ctn_scope" id="Scope">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Scope:
+		   			</td>
+		   			<td>
+						<input id="Scope" name="Scope"  type="text" value=""/>
+					</td>
+		   		</tr>
+		   		<tr class="ct_attribute ctn_source" id="Source">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Source:
+		   		    </td>
+		   			<td>
+						<input id="Source" name="Source"  type="text" value=""/>
+					</td>
+		   		</tr>
+		   		<tr class="ct_attribute ctn_responsible" id="Responsible">
+		   			<td class="ct_feature_name editorcolumn">
+		   			    Responsible:
+		   		    </td>
+		   			<td>
+						<input id="Responsible" name="Responsible"  type="text" value=""/>
+					</td>
+		   		</tr>
+		   		<tr class="ct_attribute ctn_informed" id="Informed">
+		   			<td class="ct_feature_name editorcolumn">
+		   			    Informed:
+		   			</td>
+		   			<td>
+						<input id="Informed" name="Informed"  type="text" value=""/>
+					</td>
+		   		</tr>
+		   		<tr class="ct_attribute ctn_comments" id="Comments">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Comments:
+		   			</td>
+		   			<td>
+						<input id="Comments" name="Comments"  type="text" value=""/>
+					</td>
+		   		</tr>
+		   	</tbody>	   		
+		</table>	
+	</div>
+   
+</div>
+
+
+</body>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>        
+	<script type="text/javascript" charset="utf-8">
+			// <![CDATA[
+			    $.noConflict();
+				var tp = new Concrete.TemplateProvider($("templates1"), {identifierAttribute: "name"});
+				var mp = new Concrete.MetamodelProvider($("metamodel1").textContent.evalJSON());
+				var ip = new Concrete.QualifiedNameBasedIdentifierProvider({nameAttribute: "name"});
+				var cb = new Concrete.Clipboard($("clipboard1"));
+        		var ed = new Concrete.Editor($("editor1"), tp, mp, ip, {clipboard: cb});
+					
+				Event.observe(window, 'click', function(event) {
+					ed.handleEvent(event);
+				});
+				Event.observe(window, 'keydown', function(event) {
+					ed.handleEvent(event);
+				});
+				Event.observe(window, 'mousemove', function(event) {
+					ed.handleEvent(event);
+				});
+				
+				function showModelModal() {
+					var model;
+					try {
+						model = ed.getModel();
+					}
+					catch (err) {
+						model = "Model is empty";
+					}
+					$("textmodel").value = model;
+					jQuery("#modelModal").modal();
+				}
+				
+				function loadModel() {
+					var jsonModel;
+					$("loadError").style.display = "none";
+					try {
+						jsonModel =$("loadmodel").value.evalJSON(true);
+						ed.setModel(jsonModel);
+						jQuery("#loadModal").modal("hide");
+					}
+					catch (err) {
+						$("loadError").style.display = "";
+					}
+				}
+			// ]]>
+	</script>-->  
+
+<!--  		
+   	<span class="ct_element ctc_Time" id="">
+   			<span class="ct_handle ct_class_name">the duration between</span> 
+   			<span class="ct_containment ctn_from" id="">
+   				<span class="ct_feature_name">the time instant when</span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   			<span class="ct_containment ctn_to" id="">
+   				<span class="ct_feature_name">and the time instant when</span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   	</span>
+   	<span class="ct_element ctc_Count" id="">
+   			<span class="ct_handle ct_class_name">the number of times</span> 
+   			<span class="ct_containment ctn_when" id="">
+   				<span class="ct_feature_name"></span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   	</span>
+   	<span class="ct_element ctc_StateCondition" id="">
+   		<span class="hl_header">
+   			<span class="ct_fold_button"></span> 
+   			<span class="ct_element_icon"></span> 
+   			<span class="ct_handle ct_class_name"></span> 
+   			<span class="ct_containment ctn_meets" id="">
+   				<span class="ct_feature_name"></span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   		</span>
+   	</span>
+   	<span class="ct_element ctc_DataCondition" id="">
+   		<span class="hl_header">
+   			<span class="ct_fold_button"></span> 
+   			<span class="ct_element_icon"></span> 
+   			<span class="ct_handle ct_class_name">the fulfillment of the</span> 
+   			<span class="ct_containment ctn_meets" id="">
+   				<span class="ct_feature_name"></span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   		</span>
+   	</span>
+   	<span class="ct_element ctc_Data" id="">
+   		<span class="hl_header">
+   			<span class="ct_fold_button"></span> 
+   			<span class="ct_element_icon"></span> 
+   			<span class="ct_handle ct_class_name">the value of</span> 
+   			<span class="ct_containment ctn_meets" id="">
+   				<span class="ct_feature_name"></span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   		</span>
+   	</span>
+   	<span class="ct_element ctc_Aggregated" id="">
+   		<span class="hl_header">
+   			<span class="ct_fold_button"></span> 
+   			<span class="ct_element_icon"></span> 
+   			<span class="ct_handle ct_class_name">the </span> 
+   			<span class="ct_attribute ctn_function" id="">
+   				<span class="ct_feature_name"></span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   			<span class="ct_containment ctn_aggregates" id="">
+   				<span class="ct_feature_name">of</span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   		</span>
+   	</span>
+   	<span class="ct_element ctc_Derived" id="">
+   		<span class="hl_header">
+   			<span class="ct_fold_button"></span> 
+   			<span class="ct_element_icon"></span> 
+   			<span class="ct_handle ct_class_name">the </span> 
+   			<span class="ct_attribute ctn_mathfunction" id="">
+   				<span class="ct_feature_name">mathematical function</span> 
+   				<span class="ct_slot"></span>
+   				where:
+   			</span> 
+   			<span class="ct_containment ctn_variables" id="">
+   				<span class="ct_feature_name"></span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   		</span>
+   	</span>
+    <div class="ct_element ctc_Variable" id="">
+   		<span class="hl_header">
+   			<span class="ct_fold_button"></span> 
+   			<span class="ct_element_icon"></span> 
+   			<span class="ct_handle ct_class_name">variable </span> 
+   			<span class="ct_attribute ctn_varname" id="">
+   				<span class="ct_feature_name"></span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   			<span class="ct_containment ctn_measure" id="">
+   				<span class="ct_feature_name">is</span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   		</span>
+   	</div> 	
+   	
+   	<span class="ct_element ctc_BPElementCondition" id="">
+   		<span class="hl_header">
+   			<span class="ct_fold_button"></span> 
+   			<span class="ct_element_icon"></span> 
+   			<span class="ct_handle ct_class_name"> </span> 
+   			<span class="ct_attribute ctn_elementname" id="">
+   				<span class="ct_feature_name">element</span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   			<span class="ct_attribute ctn_elementstate" id="">
+   				<span class="ct_feature_name">changes to state</span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   		</span>
+   	</span>
+   	<span class="ct_element ctc_EventCondition" id="">
+   		<span class="hl_header">
+   			<span class="ct_fold_button"></span> 
+   			<span class="ct_element_icon"></span> 
+   			<span class="ct_handle ct_class_name"> </span> 
+   			<span class="ct_attribute ctn_eventname" id="">
+   				<span class="ct_feature_name">event</span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   			<span class="ct_attribute ctn_eventstate" id="">
+   				<span class="ct_feature_name">is</span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   		</span>
+   	</span>
+   	<span class="ct_element ctc_StaticCondition" id="">
+   		<span class="hl_header">
+   			<span class="ct_fold_button"></span> 
+   			<span class="ct_element_icon"></span> 
+   			<span class="ct_handle ct_class_name"> </span> 
+   			<span class="ct_attribute ctn_elementType" id="">
+   				<span class="ct_feature_name"></span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   			<span class="ct_attribute ctn_appliesTo" id="">
+   				<span class="ct_feature_name"></span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   			<span class="ct_attribute ctn_state" id="">
+   				<span class="ct_feature_name">is currently or has finished in state</span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   		</span>
+   	</span>
+   	<span class="ct_element ctc_DataRestriction" id="">
+   		<span class="hl_header">
+   			<span class="ct_fold_button"></span> 
+   			<span class="ct_element_icon"></span> 
+   			<span class="ct_handle ct_class_name"> </span> 
+   			<span class="ct_attribute ctn_restriction" id="">
+   				<span class="ct_feature_name"></span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   			<span class="ct_attribute ctn_appliesTo" id="">
+   				<span class="ct_feature_name">over the data object</span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   		</span>
+   	</span>
+   	<span class="ct_element ctc_DataProperty" id="">
+   		<span class="hl_header">
+   			<span class="ct_fold_button"></span> 
+   			<span class="ct_element_icon"></span> 
+   			<span class="ct_handle ct_class_name"> </span> 
+   			<span class="ct_attribute ctn_property" id="">
+   				<span class="ct_feature_name">property</span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   			<span class="ct_attribute ctn_dataObject" id="">
+   				<span class="ct_feature_name">of data object</span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   		</span>
+   	</span>
+   	<span class="ct_element ctc_GreaterThan" id="">
+   		<span class="hl_header">
+   			<span class="ct_fold_button"></span> 
+   			<span class="ct_element_icon"></span> 
+   			<span class="ct_handle ct_class_name">be greater than</span> 
+   			<span class="ct_attribute ctn_value" id="">
+   				<span class="ct_feature_name"></span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   		</span>
+   	</span>
+   	<span class="ct_element ctc_LowerThan" id="">
+   		<span class="hl_header">
+   			<span class="ct_fold_button"></span> 
+   			<span class="ct_element_icon"></span> 
+   			<span class="ct_handle ct_class_name">be lower than</span> 
+   			<span class="ct_attribute ctn_value" id="">
+   				<span class="ct_feature_name"></span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   		</span>
+   	</span>
+   	<span class="ct_element ctc_Between" id="">
+   		<span class="hl_header">
+   			<span class="ct_fold_button"></span> 
+   			<span class="ct_element_icon"></span> 
+   			<span class="ct_handle ct_class_name">be between</span> 
+   			<span class="ct_attribute ctn_lowerBound" id="">
+   				<span class="ct_feature_name"></span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   			<span class="ct_attribute ctn_upperBound" id="">
+   				<span class="ct_feature_name">and</span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   		</span>
+   	</span>
+   	<span class="ct_element ctc_CustomConstraint" id="">
+   		<span class="hl_header">
+   			<span class="ct_fold_button"></span> 
+   			<span class="ct_element_icon"></span> 
+   			<span class="ct_handle ct_class_name">fulfill the following constraint</span> 
+   			<span class="ct_attribute ctn_constraint" id="">
+   				<span class="ct_feature_name"></span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   		</span>
+   	</span>   	
+   	
+   <div class="ct_element ctc_Scope" id="">
+   		<div class="hl_header">
+   			<span class="ct_fold_button"></span> 
+   			<span class="ct_element_icon"></span> 
+   			<span class="ct_handle ct_class_name">Scope</span> 
+   			<span class="ct_attribute ctn_name ct_identifier_attribute" id="">
+   				<span class="ct_feature_name">name:</span> 
+   				<span class="ct_slot"></span>
+   			</span> 
+   		</div>
+		<div class="ct_attribute ctn_period" id="">
+			<span class="ct_feature_name">Period:</span>
+			<span class="ct_slot"></span>
+		</div>
+		<div class="ct_attribute ctn_conditions" id="">
+			<span class="ct_feature_name">Condition:</span>
+			<span class="ct_slot"></span>
+		</div>
+   	</div>
+</div>
+<div id="metamodel1" style="display: none">
+[{"_class": "Datatype", "name": "String"},{"_class": "Datatype", "name": "Integer"},{"_class": "Datatype", "name": "Float"}, 
+{"_class": "Enum", "name": "AggregationFunction", "literals": ["sum", "average", "max", "min"]},
+{"_class": "Class", "name": "PPI", "features": [
+  {"_class": "Feature", "name": "id", "kind": "attribute", "lowerLimit": 1, "upperLimit": 1, "type": "String"}, 
+  {"_class": "Feature", "name": "name", "kind": "attribute", "lowerLimit": 1, "upperLimit": 1, "type": "String"}, 
+  {"_class": "Feature", "name": "process", "kind": "attribute", "lowerLimit": 1, "upperLimit": 1, "type": "String"}, 
+  {"_class": "Feature", "name": "goals", "kind": "attribute", "lowerLimit": 0, "upperLimit": -1, "type": "String"},  
+  {"_class": "Feature", "name": "definition", "kind": "containment", "lowerLimit": 1, "upperLimit": 1, "type": "MeasureDefinition"},
+  {"_class": "Feature", "name": "target", "kind": "containment", "lowerLimit": 1, "upperLimit": 1, "type": "Target"},
+  {"_class": "Feature", "name": "unit", "kind": "attribute", "lowerLimit": 0, "upperLimit": 1, "type": "String"},
+  {"_class": "Feature", "name": "scope", "kind": "reference", "lowerLimit": 0, "upperLimit": 1, "type": "Scope"},
+  {"_class": "Feature", "name": "source", "kind": "attribute", "lowerLimit": 0, "upperLimit": 1, "type": "String"},
+  {"_class": "Feature", "name": "responsible", "kind": "attribute", "lowerLimit": 0, "upperLimit": 1, "type": "String"},
+  {"_class": "Feature", "name": "informed", "kind": "attribute", "lowerLimit": 0, "upperLimit": -1, "type": "String"},
+  {"_class": "Feature", "name": "comments", "kind": "attribute", "lowerLimit": 0, "upperLimit": 1, "type": "String"}
+]}, {"_class": "Class", "name": "MeasureDefinition", "abstract": true}, 
+{"_class": "Class", "name": "BaseMeasure", "abstract": true, "superTypes": "MeasureDefinition"}, 
+{"_class": "Class", "name": "Time", "superTypes": "BaseMeasure", "features": [
+  {"_class": "Feature", "name": "from", "kind": "containment", "type": "InstantCondition"},
+  {"_class": "Feature", "name": "to", "kind": "containment", "type": "InstantCondition"}
+]}, {"_class": "Class", "name": "Count", "superTypes": "BaseMeasure", "features": [
+  {"_class": "Feature", "name": "when", "kind": "containment", "type": "InstantCondition"}
+]}, {"_class": "Class", "name": "StateCondition", "superTypes": "BaseMeasure", "features": [
+  {"_class": "Feature", "name": "meets", "kind": "containment", "type": "StaticCondition"}
+]}, {"_class": "Class", "name": "DataCondition", "superTypes": "BaseMeasure", "features": [
+  {"_class": "Feature", "name": "meets", "kind": "containment", "type": "DataRestriction"}
+]}, {"_class": "Class", "name": "Data", "superTypes": "BaseMeasure", "features": [
+  {"_class": "Feature", "name": "meets", "kind": "containment", "type": "DataProperty"}
+]}, {"_class": "Class", "name": "Aggregated", "superTypes": "MeasureDefinition", "features": [
+  {"_class": "Feature", "name": "function", "kind": "attribute", "type": "AggregationFunction"},
+  {"_class": "Feature", "name": "aggregates", "kind": "containment", "type": "BaseMeasure"}
+]}, {"_class": "Class", "name": "Derived", "superTypes": "MeasureDefinition", "features": [
+  {"_class": "Feature", "name": "mathfunction", "kind": "attribute", "type": "String"},
+  {"_class": "Feature", "name": "variables", "kind": "containment", "lowerLimit": 1, "upperLimit": -1, "type": "Variable"}
+]}, {"_class": "Class", "name": "Variable", "features": [
+  {"_class": "Feature", "name": "varname", "kind": "attribute", "type": "String"},
+  {"_class": "Feature", "name": "measure", "kind": "containment", "type": "MeasureDefinition"}
+]}, {"_class": "Class", "name": "InstantCondition", "abstract": true}, 
+{"_class": "Class", "name": "BPElementCondition", "superTypes": "InstantCondition", "features": [
+  {"_class": "Feature", "name": "elementname", "kind": "attribute", "type": "String"},
+  {"_class": "Feature", "name": "elementstate", "kind": "attribute", "type": "String"}
+  ]}, {"_class": "Class", "name": "EventCondition", "superTypes": "InstantCondition", "features": [
+  {"_class": "Feature", "name": "eventname", "kind": "attribute", "type": "String"},
+  {"_class": "Feature", "name": "eventstate", "kind": "attribute", "type": "String"}
+  ]}, {"_class": "Class", "name": "StaticCondition", "features": [
+  {"_class": "Feature", "name": "elementType", "kind": "attribute", "type": "String"},
+  {"_class": "Feature", "name": "appliesTo", "kind": "attribute", "type": "String"},
+  {"_class": "Feature", "name": "state", "kind": "attribute", "type": "String"}
+  ]}, {"_class": "Class", "name": "DataRestriction", "features": [
+  {"_class": "Feature", "name": "restriction", "kind": "attribute", "type": "String"},
+  {"_class": "Feature", "name": "appliesTo", "kind": "attribute", "type": "String"}
+  ]}, {"_class": "Class", "name": "DataProperty", "features": [
+  {"_class": "Feature", "name": "property", "kind": "attribute", "type": "String"},
+  {"_class": "Feature", "name": "dataObject", "kind": "attribute", "type": "String"}
+  ]}, {"_class": "Class", "name": "Target", "abstract": true},   
+{"_class": "Class", "name": "TargetOneBound", "superTypes": "Target", "abstract": true, "features": 
+  {"_class": "Feature", "name": "value", "kind": "attribute", "type": "Float"}},
+{"_class": "Class", "name": "GreaterThan", "superTypes": "TargetOneBound"},   
+{"_class": "Class", "name": "LowerThan", "superTypes": "TargetOneBound"},   
+{"_class": "Class", "name": "Between", "superTypes": "Target", "features": [
+  {"_class": "Feature", "name": "lowerBound", "kind": "attribute", "type": "Float"},
+  {"_class": "Feature", "name": "upperBound", "kind": "attribute", "type": "Float"}]},
+{"_class": "Class", "name": "CustomConstraint", "superTypes": "Target", "features": 
+  {"_class": "Feature", "name": "constraint", "kind": "attribute", "type": "String"}},
+{"_class": "Class", "name": "Scope", "features": [
+  {"_class": "Feature", "name": "name", "kind": "attribute", "lowerLimit": 1, "upperLimit": 1, "type": "String"}, 
+  {"_class": "Feature", "name": "conditions", "kind": "attribute", "upperLimit": -1, "type": "String"},
+  {"_class": "Feature", "name": "period", "kind": "attribute", "type": "String"}
+  ]}
+]
+</div> -->
+</html>

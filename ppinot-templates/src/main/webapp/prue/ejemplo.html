@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en"><head><meta charset="utf-8">
+</meta><title></title>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+<script type="text/javascript">
+
+      
+			
+			$(function()
+			{
+				var andal= ["RealBetis",
+				            "Sevilla FC",
+							"Granada CF",
+							"Malaga CF",
+							"UDAlmeria",
+							"Cadiz CF",
+							"Recreativo",
+							"Cordoba CF",
+							"RealJaen"
+							];
+				
+				$( "#Andalucia" ).autocomplete({source: andal});}); 
+				
+			
+			
+			$(function()
+			{
+				var madrid= ["RealMadrid",
+				          "AtMadrid",
+						  "Getafe CF",
+						  "RayoVallecano",
+						  "Alcorcon"
+						  ]; 
+				$( "#Madrid" ).autocomplete({source: madrid});}); 
+			
+		
+		
+			
+		
+    </script>
+    </head>
+    <body>
+    <div>
+    <label for="Andalicia">Equipo1: </label>
+    <input id="Andalucia" />
+     </div>
+    <div>
+    <label for="Madrid">Equipo2:</label>
+    <input id="Madrid"/> 
+    </div>
+    </body>
+    </html>

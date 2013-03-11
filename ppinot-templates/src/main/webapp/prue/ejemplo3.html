@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<title>Process Perfomance Indicators</title>
+		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>  
+        <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script> 
+		<script type= "text/javascript">
+			
+			$(function()
+			{
+				var aggregationfunction= ["sum", "average", "max", "min"];
+				$( "#aggfunct" ).autocomplete({source: aggregationfunction});
+			});
+			
+			$(function(){
+				var bpelementtype= ["activity", "element"];
+				$("#BPElemType").autocomplete({source: bpelementtype});
+			});
+			$(function(){
+				var bpelementname= ["RFC analysis", "data object RFC"];
+				$("#BPElemName").autocomplete({source: bpelementname});
+			});
+			$(function(){
+				var bpelementstate= ["active", "completed", "currently", "has finished", "canceled", "registered"];
+				$("#BPElemstate").autocomplete({source: bpelementstate});
+			});
+			$(function(){
+				var countmeasure= ["the number of times"];
+				$("#CM").autocomplete({source: countmeasure});
+			});
+			$(function(){
+				var conditionmeasure= ["StateconditionMeasure", "DataPropertyconditionMeasure"];
+				$("#condimeasure").autocomplete({source: conditionmeasure});
+			});
+			$(function(){
+				var stateconditionMeasure= ["BPElementType", "BPElementName"];
+				$("#SCM").autocomplete({source:stateconditionMeasure});
+			});
+			$(function(){
+				var dtapropcondmeasure= ["DataObjectState", "DataObjectName", "Condition_on_data_Object_properties"];
+				$("#DPCM").autocomplete({source: dtapropcondmeasure});
+			});
+			$(function(){
+				var conondatobjprop= ["type of change= perfective"];
+			    $("#CDOP").autocomplete({source:conondatobjprop});
+			});
+			
+			$(function(){
+				var dameasure= ["the value of"];
+				$("#DM").autocomplete({source: dameasure});
+			});
+			
+			$(function(){
+				var derivedmeasure= ["the function <expresion> where <xi> is <measureForDer>"];
+			  $("#DerivedMeasure").autocomplete({source: derivedmeasure});
+			});
+			$(function(){
+				var measureforder= ["TimeMeasure", "CountMeasure", "ConditionMeasure", "DataMeasure", "AggregatedMeasure"];
+			  $("#MFD").autocomplete({source: measureforder});
+			});
+			$(function(){
+				var measureforagg= ["TimeMeasure", "CountMeasure", "ConditionMeasure", "DataMeasure", "DerivedMeasure"];
+			  $("#MFA").autocomplete({source: measureforagg});
+			});
+			
+			
+			</script>
+	</head>
+	<body>
+	<div>  
+      <label for="aggfunct">AggregationFunction: </label>  
+      <input id="aggfunct" />
+   </div> 
+   <div>  
+      <label for="BPElemType">BPElementType: </label>  
+      <input id="BPElemType" />
+   </div>
+   <div>  
+      <label for="BPElemName">BPElementName: </label>  
+      <input id="BPElemName" />
+   </div> 
+    <div>  
+      <label for="BPElemstate">BPElementState: </label>  
+      <input id="BPElemstate" />
+   </div> 
+   <div>  
+      <label for="CM">CountMeasure: </label>  
+      <input id="CM" />
+   </div> 
+    <div>  
+      <label for="condimeasure">ConditionMeasure: </label>  
+      <input id="condimeasure" />
+   </div> 
+   <div>  
+      <label for="SCM">StateConditionMeasure: </label>  
+      <input id="SCM" />
+   </div> 
+    <div>  
+      <label for="DPCM">DataPropertyConditionMeasure: </label>  
+      <input id="DPCM" />
+   </div>
+   <div>  
+      <label for="CDOP">ConditionDataObjectProperty: </label>  
+      <input id="CDOP" />
+   </div> 
+   <div>  
+      <label for="DM">DataMeasure: </label>  
+      <input id="DM" />
+   </div> 
+    <div>  
+      <label for="DerivedMeasure">DerivedMeasure: </label>  
+      <input id="DerivedMeasure" />
+   </div> 
+   <div>  
+      <label for="MFD">MeasureForDer: </label>  
+      <input id="MFD" />
+   </div> 
+    <div>  
+      <label for="MFA">MeasureForAgg: </label>  
+      <input id="MFA" />
+   </div>
+    
+	</body>
+</html>

@@ -1,0 +1,48 @@
+<html>
+<head>
+<link rel="stylesheet" href="jquery-ui-1.8.2.custom.css" type="text/css" media="all"/>
+<script type="text/javascript" src="jquery-1.4.2.min.js"></script>  
+<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>  
+<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>  
+<script type="text/javascript">
+$(function()
+	        {
+	            
+	          var agg= ["sum", "average", "max", "min"];
+	          var b1= ["the"+" "+agg[0]+" "+"of", "the"+" "+agg[1]+" "+"of", "the"+" "+agg[2]+" "+"of", "the"+" "+agg[3]+" "+"of"];
+	          var b2= ["the duration between"];
+	          var b3= ["the time instant when"];
+	          var b4= [b2[0]+" "+b3[0], b1[0]+" "+b2[0]+" "+b3[0], b1[1]+" "+b2[0]+" "+b3[0], b1[2]+" "+b2[0]+" "+b3[0],  b1[3]+" "+b2[0]+" "+b3[0]];
+	          var bpet= ["activity", "element"];
+	          var bpen= ["RFC analysis", "data Object RFC"];
+	          var bp1= [bpet[0]+" "+bpen[0], bpet[0]+" "+bpen[1], bpet[1]+" "+bpen[0], bpet[1]+" "+bpen[1]];
+	          var bpes= ["active", "completed", "has finished", "canceled", "registered"];
+	          var event= [bp1[0]+" "+"becomes"+" "+bpes[0], bp1[0]+" "+"becomes"+" "+bpes[1], bp1[0]+" "+"becomes"+" "+bpes[2], bp1[0]+" "+"becomes"+" "+bpes[3],  bp1[0]+" "+"becomes"+" "+bpes[4], 
+	                    bp1[0]+" "+"changes to state"+" "+bpes[0], bp1[0]+" "+"changes to state"+" "+bpes[1], bp1[0]+" "+"changes to state"+" "+bpes[2], bp1[0]+" "+"changes to state"+" "+bpes[3],  bp1[0]+" "+"changes to state"+" "+bpes[4],
+	                    bp1[1]+" "+"becomes"+" "+bpes[0], bp1[1]+" "+"becomes"+" "+bpes[1], bp1[1]+" "+"becomes"+" "+bpes[2], bp1[1]+" "+"becomes"+" "+bpes[3],  bp1[1]+" "+"becomes"+" "+bpes[4], 
+	                    bp1[1]+" "+"changes to state"+" "+bpes[0], bp1[1]+" "+"changes to state"+" "+bpes[1], bp1[1]+" "+"changes to state"+" "+bpes[2], bp1[1]+" "+"changes to state"+" "+bpes[3],  bp1[1]+" "+"changes to state"+" "+bpes[4],
+	                    bp1[2]+" "+"becomes"+" "+bpes[0], bp1[2]+" "+"becomes"+" "+bpes[1], bp1[2]+" "+"becomes"+" "+bpes[2], bp1[2]+" "+"becomes"+" "+bpes[3],  bp1[2]+" "+"becomes"+" "+bpes[4], 
+	                    bp1[2]+" "+"changes to state"+" "+bpes[2], bp1[2]+" "+"changes to state"+" "+bpes[1], bp1[2]+" "+"changes to state"+" "+bpes[2], bp1[2]+" "+"changes to state"+" "+bpes[3],  bp1[2]+" "+"changes to state"+" "+bpes[4],
+	                    bp1[0]+" "+"becomes"+" "+bpes[0], bp1[0]+" "+"becomes"+" "+bpes[1], bp1[0]+" "+"becomes"+" "+bpes[2], bp1[0]+" "+"becomes"+" "+bpes[3],  bp1[0]+" "+"becomes"+" "+bpes[4], 
+	                    bp1[0]+" "+"changes to state"+" "+bpes[0], bp1[0]+" "+"changes to state"+" "+bpes[1], bp1[0]+" "+"changes to state"+" "+bpes[2], bp1[0]+" "+"changes to state"+" "+bpes[3],  bp1[0]+" "+"changes to state"+" "+bpes[4]
+	                   ];
+	         var bp2= [b4[1]+" "+event[0], b4[2]+" "+event[0], b4[3]+" "+event[0], b4[4]+" "+event[0]];
+	         var bp3= [bp2[0]+" "+"and"+" "+b3[0]+]
+	                    
+	                   
+	            
+	         
+	          
+	       
+	            $("#frase").autocomplete({source: bp2});
+
+	        });
+
+
+</script>
+</head>
+<body>
+<input type="text" id="frase"/>  
+</body>
+</html>

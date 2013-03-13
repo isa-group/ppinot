@@ -1,0 +1,31 @@
+<html>
+<head>
+<link rel="stylesheet" href="jquery-ui-1.8.2.custom.css" type="text/css" media="all"/>
+<script type="text/javascript" src="jquery-1.4.2.min.js"></script>  
+<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>  
+<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>  
+<script type="text/javascript">
+$(function()
+	        {
+	        	
+	        	var agg= ["sum", "average", "max", "min"];
+	        	var b1= ["the"+" "+agg[0]+" "+"of", "the"+" "+agg[1]+" "+"of", "the"+" "+agg[2]+" "+"of", "the"+" "+agg[3]+" "+"of"];
+	        	var b2= ["the duration between the time instant when",
+	        	         b1[0]+" "+"the duration between the time instant when", 
+	        	         b1[1]+" "+"the duration between the time instant when", 
+	        	         b1[2]+" "+"the duration between the time instant when", 
+	        	         b1[3]+" "+"the duration between the time instant when"];
+	        	
+	        	
+	            $("#frase").autocomplete({source: b2});
+
+	        });
+
+
+</script>
+</head>
+<body>
+<input type="text" id="frase"/>  
+</body>
+</html>

@@ -1,0 +1,48 @@
+<html>
+<head>
+<link rel="stylesheet" href="jquery-ui-1.8.2.custom.css" type="text/css" media="all"/>
+<script type="text/javascript" src="jquery-1.4.2.min.js"></script>  
+<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>  
+<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>  
+<script type="text/javascript">
+$(function()
+	        {
+	            
+	          var agg= ["sum", "average", "max", "min"];
+	          var b1= ["the"+" "+agg[0]+" "+"of", "the"+" "+agg[1]+" "+"of", "the"+" "+agg[2]+" "+"of", "the"+" "+agg[3]+" "+"of"];
+	          var b2= ["the duration between the time instant when",
+	                   b1[0]+" "+"the duration between the time instant when", 
+	                   b1[1]+" "+"the duration between the time instant when", 
+	                   b1[2]+" "+"the duration between the time instant when", 
+	                   b1[3]+" "+"the duration between the time instant when"];
+	          var bpet= ["activity", "element"];
+	          var bpen= ["RFC analysis", "data Object RFC"];
+	          var cad3= ["becomes", "changes to state"];
+	          var bpes= ["active", "completed", "has finished", "canceled", "registered"];
+	          var event=[bpet[0]+" "+bpen[0]+" "+cad3[0]+" "+bpes[0], 
+	        	           bpet[1]+" "+bpen[0]+" "+cad3[0]+" "+bpes[0], 
+	        	           bpet[1]+" "+bpen[1]+" "+cad3[0]+" "+bpes[0],
+	        	           bpet[0]+" "+bpen[1]+" "+cad3[0]+" "+bpes[0],
+	        	           bpet[0]+" "+bpen[0]+" "+cad3[1]+" "+bpes[0], 
+	        	           bpet[1]+" "+bpen[0]+" "+cad3[1]+" "+bpes[0], 
+	        	           bpet[1]+" "+bpen[1]+" "+cad3[1]+" "+bpes[0],
+	        	           bpet[0]+" "+bpen[1]+" "+cad3[1]+" "+bpes[0]
+	        	          ];
+	          var b3= [b2[1]+" "+event[0], b2[1]+" "+event[1], b2[1]+" "+event[2],  b2[1]+" "+event[3],  b2[1]+" "+event[4],  b2[1]+" "+event[5], b2[1]+" "+event[6], b2[1]+" "+event[7],
+	                   b2[2]+" "+event[0], b2[2]+" "+event[1], b2[2]+" "+event[2],  b2[2]+" "+event[3],  b2[2]+" "+event[4],  b2[2]+" "+event[5], b2[1]+" "+event[6], b2[2]+" "+event[7],
+	                   b2[3]+" "+event[0], b2[3]+" "+event[1], b2[3]+" "+event[2],  b2[3]+" "+event[3],  b2[3]+" "+event[4],  b2[3]+" "+event[5], b2[1]+" "+event[6], b2[3]+" "+event[7],
+	                   b2[4]+" "+event[0], b2[4]+" "+event[1], b2[4]+" "+event[2],  b2[4]+" "+event[3],  b2[4]+" "+event[4],  b2[3]+" "+event[5], b2[1]+" "+event[6], b2[4]+" "+event[7]
+	                   ];
+	          
+	            $("#frase").autocomplete({source: b3});
+
+	        });
+
+
+</script>
+</head>
+<body>
+<input type="text" id="frase"/>  
+</body>
+</html>

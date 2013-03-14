@@ -1,0 +1,250 @@
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<link rel="stylesheet" href="concrete/themes/white.css" type="text/css">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+      .editorcolumn {
+      	width: 7em;
+      }
+    </style>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />		
+	<script src="redist/prototype.js" type="text/javascript"></script>
+	<script src="redist/scriptaculous/scriptaculous.js" type="text/javascript"></script>
+	<script src="concrete/concrete.js" type="text/javascript"></script>
+	<script src="example1.js" type="text/javascript"></script>
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>  
+    <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+    <script src="prue/TimeMeasure.js" type= "text/javascript"></script>
+
+    <script type= "text/javascript">
+    $(function()
+	        {
+	            
+	          var Agg= ["sum", "average", "max", "min"];
+	          var b1= ["the"+" "+Agg[0]+" "+"of", "the"+" "+Agg[1]+" "+"of", "the"+" "+Agg[2]+" "+"of", "the"+" "+Agg[3]+" "+"of"];
+	          var b2= ["the duration between"];
+	          var b3= ["the time instant when"];
+	          var b4= [b2[0]+" "+b3[0], b1[0]+" "+b2[0]+" "+b3[0], b1[1]+" "+b2[0]+" "+b3[0], b1[2]+" "+b2[0]+" "+b3[0],  b1[3]+" "+b2[0]+" "+b3[0]];
+	          var BPET= ["activity", "element"];
+	          var DataObject= ["data Object"];
+	          var DataObjectName=["RFC"];
+	          var BPEN= [DataObject[0]+" "+DataObjectName[0], "analysis", DataObjectName[0]];
+	          var ac= [BPEN[2]+" "+BPEN[1]];
+	          var StateConditionMeasure= [BPET[0]+" "+ac[0], BPET[0]+" "+BPEN[0], BPET[1]+" "+ac[0], BPET[1]+" "+BPEN[0]];
+	          var BPES= ["active", "completed", "has finished", "canceled", "registered", "approved", "affected"];
+	          var EVENT= [StateConditionMeasure[0]+" "+"becomes"+" "+BPES[0], StateConditionMeasure[0]+" "+"becomes"+" "+BPES[1], StateConditionMeasure[0]+" "+"becomes"+" "+BPES[2],  StateConditionMeasure[0]+" "+"becomes"+" "+BPES[3],  StateConditionMeasure[0]+" "+"becomes"+" "+BPES[4], 
+	                      StateConditionMeasure[0]+" "+"changes to state"+" "+BPES[0],  StateConditionMeasure[0]+" "+"changes to state"+" "+BPES[1], StateConditionMeasure[0]+" "+"changes to state"+" "+BPES[2],StateConditionMeasure[0]+" "+"changes to state"+" "+BPES[3],  StateConditionMeasure[0]+" "+"changes to state"+" "+BPES[4], 
+	                      StateConditionMeasure[1]+" "+"becomes"+" "+BPES[0],   StateConditionMeasure[1]+" "+"becomes"+" "+BPES[1],  StateConditionMeasure[1]+" "+"becomes"+" "+BPES[2], StateConditionMeasure[1]+" "+"becomes"+" "+BPES[3],  StateConditionMeasure[1]+" "+"becomes"+" "+BPES[4], 
+	                      StateConditionMeasure[1]+" "+"changes to state"+" "+BPES[0], StateConditionMeasure[1]+" "+"changes to state"+" "+BPES[1], StateConditionMeasure[1]+" "+"changes to state"+" "+BPES[2], StateConditionMeasure[1]+" "+"changes to state"+" "+BPES[3],  StateConditionMeasure[1]+" "+"changes to state"+" "+BPES[4],
+	                      StateConditionMeasure[2]+" "+"becomes"+" "+BPES[0],  StateConditionMeasure[2]+" "+"becomes"+" "+BPES[1], StateConditionMeasure[2]+" "+"becomes"+" "+BPES[2], StateConditionMeasure[2]+" "+"becomes"+" "+BPES[3],  StateConditionMeasure[2]+" "+"becomes"+" "+BPES[4],
+	                      StateConditionMeasure[2]+" "+"changes to state"+" "+BPES[2],  StateConditionMeasure[2]+" "+"changes to state"+" "+BPES[1], StateConditionMeasure[2]+" "+"changes to state"+" "+BPES[2], StateConditionMeasure[2]+" "+"changes to state"+" "+BPES[3], StateConditionMeasure[2]+" "+"changes to state"+" "+BPES[4],
+	                      StateConditionMeasure[3]+" "+"becomes"+" "+BPES[0],  StateConditionMeasure[3]+" "+"becomes"+" "+BPES[1], StateConditionMeasure[3]+" "+"becomes"+" "+BPES[2],  StateConditionMeasure[3]+" "+"becomes"+" "+BPES[3],  StateConditionMeasure[3]+" "+"becomes"+" "+BPES[4], 
+	                      StateConditionMeasure[3]+" "+"changes to state"+" "+BPES[0],  StateConditionMeasure[3]+" "+"changes to state"+" "+BPES[1],  StateConditionMeasure[3]+" "+"changes to state"+" "+BPES[2], StateConditionMeasure[3]+" "+"changes to state"+" "+BPES[3], StateConditionMeasure[3]+" "+"changes to state"+" "+BPES[4]
+	                     ];
+	         var bp2= [b4[1]+" "+EVENT[0], b4[2]+" "+EVENT[0], b4[3]+" "+EVENT[0], b4[4]+" "+EVENT[0], b4[0]+" "+EVENT[0]];
+	         var CountMeasure= ["the number of times"];
+	         var ac3=[CountMeasure[0]+" "+BPET[0]];
+	         var DataPorpertyConditionMeasure=["that satisfies:", DataObjectName[0]];
+	         var ConditionMeasure= [DataPorpertyConditionMeasure[0], DataPorpertyConditionMeasure[1], StateConditionMeasure[0], StateConditionMeasure[1], StateConditionMeasure[2], StateConditionMeasure[3]];
+	         var DataObjectProperty=["type of change"];
+	         var ConditionOnDataObjectProperties=[DataObjectProperty[0]+"=perfective"];
+	         var ac2= ["Analyse in committe that is currently active"];
+	         var ac4=["and is group by property"];
+	         var DataObjectPropertyName=[BPES[6]+" "+"departaments"];
+	         var DataMeasure=["the value of [property]"+DataObjectPropertyName[0]+" "+"of"+BPEN[0]];
+	         
+	         var TimeMeasure= [bp2[0]+" "+"and"+" "+b3[0]+" "+EVENT[31], bp2[0]+" "+"and"+" "+b3[0]+" "+EVENT[36], bp2[1]+" "+"and"+" "+b3[0]+" "+EVENT[31],
+	                           bp2[1]+" "+"and"+" "+b3[0]+" "+EVENT[36], bp2[2]+" "+"and"+" "+b3[0]+" "+EVENT[31], bp2[2]+" "+"and"+" "+b3[0]+" "+EVENT[36],
+	                           bp2[3]+" "+"and"+" "+b3[0]+" "+EVENT[31], bp2[3]+" "+"and"+" "+b3[0]+" "+EVENT[36], bp2[0]+" "+"and"+" "+b3[0]+" "+EVENT[32], 
+	                           bp2[0]+" "+"and"+" "+b3[0]+" "+EVENT[37], bp2[1]+" "+"and"+" "+b3[0]+" "+EVENT[32], bp2[1]+" "+"and"+" "+b3[0]+" "+EVENT[37],
+	                           bp2[2]+" "+"and"+" "+b3[0]+" "+EVENT[32], bp2[2]+" "+"and"+" "+b3[0]+" "+EVENT[37], bp2[3]+" "+"and"+" "+b3[0]+" "+EVENT[32],
+	                           bp2[3]+" "+"and"+" "+b3[0]+" "+EVENT[37], bp2[0]+" "+"and"+" "+b3[0]+" "+EVENT[33], bp2[0]+" "+"and"+" "+b3[0]+" "+EVENT[38],
+	                           bp2[1]+" "+"and"+" "+b3[0]+" "+EVENT[33], bp2[1]+" "+"and"+" "+b3[0]+" "+EVENT[38], bp2[2]+" "+"and"+" "+b3[0]+" "+EVENT[33],
+	                           bp2[2]+" "+"and"+" "+b3[0]+" "+EVENT[38], bp2[3]+" "+"and"+" "+b3[0]+" "+EVENT[33], bp2[3]+" "+"and"+" "+b3[0]+" "+EVENT[38],
+	                           bp2[0]+" "+"and"+" "+b3[0]+" "+EVENT[34], bp2[0]+" "+"and"+" "+b3[0]+" "+EVENT[39], bp2[1]+" "+"and"+" "+b3[0]+" "+EVENT[34],
+	                           bp2[1]+" "+"and"+" "+b3[0]+" "+EVENT[39], bp2[2]+" "+"and"+" "+b3[0]+" "+EVENT[34], bp2[2]+" "+"and"+" "+b3[0]+" "+EVENT[39],
+	                           bp2[3]+" "+"and"+" "+b3[0]+" "+EVENT[34], bp2[3]+" "+"and"+" "+b3[0]+" "+EVENT[39], bp2[4]+" "+"and when"+" "+EVENT[1], 
+	                           bp2[4]+" "+"and when"+" "+EVENT[2], bp2[4]+" "+"and when"+" "+EVENT[3], bp2[4]+" "+"and when"+" "+EVENT[4], ac3[0]+" "+BPET[0]+" "+EVENT[1],
+	                           ac3[0]+" "+BPET[0]+" "+EVENT[2], ac3[0]+" "+BPET[0]+" "+EVENT[3], ac3[0]+" "+BPET[0]+" "+EVENT[4],
+                               BPET[0]+" "+ac2[0]+" "+BPES[5]+" "+BPEN[2]+" "+DataPorpertyConditionMeasure[0]+" "+ConditionOnDataObjectProperties[0],
+                               b1[0]+" "+CountMeasure[0]+" "+BPEN[0]+" "+"becomes"+" "+BPES[4]+" "+ac4[0]+" "+DataObjectProperty[0]+" "+"of"+" "+DataObject[0]+" "+DataObjectName[0],
+                               b1[1]+" "+CountMeasure[0]+" "+BPEN[0]+" "+"becomes"+" "+BPES[4]+" "+ac4[0]+" "+DataObjectProperty[0]+" "+"of"+" "+DataObject[0]+" "+DataObjectName[0],
+                               b1[2]+" "+CountMeasure[0]+" "+BPEN[0]+" "+"becomes"+" "+BPES[4]+" "+ac4[0]+" "+DataObjectProperty[0]+" "+"of"+" "+DataObject[0]+" "+DataObjectName[0],
+                               b1[3]+" "+CountMeasure[0]+" "+BPEN[0]+" "+"becomes"+" "+BPES[4]+" "+ac4[0]+" "+DataObjectProperty[0]+" "+"of"+" "+DataObject[0]+" "+DataObjectName[0]
+                              ];
+	         var MeasureForAgg=[DataMeasure[0], TimeMeasure[0], TimeMeasure[1], TimeMeasure[2], TimeMeasure[3], TimeMeasure[4],
+	                            TimeMeasure[5], TimeMeasure[6], TimeMeasure[7], TimeMeasure[8], TimeMeasure[9], TimeMeasure[10], TimeMeasure[11],
+	                            TimeMeasure[12], TimeMeasure[13], TimeMeasure[14], TimeMeasure[15], TimeMeasure[16], TimeMeasure[17], TimeMeasure[18],
+	                            TimeMeasure[19], TimeMeasure[20], TimeMeasure[21], TimeMeasure[22], TimeMeasure[23], TimeMeasure[24], TimeMeasure[25],
+	                            TimeMeasure[26], TimeMeasure[27], TimeMeasure[28], TimeMeasure[29], TimeMeasure[30], TimeMeasure[31], TimeMeasure[32],
+	                            TimeMeasure[33], TimeMeasure[34], TimeMeasure[35], TimeMeasure[36], TimeMeasure[37], TimeMeasure[38], TimeMeasure[39],
+	                            TimeMeasure[40], TimeMeasure[41], TimeMeasure[42], TimeMeasure[43], TimeMeasure[44]
+                                ];
+	         
+	               $("#def").autocomplete({source: MeasureForAgg});
+
+	        });
+		   			    	
+		   	</script> 
+		   	<script type= "text/javascript">	    
+		   	$(function()
+		   {
+		   	
+		   	var targetOnebound=["be less than", 
+		   			    	    "be greater than", 
+		   			    	    "be less than or equal",
+		   			    	    "be greater than or equal",
+		   			    	    "between [intervalo]"];
+		   	$("#TOB").autocomplete({source: targetOnebound});
+		   });
+	</script>
+	
+</head>
+<body>
+	
+
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+	    <div class="container">
+		    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+		    	<span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		    </a>
+		    <a class="brand" href="#">PPINot Templates Editor</a>
+		    <div class="nav-collapse pull-right">
+		    	<ul class="nav">
+		        	<li><a href="http://www.isa.us.es/ppinot">More information at the PPINot web site</a></li>
+		        </ul>
+		    </div><!--/.nav-collapse -->
+	    </div>
+	</div>
+</div>
+
+<div class="container">
+	
+	<h1>PPI Templates</h1>
+	
+    <div style="position: absolute; left: 39px; top: 45px; " class="ct_cursor ct_cursor_top ct_cursor_left"></div>
+    <div style="position: fixed; display: none; left: 670px; top: 355px; " class="ct_message_popup"></div>
+    
+    <div id="PPI">
+		<table class="ct_element ctc_PPI table table-condensed table-bordered" id="PPI_table" border= 1>
+			<thead>
+				<tr>
+					<td class="ct_class_name" colspan="2">PPI:
+					    <input id= "ppi" name= "PPI_id"  type= "text" value= "PPI<id>" size="8"/>
+					</td> 
+                <tr>
+		   	</thead>
+		   	<tbody>
+				<tr class="ctn_name" id="name">
+					<td class="ct_feature_name editorcolumn">
+					   Name:
+					</td>
+					<td>
+						<input id="Name" name="Name"  type="text" value=""/>
+					</td>
+				</tr>
+				<tr class="ctn_process" id="Process">
+					<td class="ct_feature_name editorcolumn">
+					   Process:
+					</td>
+					<td>
+						<input id="Process" name="Process"  type="text" value=""/>
+					</td>
+				</tr>
+		   		<tr class="ct_attribute ctn_goals" id="Goals">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Goals:
+		   			</td>
+		   			<td>
+						<input id="Goals" name="Goals"  type="text" value=""/>
+					</td>
+		   		</tr>	
+		   		<tr class="ct_containment ctn_definition" id="Definition">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Definition: 
+		   			</td>
+		   			<td>
+		   			     <p>
+		   			         <Span>
+		   			             The PPI is defined as
+		   			         </Span>
+		   			         <input id="def" type="text"/>
+		   			     </p>
+		   			    
+                     </td>
+				    
+		   		</tr>
+		   		<tr class="ct_containment ctn_target" id="Target">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Target:
+		   		    </td>
+		   			<td>
+		   			    The PPI value must   <input id="TOB"/>
+					</td>
+					
+		   		</tr>
+		   		<tr class="ct_attribute ctn_unit" id="Unit">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Unit:
+		   			</td>
+		   			<td>
+						<input id="Unit" name="Unit"  type="text" value=""/>
+					</td>
+		   		</tr>
+		   		<tr class="ct_reference ctn_scope" id="Scope">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Scope:
+		   			</td>
+		   			<td>
+						<input id="Scope" name="Scope"  type="text" value=""/>
+					</td>
+		   		</tr>
+		   		<tr class="ct_attribute ctn_source" id="Source">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Source:
+		   		    </td>
+		   			<td>
+						<input id="Source" name="Source"  type="text" value=""/>
+					</td>
+		   		</tr>
+		   		<tr class="ct_attribute ctn_responsible" id="Responsible">
+		   			<td class="ct_feature_name editorcolumn">
+		   			    Responsible:
+		   		    </td>
+		   			<td>
+						<input id="Responsible" name="Responsible"  type="text" value=""/>
+					</td>
+		   		</tr>
+		   		<tr class="ct_attribute ctn_informed" id="Informed">
+		   			<td class="ct_feature_name editorcolumn">
+		   			    Informed:
+		   			</td>
+		   			<td>
+						<input id="Informed" name="Informed"  type="text" value=""/>
+					</td>
+		   		</tr>
+		   		<tr class="ct_attribute ctn_comments" id="Comments">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Comments:
+		   			</td>
+		   			<td>
+						<input id="Comments" name="Comments"  type="text" value=""/>
+					</td>
+		   		</tr>
+		   	</tbody>	   		
+		</table>	
+	</div>
+   
+</div>
+
+
+</body>
+
+    
+</html>

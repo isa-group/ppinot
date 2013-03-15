@@ -13,10 +13,197 @@
 	<script src="redist/prototype.js" type="text/javascript"></script>
 	<script src="redist/scriptaculous/scriptaculous.js" type="text/javascript"></script>
 	<script src="concrete/concrete.js" type="text/javascript"></script>
-	<script src="example1.js" type="text/javascript"></script>
+	<script src="example1.js" type="text/javascript"></script>	
+	<script>	
+	var nTable = 1;	
+	function addPPI(){ 
+		var newID = "PPI_table_"+nTable++;
+		alert(newID);
+		myTable = document.createElement("table");
+		tbBody = document.createElement("tbody");
+		tr1 = document.createElement("tr");
+		tr2 = document.createElement("tr");
+		tr3 = document.createElement("tr");
+		tr4 = document.createElement("tr");
+		tr5 = document.createElement("tr");
+		tr6 = document.createElement("tr");
+		tr7 = document.createElement("tr");
+		tr8 = document.createElement("tr");
+		tr9 = document.createElement("tr");
+		tr10 = document.createElement("tr");
+		tr11 = document.createElement("tr");
+		tr12 = document.createElement("tr");
+		td1 = document.createElement("td");
+		td2 = document.createElement("td");
+		td3 = document.createElement("td");
+		td4 = document.createElement("td");
+		td5 = document.createElement("td");
+		td6 = document.createElement("td");
+		td7 = document.createElement("td");
+		td8 = document.createElement("td");
+		td9 = document.createElement("td");
+		td10 = document.createElement("td");
+		td11 = document.createElement("td");
+		td12 = document.createElement("td");
+		td13 = document.createElement("td");
+		td14 = document.createElement("td");
+		td15 = document.createElement("td");
+		td16 = document.createElement("td");
+		td17 = document.createElement("td");
+		td18 = document.createElement("td");
+		td19 = document.createElement("td");
+		td20 = document.createElement("td");
+		td21 = document.createElement("td");
+		td22 = document.createElement("td");
+		td23 = document.createElement("td");
+		td24 = document.createElement("td");
+		td25 = document.createElement("td");
+		td26 = document.createElement("td");
+		
+		// atributos para la tabla
+		myTable.setAttribute("id", newID);
+		myTable.setAttribute("class", "well");
+		
+		td1.innerHTML = "PPI:";
+		td2.innerHTML = "<input type='text' id='ppi' name='PPI_id'  value='"+newID+"'>";
+		td3.innerHTML = "Name:";
+		td4.innerHTML = "<input type='text' id='Name' name='Name'>";
+		td5.innerHTML = "Process:";
+		td6.innerHTML = "<input type='text' id='Process' name='Process'>";
+		td7.innerHTML = "Goals:";
+		td8.innerHTML = "<input type='text' id='Goals' name='Goals'>";
+		td9.innerHTML = "Definition:";
+		td10.innerHTML = "The PPI is defined as ";
+		td11.innerHTML = "<input type='text' id='Definition' name='Definition'>";
+		td12.innerHTML = "Target:";
+		td13.innerHTML = "The PPI value must ";
+		td14.innerHTML = "<input type='text' id='Target' name='Target'>";
+		td15.innerHTML = "Unit:";
+		td16.innerHTML = "<input type='text' id='Unit' name='Unit'>";
+		td17.innerHTML = "Scope:";
+		td18.innerHTML = "<input type='text' id='Scope' name='Scope'>";
+		td19.innerHTML = "Source:";
+		td20.innerHTML = "<input type='text' id='Source' name='Source'>";
+		td21.innerHTML = "Responsible:";
+		td22.innerHTML = "<input type='text' id='Responsible' name='Responsible'>";
+		td23.innerHTML = "Informed:";
+		td24.innerHTML = "<input type='text' id='Informed' name='Informed'>";
+		td25.innerHTML = "Comments:";
+		td26.innerHTML = "<input type='text' id='Comments' name='Comments'>";
+		
+		tr1.appendChild(td1);
+		tr1.appendChild(td2);
+		tr2.appendChild(td3);
+		tr2.appendChild(td4);
+		tr3.appendChild(td5);
+		tr3.appendChild(td6);
+		tr4.appendChild(td7);
+		tr4.appendChild(td8);
+		tr5.appendChild(td9);
+		tr5.appendChild(td10);
+		tr5.appendChild(td11);
+		tr6.appendChild(td12);
+		tr6.appendChild(td13);
+		tr6.appendChild(td14);
+		tr7.appendChild(td15);
+		tr7.appendChild(td16);
+		tr8.appendChild(td17);
+		tr8.appendChild(td18);
+		tr9.appendChild(td19);
+		tr9.appendChild(td20);
+		tr10.appendChild(td21);
+		tr10.appendChild(td22);
+		tr11.appendChild(td23);
+		tr11.appendChild(td24);
+		tr12.appendChild(td25);
+		tr12.appendChild(td26);
+		
+		tbBody.appendChild(tr1);
+		tbBody.appendChild(tr2);
+		tbBody.appendChild(tr3);
+		tbBody.appendChild(tr4);
+		tbBody.appendChild(tr5);
+		tbBody.appendChild(tr6);
+		tbBody.appendChild(tr7);
+		tbBody.appendChild(tr8);
+		tbBody.appendChild(tr9);
+		tbBody.appendChild(tr10);
+		tbBody.appendChild(tr11);
+		tbBody.appendChild(tr12);
+		
+		myTable.appendChild(tbBody);
+		myDiv = document.createElement("div");
+		//myDiv.setAttribute("class","well");
+		//myDiv.appendChild(myTable);
+		divC = document.getElementById('PPIs');
+		divC.appendChild(myTable);
+	}
+	
+	$(function(){	
+		
+		var determinante= ["the"];
+		
+		$("#determinante").autocomplete({determinante});
+		
+		var aggregationfunction= ["sum", "average", "max", "min"];
+		
+		$( "#aggfunct" ).autocomplete({source: aggregationfunction});
+		
+		var preposicion= ["of"];
+		
+		$( "#preposicion" ).autocomplete({source: preposicion});
+		
+		var cad1= ["the duration between the time instant when"];
+		
+		$( "#cad1" ).autocomplete({source: cad1 width: 20});
+		
+		var BPElementType= ["activity", "element"];
+		
+		$("#BPET").autocomplete({source: BPElementType});
+		
+		var BPElementName= ["RFC analysis", "data Object RFC"];
+		
+		$("#BPEN").autocomplete({source: BPElementName});
+		
+		var cad3= ["becomes", "changes to state"];
+		
+		$( "#cad3" ).autocomplete({source: cad3});
+		
+		var BPElementState= ["active", "completed", "has finished", "canceled", "registered"];
+   		
+		$("#BPES").autocomplete({source: BPElementState});
+   		
+		var cad2= ["and when"];
+		
+		$( "#cad2" ).autocomplete({source: cad2});
+		
+		var BPElementType1= ["activity", "element"];
+		
+		$("#BPET1").autocomplete({source: BPElementType1});
+		
+		var BPElementName1= ["RFC analysis", "data Object RFC"];
+		
+		$("#BPEN1").autocomplete({source: BPElementName1});
+		
+		var cad4= ["becomes", "changes to state"];
+		
+		$( "#cad4" ).autocomplete({source: cad4});
+		
+		var BPElementState1= ["active", "completed", "has finished", "canceled", "registered"];
+		
+		$("#BPES1").autocomplete({source: BPElementState1});
+	});	
+	
+	$(function(){			   	
+		var targetOnebound=["be less than", 		
+		                    "be greater than", 			   			    
+		                    "be less than or equal",			   			    
+		                    "be greater than or equal"];		
+		$("#Target").autocomplete({source: targetOnebound});		
+	});	
+	</script>
 </head>
 <body>
-	
 
 <div class="navbar navbar-fixed-top">
 	<div class="navbar-inner">
@@ -31,514 +218,101 @@
 		    	<ul class="nav">
 		        	<li><a href="http://www.isa.us.es/ppinot">More information at the PPINot web site</a></li>
 		        </ul>
-		    </div><!--/.nav-collapse -->
+		    </div>
 	    </div>
 	</div>
 </div>
 
-<div class="container">
-	<p style="float:right;"><button class="btn btn-info" onclick="ed.setModel(ExampleData);">Load example (Discards existing model!)</button> </p>
-	<h1>PPI Templates</h1>
-	
-    <div style="position: absolute; left: 39px; top: 45px; " class="ct_cursor ct_cursor_top ct_cursor_left"></div>
-    <div style="position: fixed; display: none; left: 670px; top: 355px; " class="ct_message_popup"></div>
-    
-    <div id="PPI">
-		<table class="ct_element ctc_PPI table table-condensed table-bordered" id="PPI_table">
-			<thead>
+<div class="container" id="PPIs">	
+	<h2>PPI Templates</h2>   
+	<br> 
+    <div class="well">
+		<table id="PPI_table_0">
+			<tbody>
 				<tr id="ppi">
-					<td class="ct_class_name">PPI:</td> 
-					<td class="ct_class_name">
-						<input id= "ppi" name= "PPI_id"  type= "text" value= "PPI<id>" size="8"/>
+					<td>PPI:</td> 
+					<td >
+						<input id="ppi" name="PPI_id" type="text" value="0" />
 					</td> 
-			   	</tr>
-		   	</thead>
-		   	<tbody>
-				<tr class="ctn_name" id="name">
-					<td class="ct_feature_name editorcolumn">Name:</td>
+			   	</tr>		   	
+				<tr id="name">
+					<td>Name:</td>
 					<td>
-						<input id="Name" name="Name"  type="text" value=""/>
+						<input id="Name" name="Name" type="text" value=""/>
 					</td>
 				</tr>
-				<tr class="ctn_process" id="Process">
-					<td class="ct_feature_name editorcolumn">Process:</td>
+				<tr id="Process">
+					<td>Process:</td>
 					<td>
-						<input id="Process" name="Process"  type="text" value=""/>
+						<input id="Process" name="Process" type="text" value=""/>
 					</td>
 				</tr>
-		   		<tr class="ct_attribute ctn_goals" id="Goals">
-		   			<td class="ct_feature_name editorcolumn">Goals:</td>
+		   		<tr id="Goals">
+		   			<td>Goals:</td>
 		   			<td>
-						<input id="Goals" name="Goals"  type="text" value=""/>
+						<input id="Goals" name="Goals" type="text" value=""/>
 					</td>
 		   		</tr>	
-		   		<tr class="ct_containment ctn_definition" id="Definition">
-		   			<td class="ct_feature_name editorcolumn">Definition: </td>
+		   		<tr id="Definition">
+		   			<td>Definition: </td>
+		   			<td>The PPI is defined as</td>
+		   			<td><input id="Definition" name="Definition" type="text" value=""/></td>
+		   		</tr>
+		   		<tr id="Target">
+		   			<td>Target:</td>
+		   			<td>The PPI value must</td> 
+					<td><input id="Target" name="Target" type="text" value=""/></td>
+		   		</tr>
+		   		<tr id="Unit">
+		   			<td>Unit:</td>
 		   			<td>
-						<input id="Definition" name="Definition"  type="text" value=""/>
+						<input id="Unit" name="Unit" type="text" value=""/>
 					</td>
 		   		</tr>
-		   		<tr class="ct_containment ctn_target" id="Target">
-		   			<td class="ct_feature_name editorcolumn">Target:</td>
+		   		<tr id="Scope">
+		   			<td>Scope:</td>
 		   			<td>
-						<input id="Target" name="Target"  type="text" value=""/>
+						<input id="Scope" name="Scope" type="text" value=""/>
 					</td>
 		   		</tr>
-		   		<tr class="ct_attribute ctn_unit" id="Unit">
-		   			<td class="ct_feature_name editorcolumn">Unit:</td>
+		   		<tr id="Source">
+		   			<td>Source:</td>
 		   			<td>
-						<input id="Unit" name="Unit"  type="text" value=""/>
+						<input id="Source" name="Source" type="text" value=""/>
 					</td>
 		   		</tr>
-		   		<tr class="ct_reference ctn_scope" id="Scope">
-		   			<td class="ct_feature_name editorcolumn">Scope:</td>
+		   		<tr id="Responsible">
+		   			<td>Responsible:</td>
 		   			<td>
-						<input id="Scope" name="Scope"  type="text" value=""/>
+						<input id="Responsible" name="Responsible" type="text" value=""/>
 					</td>
 		   		</tr>
-		   		<tr class="ct_attribute ctn_source" id="Source">
-		   			<td class="ct_feature_name editorcolumn">Source:</td>
+		   		<tr id="Informed">
+		   			<td>Informed:</td>
 		   			<td>
-						<input id="Source" name="Source"  type="text" value=""/>
+						<input id="Informed" name="Informed" type="text" value=""/>
 					</td>
 		   		</tr>
-		   		<tr class="ct_attribute ctn_responsible" id="Responsible">
-		   			<td class="ct_feature_name editorcolumn">Responsible:</td>
+		   		<tr id="Comments">
+		   			<td>Comments:</td>
 		   			<td>
-						<input id="Responsible" name="Responsible"  type="text" value=""/>
-					</td>
-		   		</tr>
-		   		<tr class="ct_attribute ctn_informed" id="Informed">
-		   			<td class="ct_feature_name editorcolumn">Informed:</td>
-		   			<td>
-						<input id="Informed" name="Informed"  type="text" value=""/>
-					</td>
-		   		</tr>
-		   		<tr class="ct_attribute ctn_comments" id="Comments">
-		   			<td class="ct_feature_name editorcolumn">Comments:</td>
-		   			<td>
-						<input id="Comments" name="Comments"  type="text" value=""/>
+						<input id="Comments" name="Comments" type="text" value=""/>
 					</td>
 		   		</tr>
 		   	</tbody>	   		
 		</table>	
 	</div>
-    
+ </div> <!-- /container2 --> 
+ <div class="container">   
 	<div class="well" style="text-align:right;">
-		<textarea id="clipboard1" style="display: none; background-color: white; color: black; border: 1px solid grey" cols="80" rows="10" wrap="off"></textarea>
-		<a class="btn btn-primary" onclick="addPPI();"  >Add PPI</a>
-		<a class="btn btn-primary" data-toggle="modal" href="#loadModal" >Load model</a>
-		<a class="btn btn-primary" onclick="showModelModal();"  >Show model in JSON</a>
+		<textarea id="clipboard1" style="display: none; background-color: white; color: black; border: 1px solid grey" cols="80" rows="10"></textarea>
+		<input class="btn btn-primary" type="submit" onclick="addPPI();" value="Add PPI">
+		<a class="btn btn-primary" data-toggle="modal" href="#loadModal">Load model</a>
 	</div>
 	
 	<div class="alert alert-info">
 		This editor is based on <a href="http://www.concrete-editor.org">Concrete Editor</a>. To learn how to use it, please refer to the <a href="http://concrete-editor.org/cheat_sheet.html">Concrete Cheat Sheet</a>. 
-	</div>
-	
-	<div class="modal hide" id="modelModal">
-  		<div class="modal-header">
-    		<button type="button" class="close" data-dismiss="modal">×</button>
-    		<h3>JSON Model</h3>
-  		</div>
-  		<div class="modal-body">
-			<textarea class="input-xxlarge" id="textmodel" rows="15" wrap="soft"></textarea>
-  		</div>
-  		<div class="modal-footer">
-    		<a href="#" class="btn" data-dismiss="modal">Close</a>
-  		</div>
-	</div>
-
-	<div class="modal hide" id="loadModal">
-  		<div class="modal-header">
-    		<button type="button" class="close" data-dismiss="modal">×</button>
-    		<h3>Load JSON Model</h3>
-  		</div>
-  		<div class="modal-body">
-  			<div class="alert alert-error" id="loadError" style="display:none;">
-  				<button class="close" data-dismiss="alert">×</button>
-  				<strong>Error!</strong> The JSON model could not be loaded into the editor.
-			</div>
-  			<p>Copy here the JSON model to load it into the editor</p>
-			<textarea class="input-xxlarge" id="loadmodel" rows="15" wrap="soft"></textarea>
-  		</div>
-  		<div class="modal-footer">
-    		<a href="#" class="btn" data-dismiss="modal">Cancel</a>
-  			<a href="#" class="btn btn-primary" onclick="loadModel();">Load</a>
-  		</div>
-	</div>			
-</div> <!-- /container -->    
-  
-</body>
-
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <!-- 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="js/bootstrap.js"></script>        
-	<script type="text/javascript" charset="utf-8">
-			// <![CDATA[
-			    $.noConflict();
-				var tp = new Concrete.TemplateProvider($("templates1"), {identifierAttribute: "name"});
-				var mp = new Concrete.MetamodelProvider($("metamodel1").textContent.evalJSON());
-				var ip = new Concrete.QualifiedNameBasedIdentifierProvider({nameAttribute: "name"});
-				var cb = new Concrete.Clipboard($("clipboard1"));
-        		var ed = new Concrete.Editor($("editor1"), tp, mp, ip, {clipboard: cb});
-					
-				Event.observe(window, 'click', function(event) {
-					ed.handleEvent(event);
-				});
-				Event.observe(window, 'keydown', function(event) {
-					ed.handleEvent(event);
-				});
-				Event.observe(window, 'mousemove', function(event) {
-					ed.handleEvent(event);
-				});
-				
-				function showModelModal() {
-					var model;
-					try {
-						model = ed.getModel();
-					}
-					catch (err) {
-						model = "Model is empty";
-					}
-					$("textmodel").value = model;
-					jQuery("#modelModal").modal();
-				}
-				
-				function loadModel() {
-					var jsonModel;
-					$("loadError").style.display = "none";
-					try {
-						jsonModel =$("loadmodel").value.evalJSON(true);
-						ed.setModel(jsonModel);
-						jQuery("#loadModal").modal("hide");
-					}
-					catch (err) {
-						$("loadError").style.display = "";
-					}
-				}
-			// ]]>
-	</script>-->  
-
-<!--  		
-   	<span class="ct_element ctc_Time" id="">
-   			<span class="ct_handle ct_class_name">the duration between</span> 
-   			<span class="ct_containment ctn_from" id="">
-   				<span class="ct_feature_name">the time instant when</span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   			<span class="ct_containment ctn_to" id="">
-   				<span class="ct_feature_name">and the time instant when</span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   	</span>
-   	<span class="ct_element ctc_Count" id="">
-   			<span class="ct_handle ct_class_name">the number of times</span> 
-   			<span class="ct_containment ctn_when" id="">
-   				<span class="ct_feature_name"></span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   	</span>
-   	<span class="ct_element ctc_StateCondition" id="">
-   		<span class="hl_header">
-   			<span class="ct_fold_button"></span> 
-   			<span class="ct_element_icon"></span> 
-   			<span class="ct_handle ct_class_name"></span> 
-   			<span class="ct_containment ctn_meets" id="">
-   				<span class="ct_feature_name"></span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   		</span>
-   	</span>
-   	<span class="ct_element ctc_DataCondition" id="">
-   		<span class="hl_header">
-   			<span class="ct_fold_button"></span> 
-   			<span class="ct_element_icon"></span> 
-   			<span class="ct_handle ct_class_name">the fulfillment of the</span> 
-   			<span class="ct_containment ctn_meets" id="">
-   				<span class="ct_feature_name"></span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   		</span>
-   	</span>
-   	<span class="ct_element ctc_Data" id="">
-   		<span class="hl_header">
-   			<span class="ct_fold_button"></span> 
-   			<span class="ct_element_icon"></span> 
-   			<span class="ct_handle ct_class_name">the value of</span> 
-   			<span class="ct_containment ctn_meets" id="">
-   				<span class="ct_feature_name"></span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   		</span>
-   	</span>
-   	<span class="ct_element ctc_Aggregated" id="">
-   		<span class="hl_header">
-   			<span class="ct_fold_button"></span> 
-   			<span class="ct_element_icon"></span> 
-   			<span class="ct_handle ct_class_name">the </span> 
-   			<span class="ct_attribute ctn_function" id="">
-   				<span class="ct_feature_name"></span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   			<span class="ct_containment ctn_aggregates" id="">
-   				<span class="ct_feature_name">of</span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   		</span>
-   	</span>
-   	<span class="ct_element ctc_Derived" id="">
-   		<span class="hl_header">
-   			<span class="ct_fold_button"></span> 
-   			<span class="ct_element_icon"></span> 
-   			<span class="ct_handle ct_class_name">the </span> 
-   			<span class="ct_attribute ctn_mathfunction" id="">
-   				<span class="ct_feature_name">mathematical function</span> 
-   				<span class="ct_slot"></span>
-   				where:
-   			</span> 
-   			<span class="ct_containment ctn_variables" id="">
-   				<span class="ct_feature_name"></span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   		</span>
-   	</span>
-    <div class="ct_element ctc_Variable" id="">
-   		<span class="hl_header">
-   			<span class="ct_fold_button"></span> 
-   			<span class="ct_element_icon"></span> 
-   			<span class="ct_handle ct_class_name">variable </span> 
-   			<span class="ct_attribute ctn_varname" id="">
-   				<span class="ct_feature_name"></span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   			<span class="ct_containment ctn_measure" id="">
-   				<span class="ct_feature_name">is</span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   		</span>
-   	</div> 	
-   	
-   	<span class="ct_element ctc_BPElementCondition" id="">
-   		<span class="hl_header">
-   			<span class="ct_fold_button"></span> 
-   			<span class="ct_element_icon"></span> 
-   			<span class="ct_handle ct_class_name"> </span> 
-   			<span class="ct_attribute ctn_elementname" id="">
-   				<span class="ct_feature_name">element</span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   			<span class="ct_attribute ctn_elementstate" id="">
-   				<span class="ct_feature_name">changes to state</span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   		</span>
-   	</span>
-   	<span class="ct_element ctc_EventCondition" id="">
-   		<span class="hl_header">
-   			<span class="ct_fold_button"></span> 
-   			<span class="ct_element_icon"></span> 
-   			<span class="ct_handle ct_class_name"> </span> 
-   			<span class="ct_attribute ctn_eventname" id="">
-   				<span class="ct_feature_name">event</span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   			<span class="ct_attribute ctn_eventstate" id="">
-   				<span class="ct_feature_name">is</span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   		</span>
-   	</span>
-   	<span class="ct_element ctc_StaticCondition" id="">
-   		<span class="hl_header">
-   			<span class="ct_fold_button"></span> 
-   			<span class="ct_element_icon"></span> 
-   			<span class="ct_handle ct_class_name"> </span> 
-   			<span class="ct_attribute ctn_elementType" id="">
-   				<span class="ct_feature_name"></span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   			<span class="ct_attribute ctn_appliesTo" id="">
-   				<span class="ct_feature_name"></span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   			<span class="ct_attribute ctn_state" id="">
-   				<span class="ct_feature_name">is currently or has finished in state</span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   		</span>
-   	</span>
-   	<span class="ct_element ctc_DataRestriction" id="">
-   		<span class="hl_header">
-   			<span class="ct_fold_button"></span> 
-   			<span class="ct_element_icon"></span> 
-   			<span class="ct_handle ct_class_name"> </span> 
-   			<span class="ct_attribute ctn_restriction" id="">
-   				<span class="ct_feature_name"></span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   			<span class="ct_attribute ctn_appliesTo" id="">
-   				<span class="ct_feature_name">over the data object</span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   		</span>
-   	</span>
-   	<span class="ct_element ctc_DataProperty" id="">
-   		<span class="hl_header">
-   			<span class="ct_fold_button"></span> 
-   			<span class="ct_element_icon"></span> 
-   			<span class="ct_handle ct_class_name"> </span> 
-   			<span class="ct_attribute ctn_property" id="">
-   				<span class="ct_feature_name">property</span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   			<span class="ct_attribute ctn_dataObject" id="">
-   				<span class="ct_feature_name">of data object</span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   		</span>
-   	</span>
-   	<span class="ct_element ctc_GreaterThan" id="">
-   		<span class="hl_header">
-   			<span class="ct_fold_button"></span> 
-   			<span class="ct_element_icon"></span> 
-   			<span class="ct_handle ct_class_name">be greater than</span> 
-   			<span class="ct_attribute ctn_value" id="">
-   				<span class="ct_feature_name"></span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   		</span>
-   	</span>
-   	<span class="ct_element ctc_LowerThan" id="">
-   		<span class="hl_header">
-   			<span class="ct_fold_button"></span> 
-   			<span class="ct_element_icon"></span> 
-   			<span class="ct_handle ct_class_name">be lower than</span> 
-   			<span class="ct_attribute ctn_value" id="">
-   				<span class="ct_feature_name"></span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   		</span>
-   	</span>
-   	<span class="ct_element ctc_Between" id="">
-   		<span class="hl_header">
-   			<span class="ct_fold_button"></span> 
-   			<span class="ct_element_icon"></span> 
-   			<span class="ct_handle ct_class_name">be between</span> 
-   			<span class="ct_attribute ctn_lowerBound" id="">
-   				<span class="ct_feature_name"></span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   			<span class="ct_attribute ctn_upperBound" id="">
-   				<span class="ct_feature_name">and</span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   		</span>
-   	</span>
-   	<span class="ct_element ctc_CustomConstraint" id="">
-   		<span class="hl_header">
-   			<span class="ct_fold_button"></span> 
-   			<span class="ct_element_icon"></span> 
-   			<span class="ct_handle ct_class_name">fulfill the following constraint</span> 
-   			<span class="ct_attribute ctn_constraint" id="">
-   				<span class="ct_feature_name"></span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   		</span>
-   	</span>   	
-   	
-   <div class="ct_element ctc_Scope" id="">
-   		<div class="hl_header">
-   			<span class="ct_fold_button"></span> 
-   			<span class="ct_element_icon"></span> 
-   			<span class="ct_handle ct_class_name">Scope</span> 
-   			<span class="ct_attribute ctn_name ct_identifier_attribute" id="">
-   				<span class="ct_feature_name">name:</span> 
-   				<span class="ct_slot"></span>
-   			</span> 
-   		</div>
-		<div class="ct_attribute ctn_period" id="">
-			<span class="ct_feature_name">Period:</span>
-			<span class="ct_slot"></span>
-		</div>
-		<div class="ct_attribute ctn_conditions" id="">
-			<span class="ct_feature_name">Condition:</span>
-			<span class="ct_slot"></span>
-		</div>
-   	</div>
-</div>
-<div id="metamodel1" style="display: none">
-[{"_class": "Datatype", "name": "String"},{"_class": "Datatype", "name": "Integer"},{"_class": "Datatype", "name": "Float"}, 
-{"_class": "Enum", "name": "AggregationFunction", "literals": ["sum", "average", "max", "min"]},
-{"_class": "Class", "name": "PPI", "features": [
-  {"_class": "Feature", "name": "id", "kind": "attribute", "lowerLimit": 1, "upperLimit": 1, "type": "String"}, 
-  {"_class": "Feature", "name": "name", "kind": "attribute", "lowerLimit": 1, "upperLimit": 1, "type": "String"}, 
-  {"_class": "Feature", "name": "process", "kind": "attribute", "lowerLimit": 1, "upperLimit": 1, "type": "String"}, 
-  {"_class": "Feature", "name": "goals", "kind": "attribute", "lowerLimit": 0, "upperLimit": -1, "type": "String"},  
-  {"_class": "Feature", "name": "definition", "kind": "containment", "lowerLimit": 1, "upperLimit": 1, "type": "MeasureDefinition"},
-  {"_class": "Feature", "name": "target", "kind": "containment", "lowerLimit": 1, "upperLimit": 1, "type": "Target"},
-  {"_class": "Feature", "name": "unit", "kind": "attribute", "lowerLimit": 0, "upperLimit": 1, "type": "String"},
-  {"_class": "Feature", "name": "scope", "kind": "reference", "lowerLimit": 0, "upperLimit": 1, "type": "Scope"},
-  {"_class": "Feature", "name": "source", "kind": "attribute", "lowerLimit": 0, "upperLimit": 1, "type": "String"},
-  {"_class": "Feature", "name": "responsible", "kind": "attribute", "lowerLimit": 0, "upperLimit": 1, "type": "String"},
-  {"_class": "Feature", "name": "informed", "kind": "attribute", "lowerLimit": 0, "upperLimit": -1, "type": "String"},
-  {"_class": "Feature", "name": "comments", "kind": "attribute", "lowerLimit": 0, "upperLimit": 1, "type": "String"}
-]}, {"_class": "Class", "name": "MeasureDefinition", "abstract": true}, 
-{"_class": "Class", "name": "BaseMeasure", "abstract": true, "superTypes": "MeasureDefinition"}, 
-{"_class": "Class", "name": "Time", "superTypes": "BaseMeasure", "features": [
-  {"_class": "Feature", "name": "from", "kind": "containment", "type": "InstantCondition"},
-  {"_class": "Feature", "name": "to", "kind": "containment", "type": "InstantCondition"}
-]}, {"_class": "Class", "name": "Count", "superTypes": "BaseMeasure", "features": [
-  {"_class": "Feature", "name": "when", "kind": "containment", "type": "InstantCondition"}
-]}, {"_class": "Class", "name": "StateCondition", "superTypes": "BaseMeasure", "features": [
-  {"_class": "Feature", "name": "meets", "kind": "containment", "type": "StaticCondition"}
-]}, {"_class": "Class", "name": "DataCondition", "superTypes": "BaseMeasure", "features": [
-  {"_class": "Feature", "name": "meets", "kind": "containment", "type": "DataRestriction"}
-]}, {"_class": "Class", "name": "Data", "superTypes": "BaseMeasure", "features": [
-  {"_class": "Feature", "name": "meets", "kind": "containment", "type": "DataProperty"}
-]}, {"_class": "Class", "name": "Aggregated", "superTypes": "MeasureDefinition", "features": [
-  {"_class": "Feature", "name": "function", "kind": "attribute", "type": "AggregationFunction"},
-  {"_class": "Feature", "name": "aggregates", "kind": "containment", "type": "BaseMeasure"}
-]}, {"_class": "Class", "name": "Derived", "superTypes": "MeasureDefinition", "features": [
-  {"_class": "Feature", "name": "mathfunction", "kind": "attribute", "type": "String"},
-  {"_class": "Feature", "name": "variables", "kind": "containment", "lowerLimit": 1, "upperLimit": -1, "type": "Variable"}
-]}, {"_class": "Class", "name": "Variable", "features": [
-  {"_class": "Feature", "name": "varname", "kind": "attribute", "type": "String"},
-  {"_class": "Feature", "name": "measure", "kind": "containment", "type": "MeasureDefinition"}
-]}, {"_class": "Class", "name": "InstantCondition", "abstract": true}, 
-{"_class": "Class", "name": "BPElementCondition", "superTypes": "InstantCondition", "features": [
-  {"_class": "Feature", "name": "elementname", "kind": "attribute", "type": "String"},
-  {"_class": "Feature", "name": "elementstate", "kind": "attribute", "type": "String"}
-  ]}, {"_class": "Class", "name": "EventCondition", "superTypes": "InstantCondition", "features": [
-  {"_class": "Feature", "name": "eventname", "kind": "attribute", "type": "String"},
-  {"_class": "Feature", "name": "eventstate", "kind": "attribute", "type": "String"}
-  ]}, {"_class": "Class", "name": "StaticCondition", "features": [
-  {"_class": "Feature", "name": "elementType", "kind": "attribute", "type": "String"},
-  {"_class": "Feature", "name": "appliesTo", "kind": "attribute", "type": "String"},
-  {"_class": "Feature", "name": "state", "kind": "attribute", "type": "String"}
-  ]}, {"_class": "Class", "name": "DataRestriction", "features": [
-  {"_class": "Feature", "name": "restriction", "kind": "attribute", "type": "String"},
-  {"_class": "Feature", "name": "appliesTo", "kind": "attribute", "type": "String"}
-  ]}, {"_class": "Class", "name": "DataProperty", "features": [
-  {"_class": "Feature", "name": "property", "kind": "attribute", "type": "String"},
-  {"_class": "Feature", "name": "dataObject", "kind": "attribute", "type": "String"}
-  ]}, {"_class": "Class", "name": "Target", "abstract": true},   
-{"_class": "Class", "name": "TargetOneBound", "superTypes": "Target", "abstract": true, "features": 
-  {"_class": "Feature", "name": "value", "kind": "attribute", "type": "Float"}},
-{"_class": "Class", "name": "GreaterThan", "superTypes": "TargetOneBound"},   
-{"_class": "Class", "name": "LowerThan", "superTypes": "TargetOneBound"},   
-{"_class": "Class", "name": "Between", "superTypes": "Target", "features": [
-  {"_class": "Feature", "name": "lowerBound", "kind": "attribute", "type": "Float"},
-  {"_class": "Feature", "name": "upperBound", "kind": "attribute", "type": "Float"}]},
-{"_class": "Class", "name": "CustomConstraint", "superTypes": "Target", "features": 
-  {"_class": "Feature", "name": "constraint", "kind": "attribute", "type": "String"}},
-{"_class": "Class", "name": "Scope", "features": [
-  {"_class": "Feature", "name": "name", "kind": "attribute", "lowerLimit": 1, "upperLimit": 1, "type": "String"}, 
-  {"_class": "Feature", "name": "conditions", "kind": "attribute", "upperLimit": -1, "type": "String"},
-  {"_class": "Feature", "name": "period", "kind": "attribute", "type": "String"}
-  ]}
-]
-</div> -->
+	</div>		
+</div> <!-- /container2 -->      
+</body>   
 </html>

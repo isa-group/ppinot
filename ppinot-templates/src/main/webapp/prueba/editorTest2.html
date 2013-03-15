@@ -1,0 +1,166 @@
+<html>
+<head>
+<script>
+function crearTabla() {
+	miTabla = document.createElement("table");
+	tbBody = document.createElement("tbody");
+	tr = document.createElement("tr");
+	td1 = document.createElement("td");
+	td2 = document.createElement("td");
+	td3 = document.createElement("td");
+	// atributos para la tabla
+	miTabla.setAttribute("width", "300px");
+	miTabla.setAttribute("border", "1");
+	// atributos para la primera celda
+	td1.setAttribute("align", "center");
+	td1.setAttribute("width", "200px");
+	// atributos para la segunda celda
+	td2.setAttribute("width", "100px");
+	td1.innerHTML = "Celda 1";
+	td2.innerHTML = "Celda 2";
+	var boton = document.createElement("input");
+	boton.setAttribute('type', 'button');
+	boton.setAttribute('name', "boton");
+	boton.setAttribute('value', "pulsame");
+	var funcion = "alert('hola')";
+	var gko = navigator.userAgent.toLowerCase();
+	if (gko.indexOf('gecko')!=-1) {
+	boton.setAttribute('onclick',funcion);
+	} else {
+	boton['onclick']=new Function(funcion);
+	}
+	td3.appendChild(boton);
+	tr.appendChild(td1);
+	tr.appendChild(td2);
+	tr.appendChild(td3);
+	tbBody.appendChild(tr);
+	miTabla.appendChild(tbBody);
+	miCapa = document.getElementById('resultado');
+	miCapa.appendChild(miTabla);
+}
+var nTable = 0;	
+function addPPI(){ 
+	var newID = "PPI_table_"+nTable++;
+	alert(newID);
+	myTable = document.createElement("table");
+	tbBody = document.createElement("tbody");
+	tr1 = document.createElement("tr");
+	tr2 = document.createElement("tr");
+	tr3 = document.createElement("tr");
+	tr4 = document.createElement("tr");
+	tr5 = document.createElement("tr");
+	tr6 = document.createElement("tr");
+	tr7 = document.createElement("tr");
+	tr8 = document.createElement("tr");
+	tr9 = document.createElement("tr");
+	tr10 = document.createElement("tr");
+	tr11 = document.createElement("tr");
+	tr12 = document.createElement("tr");
+	td1 = document.createElement("td");
+	td2 = document.createElement("td");
+	td3 = document.createElement("td");
+	td4 = document.createElement("td");
+	td5 = document.createElement("td");
+	td6 = document.createElement("td");
+	td7 = document.createElement("td");
+	td8 = document.createElement("td");
+	td9 = document.createElement("td");
+	td10 = document.createElement("td");
+	td11 = document.createElement("td");
+	td12 = document.createElement("td");
+	td13 = document.createElement("td");
+	td14 = document.createElement("td");
+	td15 = document.createElement("td");
+	td16 = document.createElement("td");
+	td17 = document.createElement("td");
+	td18 = document.createElement("td");
+	td19 = document.createElement("td");
+	td20 = document.createElement("td");
+	td21 = document.createElement("td");
+	td22 = document.createElement("td");
+	td23 = document.createElement("td");
+	td24 = document.createElement("td");
+	td25 = document.createElement("td");
+	td26 = document.createElement("td");
+	
+	// atributos para la tabla
+	myTable.setAttribute("id", newID);
+	
+	td1.innerHTML = "PPI:";
+	td2.innerHTML = "<input type='text' id='ppi' name='PPI_id'  value='PPI<id>'>";
+	td3.innerHTML = "Name:";
+	td4.innerHTML = "<input type='text' id='Name' name='Name'>";
+	td5.innerHTML = "Process:";
+	td6.innerHTML = "<input type='text' id='Process' name='Process'>";
+	td7.innerHTML = "Goals:";
+	td8.innerHTML = "<input type='text' id='Goals' name='Goals'>";
+	td9.innerHTML = "Definition:";
+	td10.innerHTML = "The PPI is defined as ";
+	td11.innerHTML = "<input type='text' id='Definition' name='Definition'>";
+	td12.innerHTML = "Target:";
+	td13.innerHTML = "The PPI value must ";
+	td14.innerHTML = "<input type='text' id='Target' name='Target'>";
+	td15.innerHTML = "Unit:";
+	td16.innerHTML = "<input type='text' id='Unit' name='Unit'>";
+	td17.innerHTML = "Scope:";
+	td18.innerHTML = "<input type='text' id='Scope' name='Scope'>";
+	td19.innerHTML = "Source:";
+	td20.innerHTML = "<input type='text' id='Source' name='Source'>";
+	td21.innerHTML = "Responsible:";
+	td22.innerHTML = "<input type='text' id='Responsible' name='Responsible'>";
+	td23.innerHTML = "Informed:";
+	td24.innerHTML = "<input type='text' id='Informed' name='Informed'>";
+	td25.innerHTML = "Comments:";
+	td26.innerHTML = "<input type='text' id='Comments' name='Comments'>";
+	
+	tr1.appendChild(td1);
+	tr1.appendChild(td2);
+	tr2.appendChild(td3);
+	tr2.appendChild(td4);
+	tr3.appendChild(td5);
+	tr3.appendChild(td6);
+	tr4.appendChild(td7);
+	tr4.appendChild(td8);
+	tr5.appendChild(td9);
+	tr5.appendChild(td10);
+	tr5.appendChild(td11);
+	tr6.appendChild(td12);
+	tr6.appendChild(td13);
+	tr6.appendChild(td14);
+	tr7.appendChild(td15);
+	tr7.appendChild(td16);
+	tr8.appendChild(td17);
+	tr8.appendChild(td18);
+	tr9.appendChild(td19);
+	tr9.appendChild(td20);
+	tr10.appendChild(td21);
+	tr10.appendChild(td22);
+	tr11.appendChild(td23);
+	tr11.appendChild(td24);
+	tr12.appendChild(td25);
+	tr12.appendChild(td26);
+	
+	tbBody.appendChild(tr1);
+	tbBody.appendChild(tr2);
+	tbBody.appendChild(tr3);
+	tbBody.appendChild(tr4);
+	tbBody.appendChild(tr5);
+	tbBody.appendChild(tr6);
+	tbBody.appendChild(tr7);
+	tbBody.appendChild(tr8);
+	tbBody.appendChild(tr9);
+	tbBody.appendChild(tr10);
+	tbBody.appendChild(tr11);
+	tbBody.appendChild(tr12);
+	
+	myTable.appendChild(tbBody);
+	myDiv = document.getElementById('resultado');
+	myDiv.appendChild(myTable);
+}
+</script>
+</head>
+<body>
+<div id="resultado"></div>
+<input type="submit" onclick="addPPI();" value="Add PPI">
+</body>
+</html>

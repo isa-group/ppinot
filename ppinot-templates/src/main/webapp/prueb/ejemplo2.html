@@ -1,0 +1,37 @@
+<html>
+       <head>
+          <h1>Esto es una Inyustisia</h1>
+          <script type="text/javascript">
+          function crearDocumento(){
+        	  var doc=document.open("text/html", "replace");
+        	  var cad1= "<head><h1> Inyustisia</h1><body><form><fieldset><legend>DIRECCION</legend>";
+        	  var cad2= "<div id='Direccion'><div id='calle'><tr><td>Calle/Avenida:<input type='text' value=''/> </tr></td></div>";
+        	  var cad3= "<div id='poblacion'><tr><td> Poblacion: <input type='text' value=' '/> </tr></td></div>";
+        	  var cad4= "<div><input type='button' value='crear' onclick= 'crearDocumento();'/> </div></fieldset>"
+        	  var texto= cad1 + cad2 + cad3 + cad4;
+        	  doc.write(texto);
+        	  doc.close();
+        	  
+        	  
+          }
+          </script>
+       </head>
+       <body>
+          <form>
+            <fieldset>
+                <legend>DATOS PERSONALES</legend>
+                 <div id="DPersonales">
+                    <div id="dni"><tr><td> D.N.I: <input type="text" value=" "/> </tr></td></div>
+                    <div id="nombre"><tr><td> Nombre: <input type="text" value=" "/> </tr></td></div>
+                    <div id="apellido"><tr><td> Apellido: <input type="text" value=" "/> </tr></td></div>
+                    <div id="email"><tr><td> Email: <input type="text" value=" "/> </tr></td></div>
+                 </div>
+                 <div>
+                     <input type="button" value="crear" onclick= "crearDocumento();"/>
+                 </div>
+            </fieldset>
+            
+            
+          </form>
+       </body>
+</html>

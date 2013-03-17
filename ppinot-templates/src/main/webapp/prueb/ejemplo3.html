@@ -1,0 +1,41 @@
+<html>
+       <head>
+          <h1>Esto es una Inyustisia</h1>
+          <script type="text/javascript">
+          function crearDocumento(){
+        	  var doc=document.open("text/html", "replace");
+        	  var cad1= "<head><h1> Inyustisia</h1><body><form><fieldset><legend>DATOS PERSONALES </legend>";
+        	  var cad2= "<div id='DPersonales'><div id='dni'><tr><td> D.N.I: <input type='text' value=''/> </tr></td></div>";
+        	  var cad3= "<div id='nombre'><tr><td> Nombre: <input type='text' value=' '/> </tr></td></div>";
+        	  var cad4= "<div id='apellido'><tr><td> Apellido: <input type='text' value=''/> </tr></td></div>";
+        	  var cad5= " <div id='email'><tr><td> Email: <input type='text' value=''/> </tr></td></div></div>";
+        	  var cad6= "<div><input type='button' value='crear' onclick= 'crearDocumento();'/> </div></fieldset>"
+        	  var texto= cad1 + cad2 + cad3 + cad4 + cad5+ cad6;
+        	  doc.write(texto);
+        	  var capa= document.getElementById("DPersonales");
+        	  var legend= document.createelement("legend");
+        	  capa.appendChild(legend);
+        	  legend.innerHTML= "DIRECCION";
+        	  doc.close();
+         }
+          </script>
+       </head>
+       <body>
+          <form>
+            <fieldset>
+                <legend>DATOS PERSONALES</legend>
+                 <div id="DPersonales">
+                    <div id="dni"><tr><td> D.N.I: <input type="text" value=" "/> </tr></td></div>
+                    <div id="nombre"><tr><td> Nombre: <input type="text" value=" "/> </tr></td></div>
+                    <div id="apellido"><tr><td> Apellido: <input type="text" value=" "/> </tr></td></div>
+                    <div id="email"><tr><td> Email: <input type="text" value=" "/> </tr></td></div>
+                 </div>
+                 <div>
+                     <input type="button" value="crear" onclick= "crearDocumento();"/>
+                 </div>
+            </fieldset>
+            
+            
+          </form>
+       </body>
+</html>

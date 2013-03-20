@@ -4,25 +4,31 @@
           <script type="text/javascript">
           function crearDocumento(){
         	  var doc=document.open("text/html", "replace");
-        	  var cad1= "<head><h1> Inyustisia</h1><body><form><fieldset><legend>DATOS PERSONALES </legend>";
+        	  var cad1= "<head><h1> Inyustisia</h1><body><form><fieldset id='FSDP'><legend>DATOS PERSONALES </legend>";
         	  var cad2= "<div id='DPersonales'><div id='dni'><tr><td> D.N.I: <input type='text' value=''/> </tr></td></div>";
         	  var cad3= "<div id='nombre'><tr><td> Nombre: <input type='text' value=' '/> </tr></td></div>";
         	  var cad4= "<div id='apellido'><tr><td> Apellido: <input type='text' value=''/> </tr></td></div>";
-        	  var cad5= " <div id='email'><tr><td> Email: <input type='text' value=''/> </tr></td></div></div>";
-        	  var cad6= "<div><input type='button' value='crear' onclick= 'crearDocumento();'/> </div></fieldset>"
+        	  var cad5= " <div id='email'><tr><td> Email: <input type='text' value=''/> </tr></td></div></div></fieldset>";
+        	  var cad6= "<fieldset id='FS'><div><input type='button' value='crear' onclick= 'crearDocumento();'/> </div></fieldset>"
         	  var texto= cad1 + cad2 + cad3 + cad4 + cad5+ cad6;
         	  doc.write(texto);
-        	  var capa= document.getElementById("DPersonales");
-        	  var legend= document.createelement("legend");
-        	  capa.appendChild(legend);
-        	  legend.innerHTML= "DIRECCION";
+        	  var e1= document.body.childNodes[0].childNodes[0];
+        	  var fieldset= document.createElement("fieldset");
+        	  e1.appendChild(fieldset)
+        	  var legend= document.createElement("legend");
+        	  legend.setAttribute("id", "legen2");
+        	  fieldset.appendChild(legend);
+        	  var e2= document.getElementById("legend2").innerHTML= "DIRECCION";
+        	  var div1= document.createElement("div");
+        	  div1.setAttribute("id", "Direccion");
+        	  legend.appendChild(div1);
         	  doc.close();
          }
           </script>
        </head>
        <body>
           <form>
-            <fieldset>
+            <fieldset id="FSDP">
                 <legend>DATOS PERSONALES</legend>
                  <div id="DPersonales">
                     <div id="dni"><tr><td> D.N.I: <input type="text" value=" "/> </tr></td></div>
@@ -30,6 +36,8 @@
                     <div id="apellido"><tr><td> Apellido: <input type="text" value=" "/> </tr></td></div>
                     <div id="email"><tr><td> Email: <input type="text" value=" "/> </tr></td></div>
                  </div>
+            </fieldset>
+            <fieldset id="FS">
                  <div>
                      <input type="button" value="crear" onclick= "crearDocumento();"/>
                  </div>

@@ -175,7 +175,7 @@ public class AggregatedMeasure extends MeasureDefinition {
 	 * @return 
 	 */
 	public Boolean getCond() {
-		
+
 		return super.getCond() && 
 				this.getBaseMeasure().getCond() &&
 				this.getAggregationFunction()!=null && this.getAggregationFunction()!="";

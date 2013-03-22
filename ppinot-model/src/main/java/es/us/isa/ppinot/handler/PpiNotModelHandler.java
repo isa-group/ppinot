@@ -1022,11 +1022,11 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	}
 
 	/**
-	 * Genera los objetos Jaxb correspondientes a un map de objetos DerivedMeasure
+	 * Genera los objetos Jaxb correspondientes a un map de objetos DerivedSingleInstanceMeasure
 	 * 
 	 * @param modelMap Map con objetos del modelo
 	 */
-	public void setDerivedModelMap(Map<String, DerivedMeasure> modelMap) {
+	public void setDerivedSingleInstanceModelMap(Map<String, DerivedMeasure> modelMap) {
 
 	    if (modelMap!=null) {
 	    	
@@ -1041,23 +1041,23 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	}
 
 	/**
-	 * Genera los objetos Jaxb correspondientes a un map de objetos DerivedSingleInstanceMeasure
-	 * 
-	 * @param modelMap Map con objetos del modelo
-	 */
-	public void setDerivedSingleInstanceModelMap(Map<String, DerivedMeasure> modelMap) {
-
-	    this.setDerivedModelMap(modelMap);
-	}
-
-	/**
 	 * Genera los objetos Jaxb correspondientes a un map de objetos DerivedMultiInstanceMeasure
 	 * 
 	 * @param modelMap Map con objetos del modelo
 	 */
 	public void setDerivedMultiInstanceModelMap(Map<String, DerivedMeasure> modelMap) {
 
-	    this.setDerivedModelMap(modelMap);
+
+	    if (modelMap!=null) {
+	    	
+			Iterator<Entry<String, DerivedMeasure>> itInst = modelMap.entrySet().iterator();
+		    while (itInst.hasNext()) {
+		        Map.Entry<String, DerivedMeasure> pairs = (Map.Entry<String, DerivedMeasure>)itInst.next();
+		        DerivedMultiInstanceMeasure def = (DerivedMultiInstanceMeasure) pairs.getValue();
+		    		
+		        this.findDerivedMeasure(def);
+		    }
+	    }
 	}
 	
 	/**
@@ -1089,9 +1089,9 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		        MeasureDefinition m = def.getMeasuredBy();
 
 				TMeasure md = this.findBaseMeasure(m);
-				if (md==null)
+				if (md==null && m instanceof AggregatedMeasure)
 					md = this.findAggregatedMeasure(m);
-				if (md==null)
+				if (md==null && m instanceof DerivedMeasure)
 					md = this.findDerivedMeasure(m);
 
 		    	ppi.setMeasuredBy(md);

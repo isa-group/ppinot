@@ -37,9 +37,9 @@ public class RuntimeState {
 	 * 
 	 * @param atStart Indica si esta en el estado START o no
 	 */
-	public RuntimeState(Boolean atStart) {
+	public RuntimeState(Boolean atEnd) {
 		super();
-		this.setState((atStart)?GenericState.START:GenericState.END);
+		this.iniStateStr((atEnd)?"end":"start");
 	}
 	
 	/**
@@ -49,26 +49,35 @@ public class RuntimeState {
 	 */
 	public RuntimeState(String stateStr) {
 		super();
+		this.iniStateStr(stateStr);
+	}
+	
+	private void iniStateStr(String stateStr) {
+		
 //		Enum stateEnum = GenericState.START;
 		Enum stateEnum = null;
 		
-		if (stateStr.toLowerCase().contentEquals("start")) stateEnum = GenericState.START;
-		if (stateStr.toLowerCase().contentEquals("end")) stateEnum = GenericState.END;
-		
-		if (stateStr.toLowerCase().contentEquals("ready")) stateEnum = BPMNState.READY; 
-		if (stateStr.toLowerCase().contentEquals("active")) stateEnum = BPMNState.ACTIVE;
-		if (stateStr.toLowerCase().contentEquals("withdrawn")) stateEnum = BPMNState.WITHDRAWN; 
-		if (stateStr.toLowerCase().contentEquals("completing")) stateEnum = BPMNState.COMPLETING; 
-		if (stateStr.toLowerCase().contentEquals("completed")) stateEnum = BPMNState.COMPLETED;
-		if (stateStr.toLowerCase().contentEquals("failing")) stateEnum = BPMNState.FAILING;
-		if (stateStr.toLowerCase().contentEquals("failed")) stateEnum = BPMNState.FAILED;
-		if (stateStr.toLowerCase().contentEquals("terminating")) stateEnum = BPMNState.TERMINATING; 
-		if (stateStr.toLowerCase().contentEquals("terminated")) stateEnum = BPMNState.TERMINATED;
-		if (stateStr.toLowerCase().contentEquals("compensating")) stateEnum = BPMNState.COMPENSATING; 
-		if (stateStr.toLowerCase().contentEquals("compensated")) stateEnum = BPMNState.COMPENSATED;
-
-		if (stateStr.toLowerCase().contentEquals("executing")) stateEnum = BPMNState.EXECUTING; 
-		if (stateStr.toLowerCase().contentEquals("deleted")) stateEnum = BPMNState.DELETED;
+		if (stateStr!=null) {
+			
+			if (stateStr.toLowerCase().contentEquals("start")) stateEnum = GenericState.START;
+			if (stateStr.toLowerCase().contentEquals("end")) stateEnum = GenericState.END;
+			
+			if (stateStr.toLowerCase().contentEquals("ready")) stateEnum = BPMNState.READY; 
+			if (stateStr.toLowerCase().contentEquals("active")) stateEnum = BPMNState.ACTIVE;
+			if (stateStr.toLowerCase().contentEquals("withdrawn")) stateEnum = BPMNState.WITHDRAWN; 
+			if (stateStr.toLowerCase().contentEquals("completing")) stateEnum = BPMNState.COMPLETING; 
+			if (stateStr.toLowerCase().contentEquals("completed")) stateEnum = BPMNState.COMPLETED;
+			if (stateStr.toLowerCase().contentEquals("failing")) stateEnum = BPMNState.FAILING;
+			if (stateStr.toLowerCase().contentEquals("failed")) stateEnum = BPMNState.FAILED;
+			if (stateStr.toLowerCase().contentEquals("terminating")) stateEnum = BPMNState.TERMINATING; 
+			if (stateStr.toLowerCase().contentEquals("terminated")) stateEnum = BPMNState.TERMINATED;
+			if (stateStr.toLowerCase().contentEquals("compensating")) stateEnum = BPMNState.COMPENSATING; 
+			if (stateStr.toLowerCase().contentEquals("compensated")) stateEnum = BPMNState.COMPENSATED;
+	
+			if (stateStr.toLowerCase().contentEquals("executing")) stateEnum = BPMNState.EXECUTING; 
+			if (stateStr.toLowerCase().contentEquals("deleted")) stateEnum = BPMNState.DELETED;
+		} else
+			stateStr = "";
 		
 		this.stateStr = stateStr;
 		this.setState(stateEnum);

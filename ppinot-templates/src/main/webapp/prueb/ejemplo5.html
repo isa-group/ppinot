@@ -25,7 +25,7 @@
     			var id = $(this).attr('id').split("-");
     			var currentid = parseInt(id[1]);
     			var str = "";
-    			var TimeMeasure = new Array("The duration between time instants when Event and when Event",
+    			var TimeMeasure = new Array("The duration between time instants when Event and Event",
     					            "The number of times Event",
     					            "BPET BPEN is state BPES",
     					            "the value of data object property name of data object name");
@@ -47,73 +47,7 @@
     				$("p.selectme1").attr({'id': "selectme-"+value});
     				$(".selectme1").text(valuetext);
     				
-    				
-    				$("p.selectme11").click(function() {
-    		    		if ($(this).children('select').length == 0) {
-    		    			var id = $(this).attr('id').split("-");
-    		    			var currentid = parseInt(id[1]);
-    		    			var str = "";
-    		    			var Event= new Array("activity BPEN becomes BPES", 
-    		    					             "process BPEN becomes BPES", 
-    		    					             "data object BEN becomes BPES",
-    		    					             "event BPEN is triggred");
-    		    			
-    		                var cad= new Array("and when");
-    		    			for(i=0; i < Event.length; i++) {
-    		    				if (currentid == i) 
-    		    					str += "<option selected id='opt1-"+i+"' value='"+i+"'>" + Event[i]+""+cad[0]+"</option>";
-    		    				else
-    		    					str += "<option value='"+i+"' id='opt1-"+i+"'>"+ Event[i]+""+cad[0]+"</option>";
-    		    			}
-    		    			str = "<select class='selectbox1'>"+ str +"</select>";
-    		    			
-    		    			$("p.selectme1").html("The PPI is defined as The duration between time instants when");
-    		                $(this).html(str);
-    		    			$("select.selectbox1").focus();
-    		    			$("select.selectbox1").blur(function() {
-    		    				var value1 = $(this).val();
-    		    				var valuetext = $(this).children('option#opt1-'+value1).text();
-    		    				$("p.selectme11").attr({'id': "selectme11-"+value1});
-    		    				$(".selectme11").text(valuetext);
-    		    				
-    		    		});
-    		   
-    		        }
-
-    		      });
-    				$("p.selectme12").click(function() {
-    		    		if ($(this).children('select').length == 0) {
-    		    			var id = $(this).attr('id').split("-");
-    		    			var currentid = parseInt(id[1]);
-    		    			var str = "";
-    		    			var Event= new Array("activity BPEN becomes BPES", 
-    		    					             "process BPEN becomes BPES", 
-    		    					             "data object BEN becomes BPES",
-    		    					             "event BPEN is triggred");
-    		    			
-    		               
-    		    			for(i=0; i < Event.length; i++) {
-    		    				if (currentid == i) 
-    		    					str += "<option selected id='opt1-"+i+"' value='"+i+"'>" + Event[i]+"</option>";
-    		    				else
-    		    					str += "<option value='"+i+"' id='opt1-"+i+"'>"+ Event[i]+"</option>";
-    		    			}
-    		    			str = "<select class='selectbox1'>"+ str +"</select>";
-    		    			$(this).html(str);
-    		    			$("select.selectbox2").focus();
-    		    			$("select.selectbox2").blur(function() {
-    		    				var value1 = $(this).val();
-    		    				var valuetext = $(this).children('option#opt2-'+value2).text();
-    		    				$("p.selectme12").attr({'id': "selectme12-"+value2});
-    		    				$(".selectme12").text(valuetext);
-    		    				
-    		    		});
-    		   
-    		        }
-
-    		      });
-    				
-    		
+    		});
    
         }
 
@@ -153,7 +87,73 @@
 		    				$("div.selectme2").attr({'id': "selectme-"+value});
 		    				$(".selectme2").text(valuetext);
 		    				
-		    			});
+		    				$("p.selectme11").click(function() {
+		    		    		if ($(this).children('select').length == 0) {
+		    		    			var id = $(this).attr('id').split("-");
+		    		    			var currentid = parseInt(id[1]);
+		    		    			var str = "";
+		    		    			var Event= new Array("activity BPEN becomes BPES", 
+		    		    					             "process BPEN becomes BPES", 
+		    		    					             "data object BEN becomes BPES",
+		    		    					             "event BPEN is triggred");
+		    		    			
+		    		                var cad= new Array("and when");
+		    		    			for(i=0; i < Event.length; i++) {
+		    		    				if (currentid == i) 
+		    		    					str += "<option selected id='opt1-"+i+"' value='"+i+"'>" + Event[i]+""+cad[0]+"</option>";
+		    		    				else
+		    		    					str += "<option value='"+i+"' id='opt1-"+i+"'>"+ Event[i]+""+cad[0]+"</option>";
+		    		    			}
+		    		    			str = "<select class='selectbox1'>"+ str +"</select>";
+		    		    			
+		    		    			$("p.selectme1").html("The PPI is defined as The duration between time instants when");
+		    		                $(this).html(str);
+		    		    			$("select.selectbox1").focus();
+		    		    			$("select.selectbox1").blur(function() {
+		    		    				var value1 = $(this).val();
+		    		    				var valuetext = $(this).children('option#opt1-'+value1).text();
+		    		    				$("p.selectme11").attr({'id': "selectme11-"+value1});
+		    		    				$(".selectme11").text(valuetext);
+		    		    				
+		    		    		});
+		    		   
+		    		        }
+
+		    		      });
+		    				
+		    				$("p.selectme12").click(function() {
+		    		    		if ($(this).children('select').length == 0) {
+		    		    			var id = $(this).attr('id').split("-");
+		    		    			var currentid = parseInt(id[1]);
+		    		    			var str = "";
+		    		    			var Event= new Array("activity BPEN becomes BPES", 
+		    		    					             "process BPEN becomes BPES", 
+		    		    					             "data object BEN becomes BPES",
+		    		    					             "event BPEN is triggred");
+		    		    			
+		    		               
+		    		    			for(i=0; i < Event.length; i++) {
+		    		    				if (currentid == i) 
+		    		    					str += "<option selected id='opt1-"+i+"' value='"+i+"'>" + Event[i]+"</option>";
+		    		    				else
+		    		    					str += "<option value='"+i+"' id='opt1-"+i+"'>"+ Event[i]+"</option>";
+		    		    			}
+		    		    			str = "<select class='selectbox1'>"+ str +"</select>";
+		    		    			$(this).html(str);
+		    		    			$("select.selectbox2").focus();
+		    		    			$("select.selectbox2").blur(function() {
+		    		    				var value1 = $(this).val();
+		    		    				var valuetext = $(this).children('option#opt2-'+value2).text();
+		    		    				$("p.selectme12").attr({'id': "selectme12-"+value2});
+		    		    				$(".selectme12").text(valuetext);
+		    		    				
+		    		    		});
+		    		   
+		    		        }
+
+		    		      });
+		    			
+		    	        });
 		    			
 		    		}
 		    	});
@@ -233,8 +233,8 @@
 		   			<td>
 		   			      
 		   			      <p class="selectme1" id="selectme-0">The PPI is defined as 
-		   			        <p class="selectme11" id="selectme1-0">
-		   			           <p class="selectme12" id="selectme2-0">
+		   			        <p>
+		   			           <p>
 		   			           </p>
 		   			       </p>
 		   			     </p>

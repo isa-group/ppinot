@@ -240,7 +240,7 @@ $(function(){
 	                           TimeMeasure[31], TimeMeasure[32], TimeMeasure[33], TimeMeasure[34], TimeMeasure[35], 	                           
 	                           TimeMeasure[36], TimeMeasure[37], TimeMeasure[38], TimeMeasure[39], TimeMeasure[40], 	                           
 	                           TimeMeasure[41], TimeMeasure[42], TimeMeasure[43], TimeMeasure[44]  ];	         
-	        $("#Def").autocomplete({source: MeasureForAgg});	    
+	       // $("#Def").autocomplete({source: MeasureForAgg});	    
 });	  
 
 $(function(){
@@ -249,42 +249,112 @@ $(function(){
 	                    "be less than or equal",		   			    
 	                    "be greater than or equal",		   			    
 	                    "between [intervalo]"];			
-	$("#Tar").autocomplete({source: targetOneBound});	
+	//$("#Tar").autocomplete({source: targetOneBound});	
 });	
 
-$(document).ready(function(){	
-	$("#PPI_id").editInPlace({
-		callback: function(unused, enteredText) { return enteredText; }
-	});
-});
+//$(document).ready(function() {
+//	//When div.edit me is clicked, run this function
+//	//I change div to span.
+//	$("span.PPI_id").click(function() {
+//		//This if statement checks to see if there are 
+//		//and children of div.editme are input boxes. If so,
+//		//we don't want to do anything and allow the user
+//		//to continue typing
+//		if ($(this).children('input').length == 0) {
+//		
+//			//Create the HTML to insert into the div. Escape any " characters 
+//			var inputbox = "<input type='text' class='inputbox' value=\""+$(this).text()+"\">";
+//			
+//			//Insert the HTML into the div
+//			$(this).html(inputbox);
+//			
+//			//Immediately give the input box focus. The user
+//			//will be expecting to immediately type in the input box,
+//			//and we need to give them that ability
+//			$("input.inputbox").focus();
+//			
+//			//Once the input box loses focus, we need to replace the
+//			//input box with the current text inside of it.
+//			$("input.inputbox").blur(function() {
+//				var value = $(this).val();
+//				$(".PPI_id").text(value);
+//			});
+//		}
+//	});
+//});
 
-//When div.edit me is clicked, run this function
-$(document).ready(function() {
-	//When div.edit me is clicked, run this function
-	$("div.editme").click(function() {
-		//This if statement checks to see if there are 
-		//and children of div.editme are input boxes. If so,
-		//we don't want to do anything and allow the user
-		//to continue typing
-		if ($(this).children('input').length == 0) {
-		
-			//Create the HTML to insert into the div. Escape any " characters 
-			var inputbox = "<input type='text' class='inputbox' value=\""+$(this).text()+"\">";
-			
-			//Insert the HTML into the div
-			$(this).html(inputbox);
-			
-			//Immediately give the input box focus. The user
-			//will be expecting to immediately type in the input box,
-			//and we need to give them that ability
-			$("input.inputbox").focus();
-			
-			//Once the input box loses focus, we need to replace the
-			//input box with the current text inside of it.
-			$("input.inputbox").blur(function() {
-				var value = $(this).val();
-				$(".editme").text(value);
-			});
-		}
-	});
-});
+(function($) {
+	$.fn.inlineEdit = function(options) {
+		// define some options with sensible default values
+		// - hoverClass: the css classname for the hover style
+		options = $.extend({
+		hoverClass: 'hover'
+		}, options);
+		return $.each(this, function() {
+			// define self container
+			var self = $(this);
+			// create a value property to keep track of current value
+			self.value = self.text();
+			// bind the click event to the current element, in this example it's span.editable
+			self.bind('click', function() {
+				self
+				// populate current element with an input element and add the current value to it
+				.html('<input type="text" value="'+ self.value +'">')
+				// select this newly created input element
+				.find('input')
+				// bind the blur event and make it save back the value to the original span area
+				// there by replacing our dynamically generated input element
+				.bind('blur', function(event) {
+					self.value = $(this).val();
+					self.text(self.value);
+				})
+				// give the newly created input element focus
+				.focus();
+			})
+			// on hover add hoverClass, on rollout remove hoverClass
+			.hover(
+				function(){
+					self.addClass(options.hoverClass);
+				},
+				function(){
+					self.removeClass(options.hoverClass);
+				}
+			);
+		});
+	}
+})(jQuery);
+$(function(){
+	$('.PPI_id').inlineEdit();
+	$('.Name').inlineEdit();
+	$('.Process').inlineEdit();
+	$('.Goals').inlineEdit();
+	$('.Unit').inlineEdit();
+	$('.Scope').inlineEdit();
+	$('.Source').inlineEdit();
+	$('.Responsible').inlineEdit();
+	$('.Informed').inlineEdit();
+	$('.Comments').inlineEdit();
+}); 
+
+var goal = 1;
+function addGoal(){
+	var idG = "Goals_"+goal++;
+	tr = document.createElement("tr");
+	tr.setAttribute("id", "tr_"+idG);
+	td = document.createElement("td");
+	td1 = document.createElement("td");
+	td1.innerHTML = "<input type='text' id='"+idG+"' name='Goals'>";
+	td2 = document.createElement("td");
+	td2.innerHTML = "<button type='button' onclick='delGoal("+idG+")'><i class='icon-trash'></i></button>";
+	tr.appendChild(td);
+	tr.appendChild(td1);
+	tr.appendChild(td2);
+	trCont = document.getElementById('addgoals');	
+	trCont.appendChild(tr);
+}
+function delGoal(id){
+	trCont = document.getElementById('addgoals');
+	tr = document.getElementsByName("tr_"+id);
+	trCont.removeChild(tr);
+	//element.removeAttribute(attrName);
+}

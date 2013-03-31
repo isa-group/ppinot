@@ -91,7 +91,7 @@ public class Html {
 	 * 
 	 * @return Codigo html
 	 */
-	public List<String> generateStartSection(Boolean hidden) {
+	private List<String> generateStartSection(Boolean hidden) {
 		
 		List<String> list = new ArrayList<String>();
 		
@@ -108,7 +108,7 @@ public class Html {
 	 * 
 	 * @return Codigo html
 	 */
-	public List<String> generateEndSection() {
+	private List<String> generateEndSection() {
 		
 		List<String> list = new ArrayList<String>();
 
@@ -123,7 +123,7 @@ public class Html {
 	 * @param Etiqueta a mostrar
 	 * @return Codigo html
 	 */
-	public List<String> generateLabel(String label) {
+	private List<String> generateLabel(String label) {
 		
 		List<String> list = new ArrayList<String>();
 		
@@ -138,7 +138,7 @@ public class Html {
 	 * @param Etiqueta a mostrar
 	 * @return Codigo html
 	 */
-	public List<String> generateFieldLabel(String label) {
+	private List<String> generateFieldLabel(String label) {
 		
 		List<String> list = new ArrayList<String>();
 		
@@ -153,7 +153,7 @@ public class Html {
 	 * @param Subtitulo a mostrar
 	 * @return Codigo html
 	 */
-	public List<String> generateSubtitle(String title) {
+	private List<String> generateSubtitle(String title) {
 		
 		List<String> list = new ArrayList<String>();
 		
@@ -171,8 +171,8 @@ public class Html {
 	 * @param map Mapa con los pares value y texto a mostrar en el select
 	 * @return Lista con el codigo html del select
 	 */
-	public List<String> generateStringSelect(String name, String selected, String events, Map<String, String> map) {
-		
+	private List<String> generateStringSelect(String name, String selected, String events, Map<String, String> map) {
+
 		List<String> list = new ArrayList<String>();
 		
 		// inicia el select
@@ -210,7 +210,7 @@ public class Html {
 	 * @param map Mapa con los pares value y texto a mostrar en el select. El texto se forma a partir de un objeto ProcessEntity
 	 * @return Lista con el codigo html del select
 	 */
-	public List<String> generateInstanceDataSelect(String name, String selected, String events, Map<String, ProcessEntity> map) {
+	private List<String> generateInstanceDataSelect(String name, String selected, String events, Map<String, ProcessEntity> map) {
 		
 		List<String> list = new ArrayList<String>();
 		
@@ -236,7 +236,6 @@ public class Html {
 			if (selected!=null && selecId.contentEquals(selected)) {
 				linea += "selected ";
 			}
-//			linea += ">" + selecValue.getInstanceId() + " : " + selecValue.getStartTime() + finString + " por " + selecValue.getStartUserId() + "</option>";
 			linea += ">" + selecValue.getInstanceId() + " : " + selecValue.getStartTime() + finString + "</option>";
 			
 			list.add(linea);
@@ -255,7 +254,7 @@ public class Html {
 	 * @param value Valor del campo
 	 * @return Lista con el codigo html
 	 */
-	public List<String> generateContainer(String id, String value) {
+	private List<String> generateContainer(String id, String value) {
 
 		// conserva los datos del contenedor para generar posteriormente el codigo en javascript
 		this.getContainerMap().put( id, value);
@@ -268,7 +267,7 @@ public class Html {
 		return list;
 	}
 	
-	public List<String> generateFormRow(String label, String value, Boolean obligatory) {
+	private List<String> generateFormRow(String label, String value, Boolean obligatory) {
 		
 		String obligMark = "";
 		if (obligatory)
@@ -291,7 +290,7 @@ public class Html {
 		return list;
 	}
 	
-	public List<String> generateFormRow(String label, List<String> value, Boolean obligatory) {
+	private List<String> generateFormRow(String label, List<String> value, Boolean obligatory) {
 		
 		String obligMark = "";
 		if (obligatory)
@@ -314,7 +313,7 @@ public class Html {
 		return list;
 	}
 	
-	public List<String> generateOpenWindow(String id) {
+	private List<String> generateOpenWindow(String id) {
 		
 		this.getWindowList().add(id);
 		
@@ -331,7 +330,7 @@ public class Html {
 		return list;
 	}
 	
-	public List<String> generateCloseWindow(Boolean modify) {
+	private List<String> generateCloseWindow(Boolean modify) {
 		
 		List<String> list = new ArrayList<String>();
 		
@@ -345,7 +344,7 @@ public class Html {
 		return list;
 	}
 	
-	public List<String> generateCommonName(	String varName, String name) {
+	private List<String> generateCommonName(	String varName, String name) {
 
 		this.getNameList().add(varName);
 
@@ -358,7 +357,7 @@ public class Html {
 		return list;
 	}
 	
-	public List<String> generateCommonType( 
+	private List<String> generateCommonType( 
 			String ppiLabel, String varNamePpiId, String ppiId, String onclick, Map<String, String> ppiMap,
 			String varName, String name) {
 
@@ -375,7 +374,7 @@ public class Html {
 		return list;
 	}
 	
-	public List<String> generateCommonData(
+	private List<String> generateCommonData(
 			String ppiLabel, String varNamePpiId, String ppiId, String onclick, Map<String, String> ppiMap,
 			String varId, String id, 
 			String varName, String name, String varRefMax, String refMax, String varRefMin, String refMin) throws IOException {
@@ -401,7 +400,7 @@ public class Html {
 		return list;
 	}
 
-	public List<String> generateActivityStartEnd(String varName, String activityIdStarEnd, Map<String, String> map) {
+	private List<String> generateActivityStartEnd(String varName, String activityIdStarEnd, Map<String, String> map) {
 
 		this.getFieldList().add(varName);
 		
@@ -412,7 +411,7 @@ public class Html {
 		return list;
 	}
 
-	public List<String> generateTimeMeasure( 
+	private List<String> generateTimeMeasure( 
 			String varNameIni, String activityIdTimeIni, 
 			String varNameFin, String activityIdTimeFin, 
 			String varNameAtEndIni, String atEndTimeIni, 
@@ -437,7 +436,7 @@ public class Html {
 		return list;
 	}
 
-	public List<String> generateCountMeasure(String varName, String activityIdCount, String varNameAtEnd, String atEndTimeCount, Map<String, String> activityMap, Map<String, String> sinoMap) {
+	private List<String> generateCountMeasure(String varName, String activityIdCount, String varNameAtEnd, String atEndTimeCount, Map<String, String> activityMap, Map<String, String> sinoMap) {
 
 		this.getFieldList().add(varName);
 		this.getFieldList().add(varNameAtEnd);
@@ -451,7 +450,7 @@ public class Html {
 		return list;
 	}
 
-	public List<String> generateElementConditionMeasure(String varNameElement, String taskIdElement, String varStateElement, String stateIdElement, Map<String, String> taskMap, Map<String, String> taskStateMap) {
+	private List<String> generateElementConditionMeasure(String varNameElement, String taskIdElement, String varStateElement, String stateIdElement, Map<String, String> taskMap, Map<String, String> taskStateMap) {
 
 		this.getFieldList().add(varNameElement);
 		this.getFieldList().add(varStateElement);
@@ -464,7 +463,7 @@ public class Html {
 		return list;
 	}
 
-	public List<String> generateDataMeasure(String varNameData, String dataIdData, String varDataProp, String dataPropId, Map<String, String> dataMap, Map<String, String> dataPropMap) {
+	private List<String> generateDataMeasure(String varNameData, String dataIdData, String varDataProp, String dataPropId, Map<String, String> dataMap, Map<String, String> dataPropMap) {
 
 		this.getFieldList().add(varNameData);
 
@@ -482,7 +481,7 @@ public class Html {
 		return list;
 	}
 
-	public List<String> generateDataConditionMeasure(String varNameData, String dataIdData, String varDataState, String dataStateId, Map<String, String> dataMap, Map<String, String> dataStateMap) {
+	private List<String> generateDataConditionMeasure(String varNameData, String dataIdData, String varDataState, String dataStateId, Map<String, String> dataMap, Map<String, String> dataStateMap) {
 		
 		this.getFieldList().add(varNameData);
 
@@ -500,7 +499,7 @@ public class Html {
 		return list;
 	}
 	
-	public List<String> generateAggregatedMeasure(int i, String varAggrFunc , String aggrFunc, String varAggrYear, String aggrYear, String varAggrPeriod, String aggrPeriod, String varStartDate, String startDate, String varInStart, String inStart, String varEndDate, String endDate, String varInEnd, String inEnd, Map<String, String> funcMap, Map<String, String> sinoMap, Map<String, String> yearMap, Map<String, String> periodMap) {
+	private List<String> generateAggregatedMeasure(int i, String varAggrFunc , String aggrFunc, String varAggrYear, String aggrYear, String varAggrPeriod, String aggrPeriod, String varStartDate, String startDate, String varInStart, String inStart, String varEndDate, String endDate, String varInEnd, String inEnd, Map<String, String> funcMap, Map<String, String> sinoMap, Map<String, String> yearMap, Map<String, String> periodMap) {
 
 		this.getFieldList().add(varAggrFunc);
 		this.getFieldList().add(varAggrYear);
@@ -546,7 +545,7 @@ public class Html {
 		return list;
 	}
 
-	public List<String> generateDerivedMeasure(String varDerFunc, String derFunc, Map<String, String> derFuncMap,
+	private List<String> generateDerivedMeasure(String varDerFunc, String derFunc, Map<String, String> derFuncMap,
 			String varIdOper1, String idOper1, String varMedOper1 , String medOper1,
 			String varIdOper2, String idOper2, String varMedOper2 , String medOper2, 
 			Map<String, String> measureMap) {
@@ -716,20 +715,17 @@ public class Html {
 		List<String> list = new ArrayList<String>();
 		
 		list.addAll( this.generateStartSection(false));
-
-		list.add("<div class=\"ppinot-col-mark-header\">");
-		list.add("</div>");
 		
 		list.add("<div class=\"ppinot-col-type-header\">");
-		list.add( "Tipo" );
+		list.add( "PPI" );
 		list.add("</div>");
 		
 		list.add("<div class=\"ppinot-col-name-header\">");
-		list.add( "Nombre" );
+		list.add( "Id" );
 		list.add("</div>");
 		
 		list.add("<div class=\"ppinot-col-value-header" + classPrefix + "\">");
-		list.add( "Valor" );
+		list.add( "Value / Target" );
 		list.add("</div>");
 		
 		list.add("<div class=\"ppinot-col-success-header\">");
@@ -769,21 +765,14 @@ public class Html {
 	 * @param value Valor a mostrar
 	 * @throws IOException
 	 */
-	public void printPpiValue(JspWriter out, String classPrefix, String id, Boolean cond, String type, String name, List<String> valueList, String measureUnit, List<Double> successList, List<Boolean> markList, Boolean modify) throws IOException {
+	public void printPpiValue(JspWriter out, Boolean cond, String type, String name, List<String> valueList, String measureUnit, List<Double> successList, List<Boolean> markList) throws IOException {
+		
+		String classPrefix = "";
 		
 		List<String> list = new ArrayList<String>();
 		
 		// abre la seccion
 		list.addAll( this.generateStartSection(false));
-
-		String btnName = "Mostrar";
-		if (modify) {
-			btnName = "Modificar";
-		}
-
-		list.add("<div class=\"ppinot-col-mark\">");
-		list.add("<input id=\"btn_" + id + "\" name=\"btn_" + id + "\" type=\"button\" value=\"" + btnName + "\" onClick=\"openWindow(this, '" + id + "');\" />");
-		list.add("</div>");
 
 		list.add("<div class=\"ppinot-col-type\">");
 		list.add( type );
@@ -800,8 +789,6 @@ public class Html {
 			int i = 0;
 			list.add("<div class=\"ppinot-col-values\">");
 			for (String value : valueList) {
-				
-//				list.addAll( this.generateStartSection(false));
 
 				list.add("<div class=\"ppinot-col-value" + classPrefix + "\">");
 				String formatedValue = PpiNotModelUtils.numberFormat(value);
@@ -836,8 +823,7 @@ public class Html {
 					list.add("</div>");
 
 				}
-				
-//				list.addAll( this.generateEndSection());
+
 				i++;
 			}
 			list.add("</div>");
@@ -1016,6 +1002,9 @@ public class Html {
 		// determina cual es el tab que debe estar activo cuando se carga la pagina
 		if (tabactivo!=null && tabactivo.contentEquals("tab2"))
 			tabactivo = "1";
+		else
+		if (tabactivo!=null && tabactivo.contentEquals("tab3"))
+			tabactivo = "2";
 		else
 			tabactivo = "0";
 		
@@ -1210,7 +1199,10 @@ public class Html {
 	    list.add("		title: 'Medidas agregadas'");
 	    list.add("		},{");
 	    list.add("		contentEl:'tab2', ");
-	    list.add("		title: 'Medidas de instancia'");
+	    list.add("		title: 'Medidas de instancia (por instancias)'");
+	    list.add("	 },{");
+	    list.add("		contentEl:'tab3', ");
+	    list.add("		title: 'Medidas de instancia (por medidas)'");
 	    list.add("	 }]");
 	    list.add("});");
 	    
@@ -1230,6 +1222,7 @@ public class Html {
 		this.print(out, list);
 	}
 	
+	
 	public void abrirTab1(JspWriter out) throws IOException {
 
 		List<String> list = new ArrayList<String>();
@@ -1247,6 +1240,17 @@ public class Html {
 		
 		list.add("</div></div>");
 		list.add("<div id=\"tab2\" class=\"x-hide-display\">");
+		list.add("<div class=\"ppinot-tab-container\">");
+		
+		this.print(out, list);
+	}
+	
+	public void abrirTab3(JspWriter out) throws IOException {
+
+		List<String> list = new ArrayList<String>();
+		
+		list.add("</div></div>");
+		list.add("<div id=\"tab3\" class=\"x-hide-display\">");
 		list.add("<div class=\"ppinot-tab-container\">");
 		
 		this.print(out, list);

@@ -3,28 +3,25 @@ package es.us.isa.bpms.ppinot.historyreport;
 public class HistoryConst {
 	
 	// inicializa constantes utilizadas para identificar el PPI seleccionado por el usuario
-	public static final int ACTIVITYSTART = 1;
-	public static final int ACTIVITYEND = 2;
-	public static final int POOLSTART = 3;
-	public static final int POOLEND = 4;
-	public static final int TIMEMEASURE = 5;
-	public static final int COUNTMEASURE = 6;
-	public static final int STATECONDITIONMEASURE = 7;
-	public static final int DATAMEASURE = 8;
-	public static final int DATAPROPERTYCONDITIONMEASURE = 9;
+	public static final String TIMEMEASURE = "TimeInstanceMeasure";
+	public static final String COUNTMEASURE = "CountInstanceMeasure";
+	public static final String STATECONDITIONMEASURE = "StateConditionInstanceMeasure";
+	public static final String DATAMEASURE = "DataInstanceMeasure";
+	public static final String DATAPROPERTYCONDITIONMEASURE = "DataPropertyConditionInstanceMeasure";
 
-	public static final int TIMEMEASUREAGGR = 10;
-	public static final int COUNTMEASUREAGGR = 11;
-	public static final int STATECONDITIONMEASUREAGGR = 12;
-	public static final int DATAMEASUREAGGR = 13;
-	public static final int DATAPROPERTYCONDITIONMEASUREAGGR = 14;
+	public static final String TIMEMEASUREAGGR = "TimeAggregatedMeasure";
+	public static final String COUNTMEASUREAGGR = "CountAggregatedMeasure";
+	public static final String STATECONDITIONMEASUREAGGR = "StateConditionAggregatedMeasure";
+	public static final String DATAMEASUREAGGR = "DataAggregatedMeasure";
+	public static final String DATAPROPERTYCONDITIONMEASUREAGGR = "DataConditionAggregatedMeasure";
 	
-	public static final int DERIVEDSINGLEINSTANCEMEASURE = 15;
-	public static final int DERIVEDMULTIINSTANCEMEASURE = 16;
+	public static final String DERIVEDSINGLEINSTANCEMEASURE = "DerivedSingleInstanceMeasure";
+	public static final String DERIVEDMULTIINSTANCEMEASURE = "DerivedMultiInstanceMeasure";
 	
 	// inicializa constantes utilizadas para formar los nombres de las variables post a utilizar en una aplicacion web
 	public static final String PROCESSID_VARNAME = "processId";
 	public static final String INSTANCEID_VARNAME = "instanceId";
+	public static final String MEASUREID_VARNAME = "measureId";
 	public static final String PPIID_VARNAME = "ppiId";
 	
 	public static final String ID_PREFIX = "id_";

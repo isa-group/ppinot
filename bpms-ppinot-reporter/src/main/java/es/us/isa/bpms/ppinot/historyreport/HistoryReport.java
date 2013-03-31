@@ -2,8 +2,6 @@ package es.us.isa.bpms.ppinot.historyreport;
 
 import es.us.isa.bpms.ppinot.historyreport.db.HistoryData;
 import es.us.isa.bpms.ppinot.historyreport.db.ProcessEntity;
-import es.us.isa.ppinot.handler.PpiNotModelUtils;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,30 +10,21 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXBException;
 
 import es.us.isa.ppinot.handler.PpiNotModelHandler;
-import es.us.isa.ppinot.model.DataContentSelection;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.PPI;
-import es.us.isa.ppinot.model.Scope;
-import es.us.isa.ppinot.model.Target;
 import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
 import es.us.isa.ppinot.model.base.CountInstanceMeasure;
 import es.us.isa.ppinot.model.base.DataInstanceMeasure;
 import es.us.isa.ppinot.model.base.DataPropertyConditionInstanceMeasure;
 import es.us.isa.ppinot.model.base.StateConditionInstanceMeasure;
 import es.us.isa.ppinot.model.base.TimeInstanceMeasure;
-import es.us.isa.ppinot.model.condition.DataPropertyCondition;
-import es.us.isa.ppinot.model.condition.StateCondition;
-import es.us.isa.ppinot.model.condition.TimeInstantCondition;
-import es.us.isa.ppinot.model.condition.TimeMeasureType;
 import es.us.isa.ppinot.model.derived.DerivedMeasure;
 import es.us.isa.ppinot.model.derived.DerivedMultiInstanceMeasure;
 import es.us.isa.ppinot.model.derived.DerivedSingleInstanceMeasure;
 import es.us.isa.ppinot.model.state.GenericState;
-import es.us.isa.ppinot.model.state.RuntimeState;
 
 /**
  * Clase para realizar reportes a partir de la historia en una plataforma BPM. Para ser utilizada, publica metodos abstractos que deben 
@@ -88,10 +77,6 @@ public class HistoryReport {
 	// evaluacion de los procesos teniendo en cuenta todos los PPIs
 	private Map<String, Double> processSuccessMap;
 
-	// listas de momentos de inicio y fin
-	private Map<String, List<ActivityStartEnd>> activityStartEndList;
-	private Map<String, List<PoolStartEnd>> poolStartEndList;
-
 	// mapas con las medidas de cada proceso
 	private Map<String, Map<String, PPI>> countInstancePpiMap;
 	private Map<String, Map<String, PPI>> timeInstancePpiMap;
@@ -107,6 +92,9 @@ public class HistoryReport {
 
 	private Map<String, Map<String, PPI>> derivedSingleInstancePpiMap;
 	private Map<String, Map<String, PPI>> derivedMultiInstancePpiMap;
+	
+	// id de la medida seleccionada para mostrar sus valores para todas las instancias
+	private String measureId;
 
 	/**
 	 * Constructor de la clase 
@@ -123,9 +111,6 @@ public class HistoryReport {
 		this.instanceSuccessMap = new LinkedHashMap<String, Double>();
 		this.processSuccessMap = new LinkedHashMap<String, Double>();
 
-		this.activityStartEndList = new LinkedHashMap<String, List<ActivityStartEnd>>();
-		this.poolStartEndList = new LinkedHashMap<String, List<PoolStartEnd>>();
-
 		this.countInstancePpiMap = new LinkedHashMap<String, Map<String, PPI>>();
 		this.timeInstancePpiMap = new LinkedHashMap<String, Map<String, PPI>>();
 		this.stateConditionInstancePpiMap = new LinkedHashMap<String, Map<String, PPI>>();
@@ -140,6 +125,8 @@ public class HistoryReport {
 
 		this.derivedSingleInstancePpiMap = new LinkedHashMap<String, Map<String, PPI>>();
 		this.derivedMultiInstancePpiMap = new LinkedHashMap<String, Map<String, PPI>>();
+		
+		this.measureId = "";
 	}
 	
 	/**
@@ -159,8 +146,6 @@ public class HistoryReport {
 		this.processSuccessMap.put(processId, null);
 
 		if (iniInst) {
-			this.activityStartEndList.put(processId, new ArrayList<ActivityStartEnd>());
-			this.poolStartEndList.put(processId, new ArrayList<PoolStartEnd>());
 
 			this.countInstancePpiMap.put(processId, new HashMap<String, PPI>());
 			this.timeInstancePpiMap.put(processId, new HashMap<String, PPI>());
@@ -178,59 +163,8 @@ public class HistoryReport {
 		this.dataPropertyConditionAggregatedPpiMap.put(processId, new HashMap<String, PPI>());
 
 		this.derivedMultiInstancePpiMap.put(processId, new HashMap<String, PPI>());
-	}
-	
-	/**
-	 * Elimina el reporte de un proceso
-	 * 
-	 * @param processId Id del proceso
-	 */
-	private void deleteProcessReport(String processId) {
-		
-		this.processIdList.remove(processId);
-		this.instanceIdMap.remove(processId);
 
-		this.activityStartEndList.remove(processId);
-		this.poolStartEndList.remove(processId);
-
-		this.countInstancePpiMap.remove(processId);
-		this.timeInstancePpiMap.remove(processId);
-		this.stateConditionInstancePpiMap.remove(processId);
-		this.dataInstancePpiMap.remove(processId);
-		this.dataPropertyConditionInstancePpiMap.remove(processId);
-
-		this.derivedSingleInstancePpiMap.remove(processId);
-
-		this.countAggregatedPpiMap.remove(processId);
-		this.timeAggregatedPpiMap.remove(processId);
-		this.stateConditionAggregatedPpiMap.remove(processId);
-		this.dataAggregatedPpiMap.remove(processId);
-		this.dataPropertyConditionAggregatedPpiMap.remove(processId);
-
-		this.derivedMultiInstancePpiMap.remove(processId);
-		
-		this.instanceSuccessMap.remove(processId);
-		this.processSuccessMap.remove(processId);
-	}
-
-	/**
-	 * Devuelve el atributo activityStartEndList: 
-	 * Lista de solicitudes de momento de inicio y fin de actividad
-	 * 
-	 * @return Valor del atributo
-	 */
-	public Map<String, List<ActivityStartEnd>> getActivityStartEndList() {
-		return this.activityStartEndList;
-	}
-
-	/**
-	 * Devuelve el atributo poolStartEndList: 
-	 * Lista de solicitudes de momento de inicio y fin de proceso
-	 * 
-	 * @return Valor del atributo
-	 */
-	public Map<String, List<PoolStartEnd>> getPoolStartEndList() {
-		return this.poolStartEndList;
+		this.measureId = "";
 	}
 
 	/**
@@ -531,549 +465,6 @@ public class HistoryReport {
 		} 
 		
 		return ppi;
-	}
-	
-	/**
-	 * Obtiene el reporte de los PPI a partir de las selecciones realiazadas por el usuario en variables post
-	 * 
-	 * @param request Objeto con las variables post
-	 */
-	public final void doReportFromRequest(HttpServletRequest request) {
-		
-		// DETERMINA CUAL ES EL PROCESO QUE ESTA SELECCIONADO
-		String processId = request.getParameter( HistoryConst.PROCESSID_VARNAME );
-		if (processId==null) processId = "";
-
-		String antProcId = (String) request.getSession().getAttribute("antProcId");
-		if (antProcId==null) antProcId = "";
-		if (!antProcId.contentEquals(processId))
-			request.getSession().setAttribute("antProcId", processId);
-		
-		this.selectedProcessId = processId;
-
-		// si no hay ningun proceso seleccionado, elimina el que estaba seleccionado anteriormente
-		if (processId.contentEquals("") && antProcId!="") {
-			
-			this.deleteProcessReport(antProcId);
-		} else
-		// si el proceso seleccionado no se encuentra en el reporte, se inicializa
-		if (processId!="" && !this.processIdList.contains(processId)) {
-			
-			this.iniProcessReport( processId, true );
-		} else
-		// si hay un proceso seleccionado y es el mismo que estaba seleccionado anteriormente, se hace el reporte a partir de las
-		// solicitudes del usuario, crea el reporte con todos los PPI seleccionados
-		if (processId!="" && processId.contentEquals(antProcId)) {
-			
-			// determina cual es la instancia del proceso que esta seleccionada
-			String instanceId = request.getParameter( HistoryConst.INSTANCEID_VARNAME );
-			if (instanceId==null) instanceId = "";
-
-			String antInstId = (String) request.getSession().getAttribute("antInstId");
-			if (antInstId==null) antInstId = "";
-			if (!antInstId.contentEquals(instanceId))
-				request.getSession().setAttribute("antInstId", instanceId);
-
-			// se inicializa el reporte del proceso
-			this.iniProcessReport( processId, instanceId.contentEquals(antInstId) );
-
-			this.instanceIdMap.put(processId, instanceId);
-
-			Map<String, Object> sessionTmp = new LinkedHashMap<String, Object>();
-			
-			// PARA CADA UNO DE LOS PPI DE MEDIDAS AGREGADAS Y DERIVADAS MULTIINSTANCE QUE HAYAN SIDO SELECCIONADOS
-			// obtiene la variable post con los ids de los PPI de medidas agregadas seleccionados por el usuario
-			List<String> ppiIdAggr = new ArrayList<String>();
-			ppiIdAggr.add( request.getParameter( HistoryConst.AGGR_PREFIX + HistoryConst.PPIID_VARNAME ) );
-			int j = 1;
-			while (request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.PPIID_VARNAME + j )!=null) {
-				
-				ppiIdAggr.add( request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.PPIID_VARNAME + j ) );
-				j++;
-			}
-			
-			// determina el valor de los PPI de medidas agregadas y derivadas multiinstance
-			int ii = 1;
-			for( int i=0; i<ppiIdAggr.size(); i++) {
-				if (ppiIdAggr.get(i)!=null && !ppiIdAggr.get(i).contentEquals("")) {
-					
-					// obtiene la seleccion del usuario, comun a todas las medidas agregadas
-					String aggrId = request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.ID_PREFIX + i );
-					String aggrName = request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.NAME_PREFIX + i );
-//					String aggrInstId = request.getParameter( "hd_" + HistoryConst.AGGRINST_PREFIX + HistoryConst.ID_PREFIX + i );
-					String aggrInstId = aggrId + "_base";
-					String aggrInstName = request.getParameter( "hd_" + HistoryConst.AGGRINST_PREFIX + HistoryConst.NAME_PREFIX + i );
-					String aggrFunc = request.getParameter( "hd_" + HistoryConst.AGGRFUNC_PREFIX + i );
-					
-					// obtiene la seleccion del usuario, comun a todos los PPI
-					Double aggrRefMax = null;
-					if (request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.REFMAX_PREFIX + i )!=null && request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.REFMAX_PREFIX + i )!="")
-						aggrRefMax = Double.valueOf(request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.REFMAX_PREFIX + i ));
-					Double aggrRefMin = null;
-					if (request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.REFMIN_PREFIX + i )!=null && request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.REFMIN_PREFIX + i )!="")
-						aggrRefMin = Double.valueOf(request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.REFMIN_PREFIX + i ));
-					
-					String aggrYear = request.getParameter( "hd_" + HistoryConst.AGGRYEAR_PREFIX + i );
-					String aggrPeriod = request.getParameter( "hd_" + HistoryConst.AGGRPERIOD_PREFIX + i );
-					String startDate = request.getParameter( "hd_" + HistoryConst.STARTDATE_PREFIX + i );
-					String endDate = request.getParameter( "hd_" + HistoryConst.ENDDATE_PREFIX + i );
-					String inStart = request.getParameter( "hd_" + HistoryConst.INSTART_PREFIX + i );
-					String inEnd = request.getParameter( "hd_" + HistoryConst.INEND_PREFIX + i );
-					
-					// inicializaciones para crear el ppi
-					if (aggrYear==null || aggrYear.contentEquals("")) {
-						
-						aggrYear = "";
-						aggrPeriod = "";
-						startDate = "";
-						endDate = "";
-					} else 
-					if (aggrYear.contentEquals("intervalo")) {
-						
-						aggrYear = "";
-						aggrPeriod = "";
-					} else {
-						
-						startDate = "";
-						endDate = "";
-					}
-					
-					// crea el PPI asociado a la medida 
-					PPI ppi = new PPI(aggrId + "_ppi", aggrName + "_ppi", "", "", "", "", "",
-				    		new Target(aggrRefMax, aggrRefMin), 
-				    		new Scope(aggrYear, 
-				    				aggrPeriod, 
-				    				PpiNotModelUtils.parseDate(startDate), 
-				    				PpiNotModelUtils.parseDate(endDate), 
-				    				inStart!=null && inStart.contentEquals("1"), 
-				    				inEnd!=null && inEnd.contentEquals("1")));
-
-					// si se trata de una medida DerivedMultiInstanceMeasure
-					if ( Integer.valueOf(ppiIdAggr.get(i))==HistoryConst.DERIVEDMULTIINSTANCEMEASURE) {
-						 
-						// obtiene la seleccion del usuario
-						String derFunc = request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.DERFUNC_PREFIX + i );
-						String idOper1 = request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.IDOPER1_PREFIX + i );
-						String idOper2 = request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.IDOPER2_PREFIX + i );
-						String medOper1 = request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.MEDOPER1_PREFIX + i );
-						String medOper2 = request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.MEDOPER2_PREFIX + i );
-	
-						derFunc = (derFunc==null)?"":derFunc;
-						idOper1 = (idOper1==null)?"":idOper1;
-						idOper2 = (idOper2==null)?"":idOper2;
-						medOper1 = (medOper1==null)?"":medOper1;
-						medOper2 = (medOper2==null)?"":medOper2;
-	
-						// crea la medida derivada
-						DerivedMultiInstanceMeasure derivedMultiInstanceMeasure = new DerivedMultiInstanceMeasure(
-								aggrId, aggrName, "", "", "", derFunc);
-	
-						if (!idOper1.contentEquals("") && !medOper1.contentEquals("")) {
-							
-							MeasureDefinition def1 = this.findAggregatedMeasure(processId, medOper1);
-							if (def1!=null)
-								derivedMultiInstanceMeasure.addUsedMeasure(idOper1, def1);
-							
-							if (!idOper2.contentEquals("") && !medOper2.contentEquals("")) {
-								
-								MeasureDefinition def2 = this.findAggregatedMeasure(processId, medOper2);
-								if (def2!=null)
-									derivedMultiInstanceMeasure.addUsedMeasure(idOper2, def2);
-							}
-						}
-						
-						// asocia la medida derivada con el ppi
-						ppi.setMeasuredBy(derivedMultiInstanceMeasure);
-						
-						// adiciona el PPI al reporte
-						this.derivedMultiInstancePpiMap.get(processId).put(aggrId, ppi);
-					} else {
-						
-						// en caso contrario, se trata de una medida agregada
-						// crea la medida agregada, a la que se le asocia posteriormente la medida base
-						AggregatedMeasure aggregatedMeasure = new AggregatedMeasure(aggrId, aggrName, "", "", "", aggrFunc, "", null);
-						ppi.setMeasuredBy(aggregatedMeasure);
-						// en dependencia del tipo de medida seleccionado, 
-						// se crea la medida asociada a la agregada y se conserva el PPI en el map correspondiente
-						switch ( Integer.valueOf(ppiIdAggr.get(i)) ) {
-						case HistoryConst.TIMEMEASUREAGGR:
-							
-							// obtiene la seleccion del usuario
-							String activityIdTimeIni = 	request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.INI_PREFIX + i );
-							String activityIdTimeFin = 	request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.FIN_PREFIX + i );
-							String atEndTimeIni = 	request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.ATENDINI_PREFIX + i );
-							String atEndTimeFin = 	request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.ATENDFIN_PREFIX + i );
-							
-							// asocia la medida base
-							aggregatedMeasure.setBaseMeasure( 
-									new TimeInstanceMeasure(aggrInstId, aggrInstName, "", "", "",
-											new TimeInstantCondition (activityIdTimeIni, new RuntimeState( atEndTimeIni!=null && atEndTimeIni.contentEquals("1") )), 
-											new TimeInstantCondition (activityIdTimeFin, new RuntimeState( atEndTimeFin!=null && atEndTimeFin.contentEquals("1") )), 
-											TimeMeasureType.LINEAR, ""));
-							
-							// adiciona el PPI al reporte
-							this.timeAggregatedPpiMap.get(processId).put(aggrId, ppi);
-							break;
-						case HistoryConst.COUNTMEASUREAGGR:
-	
-							// obtiene la seleccion del usuario
-							String activityIdCount = request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.COUNT_PREFIX + i );
-							String atEndTimeCount = request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.ATEND_PREFIX + i );
-	
-							// asocia la medida base
-							aggregatedMeasure.setBaseMeasure( 
-									new CountInstanceMeasure(aggrInstId, aggrInstName, "", "", "",
-											new TimeInstantCondition (activityIdCount, new RuntimeState( atEndTimeCount!=null && atEndTimeCount.contentEquals("1") ))));
-							
-							// adiciona el PPI al reporte
-							this.countAggregatedPpiMap.get(processId).put(aggrId, ppi);
-							break;
-						case HistoryConst.STATECONDITIONMEASUREAGGR:
-							
-							// obtiene la seleccion del usuario
-							String taskIdElement = request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.ELEMENT_PREFIX + i );
-							String stateIdElement = request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.STATEELEMENT_PREFIX + i );
-	
-							// asocia la medida base
-							aggregatedMeasure.setBaseMeasure( 
-									new StateConditionInstanceMeasure(aggrInstId, aggrInstName, "", "", "",
-											new StateCondition ( taskIdElement, new RuntimeState( stateIdElement ) )));
-							
-							// adiciona el PPI al reporte
-							this.stateConditionAggregatedPpiMap.get(processId).put(aggrId, ppi);
-							break;
-						case HistoryConst.DATAMEASUREAGGR:
-	
-							// obtiene la seleccion del usuario
-							String dataIdData = request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.DATA_PREFIX + i );
-							if (dataIdData==null) dataIdData = "";
-	
-							String antDataId = (String) request.getSession().getAttribute( HistoryConst.AGGR_PREFIX +"antDataId" + i);
-							if (antDataId==null) antDataId = "";
-							sessionTmp.put(HistoryConst.AGGR_PREFIX +"antDataId" + ii, dataIdData);
-							
-							String dataPropId = "";
-							if (antDataId.contentEquals(dataIdData)) {
-								dataPropId = request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.DATAPROP_PREFIX + i );
-							}
-	
-							// asocia la medida base
-							aggregatedMeasure.setBaseMeasure( 
-									new DataInstanceMeasure(aggrInstId, aggrInstName, "", "", "",
-											new DataContentSelection(dataPropId, dataIdData, dataIdData), 
-											new DataPropertyCondition("", "", new RuntimeState(), dataIdData) ));
-							
-							// adiciona el PPI al reporte
-							this.dataAggregatedPpiMap.get(processId).put(aggrId, ppi);
-							break;
-						case HistoryConst.DATAPROPERTYCONDITIONMEASUREAGGR:
-	
-							// obtiene la seleccion del usuario
-							String dataIdDataCond = request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX + HistoryConst.DATACOND_PREFIX + i );
-							if (dataIdDataCond==null) dataIdDataCond = "";
-	
-							String antDataIdCond = (String) request.getSession().getAttribute( HistoryConst.AGGR_PREFIX + "antDataIdCond" + i);
-							if (antDataIdCond==null) antDataIdCond = "";
-							sessionTmp.put(HistoryConst.AGGR_PREFIX +"antDataIdCond" + ii, dataIdDataCond);
-	
-							String dataStateId = "";
-							if (antDataIdCond.contentEquals( dataIdDataCond )) {
-								dataStateId = request.getParameter( "hd_" + HistoryConst.AGGR_PREFIX +  HistoryConst.DATASTATE_PREFIX + i );
-							}
-	
-							// asocia la medida base
-							aggregatedMeasure.setBaseMeasure( 
-									new DataPropertyConditionInstanceMeasure(aggrInstId, aggrInstName, "", "", "",
-											new DataPropertyCondition("", "", new RuntimeState(dataStateId), dataIdDataCond) ));
-							
-							// adiciona el PPI al reporte
-							this.dataPropertyConditionAggregatedPpiMap.get(processId).put(aggrId, ppi);
-							break;
-						}
-						
-						ii++;
-					}
-				}
-			}
-		
-			// si hay una instancia de proceso seleccionada y no se ha cambiado de instancia de proceso
-			if (instanceId!="" && instanceId.contentEquals(antInstId)) {
-						
-				// obtiene la variable post con los ids seleccionados por el usuario
-				List<String> ppiId = new ArrayList<String>();
-				ppiId.add( request.getParameter( HistoryConst.PPIID_VARNAME ) );
-				j = 1;
-				while (request.getParameter( "hd_" + HistoryConst.PPIID_VARNAME + j )!=null) {
-					
-					ppiId.add( request.getParameter( "hd_" + HistoryConst.PPIID_VARNAME + j ) );
-					j++;
-				}
-
-				// para cada una de las solicitudes de momentos de inicio o fin, y de medidas de instancia de proceso
-				ii = 1;
-				for(int i=0; i<ppiId.size(); i++) {
-	
-					// si efectivamente se ha realizado una seleccion
-					if (ppiId.get(i)!=null && ppiId.get(i)!="") {
-						
-						// obtiene la seleccion del usuario, comun a todos a las solicitudes y a los PPI de medidas de instancia
-						String name = request.getParameter( "hd_" + HistoryConst.NAME_PREFIX + i );
-						String id = request.getParameter( "hd_" + HistoryConst.ID_PREFIX + i );
-
-						// si se trata de una solicitud de inicio o fin
-						if (Integer.valueOf(ppiId.get(i))==HistoryConst.ACTIVITYSTART || Integer.valueOf(ppiId.get(i))==HistoryConst.ACTIVITYEND ||
-							Integer.valueOf(ppiId.get(i))==HistoryConst.POOLSTART || Integer.valueOf(ppiId.get(i))==HistoryConst.POOLEND) {
-							
-							switch ( Integer.valueOf(ppiId.get(i)) ) {
-							case HistoryConst.ACTIVITYSTART:
-							case HistoryConst.ACTIVITYEND:
-								
-								// obtiene la seleccion del usuario
-								String activityIdStartEnd =	request.getParameter( "hd_" + HistoryConst.STARTEND_PREFIX + i );
-								Boolean atEnd = ppiId.get(i).contentEquals( String.valueOf(HistoryConst.ACTIVITYEND) );
-							
-								// crea la solicitud
-								ActivityStartEnd activityStartEnd = new ActivityStartEnd(name, activityIdStartEnd, atEnd);
-								activityStartEnd.setCond( activityIdStartEnd!=null && activityIdStartEnd!="" );
-								
-								// adiciona la solicitud al reporte
-								this.activityStartEndList.get(processId).add(activityStartEnd);
-								break;
-							case HistoryConst.POOLSTART:
-							case HistoryConst.POOLEND:
-								
-								// obtiene la seleccion del usuario
-								atEnd = ppiId.get(i).contentEquals( String.valueOf(HistoryConst.POOLEND) );
-								
-								// crea la solicitud
-								PoolStartEnd poolStartEnd = new PoolStartEnd(name, atEnd);
-								poolStartEnd.setCond( true );
-								
-								// adiciona la solicitud al reporte
-								this.poolStartEndList.get(processId).add(poolStartEnd);
-								break;
-							}
-						} else {
-							
-							// obtiene la seleccion del usuario, comun a todos los PPI de medidas de instancia
-							Double refMax = null;
-							if (request.getParameter( "hd_" + HistoryConst.REFMAX_PREFIX + i )!=null && request.getParameter( "hd_" + HistoryConst.REFMAX_PREFIX + i )!="")
-								refMax = Double.valueOf(request.getParameter( "hd_" + HistoryConst.REFMAX_PREFIX + i ));
-							Double refMin = null;
-							if (request.getParameter( "hd_" + HistoryConst.REFMIN_PREFIX + i )!=null && request.getParameter( "hd_" + HistoryConst.REFMIN_PREFIX + i )!="")
-								refMin = Double.valueOf(request.getParameter( "hd_" + HistoryConst.REFMIN_PREFIX + i ));
-							
-							// crea el PPI asociado a la medida 
-							PPI ppi = new PPI(id + "_ppi", name + "_ppi", "", "", "", "", "",
-						    		new Target(refMax, refMin), 
-						    		new Scope());
-							
-							switch ( Integer.valueOf(ppiId.get(i)) ) {
-							case HistoryConst.TIMEMEASURE:
-								
-								// obtiene la seleccion del usuario
-								String activityIdTimeIni = 	request.getParameter( "hd_" + HistoryConst.INI_PREFIX + i );
-								String activityIdTimeFin = 	request.getParameter( "hd_" + HistoryConst.FIN_PREFIX + i );
-								String atEndTimeIni = 	request.getParameter( "hd_" + HistoryConst.ATENDINI_PREFIX + i );
-								String atEndTimeFin = 	request.getParameter( "hd_" + HistoryConst.ATENDFIN_PREFIX + i );
-								
-								// crea la medida
-								TimeInstanceMeasure timeInstanceMeasure = new TimeInstanceMeasure(id, name, "", "", "",
-										new TimeInstantCondition (activityIdTimeIni, new RuntimeState( atEndTimeIni!=null && atEndTimeIni.contentEquals("1") )), 
-										new TimeInstantCondition (activityIdTimeFin, new RuntimeState( atEndTimeFin!=null && atEndTimeFin.contentEquals("1") )), 
-										TimeMeasureType.LINEAR, "");
-								
-								// asocia la medida al ppi
-								ppi.setMeasuredBy(timeInstanceMeasure);
-								
-								// adiciona la medida al reporte
-								this.timeInstancePpiMap.get(processId).put(id, ppi);
-								break;
-							case HistoryConst.COUNTMEASURE:
-	
-								// obtiene la seleccion del usuario
-								String activityIdCount = request.getParameter( "hd_" + HistoryConst.COUNT_PREFIX + i );
-								String atEndTimeCount = request.getParameter( "hd_" + HistoryConst.ATEND_PREFIX + i );
-								
-								// crea la medida
-								CountInstanceMeasure countInstanceMeasure = new CountInstanceMeasure(id, name, "", "", "",
-										new TimeInstantCondition (activityIdCount, new RuntimeState( atEndTimeCount!=null && atEndTimeCount.contentEquals("1") )));
-								
-								// asocia la medida al ppi
-								ppi.setMeasuredBy(countInstanceMeasure);
-								
-								// adiciona la medida al reporte
-								this.countInstancePpiMap.get(processId).put(id, ppi);
-								break;
-							case HistoryConst.STATECONDITIONMEASURE:
-								
-								// obtiene la seleccion del usuario
-								String taskIdElement = request.getParameter( "hd_" + HistoryConst.ELEMENT_PREFIX + i );
-								String stateIdElement = request.getParameter( "hd_" + HistoryConst.STATEELEMENT_PREFIX + i );
-	
-								// crea la medida
-								StateConditionInstanceMeasure stateConditionInstanceMeasure = new StateConditionInstanceMeasure(id, name, "", "", "",
-										new StateCondition ( taskIdElement, new RuntimeState( stateIdElement ) ));
-								
-								// asocia la medida al ppi
-								ppi.setMeasuredBy(stateConditionInstanceMeasure);
-								
-								// adiciona la medida al reporte
-								this.stateConditionInstancePpiMap.get(processId).put(id, ppi);
-								break;
-							case HistoryConst.DATAMEASURE:
-	
-								// obtiene la seleccion del usuario
-								String dataIdData = request.getParameter( "hd_" + HistoryConst.DATA_PREFIX + i );
-								if (dataIdData==null) dataIdData = "";
-	
-								String antDataId = (String) request.getSession().getAttribute("antDataId" + i);
-								if (antDataId==null) antDataId = "";
-								sessionTmp.put("antDataId" + ii, dataIdData);
-	
-								String dataPropId = "";
-								if (antDataId.contentEquals(dataIdData)) {
-									dataPropId = request.getParameter( "hd_" + HistoryConst.DATAPROP_PREFIX + i );
-								}
-
-								// crea la medida
-								DataInstanceMeasure dataInstanceMeasure = new DataInstanceMeasure(id, name, "", "", "",
-										new DataContentSelection(dataPropId, dataIdData, dataIdData), 
-										new DataPropertyCondition("", "", new RuntimeState(), dataIdData) );
-								
-								// asocia la medida al ppi
-								ppi.setMeasuredBy(dataInstanceMeasure);
-								
-								// adiciona la medida al reporte
-								this.dataInstancePpiMap.get(processId).put(id, ppi);
-								break;
-							case HistoryConst.DATAPROPERTYCONDITIONMEASURE:
-	
-								// obtiene la seleccion del usuario
-								String dataIdDataCond = request.getParameter( "hd_" + HistoryConst.DATACOND_PREFIX + i );
-								if (dataIdDataCond==null) dataIdDataCond = "";
-	
-								String antDataIdCond = (String) request.getSession().getAttribute("antDataIdCond" + i);
-								if (antDataIdCond==null) antDataIdCond = "";
-								sessionTmp.put("antDataIdCond" + ii, dataIdDataCond);
-	
-								String dataStateId = "";
-								if (antDataIdCond.contentEquals( dataIdDataCond )) {
-									dataStateId = request.getParameter( "hd_" + HistoryConst.DATASTATE_PREFIX + i );
-								}
-	
-								// crea la medida
-								DataPropertyConditionInstanceMeasure dataPropertyConditionInstanceMeasure = new DataPropertyConditionInstanceMeasure(id, name, "", "", "",
-										new DataPropertyCondition("", "", new RuntimeState(dataStateId), dataIdDataCond) );
-								
-								// asocia la medida al ppi
-								ppi.setMeasuredBy(dataPropertyConditionInstanceMeasure);
-								
-								// adiciona la medida al reporte
-								this.dataPropertyConditionInstancePpiMap.get(processId).put(id, ppi);
-								break;
-							case HistoryConst.DERIVEDSINGLEINSTANCEMEASURE:
-								String derFunc = request.getParameter( "hd_" + HistoryConst.DERFUNC_PREFIX + i );
-								String idOper1 = request.getParameter( "hd_" + HistoryConst.IDOPER1_PREFIX + i );
-								String idOper2 = request.getParameter( "hd_" + HistoryConst.IDOPER2_PREFIX + i );
-								String medOper1 = request.getParameter( "hd_" + HistoryConst.MEDOPER1_PREFIX + i );
-								String medOper2 = request.getParameter( "hd_" + HistoryConst.MEDOPER2_PREFIX + i );
-
-								derFunc = (derFunc==null)?"":derFunc;
-								idOper1 = (idOper1==null)?"":idOper1;
-								idOper2 = (idOper2==null)?"":idOper2;
-								medOper1 = (medOper1==null)?"":medOper1;
-								medOper2 = (medOper2==null)?"":medOper2;
-								
-								// inserta una medida derivada de proceso
-								DerivedSingleInstanceMeasure derivedSingleInstanceMeasure = new DerivedSingleInstanceMeasure(id, name, "", "", "",
-										derFunc);
-								
-								if (!idOper1.contentEquals("") && !medOper1.contentEquals("")) {
-									
-									MeasureDefinition def1 = this.findInstanceMeasure(processId, medOper1);
-									if (def1!=null)
-										derivedSingleInstanceMeasure.addUsedMeasure(idOper1, def1);
-									
-									if (!idOper2.contentEquals("") && !medOper2.contentEquals("")) {
-										
-										MeasureDefinition def2 = this.findInstanceMeasure(processId, medOper2);
-										if (def2!=null)
-											derivedSingleInstanceMeasure.addUsedMeasure(idOper2, def2);
-									}
-								}
-
-								
-								// asocia la medida al ppi
-								ppi.setMeasuredBy(derivedSingleInstanceMeasure);
-								
-								// adiciona la medida al reporte
-								this.derivedSingleInstancePpiMap.get(processId).put(id, ppi);
-								break;
-							} // switch
-						}
-						ii++;
-					} // if (ppiId[i]!=null && ppiId[i]!="")
-				} // for( int i=0; i<ppiId.length; i++)
-			} // if (instanceId!="" && instanceId.contentEquals(antInstId))
-			
-			Iterator<Entry<String, Object>> itInst = sessionTmp.entrySet().iterator();
-		    while (itInst.hasNext()) {
-		        Map.Entry<String, Object> pairs = (Map.Entry<String, Object>)itInst.next();
-		        String key = (String) pairs.getKey();
-		        Object value = pairs.getValue();
-		        
-				request.getSession().setAttribute(key, value);
-		    }
-
-			// determina los valores de los indicadores
-			this.calculatePpiValues(processId);
-		} // if (processId!="" && processId.contentEquals(antProcId))
-	}
-	
-	private void obtainActivityStartEnd(String processId) {
-			
-		for(ActivityStartEnd activityStartEnd : this.activityStartEndList.get(processId)) {
-			
-			activityStartEnd.iniValue();
-			if (activityStartEnd.getCond()) {
-				
-				// obtiene el momento en que se inicia o termina la actividad seleccionada
-				try {
-					
-					activityStartEnd.setValueString( 
-							PpiNotModelUtils.formatStringHour(
-									HistoryDoMeasure.doActivityTimeInstanceCondition( this.instanceIdMap.get(processId), 
-																						activityStartEnd.getId(), 
-																						activityStartEnd.getAtEnd() )));
-				} catch (NullTimeException ex) {
-					
-					activityStartEnd.setValueString( "En ejecuci&oacute;n" );
-				}
-			}
-		}
-	}
-	
-	private void obtainPoolStartEnd(String processId) {
-
-		for(PoolStartEnd poolStartEnd : this.poolStartEndList.get(processId)) {
-
-			poolStartEnd.iniValue();
-			if (poolStartEnd.getCond()) {
-				
-				// obtiene el momento en que se inicia o termina la instancia de proceso
-				try {
-					
-					poolStartEnd.setValueString( 
-							PpiNotModelUtils.formatStringHour(
-									HistoryDoMeasure.doPoolTimeInstanceCondition( this.instanceIdMap.get(processId), 
-																					poolStartEnd.getAtEnd() ) ) );
-				} catch (NullTimeException ex) {
-					
-					poolStartEnd.setValueString("En ejecuci&oacute;n" );
-				}
-			}
-		}
 	}
 	
 	/**
@@ -1771,12 +1162,56 @@ public class HistoryReport {
 	 */
 	private void calculatePpiValues(String processId) {
 
-		// si hay una instancia seleccionada, obtiene las solicitudes de momentos de inicio o fin, 
-		// y calcula los PPI asociados con medidas de instancias
-		if (this.instanceIdMap.get(processId)!="") {
+		// si hay una medida seleccionada, calcula su valor para cada una de las instancias de proceso
+		if (this.measureId!="") {
 			
-			this.obtainActivityStartEnd(processId);
-			this.obtainPoolStartEnd(processId);
+			String[] list = measureId.split(":");
+			String type = list[0];
+			String id = list[1];
+			
+			Map<String, ProcessEntity> map = HistoryData.getProcessInstanceData( processId, null, null, true, true );
+
+			Iterator<Entry<String, ProcessEntity>> itInst = map.entrySet().iterator();
+		    while (itInst.hasNext()) {
+		        Map.Entry<String, ProcessEntity> pairs = (Map.Entry<String, ProcessEntity>)itInst.next();
+		        String instanceId = pairs.getKey();
+
+			    if (type==HistoryConst.TIMEMEASURE) {
+			    	
+			    	PPI ppi = this.getTimeInstancePpiMap().get(processId).get(id);
+					
+
+			    } else
+			    if (type==HistoryConst.COUNTMEASURE) {
+			    	
+			    	PPI ppi = this.getCountInstancePpiMap().get(processId).get(id);
+					
+
+			    } else
+			    if (type==HistoryConst.STATECONDITIONMEASURE) {
+			    	
+			    	PPI ppi = this.getStateConditionInstancePpiMap().get(processId).get(id);
+
+			    } else
+			    if (type==HistoryConst.DATAMEASURE) {
+			    	
+			    	PPI ppi = this.getDataInstancePpiMap().get(processId).get(id);
+
+			    } else
+			    if (type==HistoryConst.DATAPROPERTYCONDITIONMEASURE) {
+			    	
+			    	PPI ppi = this.getDataPropertyConditionInstancePpiMap().get(processId).get(id);
+
+			    } else
+				if (type==HistoryConst.DERIVEDSINGLEINSTANCEMEASURE) {
+			    	
+			    	PPI ppi = this.getDerivedSingleInstancePpiMap().get(processId).get(id);
+
+				}
+		    }
+		}
+		
+		if (this.instanceIdMap.get(processId)!="") {
 			
 			List<CalculateResult> resultList = new ArrayList<CalculateResult>();
 			
@@ -1799,7 +1234,7 @@ public class HistoryReport {
 				this.instanceSuccessMap.put(processId, instSuccess / instCant);
 		}
 		
-		// calcula los ppi de medidad agregadas y derivadas multiinstance
+		// calcula los ppi de medidas agregadas y derivadas multiinstance
 		List<CalculateResult> resultList = new ArrayList<CalculateResult>();
 		
 		resultList.add( this.calculateTimeAggregatedPpis(processId) );
@@ -1824,12 +1259,11 @@ public class HistoryReport {
 	/**
 	 * Hace el reporte a partir de un xml
 	 * 
-	 * @param request Objeto para manejar las variables de sesion
 	 * @param camino Camino del archivo xml
 	 * @param nomFich Nombre del archivo
 	 * @throws JAXBException
 	 */
-	public void doReportFromXML(HttpServletRequest request, String camino, String nomFich) throws JAXBException {
+	public void doReportFromXML(String camino, String nomFich, String instanceId, String measureId) throws JAXBException {
 		
 		// crea el objeto para leer el xml
 		PpiNotModelHandler ppiNotXmlExtracter = new PpiNotModelHandler();
@@ -1839,6 +1273,8 @@ public class HistoryReport {
 		this.iniProcessReport( processId, true );
 
 		this.selectedProcessId = processId;
+		
+		this.measureId = measureId;
 		
 		this.iniProcessReport(processId, true);
 		
@@ -1888,131 +1324,114 @@ public class HistoryReport {
 	    		this.derivedMultiInstancePpiMap.get(processId).put(measure.getId(), ppi);
 	    }
 		
-		// selecciona la ultima instancia del proceso
-		Map<String, ProcessEntity> map = HistoryData.getProcessInstanceData( processId, null, null, true, true );
-		if (map.size()>0) {
-			
-			Object[] keys = map.keySet().toArray();
-			String lastKey = (String) keys[keys.length-1];
-			this.instanceIdMap.put(processId, map.get(lastKey).getInstanceId());
-		}
-
-		// da valor a variables de sesion  
-		Map<String, Object> sessionTmp = new LinkedHashMap<String, Object>();
-		
-		Integer ii = 1 + this.activityStartEndList.size() + this.poolStartEndList.size() + this.timeInstancePpiMap.size() +
-				this.countInstancePpiMap.size() + this.stateConditionInstancePpiMap.size();
-
-	    itInst = this.dataInstancePpiMap.get(processId).entrySet().iterator();
-	    while (itInst.hasNext()) {
-	        Map.Entry<String, PPI> pairs = (Map.Entry<String, PPI>)itInst.next();
-	        PPI ppi = (PPI) pairs.getValue();
-	        
-	        DataInstanceMeasure dataInstanceMeasure = (DataInstanceMeasure) ppi.getMeasuredBy();
-
-			sessionTmp.put("antDataId" + ii, dataInstanceMeasure.getDataContentSelection().getDataobject());
-			ii++;
-		}
-
-		itInst = this.dataPropertyConditionInstancePpiMap.get(processId).entrySet().iterator();
-	    while (itInst.hasNext()) {
-	        Map.Entry<String, PPI> pairs = (Map.Entry<String, PPI>)itInst.next();
-	        PPI ppi = (PPI) pairs.getValue();
-
-	        DataPropertyConditionInstanceMeasure dataPropertyConditionInstanceMeasure = (DataPropertyConditionInstanceMeasure) ppi.getMeasuredBy();
-	        
-			sessionTmp.put("antDataIdCond" + ii, dataPropertyConditionInstanceMeasure.getCondition().getDataobject());
-			ii++;
-		}
-
-		itInst = this.derivedSingleInstancePpiMap.get(processId).entrySet().iterator();
-	    while (itInst.hasNext()) {
-	        Map.Entry<String, PPI> pairs = (Map.Entry<String, PPI>)itInst.next();
-	        PPI ppi = (PPI) pairs.getValue();
-			
-	        DerivedSingleInstanceMeasure derivedSingleInstanceMeasure = (DerivedSingleInstanceMeasure) ppi.getMeasuredBy();
-	        
-			Iterator<Entry<String, MeasureDefinition>> itInst1 = derivedSingleInstanceMeasure.getUsedMeasureMap().entrySet().iterator();
-		    while (itInst1.hasNext()) {
-		        Map.Entry<String, MeasureDefinition> pairs1 = (Map.Entry<String, MeasureDefinition>)itInst1.next();
-		    	MeasureDefinition used = pairs1.getValue();
-
-		    	if (used instanceof DataInstanceMeasure){
+		// selecciona la ultima instancia del proceso, en el caso que no haya ninguna instancia seleccionada
+	    if (instanceId!="")
+			this.instanceIdMap.put(processId, instanceId);
+	    else {
+			Map<String, ProcessEntity> map = HistoryData.getProcessInstanceData( processId, null, null, true, true );
+			if (map.size()>0) {
 				
-					sessionTmp.put("antDataId" + ii, ((DataInstanceMeasure) used).getDataContentSelection().getDataobject());
-				}
-		    	else
-				if (used instanceof DataPropertyConditionInstanceMeasure){
-					
-					sessionTmp.put("antDataIdCond" + ii, ((DataPropertyConditionInstanceMeasure) used).getCondition().getDataobject());
-				}
-				ii++;
-		    }
-			ii++;
-		}
-		
-		ii = 1 + this.timeAggregatedPpiMap.get(processId).size() + this.countAggregatedPpiMap.get(processId).size() + 
-				this.stateConditionAggregatedPpiMap.get(processId).size();
-
-		itInst = this.dataAggregatedPpiMap.get(processId).entrySet().iterator();
-	    while (itInst.hasNext()) {
-	        Map.Entry<String, PPI> pairs = (Map.Entry<String, PPI>)itInst.next();
-	        PPI ppi = (PPI) pairs.getValue();
-	        
-	        AggregatedMeasure dataAggregatedMeasure = (AggregatedMeasure) ppi.getMeasuredBy();
-
-			sessionTmp.put(HistoryConst.AGGR_PREFIX +"antDataId" + ii, ((DataInstanceMeasure) dataAggregatedMeasure.getBaseMeasure()).getDataContentSelection().getDataobject());
-			ii++;
-		}
-
-		itInst = this.dataPropertyConditionAggregatedPpiMap.get(processId).entrySet().iterator();
-	    while (itInst.hasNext()) {
-	        Map.Entry<String, PPI> pairs = (Map.Entry<String, PPI>)itInst.next();
-	        PPI ppi = (PPI) pairs.getValue();
-	        
-	        AggregatedMeasure dataPropertyConditionAggregatedMeasure = (AggregatedMeasure) ppi.getMeasuredBy();
-
-			sessionTmp.put(HistoryConst.AGGR_PREFIX +"antDataIdCond" + ii, ((DataPropertyConditionInstanceMeasure) dataPropertyConditionAggregatedMeasure.getBaseMeasure()).getCondition().getDataobject());
-			ii++;
-		}
-
-		itInst = this.derivedMultiInstancePpiMap.get(processId).entrySet().iterator();
-	    while (itInst.hasNext()) {
-	        Map.Entry<String, PPI> pairs = (Map.Entry<String, PPI>)itInst.next();
-	        PPI ppi = (PPI) pairs.getValue();
-	        
-	        DerivedMultiInstanceMeasure derivedMultiInstanceMeasure = (DerivedMultiInstanceMeasure) ppi.getMeasuredBy();
-
-			Iterator<Entry<String, MeasureDefinition>> itInst1 = derivedMultiInstanceMeasure.getUsedMeasureMap().entrySet().iterator();
-		    while (itInst1.hasNext()) {
-		        Map.Entry<String, MeasureDefinition> pairs1 = (Map.Entry<String, MeasureDefinition>)itInst1.next();
-		    	MeasureDefinition used = pairs1.getValue();
-
-				if (used instanceof AggregatedMeasure && ((AggregatedMeasure) used).getBaseMeasure() instanceof DataInstanceMeasure){
-					
-					sessionTmp.put(HistoryConst.AGGR_PREFIX +"antDataId" + ii, ((DataInstanceMeasure) ((AggregatedMeasure) used).getBaseMeasure()).getDataContentSelection().getDataobject());
-				}
-				else
-				if (used instanceof AggregatedMeasure && ((AggregatedMeasure) used).getBaseMeasure() instanceof DataPropertyConditionInstanceMeasure){
-					
-					sessionTmp.put(HistoryConst.AGGR_PREFIX +"antDataIdCond" + ii, ((DataPropertyConditionInstanceMeasure) ((AggregatedMeasure) used).getBaseMeasure()).getCondition().getDataobject());
-				}
-				ii++;
-		    }
-			ii++;
-		}
-		
-		Iterator<Entry<String, Object>> itInst1 = sessionTmp.entrySet().iterator();
-	    while (itInst1.hasNext()) {
-	        Map.Entry<String, Object> pairs1 = (Map.Entry<String, Object>)itInst1.next();
-	        String key = (String) pairs1.getKey();
-	        Object value = pairs1.getValue();
-	        
-			request.getSession().setAttribute(key, value);
+				Object[] keys = map.keySet().toArray();
+				String lastKey = (String) keys[keys.length-1];
+				this.instanceIdMap.put(processId, map.get(lastKey).getInstanceId());
+			}
 	    }
 		
 		// determina los valores de los indicadores
 		this.calculatePpiValues(processId);
+	}
+	
+	public Map<String, String> getMeasureIdMap() {
+		
+		String processId = this.selectedProcessId;
+		
+		Map<String, String> measureIdMap = new HashMap<String, String>();
+		
+		if (this.timeInstancePpiMap.containsKey(processId)) {
+			
+		    Iterator<Entry<String, PPI>> itInst = this.timeInstancePpiMap.get(processId).entrySet().iterator();
+		    while (itInst.hasNext()) {
+		        Map.Entry<String, PPI> pairs = (Map.Entry<String, PPI>)itInst.next();
+		        PPI ppi = (PPI) pairs.getValue();
+	
+		        TimeInstanceMeasure measure = (TimeInstanceMeasure) ppi.getMeasuredBy();
+		        
+		        String id = HistoryConst.TIMEMEASURE+ ":" + measure.getId();
+		        measureIdMap.put(id, id);
+		    }
+		}
+		
+		if (this.countInstancePpiMap.containsKey(processId)) {
+			
+		    Iterator<Entry<String, PPI>> itInst = this.countInstancePpiMap.get(processId).entrySet().iterator();
+		    while (itInst.hasNext()) {
+		        Map.Entry<String, PPI> pairs = (Map.Entry<String, PPI>)itInst.next();
+		        PPI ppi = (PPI) pairs.getValue();
+	
+		        CountInstanceMeasure measure = (CountInstanceMeasure) ppi.getMeasuredBy();
+		        
+		        String id = HistoryConst.COUNTMEASURE+ ":" + measure.getId();
+		        measureIdMap.put(id, id);
+		    }
+		}
+		
+		if (this.stateConditionInstancePpiMap.containsKey(processId)) {
+			
+		    Iterator<Entry<String, PPI>> itInst = this.stateConditionInstancePpiMap.get(processId).entrySet().iterator();
+		    while (itInst.hasNext()) {
+		        Map.Entry<String, PPI> pairs = (Map.Entry<String, PPI>)itInst.next();
+		        PPI ppi = (PPI) pairs.getValue();
+	
+		        StateConditionInstanceMeasure measure = (StateConditionInstanceMeasure) ppi.getMeasuredBy();
+		        
+		        String id = HistoryConst.STATECONDITIONMEASURE+ ":" + measure.getId();
+		        measureIdMap.put(id, id);
+		    }
+		}
+		
+		if (this.dataInstancePpiMap.containsKey(processId)) {
+			
+		    Iterator<Entry<String, PPI>> itInst = this.dataInstancePpiMap.get(processId).entrySet().iterator();
+		    while (itInst.hasNext()) {
+		        Map.Entry<String, PPI> pairs = (Map.Entry<String, PPI>)itInst.next();
+		        PPI ppi = (PPI) pairs.getValue();
+	
+		        DataInstanceMeasure measure = (DataInstanceMeasure) ppi.getMeasuredBy();
+		        
+		        String id = HistoryConst.DATAMEASURE+ ":" + measure.getId();
+		        measureIdMap.put(id, id);
+		    }
+		}
+			
+		if (this.dataPropertyConditionInstancePpiMap.containsKey(processId)) {
+			
+		    Iterator<Entry<String, PPI>> itInst = this.dataPropertyConditionInstancePpiMap.get(processId).entrySet().iterator();
+		    while (itInst.hasNext()) {
+		        Map.Entry<String, PPI> pairs = (Map.Entry<String, PPI>)itInst.next();
+		        PPI ppi = (PPI) pairs.getValue();
+	
+		        DataPropertyConditionInstanceMeasure measure = (DataPropertyConditionInstanceMeasure) ppi.getMeasuredBy();
+		        
+		        String id = HistoryConst.DATAPROPERTYCONDITIONMEASURE+ ":" + measure.getId();
+		        measureIdMap.put(id, id);
+		    }
+		}
+			
+		if (this.derivedSingleInstancePpiMap.containsKey(processId)) {
+			
+		    Iterator<Entry<String, PPI>> itInst = this.derivedSingleInstancePpiMap.get(processId).entrySet().iterator();
+		    while (itInst.hasNext()) {
+		        Map.Entry<String, PPI> pairs = (Map.Entry<String, PPI>)itInst.next();
+		        PPI ppi = (PPI) pairs.getValue();
+	
+		        DerivedSingleInstanceMeasure measure = (DerivedSingleInstanceMeasure) ppi.getMeasuredBy();
+		        
+		        String id = HistoryConst.DERIVEDSINGLEINSTANCEMEASURE+ ":" + measure.getId();
+		        measureIdMap.put(id, id);
+		    }
+		}
+		
+		return measureIdMap;
 	}
 
 	public void xmlExport(String path, String nomFich) throws JAXBException {

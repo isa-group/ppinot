@@ -542,8 +542,8 @@ li.filter, li.table {
 }
 .ppinot-col-name-header {
 	float:left;
-	min-width:350px;
-	max-width:350px;
+	min-width:150px;
+	max-width:150px;
 	min-height:30px;
 	text-align:left;
 	font-weight:bold;
@@ -590,8 +590,8 @@ li.filter, li.table {
 }
 .ppinot-col-name {
 	float:left;
-	min-width:350px;
-	max-width:350px;
+	min-width:150px;
+	max-width:150px;
 	min-height:30px;
 	text-align:left;
 }

@@ -1,4 +1,28 @@
-var nTable = 1;
+//start botton add goal, delete goal
+var goal = 1;
+function addGoal(){
+	var idG = "goals_"+goal++;
+	tr = document.createElement("tr");	
+	var trg = "tr_"+idG;
+	tr.setAttribute("id", trg);
+	td1 = document.createElement("td");
+	td1.innerHTML = "<input type='text' id='"+idG+"' name='Goals'>";
+	td2 = document.createElement("td");
+	td2.innerHTML = "<button type='button' onclick='delGoal("+trg+")'><i class='icon-trash'></i></button>";
+	tr.appendChild(td1);
+	tr.appendChild(td2);	
+	trCont = document.getElementById('addgoals');	
+	trCont.appendChild(tr);
+}
+
+function delGoal(id){
+	trp = document.getElementById('addgoals');
+	trc = document.getElementById(id);
+	trp.removeChild(trc);
+}//End botton add goal, delete goal
+
+//start of add new table of PPI
+var nTab = 0;
 var nDiv = 1;
 var newIdDiv = "";
 
@@ -13,7 +37,8 @@ function addDiv(){
 
 function addPPI(){ 
 	addDiv();	
-	var newID = "PPI_table_"+nTable++;	
+	nTable = nTab++;
+	var newID = "PPI_table_"+nTable;	
 	myTable = document.createElement("table");	
 	tbBody = document.createElement("tbody");	
 	tr1 = document.createElement("tr");	
@@ -57,33 +82,44 @@ function addPPI(){
 	
 	// atributos para la tabla	
 	myTable.setAttribute("id", newID);
-	
 	td1.innerHTML = "PPI:";	
-	td2.innerHTML = "<input type='text' id='ppi' name='PPI_id'  value='"+newID+"'>";	
-	td3.innerHTML = "Name:";	
-	td4.innerHTML = "<input type='text' id='Name' name='Name'>";	
+	td1.setAttribute("height","30");
+	td2.innerHTML = "<span class='PPI_id' id='PPI_id_"+nTable+"' style='background-color: transparent;'>PPI descriptive name</span>";
+	td3.innerHTML = "Name:";
+	td3.setAttribute("height","30");
+	td4.innerHTML = "<span class='Name' id='Name_"+nTable+"' style='background-color: transparent;'>name</span>";	
 	td5.innerHTML = "Process:";	
-	td6.innerHTML = "<input type='text' id='Process' name='Process'>";	
+	td5.setAttribute("height","30");
+	td6.innerHTML = "<span class='Process' id='Process_"+nTable+"' style='background-color: transparent;'>process name(process id)</span>";	
 	td7.innerHTML = "Goals:";	
-	td8.innerHTML = "<input type='text' id='Goals' name='Goals'>";	
+	td7.setAttribute("height","30");
+	td8.innerHTML = "<span class='Goals' id='Goals_"+nTable+"' style='background-color: transparent;'>strategic or operational goals the PPI is related to</span>";	
 	td9.innerHTML = "Definition:";
+	td9.setAttribute("height","30");
 	td10.innerHTML = "The PPI is defined as ";	
-	td11.innerHTML = "<input id='Def' type='text' name='Definition'>";	
+	td11.innerHTML = "<span class='Definition' id='Def' style='background-color: transparent;'></span>";	
 	td12.innerHTML = "Target:";	
+	td13.setAttribute("height","30");
 	td13.innerHTML = "The PPI value must ";	
-	td14.innerHTML = "<input id='Tar' type='text' name='Target'>";	
+	td14.innerHTML = "<span class='Target' id='Tar' style='background-color: transparent;'></span>";	
 	td15.innerHTML = "Unit:";	
-	td16.innerHTML = "<input type='text' id='Unit' name='Unit'>";	
+	td15.setAttribute("height","30");
+	td16.innerHTML = "<span class='Unit' id='Unit_"+nTable+"' style='background-color: transparent;'>unit</span>";	
 	td17.innerHTML = "Scope:";	
-	td18.innerHTML = "<input type='text' id='Scope' name='Scope'>";	
+	td17.setAttribute("height","30");
+	td18.innerHTML = "<span class='Scope' id='Scope_"+nTable+"' style='background-color: transparent;'>The process instances considered for this PPI are</span>";	
 	td19.innerHTML = "Source:";	
-	td20.innerHTML = "<input type='text' id='Source' name='Source'>";	
-	td21.innerHTML = "Responsible:";	
-	td22.innerHTML = "<input type='text' id='Responsible' name='Responsible'>";	
+	td19.setAttribute("height","30");
+	td20.innerHTML = "<span class='Source' id='Source_"+nTable+"' style='background-color: transparent;'>source from which the PPI measure can be obtained</span>";	
+	td21.innerHTML = "Responsible:";
+	td21.setAttribute("height","30");
+	td22.innerHTML = "<span class='Responsible' id='Responsible_"+nTable+"' style='background-color: transparent;'>role | department | organization | person</span>";	
 	td23.innerHTML = "Informed:";	
-	td24.innerHTML = "<input type='text' id='Informed' name='Informed'>";	
+	td23.setAttribute("height","30");
+	td24.innerHTML = "<span class='Informed' id='Informed_"+nTable+"' style='background-color: transparent;'>role | department | organization | person</span>";	
 	td25.innerHTML = "Comments:";	
-	td26.innerHTML = "<input type='text' id='Comments' name='Comments'>";
+	td25.setAttribute("height","30");
+	td26.innerHTML = "<span class='Comments' id='Comments_"+nTable+"' style='background-color: transparent;'>additional comments about the PPI</span>";
 	
 	tr1.appendChild(td1);	
 	tr1.appendChild(td2);	
@@ -126,8 +162,23 @@ function addPPI(){
 	
 	myTable.appendChild(tbBody);	
 	divT = document.getElementById(newIdDiv);	
-	divT.appendChild(myTable);			
+	divT.appendChild(myTable);	
+	inLineEditTable();
 }
+
+function inLineEditTable(){
+	$('.PPI_id').inlineEdit();
+	$('.Name').inlineEdit();
+	$('.Process').inlineEdit();
+	$('.Goals').inlineEdit();
+	$('.Unit').inlineEdit();
+	$('.Scope').inlineEdit();
+	$('.Source').inlineEdit();
+	$('.Responsible').inlineEdit();
+	$('.Informed').inlineEdit();
+	$('.Comments').inlineEdit();
+}
+//end of add new table of PPI
 
 $(function(){
 	var Agg= ["sum", "average", "max", "min"];	
@@ -240,7 +291,7 @@ $(function(){
 	                           TimeMeasure[31], TimeMeasure[32], TimeMeasure[33], TimeMeasure[34], TimeMeasure[35], 	                           
 	                           TimeMeasure[36], TimeMeasure[37], TimeMeasure[38], TimeMeasure[39], TimeMeasure[40], 	                           
 	                           TimeMeasure[41], TimeMeasure[42], TimeMeasure[43], TimeMeasure[44]  ];	         
-	        $("#Def").autocomplete({source: MeasureForAgg});	    
+	       // $("#Def").autocomplete({source: MeasureForAgg});	    
 });	  
 
 $(function(){
@@ -249,42 +300,59 @@ $(function(){
 	                    "be less than or equal",		   			    
 	                    "be greater than or equal",		   			    
 	                    "between [intervalo]"];			
-	$("#Tar").autocomplete({source: targetOneBound});	
+	//$("#Tar").autocomplete({source: targetOneBound});	
 });	
 
-$(document).ready(function(){	
-	$("#PPI_id").editInPlace({
-		callback: function(unused, enteredText) { return enteredText; }
-	});
-});
+(function($) {
+	$.fn.inlineEdit = function(options) {
+		// define some options with sensible default values
+		// - hoverClass: the css classname for the hover style
+		options = $.extend({
+		hoverClass: 'hover'
+		}, options);
+		return $.each(this, function() {
+			// define self container
+			var self = $(this);
+			// create a value property to keep track of current value
+			self.value = self.text();
+			// bind the click event to the current element, in this example it's span.editable
+			self.bind('click', function() {
+				self
+				// populate current element with an input element and add the current value to it
+				.html('<input type="text" value="'+ self.value +'">')
+				// select this newly created input element
+				.find('input')
+				// bind the blur event and make it save back the value to the original span area
+				// there by replacing our dynamically generated input element
+				.bind('blur', function(event) {
+					self.value = $(this).val();
+					self.text(self.value);
+				})
+				// give the newly created input element focus
+				.focus();
+			})
+			// on hover add hoverClass, on rollout remove hoverClass
+			.hover(
+				function(){
+					self.addClass(options.hoverClass);
+				},
+				function(){
+					self.removeClass(options.hoverClass);
+				}
+			);
+		});
+	}
+})(jQuery);
 
-//When div.edit me is clicked, run this function
-$(document).ready(function() {
-	//When div.edit me is clicked, run this function
-	$("div.editme").click(function() {
-		//This if statement checks to see if there are 
-		//and children of div.editme are input boxes. If so,
-		//we don't want to do anything and allow the user
-		//to continue typing
-		if ($(this).children('input').length == 0) {
-		
-			//Create the HTML to insert into the div. Escape any " characters 
-			var inputbox = "<input type='text' class='inputbox' value=\""+$(this).text()+"\">";
-			
-			//Insert the HTML into the div
-			$(this).html(inputbox);
-			
-			//Immediately give the input box focus. The user
-			//will be expecting to immediately type in the input box,
-			//and we need to give them that ability
-			$("input.inputbox").focus();
-			
-			//Once the input box loses focus, we need to replace the
-			//input box with the current text inside of it.
-			$("input.inputbox").blur(function() {
-				var value = $(this).val();
-				$(".editme").text(value);
-			});
-		}
-	});
-});
+$(function(){
+	$('.PPI_id').inlineEdit();
+	$('.Name').inlineEdit();
+	$('.Process').inlineEdit();
+	$('.Goals').inlineEdit();
+	$('.Unit').inlineEdit();
+	$('.Scope').inlineEdit();
+	$('.Source').inlineEdit();
+	$('.Responsible').inlineEdit();
+	$('.Informed').inlineEdit();
+	$('.Comments').inlineEdit();
+}); 

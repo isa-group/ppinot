@@ -1,4 +1,4 @@
-//start botton add goal, delete goal
+//start_ add goal and delete goal button
 var goal = 1;
 function addGoal(){
 	var idG = "goals_"+goal++;
@@ -19,7 +19,7 @@ function delGoal(id){
 	trp = document.getElementById('addgoals');
 	trc = document.getElementById(id);
 	trp.removeChild(trc);
-}//End botton add goal, delete goal
+}//End_ add goal and delete goal button
 
 //start of add new table of PPI
 var nTab = 0;
@@ -53,6 +53,7 @@ function addPPI(){
 	tr10 = document.createElement("tr");	
 	tr11 = document.createElement("tr");	
 	tr12 = document.createElement("tr");	
+	tr13 = document.createElement("tr");
 	td1 = document.createElement("td");	
 	td2 = document.createElement("td");	
 	td3 = document.createElement("td");	
@@ -79,6 +80,8 @@ function addPPI(){
 	td24 = document.createElement("td");	
 	td25 = document.createElement("td");	
 	td26 = document.createElement("td");	
+	td27 = document.createElement("td");
+	td28 = document.createElement("td");
 	
 	// atributos para la tabla	
 	myTable.setAttribute("id", newID);
@@ -92,8 +95,11 @@ function addPPI(){
 	td5.setAttribute("height","30");
 	td6.innerHTML = "<span class='Process' id='Process_"+nTable+"' style='background-color: transparent;'>process name(process id)</span>";	
 	td7.innerHTML = "Goals:";	
-	td7.setAttribute("height","30");
+	td7.setAttribute("height","30");	
 	td8.innerHTML = "<span class='Goals' id='Goals_"+nTable+"' style='background-color: transparent;'>strategic or operational goals the PPI is related to</span>";	
+	td27.innerHTML ="<button type='button' id='Goals_"+nTable+"' onclick='addGoal()'> <i class='icon-plus'></i> </button> ";
+	tr13.setAttribute("id","addgoals");
+	td28.setAttribute("width","70");
 	td9.innerHTML = "Definition:";
 	td9.setAttribute("height","30");
 	td10.innerHTML = "The PPI is defined as ";	
@@ -128,7 +134,9 @@ function addPPI(){
 	tr3.appendChild(td5);	
 	tr3.appendChild(td6);	
 	tr4.appendChild(td7);	
-	tr4.appendChild(td8);	
+	tr4.appendChild(td8);
+	tr4.appendChild(td27);
+	tr13.appendChild(td28);
 	tr5.appendChild(td9);	
 	tr5.appendChild(td10);	
 	tr5.appendChild(td11);	
@@ -180,6 +188,7 @@ function inLineEditTable(){
 }
 //end of add new table of PPI
 
+//autocomplete
 $(function(){
 	var Agg= ["sum", "average", "max", "min"];	
 	var b1= ["the"+" "+Agg[0]+" "+"of", "the"+" "+Agg[1]+" "+"of", "the"+" "+Agg[2]+" "+"of", "the"+" "+Agg[3]+" "+"of"];	
@@ -356,3 +365,37 @@ $(function(){
 	$('.Informed').inlineEdit();
 	$('.Comments').inlineEdit();
 }); 
+
+//Tabulador event
+//--EJEMPLO 2 ---> medio funciona
+function tab(event){
+	var t = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
+	if (t == 9) {
+		return false;
+	}
+	return true;
+}
+
+/*
+--EJEMPLO 1 no funciona
+function tab(e){
+	tc = (document.all) ? e.keyCode : e.which;
+	if(tc==9 || tc == 8 || tc==20)
+		return true;
+}
+
+--EJEMPLO 2 
+<input name="boton_busca" type="button" id="boton_busca" value="Go" onClick="xfiltro();" onKeyDown="return tab_btn(event);"> 
+Y ésta es la función que verifica la tecla presionada:
+Código HTML:
+function tab_btn(event)
+{
+	var t = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
+	if (t == 9) 
+	{
+		x_busca.element().focus(); 
+		return false;
+	}
+	return true;
+}
+*/

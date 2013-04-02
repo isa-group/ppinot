@@ -87,10 +87,7 @@
 		 		    					str += "<option selected id='opt-"+i+"' value='"+i+"'>"+BPEN[i]+" "+cad3[0]+" "+BPES[i]+"</option>";
 		 		    				else
 		 		    					str += "<option  id='opt-"+i+"' value='"+i+"'>"+BPEN[i]+" "+cad3[0]+" "+BPES[i]+"</option>";
-		 		    					
-		 		    				
-		 		    					
-		 		    			}
+		 		    				}
 		 		    			str = "<select class='selectbox1'>"+ str +"</select>";
 		 		    			
 		 		    			$("div.selectme1").html(cad1[0]+" "+str);
@@ -100,33 +97,29 @@
 		 		    				var valuetext1 = $(this).children('option#opt-'+value1).text();
 		 		    				$("div.selectme1").attr({'id': "selectme-"+value1});
 		 		    				$(".selectme1").text(valuetext1);
+		 		    			   
+		 		    				 if ($("div.selectme13").children('select').length == 0) {
+					 		    			var id = $(this).attr('id').split("-");
+					 		    			var currentid = parseInt(id[1]);
+					 		    			var str = "";
+					 		    	        
+					 		    			$("div.selectme1").html("The PPI is defined as The number of times process Analyse RFC becomes completed");
+					 		    			$("select.selectbox1").focus();
+					 		    			$("select.selectbox1").blur(function() {
+					 		    				var value1 = $(this).val();
+					 		    				var valuetext1 = $(this).children('option#opt-'+value1).text();
+					 		    				$("div.selectme1").attr({'id': "selectme-"+value1});
+					 		    				$(".selectme1").text(valuetext1);
+					 		    				
+					 		    		   });
+					 		    		}
 		 		    				
 		 		    		   });
 		 		    			
-		 		    			 if ($("div.selectme13").children('select').length == 0) {
-				 		    			var id = $(this).attr('id').split("-");
-				 		    			var currentid = parseInt(id[1]);
-				 		    			var str = "";
-				 		    	        
-				 		    			$("div.selectme1").html("The PPI is defined as The number of times process Analyse RFC becomes completed");
-				 		    			$("select.selectbox1").focus();
-				 		    			$("select.selectbox1").blur(function() {
-				 		    				var value1 = $(this).val();
-				 		    				var valuetext1 = $(this).children('option#opt-'+value1).text();
-				 		    				$("div.selectme1").attr({'id': "selectme-"+value1});
-				 		    				$(".selectme1").text(valuetext1);
-				 		    				
-				 		    		   });
-				 		    		
-				 		   
-				 		        }
-		 		    		
-		 		   
-		 		        }
+		 		    			
+		 		    		}
 		    		   });
-		    		
-		   
-		        }
+		    		}
     		});
    
         }

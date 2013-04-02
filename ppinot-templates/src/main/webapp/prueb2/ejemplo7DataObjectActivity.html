@@ -103,10 +103,7 @@
 		 		    				var valuetext1 = $(this).children('option#opt-'+value1).text();
 		 		    				$("div.selectme1").attr({'id': "selectme-"+value1});
 		 		    				$(".selectme1").text(valuetext1);
-		 		    				
-		 		    		   });
-		 		    			
-		 		    			 if ($("div.selectme13").children('select').length == 0) {
+		 		    			if ($("div.selectme13").children('select').length == 0) {
 				 		    			var id = $(this).attr('id').split("-");
 				 		    			var currentid = parseInt(id[1]);
 				 		    			var str = "";
@@ -123,6 +120,9 @@
 				 		    		
 				 		   
 				 		        }
+		 		    		   });
+		 		    			
+		 		    			 
 		 		    		
 		 		   
 		 		        }

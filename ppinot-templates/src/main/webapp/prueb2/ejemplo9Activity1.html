@@ -27,14 +27,14 @@
     			var str = "";
     			var TimeMeasure = new Array("The duration between time instants when Event and when Event",
     					            "The number of times Event",
-    					            "BPET BPEN is state BPES",
+    					            "BPET BPEN is currently BPES",
     					            "the value of data object property name of data object name");
     			var arr1= new Array("The PPI is defined as");
     			for(i=0; i < TimeMeasure.length; i++) {
     				if (currentid == i) 
-    					str += "<option selected id='opt-"+i+"' value='"+i+"'>" + arr1[0]+" "+TimeMeasure[i]+"</option>";
+    					str += "<option selected id='opt-"+i+"' value='"+i+"'>" + arr1[0]+""+TimeMeasure[i]+"</option>";
     				else
-    					str += "<option value='"+i+"' id='opt-"+i+"'>"+ arr1[0]+" "+TimeMeasure[i]+"</option>";
+    					str += "<option value='"+i+"' id='opt-"+i+"'>"+ arr1[0]+""+TimeMeasure[i]+"</option>";
     			}
     			str = "<select class='selectbox'>"+ str+"</select>";
     			
@@ -45,89 +45,105 @@
     				var valuetext = $(this).children('option#opt-'+value).text();
     				$("div.selectme1").attr({'id': "selectme-"+value});
     				$(".selectme1").text(valuetext);
-    		 if ($("div.selectme11").children('select').length == 0) {
-		    			var id = $(this).attr('id').split("-");
-		    			var currentid = parseInt(id[1]);
-		    			var str = "";
-		    			var Event= new Array("activity BPEN becomes BPES", 
-		    					             "process BPEN becomes BPES", 
-		    					             "data object BEN becomes BPES",
-		    					             "event BPEN is triggred");
-		    			var cad1= new Array("The PPI is defined as The duration between time instants when");
-		    			var cad2= new Array("and when");
-		    			
+    		 
+    				 if ($("div.selectme11").children('select').length == 0) {
+    					 var id = $(this).attr('id').split("-");
+ 		    			var currentid = parseInt(id[1]);
+ 		    			var str = "";
+		    			var Event= new Array("activity BPEN is currently BPES", 
+		    					             "process BPEN is currently BPES", 
+		    					             "data object BPEN is currently BPES",
+		    					             "event BPEN is currently BPES");
+		    			var cad1= new Array("The PPI is defined as");
 		    			for(i=0; i < Event.length; i++) {
 		    				if (currentid == i) 
-		    					str += "<option selected id='opt-"+i+"' value='"+i+"'>"+Event[i]+"</option>";
+		    					str += "<option selected id='opt-"+i+"' value='"+i+"'>"+cad1[0]+""+Event[i]+"</option>";
 		    				else
-		    					str += "<option value='"+i+"' id='opt-"+i+"'>"+ Event[i]+"</option>";
+		    					str += "<option value='"+i+"' id='opt-"+i+"'>"+cad1[0]+""+Event[i]+"</option>";
 		    			}
 		    			str = "<select class='selectbox1'>"+ str +"</select>";
 		    			
-		    			$("div.selectme1").html(cad1+""+str+""+cad2+""+str);
+		    			$("div.selectme1").html(str);
 		    			$("select.selectbox1").focus();
 		    			$("select.selectbox1").blur(function() {
 		    				var value1 = $(this).val();
 		    				var valuetext1 = $(this).children('option#opt-'+value1).text();
-		    				$("div.selectme1").attr({'id': "selectme-"+value1});
+		    				$("div.selectme1").attr({'id': "selectme1-"+value1});
 		    				$(".selectme1").text(valuetext1);
 		    				
 		    				 if ($("div.selectme12").children('select').length == 0) {
 		 		    			var id = $(this).attr('id').split("-");
 		 		    			var currentid = parseInt(id[1]);
 		 		    			var str = "";
-		 		    			var BPEN= new Array("Assign priority",
-		 		    			          "Analyse RFC",
-		 		    			          "cancel RFC");
-		 		    			var BPES= new Array("ready", "active", "withdrawn", "completing", "completed");
-		 		    			var cad1= new Array("The PPI is defined as The duration between time instants when");
-		 		    			var cad2= new Array("process");
-		 		    			var cad3= new Array("becomes");
-		 		    			var cad4= new Array("and when");
-		 		    			for(i=0; i < BPEN.length; i++) {
+		 		    			var Event1= new Array("activity Assign priority is currently BPES",
+		 		    					             "activity Analyse RFC is currently BPES",
+		 		    					             "activity cancel RFC is currently BPES",
+		 		    					             "process Assign priority is currently BPES",
+		 		    					             "process Analyse RFC is currently BPES",
+		 		    					             "process cancel RFC is currently BPES",
+		 		    					             "data object Assign priority is currently BPES",
+		 		    					             "data object Analyse RFC is currently BPES",
+		 		    					             "data object cancel RFC is currently BPES",
+		 		    					             "events Assign priority is currently BPES",
+		 		    					             "events Analyse RFC is currently BPES",
+		 		    					             "events cancel RFC is currently BPES");
+	    					              
+	    			            var cad1= new Array("The PPI is defined as");
+		 		    			for(i=0; i < Event1.length; i++) {
 		 		    				if (currentid == i) 
-		 		    					str += "<option selected id='opt-"+i+"' value='"+i+"'>"+BPEN[i]+" "+cad3[0]+" "+BPES[i]+"</option>";
+		 		    					str += "<option selected id='opt-"+i+"' value='"+i+"'>"+cad1[0]+""+Event1[i]+"</option>";
 		 		    				else
-		 		    					str += "<option  id='opt-"+i+"' value='"+i+"'>"+BPEN[i]+" "+cad3[0]+" "+BPES[i]+"</option>";
-		 		    					
-		 		    				
-		 		    					
+		 		    					str += "<option  id='opt-"+i+"' value='"+i+"'>"+cad1[0]+""+Event1[i]+"</option>";
 		 		    			}
 		 		    			str = "<select class='selectbox1'>"+ str +"</select>";
 		 		    			
-		 		    			$("div.selectme1").html(cad1[0]+" "+cad2[0]+" "+str+" "+cad4[0]+" "+cad2[0]+" "+str);
+		 		    			$("div.selectme1").html(str);
 		 		    			$("select.selectbox1").focus();
 		 		    			$("select.selectbox1").blur(function() {
 		 		    				var value1 = $(this).val();
 		 		    				var valuetext1 = $(this).children('option#opt-'+value1).text();
 		 		    				$("div.selectme1").attr({'id': "selectme-"+value1});
 		 		    				$(".selectme1").text(valuetext1);
-		 		    		 if ($("div.selectme13").children('select').length == 0) {
-					 		    var id = $(this).attr('id').split("-");
-					 		    var currentid = parseInt(id[1]);
-					 		    var str = "";
-					 		    	        
-					 		    $("div.selectme1").html("The PPI is defined as The duration between time instants when process Assign priority  becomes active and when process Analyse RFC becomes completed ");
-					 		    $("select.selectbox1").focus();
-					 		    $("select.selectbox1").blur(function() {
-					 		    var value1 = $(this).val();
-					 		    var valuetext1 = $(this).children('option#opt-'+value1).text();
-					 		    $("div.selectme1").attr({'id': "selectme-"+value1});
-					 		    $(".selectme1").text(valuetext1);
-					 		  });
-					 		    		
-					 		   
-					 		        }
-		 		    		   });
 		 		    			
-		 		    			
-		 		    		
-		 		   
-		 		        }
+		 		    				  if ($("div.selectme13").children('select').length == 0) {
+		 					 		    	var id = $(this).attr('id').split("-");
+		 					 		    	var currentid = parseInt(id[1]);
+		 					 		    	var str = "";
+		 					 		    	var Event2= new Array("activity Assign priority is currently completed",
+		 		 		    					             "activity Analyse RFC is currently active",
+		 		 		    					             "activity cancel RFC is currently canceled",
+		 		 		    					             "process Assign priority is currently completed",
+		 		 		    					             "process Analyse RFC is currently active",
+		 		 		    					             "process cancel RFC is currently canceled",
+		 		 		    					             "data object Assign priority is currently completed",
+		 		 		    					             "data object Analyse RFC is currently active",
+		 		 		    					             "data object cancel RFC is currently canceled",
+		 		 		    					             "events Assign priority is currently completed",
+		 		 		    					             "events Analyse RFC is currently active",
+		 		 		    					             "events cancel RFC is currently canceled");
+		 	   					              
+		 	   			                  var cad1= new Array("The PPI is defined as");
+		 		 		    			for(i=0; i < Event2.length; i++) {
+		 		 		    				if (currentid == i) 
+		 		 		    					str += "<option selected id='opt-"+i+"' value='"+i+"'>"+cad1[0]+"  "+Event2[i]+"</option>";
+		 		 		    				else
+		 		 		    					str += "<option  id='opt-"+i+"' value='"+i+"'>"+cad1[0]+"  "+Event2[i]+"</option>";
+		 		 		    			}
+		 		 		    			str = "<select class='selectbox1'>"+ str +"</select>";
+		 					 		    			
+		 					 		    			$("div.selectme1").html(str);
+		 					 		    			$("select.selectbox1").focus();
+		 					 		    			$("select.selectbox1").blur(function() {
+		 					 		    				var value1 = $(this).val();
+		 					 		    				var valuetext1 = $(this).children('option#opt-'+value1).text();
+		 					 		    				$("div.selectme1").attr({'id': "selectme-"+value1});
+		 					 		    				$(".selectme1").text(valuetext1);
+		 					 		    			});
+		 					 		    		}
+		 		    		             });
+		 		    			}
 		    		   });
-		    		
-		   
-		        }
+		    		}
     		});
    
         }

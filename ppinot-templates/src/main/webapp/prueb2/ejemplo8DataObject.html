@@ -100,26 +100,27 @@
 		 		    				var valuetext1 = $(this).children('option#opt-'+value1).text();
 		 		    				$("div.selectme1").attr({'id': "selectme-"+value1});
 		 		    				$(".selectme1").text(valuetext1);
-		 		    				
+		 		    			
+		 		    			if ($("div.selectme13").children('select').length == 0) {
+					 		    	var id = $(this).attr('id').split("-");
+					 		    	var currentid = parseInt(id[1]);
+					 		    	var str = "";
+					 		    	        
+					 		    	$("div.selectme1").html("The PPI is defined as The number of times data object Analyse RFC becomes completed");
+					 		    	$("select.selectbox1").focus();
+					 		    	$("select.selectbox1").blur(function() {
+					 		    	var value1 = $(this).val();
+					 		    	var valuetext1 = $(this).children('option#opt-'+value1).text();
+					 		    	$("div.selectme1").attr({'id': "selectme-"+value1});
+					 		    	$(".selectme1").text(valuetext1);
+					 		    				
+					 		    });
+					 		    		
+					 		   
+					 		        }
 		 		    		   });
 		 		    			
-		 		    			 if ($("div.selectme13").children('select').length == 0) {
-				 		    			var id = $(this).attr('id').split("-");
-				 		    			var currentid = parseInt(id[1]);
-				 		    			var str = "";
-				 		    	        
-				 		    			$("div.selectme1").html("The PPI is defined as The number of times data object Analyse RFC becomes completed");
-				 		    			$("select.selectbox1").focus();
-				 		    			$("select.selectbox1").blur(function() {
-				 		    				var value1 = $(this).val();
-				 		    				var valuetext1 = $(this).children('option#opt-'+value1).text();
-				 		    				$("div.selectme1").attr({'id': "selectme-"+value1});
-				 		    				$(".selectme1").text(valuetext1);
-				 		    				
-				 		    		   });
-				 		    		
-				 		   
-				 		        }
+		 		    			
 		 		    		
 		 		   
 		 		        }

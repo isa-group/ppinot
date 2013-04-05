@@ -186,7 +186,6 @@ function addPPI(){
 	divT.appendChild(myTable);	
 	inLineEditTable();
 }
-
 function inLineEditTable(){
 	$('.PPI_id').inlineEdit();
 	$('.Name').inlineEdit();
@@ -201,130 +200,7 @@ function inLineEditTable(){
 }
 //end of add new table of PPI
 
-//autocomplete
-$(function(){
-	var Agg= ["sum", "average", "max", "min"];	
-	var b1= ["the"+" "+Agg[0]+" "+"of", "the"+" "+Agg[1]+" "+"of", "the"+" "+Agg[2]+" "+"of", "the"+" "+Agg[3]+" "+"of"];	
-	var b2= ["the duration between"];	
-	var b3= ["the time instant when"];	
-	var b4= [b2[0]+" "+b3[0], b1[0]+" "+b2[0]+" "+b3[0], b1[1]+" "+b2[0]+" "+b3[0], b1[2]+" "+b2[0]+" "+b3[0],  b1[3]+" "+b2[0]+" "+b3[0]];
-	
-	var BPET= ["activity", "element"];	
-	var DataObject= ["data Object"];	
-	var DataObjectName=["RFC"];	
-	var BPEN= [DataObject[0]+" "+DataObjectName[0], "analysis", DataObjectName[0]];	
-	var ac= [BPEN[2]+" "+BPEN[1]];
-	var StateConditionMeasure= [BPET[0]+" "+ac[0], BPET[0]+" "+BPEN[0], BPET[1]+" "+ac[0], BPET[1]+" "+BPEN[0]];	
-	var BPES= ["active", "completed", "has finished", "canceled", "registered", "approved", "affected"];	
-	var EVENT= [StateConditionMeasure[0]+" "+"becomes"+" "+BPES[0], StateConditionMeasure[0]+" "+"becomes"+" "+BPES[1], 
-	
-	            StateConditionMeasure[0]+" "+"becomes"+" "+BPES[2], StateConditionMeasure[0]+" "+"becomes"+" "+BPES[3],  
-	            
-	            StateConditionMeasure[0]+" "+"becomes"+" "+BPES[4], StateConditionMeasure[0]+" "+"changes to state"+" "+BPES[0],  
-	            
-	            StateConditionMeasure[0]+" "+"changes to state"+" "+BPES[1], StateConditionMeasure[0]+" "+"changes to state"+" "+BPES[2],
-	            
-	            StateConditionMeasure[0]+" "+"changes to state"+" "+BPES[3], StateConditionMeasure[0]+" "+"changes to state"+" "+BPES[4], 
-	            
-	            StateConditionMeasure[1]+" "+"becomes"+" "+BPES[0], StateConditionMeasure[1]+" "+"becomes"+" "+BPES[1],  
-	            
-	            StateConditionMeasure[1]+" "+"becomes"+" "+BPES[2], StateConditionMeasure[1]+" "+"becomes"+" "+BPES[3],  
-	            
-	            StateConditionMeasure[1]+" "+"becomes"+" "+BPES[4], StateConditionMeasure[1]+" "+"changes to state"+" "+BPES[0], 
-	            
-	            StateConditionMeasure[1]+" "+"changes to state"+" "+BPES[1], StateConditionMeasure[1]+" "+"changes to state"+" "+BPES[2], 
-	            
-	            StateConditionMeasure[1]+" "+"changes to state"+" "+BPES[3],  StateConditionMeasure[1]+" "+"changes to state"+" "+BPES[4],
-	            
-	            StateConditionMeasure[2]+" "+"becomes"+" "+BPES[0], StateConditionMeasure[2]+" "+"becomes"+" "+BPES[1], 
-	            
-	            StateConditionMeasure[2]+" "+"becomes"+" "+BPES[2], StateConditionMeasure[2]+" "+"becomes"+" "+BPES[3],  
-	            
-	            StateConditionMeasure[2]+" "+"becomes"+" "+BPES[4], StateConditionMeasure[2]+" "+"changes to state"+" "+BPES[2],  
-	            
-	            StateConditionMeasure[2]+" "+"changes to state"+" "+BPES[1], StateConditionMeasure[2]+" "+"changes to state"+" "+BPES[2], 
-	            
-	            StateConditionMeasure[2]+" "+"changes to state"+" "+BPES[3], StateConditionMeasure[2]+" "+"changes to state"+" "+BPES[4],
-	            
-	            StateConditionMeasure[3]+" "+"becomes"+" "+BPES[0], StateConditionMeasure[3]+" "+"becomes"+" "+BPES[1], 
-	            
-	            StateConditionMeasure[3]+" "+"becomes"+" "+BPES[2], StateConditionMeasure[3]+" "+"becomes"+" "+BPES[3],  
-	            
-	            StateConditionMeasure[3]+" "+"becomes"+" "+BPES[4], StateConditionMeasure[3]+" "+"changes to state"+" "+BPES[0],  
-	            
-	            StateConditionMeasure[3]+" "+"changes to state"+" "+BPES[1], StateConditionMeasure[3]+" "+"changes to state"+" "+BPES[2], 
-	            
-	            StateConditionMeasure[3]+" "+"changes to state"+" "+BPES[3], StateConditionMeasure[3]+" "+"changes to state"+" "+BPES[4] ];
-	        var 
-	        bp2= [b4[1]+" "+EVENT[0], b4[2]+" "+EVENT[0], b4[3]+" "+EVENT[0], b4[4]+" "+EVENT[0], b4[0]+" "+EVENT[0]];	        
-	        var CountMeasure= ["the number of times"];	        
-	        var ac3=[CountMeasure[0]+" "+BPET[0]];	        
-	        var DataPorpertyConditionMeasure=["that satisfies:", DataObjectName[0]];	        
-	        var ConditionMeasure= [DataPorpertyConditionMeasure[0], DataPorpertyConditionMeasure[1], StateConditionMeasure[0], StateConditionMeasure[1], StateConditionMeasure[2], StateConditionMeasure[3]];
-	        
-	        var DataObjectProperty=["type of change"];	        
-	        var ConditionOnDataObjectProperties=[DataObjectProperty[0]+"=perfective"];	        
-	        var ac2= ["Analyse in committe that is currently active"];	        
-	        var ac4=["and is group by property"];	        
-	        var DataObjectPropertyName=[BPES[6]+" "+"departaments"];	        
-	        var DataMeasure=["the value of [property]"+DataObjectPropertyName[0]+" "+"of"+BPEN[0]];        
-	        var TimeMeasure= [bp2[0]+" "+"and"+" "+b3[0]+" "+EVENT[31], bp2[0]+" "+"and"+" "+b3[0]+" "+EVENT[36], bp2[1]+" "+"and"+" "+b3[0]+" "+EVENT[31],
-	        
-	                          bp2[1]+" "+"and"+" "+b3[0]+" "+EVENT[36], bp2[2]+" "+"and"+" "+b3[0]+" "+EVENT[31], bp2[2]+" "+"and"+" "+b3[0]+" "+EVENT[36],
-	                          
-	                          bp2[3]+" "+"and"+" "+b3[0]+" "+EVENT[31], bp2[3]+" "+"and"+" "+b3[0]+" "+EVENT[36], bp2[0]+" "+"and"+" "+b3[0]+" "+EVENT[32], 
-	                          
-	                          bp2[0]+" "+"and"+" "+b3[0]+" "+EVENT[37], bp2[1]+" "+"and"+" "+b3[0]+" "+EVENT[32], bp2[1]+" "+"and"+" "+b3[0]+" "+EVENT[37],
-	                          
-	                          bp2[2]+" "+"and"+" "+b3[0]+" "+EVENT[32], bp2[2]+" "+"and"+" "+b3[0]+" "+EVENT[37], bp2[3]+" "+"and"+" "+b3[0]+" "+EVENT[32],
-	                          
-	                          bp2[3]+" "+"and"+" "+b3[0]+" "+EVENT[37], bp2[0]+" "+"and"+" "+b3[0]+" "+EVENT[33], bp2[0]+" "+"and"+" "+b3[0]+" "+EVENT[38],
-	                          
-	                          bp2[1]+" "+"and"+" "+b3[0]+" "+EVENT[33], bp2[1]+" "+"and"+" "+b3[0]+" "+EVENT[38], bp2[2]+" "+"and"+" "+b3[0]+" "+EVENT[33],
-	                          
-	                          bp2[2]+" "+"and"+" "+b3[0]+" "+EVENT[38], bp2[3]+" "+"and"+" "+b3[0]+" "+EVENT[33], bp2[3]+" "+"and"+" "+b3[0]+" "+EVENT[38],
-	                          
-	                          bp2[0]+" "+"and"+" "+b3[0]+" "+EVENT[34], bp2[0]+" "+"and"+" "+b3[0]+" "+EVENT[39], bp2[1]+" "+"and"+" "+b3[0]+" "+EVENT[34],
-	                          
-	                          bp2[1]+" "+"and"+" "+b3[0]+" "+EVENT[39], bp2[2]+" "+"and"+" "+b3[0]+" "+EVENT[34], bp2[2]+" "+"and"+" "+b3[0]+" "+EVENT[39],
-	                          
-	                          bp2[3]+" "+"and"+" "+b3[0]+" "+EVENT[34], bp2[3]+" "+"and"+" "+b3[0]+" "+EVENT[39], bp2[4]+" "+"and when"+" "+EVENT[1], 
-	                          
-	                          bp2[4]+" "+"and when"+" "+EVENT[2], bp2[4]+" "+"and when"+" "+EVENT[3], bp2[4]+" "+"and when"+" "+EVENT[4], ac3[0]+" "+BPET[0]+" "+EVENT[1],
-	                          
-	                          ac3[0]+" "+BPET[0]+" "+EVENT[2], ac3[0]+" "+BPET[0]+" "+EVENT[3], ac3[0]+" "+BPET[0]+" "+EVENT[4],
-                              
-	                          BPET[0]+" "+ac2[0]+" "+BPES[5]+" "+BPEN[2]+" "+DataPorpertyConditionMeasure[0]+" "+ConditionOnDataObjectProperties[0],
-                              
-	                          b1[0]+" "+CountMeasure[0]+" "+BPEN[0]+" "+"becomes"+" "+BPES[4]+" "+ac4[0]+" "+DataObjectProperty[0]+" "+"of"+" "+DataObject[0]+" "+DataObjectName[0],
-                              
-	                          b1[1]+" "+CountMeasure[0]+" "+BPEN[0]+" "+"becomes"+" "+BPES[4]+" "+ac4[0]+" "+DataObjectProperty[0]+" "+"of"+" "+DataObject[0]+" "+DataObjectName[0],
-                              
-	                          b1[2]+" "+CountMeasure[0]+" "+BPEN[0]+" "+"becomes"+" "+BPES[4]+" "+ac4[0]+" "+DataObjectProperty[0]+" "+"of"+" "+DataObject[0]+" "+DataObjectName[0],
-                              
-	                          b1[3]+" "+CountMeasure[0]+" "+BPEN[0]+" "+"becomes"+" "+BPES[4]+" "+ac4[0]+" "+DataObjectProperty[0]+" "+"of"+" "+DataObject[0]+" "+DataObjectName[0]
-                             ];
-	        
-	        var MeasureForAgg=[DataMeasure[0], TimeMeasure[0], TimeMeasure[1], TimeMeasure[2], TimeMeasure[3], TimeMeasure[4], TimeMeasure[5],                           
-	                           TimeMeasure[6], TimeMeasure[7], TimeMeasure[8], TimeMeasure[9], TimeMeasure[10], TimeMeasure[11], TimeMeasure[12],                           
-	                           TimeMeasure[13], TimeMeasure[14], TimeMeasure[15], TimeMeasure[16], TimeMeasure[17], TimeMeasure[18],                           
-	                           TimeMeasure[19], TimeMeasure[20], TimeMeasure[21], TimeMeasure[22], TimeMeasure[23], TimeMeasure[24], 	                           
-	                           TimeMeasure[25], TimeMeasure[26], TimeMeasure[27], TimeMeasure[28], TimeMeasure[29], TimeMeasure[30], 	                           
-	                           TimeMeasure[31], TimeMeasure[32], TimeMeasure[33], TimeMeasure[34], TimeMeasure[35], 	                           
-	                           TimeMeasure[36], TimeMeasure[37], TimeMeasure[38], TimeMeasure[39], TimeMeasure[40], 	                           
-	                           TimeMeasure[41], TimeMeasure[42], TimeMeasure[43], TimeMeasure[44]  ];	         
-	       // $("#Def").autocomplete({source: MeasureForAgg});	    
-});	  
-
-$(function(){
-	var targetOneBound=["be less than",
-	                    "be greater than",		   			    
-	                    "be less than or equal",		   			    
-	                    "be greater than or equal",		   			    
-	                    "between [intervalo]"];			
-	//$("#Tar").autocomplete({source: targetOneBound});	
-});	
-
+//jquery
 (function($) {
 	$.fn.inlineEdit = function(options) {
 		// define some options with sensible default values
@@ -365,7 +241,6 @@ $(function(){
 		});
 	}
 })(jQuery);
-
 $(function(){
 	$('.PPI_id').inlineEdit();
 	$('.Name').inlineEdit();
@@ -378,6 +253,7 @@ $(function(){
 	$('.Informed').inlineEdit();
 	$('.Comments').inlineEdit();
 }); 
+//End jquery
 
 //Tabulador event
 var cellElem = {
@@ -463,9 +339,6 @@ function latestCellInfo() {
 			+ cellElem.old_val + '"/>');
 
 }
-
-
-
 //
 // $('table tr td.EditText span input').live('keypress', function(e) {
 // // get the code of the key that was pressed

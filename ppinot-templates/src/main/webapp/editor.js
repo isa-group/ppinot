@@ -1,28 +1,36 @@
-//start botton add goal, delete goal
+//start_ add goal and delete goal button
 var goal = 1;
-function addGoal(){
-	var idG = "goals_"+goal++;
-	tr = document.createElement("tr");	
-	var trg = "tr_"+idG;
-	tr.setAttribute("id", trg);
-	td1 = document.createElement("td");
-	td1.innerHTML = "<input type='text' id='"+idG+"' name='Goals'>";
-	td2 = document.createElement("td");
-	td2.innerHTML = "<button type='button' onclick='delGoal("+trg+")'><i class='icon-trash'></i></button>";
-	tr.appendChild(td1);
-	tr.appendChild(td2);	
-	trCont = document.getElementById('addgoals');	
-	trCont.appendChild(tr);
-}
 
-function delGoal(id){
-	trp = document.getElementById('addgoals');
-	trc = document.getElementById(id);
-	trp.removeChild(trc);
-}//End botton add goal, delete goal
+function addDiv2(idtr,trg){
+	div = document.createElement("div");
+	div.setAttribute("id", trg);
+	var idtd = idtr;
+	tdCont = document.getElementById('addgoals_'+idtd+'');	
+	tdCont.appendChild(div);
+}
+function addGoal(idtr){	
+	var g = goal++;
+	var idG = "goals_"+g;	
+	var trg = "tr_"+idG;
+	addDiv2(idtr,trg);	
+	td0 = document.createElement("td");
+	td0.innerHTML = "<input type='text' id='"+idG+"' name='Goals'>";
+	td1 = document.createElement("td");
+	td1.innerHTML = "<button type='button' onclick='delGoal("+idtr+","+g+")'><i class='icon-trash'></i></button>";
+	div.appendChild(td0);
+	div.appendChild(td1);	
+}
+function delGoal(idtr,id){
+	var g = id;
+	var idt = idtr;
+	var parent = document.getElementById('addgoals_'+idt+'');
+    var child = document.getElementById('tr_goals_'+id+'');
+    parent.removeChild(child);
+}
+//End_ add goal and delete goal button
 
 //start of add new table of PPI
-var nTab = 0;
+var nTab = 1;
 var nDiv = 1;
 var newIdDiv = "";
 
@@ -39,6 +47,7 @@ function addPPI(){
 	addDiv();	
 	nTable = nTab++;
 	var newID = "PPI_table_"+nTable;	
+	var addg = "addgoals_"+nTable;
 	myTable = document.createElement("table");	
 	tbBody = document.createElement("tbody");	
 	tr1 = document.createElement("tr");	
@@ -53,6 +62,7 @@ function addPPI(){
 	tr10 = document.createElement("tr");	
 	tr11 = document.createElement("tr");	
 	tr12 = document.createElement("tr");	
+	tr13 = document.createElement("tr");	
 	td1 = document.createElement("td");	
 	td2 = document.createElement("td");	
 	td3 = document.createElement("td");	
@@ -79,8 +89,11 @@ function addPPI(){
 	td24 = document.createElement("td");	
 	td25 = document.createElement("td");	
 	td26 = document.createElement("td");	
+	td27 = document.createElement("td");
+	td28 = document.createElement("td");
+	td29 = document.createElement("td");
 	
-	// atributos para la tabla	
+	//atributos para la tabla	
 	myTable.setAttribute("id", newID);
 	td1.innerHTML = "PPI:";	
 	td1.setAttribute("height","30");
@@ -92,61 +105,68 @@ function addPPI(){
 	td5.setAttribute("height","30");
 	td6.innerHTML = "<span class='Process' id='Process_"+nTable+"' style='background-color: transparent;'>process name(process id)</span>";	
 	td7.innerHTML = "Goals:";	
-	td7.setAttribute("height","30");
+	td7.setAttribute("height","30");	
 	td8.innerHTML = "<span class='Goals' id='Goals_"+nTable+"' style='background-color: transparent;'>strategic or operational goals the PPI is related to</span>";	
-	td9.innerHTML = "Definition:";
-	td9.setAttribute("height","30");
-	td10.innerHTML = "The PPI is defined as ";	
-	td11.innerHTML = "<span class='Definition' id='Def' style='background-color: transparent;'></span>";	
-	td12.innerHTML = "Target:";	
-	td13.setAttribute("height","30");
-	td13.innerHTML = "The PPI value must ";	
-	td14.innerHTML = "<span class='Target' id='Tar' style='background-color: transparent;'></span>";	
-	td15.innerHTML = "Unit:";	
+	td9.innerHTML ="<button type='button' id='Goals_"+nTable+"' onclick='addGoal("+nTable+")'> <i class='icon-plus'></i> </button> ";
+	td10.setAttribute("width","70");
+	td11.setAttribute("id",addg);
+	td12.innerHTML = "Definition:";
+	td12.setAttribute("height","30");
+	td13.innerHTML = "The PPI is defined as ";	
+	td14.innerHTML = "<span class='Definition' id='Def' style='background-color: transparent;'></span>";	
+	td15.innerHTML = "Target:";	
 	td15.setAttribute("height","30");
-	td16.innerHTML = "<span class='Unit' id='Unit_"+nTable+"' style='background-color: transparent;'>unit</span>";	
-	td17.innerHTML = "Scope:";	
-	td17.setAttribute("height","30");
-	td18.innerHTML = "<span class='Scope' id='Scope_"+nTable+"' style='background-color: transparent;'>The process instances considered for this PPI are</span>";	
-	td19.innerHTML = "Source:";	
-	td19.setAttribute("height","30");
-	td20.innerHTML = "<span class='Source' id='Source_"+nTable+"' style='background-color: transparent;'>source from which the PPI measure can be obtained</span>";	
-	td21.innerHTML = "Responsible:";
-	td21.setAttribute("height","30");
-	td22.innerHTML = "<span class='Responsible' id='Responsible_"+nTable+"' style='background-color: transparent;'>role | department | organization | person</span>";	
-	td23.innerHTML = "Informed:";	
-	td23.setAttribute("height","30");
-	td24.innerHTML = "<span class='Informed' id='Informed_"+nTable+"' style='background-color: transparent;'>role | department | organization | person</span>";	
-	td25.innerHTML = "Comments:";	
-	td25.setAttribute("height","30");
-	td26.innerHTML = "<span class='Comments' id='Comments_"+nTable+"' style='background-color: transparent;'>additional comments about the PPI</span>";
+	td16.innerHTML = "The PPI value must ";	
+	td17.innerHTML = "<span class='Target' id='Tar' style='background-color: transparent;'></span>";	
+	td18.innerHTML = "Unit:";	
+	td18.setAttribute("height","30");
+	td19.innerHTML = "<span class='Unit' id='Unit_"+nTable+"' style='background-color: transparent;'>unit</span>";	
+	td20.innerHTML = "Scope:";	
+	td20.setAttribute("height","30");
+	td21.innerHTML = "<span class='Scope' id='Scope_"+nTable+"' style='background-color: transparent;'>The process instances considered for this PPI are</span>";	
+	td22.innerHTML = "Source:";	
+	td22.setAttribute("height","30");
+	td23.innerHTML = "<span class='Source' id='Source_"+nTable+"' style='background-color: transparent;'>source from which the PPI measure can be obtained</span>";	
+	td24.innerHTML = "Responsible:";
+	td24.setAttribute("height","30");
+	td25.innerHTML = "<span class='Responsible' id='Responsible_"+nTable+"' style='background-color: transparent;'>role | department | organization | person</span>";	
+	td26.innerHTML = "Informed:";	
+	td26.setAttribute("height","30");
+	td27.innerHTML = "<span class='Informed' id='Informed_"+nTable+"' style='background-color: transparent;'>role | department | organization | person</span>";	
+	td28.innerHTML = "Comments:";	
+	td28.setAttribute("height","30");
+	td29.innerHTML = "<span class='Comments' id='Comments_"+nTable+"' style='background-color: transparent;'>additional comments about the PPI</span>";
 	
 	tr1.appendChild(td1);	
 	tr1.appendChild(td2);	
 	tr2.appendChild(td3);	
-	tr2.appendChild(td4);	
+	tr2.appendChild(td4);		
 	tr3.appendChild(td5);	
 	tr3.appendChild(td6);	
-	tr4.appendChild(td7);	
-	tr4.appendChild(td8);	
-	tr5.appendChild(td9);	
+	tr4.appendChild(td7);
+	tr4.appendChild(td8);
+	tr4.appendChild(td9);	
 	tr5.appendChild(td10);	
 	tr5.appendChild(td11);	
 	tr6.appendChild(td12);	
 	tr6.appendChild(td13);	
 	tr6.appendChild(td14);	
-	tr7.appendChild(td15);	
+	tr7.appendChild(td15);
 	tr7.appendChild(td16);	
-	tr8.appendChild(td17);	
+	tr7.appendChild(td17);	
 	tr8.appendChild(td18);	
-	tr9.appendChild(td19);	
+	tr8.appendChild(td19);	
 	tr9.appendChild(td20);	
-	tr10.appendChild(td21);	
+	tr9.appendChild(td21);	
 	tr10.appendChild(td22);	
-	tr11.appendChild(td23);	
+	tr10.appendChild(td23);	
 	tr11.appendChild(td24);	
-	tr12.appendChild(td25);	
+	tr11.appendChild(td25);	
 	tr12.appendChild(td26);	
+	tr12.appendChild(td27);	
+	tr13.appendChild(td28);	
+	tr13.appendChild(td29);
+	
 	tbBody.appendChild(tr1);	
 	tbBody.appendChild(tr2);	
 	tbBody.appendChild(tr3);	
@@ -159,6 +179,7 @@ function addPPI(){
 	tbBody.appendChild(tr10);	
 	tbBody.appendChild(tr11);	
 	tbBody.appendChild(tr12);	
+	tbBody.appendChild(tr13);
 	
 	myTable.appendChild(tbBody);	
 	divT = document.getElementById(newIdDiv);	
@@ -180,6 +201,7 @@ function inLineEditTable(){
 }
 //end of add new table of PPI
 
+//autocomplete
 $(function(){
 	var Agg= ["sum", "average", "max", "min"];	
 	var b1= ["the"+" "+Agg[0]+" "+"of", "the"+" "+Agg[1]+" "+"of", "the"+" "+Agg[2]+" "+"of", "the"+" "+Agg[3]+" "+"of"];	
@@ -356,3 +378,133 @@ $(function(){
 	$('.Informed').inlineEdit();
 	$('.Comments').inlineEdit();
 }); 
+
+//Tabulador event
+var cellElem = {
+	old_elem : "",
+	next_elem : "",
+	input_elem : "",
+	willTab : false,
+	old_val : ""
+};
+
+var cellInfo = {
+	cID : ""
+};
+
+var exit_edit = false;
+
+$('body').bind('click', ".test", function() {
+	keyCode = 0;
+	cellElem.old_elem = $(this);
+
+	cellInfo.cID = $(this).attr("id");
+	cellElem.old_val = $(this).text();
+
+	latestCellInfo()
+	$(this).replaceWith($(cellElem.input_elem));
+
+	window.setTimeout(function() {
+		$("#edit_" + $(this).attr("id")).focus();
+		$("#edit_" + cellInfo.cID).select();
+	}, 50); // hack for IE
+});
+
+$('body').bind('keydown', 'input[name^="edit_"]', function(e) {
+	keyCode = e.keyCode || e.which;
+	e.preventDefault;
+	if (keyCode == 9) {
+		exit_edit = false;
+		cellElem.willTab = true;
+		cellElem.next_elem = $(this).nextAll(".test").first();
+		canTraverse();
+	} else if (keyCode == 13) {
+		cellElem.next_elem = "";
+		canTraverse();
+	}
+});
+
+// reset the way of how an input box received the command
+// either by tab or by clicking the text
+$('body').bind('focus', 'input[name^="edit_"]', function(e) {
+	exit_edit = true;
+});
+
+//.delegate es otra opcion a .bind
+$('body').bind('focusout', 'input[name^="edit_"]', function(e) {
+	if (!cellElem.willTab || exit_edit) {
+		cellElem.next_elem = "";
+		canTraverse();
+	}
+});
+
+function canTraverse() {
+	cellElem.input_elem.replaceWith(cellElem.old_elem);
+	if (cellElem.willTab && cellElem.next_elem.length != 0) {
+
+		cellInfo.cID = cellElem.next_elem.attr("id");
+		cellElem.old_val = cellElem.next_elem.text();
+
+		latestCellInfo();
+		cellElem.next_elem.replaceWith($(cellElem.input_elem));
+
+		window.setTimeout(function() {
+			$("#edit_" + $(this).attr("id")).focus();
+			$("#edit_" + cellInfo.cID).select();
+		}, 50); // hack for IE
+		cellElem.willTab = false;
+		cellElem.old_elem = cellElem.next_elem;
+	}
+}
+
+function latestCellInfo() {
+	cellElem.input_elem = $('<input style="width:40px" id="edit_'
+			+ cellInfo.cID + '" name="edit_' + cellInfo.cID + '" value="'
+			+ cellElem.old_val + '"/>');
+
+}
+
+
+
+//
+// $('table tr td.EditText span input').live('keypress', function(e) {
+// // get the code of the key that was pressed
+// var code = e.keyCode ? e.keyCode : e.which;
+//
+// // varify that the tab key was pressed
+// if (code === 13) {
+//        // get the next tr's input field, and set focus to it
+//        $(this).parents('tr').next().find('td.EditText span input').focus();
+//
+//        // prevent any default actions
+//        if (e.preventDefault) {
+//            e.preventDefault();
+//        }
+//        return false;
+//    }
+//});
+
+/*
+
+--EJEMPLO 1
+function tab(e){
+	tc = (document.all) ? e.keyCode : e.which;
+	if(tc==9 || tc==13 || tc == 8 || tc==20)
+		return true;
+}
+
+--EJEMPLO 2 
+<input name="boton_busca" type="button" id="boton_busca" value="Go" onClick="xfiltro();" onKeyDown="return tab_btn(event);"> 
+Y ésta es la función que verifica la tecla presionada:
+Código HTML:
+function tab_btn(event)
+{
+	var t = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
+	if (t == 9) 
+	{
+		x_busca.element().focus(); 
+		return false;
+	}
+	return true;
+}
+*/

@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import es.us.isa.ppinot.model.MeasureDefinition;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
  * Clase con la información de las medidas derivadas
@@ -14,6 +15,8 @@ import es.us.isa.ppinot.model.MeasureDefinition;
  * @version 1.0
  *
  */
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
+        include=JsonTypeInfo.As.PROPERTY, property="kind")
 public class DerivedMeasure extends MeasureDefinition {
     
     /**

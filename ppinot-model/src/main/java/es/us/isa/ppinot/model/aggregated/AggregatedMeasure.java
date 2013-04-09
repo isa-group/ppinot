@@ -3,6 +3,7 @@ package es.us.isa.ppinot.model.aggregated;
 import es.us.isa.ppinot.model.DataContentSelection;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.base.BaseMeasure;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
  * Clase con la información de un PPI del tipo AggregatedMeasure
@@ -11,6 +12,8 @@ import es.us.isa.ppinot.model.base.BaseMeasure;
  * @version 1.0
  *
  */
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
+        include=JsonTypeInfo.As.PROPERTY, property="kind")
 public class AggregatedMeasure extends MeasureDefinition {
     
     // Función de agregación que se aplica

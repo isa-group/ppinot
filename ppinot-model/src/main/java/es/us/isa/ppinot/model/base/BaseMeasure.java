@@ -1,6 +1,7 @@
 package es.us.isa.ppinot.model.base;
 
 import es.us.isa.ppinot.model.MeasureDefinition;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
  * Clase de las medidas base
@@ -8,6 +9,8 @@ import es.us.isa.ppinot.model.MeasureDefinition;
  * @author Edelia
  *
  */
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
+        include=JsonTypeInfo.As.PROPERTY, property="kind")
 public class BaseMeasure extends MeasureDefinition {
 	
 	/**

@@ -1,6 +1,7 @@
 package es.us.isa.ppinot.model.base;
 
 import es.us.isa.ppinot.model.condition.DataPropertyCondition;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
  * Clase con la información de un PPI del tipo DataPropertyConditionInstanceMeasure
@@ -9,6 +10,8 @@ import es.us.isa.ppinot.model.condition.DataPropertyCondition;
  * @version 1.0
  *
  */
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
+        include=JsonTypeInfo.As.PROPERTY, property="kind")
 public class DataPropertyConditionInstanceMeasure extends ConditionMeasure {
 	
 	/**

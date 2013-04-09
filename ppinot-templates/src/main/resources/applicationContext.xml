@@ -12,10 +12,32 @@
     
 	<context:annotation-config />
 	<context:component-scan base-package="es.us.isa.ppinot.templates" />
-	
+    <context:component-scan base-package="es.us.isa.ppinot.repository"/>
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations" value="classpath:es/us/isa/ppinot/repository/repository.properties"/>
+    </bean>
+
 	<bean id="modelResource" class="es.us.isa.ppinot.templates.resources.ModelResource"/>
 
-	<!-- <bean id="customerBo" class="isa.CustomerRepositoryImpl"> -->
-	<!-- </bean> -->
+    <bean id="jsonProvider" class="es.us.isa.ppinot.repository.PPINOTJsonProvider"/>
+
+    <bean id="repositoryResource" class="es.us.isa.ppinot.repository.RepositoryResource">
+        <property name="processRepository" ref="processRepository"/>
+        <property name="bpmnModelHandler" ref="bpmnModelHandler"/>
+        <property name="ppinotModelHandler" ref="ppinotModelHandler"/>
+        <property name="resourcesDirectory" value="/Users/resinas/Sandbox/signavio-res"/>
+        <!--<property name="resourcesDirectory" value="/var/lib/tomcat6/cristal-raci"/>-->
+        <property name="editorUrl" value="http://labs.isa.us.es:8080/signaviocore"/>
+    </bean>
+
+    <bean id="processRepository" class="es.us.isa.ppinot.repository.FileSystemRepository">
+        <property name="directory" value="${repository.directory}"/>
+        <!--<property name="directory" value="/var/lib/tomcat6/cristal"/>-->
+    </bean>
+
+    <bean id="bpmnModelHandler" class="es.us.isa.bpmn.handler.Bpmn20ModelHandler"/>
+    <bean id="ppinotModelHandler" class="es.us.isa.ppinot.handler.PpiNotModelHandler"/>
+
 
 </beans>

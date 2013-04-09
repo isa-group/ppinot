@@ -2,6 +2,7 @@ package es.us.isa.ppinot.model.base;
 
 import es.us.isa.ppinot.model.condition.TimeInstantCondition;
 import es.us.isa.ppinot.model.condition.TimeMeasureType;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
  * Clase con la información de un PPI del tipo ElapsedTimeInstanceMeasure
@@ -10,6 +11,8 @@ import es.us.isa.ppinot.model.condition.TimeMeasureType;
  * @version 1.0
  *
  */
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
+        include=JsonTypeInfo.As.PROPERTY, property="kind")
 public class TimeInstanceMeasure extends BaseMeasure {
 	
 	// Momento en el cual se toma la medida en la actividad inicial (el inicio o el final)

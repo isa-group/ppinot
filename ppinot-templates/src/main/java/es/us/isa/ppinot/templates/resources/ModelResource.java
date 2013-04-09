@@ -19,6 +19,10 @@ public class ModelResource {
 	private static final Logger log = Logger.getLogger(ModelResource.class
 			.getName());
 
+    public ModelResource() {
+        log.info("Loaded ModelResource");
+    }
+
 	@POST
 	@Path("/models")
 	@Consumes("application/xml")

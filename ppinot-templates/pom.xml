@@ -23,8 +23,19 @@
 			<groupId>es.us.isa.bpmn</groupId>
 			<artifactId>bpmn-model</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>es.us.isa.ppinot</groupId>
+            <artifactId>ppinot-model</artifactId>
+        </dependency>
 
-		<!--  Resteasy dependencies  -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+
+
+        <!--  Resteasy dependencies  -->
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jaxrs</artifactId>

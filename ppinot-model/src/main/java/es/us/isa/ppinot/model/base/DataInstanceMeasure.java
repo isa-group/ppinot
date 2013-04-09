@@ -2,6 +2,7 @@ package es.us.isa.ppinot.model.base;
 
 import es.us.isa.ppinot.model.DataContentSelection;
 import es.us.isa.ppinot.model.condition.DataPropertyCondition;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
  * Clase con la información de una medida DataInstanceMeasure
@@ -10,6 +11,8 @@ import es.us.isa.ppinot.model.condition.DataPropertyCondition;
  * @version 1.0
  *
  */
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
+        include=JsonTypeInfo.As.PROPERTY, property="kind")
 public class DataInstanceMeasure extends BaseMeasure {
 	
 	// Dataobject y propiedad a la que se le aplica la medida

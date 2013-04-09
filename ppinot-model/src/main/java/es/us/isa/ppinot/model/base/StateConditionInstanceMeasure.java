@@ -1,6 +1,7 @@
 package es.us.isa.ppinot.model.base;
 
 import es.us.isa.ppinot.model.condition.StateCondition;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
  * Clase con la información de un PPI del tipo ElementConditionInstanceMeasure
@@ -9,6 +10,8 @@ import es.us.isa.ppinot.model.condition.StateCondition;
  * @version 1.0
  *
  */
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
+        include=JsonTypeInfo.As.PROPERTY, property="kind")
 public class StateConditionInstanceMeasure extends ConditionMeasure {
 	
 	/**

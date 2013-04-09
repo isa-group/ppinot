@@ -1,11 +1,15 @@
 package es.us.isa.ppinot.model.condition;
 
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+
 /**
  * Clase de las condiciones
  * 
  * @author Edelia
  *
  */
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
+        include=JsonTypeInfo.As.PROPERTY, property="kind")
 public class Condition {
 	
 	// Id del elemento al que se aplica una medida

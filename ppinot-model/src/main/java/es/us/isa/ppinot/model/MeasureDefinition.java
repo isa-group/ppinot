@@ -1,11 +1,15 @@
 package es.us.isa.ppinot.model;
 
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+
 /**
  * Clase de la que heredan todas las definiciones de medidas
  * 
  * @author Edelia García González
  * @version 1.0
  */
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
+        include=JsonTypeInfo.As.PROPERTY, property="kind")
 public abstract class MeasureDefinition {
     
 	// Propiedades comunes para definir todas las medidas

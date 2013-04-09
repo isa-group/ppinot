@@ -1,11 +1,15 @@
 package es.us.isa.ppinot.model.condition;
 
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+
 /**
  * Clase de las condiciones que se utilizan en una medida base
  * 
  * @author Edelia
  *
  */
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
+        include=JsonTypeInfo.As.PROPERTY, property="kind")
 public class ProcessInstanceCondition extends Condition {
 	
 	/*

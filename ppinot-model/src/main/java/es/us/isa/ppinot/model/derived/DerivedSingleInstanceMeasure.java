@@ -1,11 +1,15 @@
 package es.us.isa.ppinot.model.derived;
 
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+
 /**
  * Clase de las medidas DerivedSingleInstanceMeasure
  * 
  * @author Edelia
  *
  */
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
+        include=JsonTypeInfo.As.PROPERTY, property="kind")
 public class DerivedSingleInstanceMeasure extends DerivedMeasure {
 
     /**

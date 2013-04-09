@@ -201,7 +201,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		
 		TProcess process = null;
 		
-		// obtiene el objeto raíz en TDefinition
+		// obtiene el objeto raiz en TDefinition
 		Object object = ((TDefinitions) this.getImportElement().getValue()).getRootElement().get(0).getValue();
 		if (object instanceof TProcess) {
 			
@@ -343,14 +343,14 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	}
 	
 	/**
-	 * Genera el valor de la propiedad analisysPeriod a partir de la información del período de análisis
+	 * Genera el valor de la propiedad analisysPeriod a partir de la informacion del periodo de analisis
 	 * 
 	 * @param year Año
 	 * @param period Si se desea los resultados por mes, trimestre o semestre
-	 * @param startDate Fecha inicial del período de análisis
-	 * @param endDate Fecha final del período de análisis
-	 * @param inStart Si se incluye en el análisis los procesos que se inician antes del inicio del período y terminan después de este 
-	 * @param inEnd Si se incluye en el análisis los procesos que se inician antes del final del período y terminan después de este
+	 * @param startDate Fecha inicial del periodo de analisis
+	 * @param endDate Fecha final del periodo de analisis
+	 * @param inStart Si se incluye en el analisis los procesos que se inician antes del inicio del periodo y terminan despues de este 
+	 * @param inEnd Si se incluye en el analisis los procesos que se inician antes del final del periodo y terminan despues de este
 	 * @return
 	 */
 	private String generateAnalisysPeriod(String year, String period, Date startDate, Date endDate, Boolean inStart, Boolean inEnd) {
@@ -377,8 +377,8 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	/**
 	 * Genera el valor de la propiedad target de un ppi, a partir de los valores de referencia de este
 	 * 
-	 * @param refMin Valor mínimo que debería tomar la medida en el ppi
-	 * @param refMax Valor máximo que debería tomar la medida en el ppi
+	 * @param refMin Valor minimo que deberia tomar la medida en el ppi
+	 * @param refMax Valor maximo que deberia tomar la medida en el ppi
 	 * @return Valor de la propiedad target del ppi
 	 */
 	private String generateTarget(Double refMin, Double refMax) {
@@ -443,7 +443,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	 */
 	private TMeasure findBaseMeasure(MeasureDefinition def) {
 		
-		// de acuerdo a la clase de la medida, se invoca el método correspondiente de this.generatePpiNotInfo
+		// de acuerdo a la clase de la medida, se invoca el metodo correspondiente de this.generatePpiNotInfo
 		// con lo que obtienen los objetos Jaxb asociados con la medida
 		// estos objetos con colocados en el map correspondientes a su clase Jaxb
 		//
@@ -650,7 +650,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
     		} else {
     			
     			// si la medida agregada no utiliza conector aggregates, 
-    			// de acuerdo a la clase de la medida de la medida base, se invoca el método correspondiente de this.generatePpiNotInfo
+    			// de acuerdo a la clase de la medida de la medida base, se invoca el metodo correspondiente de this.generatePpiNotInfo
     			// con lo que obtienen los objetos Jaxb asociados con la medida base
     			// estos objetos con colocados en el map correspondientes a su clase Jaxb
     			//
@@ -665,7 +665,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
     	    			
     	    			// se le da valor a la propiedad baseMeasure de la medida agregada
     	    			((TAggregatedMeasure) measure).setBaseMeasure(factory.createTimeMeasure((TTimeMeasure) instanceMap.get("measure")));
-    	    			// sitúa otros objetos Jaxb asociados con la medida en sus correspondientes maps
+    	    			// situa otros objetos Jaxb asociados con la medida en sus correspondientes maps
 	    	    		if (instanceMap.containsKey("connectorFrom")) {
 	    	    	    	
 	    	    	    	TTimeConnector con = (TTimeConnector) instanceMap.get("connectorFrom");
@@ -777,7 +777,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		Boolean wasCreated = false;
 		TMeasure measure = null;
 		
-		// de acuerdo a la clase de la medida de la medida, se invoca el método correspondiente de this.generatePpiNotInfo
+		// de acuerdo a la clase de la medida de la medida, se invoca el metodo correspondiente de this.generatePpiNotInfo
 		// con lo que obtienen los objetos Jaxb asociados con la medida
 		// estos objetos con colocados en el map correspondientes a su clase Jaxb
 		if (def instanceof DerivedSingleInstanceMeasure) {
@@ -840,7 +840,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 				con.setSourceRef(measure);
 				con.setTargetRef(usedMeasure);
 				
-				// sitúa el objeto Jaxb del conector en el map correspondiente
+				// situa el objeto Jaxb del conector en el map correspondiente
    				this.usesMap.put(con.getId(), con);
 		    }
 		}
@@ -1022,11 +1022,11 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	}
 
 	/**
-	 * Genera los objetos Jaxb correspondientes a un map de objetos DerivedMeasure
+	 * Genera los objetos Jaxb correspondientes a un map de objetos DerivedSingleInstanceMeasure
 	 * 
 	 * @param modelMap Map con objetos del modelo
 	 */
-	public void setDerivedModelMap(Map<String, DerivedMeasure> modelMap) {
+	public void setDerivedSingleInstanceModelMap(Map<String, DerivedMeasure> modelMap) {
 
 	    if (modelMap!=null) {
 	    	
@@ -1041,23 +1041,23 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	}
 
 	/**
-	 * Genera los objetos Jaxb correspondientes a un map de objetos DerivedSingleInstanceMeasure
-	 * 
-	 * @param modelMap Map con objetos del modelo
-	 */
-	public void setDerivedSingleInstanceModelMap(Map<String, DerivedMeasure> modelMap) {
-
-	    this.setDerivedModelMap(modelMap);
-	}
-
-	/**
 	 * Genera los objetos Jaxb correspondientes a un map de objetos DerivedMultiInstanceMeasure
 	 * 
 	 * @param modelMap Map con objetos del modelo
 	 */
 	public void setDerivedMultiInstanceModelMap(Map<String, DerivedMeasure> modelMap) {
 
-	    this.setDerivedModelMap(modelMap);
+
+	    if (modelMap!=null) {
+	    	
+			Iterator<Entry<String, DerivedMeasure>> itInst = modelMap.entrySet().iterator();
+		    while (itInst.hasNext()) {
+		        Map.Entry<String, DerivedMeasure> pairs = (Map.Entry<String, DerivedMeasure>)itInst.next();
+		        DerivedMultiInstanceMeasure def = (DerivedMultiInstanceMeasure) pairs.getValue();
+		    		
+		        this.findDerivedMeasure(def);
+		    }
+	    }
 	}
 	
 	/**
@@ -1089,9 +1089,9 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		        MeasureDefinition m = def.getMeasuredBy();
 
 				TMeasure md = this.findBaseMeasure(m);
-				if (md==null)
+				if (md==null && m instanceof AggregatedMeasure)
 					md = this.findAggregatedMeasure(m);
-				if (md==null)
+				if (md==null && m instanceof DerivedMeasure)
 					md = this.findDerivedMeasure(m);
 
 		    	ppi.setMeasuredBy(md);
@@ -1103,7 +1103,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	}
 
 	/**
-	 * Genera las instancias de clases Jaxb a partir de instancias de clases del modelo que debieron ser seteadas previamente con el método
+	 * Genera las instancias de clases Jaxb a partir de instancias de clases del modelo que debieron ser seteadas previamente con el metodo
 	 * set correspondiente a cada tipo de medida. 
 	 * Genera el JAXBElement para exportar, por lo que debe finalizar invocando a this.setExportElement
 	 * 
@@ -1347,7 +1347,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		Boolean wasCreated = false;
 		AggregatedMeasure def = null;
 		
-		// si la medida agregada no tiene seteada la propiedad baseMeasure, es que está asociada con un conector aggregates
+		// si la medida agregada no tiene seteada la propiedad baseMeasure, es que esta asociada con un conector aggregates
 		if(measure.getBaseMeasure()==null) {
 			
 			// se obtiene el conector asociado a la medida
@@ -1362,10 +1362,10 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 				// de acuerdo a la clase de la medida conectada
 				if(baseModel instanceof TimeInstanceMeasure ) {
 					
-					// se verifica si la medida agregada ya había sido generada
+					// se verifica si la medida agregada ya habia sido generada
 					def = this.timeAggregatedModelMap.get(id);
 					if (def==null) {
-						// si no había sido generada, se obtiene el objeto del modelo de la medida agregada
+						// si no habia sido generada, se obtiene el objeto del modelo de la medida agregada
 						def = this.generatePpiNotModel.obtainModel(measure, baseModel, ppiset);
 						wasCreated = def!=null;
 						if (wasCreated) {
@@ -1437,22 +1437,22 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 				
 				if (wasCreated) {
 					
-					// si la medida agregada fue creada se indica que está medida está asociada a un conector aggregates
+					// si la medida agregada fue creada se indica que esta medida esta asociada a un conector aggregates
 					def.setAggregates(true);
 				}
 			}
 		} else {
 			
-			// si la medida agregada no está asociada a un conector aggregates, se obtiene su medida base
+			// si la medida agregada no esta asociada a un conector aggregates, se obtiene su medida base
 			TMeasure baseMeasure = measure.getBaseMeasure().getValue();
 		
 			// de acuerdo a la clase de la medida base
 			if(baseMeasure instanceof TTimeMeasure ) {
 
-				// se verifica si la medida agregada ya había sido generada
+				// se verifica si la medida agregada ya habia sido generada
 				def = this.timeAggregatedModelMap.get(id);
 				if (def==null) {
-					// si no había sido generada, se obtiene el objeto del modelo de la medida agregada
+					// si no habia sido generada, se obtiene el objeto del modelo de la medida agregada
 					def = this.generatePpiNotModel.obtainModel(measure, (TTimeMeasure) baseMeasure, ppiset);
 					wasCreated = def!=null;
 					if (wasCreated) {
@@ -1553,10 +1553,10 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 		// de acuerdo a la clase de la medida 
 		if(jaxbValue instanceof TDerivedSingleInstanceMeasure) {
 			
-			// se verifica si la medida ya había sido generada
+			// se verifica si la medida ya habia sido generada
 			def = this.derivedSingleInstanceModelMap.get(id);
 			if (def==null) {
-				// si no había sido generada, se obtiene el objeto del modelo de la medida 
+				// si no habia sido generada, se obtiene el objeto del modelo de la medida 
 				def = this.generatePpiNotModel.obtainModel((TDerivedSingleInstanceMeasure) jaxbValue);
 				wasCreated = def!=null;
 				if (wasCreated) {
@@ -1630,10 +1630,10 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	}
 	
 	/**
-	 * Obtiene los datos del período que se desea analizar, a partir de la propiedad analisysPeriod de una medida agregada 
+	 * Obtiene los datos del periodo que se desea analizar, a partir de la propiedad analisysPeriod de una medida agregada 
 	 * 
-	 * @param period Cadena con el período de análisis
-	 * @return Mapa con los datos del período de análisis
+	 * @param period Cadena con el periodo de analisis
+	 * @return Mapa con los datos del periodo de analisis
 	 */
 	private Map<String, String> parseAnalysisPeriod(String period) {
 		
@@ -1688,10 +1688,10 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	}
 
 	/**
-	 * Obtiene los valores de referencia para evaluar el grado de satisfacción de un ppi, a partir de la propiedad target
+	 * Obtiene los valores de referencia para evaluar el grado de satisfaccion de un ppi, a partir de la propiedad target
 	 * 
 	 * @param target Valor de la propiedad target de un ppi
-	 * @return Mapa con los valores de referencia. El valor mínimo se devuelve con la llave refMin y el valor máximo con la llave refMax
+	 * @return Mapa con los valores de referencia. El valor minimo se devuelve con la llave refMin y el valor maximo con la llave refMax
 	 */
 	private Map<String, Double> parseTarget(String target) {
 		
@@ -1791,7 +1791,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 
 	/**
 	 * Genera las instancias de clases del modelo a partir de instancias de clases Jabx. 
-	 * Después de invocar este método se pueden obtener los objetos del modelo mediante los métodos get correspondientes a cada tipo de medida.
+	 * Despues de invocar este metodo se pueden obtener los objetos del modelo mediante los metodos get correspondientes a cada tipo de medida.
 	 * 
 	 */
 	@Override

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+
+	<tmppath>${tmppath}</tmppath>
+	<uploadpath>${uploadpath}</uploadpath>
+	<database driver="${database.driverClassName}" url="${database.url}" username="${database.user}" password="${database.password}"/>
+</config>

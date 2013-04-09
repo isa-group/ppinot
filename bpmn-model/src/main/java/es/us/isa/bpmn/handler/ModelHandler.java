@@ -11,10 +11,10 @@ import javax.xml.bind.JAXBException;
 /**
  * Clase abstracta a partir de la cual heredan las clases que permiten exportar e importar a XML. 
  * 
- * Cuando se importa de xml se obtiene la información que contiene en instancias de clases generadas con Jaxb (clases Jaxb) y a partir de 
- * esas instancias se puede obtener instancias de clases que modelen esa información (clases del modelo), es decir:
+ * Cuando se importa de xml se obtiene la informacion que contiene en instancias de clases generadas con Jaxb (clases Jaxb) y a partir de 
+ * esas instancias se puede obtener instancias de clases que modelen esa informacion (clases del modelo), es decir:
  * 
- * código xml -> instancias de clases Jabx -> clases del modelo
+ * codigo xml -> instancias de clases Jabx -> clases del modelo
  * 
  * Esto permite que si cambia la sintaxis del xml (con lo cual cambian las clases Jaxb), los proyectos que utilicen las clases del modelo 
  * no sufren cambios. 
@@ -55,8 +55,8 @@ public abstract class ModelHandler {
 	}
 	
 	/**
-	 * Configuración para importar y exportar XML.
-	 * Este método debe ser invocado en el iniLoader de la subclase, para especificar las clases Jaxb y la clase factory utilizadas. 
+	 * Configuracion para importar y exportar XML.
+	 * Este metodo debe ser invocado en el iniLoader de la subclase, para especificar las clases Jaxb y la clase factory utilizadas. 
 	 * 
 	 * @param classList Arreglo con las clases para leer y guardar como xml 
 	 * @param factory Factory utilizada
@@ -113,7 +113,7 @@ public abstract class ModelHandler {
 
 	/**
 	 * Realiza las inicializaciones propias de la clase que implementa a ModelHandler. 
-	 * En esta inicialización hay que incluir la llamada a xmlConfig para configurar las clases Jaxb y la clase factory.
+	 * En esta inicializacion hay que incluir la llamada a xmlConfig para configurar las clases Jaxb y la clase factory.
 	 * 
 	 * @throws JAXBException
 	 */

@@ -135,7 +135,7 @@ public class GeneratePpiNotInfo {
 		con.setId(generarId("appliesToElementConnector", ""));
 		con.setSourceRef(measure);
 		con.setTargetRef(((StateCondition) def.getCondition()).getAppliesTo());
-		con.setState((((StateCondition) def.getCondition()).getState().getState()==GenericState.END)?"End":"Start");
+		con.setState(((StateCondition) def.getCondition()).getState().getStateString());
 		
 		map.put("connector", con);
 		map.put("measure", measure);
@@ -200,7 +200,7 @@ public class GeneratePpiNotInfo {
 		
 		con.setId(generarId("appliesToDataConnector", ""));
 		con.setSourceRef(measure);
-		con.setTargetRef(((DataPropertyCondition) def.getCondition()).getAppliesTo());
+		con.setTargetRef(def.getCondition().getDataobject());
 		con.setRestriction(((DataPropertyCondition) def.getCondition()).getRestriction());
 		con.setState(((DataPropertyCondition) def.getCondition()).getStateConsidered().getStateString());
 		

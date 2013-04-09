@@ -1,7 +1,7 @@
 package es.us.isa.ppinot.model;
 
 /**
- * Clase con la información para agrupar los resultados de una medida agregada
+ * Clase con la informacion para agrupar los resultados de una medida agregada
  * 
  * @author Edelia
  *

@@ -3,7 +3,7 @@ package es.us.isa.ppinot.model;
 /**
  * Clase de la que heredan todas las definiciones de medidas
  * 
- * @author Edelia García González
+ * @author Edelia Garcia Gonzalez
  * @version 1.0
  */
 public abstract class MeasureDefinition {
@@ -38,11 +38,11 @@ public abstract class MeasureDefinition {
 	 * 
      * @param id Id de la medida
      * @param name Nombre de la medida
-     * @param description Descripció de la medida
+     * @param description Descripcio de la medida
      * @param scale Escala de la medida
      * @param unitOfMeasure Unidad de medida
-     * @param refMax Límite máximo de la referencia de la medida
-     * @param refMin Límite mínimo de la referencia de la medida
+     * @param refMax Limite maximo de la referencia de la medida
+     * @param refMin Limite minimo de la referencia de la medida
 	 */
 	public MeasureDefinition(String id, String name, String description, String scale, String unitOfMeasure) {
 		
@@ -102,7 +102,7 @@ public abstract class MeasureDefinition {
 
 	/**
      * Devuelve el atributo description:
-     * Descripción de la medida
+     * Descripcion de la medida
      * 
      * @return Valor del atributo
      */
@@ -112,7 +112,7 @@ public abstract class MeasureDefinition {
 
     /**
      * Da valor al atributo description:
-     * Descripción de la medida
+     * Descripcion de la medida
      * 
      * @param name Valor del atributo
      */

@@ -35,7 +35,7 @@ import es.us.isa.ppinot.model.state.GenericState;
 import es.us.isa.ppinot.owl.notation.Vocabulary;
 
 /**
- * Clase mediante la cual se generan los axiomas que se adicionan a una ontología PPINOT
+ * Clase mediante la cual se generan los axiomas que se adicionan a una ontologia PPINOT
  * 
  * @author Edelia
  *
@@ -46,8 +46,8 @@ class GeneratePpinotAxioms {
 	private OWLOntologyManager manager;		// OWLOntologyManager utilizado
 	private OWLOntology ontology;			// Ontologia a la que se adicionan los axiomas
 
-	private String bpmnOntologyURI; 			// URI de la ontología BPMN relacionada con el proceso
-	private String bpmnGeneratedOntologyURI; 	// Objeto que maneja el modelo con la información del BPMN relacionado con el proceso
+	private String bpmnOntologyURI; 			// URI de la ontologia BPMN relacionada con el proceso
+	private String bpmnGeneratedOntologyURI; 	// Objeto que maneja el modelo con la informacion del BPMN relacionado con el proceso
 	private String ppinotGeneratedOntologyURI;	// URI de la ontologia generada
 	
 	private Hashtable<String, String>funcAggr; 	// map para los nombres de funciones agregadas, que son de una manera en el XML y de otra en el OWL
@@ -58,8 +58,8 @@ class GeneratePpinotAxioms {
 	 * @param factory Factory utilizada para generar los elementos owl
 	 * @param manager OWLOntologyManager utilizado
 	 * @param ontology Ontologia a la que se adicionan los axiomas
-	 * @param bpmnOntologyURI URI de la ontología BPMN relacionada con el proceso
-	 * @param bpmnGeneratedOntologyURI Objeto que maneja el modelo con la información del BPMN relacionado con el proceso
+	 * @param bpmnOntologyURI URI de la ontologia BPMN relacionada con el proceso
+	 * @param bpmnGeneratedOntologyURI Objeto que maneja el modelo con la informacion del BPMN relacionado con el proceso
 	 * @param ppinotGeneratedOntologyURI URI de la ontologia generada
 	 */
 	GeneratePpinotAxioms(OWLDataFactory factory, OWLOntologyManager manager, OWLOntology ontology, 
@@ -506,7 +506,7 @@ class GeneratePpinotAxioms {
 	 * Obtiene el IRI de la clase del momento en el cual se aplica una medida
 	 * 
 	 * @param type Tipo de un elemento BPMN al que se aplica la medida
-	 * @param endActivity Si la medida se aplica al inicio o al final de la ejecución del elemento
+	 * @param endActivity Si la medida se aplica al inicio o al final de la ejecucion del elemento
 	 * @return
 	 */
 	private IRI timeInstantClassIRI(String type, Boolean endActivity ) {
@@ -526,10 +526,10 @@ class GeneratePpinotAxioms {
 	}
 
 	/**
-	 * Procesa una restriccion para eliminarle el signo = y evitar que sea una cadena vacía
+	 * Procesa una restriccion para eliminarle el signo = y evitar que sea una cadena vacia
 	 * 
 	 * @param restriction Restriccion
-	 * @return Restriccion después de procesarla
+	 * @return Restriccion despues de procesarla
 	 */
 	private String getCleanRestriction(String restriction) {
 		

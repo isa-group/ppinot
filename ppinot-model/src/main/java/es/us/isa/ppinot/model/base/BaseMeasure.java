@@ -22,7 +22,7 @@ public class BaseMeasure extends MeasureDefinition {
 	 * 
      * @param id Id de la medida
      * @param name Nombre de la medida
-     * @param description Descripción de la medida
+     * @param description Descripcion de la medida
      * @param scale Escala de la medida
      * @param unitOfMeasure Unidad de medida
 	 */

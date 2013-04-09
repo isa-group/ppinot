@@ -10,7 +10,7 @@ import es.us.isa.ppinot.model.state.RuntimeState;
  */
 public class DataPropertyCondition extends ProcessInstanceCondition {
 
-	// Condición que debe cumplir el dataobject
+	// Condicion que debe cumplir el dataobject
 	private String restriction;
 	
 	// Estado del dataobject
@@ -33,7 +33,7 @@ public class DataPropertyCondition extends ProcessInstanceCondition {
 	 * Constructor de la clase
 	 * 
 	 * @param appliesTo Id del elemento al que se aplica una medida
-	 * @param restriction Condición que debe cumplir el dataobject
+	 * @param restriction Condicion que debe cumplir el dataobject
 	 * @param state Estado del dataobject
 	 */
 	public DataPropertyCondition (String appliesTo, String restriction, RuntimeState state, String dataobject) {
@@ -45,7 +45,7 @@ public class DataPropertyCondition extends ProcessInstanceCondition {
 
 	/**
      * Devuelve el atributo restriction:
-     * Condición que debe cumplir el dataobject
+     * Condicion que debe cumplir el dataobject
      * 
      * @return Valor del atributo
      */
@@ -55,7 +55,7 @@ public class DataPropertyCondition extends ProcessInstanceCondition {
 
     /**
      * Da valor al atributo restriction:
-     * Condición que debe cumplir el dataobject
+     * Condicion que debe cumplir el dataobject
      * 
      * @param value Valor del atributo
      */

@@ -10,7 +10,7 @@ import es.us.isa.ppinot.model.state.RuntimeState;
  */
 public class TimeInstantCondition extends Condition {
 
-	// Estado de la ejecución
+	// Estado de la ejecucion
 	private RuntimeState changesToState;
 
 	/**
@@ -26,7 +26,7 @@ public class TimeInstantCondition extends Condition {
 	 * Constructor de la clase
 	 * 
 	 * @param appliesTo Id del elemento al que se aplica una medida
-	 * @param changesToState Estado de la ejecución
+	 * @param changesToState Estado de la ejecucion
 	 */
 	public TimeInstantCondition (String appliesTo, RuntimeState changesToState) {
 		super(appliesTo);
@@ -35,7 +35,7 @@ public class TimeInstantCondition extends Condition {
 	
 	/**
      * Devuelve el atributo changesToState:
-     * Estado de la ejecución
+     * Estado de la ejecucion
      * 
      * @return Valor del atributo
      */
@@ -45,7 +45,7 @@ public class TimeInstantCondition extends Condition {
 
     /**
      * Da valor al atributo changesToState:
-     * Estado de la ejecución
+     * Estado de la ejecucion
      * 
      * @param value Valor del atributo
      */

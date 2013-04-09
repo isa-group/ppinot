@@ -137,7 +137,7 @@ public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandl
 	}
 
 	/**
-	 * No está implementado
+	 * No esta implementado
 	 * 
 	 * @param procId Id del proceso en el xml. Es utilizado para formar el nombre del archivo xml generado
 	 */
@@ -181,7 +181,7 @@ public class Bpmn20ModelHandler extends ModelHandler implements Bpmn20ModelHandl
 		
 		Iterator<?> itr = flowElements.iterator(); 
 		
-		// itera por todos los elementos en el proceso, y de acuerdo a su tipo lo sitúa en el mapa correspondiente
+		// itera por todos los elementos en el proceso, y de acuerdo a su tipo lo situa en el mapa correspondiente
 		while(itr.hasNext()) {
 			
 			JAXBElement<?> element = (JAXBElement<?>) itr.next();

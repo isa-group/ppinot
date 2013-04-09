@@ -8,10 +8,9 @@ import de.hpi.bpmn2_0.model.extension.signavio.SignavioLabel;
 import de.hpi.bpmn2_0.model.extension.signavio.SignavioMessageName;
 import de.hpi.bpmn2_0.model.extension.signavio.SignavioMetaData;
 import de.hpi.bpmn2_0.model.extension.signavio.SignavioType;
+import es.us.isa.ppinot.jsontoxml.model.Ppiset;
 
 /* EDE: */
-import isabpmcenter.ppinot.jsontoxml.model.Ppiset;
-/* fin EDE */
 
 /**
  * Abstract BPMN 2.0 extension element

@@ -76,6 +76,7 @@
 		    				 if ($("div.selectme12").children('select').length == 0) {
 		 		    			var id = $(this).attr('id').split("-");
 		 		    			var str = "";
+		 		    			var currentid = parseInt(id[1]);
 		 		    			var BPET= new Array("activity", "process", "data object", "events");
 		 		    			var BPEN= new Array("Assign priority",
 		 		    			          "Analyse RFC",
@@ -85,23 +86,27 @@
 		 		    			var cad3= new Array("becomes", "is triggered");
 		 		    			var cad4= new Array("and when");
 		 		    			for(i=0; i < BPET.length; i++) {
+		 		    			  if(currentid== i){
 		 		    				if (BPET[i]== "activity") {
-		 		    					str = "<option selected id='opt-"+i+"' value='"+i+"'>"+BPET[i]+" "+BPEN[0]+" "+cad3[0]+" "+BPES[i]+" "+cad4[0]+" "+BPET[i]+" "+BPEN[1]+" "+cad3[0]+" "+BPES[i]+"</option>";
-		 		    					str += "<option selected id='opt-"+i+"' value='"+i+"'>"+BPET[i]+" "+BPEN[0]+" "+cad3[0]+" "+BPES[i]+" "+cad4[0]+" "+BPET[i+1]+" "+BPEN[1]+" "+cad3[0]+" "+BPES[i]+"</option>";
-		 		    					str += "<option selected id='opt-"+i+"' value='"+i+"'>"+BPET[i]+" "+BPEN[0]+" "+cad3[0]+" "+BPES[i]+" "+cad4[0]+" "+BPET[i+2]+" "+BPEN[1]+" "+cad3[0]+" "+BPES[i]+"</option>";
+		 		    					str = "<option selected id='opt-"+i+"' value='"+i+"'>"+BPET[i]+" "+BPEN[0]+" "+cad3[0]+" "+BPES[i]+" "+cad4[0]+" "+BPET[i]+" "+BPEN[1]+" "+cad3[0]+" "+BPES[3]+"</option>";
+		 		    					str += "<option selected id='opt-"+i+"' value='"+i+"'>"+BPET[i]+" "+BPEN[0]+" "+cad3[0]+" "+BPES[i]+" "+cad4[0]+" "+BPET[i+1]+" "+BPEN[1]+" "+cad3[0]+" "+BPES[3]+"</option>";
+		 		    					str += "<option selected id='opt-"+i+"' value='"+i+"'>"+BPET[i]+" "+BPEN[0]+" "+cad3[0]+" "+BPES[i]+" "+cad4[0]+" "+BPET[i+2]+" "+BPEN[1]+" "+cad3[0]+" "+BPES[3]+"</option>";
 		 		    					str += "<option selected id='opt-"+i+"' value='"+i+"'>"+BPET[i]+" "+BPEN[0]+" "+cad3[0]+" "+BPES[i]+" "+cad4[0]+" "+BPET[i+3]+" "+BPEN[3]+" "+cad3[1]+"</option>";
 		 		    				} else if(BPET[i]== "process"){
-		 		    					str = "<option selected id='opt-"+i+"' value='"+i+"'>"+BPET[i]+" "+BPEN[0]+" "+cad3[0]+" "+BPES[i]+" "+cad4[0]+" "+BPET[i]+" "+BPEN[1]+" "+cad3[0]+" "+BPES[i]+"</option>";
-		 		    					str += "<option selected id='opt-"+i+"' value='"+i+"'>"+BPET[i]+" "+BPEN[0]+" "+cad3[0]+" "+BPES[i]+" "+cad4[0]+" "+BPET[i+1]+" "+BPEN[1]+" "+cad3[0]+" "+BPES[i]+"</option>";
-		 		    					str += "<option selected id='opt-"+i+"' value='"+i+"'>"+BPET[i]+" "+BPEN[0]+" "+cad3[0]+" "+BPES[i]+" "+cad4[0]+" "+BPET[i+2]+" "+BPEN[1]+" "+cad3[0]+" "+BPES[i]+"</option>";
-		 		    					str += "<option selected id='opt-"+i+"' value='"+i+"'>"+BPET[i]+" "+BPEN[0]+" "+cad3[0]+" "+BPES[i]+" "+cad4[0]+" "+BPET[i+3]+" "+BPEN[3]+" "+cad3[1]+"</option>";
+		 		    					str = "<option selected id='opt-"+i+"' value='"+i+"'>"+BPET[i]+" "+BPEN[0]+" "+cad3[0]+" "+BPES[i]+" "+cad4[0]+" "+BPET[i-1]+" "+BPEN[1]+" "+cad3[0]+" "+BPES[3]+"</option>";
+		 		    					str += "<option selected id='opt-"+i+"' value='"+i+"'>"+BPET[i]+" "+BPEN[0]+" "+cad3[0]+" "+BPES[i]+" "+cad4[0]+" "+BPET[i]+" "+BPEN[1]+" "+cad3[0]+" "+BPES[3]+"</option>";
+		 		    					str += "<option selected id='opt-"+i+"' value='"+i+"'>"+BPET[i]+" "+BPEN[0]+" "+cad3[0]+" "+BPES[i]+" "+cad4[0]+" "+BPET[i+1]+" "+BPEN[1]+" "+cad3[0]+" "+BPES[3]+"</option>";
+		 		    					str += "<option selected id='opt-"+i+"' value='"+i+"'>"+BPET[i]+" "+BPEN[0]+" "+cad3[0]+" "+BPES[i]+" "+cad4[0]+" "+BPET[i+2]+" "+BPEN[3]+" "+cad3[1]+"</option>";
 		 		    				} else if(BPET[i]== "data object"){
-		 		    					str = "<option selected id='opt-"+i+"' value='"+i+"'>"+BPET[i]+" "+BPEN[0]+" "+cad3[0]+" "+BPES[i]+" "+cad4[0]+" "+BPET[i]+" "+BPEN[1]+" "+cad3[0]+" "+BPES[i]+"</option>";
-		 		    					str += "<option selected id='opt-"+i+"' value='"+i+"'>"+BPET[i]+" "+BPEN[0]+" "+cad3[0]+" "+BPES[i]+" "+cad4[0]+" "+BPET[i+1]+" "+BPEN[1]+" "+cad3[0]+" "+BPES[i]+"</option>";
-		 		    					str += "<option selected id='opt-"+i+"' value='"+i+"'>"+BPET[i]+" "+BPEN[0]+" "+cad3[0]+" "+BPES[i]+" "+cad4[0]+" "+BPET[i+2]+" "+BPEN[1]+" "+cad3[0]+" "+BPES[i]+"</option>";
-		 		    					str += "<option selected id='opt-"+i+"' value='"+i+"'>"+BPET[i]+" "+BPEN[0]+" "+cad3[0]+" "+BPES[i]+" "+cad4[0]+" "+BPET[i+3]+" "+BPEN[3]+" "+cad3[1]+"</option>";
+		 		    					str = "<option selected id='opt-"+i+"' value='"+i+"'>"+BPET[i]+" "+BPEN[0]+" "+cad3[0]+" "+BPES[i]+" "+cad4[0]+" "+BPET[i-2]+" "+BPEN[1]+" "+cad3[0]+" "+BPES[3]+"</option>";
+		 		    					str += "<option selected id='opt-"+i+"' value='"+i+"'>"+BPET[i]+" "+BPEN[0]+" "+cad3[0]+" "+BPES[i]+" "+cad4[0]+" "+BPET[i-1]+" "+BPEN[1]+" "+cad3[0]+" "+BPES[3]+"</option>";
+		 		    					str += "<option selected id='opt-"+i+"' value='"+i+"'>"+BPET[i]+" "+BPEN[0]+" "+cad3[0]+" "+BPES[i]+" "+cad4[0]+" "+BPET[i]+" "+BPEN[1]+" "+cad3[0]+" "+BPES[3]+"</option>";
+		 		    					str += "<option selected id='opt-"+i+"' value='"+i+"'>"+BPET[i]+" "+BPEN[0]+" "+cad3[0]+" "+BPES[i]+" "+cad4[0]+" "+BPET[i+1]+" "+BPEN[3]+" "+cad3[1]+"</option>";
 		 		    					
 		 		    				}
+		 		    			  }else{
+		 		    				 str += "<option value='"+i+"' id='opt-"+i+"'>"+BPET[i]+" "+BPEN[0]+" "+cad3[0]+" "+BPES[i]+" "+cad4[0]+" "+BPET[i+1]+" "+BPEN[3]+" "+cad3[i]+"</option>";
+		 		    			  }
 		 		    			}
 		 		    			str = "<select class='selectbox1'>"+ str +"</select>";
 		 		    			
@@ -114,19 +119,20 @@
 		 		    				$(".selectme1").text(valuetext1);
 		 		    				
 			 		    			 if ($("div.selectme13").children('select').length == 0) {
-					 		    			var str = "The PPI is defined as The duration between time instants when activity Analyse RFC becomes active and when activity Assign priority  becomes completed";
+			 		    				    var str="";
+					 		    			str = "The PPI is defined as The duration between time instants when activity Analyse RFC becomes active and when activity Assign priority  becomes completed";
 					 		    			str += "The PPI is defined as The duration between time instants when activity Analyse RFC becomes active and when porcess Assign priority  becomes completed";
-					 		    			str += "The PPI is defined as The duration between time instants when activity Analyse RFC becomes active and when data object Assign priority  becomes completed"
+					 		    			str += "The PPI is defined as The duration between time instants when activity Analyse RFC becomes active and when data object Assign priority  becomes completed";
 					 		    			str += "The PPI is defined as The duration between time instants when activity Analyse RFC becomes active and when events Assign priority  is triggered";
 					 		    			
 					 		    			str += "The PPI is defined as The duration between time instants when process Analyse RFC becomes active and when activity Assign priority  becomes completed";
 					 		    			str += "The PPI is defined as The duration between time instants when process Analyse RFC becomes active and when porcess Assign priority  becomes completed";
-					 		    			str += "The PPI is defined as The duration between time instants when process Analyse RFC becomes active and when data object Assign priority  becomes completed"
+					 		    			str += "The PPI is defined as The duration between time instants when process Analyse RFC becomes active and when data object Assign priority  becomes completed";
 					 		    			str += "The PPI is defined as The duration between time instants when process Analyse RFC becomes active and when events Assign priority  is triggered";
 					 		    			
 					 		    			str += "The PPI is defined as The duration between time instants when data object Analyse RFC becomes active and when activity Assign priority  becomes completed";
 					 		    			str += "The PPI is defined as The duration between time instants when data object Analyse RFC becomes active and when porcess Assign priority  becomes completed";
-					 		    			str += "The PPI is defined as The duration between time instants when data object Analyse RFC becomes active and when data object Assign priority  becomes completed"
+					 		    			str += "The PPI is defined as The duration between time instants when data object Analyse RFC becomes active and when data object Assign priority  becomes completed";
 					 		    			str += "The PPI is defined as The duration between time instants when data object Analyse RFC becomes active and when events Assign priority  is triggered";
 					 		    			$("div.selectme1").html(str);
 					 		    			$("select.selectbox1").focus();

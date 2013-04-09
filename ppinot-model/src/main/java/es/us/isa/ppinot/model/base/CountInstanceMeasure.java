@@ -4,9 +4,9 @@ import es.us.isa.ppinot.model.condition.TimeInstantCondition;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
- * Clase con la información de las medidas CountInstanceMeasure
+ * Clase con la informacion de las medidas CountInstanceMeasure
  * 
- * @author Edelia García González
+ * @author Edelia Garcia Gonzalez
  * @version 1.0
  *
  */
@@ -30,7 +30,7 @@ public class CountInstanceMeasure extends BaseMeasure {
 	 * 
      * @param id Id de la medida
      * @param name Nombre de la medida
-     * @param description Descripción de la medida
+     * @param description Descripcion de la medida
      * @param scale Escala de la medida
      * @param unitOfMeasure Unidad de medida
 	 * @param when Momento en que se aplica la medida

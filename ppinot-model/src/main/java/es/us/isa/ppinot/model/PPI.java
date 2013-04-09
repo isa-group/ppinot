@@ -61,13 +61,13 @@ public class PPI {
      * 
      * @param id Id del PPI
      * @param name Nombre
-     * @param description Descripción
+     * @param description Descripcion
      * @param goals 
      * @param responsible
      * @param informed
      * @param comments Comentarios
-     * @param target Objeto Target que indica el rango de valores que en que se espera que esté la medida asociada
-     * @param scope Objeto Scope que indica el período de tiempo en el cual se calcula el PPI
+     * @param target Objeto Target que indica el rango de valores que en que se espera que este la medida asociada
+     * @param scope Objeto Scope que indica el periodo de tiempo en el cual se calcula el PPI
      */
 	public PPI(
     		String id, String name, String description, String goals, String responsible, String informed, String comments,
@@ -156,7 +156,7 @@ public class PPI {
 
 	/**
      * Devuelve el atributo description:
-     * Descripción del PPI
+     * Descripcion del PPI
      * 
      * @return Valor del atributo
      */
@@ -166,7 +166,7 @@ public class PPI {
 
     /**
      * Da valor al atributo description:
-     * Descripción del PPI
+     * Descripcion del PPI
      * 
      * @param name Valor del atributo
      */
@@ -256,7 +256,7 @@ public class PPI {
     
 	/**
      * Devuelve el atributo target:
-     * Objeto Target que indica el rango de valores que en que se espera que esté la medida asociada
+     * Objeto Target que indica el rango de valores que en que se espera que este la medida asociada
      * 
      * @return Valor del atributo
      */
@@ -266,7 +266,7 @@ public class PPI {
 
     /**
      * Da valor al atributo target:
-     * Objeto Target que indica el rango de valores que en que se espera que esté la medida asociada
+     * Objeto Target que indica el rango de valores que en que se espera que este la medida asociada
      * 
      * @param name Valor del atributo
      */
@@ -276,7 +276,7 @@ public class PPI {
 
 	/**
      * Devuelve el atributo target:
-     * Objeto Scope que indica el período de tiempo en el cual se calcula el PPI
+     * Objeto Scope que indica el periodo de tiempo en el cual se calcula el PPI
      * 
      * @return Valor del atributo
      */
@@ -286,7 +286,7 @@ public class PPI {
 
     /**
      * Da valor al atributo scope:
-     * Objeto Scope que indica el período de tiempo en el cual se calcula el PPI
+     * Objeto Scope que indica el periodo de tiempo en el cual se calcula el PPI
      * 
      * @param name Valor del atributo
      */
@@ -317,7 +317,7 @@ public class PPI {
 	
 	/**
      * Devuelve el atributo valueString:
-     * Lista de String con los valores del PPI para cada uno de los períodos de tiempo evaluados
+     * Lista de String con los valores del PPI para cada uno de los periodos de tiempo evaluados
      * 
      * @return Valor del atributo
      */
@@ -327,7 +327,7 @@ public class PPI {
 
     /**
      * Da valor al atributo valueString:
-     * Lista de String con los valores del PPI para cada uno de los períodos de tiempo evaluados
+     * Lista de String con los valores del PPI para cada uno de los periodos de tiempo evaluados
      * 
      * @param name Valor del atributo
      */
@@ -337,7 +337,7 @@ public class PPI {
 
 	/**
      * Devuelve el atributo success:
-     * Lista de Double que indican si se satisface PPI para cada uno de los períodos de tiempo evaluados
+     * Lista de Double que indican si se satisface PPI para cada uno de los periodos de tiempo evaluados
      * 
      * @return Valor del atributo
      */
@@ -347,7 +347,7 @@ public class PPI {
 
     /**
      * Da valor al atributo success:
-     * Lista de Double que indican si se satisface PPI para cada uno de los períodos de tiempo evaluados
+     * Lista de Double que indican si se satisface PPI para cada uno de los periodos de tiempo evaluados
      * 
      * @param name Valor del atributo
      */
@@ -357,7 +357,7 @@ public class PPI {
 
 	/**
      * Devuelve el atributo normalized:
-     * Lista de Double con los valores del PPI para cada uno de los períodos de tiempo evaluados
+     * Lista de Double con los valores del PPI para cada uno de los periodos de tiempo evaluados
      * 
      * @return Valor del atributo
      */
@@ -367,7 +367,7 @@ public class PPI {
 
     /**
      * Da valor al atributo normalized:
-     * Lista de Double con los valores del PPI para cada uno de los períodos de tiempo evaluados
+     * Lista de Double con los valores del PPI para cada uno de los periodos de tiempo evaluados
      * 
      * @param name Valor del atributo
      */
@@ -376,7 +376,7 @@ public class PPI {
 	}
 
 	/**
-	 * Evalúa el PPI
+	 * Evalua el PPI
 	 */
 	public void evaluate() {
 		

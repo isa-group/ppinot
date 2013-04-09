@@ -9,9 +9,9 @@ import es.us.isa.ppinot.model.MeasureDefinition;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
- * Clase con la información de las medidas derivadas
+ * Clase con la informacion de las medidas derivadas
  * 
- * @author Edelia García González
+ * @author Edelia Garcia Gonzalez
  * @version 1.0
  *
  */
@@ -20,7 +20,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 public class DerivedMeasure extends MeasureDefinition {
     
     /**
-     * Función que se aplica
+     * Funcion que se aplica
      */
     private String function;
     
@@ -42,10 +42,10 @@ public class DerivedMeasure extends MeasureDefinition {
      * 
      * @param id Id de la medida
      * @param name Nombre de la medida
-     * @param description Descripción de la medida
+     * @param description Descripcion de la medida
      * @param scale Escala de la medida
      * @param measureUnit Unidad de medida
-     * @param func Función de la medida
+     * @param func Funcion de la medida
      */
     public DerivedMeasure(String id, String name, String description, String scale, String unitOfMeasure, 
     		String function) {
@@ -55,7 +55,7 @@ public class DerivedMeasure extends MeasureDefinition {
 
     /**
      * Devuelve el atributo func:
-     * Función que se aplica
+     * Funcion que se aplica
      * 
      * @return Valor del atributo
      */
@@ -65,7 +65,7 @@ public class DerivedMeasure extends MeasureDefinition {
 
     /**
      * Da valor al atributo func:
-     * Función que se aplica
+     * Funcion que se aplica
      * 
      * @param value Valor del atributo
      */
@@ -98,7 +98,7 @@ public class DerivedMeasure extends MeasureDefinition {
     }
     
     /**
-     * Devuelve una medida utilizada para el cáculo a partir de su id
+     * Devuelve una medida utilizada para el caculo a partir de su id
      * 
      * @param id Id de medida
      * @return Objeto de la medida

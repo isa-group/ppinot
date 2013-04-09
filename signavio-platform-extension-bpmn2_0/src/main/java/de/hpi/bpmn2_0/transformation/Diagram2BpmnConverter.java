@@ -104,24 +104,24 @@ import de.hpi.bpmn2_0.model.participant.Participant;
 import de.hpi.bpmn2_0.util.DiagramHelper;
 import de.hpi.bpmn2_0.util.SignavioIDChecker;
 import de.hpi.diagram.SignavioUUID;
+import es.us.isa.ppinot.jsontoxml.model.AggregatedMeasure;
+import es.us.isa.ppinot.jsontoxml.model.Aggregates;
+import es.us.isa.ppinot.jsontoxml.model.AppliesToDataConnector;
+import es.us.isa.ppinot.jsontoxml.model.AppliesToElementConnector;
+import es.us.isa.ppinot.jsontoxml.model.CountMeasure;
+import es.us.isa.ppinot.jsontoxml.model.DataMeasure;
+import es.us.isa.ppinot.jsontoxml.model.DataPropertyConditionMeasure;
+import es.us.isa.ppinot.jsontoxml.model.DerivedMultiInstanceMeasure;
+import es.us.isa.ppinot.jsontoxml.model.DerivedSingleInstanceMeasure;
+import es.us.isa.ppinot.jsontoxml.model.IsGroupedBy;
+import es.us.isa.ppinot.jsontoxml.model.Ppi;
+import es.us.isa.ppinot.jsontoxml.model.Ppiset;
+import es.us.isa.ppinot.jsontoxml.model.StateConditionMeasure;
+import es.us.isa.ppinot.jsontoxml.model.TimeConnector;
+import es.us.isa.ppinot.jsontoxml.model.TimeMeasure;
+import es.us.isa.ppinot.jsontoxml.model.Uses;
 
-import isabpmcenter.ppinot.jsontoxml.model.AggregatedMeasure;
-import isabpmcenter.ppinot.jsontoxml.model.CountMeasure;
-import isabpmcenter.ppinot.jsontoxml.model.DataPropertyConditionMeasure;
-import isabpmcenter.ppinot.jsontoxml.model.DataMeasure;
-import isabpmcenter.ppinot.jsontoxml.model.DerivedSingleInstanceMeasure;
-import isabpmcenter.ppinot.jsontoxml.model.DerivedMultiInstanceMeasure;
-import isabpmcenter.ppinot.jsontoxml.model.StateConditionMeasure;
-import isabpmcenter.ppinot.jsontoxml.model.Ppi;
-import isabpmcenter.ppinot.jsontoxml.model.Ppiset;
-import isabpmcenter.ppinot.jsontoxml.model.TimeMeasure;
 
-import isabpmcenter.ppinot.jsontoxml.model.AppliesToElementConnector;
-import isabpmcenter.ppinot.jsontoxml.model.AppliesToDataConnector;
-import isabpmcenter.ppinot.jsontoxml.model.TimeConnector;
-import isabpmcenter.ppinot.jsontoxml.model.Uses;
-import isabpmcenter.ppinot.jsontoxml.model.Aggregates;
-import isabpmcenter.ppinot.jsontoxml.model.IsGroupedBy;
 
 /**
  * Converter class for Diagram to BPMN 2.0 transformation.

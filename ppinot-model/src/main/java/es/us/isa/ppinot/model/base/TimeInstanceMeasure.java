@@ -5,9 +5,9 @@ import es.us.isa.ppinot.model.condition.TimeMeasureType;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
- * Clase con la información de un PPI del tipo ElapsedTimeInstanceMeasure
+ * Clase con la informacion de un PPI del tipo ElapsedTimeInstanceMeasure
  * 
- * @author Edelia García González
+ * @author Edelia Garcia Gonzalez
  * @version 1.0
  *
  */
@@ -19,9 +19,9 @@ public class TimeInstanceMeasure extends BaseMeasure {
 	private TimeInstantCondition from;
 	// Momento en el cual se toma la medida en la actividad final (el inicio o el final)
 	private TimeInstantCondition to;
-	// Tipo de la medida (cíclica o lineal)
+	// Tipo de la medida (ciclica o lineal)
 	private TimeMeasureType timeMeasureType;
-	// Función de agregación
+	// Funcion de agregacion
 	private String singleInstanceAggFunction;
 
 	/**
@@ -43,13 +43,13 @@ public class TimeInstanceMeasure extends BaseMeasure {
 	 * 
      * @param id Id de la medida
      * @param name Nombre de la medida
-     * @param description Descripció de la medida
+     * @param description Descripcio de la medida
      * @param scale Escala de la medida
      * @param unitOfMeasure Unidad de medida
 	 * @param from Momento en el cual se toma la medida en la actividad inicial (el inicio o el final)
 	 * @param to Momento en el cual se toma la medida en la actividad final (el inicio o el final)
-	 * @param timeMeasureType Tipo de la medida (cíclica o lineal)
-	 * @param singleInstanceAggFunction Función de agregación
+	 * @param timeMeasureType Tipo de la medida (ciclica o lineal)
+	 * @param singleInstanceAggFunction Funcion de agregacion
 	 */
 	public TimeInstanceMeasure(String id, String name, String description, String scale, String unitOfMeasure,
 			TimeInstantCondition from, TimeInstantCondition to, TimeMeasureType timeMeasureType, String singleInstanceAggFunction) {
@@ -62,7 +62,7 @@ public class TimeInstanceMeasure extends BaseMeasure {
 
 	/**
 	 * Devuelve el atributo timeMeasureType
-	 * Tipo de la medida (cíclica o lineal)
+	 * Tipo de la medida (ciclica o lineal)
 	 * 
 	 * @return Valor del atributo
 	 */
@@ -72,7 +72,7 @@ public class TimeInstanceMeasure extends BaseMeasure {
 
 	/**
 	 * Da valor al atributo timeMeasureType
-	 * Tipo de la medida (cíclica o lineal)
+	 * Tipo de la medida (ciclica o lineal)
 	 * 
 	 * @param Valor del atributo
 	 */
@@ -82,7 +82,7 @@ public class TimeInstanceMeasure extends BaseMeasure {
 
 	/**
 	 * Devuelve el atributo singleInstanceAggFunction
-	 * Función de agregación
+	 * Funcion de agregacion
 	 * 
 	 * @return Valor del atributo
 	 */
@@ -92,7 +92,7 @@ public class TimeInstanceMeasure extends BaseMeasure {
 
 	/**
 	 * Da valor al atributo singleInstanceAggFunction
-	 * Función de agregación
+	 * Funcion de agregacion
 	 * 
 	 * @param Valor del atributo
 	 */

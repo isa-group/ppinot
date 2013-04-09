@@ -13,7 +13,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
         include=JsonTypeInfo.As.PROPERTY, property="kind")
 public class StateCondition extends ProcessInstanceCondition {
 
-	// Estado de la ejecución
+	// Estado de la ejecucion
 	private RuntimeState state;
 
 	/**
@@ -29,7 +29,7 @@ public class StateCondition extends ProcessInstanceCondition {
 	 * Constructor de la clase
 	 * 
 	 * @param appliesTo Id del elemento al que se aplica una medida
-	 * @param state Estado de la ejecución
+	 * @param state Estado de la ejecucion
 	 */
 	public StateCondition(String appliesTo, RuntimeState state) {
 		super(appliesTo);
@@ -38,7 +38,7 @@ public class StateCondition extends ProcessInstanceCondition {
 	
 	/**
      * Devuelve el atributo state:
-     * Estado de la ejecución
+     * Estado de la ejecucion
      * 
      * @return Valor del atributo
      */
@@ -48,7 +48,7 @@ public class StateCondition extends ProcessInstanceCondition {
 
     /**
      * Da valor al atributo state:
-     * Estado de la ejecución
+     * Estado de la ejecucion
      * 
      * @param value Valor del atributo
      */

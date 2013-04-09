@@ -1,0 +1,275 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>es.us.isa.bpms.ppinot</groupId>
+	<artifactId>bpms-ppinot-reporter</artifactId>
+	<packaging>war</packaging>
+	<version>1.3</version>
+
+	<name>${project.artifactId}</name>
+	<url>http://maven.apache.org</url>
+  
+	<distributionManagement>
+		<repository>
+			<id>isa.devel.archiva.internal</id>
+			<name>ISA group maven repo</name>
+			<url>http://devel.isa.us.es/archiva/repository/internal/</url>
+		</repository>
+	</distributionManagement>
+ 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<js.directory>js</js.directory>
+
+		<tmppath>${project.build.directory}/${project.artifactId}-${project.version}/tmp</tmppath>
+		<uploadpath>${project.build.directory}/${project.artifactId}-${project.version}/upload</uploadpath>
+		<database.driverClassName>org.h2.Driver</database.driverClassName>
+		<database.url>jdbc:h2:file:data/weather;DB_CLOSE_DELAY=1000</database.url>
+		<database.user>sa</database.user>
+		<database.password></database.password>
+	</properties>
+
+	<profiles>
+		<profile>
+			<id>development</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>environment.type</name>
+					<value>dev</value>
+				</property>
+			</activation>
+		</profile>
+		<profile>
+			<id>production</id>
+			<activation>
+				<property>
+					<name>environment.type</name>
+					<value>prod</value>
+				</property>
+			</activation>
+			<properties>
+				<tmppath>/usr/share/tomcat6/temp</tmppath>
+				<uploadpath>/usr/share/tomcat6/webapps/upload</uploadpath>
+				<database.driverClassName>org.h2.Driver</database.driverClassName>
+				<database.url>jdbc:h2:tcp://localhost/activiti;DB_CLOSE_DELAY=1000</database.url>
+				<database.user>sa</database.user>
+				<database.password></database.password>
+			</properties>
+		</profile>
+	</profiles>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<encoding>UTF-8</encoding> 
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<warSourceExcludes>**/WEB-INF/web.xml</warSourceExcludes>
+					<webXml>${basedir}/src/main/webapp/WEB-INF/web.xml</webXml>
+					<encoding>UTF-8</encoding> 
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.1</version>
+				<executions>
+					<execution>
+						<id>unpack</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>extjs</groupId>
+									<artifactId>extjs</artifactId>
+									<version>4.0.2</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+									<outputDirectory>${project.build.directory}/${project.artifactId}-${project.version}/${js.directory}</outputDirectory>
+									<includes>**/*</includes>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.0-beta-1</version>
+				<configuration>
+					<port>8080</port>
+					<path>/${project.artifactId}</path>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+				<version>1.0-beta-2</version>
+				<executions>
+					<execution>
+						<id>deploy</id>
+						<phase />
+						<goals>
+							<goal>deployer-redeploy</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<configuration>
+						<type>runtime</type>
+						<properties>
+							<cargo.server.settings>isa.devel.sandbox</cargo.server.settings>
+							<cargo.tomcat.manager.url>http://193.147.175.241:8080/manager</cargo.tomcat.manager.url>
+							<cargo.servlet.port>8080</cargo.servlet.port>
+						</properties>
+					</configuration>
+					<container>
+						<containerId>tomcat6x</containerId>
+						<type>remote</type>
+					</container>
+					<deployer>
+						<deployables>
+							<deployable>
+								<properties>
+									<context>${project.artifactId}</context>
+								</properties>
+							</deployable>
+						</deployables>
+					</deployer>
+				</configuration>
+			</plugin>
+		</plugins>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-dependency-plugin</artifactId>
+										<versionRange>[2.1,)</versionRange>
+										<goals>
+											<goal>unpack</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.4</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>es.us.isa.ppinot</groupId>
+			<artifactId>ppinot-model</artifactId>
+			<version>1.0.4-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>extjs</groupId>
+			<artifactId>extjs</artifactId>
+			<version>4.0.2</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.2.132</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>1.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.0.4</version>
+		</dependency>
+	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>central</id>
+			<name>Maven Repository</name>
+			<url>http://repo1.maven.org/maven2/com</url>
+		</repository>
+		<repository>
+			<id>isa.devel.archiva.internal</id>
+			<name>ISA group maven repo</name>
+			<url>http://devel.isa.us.es/archiva/repository/internal/</url>
+		</repository>
+	</repositories>
+</project>

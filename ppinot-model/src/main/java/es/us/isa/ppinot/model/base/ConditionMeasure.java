@@ -4,7 +4,7 @@ import es.us.isa.ppinot.model.condition.ProcessInstanceCondition;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
- * CLase de las medidas que involucran una condición como DataPropertyConditionMeasure y StateConditionMeasure
+ * CLase de las medidas que involucran una condicion como DataPropertyConditionMeasure y StateConditionMeasure
  * 
  * @author Edelia
  *
@@ -13,7 +13,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
         include=JsonTypeInfo.As.PROPERTY, property="kind")
 public class ConditionMeasure extends BaseMeasure {
 	
-	// condición de la medida
+	// condicion de la medida
 	private ProcessInstanceCondition condition;
 	
 	/**
@@ -29,10 +29,10 @@ public class ConditionMeasure extends BaseMeasure {
 	 * 
      * @param id Id de la medida
      * @param name Nombre de la medida
-     * @param description Descripción de la medida
+     * @param description Descripcion de la medida
      * @param scale Escala de la medida
      * @param unitOfMeasure Unidad de medida
-	 * @param condition Condición de la medida
+	 * @param condition Condicion de la medida
 	 */
 	public ConditionMeasure(String id, String name, String description, String scale, String unitOfMeasure,
 			ProcessInstanceCondition condition) {
@@ -42,7 +42,7 @@ public class ConditionMeasure extends BaseMeasure {
 
 	/**
      * Devuelve el atributo condition:
-     * Condición de la medida
+     * Condicion de la medida
      * 
      * @return Valor del atributo
      */
@@ -52,7 +52,7 @@ public class ConditionMeasure extends BaseMeasure {
 
     /**
      * Da valor al atributo condition:
-     * Condición de la medida
+     * Condicion de la medida
      * 
      * @param value Valor del atributo
      */

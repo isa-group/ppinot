@@ -4,9 +4,9 @@ import es.us.isa.ppinot.model.condition.StateCondition;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
- * Clase con la información de un PPI del tipo ElementConditionInstanceMeasure
+ * Clase con la informacion de un PPI del tipo ElementConditionInstanceMeasure
  * 
- * @author Edelia García González
+ * @author Edelia Garcia Gonzalez
  * @version 1.0
  *
  */
@@ -26,10 +26,10 @@ public class StateConditionInstanceMeasure extends ConditionMeasure {
 	 * 
      * @param id Id de la medida
      * @param name Nombre de la medida
-     * @param description Descripció de la medida
+     * @param description Descripcio de la medida
      * @param scale Escala de la medida
      * @param unitOfMeasure Unidad de medida
-	 * @param condition Condición de la medida
+	 * @param condition Condicion de la medida
 	 */
 	public StateConditionInstanceMeasure(String id, String name, String description, String scale, String unitOfMeasure,
 			StateCondition condition) {
@@ -39,7 +39,7 @@ public class StateConditionInstanceMeasure extends ConditionMeasure {
 
 	/**
      * Devuelve el atributo condition:
-     * Condición de la medida
+     * Condicion de la medida
      * 
      * @return Valor del atributo
      */
@@ -49,7 +49,7 @@ public class StateConditionInstanceMeasure extends ConditionMeasure {
 
     /**
      * Da valor al atributo condition:
-     * Condición de la medida
+     * Condicion de la medida
      * 
      * @param value Valor del atributo
      */

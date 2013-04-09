@@ -12,10 +12,10 @@ import es.us.isa.bpmn.owl.converter.ToOWLConverterInterface;
 public interface PPINOT2OWLConverterInterface extends ToOWLConverterInterface {
 
 	/**
-	 * Da valor a propiedades de la clase que tienen información sobre el BPMN relacionado con el mismo proceso
+	 * Da valor a propiedades de la clase que tienen informacion sobre el BPMN relacionado con el mismo proceso
 	 * 
-	 * @param bpmnGeneratedOntologyURI URI de la ontología BPMN relacionada con el proceso
-	 * @param bpmn20ModelHandler Objeto que maneja el modelo con la información del BPMN relacionado con el proceso
+	 * @param bpmnGeneratedOntologyURI URI de la ontologia BPMN relacionada con el proceso
+	 * @param bpmn20ModelHandler Objeto que maneja el modelo con la informacion del BPMN relacionado con el proceso
 	 */
 	public abstract void setBpmnData(String bpmnGeneratedOntologyURI, Bpmn20ModelHandlerInterface bpmn20ModelHandler);
 }

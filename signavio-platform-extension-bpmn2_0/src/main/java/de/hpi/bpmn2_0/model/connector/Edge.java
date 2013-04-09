@@ -32,15 +32,14 @@ import de.hpi.bpmn2_0.model.FlowElement;
 import de.hpi.bpmn2_0.model.FlowNode;
 import de.hpi.bpmn2_0.model.conversation.ConversationLink;
 import de.hpi.bpmn2_0.transformation.Visitor;
+import es.us.isa.ppinot.jsontoxml.model.Aggregates;
+import es.us.isa.ppinot.jsontoxml.model.AppliesToConnector;
+import es.us.isa.ppinot.jsontoxml.model.AppliesToDataConnector;
+import es.us.isa.ppinot.jsontoxml.model.AppliesToElementConnector;
+import es.us.isa.ppinot.jsontoxml.model.IsGroupedBy;
+import es.us.isa.ppinot.jsontoxml.model.Uses;
 
 /* EDE: */
-import isabpmcenter.ppinot.jsontoxml.model.AppliesToConnector;
-import isabpmcenter.ppinot.jsontoxml.model.AppliesToElementConnector;
-import isabpmcenter.ppinot.jsontoxml.model.AppliesToDataConnector;
-import isabpmcenter.ppinot.jsontoxml.model.Uses;
-import isabpmcenter.ppinot.jsontoxml.model.Aggregates;
-import isabpmcenter.ppinot.jsontoxml.model.IsGroupedBy;
-/* fin EDE */
 
 /**
  * Represents all types of edges in a BPMN 2.0 process.

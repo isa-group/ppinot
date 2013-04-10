@@ -1,16 +1,12 @@
 package es.us.isa.ppinot.handler;
 
-import java.util.Map;
-
 import es.us.isa.bpmn.handler.ModelHandleInterface;
 import es.us.isa.ppinot.model.PPI;
 import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
-import es.us.isa.ppinot.model.base.CountInstanceMeasure;
-import es.us.isa.ppinot.model.base.DataInstanceMeasure;
-import es.us.isa.ppinot.model.base.DataPropertyConditionInstanceMeasure;
-import es.us.isa.ppinot.model.base.StateConditionInstanceMeasure;
-import es.us.isa.ppinot.model.base.TimeInstanceMeasure;
+import es.us.isa.ppinot.model.base.*;
 import es.us.isa.ppinot.model.derived.DerivedMeasure;
+
+import java.util.Map;
 
 public interface PpiNotModelHandlerInterface extends ModelHandleInterface {
 
@@ -71,84 +67,112 @@ public interface PpiNotModelHandlerInterface extends ModelHandleInterface {
 	 */
 	public Map<String, PPI> getPpiModelMap();
 	
-	/**
+/*
+	*/
+/**
 	 * Genera los objetos Jaxb correspondientes a un map de objetos TimeInstanceMeasure
 	 * 
 	 * @param modelMap Map con objetos del modelo
-	 */
+	 *//*
+
 	public void setTimeModelMap(Map<String, TimeInstanceMeasure> modelMap);
-	/**
+	*/
+/**
 	 * Genera los objetos Jaxb correspondientes a un map de objetos CountInstanceMeasure
 	 * 
 	 * @param modelMap Map con objetos del modelo
-	 */
+	 *//*
+
 	public void setCountModelMap(Map<String, CountInstanceMeasure> modelMap);
-	/**
+	*/
+/**
 	 * Genera los objetos Jaxb correspondientes a un map de objetos StateConditionInstanceMeasure
 	 * 
 	 * @param modelMap Map con objetos del modelo
-	 */
+	 *//*
+
 	public void setStateConditionModelMap(Map<String, StateConditionInstanceMeasure> modelMap);
-	/**
+	*/
+/**
 	 * Genera los objetos Jaxb correspondientes a un map de objetos DataInstanceMeasure
 	 * 
 	 * @param modelMap Map con objetos del modelo
-	 */
+	 *//*
+
 	public void setDataModelMap(Map<String, DataInstanceMeasure> modelMap);
-	/**
+	*/
+/**
 	 * Genera los objetos Jaxb correspondientes a un map de objetos DataPropertyConditionInstanceMeasure
 	 * 
 	 * @param modelMap Map con objetos del modelo
-	 */
+	 *//*
+
 	public void setDataPropertyConditionModelMap(Map<String, DataPropertyConditionInstanceMeasure> modelMap);
-	/**
+	*/
+/**
 	 * Genera los objetos Jaxb correspondientes a un map de objetos AggregatedMeasure cuyas medidas base sean TimeInstanceMeasure
 	 * 
 	 * @param modelMap Map con objetos del modelo
-	 */
+	 *//*
+
 	public void setTimeAggregatedModelMap(Map<String, AggregatedMeasure> modelMap);
-	/**
+	*/
+/**
 	 * Genera los objetos Jaxb correspondientes a un map de objetos AggregatedMeasure cuyas medidas base sean CountInstanceMeasure
 	 * 
 	 * @param modelMap Map con objetos del modelo
-	 */
+	 *//*
+
 	public void setCountAggregatedModelMap(Map<String, AggregatedMeasure> modelMap);
-	/**
+	*/
+/**
 	 * Genera los objetos Jaxb correspondientes a un map de objetos AggregatedMeasure cuyas medidas base sean StateConditionInstanceMeasure
 	 * 
 	 * @param modelMap Map con objetos del modelo
-	 */
+	 *//*
+
 	public void setStateConditionAggregatedModelMap(Map<String, AggregatedMeasure> modelMap);
-	/**
+	*/
+/**
 	 * Genera los objetos Jaxb correspondientes a un map de objetos AggregatedMeasure cuyas medidas base sean DataInstanceMeasure
 	 * 
 	 * @param modelMap Map con objetos del modelo
-	 */
+	 *//*
+
 	public void setDataAggregatedModelMap(Map<String, AggregatedMeasure> modelMap);
-	/**
+	*/
+/**
 	 * Genera los objetos Jaxb correspondientes a un map de objetos AggregatedMeasure cuyas medidas base sean DataPropertyConditionInstanceMeasure
 	 * 
 	 * @param modelMap Map con objetos del modelo
-	 */
+	 *//*
+
 	public void setDataPropertyConditionAggregatedModelMap(Map<String, AggregatedMeasure> modelMap);
-	/**
+	*/
+/**
 	 * Genera los objetos Jaxb correspondientes a un map de objetos AggregatedMeasure cuyas medidas base sean TimeInstanceMeasure
 	 * 
 	 * @param modelMap Map con objetos del modelo
-	 */
+	 *//*
+
 	public void setDerivedSingleInstanceAggregatedModelMap(Map<String, AggregatedMeasure> modelMap);
-	/**
+	*/
+/**
 	 * Genera los objetos Jaxb correspondientes a un map de objetos DerivedSingleInstanceMeasure
 	 * 
 	 * @param modelMap Map con objetos del modelo
-	 */
+	 *//*
+
 	public void setDerivedSingleInstanceModelMap(Map<String, DerivedMeasure> modelMap);
-	/**
+	*/
+/**
 	 * Genera los objetos Jaxb correspondientes a un map de objetos DerivedMultiInstanceMeasure
 	 * 
 	 * @param modelMap Map con objetos del modelo
-	 */
+	 *//*
+
 	public void setDerivedMultiInstanceModelMap(Map<String, DerivedMeasure> modelMap);
+*/
 	/**
 	 * Genera los objetos Jaxb correspondientes a un map de objetos PPI
 	 * 

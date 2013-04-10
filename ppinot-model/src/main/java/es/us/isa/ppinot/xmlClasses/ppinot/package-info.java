@@ -5,5 +5,8 @@
 // Generated on: 2012.11.08 at 10:16:40 AM GMT+01:00 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.isa.us.es/ppinot", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(
+        namespace = "http://www.isa.us.es/ppinot",
+        elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED,
+        xmlns={@javax.xml.bind.annotation.XmlNs(prefix="ppinot", namespaceURI="http://www.isa.us.es/ppinot")})
 package es.us.isa.ppinot.xmlClasses.ppinot;

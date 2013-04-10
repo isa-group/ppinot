@@ -1,5 +1,6 @@
 package es.us.isa.ppinot.model.base;
 
+import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.condition.ProcessInstanceCondition;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
@@ -9,8 +10,6 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
  * @author Edelia
  *
  */
-@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
-        include=JsonTypeInfo.As.PROPERTY, property="kind")
 public class ConditionMeasure extends BaseMeasure {
 	
 	// condicion de la medida
@@ -54,7 +53,7 @@ public class ConditionMeasure extends BaseMeasure {
      * Da valor al atributo condition:
      * Condicion de la medida
      * 
-     * @param value Valor del atributo
+     * @param condition Valor del atributo
      */
 	public void setCondition(ProcessInstanceCondition condition) {
 		this.condition = condition;

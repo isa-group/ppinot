@@ -1,11 +1,7 @@
 package es.us.isa.ppinot.handler;
 
 import es.us.isa.bpmn.handler.ModelHandler;
-import es.us.isa.bpmn.xmlClasses.bpmn20.TExtensionElements;
-import es.us.isa.bpmn.xmlClasses.bpmn20.TTask;
-import es.us.isa.bpmn.xmlClasses.bpmn20.TDataObject;
-import es.us.isa.bpmn.xmlClasses.bpmn20.TDefinitions;
-import es.us.isa.bpmn.xmlClasses.bpmn20.TProcess;
+import es.us.isa.bpmn.xmlClasses.bpmn20.*;
 import es.us.isa.ppinot.model.*;
 import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
 import es.us.isa.ppinot.model.base.CountInstanceMeasure;
@@ -84,6 +80,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	private Map<String, TDataObject> dataobjectMap;
 
 	private List<TPpi> ppiList;
+    private TPpiset tPpiset;
 
 	// mapas con las instancias de las clases del modelo, obtenidas a partir de las clases Jaxb. La key es el id del elemento. 
 	private Map<String, TimeInstanceMeasure> timeInstanceModelMap;
@@ -1079,7 +1076,8 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 
 				ppi.setName(def.getName());
 				ppi.setGoals(def.getGoals());
-				ppi.setResponsible(def.getResponsible());
+                ppi.setDescription(def.getDescription());
+                ppi.setResponsible(def.getResponsible());
 				ppi.setInformed(def.getInformed());
 				ppi.setComments(def.getComments());
 		    	
@@ -1213,46 +1211,67 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	    extensionElements.getAny().add( this.getFactory().createPpiset(ppiset) );
 		
 	    // crea un objeto Jaxb del tipo process
-	    TProcess process = this.bpmnFactory.createTProcess();
-	    process.setId( procId );
-	    process.setName( procId );
-	    process.setExtensionElements(extensionElements);
+        JAXBElement exportElement;
+        TDefinitions definitions = ((TDefinitions) this.getImportElement().getValue());
+        if (definitions != null) {
+            for (JAXBElement<? extends TRootElement> el : definitions.getRootElement()) {
+                if (el.getValue() instanceof TProcess) {
+                    TProcess process = (TProcess) el.getValue();
+                    if (procId.equals(process.getId())) {
+                        process.setExtensionElements(extensionElements);
+                        break;
+                    }
+                }
+            }
+            exportElement = this.getImportElement();
+        } else {
+            definitions = createTDefinitions(procId, extensionElements);
+            exportElement = this.bpmnFactory.createDefinitions(definitions);
+        }
 
-	    // adiciona al proceso generado, las tareas generadas (TTask) al crear los objetos Jaxb de las medidas 
-		Iterator<Entry<String, TTask>> itInst12 = this.taskMap.entrySet().iterator();
-	    while (itInst12.hasNext()) {
-	        Map.Entry<String, TTask> pairs = (Map.Entry<String, TTask>)itInst12.next();
-	        process.getFlowElement().add(this.bpmnFactory.createTask((TTask) pairs.getValue()));
-	    }
-
-	    // adiciona al proceso generado, los dataobjets generados (TDataObject) al crear los objetos Jaxb de las medidas 
-		Iterator<Entry<String, TDataObject>> itInst13 = this.dataobjectMap.entrySet().iterator();
-	    while (itInst13.hasNext()) {
-	        Map.Entry<String, TDataObject> pairs = (Map.Entry<String, TDataObject>)itInst13.next();
-	        TDataObject value = pairs.getValue();
-			process.getFlowElement().add(this.bpmnFactory.createDataObject(value));
-	    }
-
-	    // crea un objeto Jaxb del tipo definitions
-	    TDefinitions definitions = new TDefinitions();
-	    definitions.setId("ppinot-definitions");
-	    definitions.setExpressionLanguage("http://www.w3.org/1999/XPath");
-	    definitions.setTargetNamespace("http://schema.omg.org/spec/BPMN/2.0");
-	    definitions.setTypeLanguage("http://www.w3.org/2001/XMLSchema");
-    	definitions.getRootElement().add( this.bpmnFactory.createProcess(process));
-    	
     	// da valor al objeto JAXBElement que se utiliza para hacer el marshall de un xml
-        this.setExportElement( this.bpmnFactory.createDefinitions(definitions) );
-		
+        this.setExportElement(exportElement);
+
 	}
-	
-	/**
+
+    private TDefinitions createTDefinitions(String procId, TExtensionElements extensionElements) {
+        TProcess process = this.bpmnFactory.createTProcess();
+        process.setId( procId );
+        process.setName( procId );
+        process.setExtensionElements(extensionElements);
+
+        // adiciona al proceso generado, las tareas generadas (TTask) al crear los objetos Jaxb de las medidas
+        Iterator<Entry<String, TTask>> itInst12 = this.taskMap.entrySet().iterator();
+        while (itInst12.hasNext()) {
+            Entry<String, TTask> pairs = (Entry<String, TTask>)itInst12.next();
+            process.getFlowElement().add(this.bpmnFactory.createTask((TTask) pairs.getValue()));
+        }
+
+        // adiciona al proceso generado, los dataobjets generados (TDataObject) al crear los objetos Jaxb de las medidas
+        Iterator<Entry<String, TDataObject>> itInst13 = this.dataobjectMap.entrySet().iterator();
+        while (itInst13.hasNext()) {
+            Entry<String, TDataObject> pairs = (Entry<String, TDataObject>)itInst13.next();
+            TDataObject value = pairs.getValue();
+            process.getFlowElement().add(this.bpmnFactory.createDataObject(value));
+        }
+
+        // crea un objeto Jaxb del tipo definitions
+        TDefinitions definitions = new TDefinitions();
+        definitions.setId("ppinot-definitions");
+        definitions.setExpressionLanguage("http://www.w3.org/1999/XPath");
+        definitions.setTargetNamespace("http://schema.omg.org/spec/BPMN/2.0");
+        definitions.setTypeLanguage("http://www.w3.org/2001/XMLSchema");
+        definitions.getRootElement().add( this.bpmnFactory.createProcess(process));
+        return definitions;
+    }
+
+    /**
 	 * Genera un objeto del modelo a partir de un objeto Jaxb si este es una medida base 
 	 * 
 	 * @param jaxbValue Objeto Jaxb
 	 * @return Objeto del modelo
 	 */
-	private MeasureDefinition findBaseMeasureModel(Object jaxbValue) {
+	private MeasureDefinition generatesBaseMeasureModel(Object jaxbValue) {
 		
 		// obtiene el ppiset en el xml, que es utilizado al generar el objeto del modelo, para obtener los conectores y otros elementos
 		// relacionados con la medida 
@@ -1334,10 +1353,10 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	/**
 	 * Genera un objeto del modelo a partir de un objeto Jaxb si este es una medida agregada 
 	 * 
-	 * @param jaxbValue Objeto Jaxb
+	 * @param measure Objeto Jaxb
 	 * @return Objeto del modelo
 	 */
-	private MeasureDefinition findAggregatedMeasureModel(TAggregatedMeasure measure) {
+	private MeasureDefinition generatesAggregatedMeasureModel(TAggregatedMeasure measure) {
 		
 		// obtiene el ppiset en el xml, que es utilizado al generar el objeto del modelo, para obtener los conectores y otros elementos
 		// relacionados con la medida 
@@ -1540,7 +1559,7 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	 * @param jaxbValue Objeto Jaxb
 	 * @return Objeto del modelo
 	 */
-	private MeasureDefinition findDerivedMeasureModel(Object jaxbValue) {
+	private MeasureDefinition generatesDerivedMeasureModel(Object jaxbValue) {
 		
 		// obtiene el ppiset en el xml, que es utilizado al generar el objeto del modelo, para obtener los conectores y otros elementos
 		// relacionados con la medida 
@@ -1599,37 +1618,46 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	 * @return
 	 */
 	private TPpiset getPpiset() {
-		
-		TProcess process = null;
-		TPpiset ppiset = null;
-		
-		Object object = ((TDefinitions) this.getImportElement().getValue()).getRootElement().get(0).getValue();
+        if (tPpiset == null)
+            readTPpiset();
+
+        return tPpiset;
+    }
+
+    private void readTPpiset() {
+
+        TProcess process = null;
+        tPpiset = null;
+
+        TDefinitions tDefinitions = (TDefinitions) this.getImportElement().getValue();
+/*
+        Object object = tDefinitions.getRootElement().get(0).getValue();
 		if (object instanceof TProcess) {
 			
 			process = (TProcess) object;
 			ppiset = (TPpiset) ((JAXBElement<?>) process.getExtensionElements().getAny().get(0)).getValue();
 		} else {
-			
-			for (JAXBElement<?> element : ((TDefinitions) this.getImportElement().getValue()).getRootElement()) {
-				
-				Object participant = element.getValue();
-				if (participant instanceof TProcess &&
-					((TProcess) participant).getExtensionElements()!=null &&
-					((TProcess) participant).getExtensionElements().getAny()!=null &&
-					((TProcess) participant).getExtensionElements().getAny().get(0)!=null &&
-					((JAXBElement<?>) ((TProcess) participant).getExtensionElements().getAny().get(0)).getValue() instanceof TPpiset
-				   ) {
-					
-					ppiset = (TPpiset) ((JAXBElement<?>) ((TProcess) participant).getExtensionElements().getAny().get(0)).getValue();
-					break;
-				}
-			}
-		}
+*/
 
-		return ppiset;
-	}
-	
-	/**
+        for (JAXBElement<?> element : tDefinitions.getRootElement()) {
+
+            Object participant = element.getValue();
+            if (participant instanceof TProcess &&
+                    ((TProcess) participant).getExtensionElements() != null &&
+                    ((TProcess) participant).getExtensionElements().getAny() != null &&
+                    ((TProcess) participant).getExtensionElements().getAny().get(0) != null &&
+                    ((JAXBElement<?>) ((TProcess) participant).getExtensionElements().getAny().get(0)).getValue() instanceof TPpiset
+                    ) {
+
+                tPpiset = (TPpiset) ((JAXBElement<?>) ((TProcess) participant).getExtensionElements().getAny().get(0)).getValue();
+                break;
+            }
+        }
+//		}
+
+    }
+
+    /**
 	 * Obtiene los datos del periodo que se desea analizar, a partir de la propiedad analisysPeriod de una medida agregada 
 	 * 
 	 * @param period Cadena con el periodo de analisis
@@ -1778,13 +1806,13 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	private MeasureDefinition findConnectedMeasure(TMeasureConnector con) {
 	
 		Object target = con.getTargetRef();
-		MeasureDefinition def  = this.findBaseMeasureModel( target );
+		MeasureDefinition def  = this.generatesBaseMeasureModel(target);
 
 		if (def==null && target instanceof TAggregatedMeasure)
-			def = this.findAggregatedMeasureModel( (TAggregatedMeasure) target );
+			def = this.generatesAggregatedMeasureModel((TAggregatedMeasure) target);
 
 		if (def==null)
-			def = this.findDerivedMeasureModel( target );
+			def = this.generatesDerivedMeasureModel(target);
 
 		return def;
 	}
@@ -1796,20 +1824,22 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 	 */
 	@Override
 	protected void generateModelLists() {
-		
+
+        readTPpiset();
+
 		for( JAXBElement<?> element : this.getPpiset().getBaseMeasure() ) {
 			
-			this.findBaseMeasureModel( element.getValue() );
+			this.generatesBaseMeasureModel(element.getValue());
 		}
 
 		for( TAggregatedMeasure measure : this.getPpiset().getAggregatedMeasure()) {
 			
-			this.findAggregatedMeasureModel( measure );
+			this.generatesAggregatedMeasureModel(measure);
 		}
 
 		for( JAXBElement<?> element : this.getPpiset().getDerivedMeasure()) {
 				
-			this.findDerivedMeasureModel( element.getValue() );
+			this.generatesDerivedMeasureModel(element.getValue());
 		}
 	}
 

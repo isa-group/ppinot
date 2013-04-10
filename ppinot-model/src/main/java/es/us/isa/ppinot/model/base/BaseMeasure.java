@@ -1,6 +1,8 @@
 package es.us.isa.ppinot.model.base;
 
 import es.us.isa.ppinot.model.MeasureDefinition;
+import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
+import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
@@ -9,8 +11,6 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
  * @author Edelia
  *
  */
-@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
-        include=JsonTypeInfo.As.PROPERTY, property="kind")
 public class BaseMeasure extends MeasureDefinition {
 	
 	/**

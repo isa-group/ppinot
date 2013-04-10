@@ -11,8 +11,6 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
  * @version 1.0
  *
  */
-@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
-        include=JsonTypeInfo.As.PROPERTY, property="kind")
 public class TimeInstanceMeasure extends BaseMeasure {
 	
 	// Momento en el cual se toma la medida en la actividad inicial (el inicio o el final)

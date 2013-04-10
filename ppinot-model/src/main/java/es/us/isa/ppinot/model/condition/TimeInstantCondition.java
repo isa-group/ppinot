@@ -9,8 +9,6 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
  * @author Edelia
  *
  */
-@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
-        include=JsonTypeInfo.As.PROPERTY, property="kind")
 public class TimeInstantCondition extends Condition {
 
 	// Estado de la ejecucion

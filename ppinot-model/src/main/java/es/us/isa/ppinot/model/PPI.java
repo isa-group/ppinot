@@ -1,5 +1,8 @@
 package es.us.isa.ppinot.model;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -168,7 +171,7 @@ public class PPI {
      * Da valor al atributo description:
      * Descripcion del PPI
      * 
-     * @param name Valor del atributo
+     * @param description Valor del atributo
      */
 	public void setDescription(String description) {
 		this.description = description;
@@ -188,7 +191,7 @@ public class PPI {
      * Da valor al atributo goals:
      * 
      * 
-     * @param name Valor del atributo
+     * @param goals Valor del atributo
      */
 	public void setGoals(String goals) {
 		this.goals = goals;
@@ -208,7 +211,7 @@ public class PPI {
      * Da valor al atributo responsible:
      * 
      * 
-     * @param name Valor del atributo
+     * @param responsible Valor del atributo
      */
 	public void setResponsible(String responsible) {
 		this.responsible = responsible;
@@ -228,7 +231,7 @@ public class PPI {
      * Da valor al atributo informed:
      * 
      * 
-     * @param name Valor del atributo
+     * @param informed Valor del atributo
      */
 	public void setInformed(String informed) {
 		this.informed = informed;
@@ -248,7 +251,7 @@ public class PPI {
      * Da valor al atributo comments:
      * Comentarios
      * 
-     * @param name Valor del atributo
+     * @param comments Valor del atributo
      */
 	public void setComments(String comments) {
 		this.comments = comments;
@@ -268,7 +271,7 @@ public class PPI {
      * Da valor al atributo target:
      * Objeto Target que indica el rango de valores que en que se espera que este la medida asociada
      * 
-     * @param name Valor del atributo
+     * @param target Valor del atributo
      */
 	public void setTarget(Target target) {
 		this.target = target;
@@ -288,7 +291,7 @@ public class PPI {
      * Da valor al atributo scope:
      * Objeto Scope que indica el periodo de tiempo en el cual se calcula el PPI
      * 
-     * @param name Valor del atributo
+     * @param scope Valor del atributo
      */
 	public void setScope(Scope scope) {
 		this.scope = scope;
@@ -308,7 +311,7 @@ public class PPI {
      * Da valor al atributo measuredBy:
      * Medida asociada con el PPI
      * 
-     * @param name Valor del atributo
+     * @param measure Valor del atributo
      */
     public void setMeasuredBy(MeasureDefinition measure) {
 		
@@ -329,7 +332,7 @@ public class PPI {
      * Da valor al atributo valueString:
      * Lista de String con los valores del PPI para cada uno de los periodos de tiempo evaluados
      * 
-     * @param name Valor del atributo
+     * @param valueString Valor del atributo
      */
 	public void setValueString(List<String> valueString) {
 		this.valueString = valueString;
@@ -349,7 +352,7 @@ public class PPI {
      * Da valor al atributo success:
      * Lista de Double que indican si se satisface PPI para cada uno de los periodos de tiempo evaluados
      * 
-     * @param name Valor del atributo
+     * @param success Valor del atributo
      */
 	public void setSuccess(List<Double> success) {
 		this.success = success;
@@ -369,7 +372,7 @@ public class PPI {
      * Da valor al atributo normalized:
      * Lista de Double con los valores del PPI para cada uno de los periodos de tiempo evaluados
      * 
-     * @param name Valor del atributo
+     * @param normalized Valor del atributo
      */
 	public void setNormalized(List<Double> normalized) {
 		this.normalized = normalized;
@@ -484,6 +487,7 @@ public class PPI {
 	 * 
 	 * @return
 	 */
+    @JsonIgnore
 	public List<Boolean> getToMark() {
 		
 		List<Boolean> list = new ArrayList<Boolean>();
@@ -518,6 +522,7 @@ public class PPI {
 	 * 
 	 * @return 
 	 */
+    @JsonIgnore
 	public Boolean getCond() {
 		
 		return this.getMeasuredBy()!=null && this.getMeasuredBy().getCond();

@@ -11,8 +11,6 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
  * @version 1.0
  *
  */
-@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
-        include=JsonTypeInfo.As.PROPERTY, property="kind")
 public class DataInstanceMeasure extends BaseMeasure {
 	
 	// Dataobject y propiedad a la que se le aplica la medida

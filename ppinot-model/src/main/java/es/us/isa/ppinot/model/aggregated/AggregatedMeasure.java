@@ -12,8 +12,6 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
  * @version 1.0
  *
  */
-@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
-        include=JsonTypeInfo.As.PROPERTY, property="kind")
 public class AggregatedMeasure extends MeasureDefinition {
     
     // Funcion de agregacion que se aplica

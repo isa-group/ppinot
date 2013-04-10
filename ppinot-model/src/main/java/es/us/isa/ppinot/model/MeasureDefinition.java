@@ -1,5 +1,12 @@
 package es.us.isa.ppinot.model;
 
+import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
+import es.us.isa.ppinot.model.base.*;
+import es.us.isa.ppinot.model.derived.DerivedMeasure;
+import es.us.isa.ppinot.model.derived.DerivedMultiInstanceMeasure;
+import es.us.isa.ppinot.model.derived.DerivedSingleInstanceMeasure;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
@@ -10,6 +17,17 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
  */
 @JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
         include=JsonTypeInfo.As.PROPERTY, property="kind")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = CountInstanceMeasure.class, name = "CountInstanceMeasure"),
+        @JsonSubTypes.Type(value = TimeInstanceMeasure.class, name = "TimeInstanceMeasure"),
+        @JsonSubTypes.Type(value = ConditionMeasure.class, name="ConditionMeasure"),
+        @JsonSubTypes.Type(value = DataInstanceMeasure.class, name="DataInstanceMeasure"),
+        @JsonSubTypes.Type(value = DataPropertyConditionInstanceMeasure.class, name="DataPropertyConditionInstanceMeasure"),
+        @JsonSubTypes.Type(value = StateConditionInstanceMeasure.class, name="StateConditionInstanceMeasure"),
+        @JsonSubTypes.Type(value = DerivedMeasure.class, name="DerivedMeasure"),
+        @JsonSubTypes.Type(value = DerivedMultiInstanceMeasure.class, name="DerivedMultiInstanceMeasure"),
+        @JsonSubTypes.Type(value = DerivedSingleInstanceMeasure.class, name="DerivedSingleInstanceMeasure"),
+        @JsonSubTypes.Type(value = AggregatedMeasure.class, name = "AggregatedMeasure") })
 public abstract class MeasureDefinition {
     
 	// Propiedades comunes para definir todas las medidas
@@ -45,8 +63,6 @@ public abstract class MeasureDefinition {
      * @param description Descripcio de la medida
      * @param scale Escala de la medida
      * @param unitOfMeasure Unidad de medida
-     * @param refMax Limite maximo de la referencia de la medida
-     * @param refMin Limite minimo de la referencia de la medida
 	 */
 	public MeasureDefinition(String id, String name, String description, String scale, String unitOfMeasure) {
 		
@@ -118,7 +134,7 @@ public abstract class MeasureDefinition {
      * Da valor al atributo description:
      * Descripcion de la medida
      * 
-     * @param name Valor del atributo
+     * @param description Valor del atributo
      */
 	public void setDescription(String description) {
 		this.description = description;
@@ -138,7 +154,7 @@ public abstract class MeasureDefinition {
      * Da valor al atributo scale:
      * Escala de la medida
      * 
-     * @param name Valor del atributo
+     * @param scale Valor del atributo
      */
 	public void setScale(String scale) {
 		this.scale = scale;
@@ -169,6 +185,7 @@ public abstract class MeasureDefinition {
 	 * 
 	 * @return 
 	 */
+    @JsonIgnore
 	public Boolean getCond() {
 		
 		return this.getId()!=null && !this.getId().contentEquals("");

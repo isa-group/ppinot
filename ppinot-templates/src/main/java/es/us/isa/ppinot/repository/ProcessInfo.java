@@ -1,10 +1,14 @@
 package es.us.isa.ppinot.repository;
 
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+
 /**
  * User: resinas
  * Date: 09/04/13
  * Time: 08:54
  */
+@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
+        include=JsonTypeInfo.As.PROPERTY, property="kind")
 public class ProcessInfo {
 
     private String name;

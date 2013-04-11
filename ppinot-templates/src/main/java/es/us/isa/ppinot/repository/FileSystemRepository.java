@@ -49,13 +49,36 @@ public class FileSystemRepository implements ProcessRepository {
 
     @Override
     public InputStream getProcessReader(String id) {
-        String filename = directory + File.separator + id + ".bpmn20.xml";
-        File processFile = new File(filename);
+        File processFile = getProcessFile(id);
 
         try {
             return new FileInputStream(processFile);
         } catch (FileNotFoundException e) {
             throw new RuntimeException("Process with id: " + id + " not found ", e);
+        }
+    }
+
+    private File getProcessFile(String id) {
+        String filename = directory + File.separator + id + ".bpmn20.xml";
+        return new File(filename);
+    }
+
+
+    @Override
+    public OutputStream getProcessWriter(String id) {
+        File processFile = getProcessFile(id);
+        if (!processFile.exists()) {
+            try {
+                processFile.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException("Could not create new file " + processFile.getAbsolutePath(), e);
+            }
+        }
+
+        try {
+            return new FileOutputStream(processFile);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("File not found: " + processFile.getAbsolutePath(), e);
         }
     }
 }

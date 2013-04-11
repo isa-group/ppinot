@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jee="http://www.springframework.org/schema/jee"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
-       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <!-- Import basic SpringMVC Resteasy integration -->
     <import resource="classpath:springmvc-resteasy.xml"/>
@@ -20,12 +18,10 @@
 
 	<bean id="modelResource" class="es.us.isa.ppinot.templates.resources.ModelResource"/>
 
-    <bean id="jsonProvider" class="es.us.isa.ppinot.repository.PPINOTJsonProvider"/>
+    <!--<bean id="jsonProvider" class="es.us.isa.ppinot.repository.PPINOTJsonProvider"/>-->
 
     <bean id="repositoryResource" class="es.us.isa.ppinot.repository.RepositoryResource">
         <property name="processRepository" ref="processRepository"/>
-        <property name="bpmnModelHandler" ref="bpmnModelHandler"/>
-        <property name="ppinotModelHandler" ref="ppinotModelHandler"/>
         <property name="resourcesDirectory" value="/Users/resinas/Sandbox/signavio-res"/>
         <!--<property name="resourcesDirectory" value="/var/lib/tomcat6/cristal-raci"/>-->
         <property name="editorUrl" value="http://labs.isa.us.es:8080/signaviocore"/>
@@ -36,8 +32,6 @@
         <!--<property name="directory" value="/var/lib/tomcat6/cristal"/>-->
     </bean>
 
-    <bean id="bpmnModelHandler" class="es.us.isa.bpmn.handler.Bpmn20ModelHandler"/>
-    <bean id="ppinotModelHandler" class="es.us.isa.ppinot.handler.PpiNotModelHandler"/>
 
 
 </beans>

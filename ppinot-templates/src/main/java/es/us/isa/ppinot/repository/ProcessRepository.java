@@ -1,7 +1,7 @@
 package es.us.isa.ppinot.repository;
 
 import java.io.InputStream;
-import java.io.Reader;
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -12,4 +12,5 @@ import java.util.List;
 public interface ProcessRepository {
     public List<String> listProcesses();
     public InputStream getProcessReader(String id);
+    public OutputStream getProcessWriter(String id);
 }

@@ -1,7 +1,5 @@
 package es.us.isa.ppinot.repository;
 
-import es.us.isa.bpmn.handler.Bpmn20ModelHandlerInterface;
-import es.us.isa.bpmn.xmlClasses.bpmn20.TTask;
 import es.us.isa.ppinot.handler.PpiNotModelHandler;
 import es.us.isa.ppinot.handler.PpiNotModelHandlerInterface;
 import es.us.isa.ppinot.model.PPI;
@@ -16,9 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -36,10 +32,6 @@ public class RepositoryResource {
     private String resourcesDirectory;
     private String editorUrl;
 
-    private Bpmn20ModelHandlerInterface bpmnModelHandler;
-    private PpiNotModelHandlerInterface ppinotModelHandler;
-
-
     public RepositoryResource() {
         log.info("Loaded RepositoryResource");
     }
@@ -50,22 +42,6 @@ public class RepositoryResource {
 
     public void setProcessRepository(ProcessRepository processRepository) {
         this.processRepository = processRepository;
-    }
-
-    public Bpmn20ModelHandlerInterface getBpmnModelHandler() {
-        return bpmnModelHandler;
-    }
-
-    public void setBpmnModelHandler(Bpmn20ModelHandlerInterface bpmnModelHandler) {
-        this.bpmnModelHandler = bpmnModelHandler;
-    }
-
-    public PpiNotModelHandlerInterface getPpinotModelHandler() {
-        return ppinotModelHandler;
-    }
-
-    public void setPpinotModelHandler(PpiNotModelHandlerInterface ppinotModelHandler) {
-        this.ppinotModelHandler = ppinotModelHandler;
     }
 
     public String getEditorUrl() {
@@ -107,7 +83,7 @@ public class RepositoryResource {
     @GET
     public String getProcess(@PathParam("id") String id) {
         InputStream processReader = processRepository.getProcessReader(id);
-        String process = "";
+        String process;
         try {
             process = IOUtils.toString(processReader);
         } catch (IOException e) {
@@ -118,36 +94,12 @@ public class RepositoryResource {
 
     }
 
-    private File getResourcesFile(String id) {
-        String filename = resourcesDirectory + File.separator + id + ".raci.json";
-        File resourcesFile = new File(filename);
-
-        return resourcesFile;
+    @Path("/processes/{id}")
+    public ProcessInfoResource getProcessInfo(@PathParam("id") String id) {
+        InputStream processReader = processRepository.getProcessReader(id);
+        return new ProcessInfoResource(processReader);
     }
 
-    @Path("/processes/{id}/activities")
-    @Produces("application/json")
-    @GET
-    public List<String> getActivityNames(@PathParam("id") String id) {
-        List<String> activities = new ArrayList<String>();
-
-        try {
-            bpmnModelHandler.load(processRepository.getProcessReader(id));
-        } catch (Exception e) {
-            throw new RuntimeException("Problem loading process " + id, e);
-        }
-
-        Collection<TTask> tasks = bpmnModelHandler.getTaskMap().values();
-        for (TTask task : tasks) {
-            String name = task.getName();
-            if (name == null || "".equals(name))
-                name = task.getId();
-
-            activities.add(name);
-        }
-
-        return activities;
-    }
 
     @Path("/processes/{id}/ppis")
     @Produces("application/json")
@@ -166,17 +118,41 @@ public class RepositoryResource {
     @Path("/processes/{id}/ppis")
     @Consumes("application/json")
     @POST
-    public Collection<PPI> getPPIs(@PathParam("id") String id, List<PPI> ppis) {
+    public String storePPIs(@PathParam("id") String id, List<PPI> ppis) {
+        PpiNotModelHandlerInterface ppinotModelHandler;
         try {
+            ppinotModelHandler = new PpiNotModelHandler();
             ppinotModelHandler.load(processRepository.getProcessReader(id));
         } catch (Exception e) {
             throw new RuntimeException("Problem loading PPIs of process " + id, e);
         }
 
-        log.info(ppis.toString());
+        Map<String, PPI> ppiModelMap = new HashMap<String, PPI>();
+        for (PPI p: ppis) {
+            ppiModelMap.put(p.getId(), p);
+        }
 
-        return ppinotModelHandler.getPpiModelMap().values();
+        ppinotModelHandler.setPpiModelMap(ppiModelMap);
+
+        try {
+            String procId = ppinotModelHandler.getProcId();
+            ppinotModelHandler.save(processRepository.getProcessWriter(id+"-copy-"), procId);
+
+            return "Ok";
+        } catch (Exception e) {
+            throw new RuntimeException("unable to create file", e);
+        }
+
+
     }
+
+    private File getResourcesFile(String id) {
+        String filename = resourcesDirectory + File.separator + id + ".raci.json";
+
+        return new File(filename);
+    }
+
+
 
     @Path("/processes/{id}/raci")
     @Produces("application/json")

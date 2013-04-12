@@ -93,8 +93,9 @@ function addPPI(){
 	td28 = document.createElement("td");
 	td29 = document.createElement("td");
 	
-	//atributos para la tabla	
+	//table attributes
 	myTable.setAttribute("id", newID);
+	myTable.setAttribute("class", "PPITab");
 	td1.innerHTML = "PPI:";	
 	td1.setAttribute("height","30");
 	td2.innerHTML = "<span class='PPI_id' id='PPI_id_"+nTable+"' style='background-color: transparent;'>PPI descriptive name</span>";
@@ -185,6 +186,7 @@ function addPPI(){
 	divT = document.getElementById(newIdDiv);	
 	divT.appendChild(myTable);	
 	inLineEditTable();
+	tabEventTable();
 }
 function inLineEditTable(){
 	$('.PPI_id').inlineEdit();
@@ -198,38 +200,48 @@ function inLineEditTable(){
 	$('.Informed').inlineEdit();
 	$('.Comments').inlineEdit();
 }
+function tabEventTable(){
+	$('.PPI_id').tabEvent();
+	$('.Name').tabEvent();
+	$('.Process').tabEvent();
+	$('.Goals').tabEvent();
+	$('.Unit').tabEvent();
+	$('.Scope').tabEvent();
+	$('.Source').tabEvent();
+	$('.Responsible').tabEvent();
+	$('.Informed').tabEvent();
+	$('.Comments').tabEvent();
+}
 //end of add new table of PPI
 
-//jquery
+//jquery edit in place
 (function($) {
 	$.fn.inlineEdit = function(options) {
-		// define some options with sensible default values
-		// - hoverClass: the css classname for the hover style
-		options = $.extend({
-		hoverClass: 'hover'
-		}, options);
+		//define some options with sensible default values
+		//- hoverClass: the css classname for the hover style
+		options = $.extend({ hoverClass: 'hover' }, options);
 		return $.each(this, function() {
-			// define self container
+			//define self container
 			var self = $(this);
-			// create a value property to keep track of current value
+			//create a value property to keep track of current value
 			self.value = self.text();
-			// bind the click event to the current element, in this example it's span.editable
+			//bind the click event to the current element, in this example it's span.editable
 			self.bind('click', function() {
 				self
-				// populate current element with an input element and add the current value to it
+				//populate current element with an input element and add the current value to it
 				.html('<input type="text" value="'+ self.value +'">')
-				// select this newly created input element
+				//select this newly created input element
 				.find('input')
-				// bind the blur event and make it save back the value to the original span area
-				// there by replacing our dynamically generated input element
+				//bind the blur event and make it save back the value to the original span area
+				//there by replacing our dynamically generated input element
 				.bind('blur', function(event) {
 					self.value = $(this).val();
 					self.text(self.value);
 				})
-				// give the newly created input element focus
+				//give the newly created input element focus
 				.focus();
 			})
-			// on hover add hoverClass, on rollout remove hoverClass
+			//on hover add hoverClass, on rollout remove hoverClass
 			.hover(
 				function(){
 					self.addClass(options.hoverClass);
@@ -255,129 +267,42 @@ $(function(){
 }); 
 //End jquery
 
-//Tabulador event
-var cellElem = {
-	old_elem : "",
-	next_elem : "",
-	input_elem : "",
-	willTab : false,
-	old_val : ""
-};
-
-var cellInfo = {
-	cID : ""
-};
-
-var exit_edit = false;
-
-$('body').bind('click', ".test", function() {
-	keyCode = 0;
-	cellElem.old_elem = $(this);
-
-	cellInfo.cID = $(this).attr("id");
-	cellElem.old_val = $(this).text();
-
-	latestCellInfo()
-	$(this).replaceWith($(cellElem.input_elem));
-
-	window.setTimeout(function() {
-		$("#edit_" + $(this).attr("id")).focus();
-		$("#edit_" + cellInfo.cID).select();
-	}, 50); // hack for IE
-});
-
-$('body').bind('keydown', 'input[name^="edit_"]', function(e) {
-	keyCode = e.keyCode || e.which;
-	e.preventDefault;
-	if (keyCode == 9) {
-		exit_edit = false;
-		cellElem.willTab = true;
-		cellElem.next_elem = $(this).nextAll(".test").first();
-		canTraverse();
-	} else if (keyCode == 13) {
-		cellElem.next_elem = "";
-		canTraverse();
+//Tab event	
+(function($) {
+	$.fn.tabEvent = function() {
+		return this.each(function() {
+			$(this).bind('keydown', function(event) {
+				if (event.keyCode == 9 || event.keyCode == 13) {					
+					var nextBox='';
+					var list = $(".PPITab span");
+				    var i=list.index(this);	
+				    
+				    if (i == (list.length-1)){
+				    	nextBox=$(".PPITab span:first");         
+				    }else{
+				    	nextBox=list.eq(i+1);    
+				    }
+				    
+				    $(this).find("input").blur();
+				    $(nextBox).click();  
+				    return false;
+				    event.preventDefault();
+				}
+			});
+		});
 	}
-});
+})(jQuery);
 
-// reset the way of how an input box received the command
-// either by tab or by clicking the text
-$('body').bind('focus', 'input[name^="edit_"]', function(e) {
-	exit_edit = true;
-});
-
-//.delegate es otra opcion a .bind
-$('body').bind('focusout', 'input[name^="edit_"]', function(e) {
-	if (!cellElem.willTab || exit_edit) {
-		cellElem.next_elem = "";
-		canTraverse();
-	}
-});
-
-function canTraverse() {
-	cellElem.input_elem.replaceWith(cellElem.old_elem);
-	if (cellElem.willTab && cellElem.next_elem.length != 0) {
-
-		cellInfo.cID = cellElem.next_elem.attr("id");
-		cellElem.old_val = cellElem.next_elem.text();
-
-		latestCellInfo();
-		cellElem.next_elem.replaceWith($(cellElem.input_elem));
-
-		window.setTimeout(function() {
-			$("#edit_" + $(this).attr("id")).focus();
-			$("#edit_" + cellInfo.cID).select();
-		}, 50); // hack for IE
-		cellElem.willTab = false;
-		cellElem.old_elem = cellElem.next_elem;
-	}
-}
-
-function latestCellInfo() {
-	cellElem.input_elem = $('<input style="width:40px" id="edit_'
-			+ cellInfo.cID + '" name="edit_' + cellInfo.cID + '" value="'
-			+ cellElem.old_val + '"/>');
-
-}
-//
-// $('table tr td.EditText span input').live('keypress', function(e) {
-// // get the code of the key that was pressed
-// var code = e.keyCode ? e.keyCode : e.which;
-//
-// // varify that the tab key was pressed
-// if (code === 13) {
-//        // get the next tr's input field, and set focus to it
-//        $(this).parents('tr').next().find('td.EditText span input').focus();
-//
-//        // prevent any default actions
-//        if (e.preventDefault) {
-//            e.preventDefault();
-//        }
-//        return false;
-//    }
-//});
-
-/*
-
---EJEMPLO 1
-function tab(e){
-	tc = (document.all) ? e.keyCode : e.which;
-	if(tc==9 || tc==13 || tc == 8 || tc==20)
-		return true;
-}
-
---EJEMPLO 2 
-<input name="boton_busca" type="button" id="boton_busca" value="Go" onClick="xfiltro();" onKeyDown="return tab_btn(event);"> 
-Y ésta es la función que verifica la tecla presionada:
-Código HTML:
-function tab_btn(event)
-{
-	var t = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
-	if (t == 9) 
-	{
-		x_busca.element().focus(); 
-		return false;
-	}
-	return true;
-}
-*/
+$(document).ready(function(){
+    $('.PPI_id').tabEvent();
+    $('.Name').tabEvent();
+    $('.Process').tabEvent();
+    $('.Goals').tabEvent();
+	$('.Unit').tabEvent();
+	$('.Scope').tabEvent();
+	$('.Source').tabEvent();
+	$('.Responsible').tabEvent();
+	$('.Informed').tabEvent();
+	$('.Comments').tabEvent();
+}); 
+//End Tab event

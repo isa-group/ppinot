@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>  
+    <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+    <script type= "text/javascript" src="js/jquery.linguisticpattern.js"></script> 
+	<script type= "text/javascript">	    
+		  
+		   	$(document).ready(function() {
+    			var targetOneBound = new Array("be less than",
+    					            "be greater than",
+    					            "be less than or equal",
+    					            "be greater than or equal");
+    			var options = [{
+						text: "be less than",
+						appendContent: function(container, goBackFunction, load, notifyChange) {
+							$("<span>"+this.text+" </span>").click(goBackFunction).appendTo(container);
+							var input = $("<input type='text' placeholder='value'>").appendTo(container).change(
+									function() {										
+										notifyChange({minRef: $(this).val()});
+									}
+								);
+							try {
+								input.val(load.minRef);
+							} catch(err) {}
+						},
+					},
+					{
+    					text: "be greater than"
+    				},
+    				{
+    					text: "be less than or equal"
+    				},
+    				{
+    					text: "be greater than or equal"
+    				}
+    			];
+    			var loadTarget = {
+    				value: 0,
+    				contained: {minRef: 89}
+    			};
+
+		   		$("div.selectme2").linguisticPattern("The PPI value must", options);		   		
+
+		   		var eventOptions = [
+		   			{
+		   				text: "activity BPEN becomes BPES" 
+		   			},
+		   			{
+		   				text: "process BPEN becomes BPES" 
+		   			},
+		   			{
+		   				text: "data object BPEN becomes BPES"
+		   			},
+		   			{
+		   				text: "event BPEN is triggred"
+		   			}		    			 
+		   		];
+
+		   		var measure = [
+	   				{
+	   					text: "The duration between the time instants when {event} and when {event}",
+	   					content: {
+	   						text: "the duration between time instants ",
+	   						patterns: [
+	   							{
+	   								name: "start",
+	   								prefix: "when",
+	   								options: eventOptions
+	   							},
+	   							{
+	   								name: "end",
+	   								prefix: " and when",
+	   								options: eventOptions
+	   							}
+	   						] 
+	   					}
+	   				},
+					{
+    					text: "The number of times Event"
+					}
+	   			];
+
+		   		var measureOptions = [
+		   			{
+						text: "The duration between time instants when Event and when Event",
+						content: function(container, goBackFunction, load) {
+							$("<span>the duration between time instants </span>").click(goBackFunction).appendTo(container);
+							var start = $("<span tabindex='0'></span>");
+							var end = $("<span tabindex='0'></span>");
+							start.appendTo(container);
+							end.appendTo(container);
+							if (typeof load == "undefined") {
+								end.linguisticPattern(" and when", eventOptions);
+								start.linguisticPattern("when", eventOptions);
+							} else {
+								end.linguisticPattern(" and when", eventOptions, load.contained[1]);
+								start.linguisticPattern("when", eventOptions, load.contained[0]);								
+							}
+							
+						}
+					},
+					{
+    					text: "The number of times Event"
+    				}
+    			];
+
+    			var load = {
+    				value: 0, 
+    				contained: {
+    					start: {value: 2}, 
+    					end: {value: 3}
+    				}
+    			};
+
+		   		$("#definition").linguisticPattern("The PPI is defined as", measure, load);
+
+		    });
+	</script>
+	
+</head>
+<body>
+	
+
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+	    <div class="container">
+		    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+		    	<span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		    </a>
+		    <a class="brand" href="#">PPINot Templates Editor</a>
+		    <div class="nav-collapse pull-right">
+		    	<ul class="nav">
+		        	<li><a href="http://www.isa.us.es/ppinot">More information at the PPINot web site</a></li>
+		        </ul>
+		    </div><!--/.nav-collapse -->
+	    </div>
+	</div>
+</div>
+
+<div class="container">
+    <p>For more info and downloads please see the <a href="http://code.google.com/p/jquery-in-place-editor/">google code project page.</a> </p>		
+	<p style="float:right;"><button class="btn btn-info" onclick="ed.setModel(ExampleData);">Load example (Discards existing model!)</button> </p>
+	<h1>PPI Templates</h1>
+	
+    <div style="position: absolute; left: 39px; top: 45px; " class="ct_cursor ct_cursor_top ct_cursor_left"></div>
+    <div style="position: fixed; display: none; left: 670px; top: 355px; " class="ct_message_popup"></div>
+    
+    <div id="PPI">
+		<table class="ct_element ctc_PPI table table-condensed table-bordered" id="PPI_table">
+			<thead>
+				<tr id="ppi">
+					<td class="ct_class_name">PPI:</td> 
+					<td class="ct_class_name">
+						<input id= "ppi" name= "PPI_id"  type= "text" value= "PPI<id>" size="8"/>
+					</td> 
+			   	</tr>
+		   	</thead>
+		   	<tbody>
+				<tr class="ctn_name" id="name">
+					<td class="ct_feature_name editorcolumn">
+					   Name:
+					</td>
+					<td>
+						<input id="Name" name="Name"  type="text" value=""/>
+					</td>
+				</tr>
+				<tr class="ctn_process" id="Process">
+					<td class="ct_feature_name editorcolumn">
+					   Process:
+					</td>
+					<td>
+						<input id="Process" name="Process"  type="text" value=""/>
+					</td>
+				</tr>
+		   		<tr class="ct_attribute ctn_goals" id="Goals">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Goals:
+		   			</td>
+		   			<td>
+						<input id="Goals" name="Goals"  type="text" value=""/>
+					</td>
+		   		</tr>	
+		   		<tr class="ct_containment ctn_definition" id="Definition">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Definition: 
+		   			</td>
+		   			<td>
+		   			      <div class="selectme1" id="definition">The PPI is defined as &lt;click to select definition&gt;</div>
+		   			</td>
+				</tr>
+		   		<tr class="ct_containment ctn_target" id="Target">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Target:
+		   		    </td>
+		   			<td>
+		   			       
+		   			    <div class="selectme2" id="target" data-value='{"value": 0, "contained": {"minRef": 67}}'>
+		   			    	The PPI value must &lt;click to select target&gt;
+		   			    </div>
+					</td>
+					
+		   		</tr>
+		   		<tr class="ct_attribute ctn_unit" id="Unit">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Unit:
+		   			</td>
+		   			<td>
+						<input id="Unit" name="Unit"  type="text" value=""/>
+					</td>
+		   		</tr>
+		   		<tr class="ct_reference ctn_scope" id="Scope">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Scope:
+		   			</td>
+		   			<td>
+						<input id="Scope" name="Scope"  type="text" value=""/>
+					</td>
+		   		</tr>
+		   		<tr class="ct_attribute ctn_source" id="Source">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Source:
+		   		    </td>
+		   			<td>
+						<input id="Source" name="Source"  type="text" value=""/>
+					</td>
+		   		</tr>
+		   		<tr class="ct_attribute ctn_responsible" id="Responsible">
+		   			<td class="ct_feature_name editorcolumn">
+		   			    Responsible:
+		   		    </td>
+		   			<td>
+						<input id="Responsible" name="Responsible"  type="text" value=""/>
+					</td>
+		   		</tr>
+		   		<tr class="ct_attribute ctn_informed" id="Informed">
+		   			<td class="ct_feature_name editorcolumn">
+		   			    Informed:
+		   			</td>
+		   			<td>
+						<input id="Informed" name="Informed"  type="text" value=""/>
+					</td>
+		   		</tr>
+		   		<tr class="ct_attribute ctn_comments" id="Comments">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Comments:
+		   			</td>
+		   			<td>
+						<input id="Comments" name="Comments"  type="text" value=""/>
+					</td>
+		   		</tr>
+		   	</tbody>	   		
+		</table>	
+	</div>
+    
+	
+</div>
+
+
+</body>
+
+
+</html>

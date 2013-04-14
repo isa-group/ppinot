@@ -193,6 +193,8 @@ function inLineEditTable(){
 	$('.Name').inlineEdit();
 	$('.Process').inlineEdit();
 	$('.Goals').inlineEdit();
+	$('.Definition').inlineEdit();
+	$('.Target').inlineEdit();
 	$('.Unit').inlineEdit();
 	$('.Scope').inlineEdit();
 	$('.Source').inlineEdit();
@@ -205,6 +207,8 @@ function tabEventTable(){
 	$('.Name').tabEvent();
 	$('.Process').tabEvent();
 	$('.Goals').tabEvent();
+	$('.Definition').tabEvent();
+	$('.Target').tabEvent();
 	$('.Unit').tabEvent();
 	$('.Scope').tabEvent();
 	$('.Source').tabEvent();
@@ -258,6 +262,8 @@ $(function(){
 	$('.Name').inlineEdit();
 	$('.Process').inlineEdit();
 	$('.Goals').inlineEdit();
+	$('.Definition').inlineEdit();
+	$('.Target').inlineEdit();
 	$('.Unit').inlineEdit();
 	$('.Scope').inlineEdit();
 	$('.Source').inlineEdit();
@@ -272,11 +278,13 @@ $(function(){
 	$.fn.tabEvent = function() {
 		return this.each(function() {
 			$(this).bind('keydown', function(event) {
+				//Al presionar tabulador o enter
 				if (event.keyCode == 9 || event.keyCode == 13) {					
 					var nextBox='';
 					var list = $(".PPITab span");
 				    var i=list.index(this);	
 				    
+				    //Vuelve al principio de la tabla
 				    if (i == (list.length-1)){
 				    	nextBox=$(".PPITab span:first");         
 				    }else{
@@ -298,6 +306,8 @@ $(document).ready(function(){
     $('.Name').tabEvent();
     $('.Process').tabEvent();
     $('.Goals').tabEvent();
+    $('.Definition').tabEvent();
+	$('.Target').tabEvent();
 	$('.Unit').tabEvent();
 	$('.Scope').tabEvent();
 	$('.Source').tabEvent();

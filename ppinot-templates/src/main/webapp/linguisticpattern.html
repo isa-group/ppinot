@@ -7,10 +7,6 @@
 	<script type= "text/javascript">	    
 		  
 		   	$(document).ready(function() {
-    			var targetOneBound = new Array("be less than",
-    					            "be greater than",
-    					            "be less than or equal",
-    					            "be greater than or equal");
     			var options = [{
 						text: "be less than",
 						appendContent: function(container, goBackFunction, load, notifyChange) {
@@ -22,11 +18,24 @@
 								);
 							try {
 								input.val(load.minRef);
-							} catch(err) {}
-						},
+								notifyChange({minRef: load.minRef});
+							} catch(err) {};
+						}
 					},
 					{
-    					text: "be greater than"
+    					text: "be greater than",
+    					appendContent: function(container, goBackFunction, load, notifyChange) {
+							$("<span>"+this.text+" </span>").click(goBackFunction).appendTo(container);
+							var input = $("<input type='text' placeholder='value'>").appendTo(container).change(
+									function() {										
+										notifyChange({maxRef: $(this).val()});
+									}
+								);
+							try {
+								input.val(load.maxRef);
+								notifyChange({maxRef: load.maxRef});
+							} catch(err) {};
+						}
     				},
     				{
     					text: "be less than or equal"
@@ -35,6 +44,54 @@
     					text: "be greater than or equal"
     				}
     			];
+
+    			var activityStates = [
+    				"started",
+    				"cancelled",
+    				"completed"
+    			];
+
+    			var activityNames = ["hola"];
+
+		   		var eventOptions = [
+		   			{
+		   				text: "activity {activityName} {state}",
+		   				activityName: {
+		   					options: activityNames
+		   				},
+		   				state: {
+		   					prefix: " becomes",
+		   					options: activityStates
+		   				}
+		   			}, 
+		   			"process BPEN becomes BPES" , 
+		   			"data object BPEN becomes BPES", 
+		   			"event BPEN is triggred"
+		   		];
+
+
+		   		var measureOptions = [
+	   				{
+	   					text: "the duration between the time instants {startEvent} {endEvent}",
+	   					startEvent: {
+	   						prefix: "when",
+	   						options: eventOptions
+	   					},
+	   					endEvent: {
+	   						prefix: " and when",
+	   						options: eventOptions
+	   					}
+	   				},
+					{
+    					text: "the number of times {event}",
+    					event: {
+    						options: eventOptions
+    					}
+					}
+	   			];
+
+	   			// ESto es lo que debe ir al HTML. Lo de arriba a un fichero JS externo.
+
     			var loadTarget = {
     				value: 0,
     				contained: {minRef: 89}
@@ -42,79 +99,20 @@
 
 		   		$("div.selectme2").linguisticPattern("The PPI value must", options);		   		
 
-		   		var eventOptions = [
-		   			{
-		   				text: "activity BPEN becomes BPES" 
-		   			},
-		   			{
-		   				text: "process BPEN becomes BPES" 
-		   			},
-		   			{
-		   				text: "data object BPEN becomes BPES"
-		   			},
-		   			{
-		   				text: "event BPEN is triggred"
-		   			}		    			 
-		   		];
-
-		   		var measure = [
-	   				{
-	   					text: "The duration between the time instants when {event} and when {event}",
-	   					content: {
-	   						text: "the duration between time instants ",
-	   						patterns: [
-	   							{
-	   								name: "start",
-	   								prefix: "when",
-	   								options: eventOptions
-	   							},
-	   							{
-	   								name: "end",
-	   								prefix: " and when",
-	   								options: eventOptions
-	   							}
-	   						] 
-	   					}
-	   				},
-					{
-    					text: "The number of times Event"
-					}
-	   			];
-
-		   		var measureOptions = [
-		   			{
-						text: "The duration between time instants when Event and when Event",
-						content: function(container, goBackFunction, load) {
-							$("<span>the duration between time instants </span>").click(goBackFunction).appendTo(container);
-							var start = $("<span tabindex='0'></span>");
-							var end = $("<span tabindex='0'></span>");
-							start.appendTo(container);
-							end.appendTo(container);
-							if (typeof load == "undefined") {
-								end.linguisticPattern(" and when", eventOptions);
-								start.linguisticPattern("when", eventOptions);
-							} else {
-								end.linguisticPattern(" and when", eventOptions, load.contained[1]);
-								start.linguisticPattern("when", eventOptions, load.contained[0]);								
-							}
-							
-						}
-					},
-					{
-    					text: "The number of times Event"
-    				}
-    			];
 
     			var load = {
     				value: 0, 
     				contained: {
-    					start: {value: 2}, 
-    					end: {value: 3}
+    					startEvent: {value: 2}, 
+    					endEvent: {value: 3}
     				}
     			};
 
-		   		$("#definition").linguisticPattern("The PPI is defined as", measure, load);
+		   		$("#definition").linguisticPattern("The PPI is defined as", measureOptions, load);
 
+		   		console.log("Hoal mudno");
+		   		var valorDato = $("#definition").data("value");
+		   		console.log(valorDato);
 		    });
 	</script>
 	

@@ -1,3 +1,4 @@
+
 <html>
 <head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
 	<link rel="stylesheet" href="concrete/themes/white.css" type="text/css"/>
@@ -149,4 +150,131 @@
 	</div>		
 </div> <!-- /container2 -->      
 </body>   
+
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+	<link rel="stylesheet" href="concrete/themes/white.css" type="text/css"/>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css"/>
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+      .editorcolumn{
+      	width: 7em;
+      }
+    </style>    	
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="editor.js"></script>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+	    <div class="container">
+		    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+		    	<span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		    </a>
+		    <a class="brand">PPINot Templates Editor</a>
+		    <div class="nav-collapse pull-right">
+		    	<ul class="nav">
+		    		<li id="process-menu" class="dropdown">
+	                	<a href="#" id="drop-processes" role="button" class="dropdown-toggle" data-toggle="dropdown">
+	                		Select process <b class="caret"></b>
+	                	</a>
+	                    <ul id="menu-processes" class="dropdown-menu" role="menu" aria-labelledby="drop-processes">
+	                   		<li><a tabindex="-1" href="#">No processes available</a></li>
+	                    </ul>
+	                </li>
+		        	<li><a href="http://www.isa.us.es/ppinot">More information at the PPINot web site</a></li>
+		        </ul>
+		    </div>
+	    </div>
+	</div>
+</div>
+
+<div class="container" id="PPIs" >	
+	<h2>PPI Templates</h2>   
+	<br> 
+    <div class="well" id="PPI_div_0">
+		<table class="PPITab" id="PPI_table_0">
+			<tbody>
+				<tr>
+					<td height="30">PPI:</td>						
+					<td><span class="PPI_id" id="PPI_id" style="background-color: transparent;">PPI descriptive name</span></td> 
+			   	</tr>		   	
+				<tr>
+					<td height="30">Name:</td>
+					<td><span class="Name" id="Name" style="background-color: transparent;">name</span></td>
+				</tr>
+				<tr>
+					<td height="30">Process:</td>
+					<td><span class="Process" id="Process" style="background-color: transparent;">process name(process id)</span></td>
+				</tr>
+		   		<tr>
+		   			<td height="30">Goals:</td>
+		   			<td><span class="Goals" id="Goals" style="background-color: transparent;">strategic or operational goals the PPI is related to</span></td>		   			
+		   			<td>
+		   				<button type="button" id="Goals_0" name="Goals_0" onclick="addGoal(0)">
+						<i class="icon-plus"></i>
+						</button> 
+					</td>
+		   		</tr>
+		   		<tr>
+		   			<td width="70"></td>
+		   			<td id="addgoals_0"></td>
+		   		</tr>	
+		   		<tr>
+		   			<td height="30">Definition:</td>
+		   			<td>The PPI is defined as</td>
+		   			<td><span class="Definition" id="Definition" style="background-color: transparent;"></span></td>
+		   		</tr>
+		   		<tr>
+		   			<td height="30">Target:</td>
+		   			<td>The PPI value must</td> 
+					<td><span class="Target" id="Target" style="background-color: transparent;"></span></td>
+		   		</tr>
+		   		<tr>
+		   			<td height="30">Unit:</td>
+		   			<td><span class="Unit" id="Unit" style="background-color: transparent;">unit</span></td>
+		   		</tr>
+		   		<tr>
+		   			<td height="30">Scope:</td>
+		   			<td><span class="Scope" id="Scope" style="background-color: transparent;">The process instances considered for this PPI are</span></td>
+		   		</tr>
+		   		<tr>
+		   			<td height="30">Source:</td>
+		   			<td><span class="Source" id="Source" style="background-color: transparent;">source from which the PPI measure can be obtained</span></td>
+		   		</tr>
+		   		<tr>
+		   			<td height="30">Responsible:</td>
+		   			<td><span class="Responsible" id="Responsible" style="background-color: transparent;">role | department | organization | person</span></td>
+		   		</tr>
+		   		<tr>
+		   			<td height="30">Informed:</td>
+		   			<td><span class="Informed" id="Informed" style="background-color: transparent;">role | department | organization | person</span></td>
+		   		</tr>
+		   		<tr>
+		   			<td height="30">Comments:</td>
+		   			<td><span class="Comments" id="Comments" style="background-color: transparent;">additional comments about the PPI</span></td>
+		   		</tr>
+		   	</tbody>	   		
+		</table>	
+	</div>
+ </div> <!-- /container2 --> 
+ <div class="container">   
+	<div class="well" style="text-align:right;">
+		<textarea id="clipboard1" style="display: none; background-color: white; color: black; border: 1px solid grey" cols="80" rows="10"></textarea>
+		<input class="btn btn-primary" type="submit" onclick="addPPI();" value="Add PPI">
+		<input class="btn btn-primary" type="submit" onclick="savePPI();" value="Save PPI">
+	</div>	
+	<div class="alert alert-info">
+		This editor is based on <a href="http://www.concrete-editor.org">Concrete Editor</a>. 
+		To learn how to use it, please refer to the <a href="http://concrete-editor.org/cheat_sheet.html">Concrete Cheat Sheet</a>. 
+	</div>		
+</div> <!-- /container2 -->      
+</body>   
+
 </html>

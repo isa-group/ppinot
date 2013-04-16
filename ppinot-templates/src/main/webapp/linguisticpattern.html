@@ -38,6 +38,7 @@
 						}
     				},
     				{
+
     					text: "be less than or equal",
 						appendContent: function(container, goBackFunction, load, notifyChange) {
 							$("<span>"+this.text+" </span>").click(goBackFunction).appendTo(container);
@@ -349,6 +350,57 @@
 							options: MeasureForDers
 						},
 						
+
+    					text: "be less than or equal"
+    				},
+    				{
+    					text: "be greater than or equal"
+    				}
+    			];
+
+    			var activityStates = [
+    				"started",
+    				"cancelled",
+    				"completed"
+    			];
+
+    			var activityNames = ["hola"];
+
+		   		var eventOptions = [
+		   			{
+		   				text: "activity {activityName} {state}",
+		   				activityName: {
+		   					options: activityNames
+		   				},
+		   				state: {
+		   					prefix: " becomes",
+		   					options: activityStates
+		   				}
+		   			}, 
+		   			"process BPEN becomes BPES" , 
+		   			"data object BPEN becomes BPES", 
+		   			"event BPEN is triggred"
+		   		];
+
+
+		   		var measureOptions = [
+	   				{
+	   					text: "the duration between the time instants {startEvent} {endEvent}",
+	   					startEvent: {
+	   						prefix: "when",
+	   						options: eventOptions
+	   					},
+	   					endEvent: {
+	   						prefix: " and when",
+	   						options: eventOptions
+	   					}
+	   				},
+					{
+    					text: "the number of times {event}",
+    					event: {
+    						options: eventOptions
+    					}
+
 					}
 	   			];
 

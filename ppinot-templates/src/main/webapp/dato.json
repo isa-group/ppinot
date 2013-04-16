@@ -1,0 +1,128 @@
+[
+ {
+  "goals":"",
+  "scope":{
+           "period":"",
+           "startDate":null,
+           "endDate":null,
+           "inStart":false,
+           "inEnd":false,
+           "year":"",
+           "type":"es.us.isa.ppinot.model.Scope"
+          },
+   "comments":"",
+   "valueString":[],
+   "normalized":[],
+   "informed":"",
+   "responsible":"",
+   "measuredBy":{
+                  "cond":true,
+                  "when":{
+                           "changesToState":{
+                                              "stateString":"Start",
+                                              "state":"START",
+                                              "type":"es.us.isa.ppinot.model.state.RuntimeState"
+                                             },
+                           "appliesTo":"sid-680678C2-CDEE-4852-85E7CAA68E08DF78",
+                           "type":"es.us.isa.ppinot.model.condition.TimeInstantCondition"},
+                           "scale":"",
+                           "unitOfMeasure":"",
+                           "name":"Count1",
+                           "id":"sid-8F97D7AD-B211-429E-911BF278B5D12D98",
+                           "description":"",
+                           "type":"es.us.isa.ppinot.model.base.CountInstanceMeasure"
+                          },
+                  "toMark":[],
+                  "success":[],
+                  "cond":true,
+                  "name":"PPI 1",
+                  "id":"sid-eaf8645a-d548-4e9f-8a39-bf3aa78504fd",
+                  "target":{
+                            "refMin":null,
+                            "refMax":10.0,
+                            "type":"es.us.isa.ppinot.model.Target"
+                            },
+                 "description":"Descripcion PPI 1",
+                 "type":"es.us.isa.ppinot.model.PPI"
+               },
+
+
+{
+ "goals":"",
+ "scope":{
+           "period":"",
+           "startDate":null,
+           "endDate":null,
+           "inStart":false,
+           "inEnd":false,
+           "year":"",
+           "type":"es.us.isa.ppinot.model.Scope"
+          },
+ "comments":"",
+ "valueString":[],
+ "normalized":[],
+ "informed":"",
+ "responsible":"",
+ "measuredBy":{
+               "baseMeasure":{
+                              "to":{
+                                    "changesToState":{
+                                                      "stateString":"End",
+                                                      "state":"END",
+                                                      "type":"es.us.isa.ppinot.model.state.RuntimeState"
+                                                     },
+                                     "appliesTo":"sid-A96CA54F-FEAC-4E71-AE44-BDE3C98FB11B",
+                                     "type":"es.us.isa.ppinot.model.condition.TimeInstantCondition"
+                                    },
+                               "from":
+                                      {
+                                        "changesToState":{
+                                        "stateString":"Start",
+                                        "state":"START",
+                                        "type":"es.us.isa.ppinot.model.state.RuntimeState"
+                                       },
+                              "appliesTo":"sid-680678C2-CDEE-4852-85E7-CAA68E08DF78",
+                              "type":"es.us.isa.ppinot.model.condition.TimeInstantCondition"
+                             },
+                   "cond":true,
+                   "singleInstanceAggFunction":"Minimum",
+                   "timeMeasureType":"LINEAR",
+                   "scale":"",
+                   "unitOfMeasure":"",
+                   "name":"TimeAgg1",
+                   "id":"sid-9a4caf47-3141-4370-9cfc-4902aabf53f3",
+                   "description":"",
+                   "type":"es.us.isa.ppinot.model.base.TimeInstanceMeasure"
+                    },
+ "aggregates":false,
+ "cond":true,
+ "groupedBy":{
+              "dataobject":"",
+              "dataobjectId":"",
+              "selection":"",
+              "type":"es.us.isa.ppinot.model.DataContentSelection"
+            },
+ "aggregationFunction":"Sum",
+ "samplingFrequency":"Mensual",
+ "scale":"",
+ "unitOfMeasure":"",
+ "name":"TimeAgg1",
+ "id":"sid-CC7889D8-3920-4A37-B90B-6BE0A8923F08",
+ "description":"",
+ "type":"es.us.isa.ppinot.model.aggregated.AggregatedMeasure"
+},
+ "toMark":[],
+ "success":[],
+ "cond":true,
+ "name":"PPI 2",
+ "id":"sid-ef26d078-4a10-41d5-98f4-7dda5539df30",
+ "target":{
+           "refMin":10.0,
+           "refMax":10.0,
+           "type":"es.us.isa.ppinot.model.Target"
+          },
+ "description":"Descripcion PPI 2",
+ "type":"es.us.isa.ppinot.model.PPI"
+}
+]
+

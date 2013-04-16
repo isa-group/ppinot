@@ -28,28 +28,20 @@
      var request = $.ajax({
          url: "/form.php",
          type: "post",
-         data: serializedData
-     });
-
-    
-     request.done(function (response, textStatus, jqXHR){
-        
-         console.log("Hooray, it worked!");
-     });
-
-    
-     request.fail(function (jqXHR, textStatus, errorThrown){
+         data: serializedData,
+         done: function (response, textStatus, jqXHR){
+         			console.log("Hooray, it worked!");
+         },
+         fail: function (jqXHR, textStatus, errorThrown){
   
-         console.error(
-             "The following error occured: "+
-             textStatus, errorThrown
-         );
-     });
-
-     
-     request.always(function () {
-        
-         $inputs.prop("disabled", false);
+	         console.error(
+	             "The following error occured: "+
+	             textStatus, errorThrown
+	         );
+     	 },
+     	 always: function () {
+                 $inputs.prop("disabled", false);
+     	 }
      });
 
      event.preventDefault();

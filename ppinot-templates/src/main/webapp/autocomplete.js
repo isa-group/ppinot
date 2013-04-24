@@ -110,13 +110,11 @@
 		   				}
 		   			},
 		   			{
-		   				text: "event {activityName}",
+		   				text: "event {activityName}  is triggred",
 		   				activityName: {
 		   					options: activityNames
-		   					sufix: "is triggred"
 		   				}
-		   				
-		   			},
+		   				},
 		   			
 		   		];
                 
@@ -144,9 +142,10 @@
 						},
 						activityName:{
 							options: activityNames
-							sufix: "is state"
+						 
 						},
 						activityState:{
+							prefix: "is state",
 							options: activityStates
 						}
 					},
@@ -208,9 +207,10 @@
                   						},
                   						activityName:{
                   							options: activityNames
-                  							sufix: "is state"
+                  							
                   						},
                   						activityState:{
+                  							prefix: "is state",
                   							options: activityStates
                   						}
                   					},
@@ -280,9 +280,10 @@
 						},
 						activityName:{
 							options: activityNames
-							sufix: "is state"
+							
 						},
 						activityState:{
+							prefix: "is state",
 							options: activityStates
 						}
 					},

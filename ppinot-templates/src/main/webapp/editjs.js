@@ -21,6 +21,7 @@ var events= [{
 var dataobject= [];
 var process;
 var getways= [];
+
 $.ajax({
 	type: "POST",
 	url: "/api/repository/processes/ppi/ppis",
@@ -43,10 +44,11 @@ $.ajax({
 function getNameById(id, elements){
 	var cad;
 	for(i= 0; elements.lenght; i++){
-		if(elements[i]== id){
-			cad= elements.name;
+		if(elements[i].id== id){
+			cad= elements[i].name;
 		}
-		Console.log(cad);
+		
 	}
+	Console.log(cad);
 	
 }

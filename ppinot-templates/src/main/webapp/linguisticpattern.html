@@ -4,6 +4,7 @@
 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>  
     <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
     <script type= "text/javascript" src="js/jquery.linguisticpattern.js"></script> 
+    <script type= "text/javascript" src="js/templateloader.js"></script> 
 	<script type= "text/javascript">	    
 		  
 		   	$(document).ready(function() {
@@ -75,7 +76,7 @@
     			];
 
     			var activityStates = ["started", "canceled","completed"];
-                var activityNames = ["Assign priority", "Analyse RFC", "Cancel RFC"];
+                var activityNames = ["Assign priority", "Analyse RFC", "Cancel RFC"];                
                 var activityTypes = ["Activity", "process", "events", "data object"];
                 var DataObjectNames= ["RFC"];
                 var DataObjectState= ["registered"];
@@ -120,7 +121,7 @@
 		   			{
 		   				text: "event {activityName}",
 		   				activityName: {
-		   					options: activityNames
+		   					options: activityNames,
 		   					sufix: "is triggred"
 		   				}
 		   				
@@ -151,7 +152,7 @@
 							options:activityTypes
 						},
 						activityName:{
-							options: activityNames
+							options: activityNames,
 							sufix: "is state"
 						},
 						activityState:{
@@ -215,7 +216,7 @@
                   							options:activityTypes
                   						},
                   						activityName:{
-                  							options: activityNames
+                  							options: activityNames,
                   							sufix: "is state"
                   						},
                   						activityState:{
@@ -287,7 +288,7 @@
 							options:activityTypes
 						},
 						activityName:{
-							options: activityNames
+							options: activityNames,
 							sufix: "is state"
 						},
 						activityState:{
@@ -421,6 +422,10 @@
     					endEvent: {value: 3}
     				}
     			};
+
+
+				loadAll("ppi");
+
 
 		   		$("#definition").linguisticPattern("The PPI is defined as", measureOptions, load);
 

@@ -67,7 +67,8 @@
     			];
 
     			var activityStates = ["started", "canceled","completed"];
-                var activityNames = ["Assign priority", "Analyse RFC", "Cancel RFC"];
+                //var activityNames = ["Assign priority", "Analyse RFC", "Cancel RFC"];
+                var activityNames = [];
                 var activityTypes = ["Activity", "process", "events", "data object"];
                 var DataObjectNames= ["RFC"];
                 var DataObjectState= ["registered"];
@@ -77,6 +78,18 @@
                 var expressions=["SUM(x1, x2, x3, x4)"];
                 var parametres= ["x1", "x2", "x3", "x4"];
 		   		
+		   		var timeMeasure = 	{
+	   					text: "the duration between the time instants {startEvent} {endEvent}",
+	   					startEvent: {
+	   						prefix: "when",
+	   						options: eventOptions
+	   					},
+	   					endEvent: {
+	   						prefix: " and when",
+	   						options: eventOptions
+	   					}
+	   				};
+
                 
                 var eventOptions = [
 		   			{
@@ -118,17 +131,8 @@
 		   			
 		   		];
                 
-                var MeasureForDers= [{
-	   					text: "the duration between the time instants {startEvent} {endEvent}",
-	   					startEvent: {
-	   						prefix: "when",
-	   						options: eventOptions
-	   					},
-	   					endEvent: {
-	   						prefix: " and when",
-	   						options: eventOptions
-	   					}
-	   				},
+                var MeasureForDers= [
+                	timeMeasure,
 					{
     					text: "the number of times {event}",
     					event: {
@@ -183,17 +187,7 @@
 					
 	   			];
                 var measureForAgges = [
-                  	   				{
-                  	   					text: "the duration between the time instants {startEvent} {endEvent}",
-                  	   					startEvent: {
-                  	   						prefix: "when",
-                  	   						options: eventOptions
-                  	   					},
-                  	   					endEvent: {
-                  	   						prefix: " and when",
-                  	   						options: eventOptions
-                  	   					}
-                  	   				},
+                  	   				timeMeasure,
                   					{
                       					text: "the number of times {event}",
                       					event: {
@@ -255,18 +249,9 @@
                   					}
                   	   			];
 
+
 		   		var measureOptions = [
-	   				{
-	   					text: "the duration between the time instants {startEvent} {endEvent}",
-	   					startEvent: {
-	   						prefix: "when",
-	   						options: eventOptions
-	   					},
-	   					endEvent: {
-	   						prefix: " and when",
-	   						options: eventOptions
-	   					}
-	   				},
+					timeMeasure,
 					{
     					text: "the number of times {event}",
     					event: {

@@ -19,9 +19,13 @@ var processesHandler = {
 					console.log("url:  "+this.url);
 					console.log("editor:  "+this.editor);
 					console.log("id:  "+this.id);
-					menu.append("<li><a tabindex=\"-1\" id=\""+this.name+"\" href=\"#\">"+this.name+"</a></li>");
-					var elem = document.getElementById(this.name);
-					$(elem).click(function() {
+					var listItem = $("<li></li>");
+					var enlace = $(<a tabindex=\"-1\" id=\""+this.name+"\" href=\"#\">"+this.name+"</a>");
+					listItem.append(enlace);
+					menu.append(listItem);
+					//menu.append("<li><a tabindex=\"-1\" id=\""+this.name+"\" href=\"#\">"+this.name+"</a></li>");
+					//var elem = document.getElementById(this.name);
+					enlace.click(function() {
 						processesHandler.processLoaded = this.id;						
 						processesHandler.loadProcess(this.id);
 						//processesHandler.loadRaciTable(this.id);

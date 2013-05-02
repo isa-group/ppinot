@@ -18,7 +18,8 @@
 	<script type="text/javascript" src="js/editor.js"></script>
 	<script type="text/javascript" src="js/jquery-ajax.js"></script>
 	<!--<script type="text/javascript" src="js/autocomplete.js"></script>
-	<script type="text/javascript" src="js/autocomplete2.js"></script>-->
+	<script type="text/javascript" src="js/autocomplete2.js"></script>
+	<script type="text/javascript" src="js/templateloader.js"></script>-->
 </head>
 <body>
 <div class="navbar navbar-fixed-top">
@@ -50,24 +51,31 @@
 <div class="container" id="PPIs" >	
 	<h2>PPI Templates</h2>   
 	<br> 
-    <div class="well" id="PPI_div_0">
+    <div class="well PPITabClass_0" id="PPI_div_0">
 		<table class="PPITab" id="PPI_table_0">
 			<tbody>
 				<tr>
+					<td height="30">PPI_0</td>						
+					<td><button type="button" id="cabecera_0" name="cabecera_0" onclick="delTable(0)">
+							Eliminar plantilla <i class="icon-trash"></i>
+						</button>
+					</td> 
+			   	</tr>
+				<tr>
 					<td height="30">PPI:</td>						
-					<td><span class="PPI_id" id="PPI_id" style="background-color: transparent;">PPI descriptive name</span></td> 
+					<td><span class="PPI_id" id="PPI_id_0" style="background-color: transparent;">PPI descriptive name</span></td> 
 			   	</tr>		   	
 				<tr>
 					<td height="30">Name:</td>
-					<td><span class="Name" id="Name" style="background-color: transparent;">name</span></td>
+					<td><span class="Name" id="Name_0" style="background-color: transparent;">name</span></td>
 				</tr>
 				<tr>
 					<td height="30">Process:</td>
-					<td><span class="Process" id="Process" style="background-color: transparent;">process name(process id)</span></td>
+					<td><span class="Process" id="Process_0" style="background-color: transparent;">process name(process id)</span></td>
 				</tr>
 		   		<tr>
 		   			<td height="30">Goals:</td>
-		   			<td><span class="Goals" id="Goals" style="background-color: transparent;">strategic or operational goals the PPI is related to</span></td>		   			
+		   			<td><span class="Goals" id="Goals_0" style="background-color: transparent;">strategic or operational goals the PPI is related to</span></td>		   			
 		   			<td>
 		   				<button type="button" id="Goals_0" name="Goals_0" onclick="addGoal(0)">
 						<i class="icon-plus"></i>
@@ -81,36 +89,36 @@
 		   		<tr>
 		   			<td height="30">Definition:</td>
 		   			<td>The PPI is defined as</td>
-		   			<td><span class="Definition" id="Definition" style="background-color: transparent;"></span></td>
+		   			<td><span class="Definition" id="Definition_0" style="background-color: transparent;"></span></td>
 		   		</tr>
 		   		<tr>
 		   			<td height="30">Target:</td>
 		   			<td>The PPI value must</td> 
-					<td><span class="Target" id="Target" style="background-color: transparent;"></span></td>
+					<td><span class="Target" id="Target_0" style="background-color: transparent;"></span></td>
 		   		</tr>
 		   		<tr>
 		   			<td height="30">Unit:</td>
-		   			<td><span class="Unit" id="Unit" style="background-color: transparent;">unit</span></td>
+		   			<td><span class="Unit" id="Unit_0" style="background-color: transparent;">unit</span></td>
 		   		</tr>
 		   		<tr>
 		   			<td height="30">Scope:</td>
-		   			<td><span class="Scope" id="Scope" style="background-color: transparent;">The process instances considered for this PPI are</span></td>
+		   			<td><span class="Scope" id="Scope_0" style="background-color: transparent;">The process instances considered for this PPI are</span></td>
 		   		</tr>
 		   		<tr>
 		   			<td height="30">Source:</td>
-		   			<td><span class="Source" id="Source" style="background-color: transparent;">source from which the PPI measure can be obtained</span></td>
+		   			<td><span class="Source" id="Source_0" style="background-color: transparent;">source from which the PPI measure can be obtained</span></td>
 		   		</tr>
 		   		<tr>
 		   			<td height="30">Responsible:</td>
-		   			<td><span class="Responsible" id="Responsible" style="background-color: transparent;">role | department | organization | person</span></td>
+		   			<td><span class="Responsible" id="Responsible_0" style="background-color: transparent;">role | department | organization | person</span></td>
 		   		</tr>
 		   		<tr>
 		   			<td height="30">Informed:</td>
-		   			<td><span class="Informed" id="Informed" style="background-color: transparent;">role | department | organization | person</span></td>
+		   			<td><span class="Informed" id="Informed_0" style="background-color: transparent;">role | department | organization | person</span></td>
 		   		</tr>
 		   		<tr>
 		   			<td height="30">Comments:</td>
-		   			<td><span class="Comments" id="Comments" style="background-color: transparent;">additional comments about the PPI</span></td>
+		   			<td><span class="Comments" id="Comments_0" style="background-color: transparent;">additional comments about the PPI</span></td>
 		   		</tr>
 		   	</tbody>	   		
 		</table>	

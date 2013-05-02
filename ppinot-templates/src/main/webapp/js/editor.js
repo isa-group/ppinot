@@ -21,7 +21,6 @@ function addGoal(idtr){
 	div.appendChild(td1);	
 }
 function delGoal(idtr,id){
-	var g = id;
 	var idt = idtr;
 	var parent = document.getElementById('addgoals_'+idt+'');
     var child = document.getElementById('tr_goals_'+id+'');
@@ -29,15 +28,28 @@ function delGoal(idtr,id){
 }
 //End_ add goal and delete goal button
 
+//start_ add goal and delete goal button
+function delTable(id){
+	var resultado = confirm("Va a eliminar la plantilla número "+id+". ¿Está seguro?");
+	if (resultado){
+		$('.PPITabClass_'+id+'').remove();
+	}
+	//var child = document.getElementById('PPI_Table_'+id+'');
+}
+//End_ add goal and delete goal button
+
 //start of add new table of PPI
 var nTab = 1;
 var nDiv = 1;
+var nClass = 1;
 var newIdDiv = "";
 
 function addDiv(){
 	newIdDiv = "PPI_div_"+nDiv++;	
 	myDiv = document.createElement("div");	
-	myDiv.setAttribute("class","well");	
+	newNClass = nClass++;
+	var clase = "well PPITabClass_"+newNClass;
+	myDiv.setAttribute("class",clase);	
 	myDiv.setAttribute("id",newIdDiv);	
 	divC = document.getElementById('PPIs');	
 	divC.appendChild(myDiv);
@@ -50,6 +62,7 @@ function addPPI(){
 	var addg = "addgoals_"+nTable;
 	myTable = document.createElement("table");	
 	tbBody = document.createElement("tbody");	
+	tr0 = document.createElement("tr");
 	tr1 = document.createElement("tr");	
 	tr2 = document.createElement("tr");	
 	tr3 = document.createElement("tr");	
@@ -63,6 +76,8 @@ function addPPI(){
 	tr11 = document.createElement("tr");	
 	tr12 = document.createElement("tr");	
 	tr13 = document.createElement("tr");	
+	td00 = document.createElement("td");	
+	td01 = document.createElement("td");
 	td1 = document.createElement("td");	
 	td2 = document.createElement("td");	
 	td3 = document.createElement("td");	
@@ -96,6 +111,9 @@ function addPPI(){
 	//table attributes
 	myTable.setAttribute("id", newID);
 	myTable.setAttribute("class", "PPITab");
+	td00.innerHTML = "PPI_"+nTable;	
+	td00.setAttribute("height","30");
+	td01.innerHTML ="<button type='button' id='cabecera_"+nTable+"' onclick='delTable("+nTable+")'> Eliminar plantilla <i class='icon-trash'></i> </button> ";
 	td1.innerHTML = "PPI:";	
 	td1.setAttribute("height","30");
 	td2.innerHTML = "<span class='PPI_id' id='PPI_id_"+nTable+"' style='background-color: transparent;'>PPI descriptive name</span>";
@@ -138,6 +156,8 @@ function addPPI(){
 	td28.setAttribute("height","30");
 	td29.innerHTML = "<span class='Comments' id='Comments_"+nTable+"' style='background-color: transparent;'>additional comments about the PPI</span>";
 	
+	tr0.appendChild(td00);
+	tr0.appendChild(td01);
 	tr1.appendChild(td1);	
 	tr1.appendChild(td2);	
 	tr2.appendChild(td3);	
@@ -168,6 +188,7 @@ function addPPI(){
 	tr13.appendChild(td28);	
 	tr13.appendChild(td29);
 	
+	tbBody.appendChild(tr0);
 	tbBody.appendChild(tr1);	
 	tbBody.appendChild(tr2);	
 	tbBody.appendChild(tr3);	

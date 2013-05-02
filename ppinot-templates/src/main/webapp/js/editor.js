@@ -132,11 +132,11 @@ function addPPI(){
 	td12.innerHTML = "Definition:";
 	td12.setAttribute("height","30");
 	td13.innerHTML = "The PPI is defined as ";	
-	td14.innerHTML = "<span class='Definition' id='Def' style='background-color: transparent;'></span>";	
+	td14.innerHTML = "<span class='Definition' id='Definition_"+nTable+"' style='background-color: transparent;'></span>";	
 	td15.innerHTML = "Target:";	
 	td15.setAttribute("height","30");
 	td16.innerHTML = "The PPI value must ";	
-	td17.innerHTML = "<span class='Target' id='Tar' style='background-color: transparent;'></span>";	
+	td17.innerHTML = "<span class='Target' id='Target_"+nTable+"' style='background-color: transparent;'></span>";	
 	td18.innerHTML = "Unit:";	
 	td18.setAttribute("height","30");
 	td19.innerHTML = "<span class='Unit' id='Unit_"+nTable+"' style='background-color: transparent;'>unit</span>";	

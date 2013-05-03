@@ -103,33 +103,68 @@
 		   				}
 		   			},
 		   			{
-		   				text: "process {activityName} {activityState}",
-		   				activityName: {
-		   					options: activityNames
-		   				},
-		   				activityState: {
+		   				text: "process {processState}",
+		   				processState: {
 		   					prefix: " becomes",
 		   					options: activityStates
 		   				}
 		   			},
 		   			{
-		   				text: "data object {activityName} {activityState}",
-		   				activityName: {
-		   					options: activityNames
+		   				text: "data object {DataObjectName} {DataObjectState}",
+		   				DataObjectName: {
+		   					options: DataObjectNames
 		   				},
-		   				activityState: {
+		   				DataObjectState: {
 		   					prefix: " becomes",
-		   					options: activityStates
+		   					options: DataObjectState
 		   				}
 		   			},
 		   			{
-		   				text: "event {activityName}  is triggred",
-		   				activityName: {
-		   					options: activityNames
+		   				text: "event {eventName}  is triggred",
+		   				eventName: {
+		   					options: eventNames
 		   				}
-		   				},
+		   			}
 		   			
 		   		];
+
+                var stateOptions = [
+		   			{
+		   				text: "activity {activityName} {activityState}",
+		   				activityName: {
+		   					options: activityNames
+		   				},
+		   				activityState: {
+		   					prefix: " is",
+		   					options: activityStates
+		   				}
+		   			},
+		   			{
+		   				text: "process {processState}",
+		   				processState: {
+		   					prefix: " is",
+		   					options: activityStates
+		   				}
+		   			},
+		   			{
+		   				text: "data object {DataObjectName} {DataObjectState}",
+		   				DataObjectName: {
+		   					options: DataObjectNames
+		   				},
+		   				DataObjectState: {
+		   					prefix: " is",
+		   					options: DataObjectState
+		   				}
+		   			},
+		   			{
+		   				text: "event {eventName} has been triggred",
+		   				eventName: {
+		   					options: eventNames
+		   				}
+		   			}
+		   			
+		   		];
+
                 
                 var MeasureForDers= [
                 	timeMeasure,
@@ -140,17 +175,9 @@
     					}
 					},
 					{
-						text: "{activityType} {activityName} is state {activityState}",
-						activityType:{
-							options:activityTypes
-						},
-						activityName:{
-							options: activityNames
-						 
-						},
-						activityState:{
-							prefix: "is state",
-							options: activityStates
+						text: "{state}",
+						state:{
+							options:stateOptions
 						}
 					},
 					

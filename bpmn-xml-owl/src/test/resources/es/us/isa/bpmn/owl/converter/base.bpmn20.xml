@@ -10,6 +10,13 @@
    <process id="sid-4936fb97-f79a-4a2e-8958-dfc71d0bc848" isExecutable="false">
       <extensionElements>
          <ppinot:ppiset>
+            <ppinot:ppi description="Descripcion PPI 1" name="PPI 1" id="sid-eaf8645a-d548-4e9f-8a39-bf3aa78504fd" measuredBy="sid-F23CA3E1-9D3C-46B5-BB7F-E37E27DB729E" target="&lt;10"/>
+            <ppinot:ppi description="Descripcion PPI 2" name="PPI 2" id="sid-ef26d078-4a10-41d5-98f4-7dda5539df30" measuredBy="sid-3B70F4A1-8F9F-4909-A3AC-8F06FBDC6C97" target="=10"/>
+            <ppinot:ppi description="Descripcion PPI 3" name="PPI 3" id="sid-eaf8645a-d548-4e9f-8a39-bf3aa78504fe" measuredBy="sid-7B5191F7-B178-47CB-AC6E-0A99C1577DC3" target="&lt;10"/>
+            <ppinot:ppi description="Descripcion PPI 4" name="PPI 4" id="sid-ef26d078-4a10-41d5-98f4-7dda5539df31" measuredBy="sid-70636F2E-63D1-47D3-A17C-8832E2F4890F" target="=10"/>
+            <ppinot:ppi description="Descripcion PPI 5" name="PPI 5" id="sid-ef26d078-4a10-41d5-98f4-7dda5539df32" measuredBy="sid-98764615-A771-4C7D-8619-16008DAE4679" target="=10"/>
+
+            
             <ppinot:countMeasure description="" id="sid-F23CA3E1-9D3C-46B5-BB7F-E37E27DB729E" name="Count1" scale="" unitofmeasure=""/>
             <ppinot:timeMeasure description="" id="sid-3B70F4A1-8F9F-4909-A3AC-8F06FBDC6C97" name="Time1" scale="" singleInstanceAggFunction="" timeMeasureType="" unitofmeasure=""/>
             <ppinot:dataPropertyConditionMeasure description="" id="sid-7B5191F7-B178-47CB-AC6E-0A99C1577DC3" name="DataPropertyCondition1" scale="" unitofmeasure=""/>
@@ -98,3 +105,4 @@
       </bpmndi:BPMNPlane>
    </bpmndi:BPMNDiagram>
 </definitions>
+

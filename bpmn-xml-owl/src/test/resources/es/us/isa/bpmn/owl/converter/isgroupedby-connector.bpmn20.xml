@@ -10,6 +10,9 @@
    <process id="sid-5c2d54c4-080b-4554-96a7-e91e53f7c916" isExecutable="false">
       <extensionElements>
          <ppinot:ppiset>
+            <ppinot:ppi description="Descripcion PPI 1" name="PPI 1" id="sid-eaf8645a-d548-4e9f-8a39-bf3aa78504fd" measuredBy="sid-905C337C-96E4-4D41-8465-62DD8A36221C" target="&lt;10"/>
+            <ppinot:ppi description="Descripcion PPI 2" name="PPI 2" id="sid-ef26d078-4a10-41d5-98f4-7dda5539df30" measuredBy="sid-276FC2FA-BA15-46A7-8203-ADD1F2C834EC" target="=10"/>
+
             <ppinot:countMeasure description="" id="sid-F2220D80-9C7F-419A-88D6-CE6A11ED5339" name="Count1" scale="" unitofmeasure=""/>
             <ppinot:aggregatedMeasure aggregationfunction="Sum" id="sid-905C337C-96E4-4D41-8465-62DD8A36221C"/>
             <ppinot:aggregatedMeasure aggregationfunction="" id="sid-276FC2FA-BA15-46A7-8203-ADD1F2C834EC" name="CountAgg1" samplingfrequency="">

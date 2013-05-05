@@ -10,21 +10,32 @@
    <process id="sid-95218261-1cbe-4943-81dd-e5b0357e2ff0" isExecutable="false">
       <extensionElements>
          <ppinot:ppiset>
-            <ppinot:aggregatedMeasure aggregationfunction="Average" id="sid-85ADE8CD-C32A-4F59-B519-F9A59D9FF38A" name="Count1" samplingfrequency="Anual">
+            <ppinot:ppi description="Descripcion PPI 1" name="PPI 1" id="sid-eaf8645a-d548-4e9f-8a39-bf3aa78504fd" measuredBy="sid-85ADE8CD-C32A-4F59-B519-F9A59D9FF38A" target="&lt;10"/>
+            <ppinot:ppi description="Descripcion PPI 2" name="PPI 2" id="sid-ef26d078-4a10-41d5-98f4-7dda5539df30" measuredBy="sid-C11F5344-C7B6-43EF-B6CD-4064C1AE8BA9" target="=10"/>
+            <ppinot:ppi description="Descripcion PPI 3" name="PPI 3" id="sid-eaf8645a-d548-4e9f-8a39-bf3aa78504fe" measuredBy="sid-8A0FCBF6-2486-4855-9D33-1921E646BB6C" target="&lt;10"/>
+            <ppinot:ppi description="Descripcion PPI 4" name="PPI 4" id="sid-ef26d078-4a10-41d5-98f4-7dda5539df31" measuredBy="sid-58F97E64-1E94-4F39-A597-5854A11428B5" target="=10"/>
+            <ppinot:ppi description="Descripcion PPI 5" name="PPI 5" id="sid-ef26d078-4a10-41d5-98f4-7dda5539df32" measuredBy="sid-06FF961A-1AF5-4EAB-A72F-E5B5B6356629" target="=10"/>
+
+          <ppinot:aggregatedMeasure aggregationfunction="Average" id="sid-85ADE8CD-C32A-4F59-B519-F9A59D9FF38A" name="Count1" samplingfrequency="Anual">
                <ppinot:countMeasure description="" id="sid-4ca76a0a-5e7a-4ad8-a35c-23319b904340" name="Count1" scale="" unitofmeasure=""/>
             </ppinot:aggregatedMeasure>
+
             <ppinot:aggregatedMeasure aggregationfunction="Sum" id="sid-C11F5344-C7B6-43EF-B6CD-4064C1AE8BA9" name="Time1" samplingfrequency="Mensual">
-               <ppinot:timeMeasure description="" id="sid-0c306446-8c69-449a-8da4-d2780209b03b" name="Time1" scale="" singleInstanceAggFunction="Minimum" timeMeasureType="Linear" unitofmeasure=""/>
+               <ppinot:timeMeasure description="" id="sid-0c306446-8c69-449a-8da4-d2780209b03b" name="Time1" scale="" singleInstanceAggFunction="Minimum" timeMeasureType="Cyclic" unitofmeasure=""/>
             </ppinot:aggregatedMeasure>
+
             <ppinot:aggregatedMeasure aggregationfunction="Sum" id="sid-8A0FCBF6-2486-4855-9D33-1921E646BB6C" name="StateCondition1" samplingfrequency="Trimestral">
                <ppinot:stateConditionMeasure description="" id="sid-9cee8a2a-e4a6-4211-a9d8-5f4948cd63e7" name="StateCondition1" scale="" unitofmeasure=""/>
             </ppinot:aggregatedMeasure>
+
             <ppinot:aggregatedMeasure aggregationfunction="Sum" id="sid-58F97E64-1E94-4F39-A597-5854A11428B5" name="Data1" samplingfrequency="Mensual">
                <ppinot:dataMeasure description="" id="sid-fb7bdcc9-d180-46ea-85a3-1072e21307fd" name="Data1" scale="" unitofmeasure=""/>
             </ppinot:aggregatedMeasure>
+
             <ppinot:aggregatedMeasure aggregationfunction="Sum" id="sid-06FF961A-1AF5-4EAB-A72F-E5B5B6356629" name="DataProperty1" samplingfrequency="Mensual">
                <ppinot:dataPropertyConditionMeasure description="" id="sid-7cbea7e7-436d-417c-ac30-fd56113f6b92" name="DataProperty1" scale="" unitofmeasure=""/>
             </ppinot:aggregatedMeasure>
+
             <ppinot:appliesToElementConnector id="sid-DE8F457B-E922-4226-8F33-4223659B8AE4" sourceRef="sid-85ADE8CD-C32A-4F59-B519-F9A59D9FF38A" state="Ready" targetRef="sid-D5274D42-55B0-46A0-8EB6-B99B186D3873" when="Start"/>
             <ppinot:appliesToElementConnector id="sid-F452319E-690A-4EEC-92FF-8E9B26C930E2" sourceRef="sid-8A0FCBF6-2486-4855-9D33-1921E646BB6C" state="Running" targetRef="sid-2171B3CC-36ED-43B6-B6B8-339732CCB2BD" when="Start"/>
             <ppinot:appliesToDataConnector dataContentSelection="" id="sid-646E8446-A665-4488-A3D2-23625D8EC5F0" restriction="" sourceRef="sid-58F97E64-1E94-4F39-A597-5854A11428B5" state="" targetRef="sid-E55E3010-5D7F-4D21-B968-D4D109D625CA"/>

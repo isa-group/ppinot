@@ -58,7 +58,13 @@ function loadEvents(processName) {
 		dataType: "json",
 		success: function(data) {
 			$(data).each(function (index) {
-				console.log(this);
+				if (this.name == "") {
+					this.name = this.id;
+				}
+				activityNames.push(this.name);
+				activityIdName[this.id] = this.name;
+				activityNameId[this.name] = this.id;	
+				
 			});
 			loadDataObjects(processName);
 		}
@@ -71,8 +77,12 @@ function loadDataObjects(processName) {
 		url: "/api/repository/processes/" + processName + "/dataobjects",
 		dataType: "json",
 		success: function(data) {
-			$(data).each(function (index) {
-				console.log(this);
+			$(if (this.name == "") {
+				this.name = this.id;
+			}
+			activityNames.push(this.name);
+			activityIdName[this.id] = this.name;
+			activityNameId[this.name] = this.id;	
 			});
 			loadGateways(processName);
 		}
@@ -86,7 +96,12 @@ function loadGateways(processName) {
 		dataType: "json",
 		success: function(data) {
 			$(data).each(function (index) {
-				console.log(this);
+				if (this.name == "") {
+					this.name = this.id;
+				}
+				activityNames.push(this.name);
+				activityIdName[this.id] = this.name;
+				activityNameId[this.name] = this.id;	
 			});
 			loadTemplates(processName);
 		}
@@ -101,7 +116,12 @@ function loadTemplates(processName) {
 		dataType: "json",
 		success: function(data) {
 			$(data).each(function (index) {
-				console.log(this);
+				if (this.name == "") {
+					this.name = this.id;
+				}
+				activityNames.push(this.name);
+				activityIdName[this.id] = this.name;
+				activityNameId[this.name] = this.id;	
 				loadTemplate(this);
 			});
 		}
@@ -118,14 +138,23 @@ function loadTemplate(ppi) {
 
 function loadMeasuredBy(elem, measuredBy) {
     var kindIndex = {
+    	TimeInstanceMeasure: 0,
 		CountInstanceMeasure: 1,
-		AggregatedMeasure: 5    	
+		StateConditionMeasure: 2,
+		DataPropertycondition: 3,
+		DataMeasure: 4,
+		AggregatedMeasure: 5,
+		DerivedMeasure: 6
     };
 
     var kindContained = {
     	TimeInstanceMeasure: containedTimeInstanceMeasure,
     	CountInstanceMeasure: containedCountInstanceMeasure,
-    	AggregatedMeasure: containedAggregatedMeasure
+    	StateConditionMeasure: containedStateConditionInstanceMeasure,
+    	DataPropertycondition: containedDataPropertycondition,
+    	DataMeasure: containedDataInstanceMeasure,
+    	AggregatedMeasure: containedAggregatedMeasure,
+    	DerivedMeasure: containedDerivedInstanceMeasure
     };
 
     var load = {
@@ -162,7 +191,7 @@ function containedEvent(event) {
 	if (isActivity(event.appliesTo)) {
 		contained.value = 0;
 		contained.activityNames = {
-			value: findPosition(activityNames, activityIdName[event.appliesTo])
+			value: containedActivityNames(event)
 		};		
 		contained.activityState = {
 			value: findPosition(activityStates, event.changesToState.stateString)
@@ -176,6 +205,38 @@ function containedEvent(event) {
 	return contained;
 		
 }
+
+function containedActivityType(event){
+	var contained = {
+			value: findPosition(activityNames, activityIdName[event.])
+	};
+	console.log(contained);
+
+	return contained;
+}
+function containedActivityNames(event){
+	var contained = {
+			value: findPosition(activityNames, activityIdName[event.appliesTo])
+	};
+	console.log(contained);
+
+	return contained;
+}
+
+function containedActivityState(event){
+	var contained = {
+			value: findPosition(activityStates, event.changesToState.stateString)
+	};
+	console.log(contained);
+
+	return contained;
+}
+
+function containedStateConditionInstanceMeasure(measuredBy){}
+function containedDataPropertycondition(measuredBy){}
+function containedDataInstanceMeasure(measuredBy){}
+function ontainedDerivedInstanceMeasure(measuredBy){}
+
 
 function containedAggregatedMeasure(measuredBy) {
 	return {};

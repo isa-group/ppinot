@@ -72,6 +72,7 @@
                 var activityTypes = ["Activity", "process", "events", "data object"];
                 var DataObjectNames= ["RFC"];
                 var DataObjectState= ["registered"];
+                var eventNames= ["receive RFC"];
                 var ConditionDataObjectProperties= ["type of Change=perfective"];
                 var DataObjectPropertyNames= ["affected department"];
                 var aggregates= ["sum", "max", "min", "average"];
@@ -89,57 +90,15 @@
 	   						options: eventOptions
 	   					}
 	   				};
-
-                
-                var eventOptions = [
-		   			{
-		   				text: "activity {activityName} {activityState}",
-		   				activityName: {
-		   					options: activityNames
-		   				},
-		   				activityState: {
-		   					prefix: " becomes",
-		   					options: activityStates
-		   				}
-		   			},
-		   			{
-		   				text: "process {activityName} {activityState}",
-		   				activityName: {
-		   					options: activityNames
-		   				},
-		   				activityState: {
-		   					prefix: " becomes",
-		   					options: activityStates
-		   				}
-		   			},
-		   			{
-		   				text: "data object {activityName} {activityState}",
-		   				activityName: {
-		   					options: activityNames
-		   				},
-		   				activityState: {
-		   					prefix: " becomes",
-		   					options: activityStates
-		   				}
-		   			},
-		   			{
-		   				text: "event {activityName}  is triggred",
-		   				activityName: {
-		   					options: activityNames
-		   				}
-		   				},
-		   			
-		   		];
-                
-                var MeasureForDers= [
-                	timeMeasure,
-					{
+		   		
+		   		var countMeasure= {
     					text: "the number of times {event}",
     					event: {
     						options: eventOptions
     					}
-					},
-					{
+					};
+		   		
+		   		var StateConditionMeasure= {
 						text: "{activityType} {activityName} is state {activityState}",
 						activityType:{
 							options:activityTypes
@@ -152,9 +111,20 @@
 							prefix: "is state",
 							options: activityStates
 						}
-					},
-					
+					};
+		   		var DataPropertyCondition= 
 					{
+  						text: "{DataObjectName} that satifies: {ConditionDataObjectPropertie}",
+  						DataObjectName:{
+  							options: DataObjectNames
+  						},
+  						ConditionDataObjectPropertie:{
+  							prefix: "that satifies",
+  							options:ConditionDataObjectProperties
+  						}
+  						
+  					};
+		   		var DataMeasure= {
 						text: "the value of {DataObjectPropertyName} of {DataObjectName}",
 						DataObjectPropertyName:{
 							prefix: "the value of",
@@ -164,8 +134,8 @@
 							prefix: "of",
 							options: DataObjectNames
 						},
-					},
-					{
+					};
+		   		var AggregatedMeasure= 	{
 						text: "the {Aggregate} of {MeasureForAgg} group by property {DataObjectPropertyName} of {DataObjectName}",
 						Aggregate:{
 							prefix:"the",
@@ -183,151 +153,131 @@
 							prefix: "of",
 							options: DataObjectNames
 						}
-					},
+					};
+		   		
+		   		var DerivedMeasure= {
+  						text: "the function {expresion} where {parametros} is {MeasureForDer}",
+  						expresion:{
+  							prefix: "the function",
+  							options: expressions
+  						},
+  						parametros:{
+  							prefix: "where",
+  							options: parametres
+  						},
+  						MeasureForAgg:{
+  							prefix: "is",
+  							options: MeasureForDers
+  						}
+  						
+  					};
+
+                
+		   		var eventOptions = [
+                                    {
+                                            text: "activity {activityName} {activityState}",
+                                            activityName: {
+                                                    options: activityNames
+                                            },
+                                            activityState: {
+                                                    prefix: " becomes",
+                                                    options: activityStates
+                                            }
+                                    },
+                                    {
+                                            text: "process {processState}",
+                                            processState: {
+                                                    prefix: " becomes",
+                                                    options: activityStates
+                                            }
+                                    },
+                                    {
+                                            text: "data object {DataObjectName} {DataObjectState}",
+                                            DataObjectName: {
+                                                    options: DataObjectNames
+                                            },
+                                            DataObjectState: {
+                                                    prefix: " becomes",
+                                                    options: DataObjectState
+                                            }
+                                    },
+                                    {
+                                            text: "event {eventName}  is triggred",
+                                            eventName: {
+                                                    options: eventNames
+                                            }
+                                    }
+                                    
+                            ];
+                
+                var stateOptions = [
+		   			{
+		   				text: "activity {activityName} {activityState}",
+ 		   				activityName: {
+ 		   					options: activityNames
+ 		   				},
+ 		   				activityState: {
+		   					prefix: " becomes",
+		   					prefix: " is",
+ 		   					options: activityStates
+ 		   				}
+ 		   			},
+ 		   			{
+		   				text: "event {activityName}  is triggred",
+		   				activityName: {
+		   					options: activityNames
+		   				text: "process {processState}",
+		   				processState: {
+		   					prefix: " is",
+		   					options: activityStates
+ 		   				}
+		   			},
+		   			{
+		   				text: "data object {DataObjectName} {DataObjectState}",
+		   				DataObjectName: {
+		   					options: DataObjectNames
+ 		   				},
+		   				DataObjectState: {
+		   					prefix: " is",
+		   					options: DataObjectState
+		   				}
+		   			},
+		   			{
+		   				text: "event {eventName} has been triggred",
+		   				eventName: {
+		   					options: eventNames
+		   				}
+		   			}
+ 		   			
+ 		   		];
+
+                
+                var MeasureForDers= [
+                	timeMeasure,
+                	countMeasure,
+                	StateConditionMeasure,
+                	DataMeasure,
+                	AggregatedMeasure
 					
 	   			];
                 var measureForAgges = [
                   	   				timeMeasure,
-                  					{
-                      					text: "the number of times {event}",
-                      					event: {
-                      						options: eventOptions
-                      					}
-                  					},
-                  					{
-                  						text: "{activityType} {activityName} is state {activityState}",
-                  						activityType:{
-                  							options:activityTypes
-                  						},
-                  						activityName:{
-                  							options: activityNames
-                  							
-                  						},
-                  						activityState:{
-                  							prefix: "is state",
-                  							options: activityStates
-                  						}
-                  					},
-                  					{
-                  						text: "{DataObjectName} that satifies: {ConditionDataObjectPropertie}",
-                  						DataObjectName:{
-                  							options: DataObjectNames
-                  						},
-                  						ConditionDataObjectPropertie:{
-                  							prefix: "that satifies",
-                  							options:ConditionDataObjectProperties
-                  						}
-                  						
-                  					},
-                  					{
-                  						text: "the value of {DataObjectPropertyName} of {DataObjectName}",
-                  						DataObjectPropertyName:{
-                  							prefix: "the value of",
-                  							options: DataObjectPropertyNames
-                  						},
-                  						DataObjectName:{
-                  							prefix: "of",
-                  							options: DataObjectNames
-                  						},
-                  					},
-                  					
-                  					{
-                  						text: "the function {expresion} where {parametros} is {MeasureForDer}",
-                  						expresion:{
-                  							prefix: "the function",
-                  							options: expressions
-                  						},
-                  						parametros:{
-                  							prefix: "where",
-                  							options: parametres
-                  						},
-                  						MeasureForAgg:{
-                  							prefix: "is",
-                  							options: MeasureForDers
-                  						},
-                  						
-                  					}
+                  	   			    countMeasure,
+                            	    StateConditionMeasure,
+                            	    DataPropertyCondition,
+                            	    DataMeasure,
+                            	    DerivedMeasure
+                  	   				
                   	   			];
 
 
 		   		var measureOptions = [
 					timeMeasure,
-					{
-    					text: "the number of times {event}",
-    					event: {
-    						options: eventOptions
-    					}
-					},
-					{
-						text: "{activityType} {activityName} is state {activityState}",
-						activityType:{
-							options:activityTypes
-						},
-						activityName:{
-							options: activityNames
-							
-						},
-						activityState:{
-							prefix: "is state",
-							options: activityStates
-						}
-					},
-					{
-						text: "{DataObjectName} that satifies: {ConditionDataObjectPropertie}",
-						DataObjectName:{
-							options: DataObjectNames
-						},
-						ConditionDataObjectPropertie:{
-							prefix: "that satifies",
-							options:ConditionDataObjectProperties
-						}
-						
-					},
-					{
-						text: "the value of {DataObjectPropertyName} of {DataObjectName}",
-						DataObjectPropertyName:{
-							prefix: "the value of",
-							options: DataObjectPropertyNames
-						},
-						DataObjectName:{
-							prefix: "of",
-							options: DataObjectNames
-						},
-					},
-					{
-						text: "the {Aggregate} of {MeasureForAgg} group by property {DataObjectPropertyName} of {DataObjectName}",
-						Aggregate:{
-							prefix:"the",
-							options: aggregates
-						},
-						MeasureForAgg:{
-							prefix: "of",
-							options: measureForAgges
-						},
-						DataObjectPropertyName:{
-							prefix: "group by property",
-							options: DataObjectPropertyNames
-						},
-						DataObjectName:{
-							prefix: "of",
-							options: DataObjectNames
-						}
-					},
-					{
-						text: "the function {expresion} where {parametros} is {MeasureForDer}",
-						expresion:{
-							prefix: "the function",
-							options: expressions
-						},
-						parametros:{
-							prefix: "where",
-							options: parametres
-						},
-						MeasureForAgg:{
-							prefix: "is",
-							options: MeasureForDers
-						},
-						
-					}
-	   			];
+					countMeasure,
+            	    StateConditionMeasure,
+            	    DataPropertyCondition,
+            	    DataMeasure,
+            	    AggregatedMeasure,
+            	    DerivedMeasure
+				];
 }

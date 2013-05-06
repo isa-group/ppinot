@@ -2,8 +2,7 @@ var idCounter;
 
 function saveMeasuredBy(elem) {
 	var value = elem.data("value");
-
-	var kindSave = [saveTimeInstanceMeasure, saveAggregatedMeasure];
+    var kindSave = [saveTimeInstanceMeasure, saveCountInstanceMeasure, saveStateconditionintanceMeasure, saveDataPropertyCondition, saveDataInstanceMeasure, saveAggregatedInstanceMeasure, saveDerivedInstanceMeasure];
     console.log(load);
 
 	return kindSave[value.value](value.contained);
@@ -30,7 +29,7 @@ function saveTimeInstanceMeasure(elem) {
 }
 
 function saveEvent(event) {
-	var kindEvent = [saveActivityEvent, saveProcessEvent];
+	var kindEvent = [saveActivityEvent, saveProcessEvent, saveDataObjectEvent];
 
 	var result = kindEvent[event.value](event.contained);
 	result.kind = "TimeInstantCondition";
@@ -41,10 +40,112 @@ function saveEvent(event) {
 function saveActivityEvent(event) {
 	var result = {
 		changesToState: {stateString: event.activityState},
-		appliesTo: activityNameId[event.activityName]
+		appliesTo: activityNameId[event]
 	}
 
 	return result;
+}
+
+function saveProcessEvent(event){
+	var result = {
+			changesToState: {stateString: event.processState},
+			appliesTo: activityNameId[event.activityName]
+		}
+
+		return result;
+}
+
+function saveDataObjectEvent(event){
+	var result = {
+			changesToState: {stateString: event.DataObjectState},
+			appliesTo: activityNameId[event.DataObjectName]
+		}
+
+		return result;
+}
+
+
+function saveCountInstanceMeasure(elem){
+	var measure = {
+			kind: "CountInstanceMeasure",
+			name: "Count1",
+			description: "",
+			scale: "",
+			unitOfMeasure: "",
+			id: "count-instance-"+idCounter;
+			when: saveEvent(elem.startEvent),
+			
+		};
+		idCounter++;
+
+		return measure;
+}
+function saveStateconditionintanceMeasure(elem){
+	var measure = {
+			kind: "StateConditionInstanceMeasure",
+			name: "SCM1",
+			description: "",
+			scale: "",
+			unitOfMeasure: "",
+			id: "StateCondition-instance-"+idCounter;
+			when: saveEvent(elem.startEvent),
+			
+		};
+		idCounter++;
+
+		return measure;
+}
+function saveDataPropertyCondition(elem){
+	var measure = {
+			kind: "StateConditionInstanceMeasure",
+			name: "DataProperty1",
+			description: "",
+			scale: "",
+			unitOfMeasure: "",
+			id: "DataPropertyCondition-instance-"+idCounter;
+			when: saveEvent(elem.startEvent),
+			
+		};
+		idCounter++;
+
+		return measure;
+}
+function saveDataInstanceMeasure(elem){}
+function saveAggregatedInstanceMeasure(elem){
+	var measure = {
+			kind: "AggregatedInstanceMeasure",
+			timeMeasureType: "LINEAR",
+			singleInstanceAggFunction: "Minimum",
+			name: "TimeAgg1",
+			description: "",
+			scale: "",
+			unitOfMeasure: "",
+			id: "AggregatedMeasure-instance-"+idCounter;
+	        baseMeasure: saveBaseMeasure(elem)
+			
+			
+		};
+		idCounter++;
+
+		return measure;
+}
+
+
+function saveDerivedInstanceMeasure(elem){
+	
+	var measure = {
+			kind: "DerivedInstanceMeasure",
+			name: "Derived1",
+			description: "",
+			scale: "",
+			unitOfMeasure: "",
+			id: "Derived-instance-"+idCounter;
+			when: saveEvent(elem.startEvent),
+			
+		};
+		idCounter++;
+
+		return measure;
 }
 
 {"kind":"DataInstanceMeasure",

@@ -7,6 +7,7 @@ var activityStates = ["Start", "Cancel","End"];
 var DataObjectNames= [];
 var DataObjectState= [];
 var eventNames = [];
+var aggregates=[];
 
 function isActivity(id) {
 	var result = false;
@@ -136,7 +137,10 @@ function loadTemplate(ppi) {
 	loadMeasuredBy(elem, ppi.measuredBy);
 }
 
-function loadMeasuredBy(elem, measuredBy) {
+function loadMeasuredBy(elem, measuredBy) {loadMeasure(measureBy);}
+	
+	
+function loadMeasure(measureBy){
     var kindIndex = {
     	TimeInstanceMeasure: 0,
 		CountInstanceMeasure: 1,
@@ -208,7 +212,7 @@ function containedEvent(event) {
 
 function containedActivityType(event){
 	var contained = {
-			value: findPosition(activityNames, activityIdName[event.])
+			value: findPosition(activityNames, activityIdName[event.id])
 	};
 	console.log(contained);
 
@@ -232,12 +236,97 @@ function containedActivityState(event){
 	return contained;
 }
 
-function containedStateConditionInstanceMeasure(measuredBy){}
-function containedDataPropertycondition(measuredBy){}
-function containedDataInstanceMeasure(measuredBy){}
-function ontainedDerivedInstanceMeasure(measuredBy){}
+function containedStateConditionInstanceMeasure(measuredBy){
+  var contained={
+		  activityType: containedActivityType(measuredBy.Id),
+		  activityName: containedActivityNames(measuredBy.appliesTo),
+		  activityState: containedActivityState(measuredBy.changesToState.stateString),
+		  state:  containedState(measuredBy)
+  }
+ 
+  console.log(contained);
+     return contained;
+}
+
+function containedState(event){
+	  var contained={
+			  activityType: containedActivityType(event),
+			  activityName: containedActivityNames(event),
+			  activityState: containedActivityState(event),
+			  
+	  }
+	 
+	  console.log(contained);
+	     return contained;
+	}
+}
+function containedDataPropertycondition(measuredBy){
+	var contained={
+			DataObjectName: containedDataObjectName(measuredBy.groupBy.dataObject)
+			ConditionDataObjectPropertie: containedConditionDataObjectProperty(measuredBy.groupBy.dataObjectId)
+			
+	}
+	console.log(contained);
+    return contained;
+}
+
+function containedDataObjectName(measuredBy){
+	var contained={
+			value: findPosition(measuredBy, DataObjectNames[measuredBy.groupBy.dataObject])
+	}
+	console.log(contained);
+    return contained;
+}
+
+function ConditionDataObjectPropertie(measuredBy){
+	var contained={
+			value: findPosition(measuredBy, DataObjectNames[measuredBy.groupBy.dataObjectId])
+	}
+	console.log(contained);
+    return contained;
+}
+
+function containedDataInstanceMeasure(measuredBy){
+	DataObjectPropertyName: containedDataObjectPropertyName(measuredBy.groupBy.dataObject),
+	DataObjectName: containedDataObjectName(measuredBy.groupBy.dataObject),
+	
+}
+
 
 
 function containedAggregatedMeasure(measuredBy) {
-	return {};
+	var contained={
+			Aggregate: containedAggregate(measuredBy.aggregationFunction),
+			MeasureForAgg: loadMeasure(measureBy),
+			DataObjectPropertyName: containedDataObjectPropertyName(measureBy.groupBy.dataObject)
+			DataObjectName: containedDataObjectName(measureBy.groupBy.dataObject)
+	}
+	console.log(contained);
+    return contained;
+}
+
+function containedAggregate(measuredBy){
+	var contained={
+			value: findPosition(measuredBy, aggregates[measuredBy.aggregationFunction])
+	}
+	console.log(contained);
+    return contained;
+}
+function DataObjectPropertyName(measureBy){
+	var contained={
+			value: findPosition(measuredBy, DataObjectNames[measuredBy.groupBy.dataObject])
+	}
+	console.log(contained);
+    return contained;
+}
+
+function ContainedDerivedInstanceMeasure(measuredBy){
+	var contained={
+			expresion:
+			parametros:	
+			MeasureForDer: loadMeasure(measureBy),
+			
+	}
+	console.log(contained);
+    return contained;
 }

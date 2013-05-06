@@ -179,7 +179,7 @@
 
 		   		
 		   		var StateConditionMeasure= {
-						text: "{activityType} {activityName} is state {activityState}",
+						text: "{activityType} {activityName} is {state} {activityState}",
 						activityType:{
 							options:activityTypes
 						},
@@ -252,7 +252,7 @@
   							prefix: "where",
   							options: parametres
   						},
-  						MeasureForAgg:{
+  						MeasureForDer:{
   							prefix: "is",
   							options: MeasureForDers
   						}

@@ -34,7 +34,6 @@ function delTable(id){
 	if (resultado){
 		$('.PPITabClass_'+id+'').remove();
 	}
-	//var child = document.getElementById('PPI_Table_'+id+'');
 }
 //End_ add goal and delete goal button
 

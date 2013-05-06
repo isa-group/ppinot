@@ -2,8 +2,6 @@ var activityNames = [];
 var activityNameId = {};
 var activityIdName = {};
 var activityStates = ["Start", "Cancel","End"];
-
-
 var DataObjectNames= [];
 var DataObjectState= [];
 var eventNames = [];
@@ -135,6 +133,7 @@ function loadTemplate(ppi) {
 	// carga plantilla
 	var elem;
 	loadMeasuredBy(elem, ppi.measuredBy);
+	loadTarget(elem, ppi.target);
 }
 
 function loadMeasuredBy(elem, measuredBy) {loadMeasure(measureBy);}
@@ -330,3 +329,66 @@ function ContainedDerivedInstanceMeasure(measuredBy){
 	console.log(contained);
     return contained;
 }
+
+function loadTarget(elem, target){
+	var kindIndex = {
+			minRef: 0,
+			maxRef: 1,
+			minequalRef: 2,
+			maxequalRef: 3,
+			
+	    };
+
+	    var kindContained = {
+	    		minRef: containedMinRef,
+	    		maxRef: containedMaxRef,
+	    		minequalRef: containedMinEqualRef,
+	    		maxequalRef: containedMaxEqualRef,
+	    };
+
+	    var loadTarget = {
+	    	value: kindIndex[target.kind],
+	    	contained: kindContained[target.kind](target)
+	    };
+}
+
+function containedMinRef(){
+	var contained={
+			
+	}
+	console.log(contained);
+    return contained;
+}
+
+function containedMaxRef(){
+var contained={
+			
+	}
+	console.log(contained);
+    return contained;
+}
+
+function containedMinEqualRef(){
+var contained={
+			
+	}
+	console.log(contained);
+    return contained;
+}
+
+function containedMaxEqualRef(){
+     var contained={
+			
+	}
+	console.log(contained);
+    return contained;
+}
+
+
+
+	$("#Target").linguisticPattern("The PPI value must", options, loadTarget);
+	$("#Definition").linguisticPattern("The PPI is defined as", measureOptions, load);
+
+	console.log("Hoal mudno");
+	var valorDato = $("#Definition").data("value");
+	console.log(valorDato);

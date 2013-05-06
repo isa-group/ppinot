@@ -20,12 +20,20 @@ function saveTimeInstanceMeasure(elem) {
 		scale: "",
 		unitOfMeasure: "",
 		id: "time-instance-"+idCounter;
-		from: saveEvent(elem.startEvent),
-		to: saveEvent(elem.endEvent)
+	    baseMeasure: saveBaseMeasure(elem);
+		
 	};
 	idCounter++;
 
 	return measure;
+}
+
+function saveBaseMeasure(elem){
+	var result={
+			from: saveEvent(elem.startEvent),
+			to: saveEvent(elem.endEvent)	
+	}
+	return result;
 }
 
 function saveEvent(event) {
@@ -110,7 +118,50 @@ function saveDataPropertyCondition(elem){
 
 		return measure;
 }
-function saveDataInstanceMeasure(elem){}
+function saveDataInstanceMeasure(elem){
+	var measure = {
+			kind: "DataInstanceMeasure",
+			name: "DataMeasure1",
+			description: "",
+			scale: "",
+			unitOfMeasure: "",
+			id: "Data-instance-"+idCounter;
+			condition: saveCondition(elem.condition);
+	        dataContentSelection: save DataContentSelection(elem.dataContentSelection)
+			
+		};
+		idCounter++;
+
+		return measure;
+}
+
+function saveCondition(elem){
+	var result={
+			kind:"DataPropertyCondition",
+			stateConsidered:{stateString:""}
+	        dataobject:"Dataobject1",
+	        restriction:"",
+	        appliesTo:"conditionData-idCounter++"
+	}
+	idCounter++;
+	return result;
+}
+
+function saveDataContentSelection(elem){
+	var result={
+			dataobject:"Dataobject1",
+			selection:"",
+			dataobjectId:"conditionData-idCounter--",
+			dataContentSelection:{,}
+	}
+	idCounter++
+}
+
+
+	
+	,
+
+
 function saveAggregatedInstanceMeasure(elem){
 	var measure = {
 			kind: "AggregatedInstanceMeasure",
@@ -122,8 +173,6 @@ function saveAggregatedInstanceMeasure(elem){
 			unitOfMeasure: "",
 			id: "AggregatedMeasure-instance-"+idCounter;
 	        baseMeasure: saveBaseMeasure(elem)
-			
-			
 		};
 		idCounter++;
 
@@ -148,12 +197,21 @@ function saveDerivedInstanceMeasure(elem){
 		return measure;
 }
 
-{"kind":"DataInstanceMeasure",
-"condition":{"kind":"DataPropertyCondition","dataobject":"Dataobject1","stateConsidered":{"stateString":""},"restriction":"","appliesTo":"sid-9832DD51-05CF-4B45-BB61-C46740621C4F"},
-"dataContentSelection":{"dataobject":"Dataobject1","selection":"","dataobjectId":"sid-9832DD51-05CF-4B45-BB61-C46740621C4F"},
-"name":"DataMeasure1",
-"id":"sid-98764615-A771-4C7D-8619-16008DAE4679",
-"description":"",
-"scale":"",
-"unitOfMeasure":""}
+
+function saveTarget(elem){
+	var value = elem.data("value");
+    var kindSave = [saveLess, saveGreater, saveLessEqual, saveGreaterEqual];
+    console.log(load);
+
+	return kindSave[value.value](value.contained);
+    // Completarlo para el resto de measures
+}
+
+function saveLess(elem){}
+function saveGreater(elem){}
+function saveLessEqual(elem){}
+function saveGreaterEqual(elem){}
+
+
+
 

@@ -19,6 +19,7 @@ var processesHandler = {
 					var enlace = $("<a tabindex=\"-1\" id=\""+this.name+"\" href=\"#\">"+this.name+"</a>");
 					listItem.append(enlace);
 					menu.append(listItem);
+					//Otra forma de hacerlo
 					//menu.append("<li><a tabindex=\"-1\" id=\""+this.name+"\" href=\"#\">"+this.name+"</a></li>");
 					//var elem = document.getElementById(this.name);
 					enlace.click(function() {
@@ -40,41 +41,49 @@ var processesHandler = {
 			url: url,
 			dataType: "json",
 			success: function(data) {
-				$(data).each(function (index) {
-					var ppi_description = this.description;
-					var name = this.name;
-					var process_id = this.id;
-					var goals = this.goals;
-					var definition = "";
-					var target = "";
-					var unit = "";
-					var scope = this.scope;
-					var source = "";
-					var responsible = this.responsible;
-					var informed = this.informed;
-					var comments = this.comments;
-					//hasta aqui estan todos los datos recogidos
-					
-					//si hay mas de un ppi hay que crear la tabla primero
-					if (index!=0){
-						addPPI();
-					}
-					//rellenamos la tabla utilizando el index
-					//problema: index siempre empieza en 0, nuestras tablas puede que no
-					document.getElementById('PPI_id_'+index+'').innerHTML = ppi_description;
-					document.getElementById('Name_'+index+'').innerHTML = name;
-					document.getElementById('Process_'+index+'').innerHTML = process_id;
-					document.getElementById('Goals_'+index+'').innerHTML = goals;
-					document.getElementById('Definition_'+index+'').innerHTML = definition;
-					document.getElementById('Target_'+index+'').innerHTML = target;
-					document.getElementById('Unit_'+index+'').innerHTML = unit;
-					document.getElementById('Scope_'+index+'').innerHTML = scope;
-					document.getElementById('Source_'+index+'').innerHTML = source;
-					document.getElementById('Responsible_'+index+'').innerHTML = responsible;
-					document.getElementById('Informed_'+index+'').innerHTML = informed;
-					document.getElementById('Comments_'+index+'').innerHTML = comments;
-				});
+				//Se pregunta antes de cargar el proceso, ya que se borran todas las plantilas
+				var res = confirm("Se borraran las plantillas y se perderan los datos no guardados. ¿Está seguro?");
+				if (res){
+					//funcion de borrado antes de cargar
+					borraPlantillas();					
+					$(data).each(function (index) {		
+						//recogemos los datos
+						var ppi_description = this.description;
+						var name = this.name;
+						var process_id = this.id;
+						var goals = this.goals;
+						var definition = "";
+						var target = "";
+						var unit = "";
+						var scope = this.scope;
+						var source = "";
+						var responsible = this.responsible;
+						var informed = this.informed;
+						var comments = this.comments;
+						//hasta aqui estan todos los datos recogidos
+						
+						//si hay mas de un ppi hay que crear la tabla primero
+						//la tabla con id 0 ya esta creada y no hace falta añadirla
+						if (index!=0){
+							addPPI();
+						}
+						//rellenamos la tabla utilizando el index
+						document.getElementById('PPI_id_'+index+'').innerHTML = ppi_description;
+						document.getElementById('Name_'+index+'').innerHTML = name;
+						document.getElementById('Process_'+index+'').innerHTML = process_id;
+						document.getElementById('Goals_'+index+'').innerHTML = goals;
+						document.getElementById('Definition_'+index+'').innerHTML = definition;
+						document.getElementById('Target_'+index+'').innerHTML = target;
+						document.getElementById('Unit_'+index+'').innerHTML = unit;
+						document.getElementById('Scope_'+index+'').innerHTML = scope;
+						document.getElementById('Source_'+index+'').innerHTML = source;
+						document.getElementById('Responsible_'+index+'').innerHTML = responsible;
+						document.getElementById('Informed_'+index+'').innerHTML = informed;
+						document.getElementById('Comments_'+index+'').innerHTML = comments;					
+					});
+				}
 			},
+			//error en caso de no obtener datos del servidor
 			error: function() {
 				alert("No se han podido obtener los datos.");
 			}
@@ -84,3 +93,9 @@ var processesHandler = {
 
 processesHandler.loadProcessesList();
 //End get ajax
+
+//Save ppi
+function savePPI(){
+	
+}
+//End save ppi

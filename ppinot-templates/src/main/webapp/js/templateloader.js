@@ -354,7 +354,7 @@ function loadTarget(elem, target){
 
 function containedMinRef(){
 	var contained={
-			
+		value:0	
 	}
 	console.log(contained);
     return contained;
@@ -362,7 +362,7 @@ function containedMinRef(){
 
 function containedMaxRef(){
 var contained={
-			
+		value:1	
 	}
 	console.log(contained);
     return contained;
@@ -370,7 +370,7 @@ var contained={
 
 function containedMinEqualRef(){
 var contained={
-			
+		value:2
 	}
 	console.log(contained);
     return contained;
@@ -378,7 +378,7 @@ var contained={
 
 function containedMaxEqualRef(){
      var contained={
-			
+    		 value:3	
 	}
 	console.log(contained);
     return contained;
@@ -387,8 +387,6 @@ function containedMaxEqualRef(){
 
 
 	$("#Target").linguisticPattern("The PPI value must", options, loadTarget);
-	$("#Definition").linguisticPattern("The PPI is defined as", measureOptions, load);
+	$("#Definition").linguisticPattern("The PPI is defined as", measureOptions, loadMeasure);
 
-	console.log("Hoal mudno");
-	var valorDato = $("#Definition").data("value");
-	console.log(valorDato);
+	

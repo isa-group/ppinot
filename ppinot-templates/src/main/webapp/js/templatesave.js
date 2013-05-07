@@ -159,7 +159,7 @@ function saveDataContentSelection(elem){
 
 
 	
-	,
+	
 
 
 function saveAggregatedInstanceMeasure(elem){
@@ -207,10 +207,38 @@ function saveTarget(elem){
     // Completarlo para el resto de measures
 }
 
-function saveLess(elem){}
-function saveGreater(elem){}
-function saveLessEqual(elem){}
-function saveGreaterEqual(elem){}
+function saveLess(elem){
+	var target={
+			refMin:	
+			refMax:,
+		    type:"es.us.isa.ppinot.model.Target"
+   }
+	return target;
+}
+function saveGreater(elem){
+var result={
+		refMin:	
+		refMax:10.0,
+		type:"es.us.isa.ppinot.model.Target"
+	}
+	return result;
+}
+function saveLessEqual(elem){
+var result={
+		refMin:	
+		refMax:,
+		type:"es.us.isa.ppinot.model.Target"	
+	}
+	return result;
+}
+function saveGreaterEqual(elem){
+var result={
+		refMin:	
+		refMax: 10.0,
+		type:"es.us.isa.ppinot.model.Target"
+	}
+	return result;
+}
 
 
 

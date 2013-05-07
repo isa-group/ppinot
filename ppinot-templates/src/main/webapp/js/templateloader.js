@@ -131,9 +131,16 @@ function loadTemplates(processName) {
 
 function loadTemplate(ppi) {
 	// carga plantilla
-	var elem;
-	loadMeasuredBy(elem, ppi.measuredBy);
-	loadTarget(elem, ppi.target);
+	var elem = $("#container");
+
+	var measuredByElem = $("<div></div>");
+	var targetElem = $("<div></div>");
+
+	measuredByElem.appendTo(elem);
+	targetElem.appendTo(elem);
+
+	loadMeasuredBy(measuredByElem, ppi.measuredBy);
+	loadTarget(targetElem, ppi.target);
 }
 
 function loadMeasuredBy(elem, measuredBy) {loadMeasure(measureBy);}
@@ -169,7 +176,8 @@ function loadMeasure(measureBy){
 
     console.log(load);
 
-	//elem.linguisticPattern("The PPI is defined as", measureOptions, load);
+	elem.linguisticPattern("The PPI is defined as", measureOptions, load);
+
 }
 
 function containedTimeInstanceMeasure(measuredBy) {
@@ -261,7 +269,7 @@ function containedState(event){
 }
 function containedDataPropertycondition(measuredBy){
 	var contained={
-			DataObjectName: containedDataObjectName(measuredBy.groupBy.dataObject)
+			DataObjectName: containedDataObjectName(measuredBy.groupBy.dataObject),
 			ConditionDataObjectPropertie: containedConditionDataObjectProperty(measuredBy.groupBy.dataObjectId)
 			
 	}
@@ -297,7 +305,7 @@ function containedAggregatedMeasure(measuredBy) {
 	var contained={
 			Aggregate: containedAggregate(measuredBy.aggregationFunction),
 			MeasureForAgg: loadMeasure(measureBy),
-			DataObjectPropertyName: containedDataObjectPropertyName(measureBy.groupBy.dataObject)
+			DataObjectPropertyName: containedDataObjectPropertyName(measureBy.groupBy.dataObject),
 			DataObjectName: containedDataObjectName(measureBy.groupBy.dataObject)
 	}
 	console.log(contained);
@@ -321,8 +329,8 @@ function DataObjectPropertyName(measureBy){
 
 function ContainedDerivedInstanceMeasure(measuredBy){
 	var contained={
-			expresion:
-			parametros:	
+			expresion: "",
+			parametros:	"",
 			MeasureForDer: loadMeasure(measureBy),
 			
 	}
@@ -350,6 +358,8 @@ function loadTarget(elem, target){
 	    	value: kindIndex[target.kind],
 	    	contained: kindContained[target.kind](target)
 	    };
+
+		elem.linguisticPattern("The PPI value must", options, loadTarget);
 }
 
 function containedMinRef(){
@@ -386,8 +396,6 @@ function containedMaxEqualRef(){
 
 
 
-	$("#Target").linguisticPattern("The PPI value must", options, loadTarget);
-	$("#Definition").linguisticPattern("The PPI is defined as", measureOptions, load);
 
 	console.log("Hoal mudno");
 	var valorDato = $("#Definition").data("value");

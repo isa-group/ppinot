@@ -181,24 +181,31 @@
 		   		var StateConditionMeasure= {
 						text: "{activityType} {activityName} is {state} {activityState}",
 						activityType:{
-							options:activityTypes
-						},
+							           options:activityTypes
+						             },
 						activityName:{
-							options: activityNames
-						 
-						},
+							            options: activityNames
+						             },
 						activityState:{
-							prefix: "is state",
-							options: activityStates
+							             prefix: "is state",
+							             options: activityStates
 
-					},
-					{
+					                  },
+					    state:{
+					    	   options:State
+					    	  }               
+					    };
+					
+					                	   
+				var State={
 						text: "{state}",
 						state:{
-							options:stateOptions
-
-						}
-					};
+							    options:stateOptions
+                              }
+						};	
+				
+						
+					
 		   		var DataPropertyCondition= 
 					{
   						text: "{DataObjectName} that satifies: {ConditionDataObjectPropertie}",

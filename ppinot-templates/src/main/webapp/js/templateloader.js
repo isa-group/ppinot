@@ -76,7 +76,8 @@ function loadDataObjects(processName) {
 		url: "/api/repository/processes/" + processName + "/dataobjects",
 		dataType: "json",
 		success: function(data) {
-			$(if (this.name == "") {
+			$(data).each(function(index){
+					if (this.name == "") {
 				this.name = this.id;
 			}
 			activityNames.push(this.name);
@@ -295,7 +296,7 @@ function ConditionDataObjectPropertie(measuredBy){
 
 function containedDataInstanceMeasure(measuredBy){
 	DataObjectPropertyName: containedDataObjectPropertyName(measuredBy.groupBy.dataObject),
-	DataObjectName: containedDataObjectName(measuredBy.groupBy.dataObject),
+	DataObjectName: containedDataObjectName(measuredBy.groupBy.dataObject)
 	
 }
 
@@ -331,7 +332,7 @@ function ContainedDerivedInstanceMeasure(measuredBy){
 	var contained={
 			expresion: "",
 			parametros:	"",
-			MeasureForDer: loadMeasure(measureBy),
+			MeasureForDer: loadMeasure(measureBy)
 			
 	}
 	console.log(contained);
@@ -351,14 +352,14 @@ function loadTarget(elem, target){
 	    		minRef: containedMinRef,
 	    		maxRef: containedMaxRef,
 	    		minequalRef: containedMinEqualRef,
-	    		maxequalRef: containedMaxEqualRef,
+	    		maxequalRef: containedMaxEqualRef
 	    };
 
 	    var loadTarget = {
 	    	value: kindIndex[target.kind],
 	    	contained: kindContained[target.kind](target)
 	    };
-
+	    console.log(loadTarget);
 		elem.linguisticPattern("The PPI value must", options, loadTarget);
 }
 

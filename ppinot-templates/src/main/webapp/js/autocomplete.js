@@ -44,10 +44,6 @@
 								notifyChange({minequalRef: load.minequalRef});
 							} catch(err) {};
 						}
-    					
-    					
-    					
-    					
     				},
     				{
     					text: "be greater than or equal",
@@ -63,8 +59,7 @@
 								notifyChange({minRef: load.maxequalRef});
 							} catch(err) {};
 						}
-    				}
-    			];
+    				}];
 
     			var activityStates = ["started", "canceled","completed"];
                 //var activityNames = ["Assign priority", "Analyse RFC", "Cancel RFC"];
@@ -297,4 +292,4 @@
             	    AggregatedMeasure,
             	    DerivedMeasure
 				];
-}
+});

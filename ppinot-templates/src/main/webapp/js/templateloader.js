@@ -260,14 +260,12 @@ function containedState(event){
 	  var contained={
 			  activityType: containedActivityType(event),
 			  activityName: containedActivityNames(event),
-			  activityState: containedActivityState(event),
-			  
-	  }
-	 
-	  console.log(contained);
+			  activityState: containedActivityState(event)
+		}
+	 console.log(contained);
 	     return contained;
 	}
-}
+
 function containedDataPropertycondition(measuredBy){
 	var contained={
 			DataObjectName: containedDataObjectName(measuredBy.groupBy.dataObject),
@@ -295,8 +293,13 @@ function ConditionDataObjectPropertie(measuredBy){
 }
 
 function containedDataInstanceMeasure(measuredBy){
-	DataObjectPropertyName: containedDataObjectPropertyName(measuredBy.groupBy.dataObject),
-	DataObjectName: containedDataObjectName(measuredBy.groupBy.dataObject)
+  var contained={
+		  DataObjectPropertyName: containedDataObjectPropertyName(measuredBy.groupBy.dataObject),
+		  DataObjectName: containedDataObjectName(measuredBy.groupBy.dataObject)  
+  }
+  
+  console.log(contained);
+  return contained;
 	
 }
 

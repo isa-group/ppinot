@@ -44,7 +44,7 @@ var processesHandler = {
 				//Se pregunta antes de cargar el proceso, ya que se borran todas las plantilas
 				var res = confirm("Se borraran las plantillas y se perderan los datos no guardados. ¿Está seguro?");
 				if (res){
-					//funcion de borrado antes de cargar
+					//funcion de borrado antes de cargar(esta en editor.js)
 					borraPlantillas();					
 					$(data).each(function (index) {		
 						//recogemos los datos
@@ -60,13 +60,11 @@ var processesHandler = {
 						var responsible = this.responsible;
 						var informed = this.informed;
 						var comments = this.comments;
-						//hasta aqui estan todos los datos recogidos
 						
 						//si hay mas de un ppi hay que crear la tabla primero
-						//la tabla con id 0 ya esta creada y no hace falta añadirla
-						if (index!=0){
-							addPPI();
-						}
+						//añade una plantilla(esta en editor.js)
+						addPPI();
+						
 						//rellenamos la tabla utilizando el index
 						document.getElementById('PPI_id_'+index+'').innerHTML = ppi_description;
 						document.getElementById('Name_'+index+'').innerHTML = name;
@@ -81,11 +79,14 @@ var processesHandler = {
 						document.getElementById('Informed_'+index+'').innerHTML = informed;
 						document.getElementById('Comments_'+index+'').innerHTML = comments;					
 					});
+					//edit in place de jquery(editor.js). 
+					//Si no se hace machaca los valores con los de la tabla original.
+					inLineEditTable();
 				}
 			},
 			//error en caso de no obtener datos del servidor
 			error: function() {
-				alert("No se han podido obtener los datos.");
+				alert("No se han podido recuperar los datos.");
 			}
 		});	
 	}	
@@ -95,7 +96,67 @@ processesHandler.loadProcessesList();
 //End get ajax
 
 //Save ppi
-function savePPI(){
+function savePPI(){	
+	//recuperamos el proceso seleccionado
+	var processName = processesHandler.processLoaded;
+	var url = "api/repository/processes/"+processName+"/ppis";
 	
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: String,
+		dataType: "json",
+		success: function() {	
+			this.goals = "goal de prueba";			
+		},
+		//error en caso de no poder subir los datos al servidor
+		error: function() {
+			alert("No se han podido grabar los datos.");
+		}
+	});	
+	
+	//esto iria dentro de la llamada ajax
+	
+	//número de tablas
+	var n = getNTable();
+	var i = 0;
+	//Recorremos todas las tablas para recoger los datos
+	while (i<=n){
+		//Si se ha borrado alguna plantilla, ese índice no estará, 
+		// por tanto hay que incrementar el contador
+		if (document.getElementById('PPI_div_'+i+'') == null){
+			i++;
+		}
+		else{
+			//recogemos los datos de cada tabla
+			var ppi_description = document.getElementById('PPI_id_'+i+'').innerHTML;
+			var name = document.getElementById('Name_'+i+'').innerHTML;
+			var process_id = document.getElementById('Process_'+i+'').innerHTML;
+			var goals = document.getElementById('Goals_'+i+'').innerHTML;
+			//var definition = document.getElementById('Definition_'+i+'').innerHTML;
+			//var target = document.getElementById('Target_'+i+'').innerHTML;
+			var unit = document.getElementById('Unit_'+i+'').innerHTML;
+			var scope = document.getElementById('Scope_'+i+'').innerHTML;
+			var source = document.getElementById('Source_'+i+'').innerHTML;
+			var responsible = document.getElementById('Responsible_'+i+'').innerHTML;
+			var informed = document.getElementById('Informed_'+i+'').innerHTML;
+			var comments = document.getElementById('Comments_'+i+'').innerHTML;
+			
+			//volcamos los datos
+//			this.description = ppi_description;
+//			this.name = name;
+//			this.id = process_id;
+//			this.goals = goals;
+//			this.definition = definition;
+//			this.target = target;
+//			this.unit = unit;
+//			this.scope = scope;
+//			this.source = source;
+//			this.responsible = responsible;
+//			this.informed = informed;
+//			this.comments = comments;
+			i++;
+		}
+	}				
 }
 //End save ppi

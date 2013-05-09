@@ -4,25 +4,23 @@ var goal = 0;
 function addDiv2(idtr,trg){
 	div = document.createElement("div");
 	div.setAttribute("id", trg);
-	var idtd = idtr;
-	tdCont = document.getElementById('addgoals_'+idtd+'');	
+	tdCont = document.getElementById('addgoals_'+idtr+'');	
 	tdCont.appendChild(div);
 }
 function addGoal(idtr){	
 	var g = goal++;
 	var idG = "goals_"+g;	
-	var trg = "tr_"+idG;
+	var trg = "tr_goals_"+g;
 	addDiv2(idtr,trg);	
 	td0 = document.createElement("td");
 	td0.innerHTML = "<input type='text' id='"+idG+"' name='Goals'>";
-	td1 = document.createElement("td");
+	td1 = document.createElement("td");	
 	td1.innerHTML = "<button type='button' onclick='delGoal("+idtr+","+g+")'><i class='icon-trash'></i></button>";
 	div.appendChild(td0);
-	div.appendChild(td1);	
+	div.appendChild(td1);
 }
 function delGoal(idtr,id){
-	var idt = idtr;
-	var parent = document.getElementById('addgoals_'+idt+'');
+	var parent = document.getElementById('addgoals_'+idtr+'');
     var child = document.getElementById('tr_goals_'+id+'');
     parent.removeChild(child);
 }

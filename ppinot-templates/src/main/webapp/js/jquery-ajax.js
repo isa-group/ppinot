@@ -80,7 +80,7 @@ var processesHandler = {
 						document.getElementById('Comments_'+index+'').innerHTML = comments;					
 					});
 					//edit in place de jquery(editor.js). 
-					//Si no se hace machaca los valores con los de la tabla original.
+					//Si no se hace, machaca los valores con los de la tabla original.
 					inLineEditTable();
 				}
 			},
@@ -99,27 +99,13 @@ processesHandler.loadProcessesList();
 function savePPI(){	
 	//recuperamos el proceso seleccionado
 	var processName = processesHandler.processLoaded;
-	var url = "api/repository/processes/"+processName+"/ppis";
+	var url = "api/repository/processes/"+processName+"/ppis";	
 	
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: String,
-		dataType: "json",
-		success: function() {	
-			this.goals = "goal de prueba";			
-		},
-		//error en caso de no poder subir los datos al servidor
-		error: function() {
-			alert("No se han podido grabar los datos.");
-		}
-	});	
-	
-	//esto iria dentro de la llamada ajax
-	
-	//número de tablas
+	//número de tablas	
 	var n = getNTable();
 	var i = 0;
+	//variable contenedora
+	var data;
 	//Recorremos todas las tablas para recoger los datos
 	while (i<=n){
 		//Si se ha borrado alguna plantilla, ese índice no estará, 
@@ -128,35 +114,38 @@ function savePPI(){
 			i++;
 		}
 		else{
-			//recogemos los datos de cada tabla
-			var ppi_description = document.getElementById('PPI_id_'+i+'').innerHTML;
-			var name = document.getElementById('Name_'+i+'').innerHTML;
-			var process_id = document.getElementById('Process_'+i+'').innerHTML;
-			var goals = document.getElementById('Goals_'+i+'').innerHTML;
-			//var definition = document.getElementById('Definition_'+i+'').innerHTML;
-			//var target = document.getElementById('Target_'+i+'').innerHTML;
-			var unit = document.getElementById('Unit_'+i+'').innerHTML;
-			var scope = document.getElementById('Scope_'+i+'').innerHTML;
-			var source = document.getElementById('Source_'+i+'').innerHTML;
-			var responsible = document.getElementById('Responsible_'+i+'').innerHTML;
-			var informed = document.getElementById('Informed_'+i+'').innerHTML;
-			var comments = document.getElementById('Comments_'+i+'').innerHTML;
-			
-			//volcamos los datos
-//			this.description = ppi_description;
-//			this.name = name;
-//			this.id = process_id;
-//			this.goals = goals;
-//			this.definition = definition;
-//			this.target = target;
-//			this.unit = unit;
-//			this.scope = scope;
-//			this.source = source;
-//			this.responsible = responsible;
-//			this.informed = informed;
-//			this.comments = comments;
+			data = {
+				//recogemos los datos de cada tabla
+				ppi_description: document.getElementById('PPI_id_'+i+'').innerHTML,
+				name: document.getElementById('Name_'+i+'').innerHTML,
+				process_id: document.getElementById('Process_'+i+'').innerHTML,
+				goals: document.getElementById('Goals_'+i+'').innerHTML,
+				//definition: document.getElementById('Definition_'+i+'').innerHTML,
+				//target: document.getElementById('Target_'+i+'').innerHTML,
+				unit: document.getElementById('Unit_'+i+'').innerHTML,
+				scope: document.getElementById('Scope_'+i+'').innerHTML,
+				source: document.getElementById('Source_'+i+'').innerHTML,
+				responsible: document.getElementById('Responsible_'+i+'').innerHTML,
+				informed: document.getElementById('Informed_'+i+'').innerHTML,
+				comments: document.getElementById('Comments_'+i+'').innerHTML,
+			};
 			i++;
 		}
-	}				
+	}		
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: $.toJSON(data),
+		contentType: "application/json",
+		success: function(data) {			
+		},
+		//error en caso de no poder subir los datos al servidor
+		error: function() {
+			alert("No se han podido grabar los datos.");
+		}
+	});	
+	//POST http://localhost:9090/api/repository/processes/ppi-copy-/ppis 400 
+	//(org.codehaus.jackson.map.JsonMappingException: Can not deserialize instance of java.util.List out of START_OBJECT 
+		//	token  at [Source: org.mortbay.jetty.HttpParser$Input@88c18a; line: 1, column: 1]) 
 }
 //End save ppi

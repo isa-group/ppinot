@@ -31,6 +31,7 @@ function findPosition(ar, name) {
 }
 
 
+
 function loadAll(processName) {
 	$.ajax({
 		type: "GET",
@@ -144,28 +145,28 @@ function loadTemplate(ppi) {
 	loadTarget(targetElem, ppi.target);
 }
 
-function loadMeasuredBy(elem, measuredBy) {loadMeasure(measureBy);}
+function loadMeasuredBy(elem, measuredBy) {loadMeasure(measuredBy);}
 	
 	
-function loadMeasure(measureBy){
+function loadMeasure(measuredBy){
     var kindIndex = {
     	TimeInstanceMeasure: 0,
 		CountInstanceMeasure: 1,
 		StateConditionMeasure: 2,
-		DataPropertycondition: 3,
+		DataPropertyCondition: 3,
 		DataMeasure: 4,
 		AggregatedMeasure: 5,
 		DerivedMeasure: 6
     };
 
     var kindContained = {
-    	TimeInstanceMeasure: containedTimeInstanceMeasure,
-    	CountInstanceMeasure: containedCountInstanceMeasure,
-    	StateConditionMeasure: containedStateConditionInstanceMeasure,
-    	DataPropertycondition: containedDataPropertycondition,
-    	DataMeasure: containedDataInstanceMeasure,
-    	AggregatedMeasure: containedAggregatedMeasure,
-    	DerivedMeasure: containedDerivedInstanceMeasure
+    	TimeInstanceMeasure: containedTimeInstanceMeasure(measuredBy),
+    	CountInstanceMeasure: containedCountInstanceMeasure(measuredBy),
+    	StateConditionMeasure: containedStateConditionInstanceMeasure(measuredBy),
+    	DataPropertyCondition: containedDataPropertyCondition(measuredBy),
+    	DataMeasure: containedDataInstanceMeasure(measuredBy),
+    	AggregatedMeasure: containedAggregatedMeasure(measuredBy),
+    	DerivedMeasure: containedDerivedInstanceMeasure(measuredBy)
     };
 
     var load = {
@@ -266,7 +267,7 @@ function containedState(event){
 	     return contained;
 	}
 
-function containedDataPropertycondition(measuredBy){
+function containedDataPropertyCondition(measuredBy){
 	var contained={
 			DataObjectName: containedDataObjectName(measuredBy.groupBy.dataObject),
 			ConditionDataObjectPropertie: containedConditionDataObjectProperty(measuredBy.groupBy.dataObjectId)
@@ -308,9 +309,9 @@ function containedDataInstanceMeasure(measuredBy){
 function containedAggregatedMeasure(measuredBy) {
 	var contained={
 			Aggregate: containedAggregate(measuredBy.aggregationFunction),
-			MeasureForAgg: loadMeasure(measureBy),
-			DataObjectPropertyName: containedDataObjectPropertyName(measureBy.groupBy.dataObject),
-			DataObjectName: containedDataObjectName(measureBy.groupBy.dataObject)
+			MeasureForAgg: loadMeasure(measuredBy),
+			DataObjectPropertyName: containedDataObjectPropertyName(measuredBy.groupBy.dataObject),
+			DataObjectName: containedDataObjectName(measuredBy.groupBy.dataObject)
 	}
 	console.log(contained);
     return contained;
@@ -323,7 +324,7 @@ function containedAggregate(measuredBy){
 	console.log(contained);
     return contained;
 }
-function DataObjectPropertyName(measureBy){
+function DataObjectPropertyName(measuredBy){
 	var contained={
 			value: findPosition(measuredBy, DataObjectNames[measuredBy.groupBy.dataObject])
 	}
@@ -331,11 +332,11 @@ function DataObjectPropertyName(measureBy){
     return contained;
 }
 
-function ContainedDerivedInstanceMeasure(measuredBy){
+function containedDerivedInstanceMeasure(measuredBy){
 	var contained={
 			expresion: "",
 			parametros:	"",
-			MeasureForDer: loadMeasure(measureBy)
+			MeasureForDer: loadMeasure(measuredBy)
 			
 	}
 	console.log(contained);

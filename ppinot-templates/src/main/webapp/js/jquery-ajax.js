@@ -15,13 +15,18 @@ var processesHandler = {
 				$(data).each(function() {
 					processesHandler.processes[this.name] = this.url;
 					processesHandler.editors[this.name] = this.editor;
+					//creamos la lista contenedora de los procesos
 					var listItem = $("<li></li>");
 					var enlace = $("<a tabindex=\"-1\" id=\""+this.name+"\" href=\"#\">"+this.name+"</a>");
 					listItem.append(enlace);
+					//añadimos la lista al menu select
 					menu.append(listItem);
+					
 					//Otra forma de hacerlo
 					//menu.append("<li><a tabindex=\"-1\" id=\""+this.name+"\" href=\"#\">"+this.name+"</a></li>");
 					//var elem = document.getElementById(this.name);
+					
+					//al seleccionar un proceso llama a loadProcess para cargar los datos
 					enlace.click(function() {
 						processesHandler.processLoaded = this.id;						
 						processesHandler.loadProcess(this.id);
@@ -42,7 +47,7 @@ var processesHandler = {
 			dataType: "json",
 			success: function(data) {
 				//Se pregunta antes de cargar el proceso, ya que se borran todas las plantilas
-				var res = confirm("Se borraran las plantillas y se perderan los datos no guardados. ¿Está seguro?");
+				var res = confirm("Se borrarán las plantillas y se perderán los datos no guardados. ¿Está seguro?");
 				if (res){
 					//funcion de borrado antes de cargar(esta en editor.js)
 					borraPlantillas();					
@@ -95,7 +100,7 @@ var processesHandler = {
 processesHandler.loadProcessesList();
 //End get ajax
 
-//Save ppi
+//Save ppis
 function savePPI(){	
 	//recuperamos el proceso seleccionado
 	var processName = processesHandler.processLoaded;
@@ -103,9 +108,16 @@ function savePPI(){
 	
 	//número de tablas	
 	var n = getNTable();
+	//contador de plantillas
 	var i = 0;
-	//variable contenedora
+	//contador de goals
+	var j = 1;//para el array
+	var g = 0;//para recorrer los goals
+	
+	//variables contenedoras
 	var data = [];
+	var dataGoals = [];	
+	
 	//Recorremos todas las tablas para recoger los datos
 	while (i<=n){
 		//Si se ha borrado alguna plantilla, ese índice no estará, 
@@ -114,12 +126,29 @@ function savePPI(){
 			i++;
 		}
 		else{
+			//recogemos los goals
+			//el primero a mano, los demas con el bucle
+			dataGoals[0] = document.getElementById('Goals_'+i+'').innerHTML;
+			var ng = document.getElementById('addgoals_'+i+'').children.length;
+			j = 1;
+			while (j<=ng){
+				//Si se ha borrado algun goal, ese índice no estará, 
+				// por tanto hay que incrementar el contador
+				if (document.getElementById('goals_'+g+'') == null){
+					g++;
+				}
+				else{
+					dataGoals[j] = document.getElementById('goals_'+g+'').value;
+					g++;
+					j++;
+				}
+			}
 			data[i] = {
-				//recogemos los datos de cada tabla
+				//recogemos los datos de cada plantilla
 				description: document.getElementById('PPI_id_'+i+'').innerHTML,
 				name: document.getElementById('Name_'+i+'').innerHTML,
 				id: document.getElementById('Process_'+i+'').innerHTML,
-				goals: document.getElementById('Goals_'+i+'').innerHTML,
+				goals: dataGoals,				
 				//definition: document.getElementById('Definition_'+i+'').innerHTML,
 				//target: document.getElementById('Target_'+i+'').innerHTML,
 				unit: document.getElementById('Unit_'+i+'').innerHTML,
@@ -138,29 +167,26 @@ function savePPI(){
 		data: $.toJSON(data),
 		contentType: "application/json",
 		success: function(data) {	
-			$(data).each(function (index) {
+			//$(data).each(function (index) {
 			//volcamos los datos
-			this.description = data[index]description;
-			this.name = name;
-			this.id = process_id;
-			this.goals = goals;
-			this.definition = definition;
-			this.target = target;
-			this.unit = unit;
-			this.scope = scope;
-			this.source = source;
-			this.responsible = responsible;
-			this.informed = informed;
-			this.comments = comments;
-			});
+//			this.description = data[index].description;
+//			this.name = name;
+//			this.id = process_id;
+			//this.goals = data[index].goals;
+//			this.definition = definition;
+//			this.target = target;
+//			this.unit = unit;
+//			this.scope = scope;
+//			this.source = source;
+//			this.responsible = responsible;
+//			this.informed = informed;
+//			this.comments = comments;
+			//});
 		},
 		//error en caso de no poder subir los datos al servidor
 		error: function() {
 			alert("No se han podido grabar los datos.");
 		}
 	});	
-	//POST http://localhost:9090/api/repository/processes/ppi-copy-/ppis 400 
-	//(org.codehaus.jackson.map.JsonMappingException: Can not deserialize instance of java.util.List out of START_OBJECT 
-		//	token  at [Source: org.mortbay.jetty.HttpParser$Input@88c18a; line: 1, column: 1]) 
 }
 //End save ppi

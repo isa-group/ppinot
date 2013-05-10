@@ -1,12 +1,14 @@
 //start_ add goal and delete goal button
 var goal = 0;
 
+//crea el div que contiene cada goal nuevo
 function addDiv2(idtr,trg){
 	div = document.createElement("div");
 	div.setAttribute("id", trg);
 	tdCont = document.getElementById('addgoals_'+idtr+'');	
 	tdCont.appendChild(div);
 }
+//añade un goal a la plantilla
 function addGoal(idtr){	
 	var g = goal++;
 	var idG = "goals_"+g;	
@@ -19,6 +21,7 @@ function addGoal(idtr){
 	div.appendChild(td0);
 	div.appendChild(td1);
 }
+//elimina un goal de la plantilla
 function delGoal(idtr,id){
 	var parent = document.getElementById('addgoals_'+idtr+'');
     var child = document.getElementById('tr_goals_'+id+'');
@@ -27,6 +30,7 @@ function delGoal(idtr,id){
 //End_ add goal and delete goal button
 
 //start_ add goal and delete goal button
+//elimina una plantilla
 function delTable(id){
 	var resultado = confirm("Va a eliminar la plantilla número "+id+". ¿Está seguro?");
 	if (resultado){
@@ -36,11 +40,13 @@ function delTable(id){
 //End_ add goal and delete goal button
 
 //start of add new table of PPI
+//variables iniciales para la creacion de plantillas
 var nTab = 0;
 var nDiv = 0;
 var nClass = 0;
 var newIdDiv = "";
 
+//crea el div que contendra cada plantilla
 function addDiv(){
 	newIdDiv = "PPI_div_"+nDiv++;	
 	myDiv = document.createElement("div");	
@@ -52,6 +58,7 @@ function addDiv(){
 	divC.appendChild(myDiv);
 }
 
+//añade una plantilla
 function addPPI(){ 
 	addDiv();	
 	nTable = nTab++;
@@ -203,6 +210,7 @@ function addPPI(){
 	myTable.appendChild(tbBody);	
 	divT = document.getElementById(newIdDiv);	
 	divT.appendChild(myTable);	
+	//si no se llama a inlineedit y tabevent no funciona
 	inLineEditTable();
 	tabEventTable();
 }
@@ -299,10 +307,11 @@ $(function(){
 				//Al presionar tabulador o enter
 				if (event.keyCode == 9 || event.keyCode == 13) {					
 					var nextBox='';
+					//recogemos todos los span de las plantillas
 					var list = $(".PPITab span");
 				    var i=list.index(this);	
 				    
-				    //Vuelve al principio de la tabla
+				    //si estas en el campo final, vuelve al principio de la tabla
 				    if (i == (list.length-1)){
 				    	nextBox=$(".PPITab span:first");         
 				    }else{
@@ -351,6 +360,7 @@ function restauraValores(){
 	newIdDiv = "";
 }
 
+//Me devuelve el numero de plantillas existentes
 function getNTable(){
 	return nTab;
 }

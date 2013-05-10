@@ -148,15 +148,21 @@ function savePPI(){
 				description: document.getElementById('PPI_id_'+i+'').innerHTML,
 				name: document.getElementById('Name_'+i+'').innerHTML,
 				id: document.getElementById('Process_'+i+'').innerHTML,
-				goals: dataGoals,				
-				//definition: document.getElementById('Definition_'+i+'').innerHTML,
+				goals: dataGoals[0],				
+				//measuredBy: document.getElementById('Definition_'+i+'').innerHTML,
+				measuredBy: {},
 				//target: document.getElementById('Target_'+i+'').innerHTML,
-				unit: document.getElementById('Unit_'+i+'').innerHTML,
-				scope: document.getElementById('Scope_'+i+'').innerHTML,
-				source: document.getElementById('Source_'+i+'').innerHTML,
+				target: {refMin:null, refMax:null},
+				//unit: document.getElementById('Unit_'+i+'').innerHTML,
+				//scope: document.getElementById('Scope_'+i+'').innerHTML,
+				scope: {period:null, startDate:null, endDate:null, inStart:false, inEnd:false, year:null},
+				//source: document.getElementById('Source_'+i+'').innerHTML,
 				responsible: document.getElementById('Responsible_'+i+'').innerHTML,
 				informed: document.getElementById('Informed_'+i+'').innerHTML,
 				comments: document.getElementById('Comments_'+i+'').innerHTML,
+				normalized: [],
+				success: [],
+				valueString: []
 			};
 			i++;
 		}
@@ -166,22 +172,7 @@ function savePPI(){
 		url: url,
 		data: $.toJSON(data),
 		contentType: "application/json",
-		success: function(data) {	
-			//$(data).each(function (index) {
-			//volcamos los datos
-//			this.description = data[index].description;
-//			this.name = name;
-//			this.id = process_id;
-			//this.goals = data[index].goals;
-//			this.definition = definition;
-//			this.target = target;
-//			this.unit = unit;
-//			this.scope = scope;
-//			this.source = source;
-//			this.responsible = responsible;
-//			this.informed = informed;
-//			this.comments = comments;
-			//});
+		success: function() {
 		},
 		//error en caso de no poder subir los datos al servidor
 		error: function() {

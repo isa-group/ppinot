@@ -105,7 +105,7 @@ function savePPI(){
 	var n = getNTable();
 	var i = 0;
 	//variable contenedora
-	var data;
+	var data = [];
 	//Recorremos todas las tablas para recoger los datos
 	while (i<=n){
 		//Si se ha borrado alguna plantilla, ese índice no estará, 
@@ -114,11 +114,11 @@ function savePPI(){
 			i++;
 		}
 		else{
-			data = {
+			data[i] = {
 				//recogemos los datos de cada tabla
-				ppi_description: document.getElementById('PPI_id_'+i+'').innerHTML,
+				description: document.getElementById('PPI_id_'+i+'').innerHTML,
 				name: document.getElementById('Name_'+i+'').innerHTML,
-				process_id: document.getElementById('Process_'+i+'').innerHTML,
+				id: document.getElementById('Process_'+i+'').innerHTML,
 				goals: document.getElementById('Goals_'+i+'').innerHTML,
 				//definition: document.getElementById('Definition_'+i+'').innerHTML,
 				//target: document.getElementById('Target_'+i+'').innerHTML,
@@ -137,7 +137,22 @@ function savePPI(){
 		url: url,
 		data: $.toJSON(data),
 		contentType: "application/json",
-		success: function(data) {			
+		success: function(data) {	
+			$(data).each(function (index) {
+			//volcamos los datos
+			this.description = data[index]description;
+			this.name = name;
+			this.id = process_id;
+			this.goals = goals;
+			this.definition = definition;
+			this.target = target;
+			this.unit = unit;
+			this.scope = scope;
+			this.source = source;
+			this.responsible = responsible;
+			this.informed = informed;
+			this.comments = comments;
+			});
 		},
 		//error en caso de no poder subir los datos al servidor
 		error: function() {

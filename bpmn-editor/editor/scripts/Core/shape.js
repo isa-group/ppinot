@@ -1,25 +1,20 @@
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 
 /**
  * Init namespaces
@@ -102,175 +97,176 @@ ORYX.Core.Shape = {
 				if(propChanged.value) {
 					var prop = this.properties[propChanged.key];
 					var property = this.getStencil().property(propChanged.key);
+					// Added this condition
 					if (property != undefined) {
-						this.propertiesChanged[propChanged.key] = false;
-	
-						//handle choice properties
-						if(property.type() == ORYX.CONFIG.TYPE_CHOICE) {
-							//iterate all references to SVG elements
-							property.refToView().each((function(ref) {
-								//if property is referencing a label, update the label
-								if(ref !== "") {
-									var label = this._labels[this.id + ref];
-									if (label && property.item(prop)) {
-										label.text(property.item(prop).title());
-									}
+					this.propertiesChanged[propChanged.key] = false;
+
+					//handle choice properties
+					if(property.type() == ORYX.CONFIG.TYPE_CHOICE) {
+						//iterate all references to SVG elements
+						property.refToView().each((function(ref) {
+							//if property is referencing a label, update the label
+							if(ref !== "") {
+								var label = this._labels[this.id + ref];
+								if (label && property.item(prop)) {
+									label.text(property.item(prop).title());
 								}
-							}).bind(this));
-								
-							//if the choice's items are referencing SVG elements
-							// show the selected and hide all other referenced SVG
-							// elements
-							var refreshedSvgElements = new Hash();
-							property.items().each((function(item) {
-								item.refToView().each((function(itemRef) {
-									if(itemRef == "") { return; }
-									
-									var svgElem = this.node.ownerDocument.getElementById(this.id + itemRef);
-		
-									if(!svgElem) { return; }
-									
-									
-									/* Do not refresh the same svg element multiple times */
-									if(!refreshedSvgElements[svgElem.id] || prop == item.value()) {
-										svgElem.setAttributeNS(null, 'display', ((prop == item.value()) ? 'inherit' : 'none'));
-										refreshedSvgElements[svgElem.id] = svgElem;
-									}
-									
-									// Reload the href if there is an image-tag
-									if(ORYX.Editor.checkClassType(svgElem, SVGImageElement)) {
-										svgElem.setAttributeNS('http://www.w3.org/1999/xlink', 'href', svgElem.getAttributeNS('http://www.w3.org/1999/xlink', 'href'));
-									}
-								}).bind(this));
-							}).bind(this));
+							}
+						}).bind(this));
 							
-						} else { //handle properties that are not of type choice
-							//iterate all references to SVG elements
-							property.refToView().each((function(ref) {
-								//if the property does not reference an SVG element,
-								// do nothing
+						//if the choice's items are referencing SVG elements
+						// show the selected and hide all other referenced SVG
+						// elements
+						var refreshedSvgElements = new Hash();
+						property.items().each((function(item) {
+							item.refToView().each((function(itemRef) {
+								if(itemRef == "") { return; }
+								
+								var svgElem = this.node.ownerDocument.getElementById(this.id + itemRef);
 	
-								if(ref === "") { return; }
-			
-								var refId = this.id + ref;
-	
-								//get the SVG element
-								var svgElem = this.node.ownerDocument.getElementById(refId);
-	
-								//if the SVG element can not be found
-								if(!svgElem || !(svgElem.ownerSVGElement)) { 
-									//if the referenced SVG element is a SVGAElement, it cannot
-									// be found with getElementById (Firefox bug).
-									// this is a work around
-									if(property.type() === ORYX.CONFIG.TYPE_URL || property.type() === ORYX.CONFIG.TYPE_DIAGRAM_LINK) {
-										var svgElems = this.node.ownerDocument.getElementsByTagNameNS('http://www.w3.org/2000/svg', 'a');
-										
-										svgElem = $A(svgElems).find(function(elem) {
-											return elem.getAttributeNS(null, 'id') === refId;
-										});
-										
-										if(!svgElem) { return; } 
-									} else {
-										//this.propertiesChanged[propChanged.key] = true;
-										return;
-									}					
+								if(!svgElem) { return; }
+								
+								
+								/* Do not refresh the same svg element multiple times */
+								if(!refreshedSvgElements[svgElem.id] || prop == item.value()) {
+									svgElem.setAttributeNS(null, 'display', ((prop == item.value()) ? 'inherit' : 'none'));
+									refreshedSvgElements[svgElem.id] = svgElem;
 								}
 								
-								if (property.complexAttributeToView()) {
-									var label = this._labels[refId];
-									if (label) {
-										try {
-									    	propJson = prop.evalJSON();
-									    	var value = propJson[property.complexAttributeToView()]
-									    	label.text(value ? value : prop);
-									    } catch (e) {
-									    	label.text(prop);
-									    }
-									}
+								// Reload the href if there is an image-tag
+								if(ORYX.Editor.checkClassType(svgElem, SVGImageElement)) {
+									svgElem.setAttributeNS('http://www.w3.org/1999/xlink', 'href', svgElem.getAttributeNS('http://www.w3.org/1999/xlink', 'href'));
+								}
+							}).bind(this));
+						}).bind(this));
+						
+					} else { //handle properties that are not of type choice
+						//iterate all references to SVG elements
+						property.refToView().each((function(ref) {
+							//if the property does not reference an SVG element,
+							// do nothing
+
+							if(ref === "") { return; }
+		
+							var refId = this.id + ref;
+
+							//get the SVG element
+							var svgElem = this.node.ownerDocument.getElementById(refId);
+
+							//if the SVG element can not be found
+							if(!svgElem || !(svgElem.ownerSVGElement)) { 
+								//if the referenced SVG element is a SVGAElement, it cannot
+								// be found with getElementById (Firefox bug).
+								// this is a work around
+								if(property.type() === ORYX.CONFIG.TYPE_URL || property.type() === ORYX.CONFIG.TYPE_DIAGRAM_LINK) {
+									var svgElems = this.node.ownerDocument.getElementsByTagNameNS('http://www.w3.org/2000/svg', 'a');
 									
+									svgElem = $A(svgElems).find(function(elem) {
+										return elem.getAttributeNS(null, 'id') === refId;
+									});
+									
+									if(!svgElem) { return; } 
 								} else {
-	
-									switch (property.type()) {
-										case ORYX.CONFIG.TYPE_BOOLEAN:	
-											
-											if (typeof prop == "string")
-												prop = prop === "true"
-		
-											svgElem.setAttributeNS(null, 'display', (!(prop === property.inverseBoolean())) ? 'inherit' : 'none');
-											
-											break;
-										case ORYX.CONFIG.TYPE_COLOR:
-											if(property.fill()) {
-												if (svgElem.tagName.toLowerCase() === "stop"){
-													if (prop){
-														
-														if (property.lightness() &&  property.lightness() !== 1){
-															prop = ORYX.Utils.adjustLightness(prop, property.lightness());
-														}
-														
-														svgElem.setAttributeNS(null, "stop-color", prop);
-													
-														// Adjust stop color of the others
-														if (svgElem.parentNode.tagName.toLowerCase() === "radialgradient"){
-															ORYX.Utils.adjustGradient(svgElem.parentNode, svgElem);
-														}
-													}
-													
-													// If there is no value, set opaque
-													if (svgElem.parentNode.tagName.toLowerCase() === "radialgradient"){
-														$A(svgElem.parentNode.getElementsByTagName('stop')).each(function(stop){
-															stop.setAttributeNS(null, "stop-opacity", prop ? stop.getAttributeNS(ORYX.CONFIG.NAMESPACE_ORYX, 'default-stop-opacity') || 1 : 0);
-														}.bind(this))
-													}
-												} else {
-													svgElem.setAttributeNS(null, 'fill', prop);
-												}
-											}
-											if(property.stroke()) {
-												svgElem.setAttributeNS(null, 'stroke', prop);
-											}
-											break;
-										case ORYX.CONFIG.TYPE_STRING:
-											var label = this._labels[refId];
-											if (label) {
-												label.text(prop);
-											}
-											break;
-										case ORYX.CONFIG.TYPE_INTEGER:
-											var label = this._labels[refId];
-											if (label) {
-												label.text(prop);
-											}
-											break;
-										case ORYX.CONFIG.TYPE_FLOAT:
-											if(property.fillOpacity()) {
-												svgElem.setAttributeNS(null, 'fill-opacity', prop);
-											} 
-											if(property.strokeOpacity()) {
-												svgElem.setAttributeNS(null, 'stroke-opacity', prop);
-											}
-											if(!property.fillOpacity() && !property.strokeOpacity()) {
-												var label = this._labels[refId];
-												if (label) {
-													label.text(prop);
-												}
-											}
-											break;
-										case ORYX.CONFIG.TYPE_URL:
-										case ORYX.CONFIG.TYPE_DIAGRAM_LINK:
-											//TODO what is the dafault path?
-											var hrefAttr = svgElem.getAttributeNodeNS('http://www.w3.org/1999/xlink', 'xlink:href');
-											if(hrefAttr) {
-												hrefAttr.textContent = prop;
-											} else {
-												svgElem.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', prop);
-											}	
-											break;
-									}
+									//this.propertiesChanged[propChanged.key] = true;
+									return;
+								}					
+							}
+							
+							if (property.complexAttributeToView()) {
+								var label = this._labels[refId];
+								if (label) {
+									try {
+								    	propJson = prop.evalJSON();
+								    	var value = propJson[property.complexAttributeToView()]
+								    	label.text(value ? value : prop);
+								    } catch (e) {
+								    	label.text(prop);
+								    }
 								}
-							}).bind(this));
-							
-							
+								
+							} else {
+
+								switch (property.type()) {
+									case ORYX.CONFIG.TYPE_BOOLEAN:	
+										
+										if (typeof prop == "string")
+											prop = prop === "true"
+	
+										svgElem.setAttributeNS(null, 'display', (!(prop === property.inverseBoolean())) ? 'inherit' : 'none');
+										
+										break;
+									case ORYX.CONFIG.TYPE_COLOR:
+										if(property.fill()) {
+											if (svgElem.tagName.toLowerCase() === "stop"){
+												if (prop){
+													
+													if (property.lightness() &&  property.lightness() !== 1){
+														prop = ORYX.Utils.adjustLightness(prop, property.lightness());
+													}
+													
+													svgElem.setAttributeNS(null, "stop-color", prop);
+												
+													// Adjust stop color of the others
+													if (svgElem.parentNode.tagName.toLowerCase() === "radialgradient"){
+														ORYX.Utils.adjustGradient(svgElem.parentNode, svgElem);
+													}
+												}
+												
+												// If there is no value, set opaque
+												if (svgElem.parentNode.tagName.toLowerCase() === "radialgradient"){
+													$A(svgElem.parentNode.getElementsByTagName('stop')).each(function(stop){
+														stop.setAttributeNS(null, "stop-opacity", prop ? stop.getAttributeNS(ORYX.CONFIG.NAMESPACE_ORYX, 'default-stop-opacity') || 1 : 0);
+													}.bind(this))
+												}
+											} else {
+												svgElem.setAttributeNS(null, 'fill', prop);
+											}
+										}
+										if(property.stroke()) {
+											svgElem.setAttributeNS(null, 'stroke', prop);
+										}
+										break;
+									case ORYX.CONFIG.TYPE_STRING:
+										var label = this._labels[refId];
+										if (label) {
+											label.text(prop);
+										}
+										break;
+									case ORYX.CONFIG.TYPE_INTEGER:
+										var label = this._labels[refId];
+										if (label) {
+											label.text(prop);
+										}
+										break;
+									case ORYX.CONFIG.TYPE_FLOAT:
+										if(property.fillOpacity()) {
+											svgElem.setAttributeNS(null, 'fill-opacity', prop);
+										} 
+										if(property.strokeOpacity()) {
+											svgElem.setAttributeNS(null, 'stroke-opacity', prop);
+										}
+										if(!property.fillOpacity() && !property.strokeOpacity()) {
+											var label = this._labels[refId];
+											if (label) {
+												label.text(prop);
+											}
+										}
+										break;
+									case ORYX.CONFIG.TYPE_URL:
+									case ORYX.CONFIG.TYPE_DIAGRAM_LINK:
+										//TODO what is the dafault path?
+										var hrefAttr = svgElem.getAttributeNodeNS('http://www.w3.org/1999/xlink', 'xlink:href');
+										if(hrefAttr) {
+											hrefAttr.textContent = prop;
+										} else {
+											svgElem.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', prop);
+										}	
+										break;
+								}
+							}
+						}).bind(this));
+						
+						
 						}
 					}
 					

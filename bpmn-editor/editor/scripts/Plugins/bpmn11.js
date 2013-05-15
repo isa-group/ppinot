@@ -16,13 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-
 if(!ORYX.Plugins)
 	ORYX.Plugins = new Object();
 
 new function(){
 	
-	ORYX.Plugins.BPMN2_0 = {
+	ORYX.Plugins.BPMN11 = {
 	
 		/**
 		 *	Constructor
@@ -33,15 +32,15 @@ new function(){
 			
 			this.facade.registerOnEvent(ORYX.CONFIG.EVENT_DRAGDOCKER_DOCKED, this.handleDockerDocked.bind(this));
 			this.facade.registerOnEvent(ORYX.CONFIG.EVENT_PROPWINDOW_PROP_CHANGED, this.handlePropertyChanged.bind(this));
-			this.facade.registerOnEvent('layout.bpmn2_0.pool', this.handleLayoutPool.bind(this));
-			this.facade.registerOnEvent('layout.bpmn2_0.subprocess', this.handleSubProcess.bind(this));
+			this.facade.registerOnEvent('layout.bpmn11.pool', this.handleLayoutPool.bind(this));
+			this.facade.registerOnEvent('layout.bpmn11.subprocess', this.handleSubProcess.bind(this));
 			this.facade.registerOnEvent(ORYX.CONFIG.EVENT_SHAPEREMOVED, this.handleShapeRemove.bind(this));
-			//this.facade.registerOnEvent('layout.bpmn11.lane', this.handleLayoutLane.bind(this));
-
+			
+			
 			this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LOADED, this.afterLoad.bind(this));
 			
-
-			this.namespace = undefined;
+			//this.facade.registerOnEvent('layout.bpmn11.lane', this.handleLayoutLane.bind(this));
+			this.stencilsetNs = facade.getStencilSets().entries()[0][0];
 		},
 		
 		/**
@@ -62,16 +61,16 @@ new function(){
 		 * a lane is created automagically
 		 */
 		onSelectionChanged: function(event) {
+			
 			var selection = event.elements;
 			
 			if(selection && selection.length === 1) {
-				var namespace = this.getNamespace();
 				var shape = selection[0];
 				if(shape.getStencil().idWithoutNs() === "Pool") {
 					if(shape.getChildNodes().length === 0) {
 						// create a lane inside the selected pool
 						var option = {
-								type:namespace + "Lane",
+								type:this.stencilsetNs + "Lane",
 								position:{x:0,y:0},
 								namespace:shape.getStencil().namespace(),
 								parent:shape
@@ -135,7 +134,7 @@ new function(){
 					
 					if (isLeaf && parentHasMoreLanes){
 						
-						var command = new ResizeLanesCommand(sh, parent, pool, this);
+						var command = new ResizeLanesCommandBPMN11(sh, parent, pool, this);
 						this.facade.executeCommands([command]);
 						
 					} else if(	!isLeaf &&
@@ -152,13 +151,13 @@ new function(){
 								this.children.each(function(child){
 									child.bounds.moveBy(30,0)
 								});
-								//this.facade.getCanvas().update();
+								this.facade.getCanvas().update();
 							},
 							rollback: function() {
 								this.children.each(function(child){
 									child.bounds.moveBy(-30,0)
 								})
-								//this.facade.getCanvas().update();
+								this.facade.getCanvas().update();
 							}
 						});
 						this.facade.executeCommands([new Command(sh, this.facade)]);
@@ -301,12 +300,10 @@ new function(){
 		 *
 		 */	
 		handleDockerDocked: function(options) {
-			var namespace = this.getNamespace();
-			
 			var edge = options.parent;
 			var edgeSource = options.target;
 			
-			if(edge.getStencil().id() === namespace + "SequenceFlow") {
+			if(edge.getStencil().id() === this.stencilsetNs + "SequenceFlow") {
 				var isGateway = edgeSource.getStencil().groups().find(function(group) {
 						if(group == "Gateways") 
 							return group;
@@ -329,7 +326,6 @@ new function(){
 		 * PropertyWindow.PropertyChanged Handler
 		 */
 		handlePropertyChanged: function(option) {
-			var namespace = this.getNamespace();
 			
 			var shapes = option.elements;
 			var propertyKey = option.key;
@@ -337,7 +333,7 @@ new function(){
 			
 			var changed = false;
 			shapes.each(function(shape){
-				if((shape.getStencil().id() === namespace + "SequenceFlow") &&
+				if((shape.getStencil().id() === this.stencilsetNs + "SequenceFlow") &&
 					(propertyKey === "oryx-conditiontype")) {
 					
 					if(propertyValue != "Expression")
@@ -378,10 +374,9 @@ new function(){
 		hashedPoolPositions : {},
 		hashedLaneDepth : {},
 		hashedBounds : {},
-		hashedPositions: {},
 		
 		/**
-		 * Handler for layouting event 'layout.bpmn2_0.pool'
+		 * Handler for layouting event 'layout.bpmn11.pool'
 		 * @param {Object} event
 		 */
 		handleLayoutPool: function(event){
@@ -391,24 +386,23 @@ new function(){
 			var selection = this.facade.getSelection(); 
 			var currentShape = selection.include(pool) ? pool : selection.first();
 			
-			currentShape = currentShape || pool;
-			
-			this.currentPool = pool;
+			// Check if the current shape is one of the children of the pool
+			if (currentShape instanceof ORYX.Core.UIObject){
+				currentShape = currentShape.isParent(pool) ? currentShape : pool;
+			} else {
+				currentShape = pool;
+			}
 			
 			// Check if it is a pool or a lane
 			if (!(currentShape.getStencil().id().endsWith("Pool") || currentShape.getStencil().id().endsWith("Lane"))) {
 				return;
 			}
 			
-			// Check if the lane is within the pool and is not removed lately 
-			if (currentShape !== pool && !currentShape.isParent(pool) && !this.hashedBounds[pool.id][currentShape.id]){
-				return;
-			}
-			
-			
 			if (!this.hashedBounds[pool.id]) {
 				this.hashedBounds[pool.id] = {};
 			}
+	
+			this.currentPool = pool;
 			
 			// Find all child lanes
 			var lanes = this.getLanes(pool);
@@ -417,28 +411,16 @@ new function(){
 				return
 			}
 			
-			var allLanes = this.getLanes(pool, true), hp;
+			
+			var allLanes = this.getLanes(pool, true);
 			var considerForDockers = allLanes.clone();
-			
-			var hashedPositions = $H({});
-			allLanes.each(function(lane){
-				hashedPositions[lane.id] = lane.bounds.upperLeft();
-			})
-			
-			
 			
 			// Show/hide caption regarding the number of lanes
 			if (lanes.length === 1 && this.getLanes(lanes.first()).length <= 0) {
 				// TRUE if there is a caption
 				lanes.first().setProperty("oryx-showcaption", lanes.first().properties["oryx-name"].trim().length > 0);
-				var rect = lanes.first().node.getElementsByTagName("rect");
-				rect[0].setAttributeNS(null, "display", "none");
 			} else {
 				allLanes.invoke("setProperty", "oryx-showcaption", true);
-				allLanes.each(function(lane){
-					var rect = lane.node.getElementsByTagName("rect");
-					rect[0].removeAttributeNS(null, "display");
-				})
 			}
 			
 			var deletedLanes = [];
@@ -538,17 +520,8 @@ new function(){
 					}
 				}
 				
-				// Cache all bounds
-				var changes = allLanes.map(function(lane){ return {
-					shape: lane,
-					bounds: lane.bounds.clone()
-				} });
-				
 				// Get height and adjust child heights
 				height = this.adjustHeight(lanes, currentShape);
-				// Check if something has changed and maybe create a command
-				this.checkForChanges(allLanes, changes);
-				
 				// Set width from the current shape
 				width = this.adjustWidth(lanes, currentShape.bounds.width()+(this.getDepth(currentShape,pool)*30));
 			}
@@ -559,52 +532,9 @@ new function(){
 			if (this.facade.isExecutingCommands() && (deletedLanes.length === 0 || addedLanes.length !== 0)){ 
 				// Update all dockers
 				this.updateDockers(considerForDockers, pool);
-				
-				// Check if the order has changed
-				if (this.hashedPositions[pool.id] && this.hashedPositions[pool.id].keys().any(function(key, i){
-						return (allLanes[i]||{}).id	!== key;
-					})){
-					
-					var LanesHasBeenReordered = ORYX.Core.Command.extend({
-						construct: function(originPosition, newPosition, lanes, plugin, poolId) {
-							this.originPosition = Object.clone(originPosition);
-							this.newPosition = Object.clone(newPosition);
-							this.lanes = lanes;
-							this.plugin = plugin;
-							this.pool = poolId;
-						}, 
-						execute: function(){
-							if (!this.executed){
-								this.executed = true;
-								this.lanes.each(function(lane){
-									if (this.newPosition[lane.id])
-										lane.bounds.moveTo(this.newPosition[lane.id])
-								}.bind(this));
-								this.plugin.hashedPositions[this.pool] = Object.clone(this.newPosition);
-							}
-						}, 
-						rollback: function(){
-							this.lanes.each(function(lane){
-								if (this.originPosition[lane.id])
-									lane.bounds.moveTo(this.originPosition[lane.id])
-							}.bind(this));
-							this.plugin.hashedPositions[this.pool] = Object.clone(this.originPosition);
-						}
-					});
-					
-					var hp2 = $H({});
-					allLanes.each(function(lane){
-						hp2[lane.id] = lane.bounds.upperLeft();
-					})
-				
-					var command = new LanesHasBeenReordered(hashedPositions, hp2, allLanes, this, pool.id);
-					this.facade.executeCommands([command]);
-						
-				}
 			}
 			
 			this.hashedBounds[pool.id] = {};
-			this.hashedPositions[pool.id] = hashedPositions;
 			
 			var i=-1;
 			while (++i < allLanes.length) {
@@ -631,42 +561,6 @@ new function(){
 			return childLanes.length > 1 || childLanes.any(function(lane){ return this.shouldScale(lane) }.bind(this)) 
 		},
 		
-		/**
-		 * Lookup if some bounds has changed
-		 * @param {Object} lanes
-		 * @param {Object} changes
-		 */
-		checkForChanges: function(lanes, changes){
-			// Check if something has changed
-			if (this.facade.isExecutingCommands() && changes.any(function(change){
-				return change.shape.bounds.toString() !== change.bounds.toString();
-			})){
-				
-				var Command = ORYX.Core.Command.extend({
-							construct: function(changes) {
-								this.oldState = changes;
-								this.newState = changes.map(function(s){ return {shape:s.shape, bounds:s.bounds.clone()}});
-							}, 
-							execute: function(){
-								if (this.executed){
-									this.applyState(this.newState);
-								}
-								this.executed = true;
-							}, 
-							rollback: function(){
-								this.applyState(this.oldState);
-							},
-							applyState: function(state){
-								state.each(function(s){
-									s.shape.bounds.set(s.bounds.upperLeft(), s.bounds.lowerRight());
-								})
-							}
-						});
-						
-				this.facade.executeCommands([new Command(changes)]);
-			}
-		},
-		
 		isResized: function(shape, bounds){
 			
 			if (!bounds||!shape){
@@ -676,7 +570,9 @@ new function(){
 			var oldB = bounds;
 			//var oldXY = oldB.upperLeft();
 			//var xy = shape.absoluteXY();
+			
 			return Math.round(oldB.width() - shape.bounds.width()) !== 0 || Math.round(oldB.height() - shape.bounds.height()) !== 0
+			
 		},
 		
 		adjustLanes: function(pool, lanes, x, y, scale){
@@ -904,7 +800,7 @@ new function(){
 		
 		updateDockers: function(lanes, pool){
 			
-			var absPool = pool.absoluteBounds(), movedShapes = [];
+			var absPool = pool.absoluteBounds();
 			var oldPool = (this.hashedPoolPositions[pool.id]||absPool).clone();
 			
 			var i=-1, j=-1, k=-1, l=-1, docker;
@@ -936,7 +832,6 @@ new function(){
 				while (++j < children.length) {
 					
 					if (xOffsetDepth && !children[j].getStencil().id().endsWith("Lane")) {
-						movedShapes.push({xOffset:xOffsetDepth, shape: children[j]});
 						children[j].bounds.moveBy(xOffsetDepth, 0);
 					}
 					
@@ -948,6 +843,7 @@ new function(){
 						.concat(children[j].getOutgoingShapes())
 						// Remove all edges which are included in the selection from the list
 						.findAll(function(r){ return r instanceof ORYX.Core.Edge })
+						.uniq();
 	
 					k=-1;
 					while (++k < edges.length) {			
@@ -1014,29 +910,8 @@ new function(){
 				}
 			}
 			
-			// Move the moved children 
-			var MoveChildCommand = ORYX.Core.Command.extend({
-				construct: function(state){
-					this.state = state;
-				},
-				execute: function(){
-					if (this.executed){
-						this.state.each(function(s){
-							s.shape.bounds.moveBy(s.xOffset, 0);
-						});
-					}
-					this.executed = true;
-				}, 
-				rollback: function(){
-					this.state.each(function(s){
-						s.shape.bounds.moveBy(-s.xOffset, 0);
-					});
-				}
-			})
-			
-			
 			// Set dockers
-			this.facade.executeCommands([new ORYX.Core.MoveDockersCommand(dockers), new MoveChildCommand(movedShapes)]);
+			this.facade.executeCommands([new ORYX.Core.MoveDockersCommand(dockers)]);
 	
 		},
 		
@@ -1047,7 +922,7 @@ new function(){
 		},
 		
 		getHashedBounds: function(shape){
-			return this.currentPool && this.hashedBounds[this.currentPool.id][shape.id] ? this.hashedBounds[this.currentPool.id][shape.id] : shape.absoluteBounds();
+			return this.currentPool && this.hashedBounds[this.currentPool.id][shape.id] ? this.hashedBounds[this.currentPool.id][shape.id] : shape.bounds.clone();
 		},
 		
 		/**
@@ -1057,10 +932,9 @@ new function(){
 		 * @param {boolean} recursive
 		 */
 		getLanes: function(shape, recursive){
-			var namespace = this.getNamespace();
 			
 			// Get all the child lanes
-			var lanes = shape.getChildNodes(recursive||false).findAll(function(node) { return (node.getStencil().id() === namespace + "Lane"); });
+			var lanes = shape.getChildNodes(recursive||false).findAll(function(node) { return (node.getStencil().id() === this.stencilsetNs + "Lane"); }.bind(this));
 			
 			// Sort all lanes by there y coordinate
 			lanes = lanes.sort(function(a, b){
@@ -1105,22 +979,11 @@ new function(){
 					
 			// Return lanes
 			return lanes;
-		},
-				
-		getNamespace: function() {
-			if(!this.namespace) {
-				var stencilsets = this.facade.getStencilSets();
-				if(stencilsets.keys()) {
-					this.namespace = stencilsets.keys()[0];
-				} else {
-					return undefined;
-				}
-			}
-			return this.namespace;
 		}
+		
 	};
 	
-	var ResizeLanesCommand = ORYX.Core.Command.extend({
+	var ResizeLanesCommandBPMN11 = ORYX.Core.Command.extend({
 	
 		construct: function(shape, parent, pool, plugin) {
 		
@@ -1157,15 +1020,7 @@ new function(){
 				});
 			}.bind(this));
 	
-			this.shapeUpperLeft = this.shape.bounds.upperLeft();
-			
-			// If there is no parent, 
-			// correct the abs position with the parents abs.
-			/*if (!this.shape.parent) { 
-				var pAbs = parent.absoluteXY();
-				this.shapeUpperLeft.x += pAbs.x;
-				this.shapeUpperLeft.y += pAbs.y;
-			}*/
+			this.shapeUpperLeft = this.shape.absoluteXY();
 			this.parentHeight 	= this.parent.bounds.height(); 
 	
 		},
@@ -1182,13 +1037,14 @@ new function(){
 			var lanes = this.plugin.getLanes(this.parent);
 	
 			var leafLanes = this.getLeafLanes(this.parent);
-			/*leafLanes = leafLanes.sort(function(a,b){
+			leafLanes = leafLanes.sort(function(a,b){
 				var aupl = a.absoluteXY().y;
 				var bupl = b.absoluteXY().y;
 				return aupl < bupl ? -1 : (aupl > bupl ? 1 : 0)
-			})*/
-			this.lane = leafLanes.find(function(l){ return l.bounds.upperLeft().y >= this.shapeUpperLeft.y }.bind(this)) || leafLanes.last();
-			this.laneUpperLeft = this.lane.bounds.upperLeft();	
+			})
+			this.lane 	= leafLanes.find(function(l,i){ return i == leafLanes.length-1 || l.absoluteXY().y >= this.shapeUpperLeft.y }.bind(this));
+			
+			this.laneUppperLeft = this.lane.absoluteXY();	
 		},
 		
 		execute: function() {
@@ -1210,7 +1066,7 @@ new function(){
 			
 			if(this.lane) {			
 				
-				var laUpL = this.laneUpperLeft;
+				var laUpL = this.laneUppperLeft;
 				var shUpL = this.shapeUpperLeft;
 				
 				var depthChange = this.plugin.getDepth(this.lane, this.parent)-1;
@@ -1218,7 +1074,7 @@ new function(){
 				this.changes = $H({});
 				
 				// Selected lane is BELOW the removed lane
-				if (laUpL.y >= shUpL.y) {				
+				if(laUpL.y > shUpL.y) {				
 					this.lane.getChildShapes().each(function(childShape) {
 						
 						/*
@@ -1268,10 +1124,6 @@ new function(){
 						
 					}.bind(this));
 				}
-				
-				
-
-				
 			}
 					
 			/*
@@ -1284,14 +1136,6 @@ new function(){
 			// Set height
 			this.setHeight(newHeight, oldHeight, this.parent, this.parentHeight, true);
 			
-			// Cache all sibling lanes
-			//this.changes[this.shape.getId()] = this.computeChanges(this.shape, this.parent, this.parent, 0);
-			this.plugin.getLanes(this.parent).each(function(childLane){
-				if(!this.changes[childLane.getId()] && childLane !== this.lane && childLane !== this.shape) {
-					this.changes[childLane.getId()] = this.computeChanges(childLane, this.parent, this.parent, 0);
-				}
-			}.bind(this))
-				
 			// Update
 			this.update();
 		},
@@ -1323,12 +1167,12 @@ new function(){
 			// Hack to prevent the updating of the dockers
 			this.plugin.hashedBounds[this.pool.id]["REMOVED"] = true;
 			// Update
-			//this.facade.getCanvas().update();
+			this.facade.getCanvas().update();
 		},
 		
 		rollback: function() {
 			
-			var laUpL = this.laneUpperLeft;
+			var laUpL = this.laneUppperLeft;
 			var shUpL = this.shapeUpperLeft;
 				
 			this.changes.each(function(pair) {
@@ -1339,23 +1183,17 @@ new function(){
 				var oldHeight 		= pair.value.oldHeight;
 				var newHeight 		= pair.value.newHeight;
 				
-				// Move siblings
-				if (shape.getStencil().id().endsWith("Lane")){
-					shape.bounds.moveTo(pair.value.oldPosition);	
-				}
-				
 				// If lane
-				if(oldHeight) {					
+				if(oldHeight) {
 					this.setHeight(oldHeight, newHeight, parent, parent.bounds.height() + (oldHeight - newHeight));
-					if (laUpL.y >= shUpL.y) {
-						this.lane.bounds.moveBy(0, this.shape.bounds.height()-1);
+					if (laUpL.y > shUpL.y) {
+						this.lane.bounds.moveBy(0, this.shape.bounds.height());
 					}
 				} else {
 					parent.add(shape);
-					shape.bounds.moveTo(pair.value.oldPosition);
-					
+					shape.bounds.moveTo(pair.value.oldPosition);	
 				}
-
+				
 				
 			}.bind(this));
 			
@@ -1374,10 +1212,10 @@ new function(){
 				
 				// If lane
 				if(newHeight) {
-					var laUpL = this.laneUpperLeft.y;
+					var laUpL = this.laneUppperLeft.y;
 					var shUpL = this.shapeUpperLeft.y;
 				
-					if (laUpL >= shUpL) {
+					if (laUpL > shUpL) {
 						this.lane.bounds.moveBy(0, shUpL - laUpL);
 					}
 					this.setHeight(newHeight, oldHeight, parent, parent.bounds.height() + (newHeight-oldHeight));
@@ -1417,7 +1255,6 @@ new function(){
 		
 	});
 	
-		
-	ORYX.Plugins.BPMN2_0 = ORYX.Plugins.AbstractPlugin.extend(ORYX.Plugins.BPMN2_0);
+	ORYX.Plugins.BPMN11 = ORYX.Plugins.AbstractPlugin.extend(ORYX.Plugins.BPMN11);
 	
-}()	
+}()

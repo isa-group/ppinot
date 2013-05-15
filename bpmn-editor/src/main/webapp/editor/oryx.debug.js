@@ -1,25 +1,21 @@
-/**
- * Copyright (c) 2008
- * Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 /**
  * @namespace Oryx name space for different utility methods
@@ -63,28 +59,24 @@ ORYX.Utils = {
 		}
 	}
 }
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 XMLNS = {
 	ATOM:	"http://www.w3.org/2005/Atom",
@@ -162,28 +154,24 @@ var Kickstart = {
 
 // register kickstart as the new onload event listener on current window.
 // previous listener(s) are triggered to launch with kickstart.
-Event.observe(window, 'load', Kickstart.load);/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+Event.observe(window, 'load', Kickstart.load);
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 
 var ERDF = {
 
@@ -568,28 +556,25 @@ ERDF.Literal = function(literal) {
 	this.toString = function() {
 		return '"' + this.value + '"';
 	}
-};/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+};
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 /*
  * Save and triple generation behaviour. Use this area to configure
@@ -1757,28 +1742,25 @@ ResourceManager = {
 			"wrong with either the server, the transport protocol or your " +
 			"online status. Sure you're online?";
 	}
-}/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+}
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 /**
  * The super class for all classes in ORYX. Adds some OOP feeling to javascript.
@@ -1833,28 +1815,25 @@ Clazz.extend = function(def) {
     //Give this new class the same static extend method    
     classDef.extend = this.extend;        
     return classDef;
-};/**
- * Copyright (c) 2010
- * Signavio GmbH
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+};
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 if(!ORYX) var ORYX = {};
 
 if(!ORYX.CONFIG) ORYX.CONFIG = {};
@@ -1874,7 +1853,7 @@ ORYX.CONFIG.SERVER_HANDLER_ROOT = 		"../service";
 ORYX.CONFIG.SERVER_EDITOR_HANDLER =		ORYX.CONFIG.SERVER_HANDLER_ROOT + "/editor";
 ORYX.CONFIG.SERVER_MODEL_HANDLER =		ORYX.CONFIG.SERVER_HANDLER_ROOT + "/model";
 ORYX.CONFIG.STENCILSET_HANDLER = 		ORYX.CONFIG.SERVER_HANDLER_ROOT + "/editor_stencilset?embedsvg=true&url=true&namespace=";    
-ORYX.CONFIG.STENCIL_SETS_URL = 			ORYX.CONFIG.SERVER_HANDLER_ROOT + "/editor_stencilset";
+ORYX.CONFIG.STENCIL_SETS_URL = 			ORYX.CONFIG.SERVER_HANDLER_ROOT + "/editor/stencilset";
 
 ORYX.CONFIG.PLUGINS_CONFIG =			ORYX.CONFIG.SERVER_HANDLER_ROOT + "/editor/plugins";
 ORYX.CONFIG.SYNTAXCHECKER_URL =			ORYX.CONFIG.SERVER_HANDLER_ROOT + "/syntaxchecker";
@@ -1882,30 +1861,27 @@ ORYX.CONFIG.DEPLOY_URL = 				ORYX.CONFIG.SERVER_HANDLER_ROOT + "/model/deploy";
 ORYX.CONFIG.MODEL_LIST_URL = 			ORYX.CONFIG.SERVER_HANDLER_ROOT + "/models";
 
 ORYX.CONFIG.SS_EXTENSIONS_FOLDER =		ORYX.CONFIG.ROOT_PATH + "stencilsets/extensions/";
-ORYX.CONFIG.SS_EXTENSIONS_CONFIG =		ORYX.CONFIG.SERVER_HANDLER_ROOT + "/editor_ssextensions";	
+ORYX.CONFIG.SS_EXTENSIONS_CONFIG =		ORYX.CONFIG.SERVER_HANDLER_ROOT + "/editor/ssextensions";
 ORYX.CONFIG.ORYX_NEW_URL =				"/new";	
-ORYX.CONFIG.BPMN_LAYOUTER =				ORYX.CONFIG.ROOT_PATH + "bpmnlayouter";/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+ORYX.CONFIG.BPMN_LAYOUTER =				ORYX.CONFIG.ROOT_PATH + "bpmnlayouter";
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 if(!ORYX) var ORYX = {};
 
 if(!ORYX.CONFIG) ORYX.CONFIG = {};
@@ -1917,14 +1893,15 @@ ORYX.CONFIG.BACKEND_SWITCH 		= 		true;
 ORYX.CONFIG.PANEL_LEFT_WIDTH 	= 		250;
 ORYX.CONFIG.PANEL_RIGHT_COLLAPSED 	= 	true;
 ORYX.CONFIG.PANEL_RIGHT_WIDTH	= 		300;
-ORYX.CONFIG.APPNAME = 					'Activiti BPM suite';
+ORYX.CONFIG.APPNAME = 					'BPMN Editor';
+// En Signavio era "explorer"
 ORYX.CONFIG.WEB_URL = 					"../";
 
 ORYX.CONFIG.BLANK_IMAGE = ORYX.CONFIG.LIBS_PATH + '/ext-2.0.2/resources/images/default/s.gif';
 
 
 /* Show grid line while dragging */
-ORYX.CONFIG.SHOW_GRIDLINE = 			true;
+ORYX.CONFIG.SHOW_GRIDLINE = 			false;
 
 	/* Editor-Mode */
 ORYX.CONFIG.MODE_READONLY =				"readonly";
@@ -2118,28 +2095,23 @@ ORYX.CONFIG.META_KEY_SHIFT = 			"shift";
 ORYX.CONFIG.KEY_ACTION_DOWN = 			"down";
 ORYX.CONFIG.KEY_ACTION_UP = 			"up";
 
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 
 function printf() {
 	
@@ -2512,28 +2484,24 @@ ORYX = Object.extend(ORYX, {
 ORYX.Log.debug('Registering Oryx with Kickstart');
 Kickstart.register(ORYX.load);
 
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 /**
  * Init namespaces
@@ -2899,28 +2867,25 @@ ORYX.Core.SVG.EditPathHandler = Clazz.extend({
 	    this.d = this.d.concat(" z");
 	}
 
-});/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+});
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 /**
  * Init namespaces
@@ -3194,28 +3159,25 @@ ORYX.Core.SVG.MinMaxPathHandler = Clazz.extend({
 	    return;// do nothing
 	}
 
-});/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+});
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 /**
  * Init namespaces
@@ -3483,28 +3445,24 @@ ORYX.Core.SVG.PointsPathHandler = Clazz.extend({
 	    return;// do nothing
 	}
 
-});/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+});
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 
 /**
  *
@@ -3689,28 +3647,24 @@ ORYX.Core.SVG.SVGMarker = Clazz.extend({
 	},
 	
 	toString: function() { return (this.element) ? "SVGMarker " + this.element.id : "SVGMarker " + this.element;}
- });/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+ });
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 
 /**
  *
@@ -4262,28 +4216,25 @@ ORYX.Core.SVG.SVGShape = Clazz.extend({
 	},
 
 	toString: function() { return (this.element) ? "SVGShape " + this.element.id : "SVGShape " + this.element;}
- });/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+ });
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 /**
  * Init namespaces
@@ -4821,13 +4772,13 @@ ORYX.Core.SVG.Label = Clazz.extend({
 					if (this.fitToElemId) {
 						window.setTimeout(this._checkFittingToReferencedElem.bind(this), 0);
 					} else {
-						window.setTimeout(this._positionText.bind(this), 0);
-						//this._positionText();
+						//window.setTimeout(this._positionText.bind(this), 0);
+						this._positionText();
 					}
 				}
 			} else {
-				this.node.textContent = "";
-				//this.node.setAttributeNS(null, "fill-opacity", "0.2");
+				//this.node.textContent = "";
+				this.node.setAttributeNS(null, "fill-opacity", "0.2");
 			}
 		}
 	},
@@ -4928,8 +4879,7 @@ ORYX.Core.SVG.Label = Clazz.extend({
 	 */
 	_positionText: function() {
 		try {
-			//var tspans = this.node.getElementsByTagNameNS(ORYX.CONFIG.NAMESPACE_SVG, 'tspan');
-			var tspans = this.node.childNodes;
+			var tspans = this.node.getElementsByTagNameNS(ORYX.CONFIG.NAMESPACE_SVG, 'tspan');
 			
 			var fontSize = this.getFontSize(this.node); 
 			
@@ -5029,7 +4979,7 @@ ORYX.Core.SVG.Label = Clazz.extend({
 	 * @param {int} endIndex Optional, for sub strings
 	 */
 	_getRenderedTextLength: function(tspan, startIndex, endIndex, fontSize) {
-		//if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent) && new Number(RegExp.$1) >= 3) {
+		if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent) && new Number(RegExp.$1) >= 3) {
 			if(startIndex === undefined) {
 //test string: abcdefghijklmnopqrstuvwxyzöäü,.-#+ 1234567890ßABCDEFGHIJKLMNOPQRSTUVWXYZ;:_'*ÜÄÖ!"§$%&/()=?[]{}|<>'~´`\^°µ@€²³
 //				for(var i = 0; i < tspan.textContent.length; i++) {
@@ -5039,13 +4989,13 @@ ORYX.Core.SVG.Label = Clazz.extend({
 			} else {
 				return tspan.getSubStringLength(startIndex, endIndex);
 			}
-		/*} else {
+		} else {
 			if(startIndex === undefined) {
 				return this._estimateTextWidth(tspan.textContent, fontSize);
 			} else {
 				return this._estimateTextWidth(tspan.textContent.substr(startIndex, endIndex).trim(), fontSize);
 			}
-		}*/
+		}
 	},
 	
 	/**
@@ -5390,28 +5340,24 @@ ORYX.Core.SVG.Label = Clazz.extend({
 	},
 	
 	toString: function() { return "Label " + this.id }
- });/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+ });
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 
 /**
  * Init namespaces
@@ -5927,28 +5873,24 @@ new function(){
 }();
 
 
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 /**
  * Init namespace
@@ -6365,28 +6307,25 @@ function _evilSafariHack(serializedXML) {
 	
 	return dom;
 }
-	/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+	
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 /**
  * Init namespace
  */
@@ -6827,28 +6766,23 @@ ORYX.Core.StencilSet.Property = Clazz.extend({
 	}
 	
 });
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 
 /**
  * Init namespace
@@ -6932,28 +6866,25 @@ ORYX.Core.StencilSet.PropertyItem = Clazz.extend({
 	},
 
 	toString: function() { return "PropertyItem " + this.property() + " (" + this.value() + ")"; }
-});/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+});
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 /**
  * Init namespaces
@@ -6990,7 +6921,7 @@ ORYX.Core.StencilSet.ComplexPropertyItem = Clazz.extend({
 		this._property = property;
 		this._items = new Hash();
 		this._complexItems = new Hash();
-		
+
 		//init all values
 		if(!jsonItem.name) {
 			throw "ORYX.Core.StencilSet.ComplexPropertyItem(construct): Name is not defined.";
@@ -7017,7 +6948,7 @@ ORYX.Core.StencilSet.ComplexPropertyItem = Clazz.extend({
 				}).bind(this));
 			} else {
 				throw "ORYX.Core.StencilSet.Property(construct): No property items defined."
-			}
+		    }
 		}
 	},
 
@@ -7065,7 +6996,7 @@ ORYX.Core.StencilSet.ComplexPropertyItem = Clazz.extend({
 	items: function() {
 		return this._items.values();
 	},
-	
+
 	complexItems: function() {
 		return this._complexItems.values();
 	},
@@ -7073,28 +7004,25 @@ ORYX.Core.StencilSet.ComplexPropertyItem = Clazz.extend({
 	disable: function() {
 		return this._jsonItem.disable;
 	}
-});/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+});
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 /**
  * Init namespaces
@@ -8400,28 +8328,24 @@ ORYX.Core.StencilSet.Rules = {
 	toString: function() { return "Rules"; }
 }
 ORYX.Core.StencilSet.Rules = Clazz.extend(ORYX.Core.StencilSet.Rules);
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 /**
  * Init namespace
  */
@@ -8469,15 +8393,25 @@ ORYX.Core.StencilSet.StencilSet = Clazz.extend({
 		this._availableStencils = new Hash();
         
 		if(ORYX.CONFIG.BACKEND_SWITCH) {
-			this._baseUrl = "../editor/stencilsets/bpmn2.0/";
-			this._source = "../stencilsets/bpmn2.0/bpmn2.0.json";
-			new Ajax.Request("../service/editor/stencilset", {
+			//get the url of the stencil set json file
+			/*new Ajax.Request(source, {
 	            asynchronous: false,
 	            method: 'get',
-	            onSuccess: this._init.bind(this),
+	            onSuccess: this._getJSONURL.bind(this),
 	            onFailure: this._cancelInit.bind(this)
-	        });
-			
+	        });*/
+
+	        // We temporarily use the Activiti behaviour, which is specific to BPMN
+	        this._baseUrl = "../editor/stencilsets/bpmn2.0/";
+            this._source = "../stencilsets/bpmn2.0/bpmn2.0.json";
+            // "../service/editor/stencilset"
+            new Ajax.Request(ORYX.CONFIG.STENCIL_SETS_URL, {
+                asynchronous: false,
+                method: 'get',
+                onSuccess: this._init.bind(this),
+                onFailure: this._cancelInit.bind(this)
+            });
+
 		} else {
 			new Ajax.Request(source, {
 	            asynchronous: false,
@@ -8808,6 +8742,17 @@ ORYX.Core.StencilSet.StencilSet = Clazz.extend({
                 description = "";
         }
     },
+	
+	_getJSONURL: function(response) {
+		this._baseUrl = response.responseText.substring(0, response.responseText.lastIndexOf("/") + 1);
+		this._source = response.responseText;
+		new Ajax.Request(response.responseText, {
+            asynchronous: false,
+            method: 'get',
+            onSuccess: this._init.bind(this),
+            onFailure: this._cancelInit.bind(this)
+        });
+	},
     
     /**
      * This method is called when the HTTP request to get the requested stencil
@@ -8852,28 +8797,24 @@ ORYX.Core.StencilSet.StencilSet = Clazz.extend({
         return "StencilSet " + this.title() + " (" + this.namespace() + ")";
     }
 });
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 /**
  * Init namespace
@@ -9039,28 +8980,24 @@ ORYX.Core.StencilSet.getTranslation = function(jsonObject, name) {
 		
 	return jsonObject[name];
 };
-/**
- * Copyright (c) 2006
- * Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 /**
  * Init namespaces
@@ -9090,28 +9027,25 @@ ORYX.Core.Command = Clazz.extend({
 	}
 	
 	
- });/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+ });
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 /**
  * Init namespaces
@@ -9516,28 +9450,25 @@ ORYX.Core.Bounds = {
 	}
  };
  
-ORYX.Core.Bounds = Clazz.extend(ORYX.Core.Bounds);/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+ORYX.Core.Bounds = Clazz.extend(ORYX.Core.Bounds);
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 /**
  * Init namespaces
@@ -9814,28 +9745,25 @@ ORYX.Core.UIObject = {
 	
 	toString: function() { return "UIObject " + this.id }
  };
- ORYX.Core.UIObject = Clazz.extend(ORYX.Core.UIObject);/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+ ORYX.Core.UIObject = Clazz.extend(ORYX.Core.UIObject);
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 /**
  * Init namespaces
@@ -10360,28 +10288,23 @@ ORYX.Core.AbstractShape.JSONHelper = {
          return Ext.encode(this);
      }
  }
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 
 /**
  * Init namespaces
@@ -11129,28 +11052,24 @@ ORYX.Core.Canvas = ORYX.Core.AbstractShape.extend({
         
         return json;
     }
- });/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+ });
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 
 var idCounter = 0;
 var ID_PREFIX = "resource";
@@ -11195,7 +11114,9 @@ function init() {
 			modelUrl = modelUrl.replace("/self","/json");
 		} else {
 			var modelId = window.location.search.substring(4);
-			modelUrl = "../service/model/" + modelId + "/json";
+			// "../service/model/" + modelId + "/json";
+			modelUrl = ORYX.CONFIG.SERVER_MODEL_HANDLER +"/"+ modelId + "/json";
+			//modelUrl += "&data";
 		}
 
         ORYX.Editor.createByUrl(modelUrl, {
@@ -11278,6 +11199,17 @@ ORYX.Editor = {
 			var ssUrl = model.stencilset.url;
         	ORYX.Core.StencilSet.loadStencilSet(ssUrl, this.id);
 		}
+		
+        
+        //TODO load ealier and asynchronous??
+        this._loadStencilSetExtensionConfig();
+        
+        //Load predefined StencilSetExtensions
+        if(!!ORYX.CONFIG.SSEXTS){
+        	ORYX.CONFIG.SSEXTS.each(function(ssext){
+                this.loadSSExtension(ssext.namespace);
+            }.bind(this));
+        }
 
 		// CREATES the canvas
 		this._createCanvas(model.stencil ? model.stencil.id : null, model.properties);
@@ -11541,7 +11473,7 @@ ORYX.Editor = {
 			height		: 30,
 			autoHeight	: false,
 			border		: false,
-			html : "<div id='oryx_editor_header'><a href=\""+ORYX.CONFIG.WEB_URL+"\" target=\"_self\"><img src='"+ORYX.PATH+"images/oryx.small.gif' border=\"0\" /></a><div style='clear: both;'></div><div id='close_editor'></div></div>" 
+			html		: "<div id='oryx_editor_header'><a href=\""+ORYX.CONFIG.WEB_URL+"\" target=\"_blank\"><img src='"+ORYX.PATH+"images/oryx.small.gif' border=\"0\" /></a><div style='clear: both;'></div></div>" 
 		});
 
 		var maActive 	= ORYX.MashupAPI && ORYX.MashupAPI.isUsed;
@@ -11563,21 +11495,16 @@ ORYX.Editor = {
 				user 	= 	publicText;
 			}
 			
-			var content =  "<div id='editor_header'>" +
-                "<div id='header_logo_image'>" +                
-                    "<img src='../explorer/src/img/signavio/smoky/logo2.png' border=\"0\" usemap=\"#kisbpmmap\"/>" + 
-                    "<map id=\"kisbpmmap\" name=\"kisbpmmap\"><area shape=\"rect\" alt=\"kisbpm.com\" title=\"kisbpm.com\" coords=\"15,2,322,44\" href=\"http://kisbpm.com\" target=\"_blank\" /></map>" +
-                "</div>" +
-                "<span class='openid " + (publicText == user ? "not" : "") + "'>" + 
-                  (unescape(user)) + 
-                  maModelAuthI + 
-                "</span>" + 
-                "<div id='header_close_image'>" +
-                  "<a href=\""+ORYX.CONFIG.WEB_URL+"\" target=\"_self\" title=\"close modeler\">" +
-                    "<img src='../editor/images/close_button.png' border=\"0\" />" + 
-                  "</a>" +
-                "</div>" + 
-              "</div>";
+			var content = 	"<div id='oryx_editor_header'>" +
+								"<a href=\""+ORYX.CONFIG.WEB_URL+"\" target=\"_blank\">" +
+									"<img src='"+ORYX.PATH+"images/oryx.small.gif' border=\"0\" />" + 
+								"</a>" + 
+								"<span class='openid " + (publicText == user ? "not" : "") + "'>" + 
+									(unescape(user)) + 
+									maModelAuthI + 
+								"</span>" + 
+								"<div style='clear: both;'/>" + 
+							"</div>";
 			
 			if( headerPanel.body ){
 				headerPanel.body.dom.innerHTML = content;
@@ -11834,6 +11761,24 @@ ORYX.Editor = {
 		this.setSelection();
 		
 	},
+
+    /**
+     * Loads the stencil set extension file, defined in ORYX.CONFIG.SS_EXTENSIONS_CONFIG
+     */
+    _loadStencilSetExtensionConfig: function(){
+        // load ss extensions
+        new Ajax.Request(ORYX.CONFIG.SS_EXTENSIONS_CONFIG, {
+            method: 'GET',
+            asynchronous: false,
+            onSuccess: (function(transport) {
+                var jsonObject = Ext.decode(transport.responseText);
+                this.ss_extensions_def = jsonObject;
+            }).bind(this),
+            onFailure: (function(transport) {
+                ORYX.Log.error("Editor._loadStencilSetExtensionConfig: Loading stencil set extension configuration file failed." + transport);
+            }).bind(this)
+        });
+    },
 
 	/**
 	 * Creates the Canvas
@@ -13353,28 +13298,24 @@ ORYX.Editor.makeExtModalWindowKeysave = function(facade) {
 	    }
 	});
 }
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 /**
  * Init namespaces
@@ -13528,28 +13469,23 @@ new function(){
 	});
 	
 }();
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 
 /**
  * Init namespaces
@@ -13632,175 +13568,176 @@ ORYX.Core.Shape = {
 				if(propChanged.value) {
 					var prop = this.properties[propChanged.key];
 					var property = this.getStencil().property(propChanged.key);
+					// Added this condition
 					if (property != undefined) {
-						this.propertiesChanged[propChanged.key] = false;
-	
-						//handle choice properties
-						if(property.type() == ORYX.CONFIG.TYPE_CHOICE) {
-							//iterate all references to SVG elements
-							property.refToView().each((function(ref) {
-								//if property is referencing a label, update the label
-								if(ref !== "") {
-									var label = this._labels[this.id + ref];
-									if (label && property.item(prop)) {
-										label.text(property.item(prop).title());
-									}
+					this.propertiesChanged[propChanged.key] = false;
+
+					//handle choice properties
+					if(property.type() == ORYX.CONFIG.TYPE_CHOICE) {
+						//iterate all references to SVG elements
+						property.refToView().each((function(ref) {
+							//if property is referencing a label, update the label
+							if(ref !== "") {
+								var label = this._labels[this.id + ref];
+								if (label && property.item(prop)) {
+									label.text(property.item(prop).title());
 								}
-							}).bind(this));
-								
-							//if the choice's items are referencing SVG elements
-							// show the selected and hide all other referenced SVG
-							// elements
-							var refreshedSvgElements = new Hash();
-							property.items().each((function(item) {
-								item.refToView().each((function(itemRef) {
-									if(itemRef == "") { return; }
-									
-									var svgElem = this.node.ownerDocument.getElementById(this.id + itemRef);
-		
-									if(!svgElem) { return; }
-									
-									
-									/* Do not refresh the same svg element multiple times */
-									if(!refreshedSvgElements[svgElem.id] || prop == item.value()) {
-										svgElem.setAttributeNS(null, 'display', ((prop == item.value()) ? 'inherit' : 'none'));
-										refreshedSvgElements[svgElem.id] = svgElem;
-									}
-									
-									// Reload the href if there is an image-tag
-									if(ORYX.Editor.checkClassType(svgElem, SVGImageElement)) {
-										svgElem.setAttributeNS('http://www.w3.org/1999/xlink', 'href', svgElem.getAttributeNS('http://www.w3.org/1999/xlink', 'href'));
-									}
-								}).bind(this));
-							}).bind(this));
+							}
+						}).bind(this));
 							
-						} else { //handle properties that are not of type choice
-							//iterate all references to SVG elements
-							property.refToView().each((function(ref) {
-								//if the property does not reference an SVG element,
-								// do nothing
+						//if the choice's items are referencing SVG elements
+						// show the selected and hide all other referenced SVG
+						// elements
+						var refreshedSvgElements = new Hash();
+						property.items().each((function(item) {
+							item.refToView().each((function(itemRef) {
+								if(itemRef == "") { return; }
+								
+								var svgElem = this.node.ownerDocument.getElementById(this.id + itemRef);
 	
-								if(ref === "") { return; }
-			
-								var refId = this.id + ref;
-	
-								//get the SVG element
-								var svgElem = this.node.ownerDocument.getElementById(refId);
-	
-								//if the SVG element can not be found
-								if(!svgElem || !(svgElem.ownerSVGElement)) { 
-									//if the referenced SVG element is a SVGAElement, it cannot
-									// be found with getElementById (Firefox bug).
-									// this is a work around
-									if(property.type() === ORYX.CONFIG.TYPE_URL || property.type() === ORYX.CONFIG.TYPE_DIAGRAM_LINK) {
-										var svgElems = this.node.ownerDocument.getElementsByTagNameNS('http://www.w3.org/2000/svg', 'a');
-										
-										svgElem = $A(svgElems).find(function(elem) {
-											return elem.getAttributeNS(null, 'id') === refId;
-										});
-										
-										if(!svgElem) { return; } 
-									} else {
-										//this.propertiesChanged[propChanged.key] = true;
-										return;
-									}					
+								if(!svgElem) { return; }
+								
+								
+								/* Do not refresh the same svg element multiple times */
+								if(!refreshedSvgElements[svgElem.id] || prop == item.value()) {
+									svgElem.setAttributeNS(null, 'display', ((prop == item.value()) ? 'inherit' : 'none'));
+									refreshedSvgElements[svgElem.id] = svgElem;
 								}
 								
-								if (property.complexAttributeToView()) {
-									var label = this._labels[refId];
-									if (label) {
-										try {
-									    	propJson = prop.evalJSON();
-									    	var value = propJson[property.complexAttributeToView()]
-									    	label.text(value ? value : prop);
-									    } catch (e) {
-									    	label.text(prop);
-									    }
-									}
+								// Reload the href if there is an image-tag
+								if(ORYX.Editor.checkClassType(svgElem, SVGImageElement)) {
+									svgElem.setAttributeNS('http://www.w3.org/1999/xlink', 'href', svgElem.getAttributeNS('http://www.w3.org/1999/xlink', 'href'));
+								}
+							}).bind(this));
+						}).bind(this));
+						
+					} else { //handle properties that are not of type choice
+						//iterate all references to SVG elements
+						property.refToView().each((function(ref) {
+							//if the property does not reference an SVG element,
+							// do nothing
+
+							if(ref === "") { return; }
+		
+							var refId = this.id + ref;
+
+							//get the SVG element
+							var svgElem = this.node.ownerDocument.getElementById(refId);
+
+							//if the SVG element can not be found
+							if(!svgElem || !(svgElem.ownerSVGElement)) { 
+								//if the referenced SVG element is a SVGAElement, it cannot
+								// be found with getElementById (Firefox bug).
+								// this is a work around
+								if(property.type() === ORYX.CONFIG.TYPE_URL || property.type() === ORYX.CONFIG.TYPE_DIAGRAM_LINK) {
+									var svgElems = this.node.ownerDocument.getElementsByTagNameNS('http://www.w3.org/2000/svg', 'a');
 									
+									svgElem = $A(svgElems).find(function(elem) {
+										return elem.getAttributeNS(null, 'id') === refId;
+									});
+									
+									if(!svgElem) { return; } 
 								} else {
-	
-									switch (property.type()) {
-										case ORYX.CONFIG.TYPE_BOOLEAN:	
-											
-											if (typeof prop == "string")
-												prop = prop === "true"
-		
-											svgElem.setAttributeNS(null, 'display', (!(prop === property.inverseBoolean())) ? 'inherit' : 'none');
-											
-											break;
-										case ORYX.CONFIG.TYPE_COLOR:
-											if(property.fill()) {
-												if (svgElem.tagName.toLowerCase() === "stop"){
-													if (prop){
-														
-														if (property.lightness() &&  property.lightness() !== 1){
-															prop = ORYX.Utils.adjustLightness(prop, property.lightness());
-														}
-														
-														svgElem.setAttributeNS(null, "stop-color", prop);
-													
-														// Adjust stop color of the others
-														if (svgElem.parentNode.tagName.toLowerCase() === "radialgradient"){
-															ORYX.Utils.adjustGradient(svgElem.parentNode, svgElem);
-														}
-													}
-													
-													// If there is no value, set opaque
-													if (svgElem.parentNode.tagName.toLowerCase() === "radialgradient"){
-														$A(svgElem.parentNode.getElementsByTagName('stop')).each(function(stop){
-															stop.setAttributeNS(null, "stop-opacity", prop ? stop.getAttributeNS(ORYX.CONFIG.NAMESPACE_ORYX, 'default-stop-opacity') || 1 : 0);
-														}.bind(this))
-													}
-												} else {
-													svgElem.setAttributeNS(null, 'fill', prop);
-												}
-											}
-											if(property.stroke()) {
-												svgElem.setAttributeNS(null, 'stroke', prop);
-											}
-											break;
-										case ORYX.CONFIG.TYPE_STRING:
-											var label = this._labels[refId];
-											if (label) {
-												label.text(prop);
-											}
-											break;
-										case ORYX.CONFIG.TYPE_INTEGER:
-											var label = this._labels[refId];
-											if (label) {
-												label.text(prop);
-											}
-											break;
-										case ORYX.CONFIG.TYPE_FLOAT:
-											if(property.fillOpacity()) {
-												svgElem.setAttributeNS(null, 'fill-opacity', prop);
-											} 
-											if(property.strokeOpacity()) {
-												svgElem.setAttributeNS(null, 'stroke-opacity', prop);
-											}
-											if(!property.fillOpacity() && !property.strokeOpacity()) {
-												var label = this._labels[refId];
-												if (label) {
-													label.text(prop);
-												}
-											}
-											break;
-										case ORYX.CONFIG.TYPE_URL:
-										case ORYX.CONFIG.TYPE_DIAGRAM_LINK:
-											//TODO what is the dafault path?
-											var hrefAttr = svgElem.getAttributeNodeNS('http://www.w3.org/1999/xlink', 'xlink:href');
-											if(hrefAttr) {
-												hrefAttr.textContent = prop;
-											} else {
-												svgElem.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', prop);
-											}	
-											break;
-									}
+									//this.propertiesChanged[propChanged.key] = true;
+									return;
+								}					
+							}
+							
+							if (property.complexAttributeToView()) {
+								var label = this._labels[refId];
+								if (label) {
+									try {
+								    	propJson = prop.evalJSON();
+								    	var value = propJson[property.complexAttributeToView()]
+								    	label.text(value ? value : prop);
+								    } catch (e) {
+								    	label.text(prop);
+								    }
 								}
-							}).bind(this));
-							
-							
+								
+							} else {
+
+								switch (property.type()) {
+									case ORYX.CONFIG.TYPE_BOOLEAN:	
+										
+										if (typeof prop == "string")
+											prop = prop === "true"
+	
+										svgElem.setAttributeNS(null, 'display', (!(prop === property.inverseBoolean())) ? 'inherit' : 'none');
+										
+										break;
+									case ORYX.CONFIG.TYPE_COLOR:
+										if(property.fill()) {
+											if (svgElem.tagName.toLowerCase() === "stop"){
+												if (prop){
+													
+													if (property.lightness() &&  property.lightness() !== 1){
+														prop = ORYX.Utils.adjustLightness(prop, property.lightness());
+													}
+													
+													svgElem.setAttributeNS(null, "stop-color", prop);
+												
+													// Adjust stop color of the others
+													if (svgElem.parentNode.tagName.toLowerCase() === "radialgradient"){
+														ORYX.Utils.adjustGradient(svgElem.parentNode, svgElem);
+													}
+												}
+												
+												// If there is no value, set opaque
+												if (svgElem.parentNode.tagName.toLowerCase() === "radialgradient"){
+													$A(svgElem.parentNode.getElementsByTagName('stop')).each(function(stop){
+														stop.setAttributeNS(null, "stop-opacity", prop ? stop.getAttributeNS(ORYX.CONFIG.NAMESPACE_ORYX, 'default-stop-opacity') || 1 : 0);
+													}.bind(this))
+												}
+											} else {
+												svgElem.setAttributeNS(null, 'fill', prop);
+											}
+										}
+										if(property.stroke()) {
+											svgElem.setAttributeNS(null, 'stroke', prop);
+										}
+										break;
+									case ORYX.CONFIG.TYPE_STRING:
+										var label = this._labels[refId];
+										if (label) {
+											label.text(prop);
+										}
+										break;
+									case ORYX.CONFIG.TYPE_INTEGER:
+										var label = this._labels[refId];
+										if (label) {
+											label.text(prop);
+										}
+										break;
+									case ORYX.CONFIG.TYPE_FLOAT:
+										if(property.fillOpacity()) {
+											svgElem.setAttributeNS(null, 'fill-opacity', prop);
+										} 
+										if(property.strokeOpacity()) {
+											svgElem.setAttributeNS(null, 'stroke-opacity', prop);
+										}
+										if(!property.fillOpacity() && !property.strokeOpacity()) {
+											var label = this._labels[refId];
+											if (label) {
+												label.text(prop);
+											}
+										}
+										break;
+									case ORYX.CONFIG.TYPE_URL:
+									case ORYX.CONFIG.TYPE_DIAGRAM_LINK:
+										//TODO what is the dafault path?
+										var hrefAttr = svgElem.getAttributeNodeNS('http://www.w3.org/1999/xlink', 'xlink:href');
+										if(hrefAttr) {
+											hrefAttr.textContent = prop;
+										} else {
+											svgElem.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', prop);
+										}	
+										break;
+								}
+							}
+						}).bind(this));
+						
+						
 						}
 					}
 					
@@ -14400,28 +14337,24 @@ ORYX.Core.Shape = {
 
 	toString: function() { return "ORYX.Core.Shape " + this.getId() }
 };
-ORYX.Core.Shape = ORYX.Core.AbstractShape.extend(ORYX.Core.Shape);/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+ORYX.Core.Shape = ORYX.Core.AbstractShape.extend(ORYX.Core.Shape);
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 
 /**
  * Init namespaces
@@ -14437,28 +14370,25 @@ if(!ORYX.Core.Controls) {ORYX.Core.Controls = {};}
 ORYX.Core.Controls.Control = ORYX.Core.UIObject.extend({
 	
 	toString: function() { return "Control " + this.id; }
- });/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+ });
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 
 /**
@@ -14832,28 +14762,24 @@ ORYX.Core.Controls.Docker = ORYX.Core.Controls.Control.extend({
 	},
 	
 	toString: function() { return "Docker " + this.id }
-});/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+});
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 
 /**
  * Init namespaces
@@ -14929,28 +14855,23 @@ ORYX.Core.Controls.Magnet = ORYX.Core.Controls.Control.extend({
 		return "Magnet " + this.id;
 	}
 });
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 
 /**
  * Init namespaces
@@ -15759,28 +15680,24 @@ ORYX.Core.Node = {
     }
 };
 ORYX.Core.Node = ORYX.Core.Shape.extend(ORYX.Core.Node);
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 NAMESPACE_SVG = "http://www.w3.org/2000/svg";
 NAMESPACE_ORYX = "http://www.b3mn.org/oryx";
 
@@ -17543,28 +17460,24 @@ ORYX.Core.Edge = {
     }
 };
 ORYX.Core.Edge = ORYX.Core.Shape.extend(ORYX.Core.Edge);
-/**
- * Copyright (c) 2009
- * Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 if(!ORYX){ var ORYX = {} }
 if(!ORYX.Plugins){ ORYX.Plugins = {} }
@@ -18105,28 +18018,25 @@ ORYX.Plugins.AbstractPlugin = Clazz.extend({
 		this.facade.executeCommands([new Command(allEdges, node, offset, this)]);
 
 	}
-});/**
- * Copyright (c) 2009
- * Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+});
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 if(!ORYX){ var ORYX = {} }
 if(!ORYX.Plugins){ ORYX.Plugins = {} }
@@ -18219,7 +18129,8 @@ ORYX.Plugins.AbstractLayouter = ORYX.Plugins.AbstractPlugin.extend({
 	layout: function(shapes){
 		throw new Error("Layouter has to implement the layout function.")
 	}
-});ImageViewer = Ext.extend(Ext.Window, {
+});
+ImageViewer = Ext.extend(Ext.Window, {
     initComponent: function() {
         this.bodyCfg = {
             tag: 'img',
@@ -18256,29 +18167,23 @@ ORYX.Plugins.AbstractLayouter = ORYX.Plugins.AbstractPlugin.extend({
 });if(!Signavio){ var Signavio = {} };
 	if (!Signavio.Core) { Signavio.Core = {} };
 	Signavio.Core.Version = "1.0";
-			/**
- * Copyright (c) 2009
- *
- * Willi Tscheschner
+			/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
  * 
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 
 if (!Signavio) {
 	var Signavio = new Object();
@@ -18387,7 +18292,8 @@ new function(){
 			 * to set the correct stencilset namespace.
 			 * 
 			 */
-			/*(var me = this;
+			// Activiti comments this out
+			var me = this;
 			new function(){
 				// Copy prototype method
 				var toJSON = ORYX.Core.Canvas.prototype.toJSON;
@@ -18399,7 +18305,7 @@ new function(){
 					
 					return json;
 				}
-			}()*/
+			}()
 		}
 	}
 	
@@ -18610,28 +18516,24 @@ new function(){
 	}	
 }()
 
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 
 if(!ORYX.Plugins) {
@@ -18938,28 +18840,25 @@ Ext.ux.SlicedToolbar = Ext.extend(Ext.Toolbar, {
             item.setVisible(slice === this.sliceMap[item.id]);
         }.bind(this));
     }
-});/**
- * Copyright (c) 2009
- * Jan-Felix Schwarz, Willi Tscheschner, Nicolas Peters, Martin Czuchra, Daniel Polak
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+});
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 if(!ORYX.Plugins) {
 	ORYX.Plugins = new Object();
@@ -20378,28 +20277,24 @@ ORYX.Plugins.ShapeMenuPlugin.CreateCommand = ORYX.Core.Command.extend({
 		//this.currentParent.update();
 		this.plugin.facade.setSelection(this.plugin.facade.getSelection().without(this.shape, this.edge));
 	}
-});/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+});
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 
 
 if (!ORYX.Plugins) {
@@ -20458,7 +20353,7 @@ ORYX.Plugins.ShapeRepository = {
 		}
 
 		ORYX.Log.info("stencilsets " + this.facade.getStencilSets());
-		
+
 		// Go thru all Stencilsets and stencils
 		this.facade.getStencilSets().values().each((function(sset) {
 			
@@ -20466,19 +20361,24 @@ ORYX.Plugins.ShapeRepository = {
 			var stencilSetNode;
 			
 			var typeTitle = sset.title();
+			var extensions = sset.extensions();
+			if (extensions && extensions.size() > 0) {
+				typeTitle += " / " + ORYX.Core.StencilSet.getTranslation(extensions.values()[0], "title");
+			} 
 			
 			this.shapeList.appendChild(stencilSetNode = new Ext.tree.TreeNode({
-				text:typeTitle, // Stencilset Name
+				text:typeTitle, 			// Stencilset Name
 				allowDrag:false,
-				allowDrop:false,
+        		allowDrop:false,           
 				iconCls:'headerShapeRepImg',
-				cls:'headerShapeRep',
+	            cls:'headerShapeRep',
 				singleClickExpand:true}));
 			
 			ORYX.Log.info("stencilSetNode " + stencilSetNode.text);
-			
-			this.shapeList.appendChild(stencilSetNode);
-			
+
+			// In Activiti adds this line
+			//this.shapeList.appendChild(stencilSetNode);
+
 			stencilSetNode.render();
 			stencilSetNode.expand();				
 			// Get Stencils from Stencilset
@@ -20491,10 +20391,10 @@ ORYX.Plugins.ShapeRepository = {
 			stencils.each((function(value) {
 				
 				// Show stencils in no group if there is less than 10 shapes
-				//if(stencils.length <= ORYX.CONFIG.MAX_NUM_SHAPES_NO_GROUP) {
-				//	this.createStencilTreeNode(stencilSetNode, value);	
-				//	return;					
-				//}
+				if(stencils.length <= ORYX.CONFIG.MAX_NUM_SHAPES_NO_GROUP) {
+					this.createStencilTreeNode(stencilSetNode, value);	
+					return;					
+				}
 				
 				// Get the groups name
 				var groups = value.groups();
@@ -20531,7 +20431,11 @@ ORYX.Plugins.ShapeRepository = {
 				}
 	
 			}).bind(this));
-		}).bind(this));	
+		}).bind(this));
+			
+		if (this.shapeList.firstChild.firstChild) {
+			this.shapeList.firstChild.firstChild.expand(false, true);
+		}	
 	},
 
 	createStencilTreeNode: function(parentTreeNode, stencil) {
@@ -20796,28 +20700,23 @@ ORYX.Plugins.ShapeRepository = {
 
 ORYX.Plugins.ShapeRepository = Clazz.extend(ORYX.Plugins.ShapeRepository);
 
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 
 
 if(!ORYX.Plugins) {
@@ -21296,6 +21195,8 @@ ORYX.Plugins.PropertyWindow = {
 				
 				var editorGrid = undefined;
 				var editorRenderer = null;
+				
+				var refToViewFlag = false;
 
 				if(!pair.readonly()){
 					switch(pair.type()) {
@@ -21378,6 +21279,9 @@ ORYX.Plugins.PropertyWindow = {
 							items.each(function(value) {
 								if(value.value() == attribute)
 									attribute = value.title();
+									
+								if(value.refToView()[0])
+									refToViewFlag = true;
 																
 								options.push([value.icon(), value.title(), value.value()]);
 															
@@ -21433,7 +21337,7 @@ ORYX.Plugins.PropertyWindow = {
 							cf.on('dialogClosed', this.dialogClosed, {scope:this, row:index, col:1,field:cf});							
 							editorGrid = new Ext.Editor(cf);
 							break;
-						
+							
 						case ORYX.CONFIG.TYPE_MODEL_LINK:
 							var cf = new Ext.form.ComplexModelLinkField({
 								allowBlank: pair.optional(),
@@ -21442,10 +21346,10 @@ ORYX.Plugins.PropertyWindow = {
 								row:index,
 								facade:this.facade
 							});
-							cf.on('dialogClosed', this.dialogClosed, {scope:this, row:index, col:1,field:cf});	
+							cf.on('dialogClosed', this.dialogClosed, {scope:this, row:index, col:1,field:cf});
 							editorGrid = new Ext.Editor(cf);
 							break;
-						
+
 						case ORYX.CONFIG.TYPE_LISTENER:
 							var cf = new Ext.form.ListenerDefinitionField({
 								allowBlank: pair.optional(),
@@ -21454,10 +21358,10 @@ ORYX.Plugins.PropertyWindow = {
 								row:index,
 								facade:this.facade
 							});
-							cf.on('dialogClosed', this.dialogClosed, {scope:this, row:index, col:1,field:cf});	
+							cf.on('dialogClosed', this.dialogClosed, {scope:this, row:index, col:1,field:cf});
 							editorGrid = new Ext.Editor(cf);
 							break;
-							
+
 						// extended by Kerstin (start)
 						case ORYX.CONFIG.TYPE_COMPLEX:
 							
@@ -21468,12 +21372,12 @@ ORYX.Plugins.PropertyWindow = {
 						// extended by Kerstin (end)
 						
 						case ORYX.CONFIG.TYPE_MULTIPLECOMPLEX:
-							
+
 							var cf = new Ext.form.MultipleComplexListField({ allowBlank: pair.optional()}, pair.complexItems(), key, this.facade);
-							cf.on('dialogClosed', this.dialogClosed, {scope:this, row:index, col:1,field:cf});							
+							cf.on('dialogClosed', this.dialogClosed, {scope:this, row:index, col:1,field:cf});
 							editorGrid = new Ext.Editor(cf);
 							break;
-							
+
 						// extended by Gerardo (Start)
 						case "CPNString":
 							var editorInput = new Ext.form.TextField(
@@ -21515,8 +21419,8 @@ ORYX.Plugins.PropertyWindow = {
 				
 				// Push to the properties-array
 				if(pair.visible()) {
-					// Popular Properties are those which are set to be popular
-					if (pair.popular()) {
+					// Popular Properties are those with a refToView set or those which are set to be popular
+					if (pair.refToView()[0] || refToViewFlag || pair.popular()) {
 						pair.setPopular();
 					} 
 					
@@ -21670,7 +21574,10 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
 	 * @param {Object} value The value to be set (JSON format or empty string)
 	 */
 	setValue: function(value) {	
-		if (value.length > 0 && value.indexOf('<') == -1) {
+		if (value.length > 0) {
+        // In Activiti is as follows
+		//if (value.length > 0 && value.indexOf('<') == -1) {
+
 			// set only if this.data not set yet
 			// only to initialize the grid
 			if (this.data == undefined) {
@@ -21815,7 +21722,7 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
 		
 		var col = option.column;
 		var row = option.row;
-		
+
 		var editId = this.grid.getColumnModel().config[col].id;
 		// check if there is an item in the row, that disables this cell
 		for (var i = 0; i < this.items.length; i++) {
@@ -21850,7 +21757,7 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
 	onCellClick: function() {
 		alert()
 	},
-	
+
     /**
      * If the trigger was clicked a dialog has to be opened
      * to enter the values for the complex property.
@@ -21884,7 +21791,7 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
 			dialogWidth += 22;
 			
 			var data = this.data;
-			
+
 			if (data == "") {
 				// empty string can not be parsed
 				data = "{}";
@@ -22023,22 +21930,22 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
     triggerClass:	'x-form-complex-trigger',
 	readOnly:		true,
 	emptyText: 		ORYX.I18N.PropertyWindow.clickIcon,
-		
+
 	/**
 	 * Builds the JSON value from the data source of the grid in the dialog.
 	 */
 	buildValue: function() {
 		var ds = this.grid.getStore();
 		ds.commitChanges();
-		
+
 		if (ds.getCount() == 0) {
 			return "";
 		}
-		
+
 		var jsonString = "[";
 		for (var i = 0; i < ds.getCount(); i++) {
-			var data = ds.getAt(i);		
-			jsonString += "{";	
+			var data = ds.getAt(i);
+			jsonString += "{";
 			for (var j = 0; j < this.items.length; j++) {
 				var key = this.items[j].id();
 				jsonString += key + ':' + ("" + data.get(key)).toJSON();
@@ -22052,19 +21959,19 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 			}
 		}
 		jsonString += "]";
-		
-		jsonString = "{'totalCount':" + ds.getCount().toJSON() + 
+
+		jsonString = "{'totalCount':" + ds.getCount().toJSON() +
 			", 'items':" + jsonString + "}";
 		return Object.toJSON(jsonString.evalJSON());
 	},
-	
+
 	/**
 	 * Returns the field key.
 	 */
 	getFieldKey: function() {
 		return this.key;
 	},
-	
+
 	/**
 	 * Returns the actual value of the trigger field.
 	 * If the table does not contain any values the empty
@@ -22073,22 +21980,22 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
     getValue : function(){
 		// return actual value if grid is active
 		if (this.grid) {
-			return this.buildValue();			
+			return this.buildValue();
 		} else if (this.data == undefined) {
 			return "";
 		} else {
 			return this.data;
 		}
     },
-	
+
 	/**
 	 * Sets the value of the trigger field.
 	 * In this case this sets the data that will be shown in
 	 * the grid of the dialog.
-	 * 
+	 *
 	 * @param {Object} value The value to be set (JSON format or empty string)
 	 */
-	setValue: function(value) {	
+	setValue: function(value) {
 		if (value.length > 0 && value.indexOf('<') == -1) {
 			// set only if this.data not set yet
 			// only to initialize the grid
@@ -22097,20 +22004,20 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 			}
 		}
 	},
-	
+
 	/**
 	 * Returns false. In this way key events will not be propagated
 	 * to other elements.
-	 * 
+	 *
 	 * @param {Object} event The keydown event.
 	 */
 	keydownHandler: function(event) {
 		return false;
 	},
-	
+
 	/**
-	 * The listeners of the dialog. 
-	 * 
+	 * The listeners of the dialog.
+	 *
 	 * If the dialog is hidded, a dialogClosed event will be fired.
 	 * This has to be used by the parent element of the trigger field
 	 * to reenable the trigger field (focus gets lost when entering values
@@ -22118,7 +22025,7 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 	 */
     dialogListeners : {
         show : function(){ // retain focus styling
-            this.onFocus();	
+            this.onFocus();
 			this.facade.registerOnEvent(ORYX.CONFIG.EVENT_KEYDOWN, this.keydownHandler.bind(this));
 			this.facade.disableEvent(ORYX.CONFIG.EVENT_KEYDOWN);
 			return;
@@ -22128,49 +22035,49 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
             var dl = this.dialogListeners;
             this.dialog.un("show", dl.show,  this);
             this.dialog.un("hide", dl.hide,  this);
-			
+
 			this.dialog.destroy(true);
 			this.grid.destroy(true);
 			delete this.grid;
 			delete this.dialog;
-			
+
 			this.facade.unregisterOnEvent(ORYX.CONFIG.EVENT_KEYDOWN, this.keydownHandler.bind(this));
 			this.facade.enableEvent(ORYX.CONFIG.EVENT_KEYDOWN);
-			
+
 			// store data and notify parent about the closed dialog
 			// parent has to handel this event and start editing the text field again
 			this.fireEvent('dialogClosed', this.data);
-			
+
 			Ext.form.ComplexListField.superclass.setValue.call(this, this.data);
         }
-    },	
-	
+    },
+
 	/**
 	 * Builds up the initial values of the grid.
-	 * 
+	 *
 	 * @param {Object} recordType The record type of the grid.
 	 * @param {Object} items      The initial items of the grid (columns)
 	 */
 	buildInitial: function(recordType, items) {
 		var initial = new Hash();
-		
+
 		for (var i = 0; i < items.length; i++) {
 			var id = items[i].id();
 			initial[id] = items[i].value();
 		}
-		
+
 		var RecordTemplate = Ext.data.Record.create(recordType);
 		return new RecordTemplate(initial);
 	},
-	
+
 	/**
 	 * Builds up the column model of the grid. The parent element of the
 	 * grid.
-	 * 
-	 * Sets up the editors for the grid columns depending on the 
+	 *
+	 * Sets up the editors for the grid columns depending on the
 	 * type of the items.
-	 * 
-	 * @param {Object} parent The 
+	 *
+	 * @param {Object} parent The
 	 */
 	buildColumnModel: function(parent) {
 		var cols = [];
@@ -22180,25 +22087,25 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 			var width 	= this.items[i].width();
 			var type 	= this.items[i].type();
 			var editor;
-			
+
 			if (type == ORYX.CONFIG.TYPE_STRING) {
 				editor = new Ext.form.TextField({ allowBlank : this.items[i].optional(), width : width});
-			} else if (type == ORYX.CONFIG.TYPE_CHOICE) {				
+			} else if (type == ORYX.CONFIG.TYPE_CHOICE) {
 				var items = this.items[i].items();
 				var select = ORYX.Editor.graft("http://www.w3.org/1999/xhtml", parent, ['select', {style:'display:none'}]);
 				var optionTmpl = new Ext.Template('<option value="{value}">{value}</option>');
-				items.each(function(value){ 
-					optionTmpl.append(select, {value:value.value()}); 
-				});				
-				
+				items.each(function(value){
+					optionTmpl.append(select, {value:value.value()});
+				});
+
 				editor = new Ext.form.ComboBox(
-					{ typeAhead: true, triggerAction: 'all', transform:select, lazyRender:true,  msgTarget:'title', width : width});			
+					{ typeAhead: true, triggerAction: 'all', transform:select, lazyRender:true,  msgTarget:'title', width : width});
 			} else if (type == ORYX.CONFIG.TYPE_BOOLEAN) {
 				editor = new Ext.form.Checkbox( { width : width } );
 			} else if (type == ORYX.CONFIG.TYPE_COMPLEX) {
 				continue;
 			}
-					
+
 			cols.push({
 				id: 		id,
 				header: 	header,
@@ -22207,48 +22114,48 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 				editor: 	editor,
 				width:		width
 	        });
-			
+
 		}
 		return new Ext.grid.ColumnModel(cols);
 	},
-	
+
 	buildSecondColumnModel: function(parent) {
 		var cols = [];
 		for (var i = 0; i < this.items.length; i++) {
-			
+
 			var parentType 	= this.items[i].type();
-			
+
 			if (parentType != ORYX.CONFIG.TYPE_COMPLEX) {
 				continue;
 			}
-			
+
 			var complexItems = this.items[i].complexItems();
-			
+
 			for (var j = 0; j < complexItems.length; j++) {
 				var id 		= complexItems[j].id();
 				var header 	= complexItems[j].name();
 				var type 	= complexItems[j].type();
 				var width 	= complexItems[j].width();
 				var editor;
-				
+
 				if (type == ORYX.CONFIG.TYPE_STRING) {
 					editor = new Ext.form.TextField({ allowBlank : complexItems[j].optional(), width : width});
-				} else if (type == ORYX.CONFIG.TYPE_CHOICE) {				
+				} else if (type == ORYX.CONFIG.TYPE_CHOICE) {
 					var items = complexItems[j].items();
 					var select = ORYX.Editor.graft("http://www.w3.org/1999/xhtml", parent, ['select', {style:'display:none'}]);
 					var optionTmpl = new Ext.Template('<option value="{value}">{value}</option>');
-					items.each(function(value){ 
-						optionTmpl.append(select, {value:value.value()}); 
-					});				
-					
+					items.each(function(value){
+						optionTmpl.append(select, {value:value.value()});
+					});
+
 					editor = new Ext.form.ComboBox(
-						{ typeAhead: true, triggerAction: 'all', transform:select, lazyRender:true,  msgTarget:'title', width : width});			
+						{ typeAhead: true, triggerAction: 'all', transform:select, lazyRender:true,  msgTarget:'title', width : width});
 				} else if (type == ORYX.CONFIG.TYPE_BOOLEAN) {
 					editor = new Ext.form.Checkbox( { width : width } );
 				} else if (type == ORYX.CONFIG.TYPE_COMPLEX) {
 					continue;
 				}
-						
+
 				cols.push({
 					id: 		id,
 					header: 	header,
@@ -22261,40 +22168,40 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 		}
 		return new Ext.grid.ColumnModel(cols);
 	},
-	
+
 	/**
 	 * After a cell was edited the changes will be commited.
-	 * 
+	 *
 	 * @param {Object} option The option that was edited.
 	 */
 	afterEdit: function(option) {
 		option.grid.getStore().commitChanges();
 	},
-	
+
 	afterEditSecondGrid: function(option) {
 		this.secondGrid.getStore().commitChanges();
 		var selectedCell = this.grid.getSelectionModel().getSelectedCell();
 		if (selectedCell.length == 2) {
 			var row = selectedCell[0];
-			
+
 			var jsonString = "[";
 			for (var i = 0; i < this.secondGrid.getStore().getCount(); i++) {
-				var data = this.secondGrid.getStore().getAt(i);		
-				jsonString += "{";	
+				var data = this.secondGrid.getStore().getAt(i);
+				jsonString += "{";
 				for (var j = 0; j < this.items.length; j++) {
-					
+
 					var parentType 	= this.items[j].type();
-					
+
 					if (parentType != ORYX.CONFIG.TYPE_COMPLEX) {
 						continue;
 					}
-					
+
 					var complexItems = this.items[j].complexItems();
-					
+
 					for (var k = 0; k < complexItems.length; k++) {
-					
+
 						var key = complexItems[k].id();
-						
+
 						jsonString += key + ':' + ("" + data.get(key)).toJSON();
 						if (k < (complexItems.length - 1)) {
 							jsonString += ", ";
@@ -22307,50 +22214,50 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 				}
 			}
 			jsonString += "]";
-			
-			jsonString = "{'totalCount':" + this.secondGrid.getStore().getCount().toJSON() + 
+
+			jsonString = "{'totalCount':" + this.secondGrid.getStore().getCount().toJSON() +
 				", 'items':" + jsonString + "}";
-			
+
 			var activeRecord = this.grid.getStore().getAt(row);
 			activeRecord.set(this.complexFieldId, Object.toJSON(jsonString.evalJSON()));
 		}
 	},
-		
+
 	/**
-	 * Before a cell is edited it has to be checked if this 
+	 * Before a cell is edited it has to be checked if this
 	 * cell is disabled by another cell value. If so, the cell editor will
 	 * be disabled.
-	 * 
+	 *
 	 * @param {Object} option The option to be edited.
 	 */
 	beforeEdit: function(option) {
 
 		var state = this.grid.getView().getScrollState();
-		
+
 		var col = option.column;
 		var row = option.row;
-		
+
 		var editId = this.grid.getColumnModel().config[col].id;
 		// check if there is an item in the row, that disables this cell
 		for (var i = 0; i < this.items.length; i++) {
-			
+
 			if (this.items[i].type() == ORYX.CONFIG.TYPE_COMPLEX) {
 				continue;
 			}
-			
+
 			// check each item that defines a "disable" property
 			var item = this.items[i];
 			var disables = item.disable();
 			if (disables != undefined) {
-				
+
 				// check if the value of the column of this item in this row is equal to a disabling value
 				var value = this.grid.getStore().getAt(row).get(item.id());
 				for (var j = 0; j < disables.length; j++) {
 					var disable = disables[j];
 					if (disable.value == value) {
-						
+
 						for (var k = 0; k < disable.items.length; k++) {
-							// check if this value disables the cell to select 
+							// check if this value disables the cell to select
 							// (id is equals to the id of the column to edit)
 							var disItem = disable.items[k];
 							if (disItem == editId) {
@@ -22359,13 +22266,13 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 							}
 						}
 					}
-				}		
+				}
 			}
 		}
 		this.grid.getColumnModel().getCellEditor(col, row).enable();
 		//this.grid.getView().restoreScroll(state);
 	},
-	
+
     /**
      * If the trigger was clicked a dialog has to be opened
      * to enter the values for the complex property.
@@ -22373,81 +22280,81 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
     onTriggerClick : function(){
         if(this.disabled){
             return;
-        }	
-		
-		//if(!this.dialog) { 
-		
+        }
+
+		//if(!this.dialog) {
+
 			var dialogWidth = 0;
 			var recordType 	= [];
 			var secondRecordType = [];
-			
+
 			this.complexFieldId;
 			var complexItems;
-			
+
 			for (var i = 0; i < this.items.length; i++) {
-				
+
 				var id 		= this.items[i].id();
 				var width 	= this.items[i].width();
-				var type 	= this.items[i].type();	
-					
+				var type 	= this.items[i].type();
+
 				if (type == ORYX.CONFIG.TYPE_CHOICE) {
 					type = ORYX.CONFIG.TYPE_STRING;
 				}
-				
+
 				if (type == ORYX.CONFIG.TYPE_COMPLEX) {
 					this.complexFieldId = id;
 					type = ORYX.CONFIG.TYPE_STRING;
-					
+
 					complexItems = this.items[i].complexItems();
-					
+
 					for (var j = 0; j < complexItems.length; j++) {
 						var secondId 		= complexItems[j].id();
 						var secondWidth 	= complexItems[j].width();
 						var secondType 		= complexItems[j].type();
-						
+
 						if (secondType == ORYX.CONFIG.TYPE_CHOICE) {
 							secondType = ORYX.CONFIG.TYPE_STRING;
 						}
-						
+
 						secondRecordType[j] = {name:secondId, type:secondType};
 					}
-					
+
 				} else {
 					dialogWidth += width;
 				}
 				recordType[i] = {name:id, type:type};
-			}			
-			
+			}
+
 			if (dialogWidth > 800) {
 				dialogWidth = 800;
 			}
 			dialogWidth += 22;
-			
+
 			var data = this.data;
 			if (data == "") {
 				// empty string can not be parsed
 				data = "{}";
 			}
-			
+
 			var ds = new Ext.data.Store({
-		        proxy: new Ext.data.MemoryProxy(eval("(" + data + ")")),				
+		        proxy: new Ext.data.MemoryProxy(eval("(" + data + ")")),
 				reader: new Ext.data.JsonReader({
 		            root: 'items',
 		            totalProperty: 'totalCount'
 		        	}, recordType)
 	        });
 			ds.load();
-			
+
 			var secondDs = new Ext.data.Store();
-				
+
 			var cm = this.buildColumnModel();
-			
+
 			var secondCm = this.buildSecondColumnModel();
-					
+
 			//var gridHead = this.grid.getView().getHeaderPanel(true);
 			var toolbar = new Ext.Toolbar(
 			[{
-				text: ORYX.I18N.PropertyWindow.add,					
+				text: ORYX.I18N.PropertyWindow.add,
 				icon: '../editor/images/add.png',
 				iconCls: "x-dummy",
 				handler: function(){
@@ -22460,7 +22367,7 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 					this.grid.startEditing(index, 0);
 				}.bind(this)
 			},{
-				text: ORYX.I18N.PropertyWindow.rem,					
+				text: ORYX.I18N.PropertyWindow.rem,
 				icon: '../editor/images/delete.png',
 				iconCls: "x-dummy",
 		        handler : function(){
@@ -22470,13 +22377,13 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 						return;
 					}
 					this.grid.getSelectionModel().clearSelections();
-		            this.grid.stopEditing();					
+		            this.grid.stopEditing();
 					var record = ds.getAt(selection[0]);
 					ds.remove(record);
-					ds.commitChanges();           
+					ds.commitChanges();
 				}.bind(this)
-			}]);			
-					
+			}]);
+
 			this.grid = new Ext.grid.EditorGridPanel({
 				store:		ds,
 		        cm:			cm,
@@ -22484,7 +22391,7 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 				clicksToEdit: 1,
 				autoScroll: true,
 				stateId: "x-editor-complex-grid",
-				height: 280, 
+				height: 280,
 				anchor: '100%',
 				enableHdMenu: false, // Disable header menu
 				selModel: new Ext.grid.CellSelectionModel({
@@ -22494,16 +22401,16 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 			            	secondDs.removeAll(true);
 			            	var masterRecord = ds.getAt(row);
 			    			if (masterRecord.get('' + this.complexFieldId) != undefined && masterRecord.get('' + this.complexFieldId) != 'undefined') {
-			    				
+
 			    				var newDs = new Ext.data.Store({
-			    			        proxy: new Ext.data.MemoryProxy(eval("(" + masterRecord.get('' + this.complexFieldId) + ")")),				
+			    			        proxy: new Ext.data.MemoryProxy(eval("(" + masterRecord.get('' + this.complexFieldId) + ")")),
 			    					reader: new Ext.data.JsonReader({
 			    			            root: 'items',
 			    			            totalProperty: 'totalCount'
 			    			        	}, secondRecordType)
 			    		        });
 			    				newDs.load();
-			    				
+
 			    				secondDs.removeAll(true);
 			    				for (var i = 0; i < newDs.getCount(); i++) {
 			    					secondDs.add(newDs.getAt(i));
@@ -22515,12 +22422,12 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 				}),
 
 				tbar:toolbar
-				
+
 		    });
-			
+
 			var secondToolbar = new Ext.Toolbar(
 			[{
-				text: ORYX.I18N.PropertyWindow.add,					
+				text: ORYX.I18N.PropertyWindow.add,
 				icon: '../editor/images/add.png',
 				iconCls: "x-dummy",
 				handler: function(){
@@ -22533,7 +22440,7 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 					this.secondGrid.startEditing(index, 0);
 				}.bind(this)
 			},{
-				text: ORYX.I18N.PropertyWindow.rem,					
+				text: ORYX.I18N.PropertyWindow.rem,
 				icon: '../editor/images/delete.png',
 				iconCls: "x-dummy",
 		        handler : function(){
@@ -22543,14 +22450,14 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 						return;
 					}
 					this.secondGrid.getSelectionModel().clearSelections();
-		            this.secondGrid.stopEditing();					
+		            this.secondGrid.stopEditing();
 					var record = ds.getAt(selection[0]);
 					ds.remove(record);
 					ds.commitChanges();
 					this.afterEditSecondGrid();
 				}.bind(this)
 			}]);
-			
+
 			this.secondGrid = new Ext.grid.EditorGridPanel({
 				store:		secondDs,
 		        cm:			secondCm,
@@ -22558,25 +22465,25 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 				clicksToEdit: 1,
 				autoScroll: true,
 				stateId: "x-editor-complex-grid",
-				height: 280, 
+				height: 280,
 				anchor: '100%',
 				enableHdMenu: false, // Disable header menu
 				selModel: new Ext.grid.CellSelectionModel(),
 				tbar:secondToolbar
-				
+
 		    });
-			
+
 			// Basic Dialog
-			this.dialog = new Ext.Window({ 
-				autoCreate: true, 
+			this.dialog = new Ext.Window({
+				autoCreate: true,
 				layout: "anchor",
-				title: ORYX.I18N.PropertyWindow.complex, 
-				height: 600, 
-				width: dialogWidth, 
+				title: ORYX.I18N.PropertyWindow.complex,
+				height: 600,
+				width: dialogWidth,
 				modal:true,
 				collapsible:false,
-				fixedcenter: true, 
-				shadow:true, 
+				fixedcenter: true,
+				shadow:true,
 				proxyDrag: true,
 				keys:[{
 					key: 27,
@@ -22589,38 +22496,38 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 				buttons: [{
 	                text: ORYX.I18N.PropertyWindow.ok,
 	                handler: function(){
-	                    this.grid.stopEditing();	
+	                    this.grid.stopEditing();
 						// store dialog input
 						this.data = this.buildValue();
 						this.dialog.hide()
 	                }.bind(this)
 	            }]
-			});		
-				
+			});
+
 			this.dialog.on(Ext.apply({}, this.dialogListeners, {
 	       		scope:this
 	        }));
-		
-			this.dialog.show();	
-		
-	
+
+			this.dialog.show();
+
+
 			this.grid.on('beforeedit', 	this.beforeEdit, 	this, true);
 			this.grid.on('afteredit', 	this.afterEdit, 	this, true);
-			
+
 			this.secondGrid.on('beforeedit', 	this.beforeEdit, 	this, true);
 			this.secondGrid.on('afteredit', 	this.afterEditSecondGrid, 	this, true);
-			
+
 			this.grid.render();
 			this.secondGrid.render();
-			
+
 			if (ds.getCount() > 0) {
 				this.grid.getSelectionModel().select(0,0);
 			}
-	    
+
 		/*} else {
-			this.dialog.show();		
+			this.dialog.show();
 		}*/
-		
+
 	}
 });
 
@@ -22711,7 +22618,7 @@ Ext.form.ComplexModelLinkField = Ext.extend(Ext.form.TriggerField, {
 		if(this.disabled){
 			return;
 		}
-	        
+
 		var CallElementDef = Ext.data.Record.create([{
 			name: 'name'
 		}, {
@@ -22719,11 +22626,11 @@ Ext.form.ComplexModelLinkField = Ext.extend(Ext.form.TriggerField, {
 		}, {
 			name: 'imgsrc'
 		}]);
-	    
+
 		var calldefsProxy = new Ext.data.MemoryProxy({
 			root: []
 		});
-	    
+
 		var calldefs = new Ext.data.Store({
 			autoDestroy: true,
 			reader: new Ext.data.JsonReader({
@@ -22736,7 +22643,7 @@ Ext.form.ComplexModelLinkField = Ext.extend(Ext.form.TriggerField, {
 			}]
 		});
 		calldefs.load();
-	    
+
 		var loadProcessesMask = new Ext.LoadMask(Ext.getBody(), {msg:'Loading Process Information'});
 		loadProcessesMask.show();
 		Ext.Ajax.request({
@@ -22758,7 +22665,7 @@ Ext.form.ComplexModelLinkField = Ext.extend(Ext.form.TriggerField, {
 					    }
 
 						calldefs.commitChanges();
-	    
+
 						var gridId = Ext.id();
 						var grid = new Ext.grid.EditorGridPanel({
 							store: calldefs,
@@ -22791,7 +22698,7 @@ Ext.form.ComplexModelLinkField = Ext.extend(Ext.form.TriggerField, {
 							}]),
 							autoHeight: true
 						});
-	    
+
 						grid.on('afterrender', function(e) {
 							if(this.value.length > 0) {
 								var index = 0;
@@ -22805,7 +22712,7 @@ Ext.form.ComplexModelLinkField = Ext.extend(Ext.form.TriggerField, {
 								});
 							}
 						}.bind(this));
-	    
+
 						var calledElementsPanel = new Ext.Panel({
 							id: 'calledElementsPanel',
 							title: '<center>Select Process Id and click "Save" to select.</center>',
@@ -22820,7 +22727,7 @@ Ext.form.ComplexModelLinkField = Ext.extend(Ext.form.TriggerField, {
 							    	   columnWidth: 1.0
 							       }
 						});
-	    
+
 						var dialog = new Ext.Window({
 							layout	: 'anchor',
 							autoCreate	: true,
@@ -22845,7 +22752,7 @@ Ext.form.ComplexModelLinkField = Ext.extend(Ext.form.TriggerField, {
 								hide: function(){
 									this.fireEvent('dialogClosed', this.value);
 									dialog.destroy();
-								}.bind(this)	
+								}.bind(this)
 							},
 							buttons	: [{
 								text: 'Save',
@@ -22870,9 +22777,9 @@ Ext.form.ComplexModelLinkField = Ext.extend(Ext.form.TriggerField, {
 									dialog.hide()
 								}.bind(this)
 							}]
-						});	
-	    
-						dialog.show();	
+						});
+
+						dialog.show();
 						grid.render();
 						grid.fireEvent('afterrender');
 						this.grid.stopEditing();
@@ -22897,7 +22804,7 @@ Ext.form.ListenerDefinitionField = Ext.extend(Ext.form.TriggerField, {
 		if(this.disabled){
 			return;
 		}
-	        
+
 		var ListenerDef = Ext.data.Record.create([{
 			name: 'class'
 		}, {
@@ -22905,11 +22812,11 @@ Ext.form.ListenerDefinitionField = Ext.extend(Ext.form.TriggerField, {
 		}, {
 			name: 'event'
 		}]);
-	    
+
 		var calldefsProxy = new Ext.data.MemoryProxy({
 			root: []
 		});
-	    
+
 		var calldefs = new Ext.data.Store({
 			autoDestroy: true,
 			reader: new Ext.data.JsonReader({
@@ -22995,7 +22902,7 @@ Ext.form.ListenerDefinitionField = Ext.extend(Ext.form.TriggerField, {
 				hide: function(){
 					this.fireEvent('dialogClosed', this.value);
 					dialog.destroy();
-				}.bind(this)	
+				}.bind(this)
 			},
 			buttons	: [{
 				text: 'Save',
@@ -23020,36 +22927,33 @@ Ext.form.ListenerDefinitionField = Ext.extend(Ext.form.TriggerField, {
 					dialog.hide()
 				}.bind(this)
 			}]
-		});	
+		});
 
-		dialog.show();	
+		dialog.show();
 		grid.render();
 		grid.fireEvent('afterrender');
 		this.grid.stopEditing();
 		grid.focus( false, 100 );
 	}
-});/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+});
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 if (!ORYX.Plugins) {
     ORYX.Plugins = new Object();
 }
@@ -23123,28 +23027,24 @@ ORYX.Plugins.Loading = {
 }
 
 ORYX.Plugins.Loading = Clazz.extend(ORYX.Plugins.Loading);
-/**
- * Copyright (c) 2008
- * Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 if (!ORYX.Plugins) {
     ORYX.Plugins = new Object();
 }
@@ -23344,28 +23244,24 @@ ORYX.Plugins.CanvasResizeButton = Clazz.extend({
 
 });
 
-/**
- * Copyright (c) 2008
- * Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 if (!ORYX.Plugins) 
     ORYX.Plugins = new Object();
 
@@ -23605,28 +23501,24 @@ ORYX.Plugins.RenameShapes = Clazz.extend({
 		}
 	}
 });
-/**
- * Copyright (c) 2008
- * Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 
 /**
@@ -23782,28 +23674,23 @@ ORYX.Plugins.Undo = Clazz.extend({
 	}
 	
 });
-/**
- * Copyright (c) 2008
- * Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 
 if(!ORYX.Plugins)
 	ORYX.Plugins = new Object();
@@ -23920,28 +23807,25 @@ ORYX.Plugins.ProcessLink = Clazz.extend({
 				});	
 							
 	}		
-});/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+});
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 Array.prototype.insertFrom = function(from, to){
 	to 			= Math.max(0, to);
@@ -24396,28 +24280,25 @@ ORYX.Plugins.Arrangement = ORYX.Plugins.AbstractPlugin.extend({
 		
 		this.facade.executeCommands([command]);	
 	}
-});/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+});
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 if (!ORYX.Plugins) 
     ORYX.Plugins = new Object();
 
@@ -24455,7 +24336,7 @@ ORYX.Plugins.Save = Clazz.extend({
 			}
 		}, false)
 		
-		
+		// Disables save as
 		/*this.facade.offer({
 			'name': ORYX.I18N.Save.saveAs,
 			'functionality': this.save.bind(this,true),
@@ -24554,6 +24435,10 @@ ORYX.Plugins.Save = Clazz.extend({
 				
 				var namespace	= form.elements["namespace"].value.strip();
 				namespace		= namespace.length == 0 ? defaultData.namespace : namespace;
+
+				// In Activiti the following two lines are removed
+				//var comment 	= form.elements["comment"].value.strip();
+				//comment			= comment.length == 0 ? defaultData.comment : comment;
 				
 				modelMeta.name = title;
 				modelMeta.description = summary;
@@ -24648,7 +24533,8 @@ ORYX.Plugins.Save = Clazz.extend({
 				          
 				// Parse dom to string
 		        var svgDOM 	= DataManager.serialize(svgClone);
-				
+
+				// In Activiti, the comment field does not exist
 		        var params = {
 		        		json_xml: json,
 		        		svg_xml: svgDOM,
@@ -24700,12 +24586,13 @@ ORYX.Plugins.Save = Clazz.extend({
 						// Reset changes
 						this.changeDifference = 0;
 						this.updateTitle();
-						
-						var resJSON = transport.responseText.evalJSON();
+
+						// In Activiti, the modelId is returned by the server
+						/*var resJSON = transport.responseText.evalJSON();
 						if(resJSON.modelId) {
 							modelMeta.modelId = resJSON.modelId;
-						}
-						
+						} */
+
 						if(modelMeta["new"]) {
 							modelMeta["new"] = false;
 						}
@@ -24742,11 +24629,18 @@ ORYX.Plugins.Save = Clazz.extend({
 				
 				if(modelMeta["new"]) {	
 					// Send the request out
-					params.id = modelMeta.modelId;					
-					this.sendSaveRequest('POST', reqURI, params, true, successFn, failure);
+					params.id = modelMeta.modelId;
+					// In Activiti, forceNew is always true
+					this.sendSaveRequest('POST', reqURI, params, forceNew, successFn, failure);
 				} else if(forceNew) {
-					this.sendSaveRequest('POST', reqURI, params, true, successFn, failure);
-				} else {						
+					this.sendSaveRequest('POST', reqURI, params, forceNew, successFn, failure);
+				} else {
+
+				    /* In Activiti, this is commented
+					if (!reqURI.include(modelMeta.modelId))
+						reqURI += "/" + modelMeta.modelId;
+					*/
+
 					params.id = modelMeta.modelId;
 					// Send the request out
 					this.sendSaveRequest('PUT', reqURI, params, false, successFn, failure);
@@ -24808,10 +24702,14 @@ ORYX.Plugins.Save = Clazz.extend({
 		var onComplete = function(){
 			Ext.getBody().unmask();
 		}
-		
+
+		// In Activiti, this line is included
 		var modelMeta = this.facade.getModelMetaData();
-		
-		new Ajax.Request("../service/model/" + modelMeta.modelId + "/json", {
+
+		//new Ajax.Request(window.location.href.replace(/#.*/g, "") + "&data", {
+
+		//new Ajax.Request("../service/model/" + modelMeta.modelId + "/json", {
+		new Ajax.Request(ORYX.CONFIG.SERVER_MODEL_HANDLER + "/" + modelMeta.modelId + "/json", {
             method: 'get',
             asynchronous: true,
 			requestHeaders: {
@@ -24870,18 +24768,21 @@ ORYX.Plugins.Save = Clazz.extend({
 		
 		var saveUri;
 		if(forceNew == false) {
-			saveUri = "../service/model/" + params.id + "/save";
+		    // "../service/model" + params.id + "/save"
+			saveUri = ORYX.CONFIG.SERVER_MODEL_HANDLER + "/" + params.id;
 		} else {
-			saveUri = "../service/model/new";
+		    // "../service/model/new"
+			saveUri = ORYX.CONFIG.SERVER_MODEL_HANDLER + ORYX.CONFIG.ORYX_NEW_URL;
 		}
-		
+
 		// Send the request to the server.
+		// In Signavio, it uses the url
 		Ext.Ajax.request({
 			url				: saveUri,
 			method			: method,
 			timeout			: 1800000,
 			disableCaching	: true,
-			headers			: {'Accept':"application/json", 'Content-Type':'charset=UTF-8'},
+			headers			: {'Accept':"application/json"},
 			params			: params,
 			success			: success,
 			failure			: failure
@@ -24922,28 +24823,24 @@ ORYX.Plugins.Save = Clazz.extend({
         return true;
     }	
 });
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 /**
  * @namespace Oryx name space for plugins
@@ -25167,28 +25064,24 @@ ORYX.Plugins.View = {
 };
 
 ORYX.Plugins.View = Clazz.extend(ORYX.Plugins.View);
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 if(!ORYX.Plugins) 
 	ORYX.Plugins = new Object();
@@ -26674,28 +26567,24 @@ ORYX.Core.Command.Move = ORYX.Core.Command.extend({
 		this.plugin.facade.setSelection( this.selectedShapes );
 	}
 });
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 if(!ORYX.Plugins)
 	ORYX.Plugins = new Object(); 
@@ -26918,28 +26807,25 @@ ORYX.Plugins.HighlightingSelectedShapes = Clazz.extend({
 			this.facade.raiseEvent({type:ORYX.CONFIG.EVENT_HIGHLIGHT_HIDE, highlightId:'subselection'});
 		}		
 	}
-});/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+});
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 if(!ORYX.Plugins)
 	ORYX.Plugins = new Object();
@@ -27462,28 +27348,23 @@ ORYX.Plugins.DragDocker = Clazz.extend({
 
 });
 
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 
 if(!ORYX.Plugins)
 	ORYX.Plugins = new Object();
@@ -27625,28 +27506,24 @@ ORYX.Plugins.AddDocker = Clazz.extend({
     }
 });
 
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 if(!ORYX.Plugins)
 	ORYX.Plugins = new Object();
@@ -27807,28 +27684,24 @@ if(!ORYX.Plugins)
 });
 
 
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 if(!ORYX.Plugins)
 	ORYX.Plugins = new Object(); 
@@ -28051,28 +27924,25 @@ ORYX.Plugins.HighlightingSelectedShapes = Clazz.extend({
 			this.facade.raiseEvent({type:ORYX.CONFIG.EVENT_HIGHLIGHT_HIDE, highlightId:'subselection'});
 		}		
 	}
-});/**
- * Copyright (c) 2008
- * Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
+});
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
  * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+/**
  * HOW to USE the OVERLAY PLUGIN:
  * 	You can use it via the event mechanism from the editor
  * 	by using facade.raiseEvent( <option> )
@@ -28400,28 +28270,24 @@ ORYX.Plugins.Overlay = Clazz.extend({
 
     
 });
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 if (!ORYX.Plugins) 
     ORYX.Plugins = new Object();
 
@@ -28892,28 +28758,25 @@ ORYX.Plugins.Edit.DeleteCommand = ORYX.Core.Command.extend({
 		this.facade.updateSelection();
         
     }
-});/**
- * Copyright (c) 2009
- * Jan-Felix Schwarz
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+});
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 if (!ORYX.Plugins) 
     ORYX.Plugins = new Object();
 
@@ -29217,28 +29080,23 @@ ORYX.Plugins.KeysMove = ORYX.Plugins.AbstractPlugin.extend({
 //    }
 	
 });
-/**
- * Copyright (c) 2009
- * Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 
 if(!ORYX.Plugins) { ORYX.Plugins = {} }
 if(!ORYX.Plugins.Layouter) { ORYX.Plugins.Layouter = {} }
@@ -29522,28 +29380,24 @@ new function(){
 	
 	
 }()
-/**
- * Copyright (c) 2009
- * Sven Wagner-Boysen, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 if(!ORYX.Plugins)
 	ORYX.Plugins = new Object();
@@ -29561,13 +29415,143 @@ new function(){
 			
 			this.facade.registerOnEvent(ORYX.CONFIG.EVENT_DRAGDOCKER_DOCKED, this.handleDockerDocked.bind(this));
 			this.facade.registerOnEvent(ORYX.CONFIG.EVENT_PROPWINDOW_PROP_CHANGED, this.handlePropertyChanged.bind(this));
+			this.facade.registerOnEvent('layout.bpmn2_0.pool', this.handleLayoutPool.bind(this));
 			this.facade.registerOnEvent('layout.bpmn2_0.subprocess', this.handleSubProcess.bind(this));
 			this.facade.registerOnEvent(ORYX.CONFIG.EVENT_SHAPEREMOVED, this.handleShapeRemove.bind(this));
-			
+			//this.facade.registerOnEvent('layout.bpmn11.lane', this.handleLayoutLane.bind(this));
+
 			this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LOADED, this.afterLoad.bind(this));
 			
 
 			this.namespace = undefined;
+		},
+		
+		/**
+		 * Force to update every pool
+		 */
+		afterLoad: function(){
+			this.facade.getCanvas().getChildNodes().each(function(shape){
+				if (shape.getStencil().id().endsWith("Pool")) {
+					this.handleLayoutPool({
+						shape: shape
+					});
+				}
+			}.bind(this))
+		},
+		
+		/**
+		 * If a pool is selected and contains no lane,
+		 * a lane is created automagically
+		 */
+		onSelectionChanged: function(event) {
+			var selection = event.elements;
+			
+			if(selection && selection.length === 1) {
+				var namespace = this.getNamespace();
+				var shape = selection[0];
+				if(shape.getStencil().idWithoutNs() === "Pool") {
+					if(shape.getChildNodes().length === 0) {
+						// create a lane inside the selected pool
+						var option = {
+								type:namespace + "Lane",
+								position:{x:0,y:0},
+								namespace:shape.getStencil().namespace(),
+								parent:shape
+						};
+						this.facade.createShape(option);
+						this.facade.getCanvas().update();
+						this.facade.setSelection([shape]);
+					}
+				}
+			}
+			
+			// Preventing selection of all lanes but not the pool
+			if(selection.any(function(s){ return s instanceof ORYX.Core.Node && s.getStencil().id().endsWith("Lane")})){
+				var lanes = selection.findAll(function(s){
+					return s instanceof ORYX.Core.Node && s.getStencil().id().endsWith("Lane")
+				});
+				
+				var pools = [];
+				var unselectLanes = [];
+				lanes.each(function(lane){
+					pools.push(this.getParentPool(lane))
+				}.bind(this));
+				
+				pools = pools.uniq().findAll(function(pool){
+					var childLanes = this.getLanes(pool, true);
+					if (childLanes.all(function(lane){ return lanes.include(lane)})){
+						unselectLanes = unselectLanes.concat(childLanes);
+						return true;
+					} else if (selection.include(pool) && childLanes.any(function(lane){ return lanes.include(lane)})) {
+						unselectLanes = unselectLanes.concat(childLanes);
+						return true;
+					} else {
+						return false;
+					}
+				}.bind(this))
+				
+				if (unselectLanes.length > 0 && pools.length > 0){
+					selection = selection.without.apply(selection, unselectLanes);
+					selection = selection.concat(pools);
+					this.facade.setSelection(selection.uniq());
+				}
+			}
+		},
+		
+		handleShapeRemove: function(option) {
+			
+			var sh 				= option.shape;
+			var parent 			= option.parent;
+						
+			if (sh instanceof ORYX.Core.Node && sh.getStencil().idWithoutNs() === "Lane" && this.facade.isExecutingCommands()) {
+			
+				var pool = this.getParentPool(parent);
+				if (pool&&pool.parent){		
+				
+					var isLeafFn = function(leaf){
+						return !leaf.getChildNodes().any(function(r){ return r.getStencil().idWithoutNs() === "Lane"});
+					}
+					
+					var isLeaf = isLeafFn(sh);
+					var parentHasMoreLanes = parent.getChildNodes().any(function(r){ return r.getStencil().idWithoutNs() === "Lane"});
+					
+					if (isLeaf && parentHasMoreLanes){
+						
+						var command = new ResizeLanesCommand(sh, parent, pool, this);
+						this.facade.executeCommands([command]);
+						
+					} else if(	!isLeaf &&
+								!this.facade.getSelection().any(function(select){ // Find one of the selection, which is a lane and child of "sh" and is a leaf lane
+										return 	select instanceof ORYX.Core.Node && select.getStencil().idWithoutNs() === "Lane" &&
+												select.isParent(sh) && isLeafFn(select);})) {
+													
+						var Command = ORYX.Core.Command.extend({
+							construct: function(shape, facade) {
+								this.children = shape.getChildNodes(true);
+								this.facade = facade;
+							},
+							execute: function() {
+								this.children.each(function(child){
+									child.bounds.moveBy(30,0)
+								});
+								//this.facade.getCanvas().update();
+							},
+							rollback: function() {
+								this.children.each(function(child){
+									child.bounds.moveBy(-30,0)
+								})
+								//this.facade.getCanvas().update();
+							}
+						});
+						this.facade.executeCommands([new Command(sh, this.facade)]);
+						
+					} else if (isLeaf&&!parentHasMoreLanes&&parent == pool){
+						parent.add(sh);
+					}
+				}
+			
+			}
+			
 		},
 		
 		hashedSubProcesses: {},
@@ -29778,6 +29762,293 @@ new function(){
 		hashedBounds : {},
 		hashedPositions: {},
 		
+		/**
+		 * Handler for layouting event 'layout.bpmn2_0.pool'
+		 * @param {Object} event
+		 */
+		handleLayoutPool: function(event){
+			
+			
+			var pool = event.shape;
+			var selection = this.facade.getSelection(); 
+			var currentShape = selection.include(pool) ? pool : selection.first();
+			
+			currentShape = currentShape || pool;
+			
+			this.currentPool = pool;
+			
+			// Check if it is a pool or a lane
+			if (!(currentShape.getStencil().id().endsWith("Pool") || currentShape.getStencil().id().endsWith("Lane"))) {
+				return;
+			}
+			
+			// Check if the lane is within the pool and is not removed lately 
+			if (currentShape !== pool && !currentShape.isParent(pool) && !this.hashedBounds[pool.id][currentShape.id]){
+				return;
+			}
+			
+			
+			if (!this.hashedBounds[pool.id]) {
+				this.hashedBounds[pool.id] = {};
+			}
+			
+			// Find all child lanes
+			var lanes = this.getLanes(pool);
+			
+			if (lanes.length <= 0) {
+				return
+			}
+			
+			var allLanes = this.getLanes(pool, true), hp;
+			var considerForDockers = allLanes.clone();
+			
+			var hashedPositions = $H({});
+			allLanes.each(function(lane){
+				hashedPositions[lane.id] = lane.bounds.upperLeft();
+			})
+			
+			
+			
+			// Show/hide caption regarding the number of lanes
+			if (lanes.length === 1 && this.getLanes(lanes.first()).length <= 0) {
+				// TRUE if there is a caption
+				lanes.first().setProperty("oryx-showcaption", lanes.first().properties["oryx-name"].trim().length > 0);
+				var rect = lanes.first().node.getElementsByTagName("rect");
+				rect[0].setAttributeNS(null, "display", "none");
+			} else {
+				allLanes.invoke("setProperty", "oryx-showcaption", true);
+				allLanes.each(function(lane){
+					var rect = lane.node.getElementsByTagName("rect");
+					rect[0].removeAttributeNS(null, "display");
+				})
+			}
+			
+			var deletedLanes = [];
+			var addedLanes = [];
+			
+			// Get all new lanes
+			var i=-1;
+			while (++i<allLanes.length) {
+				if (!this.hashedBounds[pool.id][allLanes[i].id]){
+					addedLanes.push(allLanes[i])
+				}
+			}
+			
+			if (addedLanes.length > 0){
+				currentShape = addedLanes.first();
+			}
+			
+			
+			// Get all deleted lanes
+			var resourceIds = $H(this.hashedBounds[pool.id]).keys();
+			var i=-1;
+			while (++i<resourceIds.length) {
+				if (!allLanes.any(function(lane){ return lane.id == resourceIds[i]})){
+					deletedLanes.push(this.hashedBounds[pool.id][resourceIds[i]]);
+					selection = selection.without(function(r){ return r.id == resourceIds[i] });
+				}
+			}		
+			
+			var height, width, x, y;
+			
+			if (deletedLanes.length > 0 || addedLanes.length > 0) {
+				
+				if (addedLanes.length === 1 && this.getLanes(addedLanes[0].parent).length === 1){
+					// Set height from the pool
+					height = this.adjustHeight(lanes, addedLanes[0].parent);
+				} else {
+					// Set height from the pool
+					height = this.updateHeight(pool);
+				}
+				// Set width from the pool
+				width = this.adjustWidth(lanes, pool.bounds.width());	
+				
+				pool.update();
+			}
+			
+			/**
+			 * Set width/height depending on the pool
+			 */
+			else if (pool == currentShape) {
+				
+				if (selection.length === 1 && this.isResized(pool, this.hashedPoolPositions[pool.id])) {
+					var oldXY = this.hashedPoolPositions[pool.id].upperLeft();
+					var xy = pool.bounds.upperLeft();
+					var scale = 0;
+					if (this.shouldScale(pool)){
+						var old = this.hashedPoolPositions[pool.id];
+						scale = old.height()/pool.bounds.height();
+					}
+				
+					this.adjustLanes(pool, allLanes, oldXY.x - xy.x, oldXY.y - xy.y, scale);
+				}
+				
+				// Set height from the pool
+				height = this.adjustHeight(lanes, undefined, pool.bounds.height());
+				// Set width from the pool
+				width = this.adjustWidth(lanes, pool.bounds.width());		
+			}
+			
+			/**‚
+			 * Set width/height depending on containing lanes
+			 */		
+			else {
+				
+				// Reposition the pool if one shape is selected and the upperleft has changed
+				if (selection.length === 1 && this.isResized(currentShape, this.hashedBounds[pool.id][currentShape.id])){
+					var oldXY = this.hashedBounds[pool.id][currentShape.id].upperLeft();
+					var xy = currentShape.absoluteXY();
+					x = oldXY.x - xy.x;
+					y = oldXY.y - xy.y;
+					
+					// Adjust all other lanes beneath this lane
+					if (x||y){
+						considerForDockers = considerForDockers.without(currentShape);
+						this.adjustLanes(pool, this.getAllExcludedLanes(pool, currentShape), x, 0);
+					}
+					
+					// Adjust all child lanes
+					var childLanes = this.getLanes(currentShape, true);
+					if (childLanes.length > 0){
+						if (this.shouldScale(currentShape)){
+							var old = this.hashedBounds[pool.id][currentShape.id];
+							var scale = old.height()/currentShape.bounds.height();
+							this.adjustLanes(pool, childLanes, x, y, scale);
+						} else {
+							this.adjustLanes(pool, childLanes, x, y, 0);
+						}
+					}
+				}
+				
+				// Cache all bounds
+				var changes = allLanes.map(function(lane){ return {
+					shape: lane,
+					bounds: lane.bounds.clone()
+				} });
+				
+				// Get height and adjust child heights
+				height = this.adjustHeight(lanes, currentShape);
+				// Check if something has changed and maybe create a command
+				this.checkForChanges(allLanes, changes);
+				
+				// Set width from the current shape
+				width = this.adjustWidth(lanes, currentShape.bounds.width()+(this.getDepth(currentShape,pool)*30));
+			}
+			
+			this.setDimensions(pool, width, height, x, y);
+			
+			
+			if (this.facade.isExecutingCommands() && (deletedLanes.length === 0 || addedLanes.length !== 0)){ 
+				// Update all dockers
+				this.updateDockers(considerForDockers, pool);
+				
+				// Check if the order has changed
+				if (this.hashedPositions[pool.id] && this.hashedPositions[pool.id].keys().any(function(key, i){
+						return (allLanes[i]||{}).id	!== key;
+					})){
+					
+					var LanesHasBeenReordered = ORYX.Core.Command.extend({
+						construct: function(originPosition, newPosition, lanes, plugin, poolId) {
+							this.originPosition = Object.clone(originPosition);
+							this.newPosition = Object.clone(newPosition);
+							this.lanes = lanes;
+							this.plugin = plugin;
+							this.pool = poolId;
+						}, 
+						execute: function(){
+							if (!this.executed){
+								this.executed = true;
+								this.lanes.each(function(lane){
+									if (this.newPosition[lane.id])
+										lane.bounds.moveTo(this.newPosition[lane.id])
+								}.bind(this));
+								this.plugin.hashedPositions[this.pool] = Object.clone(this.newPosition);
+							}
+						}, 
+						rollback: function(){
+							this.lanes.each(function(lane){
+								if (this.originPosition[lane.id])
+									lane.bounds.moveTo(this.originPosition[lane.id])
+							}.bind(this));
+							this.plugin.hashedPositions[this.pool] = Object.clone(this.originPosition);
+						}
+					});
+					
+					var hp2 = $H({});
+					allLanes.each(function(lane){
+						hp2[lane.id] = lane.bounds.upperLeft();
+					})
+				
+					var command = new LanesHasBeenReordered(hashedPositions, hp2, allLanes, this, pool.id);
+					this.facade.executeCommands([command]);
+						
+				}
+			}
+			
+			this.hashedBounds[pool.id] = {};
+			this.hashedPositions[pool.id] = hashedPositions;
+			
+			var i=-1;
+			while (++i < allLanes.length) {
+				// Cache positions
+				this.hashedBounds[pool.id][allLanes[i].id] = allLanes[i].absoluteBounds();
+				
+				// Cache also the bounds of child shapes, mainly for child subprocesses
+				this.hashChildShapes(allLanes[i]);
+			
+				this.hashedLaneDepth[allLanes[i].id] = this.getDepth(allLanes[i], pool);
+				
+				this.forceToUpdateLane(allLanes[i]);
+			}
+			
+			this.hashedPoolPositions[pool.id] = pool.bounds.clone();
+			
+			
+			// Update selection
+			//this.facade.setSelection(selection);		
+		},
+		
+		shouldScale: function(element){
+			var childLanes = element.getChildNodes().findAll(function(shape){ return shape.getStencil().id().endsWith("Lane") })
+			return childLanes.length > 1 || childLanes.any(function(lane){ return this.shouldScale(lane) }.bind(this)) 
+		},
+		
+		/**
+		 * Lookup if some bounds has changed
+		 * @param {Object} lanes
+		 * @param {Object} changes
+		 */
+		checkForChanges: function(lanes, changes){
+			// Check if something has changed
+			if (this.facade.isExecutingCommands() && changes.any(function(change){
+				return change.shape.bounds.toString() !== change.bounds.toString();
+			})){
+				
+				var Command = ORYX.Core.Command.extend({
+							construct: function(changes) {
+								this.oldState = changes;
+								this.newState = changes.map(function(s){ return {shape:s.shape, bounds:s.bounds.clone()}});
+							}, 
+							execute: function(){
+								if (this.executed){
+									this.applyState(this.newState);
+								}
+								this.executed = true;
+							}, 
+							rollback: function(){
+								this.applyState(this.oldState);
+							},
+							applyState: function(state){
+								state.each(function(s){
+									s.shape.bounds.set(s.bounds.upperLeft(), s.bounds.lowerRight());
+								})
+							}
+						});
+						
+				this.facade.executeCommands([new Command(changes)]);
+			}
+		},
+		
 		isResized: function(shape, bounds){
 			
 			if (!bounds||!shape){
@@ -29788,6 +30059,52 @@ new function(){
 			//var oldXY = oldB.upperLeft();
 			//var xy = shape.absoluteXY();
 			return Math.round(oldB.width() - shape.bounds.width()) !== 0 || Math.round(oldB.height() - shape.bounds.height()) !== 0
+		},
+		
+		adjustLanes: function(pool, lanes, x, y, scale){
+			
+			scale = scale || 0;
+	
+			// For every lane, adjust the child nodes with the offset
+			lanes.each(function(l){
+				l.getChildNodes().each(function(child){
+					if (!child.getStencil().id().endsWith("Lane")){
+						var cy = scale ? child.bounds.center().y - (child.bounds.center().y/scale) : -y;
+						child.bounds.moveBy((x||0), -cy);
+						
+						if (scale&&child.getStencil().id().endsWith("Subprocess")) {
+							this.moveChildDockers(child, {x:(0), y:-cy});
+						}
+					
+					}
+				}.bind(this));
+				this.hashedBounds[pool.id][l.id].moveBy(-(x||0), !scale?-y:0);
+				if (scale) {
+					l.isScaled = true;
+				}
+			}.bind(this))
+			
+		},
+		
+		getAllExcludedLanes: function(parent, lane){
+			var lanes = [];
+			parent.getChildNodes().each(function(shape){
+				if ((!lane || shape !== lane) && shape.getStencil().id().endsWith("Lane")){
+					lanes.push(shape);
+					lanes = lanes.concat(this.getAllExcludedLanes(shape, lane));
+				}
+			}.bind(this));
+			return lanes;
+		},
+		
+		
+		forceToUpdateLane: function(lane){
+			
+			if (lane.bounds.height() !== lane._svgShapes[0].height) {	
+				lane.isChanged = true;
+				lane.isResized = true;
+				lane._update();
+			}
 		},
 		
 		getDepth: function(child, parent){
@@ -29814,6 +30131,297 @@ new function(){
 			
 		},
 		
+		setDimensions: function(shape, width, height, x, y){
+			var isLane = shape.getStencil().id().endsWith("Lane");
+			// Set the bounds
+			shape.bounds.set(
+					isLane 	? 30 : (shape.bounds.a.x - (x || 0)), 
+					isLane 	? shape.bounds.a.y : (shape.bounds.a.y - (y || 0)), 
+					width	? shape.bounds.a.x + width - (isLane?30:(x||0)) : shape.bounds.b.x, 
+					height 	? shape.bounds.a.y + height - (isLane?0:(y||0)) : shape.bounds.b.y
+				);
+		},
+	
+		setLanePosition: function(shape, y){
+			
+			shape.bounds.moveTo(30, y);
+		
+		},
+			
+		adjustWidth: function(lanes, width) {
+			
+			// Set width to each lane
+			(lanes||[]).each(function(lane){
+				this.setDimensions(lane, width);
+				this.adjustWidth(this.getLanes(lane), width-30);
+			}.bind(this));
+			
+			return width;
+		},
+		
+		
+		adjustHeight: function(lanes, changedLane, propagateHeight){
+			
+			var oldHeight = 0;
+			if (!changedLane && propagateHeight){
+				var i=-1;
+				while (++i<lanes.length){	
+					oldHeight += lanes[i].bounds.height();		
+				}
+			}
+			
+			var i=-1;
+			var height = 0;
+			
+			// Iterate trough every lane
+			while (++i<lanes.length){
+				
+				if (lanes[i] === changedLane) {
+					// Propagate new height down to the children
+					this.adjustHeight(this.getLanes(lanes[i]), undefined, lanes[i].bounds.height());
+					
+					lanes[i].bounds.set({x:30, y:height}, {x:lanes[i].bounds.width()+30, y:lanes[i].bounds.height()+height})
+									
+				} else if (!changedLane && propagateHeight) {
+					
+					var tempHeight = (lanes[i].bounds.height() * propagateHeight) / oldHeight;
+					// Propagate height
+					this.adjustHeight(this.getLanes(lanes[i]), undefined, tempHeight);
+					// Set height propotional to the propagated and old height
+					this.setDimensions(lanes[i], null, tempHeight);
+					this.setLanePosition(lanes[i], height);
+				} else {
+					// Get height from children
+					var tempHeight = this.adjustHeight(this.getLanes(lanes[i]), changedLane, propagateHeight);
+					if (!tempHeight) {
+						tempHeight = lanes[i].bounds.height();
+					}
+					this.setDimensions(lanes[i], null, tempHeight);
+					this.setLanePosition(lanes[i], height);
+				}
+				
+				height += lanes[i].bounds.height();
+			}
+			
+			return height;
+			
+		},
+		
+		
+		updateHeight: function(root){
+			
+			var lanes = this.getLanes(root);
+			
+			if (lanes.length == 0){
+				return root.bounds.height();
+			}
+			
+			var height = 0;
+			var i=-1;
+			while (++i < lanes.length) {
+				this.setLanePosition(lanes[i], height);
+				height += this.updateHeight(lanes[i]);
+			}
+			
+			this.setDimensions(root, null, height);
+			
+			return height;
+		},
+		
+		getOffset: function(lane, includePool, pool){
+			
+			var offset = {x:0,y:0};
+			
+			
+			/*var parent = lane; 
+			 while(parent) {
+			 				
+				
+				var offParent = this.hashedBounds[pool.id][parent.id] ||(includePool === true ? this.hashedPoolPositions[parent.id] : undefined);
+				if (offParent){
+					var ul = parent.bounds.upperLeft();
+					var ulo = offParent.upperLeft();
+					offset.x += ul.x-ulo.x;
+					offset.y += ul.y-ulo.y;
+				}
+				
+				if (parent.getStencil().id().endsWith("Pool")) {
+					break;
+				}
+				
+				parent = parent.parent;
+			}	*/
+			
+			var offset = lane.absoluteXY();
+			
+			var hashed = this.hashedBounds[pool.id][lane.id] ||(includePool === true ? this.hashedPoolPositions[lane.id] : undefined);
+			if (hashed) {
+				offset.x -= hashed.upperLeft().x; 	
+				offset.y -= hashed.upperLeft().y;		
+			} else {
+				return {x:0,y:0}
+			}		
+			return offset;
+		},
+		
+		getNextLane: function(shape){
+			while(shape && !shape.getStencil().id().endsWith("Lane")){
+				if (shape instanceof ORYX.Core.Canvas) {
+					return null;
+				}
+				shape = shape.parent;
+			}
+			return shape;
+		},
+		
+		getParentPool: function(shape){
+			while(shape && !shape.getStencil().id().endsWith("Pool")){
+				if (shape instanceof ORYX.Core.Canvas) {
+					return null;
+				}
+				shape = shape.parent;
+			}
+			return shape;
+		},
+		
+		updateDockers: function(lanes, pool){
+			
+			var absPool = pool.absoluteBounds(), movedShapes = [];
+			var oldPool = (this.hashedPoolPositions[pool.id]||absPool).clone();
+			
+			var i=-1, j=-1, k=-1, l=-1, docker;
+			var dockers = {};
+			
+			while (++i < lanes.length) {
+				
+				if (!this.hashedBounds[pool.id][lanes[i].id]) {
+					continue;
+				}
+				
+				var isScaled = lanes[i].isScaled;
+				delete lanes[i].isScaled;
+				var children = lanes[i].getChildNodes();
+				var absBounds = lanes[i].absoluteBounds();
+				var oldBounds = (this.hashedBounds[pool.id][lanes[i].id]||absBounds);
+				//oldBounds.moveBy((absBounds.upperLeft().x-lanes[i].bounds.upperLeft().x), (absBounds.upperLeft().y-lanes[i].bounds.upperLeft().y));
+				var offset = this.getOffset(lanes[i], true, pool);
+				var xOffsetDepth = 0;
+	
+				var depth = this.getDepth(lanes[i], pool);
+				if ( this.hashedLaneDepth[lanes[i].id] !== undefined &&  this.hashedLaneDepth[lanes[i].id] !== depth) {
+					xOffsetDepth = (this.hashedLaneDepth[lanes[i].id] - depth) * 30;
+					offset.x += xOffsetDepth;
+				}
+				
+				j=-1;
+				
+				while (++j < children.length) {
+					
+					if (xOffsetDepth && !children[j].getStencil().id().endsWith("Lane")) {
+						movedShapes.push({xOffset:xOffsetDepth, shape: children[j]});
+						children[j].bounds.moveBy(xOffsetDepth, 0);
+					}
+					
+					if (children[j].getStencil().id().endsWith("Subprocess")) {
+						this.moveChildDockers(children[j], offset);
+					}
+					
+					var edges = [].concat(children[j].getIncomingShapes())
+						.concat(children[j].getOutgoingShapes())
+						// Remove all edges which are included in the selection from the list
+						.findAll(function(r){ return r instanceof ORYX.Core.Edge })
+	
+					k=-1;
+					while (++k < edges.length) {			
+						
+						if (edges[k].getStencil().id().endsWith("MessageFlow")) {
+							this.layoutEdges(children[j], [edges[k]], offset);
+							continue;
+						}
+						
+						l=-1;
+						while (++l < edges[k].dockers.length) {
+							
+							docker = edges[k].dockers[l];
+							
+							if (docker.getDockedShape()||docker.isChanged){
+								continue;
+							}
+						
+						
+							pos = docker.bounds.center();
+							
+							// Check if the modified center included the new position
+							var isOverLane = oldBounds.isIncluded(pos);
+							// Check if the original center is over the pool
+							var isOutSidePool = !oldPool.isIncluded(pos);
+							var previousIsOverLane = l == 0 ? isOverLane : oldBounds.isIncluded(edges[k].dockers[l-1].bounds.center());
+							var nextIsOverLane = l == edges[k].dockers.length-1 ? isOverLane : oldBounds.isIncluded(edges[k].dockers[l+1].bounds.center());
+							var off = Object.clone(offset);
+							
+							// If the 
+							if (isScaled && isOverLane && this.isResized(lanes[i], this.hashedBounds[pool.id][lanes[i].id])){
+								var relY = (pos.y - absBounds.upperLeft().y + off.y);
+								off.y -= (relY - (relY * (absBounds.height()/oldBounds.height()))); 
+							}
+							
+							// Check if the previous dockers docked shape is from this lane
+							// Otherwise, check if the docker is over the lane OR is outside the lane 
+							// but the previous/next was over this lane
+							if (isOverLane){
+								dockers[docker.id] = {docker: docker, offset:off};
+							} 
+							/*else if (l == 1 && edges[k].dockers.length>2 && edges[k].dockers[l-1].isDocked()){
+								var dockedLane = this.getNextLane(edges[k].dockers[l-1].getDockedShape());
+								if (dockedLane != lanes[i])
+									continue;
+								dockers[docker.id] = {docker: docker, offset:offset};
+							}
+							// Check if the next dockers docked shape is from this lane
+							else if (l == edges[k].dockers.length-2 && edges[k].dockers.length>2 && edges[k].dockers[l+1].isDocked()){
+								var dockedLane = this.getNextLane(edges[k].dockers[l+1].getDockedShape());
+								if (dockedLane != lanes[i])
+									continue;
+								dockers[docker.id] = {docker: docker, offset:offset};
+							}
+													
+							else if (isOutSidePool) {
+								dockers[docker.id] = {docker: docker, offset:this.getOffset(lanes[i], true, pool)};
+							}*/
+							
+						
+						}
+					}
+							
+				}
+			}
+			
+			// Move the moved children 
+			var MoveChildCommand = ORYX.Core.Command.extend({
+				construct: function(state){
+					this.state = state;
+				},
+				execute: function(){
+					if (this.executed){
+						this.state.each(function(s){
+							s.shape.bounds.moveBy(s.xOffset, 0);
+						});
+					}
+					this.executed = true;
+				}, 
+				rollback: function(){
+					this.state.each(function(s){
+						s.shape.bounds.moveBy(-s.xOffset, 0);
+					});
+				}
+			})
+			
+			
+			// Set dockers
+			this.facade.executeCommands([new ORYX.Core.MoveDockersCommand(dockers), new MoveChildCommand(movedShapes)]);
+	
+		},
+		
 		moveBy: function(pos, offset){
 			pos.x += offset.x;
 			pos.y += offset.y;
@@ -29822,6 +30430,63 @@ new function(){
 		
 		getHashedBounds: function(shape){
 			return this.currentPool && this.hashedBounds[this.currentPool.id][shape.id] ? this.hashedBounds[this.currentPool.id][shape.id] : shape.absoluteBounds();
+		},
+		
+		/**
+		 * Returns a set on all child lanes for the given Shape. If recursive is TRUE, also indirect children will be returned (default is FALSE)
+		 * The set is sorted with first child the lowest y-coordinate and the last one the highest.
+		 * @param {ORYX.Core.Shape} shape
+		 * @param {boolean} recursive
+		 */
+		getLanes: function(shape, recursive){
+			var namespace = this.getNamespace();
+			
+			// Get all the child lanes
+			var lanes = shape.getChildNodes(recursive||false).findAll(function(node) { return (node.getStencil().id() === namespace + "Lane"); });
+			
+			// Sort all lanes by there y coordinate
+			lanes = lanes.sort(function(a, b){
+				
+						// Get y coordinates for upper left and lower right
+						var auy = Math.round(a.bounds.upperLeft().y);
+						var buy = Math.round(b.bounds.upperLeft().y);
+						var aly = Math.round(a.bounds.lowerRight().y);
+						var bly = Math.round(b.bounds.lowerRight().y);
+						
+						var ha	= this.getHashedBounds(a);
+						var hb	= this.getHashedBounds(b);
+						
+						// Get the old y coordinates
+						var oauy = Math.round(ha.upperLeft().y);
+						var obuy = Math.round(hb.upperLeft().y);
+						var oaly = Math.round(ha.lowerRight().y);
+						var obly = Math.round(hb.lowerRight().y);
+						
+						// If equal, than use the old one
+						if (auy == buy && aly == bly) {
+							auy = oauy; buy = obuy; aly = oaly; bly = obly;
+						}
+						
+						if (Math.round(a.bounds.height()-ha.height()) === 0 && Math.round(b.bounds.height()-hb.height()) === 0){
+							return auy < buy ? -1 : (auy > buy ? 1: 0);
+						}
+						
+						// Check if upper left and lower right is completely above/below
+						var above = auy < buy && aly < bly;
+						var below = auy > buy && aly > bly;
+						// Check if a is above b including the old values
+						var slightlyAboveBottom = auy < buy && aly >= bly && oaly < obly;
+						var slightlyAboveTop = auy >= buy && aly < bly && oauy < obuy;
+						// Check if a is below b including the old values
+						var slightlyBelowBottom = auy > buy && aly <= bly && oaly > obly;
+						var slightlyBelowTop = auy <= buy && aly > bly && oauy > obuy;
+						
+						// Return -1 if a is above b, 1 if b is above a, or 0 otherwise
+						return  (above || slightlyAboveBottom || slightlyAboveTop ? -1 : (below || slightlyBelowBottom || slightlyBelowTop ? 1 : 0))
+					}.bind(this));
+					
+			// Return lanes
+			return lanes;
 		},
 				
 		getNamespace: function() {
@@ -29836,6 +30501,304 @@ new function(){
 			return this.namespace;
 		}
 	};
+	
+	var ResizeLanesCommand = ORYX.Core.Command.extend({
+	
+		construct: function(shape, parent, pool, plugin) {
+		
+			this.facade  = plugin.facade;
+			this.plugin  = plugin;
+			this.shape	 = shape;
+			this.changes;
+			
+			this.pool	= pool;
+			
+			this.parent	= parent;
+			
+			
+			this.shapeChildren = [];
+			
+			/*
+			 * The Bounds have to be stored 
+			 * separate because they would
+			 * otherwise also be influenced 
+			 */
+			this.shape.getChildShapes().each(function(childShape) {
+				this.shapeChildren.push({
+					shape: childShape,
+					bounds: {
+						a: {
+							x: childShape.bounds.a.x,
+							y: childShape.bounds.a.y
+						},
+						b: {
+							x: childShape.bounds.b.x,
+							y: childShape.bounds.b.y
+						}
+					}
+				});
+			}.bind(this));
+	
+			this.shapeUpperLeft = this.shape.bounds.upperLeft();
+			
+			// If there is no parent, 
+			// correct the abs position with the parents abs.
+			/*if (!this.shape.parent) { 
+				var pAbs = parent.absoluteXY();
+				this.shapeUpperLeft.x += pAbs.x;
+				this.shapeUpperLeft.y += pAbs.y;
+			}*/
+			this.parentHeight 	= this.parent.bounds.height(); 
+	
+		},
+		
+		getLeafLanes: function(lane){
+			var childLanes = this.plugin.getLanes(lane).map(function(child){
+				return this.getLeafLanes(child);
+			}.bind(this)).flatten();
+			return childLanes.length > 0 ? childLanes : [lane];
+		},
+		
+		findNewLane: function(){
+			
+			var lanes = this.plugin.getLanes(this.parent);
+	
+			var leafLanes = this.getLeafLanes(this.parent);
+			/*leafLanes = leafLanes.sort(function(a,b){
+				var aupl = a.absoluteXY().y;
+				var bupl = b.absoluteXY().y;
+				return aupl < bupl ? -1 : (aupl > bupl ? 1 : 0)
+			})*/
+			this.lane = leafLanes.find(function(l){ return l.bounds.upperLeft().y >= this.shapeUpperLeft.y }.bind(this)) || leafLanes.last();
+			this.laneUpperLeft = this.lane.bounds.upperLeft();	
+		},
+		
+		execute: function() {
+			
+			if(this.changes) {
+				this.executeAgain();
+				return;
+			}
+	
+			/* 
+			 * Rescue all ChildShapes of the deleted
+			 * Shape into the lane that takes its 
+			 * place 
+			 */
+			
+			if (!this.lane){
+				this.findNewLane();
+			}
+			
+			if(this.lane) {			
+				
+				var laUpL = this.laneUpperLeft;
+				var shUpL = this.shapeUpperLeft;
+				
+				var depthChange = this.plugin.getDepth(this.lane, this.parent)-1;
+							
+				this.changes = $H({});
+				
+				// Selected lane is BELOW the removed lane
+				if (laUpL.y >= shUpL.y) {				
+					this.lane.getChildShapes().each(function(childShape) {
+						
+						/*
+						 * Cache the changes for rollback
+						 */
+						if(!this.changes[childShape.getId()]) {
+							this.changes[childShape.getId()] = this.computeChanges(childShape, this.lane, this.lane, this.shape.bounds.height());
+						}
+						
+						childShape.bounds.moveBy(0, this.shape.bounds.height());
+					}.bind(this));
+					
+					this.plugin.hashChildShapes(this.lane);
+					
+					this.shapeChildren.each(function(shapeChild) {
+						shapeChild.shape.bounds.set(shapeChild.bounds);
+						shapeChild.shape.bounds.moveBy((shUpL.x-30)-(depthChange*30), 0);
+						
+						/*
+						 * Cache the changes for rollback
+						 */
+						if(!this.changes[shapeChild.shape.getId()]) {
+							this.changes[shapeChild.shape.getId()] = this.computeChanges(shapeChild.shape, this.shape, this.lane, 0);
+						}
+						
+						this.lane.add(shapeChild.shape);
+						
+					}.bind(this));		
+				
+					this.lane.bounds.moveBy(0, shUpL.y-laUpL.y);
+				
+				// Selected lane is ABOVE the removed lane	
+				} else if(shUpL.y > laUpL.y){
+					
+					this.shapeChildren.each(function(shapeChild) {
+						shapeChild.shape.bounds.set(shapeChild.bounds);		
+						shapeChild.shape.bounds.moveBy((shUpL.x-30)-(depthChange*30), this.lane.bounds.height());			
+						
+						/*
+						 * Cache the changes for rollback
+						 */
+						if(!this.changes[shapeChild.shape.getId()]) {
+							this.changes[shapeChild.shape.getId()] = this.computeChanges(shapeChild.shape, this.shape, this.lane, 0);
+						}
+						
+						this.lane.add(shapeChild.shape);
+						
+					}.bind(this));
+				}
+				
+				
+
+				
+			}
+					
+			/*
+			 * Adjust the height of the lanes
+			 */
+			// Get the height values
+			var oldHeight	= this.lane.bounds.height();				
+			var newHeight	= this.lane.length === 1 ? this.parentHeight : this.lane.bounds.height() + this.shape.bounds.height();
+	
+			// Set height
+			this.setHeight(newHeight, oldHeight, this.parent, this.parentHeight, true);
+			
+			// Cache all sibling lanes
+			//this.changes[this.shape.getId()] = this.computeChanges(this.shape, this.parent, this.parent, 0);
+			this.plugin.getLanes(this.parent).each(function(childLane){
+				if(!this.changes[childLane.getId()] && childLane !== this.lane && childLane !== this.shape) {
+					this.changes[childLane.getId()] = this.computeChanges(childLane, this.parent, this.parent, 0);
+				}
+			}.bind(this))
+				
+			// Update
+			this.update();
+		},
+		
+		setHeight: function(newHeight, oldHeight, parent, parentHeight, store){
+			
+			// Set heigh of the lane
+			this.plugin.setDimensions(this.lane, this.lane.bounds.width(), newHeight);
+			this.plugin.hashedBounds[this.pool.id][this.lane.id] = this.lane.absoluteBounds();
+			
+			// Adjust child lanes
+			this.plugin.adjustHeight(this.plugin.getLanes(parent), this.lane);
+			
+			if (store === true){
+				// Store changes
+				this.changes[this.shape.getId()] = this.computeChanges(this.shape, parent, parent, 0, oldHeight, newHeight);	
+			}
+			
+			// Set parents height
+			this.plugin.setDimensions(parent, parent.bounds.width(), parentHeight);
+			
+			if (parent !== this.pool){
+				this.plugin.setDimensions(this.pool, this.pool.bounds.width(), this.pool.bounds.height() + (newHeight-oldHeight));
+			}
+		},
+		
+		update: function(){
+			
+			// Hack to prevent the updating of the dockers
+			this.plugin.hashedBounds[this.pool.id]["REMOVED"] = true;
+			// Update
+			//this.facade.getCanvas().update();
+		},
+		
+		rollback: function() {
+			
+			var laUpL = this.laneUpperLeft;
+			var shUpL = this.shapeUpperLeft;
+				
+			this.changes.each(function(pair) {
+				
+				var parent 	  		= pair.value.oldParent;
+				var shape  	  		= pair.value.shape;
+				var parentHeight 	= pair.value.parentHeight;
+				var oldHeight 		= pair.value.oldHeight;
+				var newHeight 		= pair.value.newHeight;
+				
+				// Move siblings
+				if (shape.getStencil().id().endsWith("Lane")){
+					shape.bounds.moveTo(pair.value.oldPosition);	
+				}
+				
+				// If lane
+				if(oldHeight) {					
+					this.setHeight(oldHeight, newHeight, parent, parent.bounds.height() + (oldHeight - newHeight));
+					if (laUpL.y >= shUpL.y) {
+						this.lane.bounds.moveBy(0, this.shape.bounds.height()-1);
+					}
+				} else {
+					parent.add(shape);
+					shape.bounds.moveTo(pair.value.oldPosition);
+					
+				}
+
+				
+			}.bind(this));
+			
+			// Update
+			//this.update();
+			
+		},
+		
+		executeAgain: function() {
+			
+			this.changes.each(function(pair) {
+				var parent 	  = pair.value.newParent;
+				var shape  	  = pair.value.shape;
+				var newHeight = pair.value.newHeight;
+				var oldHeight = pair.value.oldHeight;
+				
+				// If lane
+				if(newHeight) {
+					var laUpL = this.laneUpperLeft.y;
+					var shUpL = this.shapeUpperLeft.y;
+				
+					if (laUpL >= shUpL) {
+						this.lane.bounds.moveBy(0, shUpL - laUpL);
+					}
+					this.setHeight(newHeight, oldHeight, parent, parent.bounds.height() + (newHeight-oldHeight));
+				} else {
+					parent.add(shape);
+					shape.bounds.moveTo(pair.value.newPosition);
+				}
+				
+			}.bind(this));
+			
+			// Update
+			this.update();
+		},
+		
+		computeChanges: function(shape, oldParent, parent, yOffset, oldHeight, newHeight) {
+			
+			oldParent = this.changes[shape.getId()] ? this.changes[shape.getId()].oldParent : oldParent;
+			var oldPosition = this.changes[shape.getId()] ? this.changes[shape.getId()].oldPosition : shape.bounds.upperLeft();
+			
+			var sUl = shape.bounds.upperLeft();
+			
+			var pos = {x: sUl.x, y: sUl.y + yOffset};
+			
+			var changes = {
+				shape		: shape,
+				parentHeight: oldParent.bounds.height(),
+				oldParent	: oldParent,
+				oldPosition	: oldPosition,
+				oldHeight	: oldHeight,
+				newParent	: parent,
+				newPosition : pos,
+				newHeight	: newHeight
+			};
+				
+			return changes;
+		}
+		
+	});
+	
 		
 	ORYX.Plugins.BPMN2_0 = ORYX.Plugins.AbstractPlugin.extend(ORYX.Plugins.BPMN2_0);
 	

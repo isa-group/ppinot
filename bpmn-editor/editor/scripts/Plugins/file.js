@@ -1,25 +1,21 @@
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 if (!ORYX.Plugins) 
     ORYX.Plugins = new Object();
 
@@ -57,7 +53,7 @@ ORYX.Plugins.Save = Clazz.extend({
 			}
 		}, false)
 		
-		
+		// Disables save as
 		/*this.facade.offer({
 			'name': ORYX.I18N.Save.saveAs,
 			'functionality': this.save.bind(this,true),
@@ -156,6 +152,10 @@ ORYX.Plugins.Save = Clazz.extend({
 				
 				var namespace	= form.elements["namespace"].value.strip();
 				namespace		= namespace.length == 0 ? defaultData.namespace : namespace;
+
+				// In Activiti the following two lines are removed
+				//var comment 	= form.elements["comment"].value.strip();
+				//comment			= comment.length == 0 ? defaultData.comment : comment;
 				
 				modelMeta.name = title;
 				modelMeta.description = summary;
@@ -250,7 +250,8 @@ ORYX.Plugins.Save = Clazz.extend({
 				          
 				// Parse dom to string
 		        var svgDOM 	= DataManager.serialize(svgClone);
-				
+
+				// In Activiti, the comment field does not exist
 		        var params = {
 		        		json_xml: json,
 		        		svg_xml: svgDOM,
@@ -302,12 +303,13 @@ ORYX.Plugins.Save = Clazz.extend({
 						// Reset changes
 						this.changeDifference = 0;
 						this.updateTitle();
-						
-						var resJSON = transport.responseText.evalJSON();
+
+						// In Activiti, the modelId is returned by the server
+						/*var resJSON = transport.responseText.evalJSON();
 						if(resJSON.modelId) {
 							modelMeta.modelId = resJSON.modelId;
-						}
-						
+						} */
+
 						if(modelMeta["new"]) {
 							modelMeta["new"] = false;
 						}
@@ -344,11 +346,18 @@ ORYX.Plugins.Save = Clazz.extend({
 				
 				if(modelMeta["new"]) {	
 					// Send the request out
-					params.id = modelMeta.modelId;					
-					this.sendSaveRequest('POST', reqURI, params, true, successFn, failure);
+					params.id = modelMeta.modelId;
+					// In Activiti, forceNew is always true
+					this.sendSaveRequest('POST', reqURI, params, forceNew, successFn, failure);
 				} else if(forceNew) {
-					this.sendSaveRequest('POST', reqURI, params, true, successFn, failure);
-				} else {						
+					this.sendSaveRequest('POST', reqURI, params, forceNew, successFn, failure);
+				} else {
+
+				    /* In Activiti, this is commented
+					if (!reqURI.include(modelMeta.modelId))
+						reqURI += "/" + modelMeta.modelId;
+					*/
+
 					params.id = modelMeta.modelId;
 					// Send the request out
 					this.sendSaveRequest('PUT', reqURI, params, false, successFn, failure);
@@ -410,10 +419,14 @@ ORYX.Plugins.Save = Clazz.extend({
 		var onComplete = function(){
 			Ext.getBody().unmask();
 		}
-		
+
+		// In Activiti, this line is included
 		var modelMeta = this.facade.getModelMetaData();
-		
-		new Ajax.Request("../service/model/" + modelMeta.modelId + "/json", {
+
+		//new Ajax.Request(window.location.href.replace(/#.*/g, "") + "&data", {
+
+		//new Ajax.Request("../service/model/" + modelMeta.modelId + "/json", {
+		new Ajax.Request(ORYX.CONFIG.SERVER_MODEL_HANDLER + "/" + modelMeta.modelId + "/json", {
             method: 'get',
             asynchronous: true,
 			requestHeaders: {
@@ -472,18 +485,21 @@ ORYX.Plugins.Save = Clazz.extend({
 		
 		var saveUri;
 		if(forceNew == false) {
-			saveUri = "../service/model/" + params.id + "/save";
+		    // "../service/model" + params.id + "/save"
+			saveUri = ORYX.CONFIG.SERVER_MODEL_HANDLER + "/" + params.id;
 		} else {
-			saveUri = "../service/model/new";
+		    // "../service/model/new"
+			saveUri = ORYX.CONFIG.SERVER_MODEL_HANDLER + ORYX.CONFIG.ORYX_NEW_URL;
 		}
-		
+
 		// Send the request to the server.
+		// In Signavio, it uses the url
 		Ext.Ajax.request({
 			url				: saveUri,
 			method			: method,
 			timeout			: 1800000,
 			disableCaching	: true,
-			headers			: {'Accept':"application/json", 'Content-Type':'charset=UTF-8'},
+			headers			: {'Accept':"application/json"},
 			params			: params,
 			success			: success,
 			failure			: failure

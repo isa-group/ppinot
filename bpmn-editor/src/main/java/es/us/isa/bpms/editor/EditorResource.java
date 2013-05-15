@@ -27,6 +27,13 @@ public class EditorResource {
         return this.getClass().getResourceAsStream("/stencilset.json");
     }
 
+    @Path("/ssextensions")
+    @GET
+    @Produces("application/json")
+    public String getStencilSetExtensions() {
+        return "{ \"extensions\": [], \"perspectives\":[]}";
+    }
+
 
     @GET
     @Produces("application/xhtml+xml")

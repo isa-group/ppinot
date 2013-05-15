@@ -1,25 +1,20 @@
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 
 
 if(!ORYX.Plugins) {
@@ -498,6 +493,8 @@ ORYX.Plugins.PropertyWindow = {
 				
 				var editorGrid = undefined;
 				var editorRenderer = null;
+				
+				var refToViewFlag = false;
 
 				if(!pair.readonly()){
 					switch(pair.type()) {
@@ -580,6 +577,9 @@ ORYX.Plugins.PropertyWindow = {
 							items.each(function(value) {
 								if(value.value() == attribute)
 									attribute = value.title();
+									
+								if(value.refToView()[0])
+									refToViewFlag = true;
 																
 								options.push([value.icon(), value.title(), value.value()]);
 															
@@ -635,7 +635,7 @@ ORYX.Plugins.PropertyWindow = {
 							cf.on('dialogClosed', this.dialogClosed, {scope:this, row:index, col:1,field:cf});							
 							editorGrid = new Ext.Editor(cf);
 							break;
-						
+							
 						case ORYX.CONFIG.TYPE_MODEL_LINK:
 							var cf = new Ext.form.ComplexModelLinkField({
 								allowBlank: pair.optional(),
@@ -644,10 +644,10 @@ ORYX.Plugins.PropertyWindow = {
 								row:index,
 								facade:this.facade
 							});
-							cf.on('dialogClosed', this.dialogClosed, {scope:this, row:index, col:1,field:cf});	
+							cf.on('dialogClosed', this.dialogClosed, {scope:this, row:index, col:1,field:cf});
 							editorGrid = new Ext.Editor(cf);
 							break;
-						
+
 						case ORYX.CONFIG.TYPE_LISTENER:
 							var cf = new Ext.form.ListenerDefinitionField({
 								allowBlank: pair.optional(),
@@ -656,10 +656,10 @@ ORYX.Plugins.PropertyWindow = {
 								row:index,
 								facade:this.facade
 							});
-							cf.on('dialogClosed', this.dialogClosed, {scope:this, row:index, col:1,field:cf});	
+							cf.on('dialogClosed', this.dialogClosed, {scope:this, row:index, col:1,field:cf});
 							editorGrid = new Ext.Editor(cf);
 							break;
-							
+
 						// extended by Kerstin (start)
 						case ORYX.CONFIG.TYPE_COMPLEX:
 							
@@ -670,12 +670,12 @@ ORYX.Plugins.PropertyWindow = {
 						// extended by Kerstin (end)
 						
 						case ORYX.CONFIG.TYPE_MULTIPLECOMPLEX:
-							
+
 							var cf = new Ext.form.MultipleComplexListField({ allowBlank: pair.optional()}, pair.complexItems(), key, this.facade);
-							cf.on('dialogClosed', this.dialogClosed, {scope:this, row:index, col:1,field:cf});							
+							cf.on('dialogClosed', this.dialogClosed, {scope:this, row:index, col:1,field:cf});
 							editorGrid = new Ext.Editor(cf);
 							break;
-							
+
 						// extended by Gerardo (Start)
 						case "CPNString":
 							var editorInput = new Ext.form.TextField(
@@ -717,8 +717,8 @@ ORYX.Plugins.PropertyWindow = {
 				
 				// Push to the properties-array
 				if(pair.visible()) {
-					// Popular Properties are those which are set to be popular
-					if (pair.popular()) {
+					// Popular Properties are those with a refToView set or those which are set to be popular
+					if (pair.refToView()[0] || refToViewFlag || pair.popular()) {
 						pair.setPopular();
 					} 
 					
@@ -872,7 +872,10 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
 	 * @param {Object} value The value to be set (JSON format or empty string)
 	 */
 	setValue: function(value) {	
-		if (value.length > 0 && value.indexOf('<') == -1) {
+		if (value.length > 0) {
+        // In Activiti is as follows
+		//if (value.length > 0 && value.indexOf('<') == -1) {
+
 			// set only if this.data not set yet
 			// only to initialize the grid
 			if (this.data == undefined) {
@@ -1017,7 +1020,7 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
 		
 		var col = option.column;
 		var row = option.row;
-		
+
 		var editId = this.grid.getColumnModel().config[col].id;
 		// check if there is an item in the row, that disables this cell
 		for (var i = 0; i < this.items.length; i++) {
@@ -1052,7 +1055,7 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
 	onCellClick: function() {
 		alert()
 	},
-	
+
     /**
      * If the trigger was clicked a dialog has to be opened
      * to enter the values for the complex property.
@@ -1086,7 +1089,7 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
 			dialogWidth += 22;
 			
 			var data = this.data;
-			
+
 			if (data == "") {
 				// empty string can not be parsed
 				data = "{}";
@@ -1225,22 +1228,22 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
     triggerClass:	'x-form-complex-trigger',
 	readOnly:		true,
 	emptyText: 		ORYX.I18N.PropertyWindow.clickIcon,
-		
+
 	/**
 	 * Builds the JSON value from the data source of the grid in the dialog.
 	 */
 	buildValue: function() {
 		var ds = this.grid.getStore();
 		ds.commitChanges();
-		
+
 		if (ds.getCount() == 0) {
 			return "";
 		}
-		
+
 		var jsonString = "[";
 		for (var i = 0; i < ds.getCount(); i++) {
-			var data = ds.getAt(i);		
-			jsonString += "{";	
+			var data = ds.getAt(i);
+			jsonString += "{";
 			for (var j = 0; j < this.items.length; j++) {
 				var key = this.items[j].id();
 				jsonString += key + ':' + ("" + data.get(key)).toJSON();
@@ -1254,19 +1257,19 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 			}
 		}
 		jsonString += "]";
-		
-		jsonString = "{'totalCount':" + ds.getCount().toJSON() + 
+
+		jsonString = "{'totalCount':" + ds.getCount().toJSON() +
 			", 'items':" + jsonString + "}";
 		return Object.toJSON(jsonString.evalJSON());
 	},
-	
+
 	/**
 	 * Returns the field key.
 	 */
 	getFieldKey: function() {
 		return this.key;
 	},
-	
+
 	/**
 	 * Returns the actual value of the trigger field.
 	 * If the table does not contain any values the empty
@@ -1275,22 +1278,22 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
     getValue : function(){
 		// return actual value if grid is active
 		if (this.grid) {
-			return this.buildValue();			
+			return this.buildValue();
 		} else if (this.data == undefined) {
 			return "";
 		} else {
 			return this.data;
 		}
     },
-	
+
 	/**
 	 * Sets the value of the trigger field.
 	 * In this case this sets the data that will be shown in
 	 * the grid of the dialog.
-	 * 
+	 *
 	 * @param {Object} value The value to be set (JSON format or empty string)
 	 */
-	setValue: function(value) {	
+	setValue: function(value) {
 		if (value.length > 0 && value.indexOf('<') == -1) {
 			// set only if this.data not set yet
 			// only to initialize the grid
@@ -1299,20 +1302,20 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 			}
 		}
 	},
-	
+
 	/**
 	 * Returns false. In this way key events will not be propagated
 	 * to other elements.
-	 * 
+	 *
 	 * @param {Object} event The keydown event.
 	 */
 	keydownHandler: function(event) {
 		return false;
 	},
-	
+
 	/**
-	 * The listeners of the dialog. 
-	 * 
+	 * The listeners of the dialog.
+	 *
 	 * If the dialog is hidded, a dialogClosed event will be fired.
 	 * This has to be used by the parent element of the trigger field
 	 * to reenable the trigger field (focus gets lost when entering values
@@ -1320,7 +1323,7 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 	 */
     dialogListeners : {
         show : function(){ // retain focus styling
-            this.onFocus();	
+            this.onFocus();
 			this.facade.registerOnEvent(ORYX.CONFIG.EVENT_KEYDOWN, this.keydownHandler.bind(this));
 			this.facade.disableEvent(ORYX.CONFIG.EVENT_KEYDOWN);
 			return;
@@ -1330,49 +1333,49 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
             var dl = this.dialogListeners;
             this.dialog.un("show", dl.show,  this);
             this.dialog.un("hide", dl.hide,  this);
-			
+
 			this.dialog.destroy(true);
 			this.grid.destroy(true);
 			delete this.grid;
 			delete this.dialog;
-			
+
 			this.facade.unregisterOnEvent(ORYX.CONFIG.EVENT_KEYDOWN, this.keydownHandler.bind(this));
 			this.facade.enableEvent(ORYX.CONFIG.EVENT_KEYDOWN);
-			
+
 			// store data and notify parent about the closed dialog
 			// parent has to handel this event and start editing the text field again
 			this.fireEvent('dialogClosed', this.data);
-			
+
 			Ext.form.ComplexListField.superclass.setValue.call(this, this.data);
         }
-    },	
-	
+    },
+
 	/**
 	 * Builds up the initial values of the grid.
-	 * 
+	 *
 	 * @param {Object} recordType The record type of the grid.
 	 * @param {Object} items      The initial items of the grid (columns)
 	 */
 	buildInitial: function(recordType, items) {
 		var initial = new Hash();
-		
+
 		for (var i = 0; i < items.length; i++) {
 			var id = items[i].id();
 			initial[id] = items[i].value();
 		}
-		
+
 		var RecordTemplate = Ext.data.Record.create(recordType);
 		return new RecordTemplate(initial);
 	},
-	
+
 	/**
 	 * Builds up the column model of the grid. The parent element of the
 	 * grid.
-	 * 
-	 * Sets up the editors for the grid columns depending on the 
+	 *
+	 * Sets up the editors for the grid columns depending on the
 	 * type of the items.
-	 * 
-	 * @param {Object} parent The 
+	 *
+	 * @param {Object} parent The
 	 */
 	buildColumnModel: function(parent) {
 		var cols = [];
@@ -1382,25 +1385,25 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 			var width 	= this.items[i].width();
 			var type 	= this.items[i].type();
 			var editor;
-			
+
 			if (type == ORYX.CONFIG.TYPE_STRING) {
 				editor = new Ext.form.TextField({ allowBlank : this.items[i].optional(), width : width});
-			} else if (type == ORYX.CONFIG.TYPE_CHOICE) {				
+			} else if (type == ORYX.CONFIG.TYPE_CHOICE) {
 				var items = this.items[i].items();
 				var select = ORYX.Editor.graft("http://www.w3.org/1999/xhtml", parent, ['select', {style:'display:none'}]);
 				var optionTmpl = new Ext.Template('<option value="{value}">{value}</option>');
-				items.each(function(value){ 
-					optionTmpl.append(select, {value:value.value()}); 
-				});				
-				
+				items.each(function(value){
+					optionTmpl.append(select, {value:value.value()});
+				});
+
 				editor = new Ext.form.ComboBox(
-					{ typeAhead: true, triggerAction: 'all', transform:select, lazyRender:true,  msgTarget:'title', width : width});			
+					{ typeAhead: true, triggerAction: 'all', transform:select, lazyRender:true,  msgTarget:'title', width : width});
 			} else if (type == ORYX.CONFIG.TYPE_BOOLEAN) {
 				editor = new Ext.form.Checkbox( { width : width } );
 			} else if (type == ORYX.CONFIG.TYPE_COMPLEX) {
 				continue;
 			}
-					
+
 			cols.push({
 				id: 		id,
 				header: 	header,
@@ -1409,48 +1412,48 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 				editor: 	editor,
 				width:		width
 	        });
-			
+
 		}
 		return new Ext.grid.ColumnModel(cols);
 	},
-	
+
 	buildSecondColumnModel: function(parent) {
 		var cols = [];
 		for (var i = 0; i < this.items.length; i++) {
-			
+
 			var parentType 	= this.items[i].type();
-			
+
 			if (parentType != ORYX.CONFIG.TYPE_COMPLEX) {
 				continue;
 			}
-			
+
 			var complexItems = this.items[i].complexItems();
-			
+
 			for (var j = 0; j < complexItems.length; j++) {
 				var id 		= complexItems[j].id();
 				var header 	= complexItems[j].name();
 				var type 	= complexItems[j].type();
 				var width 	= complexItems[j].width();
 				var editor;
-				
+
 				if (type == ORYX.CONFIG.TYPE_STRING) {
 					editor = new Ext.form.TextField({ allowBlank : complexItems[j].optional(), width : width});
-				} else if (type == ORYX.CONFIG.TYPE_CHOICE) {				
+				} else if (type == ORYX.CONFIG.TYPE_CHOICE) {
 					var items = complexItems[j].items();
 					var select = ORYX.Editor.graft("http://www.w3.org/1999/xhtml", parent, ['select', {style:'display:none'}]);
 					var optionTmpl = new Ext.Template('<option value="{value}">{value}</option>');
-					items.each(function(value){ 
-						optionTmpl.append(select, {value:value.value()}); 
-					});				
-					
+					items.each(function(value){
+						optionTmpl.append(select, {value:value.value()});
+					});
+
 					editor = new Ext.form.ComboBox(
-						{ typeAhead: true, triggerAction: 'all', transform:select, lazyRender:true,  msgTarget:'title', width : width});			
+						{ typeAhead: true, triggerAction: 'all', transform:select, lazyRender:true,  msgTarget:'title', width : width});
 				} else if (type == ORYX.CONFIG.TYPE_BOOLEAN) {
 					editor = new Ext.form.Checkbox( { width : width } );
 				} else if (type == ORYX.CONFIG.TYPE_COMPLEX) {
 					continue;
 				}
-						
+
 				cols.push({
 					id: 		id,
 					header: 	header,
@@ -1463,40 +1466,40 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 		}
 		return new Ext.grid.ColumnModel(cols);
 	},
-	
+
 	/**
 	 * After a cell was edited the changes will be commited.
-	 * 
+	 *
 	 * @param {Object} option The option that was edited.
 	 */
 	afterEdit: function(option) {
 		option.grid.getStore().commitChanges();
 	},
-	
+
 	afterEditSecondGrid: function(option) {
 		this.secondGrid.getStore().commitChanges();
 		var selectedCell = this.grid.getSelectionModel().getSelectedCell();
 		if (selectedCell.length == 2) {
 			var row = selectedCell[0];
-			
+
 			var jsonString = "[";
 			for (var i = 0; i < this.secondGrid.getStore().getCount(); i++) {
-				var data = this.secondGrid.getStore().getAt(i);		
-				jsonString += "{";	
+				var data = this.secondGrid.getStore().getAt(i);
+				jsonString += "{";
 				for (var j = 0; j < this.items.length; j++) {
-					
+
 					var parentType 	= this.items[j].type();
-					
+
 					if (parentType != ORYX.CONFIG.TYPE_COMPLEX) {
 						continue;
 					}
-					
+
 					var complexItems = this.items[j].complexItems();
-					
+
 					for (var k = 0; k < complexItems.length; k++) {
-					
+
 						var key = complexItems[k].id();
-						
+
 						jsonString += key + ':' + ("" + data.get(key)).toJSON();
 						if (k < (complexItems.length - 1)) {
 							jsonString += ", ";
@@ -1509,50 +1512,50 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 				}
 			}
 			jsonString += "]";
-			
-			jsonString = "{'totalCount':" + this.secondGrid.getStore().getCount().toJSON() + 
+
+			jsonString = "{'totalCount':" + this.secondGrid.getStore().getCount().toJSON() +
 				", 'items':" + jsonString + "}";
-			
+
 			var activeRecord = this.grid.getStore().getAt(row);
 			activeRecord.set(this.complexFieldId, Object.toJSON(jsonString.evalJSON()));
 		}
 	},
-		
+
 	/**
-	 * Before a cell is edited it has to be checked if this 
+	 * Before a cell is edited it has to be checked if this
 	 * cell is disabled by another cell value. If so, the cell editor will
 	 * be disabled.
-	 * 
+	 *
 	 * @param {Object} option The option to be edited.
 	 */
 	beforeEdit: function(option) {
 
 		var state = this.grid.getView().getScrollState();
-		
+
 		var col = option.column;
 		var row = option.row;
-		
+
 		var editId = this.grid.getColumnModel().config[col].id;
 		// check if there is an item in the row, that disables this cell
 		for (var i = 0; i < this.items.length; i++) {
-			
+
 			if (this.items[i].type() == ORYX.CONFIG.TYPE_COMPLEX) {
 				continue;
 			}
-			
+
 			// check each item that defines a "disable" property
 			var item = this.items[i];
 			var disables = item.disable();
 			if (disables != undefined) {
-				
+
 				// check if the value of the column of this item in this row is equal to a disabling value
 				var value = this.grid.getStore().getAt(row).get(item.id());
 				for (var j = 0; j < disables.length; j++) {
 					var disable = disables[j];
 					if (disable.value == value) {
-						
+
 						for (var k = 0; k < disable.items.length; k++) {
-							// check if this value disables the cell to select 
+							// check if this value disables the cell to select
 							// (id is equals to the id of the column to edit)
 							var disItem = disable.items[k];
 							if (disItem == editId) {
@@ -1561,13 +1564,13 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 							}
 						}
 					}
-				}		
+				}
 			}
 		}
 		this.grid.getColumnModel().getCellEditor(col, row).enable();
 		//this.grid.getView().restoreScroll(state);
 	},
-	
+
     /**
      * If the trigger was clicked a dialog has to be opened
      * to enter the values for the complex property.
@@ -1575,81 +1578,81 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
     onTriggerClick : function(){
         if(this.disabled){
             return;
-        }	
-		
-		//if(!this.dialog) { 
-		
+        }
+
+		//if(!this.dialog) {
+
 			var dialogWidth = 0;
 			var recordType 	= [];
 			var secondRecordType = [];
-			
+
 			this.complexFieldId;
 			var complexItems;
-			
+
 			for (var i = 0; i < this.items.length; i++) {
-				
+
 				var id 		= this.items[i].id();
 				var width 	= this.items[i].width();
-				var type 	= this.items[i].type();	
-					
+				var type 	= this.items[i].type();
+
 				if (type == ORYX.CONFIG.TYPE_CHOICE) {
 					type = ORYX.CONFIG.TYPE_STRING;
 				}
-				
+
 				if (type == ORYX.CONFIG.TYPE_COMPLEX) {
 					this.complexFieldId = id;
 					type = ORYX.CONFIG.TYPE_STRING;
-					
+
 					complexItems = this.items[i].complexItems();
-					
+
 					for (var j = 0; j < complexItems.length; j++) {
 						var secondId 		= complexItems[j].id();
 						var secondWidth 	= complexItems[j].width();
 						var secondType 		= complexItems[j].type();
-						
+
 						if (secondType == ORYX.CONFIG.TYPE_CHOICE) {
 							secondType = ORYX.CONFIG.TYPE_STRING;
 						}
-						
+
 						secondRecordType[j] = {name:secondId, type:secondType};
 					}
-					
+
 				} else {
 					dialogWidth += width;
 				}
 				recordType[i] = {name:id, type:type};
-			}			
-			
+			}
+
 			if (dialogWidth > 800) {
 				dialogWidth = 800;
 			}
 			dialogWidth += 22;
-			
+
 			var data = this.data;
 			if (data == "") {
 				// empty string can not be parsed
 				data = "{}";
 			}
-			
+
 			var ds = new Ext.data.Store({
-		        proxy: new Ext.data.MemoryProxy(eval("(" + data + ")")),				
+		        proxy: new Ext.data.MemoryProxy(eval("(" + data + ")")),
 				reader: new Ext.data.JsonReader({
 		            root: 'items',
 		            totalProperty: 'totalCount'
 		        	}, recordType)
 	        });
 			ds.load();
-			
+
 			var secondDs = new Ext.data.Store();
-				
+
 			var cm = this.buildColumnModel();
-			
+
 			var secondCm = this.buildSecondColumnModel();
-					
+
 			//var gridHead = this.grid.getView().getHeaderPanel(true);
 			var toolbar = new Ext.Toolbar(
 			[{
-				text: ORYX.I18N.PropertyWindow.add,					
+				text: ORYX.I18N.PropertyWindow.add,
 				icon: '../editor/images/add.png',
 				iconCls: "x-dummy",
 				handler: function(){
@@ -1662,7 +1665,7 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 					this.grid.startEditing(index, 0);
 				}.bind(this)
 			},{
-				text: ORYX.I18N.PropertyWindow.rem,					
+				text: ORYX.I18N.PropertyWindow.rem,
 				icon: '../editor/images/delete.png',
 				iconCls: "x-dummy",
 		        handler : function(){
@@ -1672,13 +1675,13 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 						return;
 					}
 					this.grid.getSelectionModel().clearSelections();
-		            this.grid.stopEditing();					
+		            this.grid.stopEditing();
 					var record = ds.getAt(selection[0]);
 					ds.remove(record);
-					ds.commitChanges();           
+					ds.commitChanges();
 				}.bind(this)
-			}]);			
-					
+			}]);
+
 			this.grid = new Ext.grid.EditorGridPanel({
 				store:		ds,
 		        cm:			cm,
@@ -1686,7 +1689,7 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 				clicksToEdit: 1,
 				autoScroll: true,
 				stateId: "x-editor-complex-grid",
-				height: 280, 
+				height: 280,
 				anchor: '100%',
 				enableHdMenu: false, // Disable header menu
 				selModel: new Ext.grid.CellSelectionModel({
@@ -1696,16 +1699,16 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 			            	secondDs.removeAll(true);
 			            	var masterRecord = ds.getAt(row);
 			    			if (masterRecord.get('' + this.complexFieldId) != undefined && masterRecord.get('' + this.complexFieldId) != 'undefined') {
-			    				
+
 			    				var newDs = new Ext.data.Store({
-			    			        proxy: new Ext.data.MemoryProxy(eval("(" + masterRecord.get('' + this.complexFieldId) + ")")),				
+			    			        proxy: new Ext.data.MemoryProxy(eval("(" + masterRecord.get('' + this.complexFieldId) + ")")),
 			    					reader: new Ext.data.JsonReader({
 			    			            root: 'items',
 			    			            totalProperty: 'totalCount'
 			    			        	}, secondRecordType)
 			    		        });
 			    				newDs.load();
-			    				
+
 			    				secondDs.removeAll(true);
 			    				for (var i = 0; i < newDs.getCount(); i++) {
 			    					secondDs.add(newDs.getAt(i));
@@ -1717,12 +1720,12 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 				}),
 
 				tbar:toolbar
-				
+
 		    });
-			
+
 			var secondToolbar = new Ext.Toolbar(
 			[{
-				text: ORYX.I18N.PropertyWindow.add,					
+				text: ORYX.I18N.PropertyWindow.add,
 				icon: '../editor/images/add.png',
 				iconCls: "x-dummy",
 				handler: function(){
@@ -1735,7 +1738,7 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 					this.secondGrid.startEditing(index, 0);
 				}.bind(this)
 			},{
-				text: ORYX.I18N.PropertyWindow.rem,					
+				text: ORYX.I18N.PropertyWindow.rem,
 				icon: '../editor/images/delete.png',
 				iconCls: "x-dummy",
 		        handler : function(){
@@ -1745,14 +1748,14 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 						return;
 					}
 					this.secondGrid.getSelectionModel().clearSelections();
-		            this.secondGrid.stopEditing();					
+		            this.secondGrid.stopEditing();
 					var record = ds.getAt(selection[0]);
 					ds.remove(record);
 					ds.commitChanges();
 					this.afterEditSecondGrid();
 				}.bind(this)
 			}]);
-			
+
 			this.secondGrid = new Ext.grid.EditorGridPanel({
 				store:		secondDs,
 		        cm:			secondCm,
@@ -1760,25 +1763,25 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 				clicksToEdit: 1,
 				autoScroll: true,
 				stateId: "x-editor-complex-grid",
-				height: 280, 
+				height: 280,
 				anchor: '100%',
 				enableHdMenu: false, // Disable header menu
 				selModel: new Ext.grid.CellSelectionModel(),
 				tbar:secondToolbar
-				
+
 		    });
-			
+
 			// Basic Dialog
-			this.dialog = new Ext.Window({ 
-				autoCreate: true, 
+			this.dialog = new Ext.Window({
+				autoCreate: true,
 				layout: "anchor",
-				title: ORYX.I18N.PropertyWindow.complex, 
-				height: 600, 
-				width: dialogWidth, 
+				title: ORYX.I18N.PropertyWindow.complex,
+				height: 600,
+				width: dialogWidth,
 				modal:true,
 				collapsible:false,
-				fixedcenter: true, 
-				shadow:true, 
+				fixedcenter: true,
+				shadow:true,
 				proxyDrag: true,
 				keys:[{
 					key: 27,
@@ -1791,38 +1794,38 @@ Ext.extend(Ext.form.MultipleComplexListField, Ext.form.TriggerField,  {
 				buttons: [{
 	                text: ORYX.I18N.PropertyWindow.ok,
 	                handler: function(){
-	                    this.grid.stopEditing();	
+	                    this.grid.stopEditing();
 						// store dialog input
 						this.data = this.buildValue();
 						this.dialog.hide()
 	                }.bind(this)
 	            }]
-			});		
-				
+			});
+
 			this.dialog.on(Ext.apply({}, this.dialogListeners, {
 	       		scope:this
 	        }));
-		
-			this.dialog.show();	
-		
-	
+
+			this.dialog.show();
+
+
 			this.grid.on('beforeedit', 	this.beforeEdit, 	this, true);
 			this.grid.on('afteredit', 	this.afterEdit, 	this, true);
-			
+
 			this.secondGrid.on('beforeedit', 	this.beforeEdit, 	this, true);
 			this.secondGrid.on('afteredit', 	this.afterEditSecondGrid, 	this, true);
-			
+
 			this.grid.render();
 			this.secondGrid.render();
-			
+
 			if (ds.getCount() > 0) {
 				this.grid.getSelectionModel().select(0,0);
 			}
-	    
+
 		/*} else {
-			this.dialog.show();		
+			this.dialog.show();
 		}*/
-		
+
 	}
 });
 
@@ -1913,7 +1916,7 @@ Ext.form.ComplexModelLinkField = Ext.extend(Ext.form.TriggerField, {
 		if(this.disabled){
 			return;
 		}
-	        
+
 		var CallElementDef = Ext.data.Record.create([{
 			name: 'name'
 		}, {
@@ -1921,11 +1924,11 @@ Ext.form.ComplexModelLinkField = Ext.extend(Ext.form.TriggerField, {
 		}, {
 			name: 'imgsrc'
 		}]);
-	    
+
 		var calldefsProxy = new Ext.data.MemoryProxy({
 			root: []
 		});
-	    
+
 		var calldefs = new Ext.data.Store({
 			autoDestroy: true,
 			reader: new Ext.data.JsonReader({
@@ -1938,7 +1941,7 @@ Ext.form.ComplexModelLinkField = Ext.extend(Ext.form.TriggerField, {
 			}]
 		});
 		calldefs.load();
-	    
+
 		var loadProcessesMask = new Ext.LoadMask(Ext.getBody(), {msg:'Loading Process Information'});
 		loadProcessesMask.show();
 		Ext.Ajax.request({
@@ -1960,7 +1963,7 @@ Ext.form.ComplexModelLinkField = Ext.extend(Ext.form.TriggerField, {
 					    }
 
 						calldefs.commitChanges();
-	    
+
 						var gridId = Ext.id();
 						var grid = new Ext.grid.EditorGridPanel({
 							store: calldefs,
@@ -1993,7 +1996,7 @@ Ext.form.ComplexModelLinkField = Ext.extend(Ext.form.TriggerField, {
 							}]),
 							autoHeight: true
 						});
-	    
+
 						grid.on('afterrender', function(e) {
 							if(this.value.length > 0) {
 								var index = 0;
@@ -2007,7 +2010,7 @@ Ext.form.ComplexModelLinkField = Ext.extend(Ext.form.TriggerField, {
 								});
 							}
 						}.bind(this));
-	    
+
 						var calledElementsPanel = new Ext.Panel({
 							id: 'calledElementsPanel',
 							title: '<center>Select Process Id and click "Save" to select.</center>',
@@ -2022,7 +2025,7 @@ Ext.form.ComplexModelLinkField = Ext.extend(Ext.form.TriggerField, {
 							    	   columnWidth: 1.0
 							       }
 						});
-	    
+
 						var dialog = new Ext.Window({
 							layout	: 'anchor',
 							autoCreate	: true,
@@ -2047,7 +2050,7 @@ Ext.form.ComplexModelLinkField = Ext.extend(Ext.form.TriggerField, {
 								hide: function(){
 									this.fireEvent('dialogClosed', this.value);
 									dialog.destroy();
-								}.bind(this)	
+								}.bind(this)
 							},
 							buttons	: [{
 								text: 'Save',
@@ -2072,9 +2075,9 @@ Ext.form.ComplexModelLinkField = Ext.extend(Ext.form.TriggerField, {
 									dialog.hide()
 								}.bind(this)
 							}]
-						});	
-	    
-						dialog.show();	
+						});
+
+						dialog.show();
 						grid.render();
 						grid.fireEvent('afterrender');
 						this.grid.stopEditing();
@@ -2099,7 +2102,7 @@ Ext.form.ListenerDefinitionField = Ext.extend(Ext.form.TriggerField, {
 		if(this.disabled){
 			return;
 		}
-	        
+
 		var ListenerDef = Ext.data.Record.create([{
 			name: 'class'
 		}, {
@@ -2107,11 +2110,11 @@ Ext.form.ListenerDefinitionField = Ext.extend(Ext.form.TriggerField, {
 		}, {
 			name: 'event'
 		}]);
-	    
+
 		var calldefsProxy = new Ext.data.MemoryProxy({
 			root: []
 		});
-	    
+
 		var calldefs = new Ext.data.Store({
 			autoDestroy: true,
 			reader: new Ext.data.JsonReader({
@@ -2197,7 +2200,7 @@ Ext.form.ListenerDefinitionField = Ext.extend(Ext.form.TriggerField, {
 				hide: function(){
 					this.fireEvent('dialogClosed', this.value);
 					dialog.destroy();
-				}.bind(this)	
+				}.bind(this)
 			},
 			buttons	: [{
 				text: 'Save',
@@ -2222,9 +2225,9 @@ Ext.form.ListenerDefinitionField = Ext.extend(Ext.form.TriggerField, {
 					dialog.hide()
 				}.bind(this)
 			}]
-		});	
+		});
 
-		dialog.show();	
+		dialog.show();
 		grid.render();
 		grid.fireEvent('afterrender');
 		this.grid.stopEditing();

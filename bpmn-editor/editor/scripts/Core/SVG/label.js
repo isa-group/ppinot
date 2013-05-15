@@ -1,25 +1,21 @@
-/**
- * Copyright (c) 2006
- * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- **/
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 
 /**
  * Init namespaces
@@ -557,13 +553,13 @@ ORYX.Core.SVG.Label = Clazz.extend({
 					if (this.fitToElemId) {
 						window.setTimeout(this._checkFittingToReferencedElem.bind(this), 0);
 					} else {
-						window.setTimeout(this._positionText.bind(this), 0);
-						//this._positionText();
+						//window.setTimeout(this._positionText.bind(this), 0);
+						this._positionText();
 					}
 				}
 			} else {
-				this.node.textContent = "";
-				//this.node.setAttributeNS(null, "fill-opacity", "0.2");
+				//this.node.textContent = "";
+				this.node.setAttributeNS(null, "fill-opacity", "0.2");
 			}
 		}
 	},
@@ -664,8 +660,7 @@ ORYX.Core.SVG.Label = Clazz.extend({
 	 */
 	_positionText: function() {
 		try {
-			//var tspans = this.node.getElementsByTagNameNS(ORYX.CONFIG.NAMESPACE_SVG, 'tspan');
-			var tspans = this.node.childNodes;
+			var tspans = this.node.getElementsByTagNameNS(ORYX.CONFIG.NAMESPACE_SVG, 'tspan');
 			
 			var fontSize = this.getFontSize(this.node); 
 			
@@ -765,7 +760,7 @@ ORYX.Core.SVG.Label = Clazz.extend({
 	 * @param {int} endIndex Optional, for sub strings
 	 */
 	_getRenderedTextLength: function(tspan, startIndex, endIndex, fontSize) {
-		//if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent) && new Number(RegExp.$1) >= 3) {
+		if (/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent) && new Number(RegExp.$1) >= 3) {
 			if(startIndex === undefined) {
 //test string: abcdefghijklmnopqrstuvwxyzöäü,.-#+ 1234567890ßABCDEFGHIJKLMNOPQRSTUVWXYZ;:_'*ÜÄÖ!"§$%&/()=?[]{}|<>'~´`\^°µ@€²³
 //				for(var i = 0; i < tspan.textContent.length; i++) {
@@ -775,13 +770,13 @@ ORYX.Core.SVG.Label = Clazz.extend({
 			} else {
 				return tspan.getSubStringLength(startIndex, endIndex);
 			}
-		/*} else {
+		} else {
 			if(startIndex === undefined) {
 				return this._estimateTextWidth(tspan.textContent, fontSize);
 			} else {
 				return this._estimateTextWidth(tspan.textContent.substr(startIndex, endIndex).trim(), fontSize);
 			}
-		}*/
+		}
 	},
 	
 	/**

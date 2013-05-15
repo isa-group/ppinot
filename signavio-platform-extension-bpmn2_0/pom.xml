@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>platform-extension-bpmn2_0</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <artifactId>bpmn-editor-bpmn20xml</artifactId>
+    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Platform Extension for Oryx</name>
+    <name>BPMN Editor - BPMN XML 2.0</name>
 
     <parent>
         <groupId>es.us.isa.ppinot</groupId>
@@ -41,9 +41,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.signavio</groupId>
-            <artifactId>platform-extension-diagram</artifactId>
-            <version>1.0</version>
+            <groupId>es.us.isa.ppinot</groupId>
+            <artifactId>bpmn-editor-diagram</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

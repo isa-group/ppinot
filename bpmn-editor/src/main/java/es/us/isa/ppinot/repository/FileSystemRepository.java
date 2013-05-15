@@ -78,10 +78,19 @@ public class FileSystemRepository implements ProcessRepository {
         }
     }
 
+    @Override
+    public OutputStream getProcessJsonWriter(String id) {
+        File processFile = getProcessJsonFile(id);
+        return getOutputStream(processFile);
+    }
 
     @Override
     public OutputStream getProcessWriter(String id) {
         File processFile = getProcessFile(id);
+        return getOutputStream(processFile);
+    }
+
+    private OutputStream getOutputStream(File processFile) {
         if (!processFile.exists()) {
             try {
                 processFile.createNewFile();

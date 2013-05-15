@@ -1,18 +1,27 @@
 package es.us.isa.ppinot.repository;
 
+import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
+import de.hpi.bpmn2_0.transformation.Diagram2XmlConverter;
 import es.us.isa.ppinot.handler.PpiNotModelHandler;
 import es.us.isa.ppinot.handler.PpiNotModelHandlerInterface;
 import es.us.isa.ppinot.model.PPI;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.json.JSONException;
+import org.oryxeditor.server.diagram.basic.BasicDiagramBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.xml.sax.SAXException;
 
+import javax.servlet.ServletContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import javax.xml.bind.JAXBException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import java.io.*;
 import java.net.URI;
 import java.util.*;
 import java.util.logging.Logger;
@@ -99,6 +108,70 @@ public class RepositoryResource {
     public InputStream getProcessJson(@PathParam("id") String id) {
         return processRepository.getProcessJsonReader(id);
     }
+
+
+    @Autowired
+    private ServletContext context;
+
+    @Path("/model/{id}/xml")
+    @Produces(MediaType.APPLICATION_XML)
+    @GET
+    public String getProcessXml(@PathParam("id") String id) {
+        InputStream processReader = processRepository.getProcessJsonReader(id);
+        try {
+            String jsonModel = IOUtils.toString(processReader);
+
+            Diagram2XmlConverter converter = new Diagram2XmlConverter(BasicDiagramBuilder.parseJson(jsonModel), context.getRealPath("/WEB-INF/xsd/BPMN20.xsd"));
+            StringWriter xml = converter.getXml();
+            return xml.toString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        } catch (SAXException e) {
+            throw new RuntimeException(e);
+        } catch (TransformerException e) {
+            throw new RuntimeException(e);
+        } catch (BpmnConverterException e) {
+            throw new RuntimeException(e);
+        } catch (ParserConfigurationException e) {
+            throw new RuntimeException(e);
+        } catch (JAXBException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Path("/model/{id}")
+    //@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    //@Consumes("application/x-www-form-urlencoded")
+    @Produces(MediaType.APPLICATION_JSON)
+    @PUT
+    public InputStream getProcessJson(@PathParam("id") String id, @FormParam("json_xml") String jsonXml, @FormParam("name") String name, @FormParam("type") String type, @FormParam("description") String description) {
+        OutputStream processWriter = processRepository.getProcessJsonWriter(id);
+        //String jsonXml = form.getFirst("json_xml");
+        //ObjectMapper om = new ObjectMapper();
+        StringBuilder sb = new StringBuilder("{")
+                .append("\"name\":\"").append(name).append("\",")
+                .append("\"description\":\"").append(description).append("\",")
+                .append("\"modelId\":\"").append(id).append("\",")
+                .append("\"revision\":").append(1).append(",")
+                .append("\"model\":").append(jsonXml).append("}");
+
+        //Model m = new Model(name, description, id, jsonXml);
+        log.info(jsonXml);
+        if (jsonXml != null) {
+            try {
+                //om.writeValue(processWriter, m);
+                IOUtils.write(sb, processWriter);
+                processWriter.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return processRepository.getProcessJsonReader(id);
+    }
+
 
     @Path("/processes/{id}")
     public ProcessInfoResource getProcessInfo(@PathParam("id") String id) {

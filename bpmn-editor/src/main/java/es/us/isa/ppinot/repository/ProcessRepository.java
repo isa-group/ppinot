@@ -14,4 +14,5 @@ public interface ProcessRepository {
     public InputStream getProcessReader(String id);
     public OutputStream getProcessWriter(String id);
     public InputStream getProcessJsonReader(String id);
+    public OutputStream getProcessJsonWriter(String id);
 }

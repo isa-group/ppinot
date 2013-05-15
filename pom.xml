@@ -55,7 +55,8 @@
 		<module>ppinot-xml-owl</module>
 		<module>signavio-platform-extension-bpmn2_0</module>
 		<module>ppinot-templates</module>
-	</modules>
+        <module>bpmn-editor-diagram</module>
+    </modules>
 
     <distributionManagement>
         <snapshotRepository>

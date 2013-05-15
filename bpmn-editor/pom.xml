@@ -67,6 +67,16 @@
             <artifactId>ppinot-model</artifactId>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>es.us.isa.ppinot</groupId>
+            <artifactId>bpmn-editor-diagram</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>es.us.isa.ppinot</groupId>
+            <artifactId>bpmn-editor-bpmn20xml</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
         <dependency>
             <groupId>commons-io</groupId>

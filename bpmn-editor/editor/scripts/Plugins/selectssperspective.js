@@ -106,7 +106,7 @@ ORYX.Plugins.SelectStencilSetPerspective = {
 			triggerAction	: 'all',
 			emptyText		: 'Select a perspective...',
 			selectOnFocus	: true,
-			tpl				: '<tpl for="."><div ext:qtip="{tooltip}" class="x-combo-list-item">{[(values.title||"").escapeHTML()]}</div></tpl>'
+			tpl				: '<tpl for="."><div class="x-combo-list-item">{[(values.title||"").escapeHTML()]}</div></tpl>'
 		});
 		
 		//panel.on("resize", function(){combobox.setWidth(panel.body.getWidth())});

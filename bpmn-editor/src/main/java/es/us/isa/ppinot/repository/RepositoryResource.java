@@ -8,6 +8,7 @@ import es.us.isa.ppinot.model.PPI;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.oryxeditor.server.diagram.basic.BasicDiagramBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.xml.sax.SAXException;
@@ -119,9 +120,14 @@ public class RepositoryResource {
     public String getProcessXml(@PathParam("id") String id) {
         InputStream processReader = processRepository.getProcessJsonReader(id);
         try {
-            String jsonModel = IOUtils.toString(processReader);
+            String json = IOUtils.toString(processReader);
 
-            Diagram2XmlConverter converter = new Diagram2XmlConverter(BasicDiagramBuilder.parseJson(jsonModel), context.getRealPath("/WEB-INF/xsd/BPMN20.xsd"));
+            JSONObject jsonModel = new JSONObject(json);
+            if (jsonModel == null || !jsonModel.has("model")) {
+                throw new RuntimeException("Model not valid");
+            }
+
+            Diagram2XmlConverter converter = new Diagram2XmlConverter(BasicDiagramBuilder.parseJson(jsonModel.getJSONObject("model")), context.getRealPath("/WEB-INF/xsd/BPMN20.xsd"));
             StringWriter xml = converter.getXml();
             return xml.toString();
         } catch (IOException e) {

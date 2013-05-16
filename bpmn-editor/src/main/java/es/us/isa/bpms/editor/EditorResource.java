@@ -24,14 +24,15 @@ public class EditorResource {
     @GET
     @Produces("application/json")
     public InputStream getStencilset() {
-        return this.getClass().getResourceAsStream("/stencilset.json");
+        return this.getClass().getResourceAsStream("/json/bpmn2.0.json");
     }
 
     @Path("/ssextensions")
     @GET
     @Produces("application/json")
-    public String getStencilSetExtensions() {
-        return "{ \"extensions\": [], \"perspectives\":[]}";
+    public InputStream getStencilSetExtensions() {
+//        return "{ \"extensions\": [], \"perspectives\":[]}";
+        return this.getClass().getResourceAsStream("/json/extensions.json");
     }
 
 

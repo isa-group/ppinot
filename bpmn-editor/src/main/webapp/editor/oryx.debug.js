@@ -8651,9 +8651,12 @@ ORYX.Core.StencilSet.StencilSet = Clazz.extend({
 			//unload extension's stencils
 			if(jsonExtension.stencils) {
 				$A(jsonExtension.stencils).each(function(stencil) {
-					var oStencil = new ORYX.Core.StencilSet.Stencil(stencil, this.namespace(), this._baseUrl, this);            
-					delete this._stencils[oStencil.id()]; // maybe not ??
-					delete this._availableStencils[oStencil.id()];
+				    //var oStencil = new ORYX.Core.StencilSet.Stencil(stencil, this.namespace(), this._baseUrl, this);
+
+					//delete this._stencils[oStencil.id()]; // maybe not ??
+					//delete this._availableStencils[oStencil.id()];
+					delete this._stencils[stencil.id];
+					delete this._availableStencils[stencil.id];
 				}.bind(this));
 			}
 			
@@ -8797,7 +8800,39 @@ ORYX.Core.StencilSet.StencilSet = Clazz.extend({
         return "StencilSet " + this.title() + " (" + this.namespace() + ")";
     }
 });
-/*******************************************************************************
+
+
+function _clone(obj) {
+    // Handle the 3 simple types, and null or undefined
+    if (null == obj || "object" != typeof obj) return obj;
+
+    // Handle Date
+    if (obj instanceof Date) {
+        var copy = new Date();
+        copy.setTime(obj.getTime());
+        return copy;
+    }
+
+    // Handle Array
+    if (obj instanceof Array) {
+        var copy = [];
+        for (var i = 0, len = obj.length; i < len; i++) {
+            copy[i] = clone(obj[i]);
+        }
+        return copy;
+    }
+
+    // Handle Object
+    if (obj instanceof Object) {
+        var copy = {};
+        for (var attr in obj) {
+            if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
+        }
+        return copy;
+    }
+
+    throw new Error("Unable to copy obj! Its type isn't supported.");
+}/*******************************************************************************
  * Signavio Core Components
  * Copyright (C) 2012  Signavio GmbH
  * 
@@ -20297,6 +20332,308 @@ ORYX.Plugins.ShapeMenuPlugin.CreateCommand = ORYX.Core.Command.extend({
  ******************************************************************************/
 
 
+
+if (!ORYX.Plugins) {
+	ORYX.Plugins = new Object();
+}
+
+ORYX.Plugins.SelectStencilSetPerspective = {
+
+	facade: undefined,
+	
+	extensions : undefined,
+	
+	perspectives: undefined,
+
+	construct: function(facade) {
+		this.facade = facade;
+
+		var panel = new Ext.Panel({
+			cls:'selectssperspective',
+			border: false,
+			autoWidth:true,
+			autoScroll:true
+		});
+
+		var region = this.facade.addToRegion("west", panel);
+		
+		
+		var jsonObject = this.facade.getStencilSetExtensionDefinition();
+		
+		/* Determine available extensions */
+		this.extensions = {};
+		jsonObject.extensions.each(function(ext) {
+			this.extensions[ext.namespace] = ext;
+		}.bind(this));
+		
+		/* Determine available extensions */
+		this.perspectives = {};
+		jsonObject.perspectives.each(function(per) {
+			this.perspectives[per.namespace] = per;
+		}.bind(this));
+
+		this.facade.getStencilSets().values().each((function(sset) {
+
+			var validPerspectives = jsonObject.perspectives.findAll(function(perspective){
+				if(perspective.stencilset == sset.namespace()) return true;
+				else return false;
+			}); 
+			
+			
+			// If one perspective is defined, load this
+			if (validPerspectives.size() === 1) {
+				this.loadPerspective(validPerspectives.first().namespace);
+			
+			// If more than one perspective is defined, add a combobox and load the first one
+			} else if (validPerspectives.size() > 1) {
+				this.createPerspectivesCombobox(panel, sset, validPerspectives);
+			}
+
+		}).bind(this));
+					 
+
+	},
+
+	createPerspectivesCombobox: function(panel, stencilset, perspectives) {
+	
+		var lang = ORYX.I18N.Language.split("_").first();
+	
+		var data = [];
+		perspectives.each(function(perspective) {
+			data.push([perspective.namespace, (perspective["title_"+lang]||perspective.title).unescapeHTML(), perspective["description_"+lang]||perspective.description]);
+		});
+		
+	
+		var store = new Ext.data.SimpleStore({
+			fields: ['namespace', 'title', 'tooltip'],
+			data: data
+		});
+	
+		var combobox = new Ext.form.ComboBox({
+			store			: store,
+			displayField	: 'title',
+			valueField		: 'namespace',
+			forceSelection	: true,
+			typeAhead		: true,
+			mode			: 'local',
+			allowBlank		: false,
+			autoWidth		: true,
+			triggerAction	: 'all',
+			emptyText		: 'Select a perspective...',
+			selectOnFocus	: true,
+			tpl				: '<tpl for="."><div class="x-combo-list-item">{[(values.title||"").escapeHTML()]}</div></tpl>'
+		});
+		
+		//panel.on("resize", function(){combobox.setWidth(panel.body.getWidth())});
+		
+		panel.add(combobox);
+		panel.doLayout();
+		
+		combobox.on('beforeselect', this.onSelect ,this)
+		
+		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_LOADED, function(){
+					this.facade.getStencilSets().values().each(function(stencilset) {
+						var ext = stencilset.extensions().values()
+						if (ext.length > 0){
+							var persp = perspectives.find(function(perspective){  
+											return	(perspective.extensions && perspective.extensions.include(ext[0].namespace)) ||  			// Check if there is the extension part of the extension in the perspectives
+													(perspective.addExtensions && perspective.addExtensions.any(function(add){ return 		// OR Check if the namespace if part of the addExtension part
+														(add.ifIsLoaded === stencilset.namespace() && add.add == ext[0].namespace) || 
+														(add.ifIsLoaded !== stencilset.namespace() && add["default"] === ext[0].namespace) 	// OR is some in the default
+													})
+												)
+											})
+							
+							if (!persp){
+								persp = perspectives.find(function(r){ return !(r.extensions instanceof Array) || r.extensions.length <= 0 })
+							}
+							
+							if (persp) {
+								combobox.setValue(data[perspectives.indexOf(persp)][1]);
+								throw $break;
+							}
+						}
+						// Force to load extension
+						combobox.setValue(data[0][1]);
+						this.loadPerspective(data[0][0]);
+					}.bind(this));
+				}.bind(this))
+		
+	},
+	
+	onSelect: function(combobox, record) {
+		if (combobox.getValue() === record.get("namespace") || combobox.getValue() === record.get("title")){
+			return;
+		}
+		
+		this.loadPerspective(record.json[0]);
+			
+	},
+	
+	loadPerspective: function(ns){
+		// If there is no namespace
+		if (!ns){
+			// unload all extensions
+			this._loadExtensions([], [], true);
+			return;
+		}
+		
+		/* Get loaded stencil set extensions */
+		var stencilSets = this.facade.getStencilSets();
+		var loadedExtensions = new Object();
+		var perspective = this.perspectives[ns];
+		
+		stencilSets.values().each(function(ss) { 
+	    	ss.extensions().values().each(function(extension) {
+				if(this.extensions[extension.namespace])
+					loadedExtensions[extension.namespace] = extension;
+			}.bind(this));
+		}.bind(this));
+		
+		
+		/* Determine extensions that are required for this perspective */
+		var addExtensions = new Array();
+		if(perspective.addExtensions||perspective.extensions) {
+			[]
+			 .concat(this.perspectives[ns].addExtensions||[])
+			 .concat(this.perspectives[ns].extensions||[])
+			 .compact()
+			 .each(function(ext){
+				if(!ext.ifIsLoaded) {
+					addExtensions.push(this.extensions[ext]);
+					return;
+				}
+				
+				if(loadedExtensions[ext.ifIsLoaded] && this.extensions[ext.add]) {
+					addExtensions.push(this.extensions[ext.add]);
+				} else {
+					if(ext["default"] && this.extensions[ext["default"]]) {
+						addExtensions.push(this.extensions[ext["default"]]);
+					}
+				}
+			}.bind(this));
+		}
+		
+		/* Determine extension that are not allowed in this perspective */
+		
+		/* Check if flag to remove all other extension is set */
+		if(this.perspectives[ns].removeAllExtensions) {	
+			window.setTimeout(function(){
+				this._loadExtensions(addExtensions, undefined, true);
+			}.bind(this), 10);
+			return;		
+		}
+		
+		/* Check on specific extensions */
+		var removeExtensions = new Array();
+		if(perspective.removeExtensions) {
+			perspective.removeExtensions.each(function(ns){
+				if (loadedExtensions[ns])
+					removeExtensions.push(this.extensions[ns]);
+			}.bind(this));
+		}
+		
+		if (perspective.extensions && !perspective.addExtensions && !perspective.removeExtensions) {
+			var combined = [].concat(addExtensions).concat(removeExtensions).compact();
+			$H(loadedExtensions).each(function(extension){
+				var key = extension.key;
+				if (!extension.value.includeAlways&&!combined.any(function(r){ return r.namespace == key })) {
+					removeExtensions.push(this.extensions[key]);
+				}
+			}.bind(this))
+		}
+		
+		window.setTimeout(function(){
+			this._loadExtensions(addExtensions, removeExtensions, false);
+		}.bind(this), 10);
+	},
+	
+	/*
+	 * Load all stencil set extensions specified in param extensions (key map: String -> Object)
+	 * Unload all other extensions (method copied from addssextension plugin)
+	 */
+	_loadExtensions: function(addExtensions, removeExtensions, removeAll) {
+		var stencilsets = this.facade.getStencilSets();
+		
+		var atLeastOne = false;
+		
+		// unload unselected extensions
+		stencilsets.values().each(function(stencilset) {
+			var unselected = stencilset.extensions().values().select(function(ext) { return addExtensions[ext.namespace] == undefined }); 
+			if(removeAll) {
+				unselected.each(function(ext) {
+					stencilset.removeExtension(ext.namespace);
+					atLeastOne = true;
+				});
+			} else {
+				unselected.each(function(ext) {
+					var remove = removeExtensions.find(function(remExt) {
+						return ext.namespace === remExt.namespace;
+					});
+					
+					if(remove) {
+						stencilset.removeExtension(ext.namespace);
+						atLeastOne = true;
+					}
+				});
+			}
+		});
+		
+		// load selected extensions
+		addExtensions.each(function(extension) {
+			
+			var stencilset = stencilsets[extension["extends"]];
+			
+			if(stencilset) {
+				// Load absolute
+				if ((extension.definition || "").startsWith("/")) {
+					stencilset.addExtension(extension.definition);
+				// Load relative
+				} else {
+					stencilset.addExtension(ORYX.CONFIG.SS_EXTENSIONS_FOLDER + extension.definition);
+				}
+				atLeastOne = true;
+			}
+		}.bind(this));
+		
+		if (atLeastOne) {
+			stencilsets.values().each(function(stencilset) {
+				this.facade.getRules().initializeRules(stencilset);
+			}.bind(this));
+			this.facade.raiseEvent({
+				type: ORYX.CONFIG.EVENT_STENCIL_SET_LOADED
+			});
+			var selection = this.facade.getSelection();
+			this.facade.setSelection();
+			this.facade.setSelection(selection);
+		}
+	}
+
+}
+
+
+
+ORYX.Plugins.SelectStencilSetPerspective = Clazz.extend(ORYX.Plugins.SelectStencilSetPerspective);
+
+/*******************************************************************************
+ * Signavio Core Components
+ * Copyright (C) 2012  Signavio GmbH
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
+
 if (!ORYX.Plugins) {
 	ORYX.Plugins = new Object();
 }
@@ -23673,140 +24010,6 @@ ORYX.Plugins.Undo = Clazz.extend({
 		}
 	}
 	
-});
-/*******************************************************************************
- * Signavio Core Components
- * Copyright (C) 2012  Signavio GmbH
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
-
-if(!ORYX.Plugins)
-	ORYX.Plugins = new Object();
-
-/**
- * Supports EPCs by offering a syntax check and export and import ability..
- * 
- * 
- */
-ORYX.Plugins.ProcessLink = Clazz.extend({
-
-	facade: undefined,
-
-	/**
-	 * Offers the plugin functionality:
-	 * 
-	 */
-	construct: function(facade) {
-
-		this.facade = facade;
-		
-		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_PROPERTY_CHANGED, this.propertyChanged.bind(this) );
-		
-	},
-
-
-	/**
-	 * 
-	 * @param {Object} option
-	 */
-	propertyChanged: function( option, node){
-
-		if( option.name !== "oryx-refuri" || !node instanceof ORYX.Core.Node ){ return }
-		
-		
-		if( option.value && option.value.length > 0 && option.value != "undefined"){
-			
-			this.show( node, option.value );
-					
-		} else {
-
-			this.hide( node );
-
-		}				
-
-	},
-	
-	/**
-	 * Shows the Link for a particular shape with a specific url
-	 * 
-	 * @param {Object} shape
-	 * @param {Object} url
-	 */
-	show: function( shape, url){
-
-		
-		// Generate the svg-representation of a link
-		var link  = ORYX.Editor.graft("http://www.w3.org/2000/svg", null ,
-					[ 'a',
-						{'target': '_blank'},
-						['path', 
-							{ "stroke-width": 1.0, "stroke":"#00DD00", "fill": "#00AA00", "d":  "M3,3 l0,-2.5 l7.5,0 l0,-2.5 l7.5,4.5 l-7.5,3.5 l0,-2.5 l-8,0", "line-captions": "round"}
-						]
-					]);
-
-		var link  = ORYX.Editor.graft("http://www.w3.org/2000/svg", null ,		
-						[ 'a',
-							{'target': '_blank'},
-							['path', { "style": "fill:#92BFFC;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.72", "d": "M0 1.44 L0 15.05 L11.91 15.05 L11.91 5.98 L7.37 1.44 L0 1.44 Z"}],
-							['path', { "style": "stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.72;fill:none;", "transform": "translate(7.5, -8.5)", "d": "M0 10.51 L0 15.05 L4.54 15.05"}],
-							['path', { "style": "fill:#f28226;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.72", "transform": "translate(-3, -1)", "d": "M0 8.81 L0 13.06 L5.95 13.06 L5.95 15.05 A50.2313 50.2313 -175.57 0 0 10.77 11.08 A49.9128 49.9128 -1.28 0 0 5.95 6.54 L5.95 8.81 L0 8.81 Z"}],
-						]);
-
-	/*
-	 * 
-	 * 					[ 'a',
-						{'target': '_blank'},
-						['path', { "style": "fill:none;stroke-width:0.5px; stroke:#000000", "d": "M7,4 l0,2"}],
-						['path', { "style": "fill:none;stroke-width:0.5px; stroke:#000000", "d": "M4,8 l-2,0 l0,6"}],
-						['path', { "style": "fill:none;stroke-width:0.5px; stroke:#000000", "d": "M10,8 l2,0 l0,6"}],
-						['rect', { "style": "fill:#96ff96;stroke:#000000;stroke-width:1", "width": 6, "height": 4, "x": 4, "y": 0}],
-						['rect', { "style": "fill:#ffafff;stroke:#000000;stroke-width:1", "width": 6, "height": 4, "x": 4, "y": 6}],
-						['rect', { "style": "fill:#96ff96;stroke:#000000;stroke-width:1", "width": 6, "height": 4, "x": 0, "y": 12}],
-						['rect', { "style": "fill:#96ff96;stroke:#000000;stroke-width:1", "width": 6, "height": 4, "x": 8, "y": 12}],
-						['rect', { "style": "fill:none;stroke:none;pointer-events:all", "width": 14, "height": 16, "x": 0, "y": 0}]
-					]);
-	 */
-		
-		// Set the link with the special namespace
-		link.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", url);
-		
-		
-		// Shows the link in the overlay					
-		this.facade.raiseEvent({
-					type: 			ORYX.CONFIG.EVENT_OVERLAY_SHOW,
-					id: 			"arissupport.urlref_" + shape.id,
-					shapes: 		[shape],
-					node:			link,
-					nodePosition:	"SE"
-				});	
-							
-	},	
-
-	/**
-	 * Hides the Link for a particular shape
-	 * 
-	 * @param {Object} shape
-	 */
-	hide: function( shape ){
-
-		this.facade.raiseEvent({
-					type: 			ORYX.CONFIG.EVENT_OVERLAY_HIDE,
-					id: 			"arissupport.urlref_" + shape.id
-				});	
-							
-	}		
 });
 /*******************************************************************************
  * Signavio Core Components

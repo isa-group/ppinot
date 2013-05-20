@@ -1,4 +1,4 @@
-package es.us.isa.ppinot.repository;
+package es.us.isa.bpms.process;
 
 import java.util.HashSet;
 import java.util.Set;

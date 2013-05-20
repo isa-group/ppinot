@@ -1,4 +1,4 @@
-package es.us.isa.ppinot.repository;
+package es.us.isa.bpms.repository;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;

@@ -7,22 +7,17 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-    <!-- Import basic SpringMVC Resteasy integration -->
-    <import resource="classpath:springmvc-resteasy.xml"/>
-    
-	<context:annotation-config />
-	<context:component-scan base-package="es.us.isa.ppinot.templates" />
-    <context:component-scan base-package="es.us.isa.ppinot.repository"/>
+    <context:annotation-config />
+    <context:component-scan base-package="es.us.isa.ppinot.resource"/>
     <context:component-scan base-package="es.us.isa.bpms"/>
 
-    <context:component-scan base-package="org.brickred.controller" />
-
+    <!-- SpringMVC Resteasy configuration -->
+    <import resource="classpath:springmvc-resteasy.xml"/>
     <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
         <property name="order" value="0" />
     </bean>
     <!--<bean class="org.springframework.web.servlet.mvc.method.annotation.Requ"/>-->
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
-
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.UrlBasedViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
@@ -30,49 +25,41 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
+    <!-- Repository -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations" value="classpath:repository.properties"/>
+    </bean>
+    <bean id="processRepository" class="es.us.isa.bpms.repository.FileSystemRepository">
+        <property name="directory" value="${repository.directory}"/>
+        <!--<property name="directory" value="/var/lib/tomcat6/cristal"/>-->
+    </bean>
+
+    <!--<bean id="jsonProvider" class="es.us.isa.ppinot.resourcePINOTJsonProvider"/>-->
+
+    <!--   Resources  -->
+    <bean id="repositoryResource" class="es.us.isa.bpms.repository.ModelsResource">
+        <property name="processRepository" ref="processRepository"/>
+    </bean>
+    <bean id="editorResource" class="es.us.isa.bpms.editor.EditorResource"/>
+    <bean id="userResource" class="es.us.isa.bpms.users.UserResource"/>
+
+
+    <!-- Authentication -->
+    <context:component-scan base-package="org.brickred.controller" />
     <import resource="properties.xml" />
     <bean id="socialAuthConfig" class="org.brickred.socialauth.SocialAuthConfig">
         <property name="applicationProperties"><ref bean="socialAuthProperties"/></property>
     </bean>
-
     <bean id="socialAuthManager" class="org.brickred.socialauth.SocialAuthManager" scope="session">
         <property name="socialAuthConfig"><ref bean="socialAuthConfig"/></property>
         <aop:scoped-proxy/>
     </bean>
-
     <bean id="socialAuthTemplate" class="org.brickred.socialauth.spring.bean.SocialAuthTemplate" scope="session">
         <aop:scoped-proxy/>
     </bean>
-
     <bean id="socialAuthWebController" class="org.brickred.socialauth.spring.controller.SocialAuthWebController">
         <constructor-arg value="http://localhost:8080/bpmn-editor" />
         <constructor-arg value="index.html" />
         <constructor-arg value="index.html" />
     </bean>
-
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations" value="classpath:repository.properties"/>
-    </bean>
-
-	<bean id="modelResource" class="es.us.isa.ppinot.templates.resources.ModelResource"/>
-
-    <!--<bean id="jsonProvider" class="es.us.isa.ppinot.repository.PPINOTJsonProvider"/>-->
-
-    <bean id="repositoryResource" class="es.us.isa.ppinot.repository.ModelsResource">
-        <property name="processRepository" ref="processRepository"/>
-        <property name="resourcesDirectory" value="/Users/resinas/Sandbox/signavio-res"/>
-        <!--<property name="resourcesDirectory" value="/var/lib/tomcat6/cristal-raci"/>-->
-    </bean>
-
-    <bean id="processRepository" class="es.us.isa.bpms.repository.FileSystemRepository">
-        <property name="directory" value="${repository.directory}"/>
-        <!--<property name="userService" ref="socialAuthTemplate"/>-->
-        <!--<property name="directory" value="/var/lib/tomcat6/cristal"/>-->
-    </bean>
-
-    <bean id="editorRepository" class="es.us.isa.bpms.editor.EditorResource"></bean>
-
-    <bean id="userResource" class="es.us.isa.bpms.users.UserResource"/>
-
-
 </beans>

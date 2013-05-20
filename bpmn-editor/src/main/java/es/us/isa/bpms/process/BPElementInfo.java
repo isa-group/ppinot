@@ -1,4 +1,4 @@
-package es.us.isa.ppinot.repository;
+package es.us.isa.bpms.process;
 
 /**
  * User: resinas

@@ -1,4 +1,4 @@
-package es.us.isa.ppinot.repository;
+package es.us.isa.bpms.process;
 
 import es.us.isa.bpmn.handler.Bpmn20ModelHandler;
 import es.us.isa.bpmn.handler.Bpmn20ModelHandlerInterface;

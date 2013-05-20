@@ -1,12 +1,10 @@
-package es.us.isa.ppinot.repository;
+package es.us.isa.ppinot.resource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import org.codehaus.jackson.map.*;
-import org.codehaus.jackson.map.deser.BeanDeserializerBuilder;
-import org.codehaus.jackson.map.deser.BeanDeserializerFactory;
 import org.codehaus.jackson.map.introspect.BasicBeanDescription;
 import org.codehaus.jackson.map.ser.BeanPropertyWriter;
 import org.codehaus.jackson.map.ser.BeanSerializerFactory;
@@ -16,14 +14,11 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.Provider;
-import java.awt.*;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
-import java.util.*;
 import java.util.List;
 
 /**

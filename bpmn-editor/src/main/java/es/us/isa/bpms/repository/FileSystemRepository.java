@@ -1,4 +1,8 @@
-package es.us.isa.ppinot.repository;
+package es.us.isa.bpms.repository;
+
+import org.apache.commons.io.IOUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -28,8 +32,32 @@ public class FileSystemRepository implements ProcessRepository {
         this.directory = directory;
     }
 
+
     @Override
-    public List<String> listProcesses() {
+    public Model getProcessModelInfo(String id) {
+        Model m;
+        try {
+            m = getProcessJsonModelInfo(id);
+        } catch (Exception e) {
+            if (getProcessFile(id).exists())
+                m = new Model(id, id);
+            else
+                throw new RuntimeException(e);
+        }
+
+        return m;
+    }
+
+    private Model getProcessJsonModelInfo(String id) throws IOException, JSONException {
+        InputStream processReader = getProcessJsonReader(id);
+        String json = IOUtils.toString(processReader);
+
+        Model m = Model.createModel(new JSONObject(json));
+
+        return m;
+    }
+
+    private List<String> genericListProcesses(String ext) {
         List<String> processes = new ArrayList<String>();
         File dir = new File(directory);
         File[] files = dir.listFiles();
@@ -37,14 +65,67 @@ public class FileSystemRepository implements ProcessRepository {
         if (files != null) {
             for(File f : files) {
                 String filename = f.getName();
-                if (filename.endsWith("bpmn20.xml")) {
-                    processes.add(filename.replace(".bpmn20.xml", ""));
+                if (filename.endsWith(ext)) {
+                    processes.add(filename.replace("."+ext, ""));
                 }
             }
         }
 
         return processes;
     }
+
+    @Override
+    public List<String> listProcesses() {
+        return genericListProcesses("bpmn20.xml");
+    }
+
+    @Override
+    public List<String> listJsonProcesses() {
+        return genericListProcesses("json");
+    }
+
+    @Override
+    public boolean removeProcess(String id) {
+        File processFile = getProcessJsonFile(id);
+        boolean result = false;
+
+        if (processFile.exists())
+            result = processFile.delete();
+        else {
+            processFile = getProcessFile(id);
+            result = processFile.delete();
+        }
+
+        return result;
+    }
+
+    @Override
+    public boolean addProcess(Model model) {
+        boolean result = false;
+
+        if (model.getModel() == null)
+            model.setEmptyModel();
+
+        File newModelFile = getProcessJsonFile(model.getModelId());
+        if (newModelFile.exists())
+            return false;
+
+        try {
+            newModelFile.createNewFile();
+            Writer writer = new FileWriter(newModelFile);
+            String json = model.getJSON();
+            writer.write(json);
+            writer.close();
+            result = true;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+        return result;
+    }
+
 
 
     @Override

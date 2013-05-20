@@ -2,11 +2,15 @@ package es.us.isa.ppinot.repository;
 
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
 import de.hpi.bpmn2_0.transformation.Diagram2XmlConverter;
+import es.us.isa.bpms.editor.EditorResource;
+import es.us.isa.bpms.repository.Model;
+import es.us.isa.bpms.repository.ProcessRepository;
 import es.us.isa.ppinot.handler.PpiNotModelHandler;
 import es.us.isa.ppinot.handler.PpiNotModelHandlerInterface;
 import es.us.isa.ppinot.model.PPI;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.jboss.resteasy.spi.BadRequestException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.oryxeditor.server.diagram.basic.BasicDiagramBuilder;
@@ -15,10 +19,7 @@ import org.xml.sax.SAXException;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.*;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -33,17 +34,16 @@ import java.util.logging.Logger;
  * Time: 08:55
  */
 @Path("/service")
-public class RepositoryResource {
+public class ModelsResource {
 
-    private static final Logger log = Logger.getLogger(RepositoryResource.class
+    private static final Logger log = Logger.getLogger(ModelsResource.class
             .getName());
 
     private ProcessRepository processRepository;
     private String resourcesDirectory;
-    private String editorUrl;
 
-    public RepositoryResource() {
-        log.info("Loaded RepositoryResource");
+    public ModelsResource() {
+        log.info("Loaded ModelsResource");
     }
 
     public ProcessRepository getProcessRepository() {
@@ -52,14 +52,6 @@ public class RepositoryResource {
 
     public void setProcessRepository(ProcessRepository processRepository) {
         this.processRepository = processRepository;
-    }
-
-    public String getEditorUrl() {
-        return editorUrl;
-    }
-
-    public void setEditorUrl(String editorUrl) {
-        this.editorUrl = editorUrl;
     }
 
     public String getResourcesDirectory() {
@@ -75,29 +67,59 @@ public class RepositoryResource {
     @Produces("application/json")
     public List<ProcessInfo> getProcesses(@Context UriInfo uriInfo) {
         List<ProcessInfo> result = new ArrayList<ProcessInfo>();
-        for (String processName : processRepository.listProcesses()) {
+        Set<String> processes = new HashSet<String>(processRepository.listProcesses());
+        List<String> jsonProcesses = processRepository.listJsonProcesses();
+        processes.addAll(jsonProcesses);
 
-            UriBuilder ub = uriInfo.getBaseUriBuilder().path(this.getClass()).path(this.getClass(), "getProcess");
-            URI uri = ub.build(processName);
+        for (String modelId : processes) {
 
-            String editor = editorUrl + "/p/editor?id=root-directory%3B" + processName + ".signavio.xml";
-            result.add(new ProcessInfo(processName, uri.toString(), editor));
+            ProcessInfo processInfo = createProcessInfo(modelId, uriInfo);
 
+            result.add(processInfo);
         }
 
         return result;
     }
 
+    private ProcessInfo createProcessInfo(String modelId, UriInfo uriInfo) {
+        UriBuilder ub = uriInfo.getBaseUriBuilder().path(this.getClass()).path(this.getClass(), "getProcess");
+        URI uri = ub.build(modelId);
+
+        ProcessInfo processInfo = new ProcessInfo(modelId, uri.toString());
+
+        try {
+            Model m = processRepository.getProcessModelInfo(modelId);
+            processInfo.setName(m.getName());
+            processInfo.setDescription(m.getDescription());
+
+            if (m.getModel() != null) {
+                UriBuilder ubEditor = uriInfo.getBaseUriBuilder().path(EditorResource.class).queryParam("id", modelId);
+                URI uriEditor = ubEditor.build();
+                processInfo.setEditor(uriEditor.toString());
+            }
+
+        } catch (Exception e) {
+            log.warning("Error processing model info of "+modelId);
+            log.warning(e.toString());
+        }
+
+        return processInfo;
+    }
+
     @Path("/model/{id}")
-    @Produces("application/xml")
+    @Produces(MediaType.APPLICATION_XML)
     @GET
     public String getProcess(@PathParam("id") String id) {
-        InputStream processReader = processRepository.getProcessReader(id);
         String process;
         try {
-            process = IOUtils.toString(processReader);
-        } catch (IOException e) {
-            throw new org.jboss.resteasy.spi.NotFoundException("Process not found", e);
+            process = getProcessXml(id);
+        } catch (Exception e) {
+            try {
+                InputStream processReader = processRepository.getProcessReader(id);
+                process = IOUtils.toString(processReader);
+            } catch(Exception ex) {
+                throw new org.jboss.resteasy.spi.NotFoundException("Process not found", ex);
+            }
         }
 
         return process;
@@ -118,20 +140,18 @@ public class RepositoryResource {
     @Produces(MediaType.APPLICATION_XML)
     @GET
     public String getProcessXml(@PathParam("id") String id) {
-        InputStream processReader = processRepository.getProcessJsonReader(id);
-        try {
-            String json = IOUtils.toString(processReader);
+        Model m = processRepository.getProcessModelInfo(id);
 
-            JSONObject jsonModel = new JSONObject(json);
-            if (jsonModel == null || !jsonModel.has("model")) {
+        try {
+            JSONObject jsonModel = m.getModel();
+            if (jsonModel == null) {
                 throw new RuntimeException("Model not valid");
             }
 
-            Diagram2XmlConverter converter = new Diagram2XmlConverter(BasicDiagramBuilder.parseJson(jsonModel.getJSONObject("model")), context.getRealPath("/WEB-INF/xsd/BPMN20.xsd"));
+            Diagram2XmlConverter converter = new Diagram2XmlConverter(BasicDiagramBuilder.parseJson(jsonModel), context.getRealPath("/WEB-INF/xsd/BPMN20.xsd"));
             StringWriter xml = converter.getXml();
             return xml.toString();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+
         } catch (JSONException e) {
             throw new RuntimeException(e);
         } catch (SAXException e) {
@@ -148,14 +168,47 @@ public class RepositoryResource {
     }
 
     @Path("/model/{id}")
-    //@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    //@Consumes("application/x-www-form-urlencoded")
+    @DELETE
+    public Response removeProcess(@PathParam("id") String id) {
+        Response r;
+        if (processRepository.removeProcess(id))
+            r = Response.ok().build();
+        else
+            r = Response.status(Response.Status.NOT_FOUND).build();
+
+        return r;
+    }
+
+    @Path("/models")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addNewProcess(@Context UriInfo uriInfo, ProcessInfo info) {
+        Response r;
+
+        if (info.getModelId() == null || ! info.getModelId().matches("\\w+")) {
+            throw new BadRequestException("Invalid modelId");
+        }
+
+        Model model = new Model(info.getModelId(), info.getName());
+        model.setDescription(info.getDescription());
+
+        if (processRepository.addProcess(model)) {
+            ProcessInfo processInfo = createProcessInfo(info.getModelId(), uriInfo);
+            r = Response.ok(processInfo, MediaType.APPLICATION_JSON_TYPE).build();
+        }
+        else {
+            r = Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        return r;
+    }
+
+
+    @Path("/model/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @PUT
     public InputStream getProcessJson(@PathParam("id") String id, @FormParam("json_xml") String jsonXml, @FormParam("name") String name, @FormParam("type") String type, @FormParam("description") String description) {
         OutputStream processWriter = processRepository.getProcessJsonWriter(id);
-        //String jsonXml = form.getFirst("json_xml");
-        //ObjectMapper om = new ObjectMapper();
         StringBuilder sb = new StringBuilder("{")
                 .append("\"name\":\"").append(name).append("\",")
                 .append("\"description\":\"").append(description).append("\",")
@@ -163,15 +216,25 @@ public class RepositoryResource {
                 .append("\"revision\":").append(1).append(",")
                 .append("\"model\":").append(jsonXml).append("}");
 
-        //Model m = new Model(name, description, id, jsonXml);
+        Model m = new Model();
+        m.setName(name);
+        m.setDescription(description);
+        m.setModelId(id);
+        try {
+            m.setModel(new JSONObject(jsonXml));
+        } catch (JSONException e) {
+            throw new RuntimeException("The submitted model is not valid", e);
+        }
+
         log.info(jsonXml);
         if (jsonXml != null) {
             try {
-                //om.writeValue(processWriter, m);
-                IOUtils.write(sb, processWriter);
+                IOUtils.write(m.getJSON(), processWriter);
                 processWriter.close();
             } catch (IOException e) {
                 throw new RuntimeException(e);
+            } catch (JSONException e) {
+                throw new RuntimeException("The model metadata is not valid", e);
             }
         }
 
@@ -179,14 +242,14 @@ public class RepositoryResource {
     }
 
 
-    @Path("/processes/{id}")
-    public ProcessInfoResource getProcessInfo(@PathParam("id") String id) {
+    @Path("/model/{id}")
+    public ProcessElementsResource getProcessInfo(@PathParam("id") String id) {
         InputStream processReader = processRepository.getProcessReader(id);
-        return new ProcessInfoResource(processReader);
+        return new ProcessElementsResource(processReader);
     }
 
 
-    @Path("/processes/{id}/ppis")
+    @Path("/model/{id}/ppis")
     @Produces("application/json")
     @GET
     public Collection<PPI> getPPIs(@PathParam("id") String id) {
@@ -200,7 +263,7 @@ public class RepositoryResource {
 
     }
 
-    @Path("/processes/{id}/ppis")
+    @Path("/model/{id}/ppis")
     @Consumes("application/json")
     @POST
     public String storePPIs(@PathParam("id") String id, List<PPI> ppis) {

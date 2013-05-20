@@ -1,19 +1,40 @@
 package es.us.isa.ppinot.repository;
 
-import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 /**
  * User: resinas
  * Date: 09/04/13
  * Time: 08:54
  */
-@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
-        include=JsonTypeInfo.As.PROPERTY, property="kind")
+//@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
+//        include=JsonTypeInfo.As.PROPERTY, property="kind")
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+@JsonIgnoreProperties
 public class ProcessInfo {
 
+    private String modelId;
     private String name;
     private String url;
     private String editor;
+    private String description;
+
+    public String getModelId() {
+        return modelId;
+    }
+
+    public void setModelId(String modelId) {
+        this.modelId = modelId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public String getEditor() {
         return editor;
@@ -27,14 +48,15 @@ public class ProcessInfo {
 
     }
 
-    public ProcessInfo(String name, String url) {
+    public ProcessInfo(String modelId, String url) {
         super();
-        this.name = name;
+        this.modelId = modelId;
+        this.name = modelId;
         this.url = url;
     }
 
-    public ProcessInfo(String name, String url, String editor) {
-        this(name,url);
+    public ProcessInfo(String modelId, String url, String editor) {
+        this(modelId,url);
         this.editor = editor;
     }
 

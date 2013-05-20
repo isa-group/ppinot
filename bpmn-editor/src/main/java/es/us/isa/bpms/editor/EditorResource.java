@@ -31,7 +31,6 @@ public class EditorResource {
     @GET
     @Produces("application/json")
     public InputStream getStencilSetExtensions() {
-//        return "{ \"extensions\": [], \"perspectives\":[]}";
         return this.getClass().getResourceAsStream("/json/extensions.json");
     }
 

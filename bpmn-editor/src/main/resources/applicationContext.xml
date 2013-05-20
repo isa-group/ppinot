@@ -21,14 +21,13 @@
 
     <!--<bean id="jsonProvider" class="es.us.isa.ppinot.repository.PPINOTJsonProvider"/>-->
 
-    <bean id="repositoryResource" class="es.us.isa.ppinot.repository.RepositoryResource">
+    <bean id="repositoryResource" class="es.us.isa.ppinot.repository.ModelsResource">
         <property name="processRepository" ref="processRepository"/>
         <property name="resourcesDirectory" value="/Users/resinas/Sandbox/signavio-res"/>
         <!--<property name="resourcesDirectory" value="/var/lib/tomcat6/cristal-raci"/>-->
-        <property name="editorUrl" value="http://labs.isa.us.es:8080/signaviocore"/>
     </bean>
 
-    <bean id="processRepository" class="es.us.isa.ppinot.repository.FileSystemRepository">
+    <bean id="processRepository" class="es.us.isa.bpms.repository.FileSystemRepository">
         <property name="directory" value="${repository.directory}"/>
         <!--<property name="directory" value="/var/lib/tomcat6/cristal"/>-->
     </bean>

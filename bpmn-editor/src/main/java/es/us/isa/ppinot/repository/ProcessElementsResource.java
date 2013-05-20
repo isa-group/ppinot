@@ -17,10 +17,10 @@ import java.util.List;
  * Date: 11/04/13
  * Time: 07:58
  */
-public class ProcessInfoResource {
+public class ProcessElementsResource {
     private InputStream processStream;
 
-    public ProcessInfoResource(InputStream processStream) {
+    public ProcessElementsResource(InputStream processStream) {
         this.processStream = processStream;
     }
 

@@ -413,12 +413,52 @@ ORYX.Editor = {
 	},
 	
 	_generateHeader: function(){
-		
+
+	    var htmlContent = '<div class="navbar navbar-fixed-top">'+
+                              '<div class="navbar-inner">' +
+                                  '<div class="container">' +
+                                      '<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">'+
+                                          '<span class="icon-bar"></span>' +
+                                          '<span class="icon-bar"></span>' +
+                                          '<span class="icon-bar"></span>' +
+                                      '</button>' +
+                                     '<a class="brand" href="#">PPINOT Modeller</a>' +
+                                      '<div class="nav-collapse collapse">' +
+                                          '<ul class="nav">' +
+                                              '<li><a href="../index.html">Models</a></li>' +
+                                              '<li class="active"><a href="#">Diagram Editor</a></li>' +
+                                              '<li class="divider-vertical"></li>' +
+                                          '</ul>' +
+
+                                          '<form id="editModelFormNavbar" class="navbar-form pull-left">' +
+                                              '<input id="editModelNavbar" placeholder="Edit model" autocomplete="off" type="text" />' +
+                                          '</form>' +
+
+
+                                          '<ul class="nav pull-right">' +
+                                              '<li><a href="#about">About</a></li>' +
+                                              '<li class="divider-vertical"></li>' +
+                                              '<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, User <b class="caret"></b></a>' +
+                                                 ' <ul class="dropdown-menu">' +
+                                                      '<li><a href="#"><i class="icon-cog"></i> Preferences</a></li>' +
+                                                      '<li><a href="#"><i class="icon-envelope"></i> Contact Support</a></li>' +
+                                                      '<li class="divider"></li>' +
+                                                      '<li><a href="#"><i class="icon-off"></i> Logout</a></li>' +
+                                                  '</ul>' +
+                                              '</li>' +
+                                          '</ul>' +
+                                      '</div>' +
+                                  '</div>' +
+                              '</div>' +
+                          '</div>';
+
+
 		var headerPanel = new Ext.Panel({
 			height		: 30,
 			autoHeight	: false,
 			border		: false,
-			html		: "<div id='oryx_editor_header'><a href=\""+ORYX.CONFIG.WEB_URL+"\" target=\"_blank\"><img src='"+ORYX.PATH+"images/oryx.small.gif' border=\"0\" /></a><div style='clear: both;'></div></div>" 
+			html		: htmlContent
+			//"<div id='oryx_editor_header'><a href=\""+ORYX.CONFIG.WEB_URL+"\" target=\"_blank\"><img src='"+ORYX.PATH+"images/oryx.small.gif' border=\"0\" /></a><div style='clear: both;'></div></div>"
 		});
 
 		var maActive 	= ORYX.MashupAPI && ORYX.MashupAPI.isUsed;
@@ -440,7 +480,7 @@ ORYX.Editor = {
 				user 	= 	publicText;
 			}
 			
-			var content = 	"<div id='oryx_editor_header'>" +
+/*			var content = 	"<div id='oryx_editor_header'>" +
 								"<a href=\""+ORYX.CONFIG.WEB_URL+"\" target=\"_blank\">" +
 									"<img src='"+ORYX.PATH+"images/oryx.small.gif' border=\"0\" />" + 
 								"</a>" + 
@@ -450,12 +490,15 @@ ORYX.Editor = {
 								"</span>" + 
 								"<div style='clear: both;'/>" + 
 							"</div>";
-			
+*/
+			var content = htmlContent;
 			if( headerPanel.body ){
 				headerPanel.body.dom.innerHTML = content;
 			} else {
 				headerPanel.html = content
 			}
+
+
 		};	
 		
 		ORYX.Editor.Cookie.onChange(fn);

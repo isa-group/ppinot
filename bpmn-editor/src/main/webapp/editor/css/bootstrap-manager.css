@@ -1,0 +1,31 @@
+/* Extensions to bootstrap.css to make it compatible with Oryx Editor */
+
+.navbar .container {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.navbar {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.navbar a.brand {
+    text-decoration: none;
+}
+
+input[type="text"].x-form-text {
+    margin-bottom: 0px;
+}
+
+.navbar-form .input-prepend {
+    margin-bottom: 5px;
+}
+
+.dropdown a {
+    text-decoration: none;
+}
+
+
+/* end changes */

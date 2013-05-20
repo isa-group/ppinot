@@ -78,13 +78,17 @@
                 <ul class="nav pull-right">
                     <li><a href="#about">About</a></li>
                     <li class="divider-vertical"></li>
-                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, User <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#"><i class="icon-cog"></i> Preferences</a></li>
-                            <li><a href="#"><i class="icon-envelope"></i> Contact Support</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#"><i class="icon-off"></i> Logout</a></li>
-                        </ul>
+                    <li class="dropdown" id="login"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span id="username">Log in</span> <b class="caret"></b></a>
+                        <div class="dropdown-menu" style="padding: 15px">
+                            <a class="btn btn-primary btn-block" href="socialauth.do?id=googlePlus" id="sign-in-google">Sign In with Google</a>
+                            <a class="btn btn-primary btn-block" href="socialauth.do?id=facebook" id="sign-in-facebook">Sign In with Facebook</a>
+                        </div>
+                        <!--<ul class="dropdown-menu">-->
+                            <!--<li><a href="#"><i class="icon-cog"></i> Preferences</a></li>-->
+                            <!--<li><a href="#"><i class="icon-envelope"></i> Contact Support</a></li>-->
+                            <!--<li class="divider"></li>-->
+                            <!--<li><a id="logout" href="#"><i class="icon-off"></i> Logout</a></li>-->
+                        <!--</ul>-->
                     </li>
                 </ul>
             </div>
@@ -101,7 +105,7 @@
 
 <div class="container">
 
-    <p style="float:right;"><button id="add" class="btn btn-info"><i class='icon-plus-sign'></i> Add new model</button> </p>
+    <p style="float:right;"><button id="add" class="btn btn-info hide"><i class='icon-plus-sign'></i> Add new model</button> </p>
     <h1>Models</h1>
 
     <hr/>
@@ -233,6 +237,8 @@ $(document).ready(function() {
     });
 
 
+
+
     var loadModels = function() {
         modelHandler.loadModelsList().done(function(processes) {
             var models = $("#models");
@@ -266,23 +272,35 @@ $(document).ready(function() {
     var addActions = function(model, container) {
         container.append("<li><a class='btn btn-mini' href='"+model.url+"'><i class='icon-download'></i> Download XML</a></li>");
 
-        var remove = $("<a class='btn btn-mini' href='#'><i class='icon-trash'></i> Delete model</a>").click(function() {
-            $("#removeModelId").html(model.modelId);
-            $("#acceptRemove").unbind().click(function() {
-                console.log("Removed "+model.modelId);
-                $("#removeModal").modal("hide");
-                modelHandler.removeModel(model.modelId);
-                loadModels();
+        if (NavBar.isLogged()) {
+            var remove = $("<a class='btn btn-mini' href='#'><i class='icon-trash'></i> Delete model</a>").click(function() {
+                $("#removeModelId").html(model.modelId);
+                $("#acceptRemove").unbind().click(function() {
+                    console.log("Removed "+model.modelId);
+                    $("#removeModal").modal("hide");
+                    modelHandler.removeModel(model.modelId);
+                    loadModels();
+                });
+                $("#removeModal").modal("show");
             });
-            $("#removeModal").modal("show");
-        });
-        $("<li></li>").append(remove).appendTo(container);
-
+            $("<li></li>").append(remove).appendTo(container);
+        }
 
     };
 
-    loadModels();
+//    loadModels();
 
+    NavBar.onLogin.add(loadModels);
+    NavBar.onLogin.add(function (logged) {
+        if (!logged) {
+            $("#add").hide();
+        }
+        else {
+            $("#add").show();
+        }
+    });
+
+    NavBar.setCurrentUser($("#username"));
 });
 // ]]>
 </script>

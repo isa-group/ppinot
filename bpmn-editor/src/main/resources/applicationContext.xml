@@ -2,8 +2,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
     <!-- Import basic SpringMVC Resteasy integration -->
     <import resource="classpath:springmvc-resteasy.xml"/>
@@ -11,7 +13,42 @@
 	<context:annotation-config />
 	<context:component-scan base-package="es.us.isa.ppinot.templates" />
     <context:component-scan base-package="es.us.isa.ppinot.repository"/>
-    <context:component-scan base-package="es.us.isa.bpms.editor"/>
+    <context:component-scan base-package="es.us.isa.bpms"/>
+
+    <context:component-scan base-package="org.brickred.controller" />
+
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+        <property name="order" value="0" />
+    </bean>
+    <!--<bean class="org.springframework.web.servlet.mvc.method.annotation.Requ"/>-->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
+
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <import resource="properties.xml" />
+    <bean id="socialAuthConfig" class="org.brickred.socialauth.SocialAuthConfig">
+        <property name="applicationProperties"><ref bean="socialAuthProperties"/></property>
+    </bean>
+
+    <bean id="socialAuthManager" class="org.brickred.socialauth.SocialAuthManager" scope="session">
+        <property name="socialAuthConfig"><ref bean="socialAuthConfig"/></property>
+        <aop:scoped-proxy/>
+    </bean>
+
+    <bean id="socialAuthTemplate" class="org.brickred.socialauth.spring.bean.SocialAuthTemplate" scope="session">
+        <aop:scoped-proxy/>
+    </bean>
+
+    <bean id="socialAuthWebController" class="org.brickred.socialauth.spring.controller.SocialAuthWebController">
+        <constructor-arg value="http://localhost:8080/bpmn-editor" />
+        <constructor-arg value="index.html" />
+        <constructor-arg value="index.html" />
+    </bean>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations" value="classpath:repository.properties"/>
@@ -29,10 +66,13 @@
 
     <bean id="processRepository" class="es.us.isa.bpms.repository.FileSystemRepository">
         <property name="directory" value="${repository.directory}"/>
+        <!--<property name="userService" ref="socialAuthTemplate"/>-->
         <!--<property name="directory" value="/var/lib/tomcat6/cristal"/>-->
     </bean>
 
     <bean id="editorRepository" class="es.us.isa.bpms.editor.EditorResource"></bean>
+
+    <bean id="userResource" class="es.us.isa.bpms.users.UserResource"/>
 
 
 </beans>

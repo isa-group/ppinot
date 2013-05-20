@@ -5,12 +5,14 @@ import de.hpi.bpmn2_0.transformation.Diagram2XmlConverter;
 import es.us.isa.bpms.editor.EditorResource;
 import es.us.isa.bpms.repository.Model;
 import es.us.isa.bpms.repository.ProcessRepository;
+import es.us.isa.bpms.users.UserService;
 import es.us.isa.ppinot.handler.PpiNotModelHandler;
 import es.us.isa.ppinot.handler.PpiNotModelHandlerInterface;
 import es.us.isa.ppinot.model.PPI;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.jboss.resteasy.spi.BadRequestException;
+import org.jboss.resteasy.spi.UnauthorizedException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.oryxeditor.server.diagram.basic.BasicDiagramBuilder;
@@ -41,6 +43,9 @@ public class ModelsResource {
 
     private ProcessRepository processRepository;
     private String resourcesDirectory;
+    @Autowired
+    private UserService userService;
+
 
     public ModelsResource() {
         log.info("Loaded ModelsResource");
@@ -170,6 +175,9 @@ public class ModelsResource {
     @Path("/model/{id}")
     @DELETE
     public Response removeProcess(@PathParam("id") String id) {
+        if (! userService.isLogged())
+            throw new UnauthorizedException("User not logged");
+
         Response r;
         if (processRepository.removeProcess(id))
             r = Response.ok().build();
@@ -183,6 +191,9 @@ public class ModelsResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addNewProcess(@Context UriInfo uriInfo, ProcessInfo info) {
+        if (! userService.isLogged())
+            throw new UnauthorizedException("User not logged");
+
         Response r;
 
         if (info.getModelId() == null || ! info.getModelId().matches("\\w+")) {
@@ -208,6 +219,9 @@ public class ModelsResource {
     @Produces(MediaType.APPLICATION_JSON)
     @PUT
     public InputStream getProcessJson(@PathParam("id") String id, @FormParam("json_xml") String jsonXml, @FormParam("name") String name, @FormParam("type") String type, @FormParam("description") String description) {
+        if (! userService.isLogged())
+            throw new UnauthorizedException("User not logged");
+
         OutputStream processWriter = processRepository.getProcessJsonWriter(id);
         StringBuilder sb = new StringBuilder("{")
                 .append("\"name\":\"").append(name).append("\",")
@@ -267,6 +281,9 @@ public class ModelsResource {
     @Consumes("application/json")
     @POST
     public String storePPIs(@PathParam("id") String id, List<PPI> ppis) {
+        if (! userService.isLogged())
+            throw new UnauthorizedException("User not logged");
+
         PpiNotModelHandlerInterface ppinotModelHandler;
         try {
             ppinotModelHandler = new PpiNotModelHandler();

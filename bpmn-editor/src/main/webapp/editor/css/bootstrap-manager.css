@@ -1,4 +1,22 @@
-/* Extensions to bootstrap.css to make it compatible with Oryx Editor */
+/* Extensions to bootstrap.css to make it compatible with Oryx Editor
+
+bootstrap.css was created including:
+forms
+buttons
+icons
+button groups and dropdowns
+navs, tabs and pills
+navbar
+dropdowns
+close icon
+utilities
+visible/hidden classes
+narrow tablets and below
+tablets to desktops
+large desktops
+responsive navbar
+
+*/
 
 .navbar .container {
     margin-right: auto;

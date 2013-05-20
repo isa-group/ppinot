@@ -1,8 +1,10 @@
 package es.us.isa.bpms.repository;
 
+import es.us.isa.bpms.users.UserService;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -15,6 +17,8 @@ import java.util.List;
  */
 public class FileSystemRepository implements ProcessRepository {
     private String directory;
+    @Autowired
+    private UserService userService;
 
     public FileSystemRepository() {
 
@@ -59,7 +63,7 @@ public class FileSystemRepository implements ProcessRepository {
 
     private List<String> genericListProcesses(String ext) {
         List<String> processes = new ArrayList<String>();
-        File dir = new File(directory);
+        File dir = new File(getBaseDirectory());
         File[] files = dir.listFiles();
 
         if (files != null) {
@@ -139,13 +143,29 @@ public class FileSystemRepository implements ProcessRepository {
         }
     }
 
+    private String getBaseDirectory() {
+        String result = directory;
+        try {
+            String email = userService.getLoggedUser();
+            result = result + File.separator + email.hashCode();
+            File dir = new File(result);
+            if (!dir.exists()) {
+                dir.mkdir();
+            }
+        } catch (Exception e) {
+            // Not logged in
+        }
+
+        return result;
+    }
+
     private File getProcessFile(String id) {
-        String filename = directory + File.separator + id + ".bpmn20.xml";
+        String filename = getBaseDirectory() + File.separator + id + ".bpmn20.xml";
         return new File(filename);
     }
 
     private File getProcessJsonFile(String id) {
-        String filename = directory + File.separator + id + ".json";
+        String filename = getBaseDirectory() + File.separator + id + ".json";
         return new File(filename);
     }
 

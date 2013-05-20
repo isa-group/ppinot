@@ -83,22 +83,9 @@
                             <a class="btn btn-primary btn-block" href="socialauth.do?id=googlePlus" id="sign-in-google">Sign In with Google</a>
                             <a class="btn btn-primary btn-block" href="socialauth.do?id=facebook" id="sign-in-facebook">Sign In with Facebook</a>
                         </div>
-                        <!--<ul class="dropdown-menu">-->
-                            <!--<li><a href="#"><i class="icon-cog"></i> Preferences</a></li>-->
-                            <!--<li><a href="#"><i class="icon-envelope"></i> Contact Support</a></li>-->
-                            <!--<li class="divider"></li>-->
-                            <!--<li><a id="logout" href="#"><i class="icon-off"></i> Logout</a></li>-->
-                        <!--</ul>-->
                     </li>
                 </ul>
             </div>
-            <!--<form class="navbar-form form-search pull-right">-->
-                <!--<div class="input-append">-->
-                    <!--<input class="span2" id="appendedInputButton" type="text">-->
-                    <!--<button class="btn" type="button">Edit model</button>-->
-                <!--</div>-->
-            <!--</form>-->
-
         </div>
     </div>
 </div>
@@ -288,8 +275,6 @@ $(document).ready(function() {
 
     };
 
-//    loadModels();
-
     NavBar.onLogin.add(loadModels);
     NavBar.onLogin.add(function (logged) {
         if (!logged) {
@@ -300,7 +285,8 @@ $(document).ready(function() {
         }
     });
 
-    NavBar.setCurrentUser($("#username"));
+    NavBar.init();
+
 });
 // ]]>
 </script>

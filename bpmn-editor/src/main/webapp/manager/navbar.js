@@ -10,6 +10,24 @@ var NavBar = {};
         mapNamesId: {},
         onLogin: $.Callbacks(),
         _isLogged: false,
+        _baseUrl: "service",
+
+        init: function ()  {
+            if (typeof ORYX != "undefined")
+                this._baseUrl = "../service";
+
+            $("#editModelNavbar").typeahead({
+                source: NavBar.modelsSourceLoader,
+                items: 6
+            });
+
+            $("#editModelFormNavbar").submit(function() {
+                location.href = NavBar.mapNamesId[$("#editModelNavbar").val()];
+                return false;
+            });
+
+            NavBar.setCurrentUser();
+        },
 
         modelsSourceLoader: function (q, callback) {
             MODELHANDLER.loadModelsList().done(function(processes) {
@@ -30,26 +48,25 @@ var NavBar = {};
         currentUser: function () {
             return $.ajax({
                 type: "GET",
-                url: "service/user",
-                //dataType: "json",
+                url: NavBar._baseUrl + "/user"
             });
         },
 
         logout: function () {
             return $.ajax({
                 type: "POST",
-                url: "service/user/logout"
-                //dataType: "json",
+                url: NavBar._baseUrl + "/user/logout"
             });
         },
 
-        setCurrentUser: function(elem) {
-             this.currentUser().done(function(data) {
+        setCurrentUser: function() {
+            var elem = $("#username");
+            this.currentUser().done(function(data) {
                  NavBar._isLogged = true;
                  elem.html(data);
                  var logout = $('<a id="logout" href="#"><i class="icon-off"></i> Logout</a>').click(function() {
                       NavBar.logout().done(function () {
-                          document.location.reload();
+                          NavBar.setCurrentUser();
                       });
                   });
                 var menu = $('<ul class="dropdown-menu"></ul>').append($("<li></li>").append(logout));
@@ -73,26 +90,3 @@ var NavBar = {};
 
     };
 })(jQuery);
-
-
-
-jQuery(document).ready(function($) {
-    $("#editModelNavbar").typeahead({
-        source: NavBar.modelsSourceLoader,
-        items: 6
-    });
-
-    $("#editModelFormNavbar").submit(function() {
-        location.href = NavBar.mapNamesId[$("#editModelNavbar").val()];
-
-        return false;
-    });
-
-//    $("#logout").click(function() {
-//        NavBar.logout().done(function () {
-//            NavBar.setCurrentUser($("#username"));
-//        });
-//    });
-
-//    NavBar.setCurrentUser($("#username"))
-});

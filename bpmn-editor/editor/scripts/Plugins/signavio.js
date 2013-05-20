@@ -109,18 +109,7 @@ new function(){
 
 		}.bind(this), 2000)
 
-		jQuery(document).ready(function($) {
-            $("#editModelNavbar").typeahead({
-                source: NavBar.modelsSourceLoader,
-                items: 6
-            });
-
-            $("#editModelFormNavbar").submit(function() {
-                location.href = NavBar.mapNamesId[$("#editModelNavbar").val()];
-
-                return false;
-            });
-        });
+        NavBar.init();
 	}
 			
 	Signavio.Plugins.Loading = {

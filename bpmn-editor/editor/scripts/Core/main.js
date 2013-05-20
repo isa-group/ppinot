@@ -438,13 +438,11 @@ ORYX.Editor = {
                                           '<ul class="nav pull-right">' +
                                               '<li><a href="#about">About</a></li>' +
                                               '<li class="divider-vertical"></li>' +
-                                              '<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, User <b class="caret"></b></a>' +
-                                                 ' <ul class="dropdown-menu">' +
-                                                      '<li><a href="#"><i class="icon-cog"></i> Preferences</a></li>' +
-                                                      '<li><a href="#"><i class="icon-envelope"></i> Contact Support</a></li>' +
-                                                      '<li class="divider"></li>' +
-                                                      '<li><a href="#"><i class="icon-off"></i> Logout</a></li>' +
-                                                  '</ul>' +
+                                              '<li class="dropdown" id="login"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span id="username">Log in</span> <b class="caret"></b></a>' +
+                                                  '<div class="dropdown-menu" style="padding: 15px">' +
+                                                      '<a class="btn btn-primary btn-block" href="../socialauth.do?id=googlePlus" id="sign-in-google">Sign In with Google</a>' +
+                                                      '<a class="btn btn-primary btn-block" href="../socialauth.do?id=facebook" id="sign-in-facebook">Sign In with Facebook</a>' +
+                                                  '</div>' +
                                               '</li>' +
                                           '</ul>' +
                                       '</div>' +

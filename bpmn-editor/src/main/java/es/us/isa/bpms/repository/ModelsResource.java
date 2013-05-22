@@ -214,13 +214,13 @@ public class ModelsResource {
     @Produces(MediaType.APPLICATION_JSON)
     @PUT
     public InputStream getProcessJson(@PathParam("id") String id, @FormParam("json_xml") String jsonXml, @FormParam("name") String name, @FormParam("type") String type, @FormParam("description") String description) {
+        log.info("Saving name: "+name);
+        log.info("Saving jsonXML: " + jsonXml);
+
         if (! userService.isLogged())
             throw new UnauthorizedException("User not logged");
 
         OutputStream processWriter = processRepository.getProcessJsonWriter(id);
-
-        log.info("Saving name: "+name);
-        log.info("Saving jsonXML: " + jsonXml);
 
         Model m = new Model();
         m.setName(name);

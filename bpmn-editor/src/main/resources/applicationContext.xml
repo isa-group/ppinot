@@ -26,9 +26,7 @@
     </bean>
 
     <!-- Repository -->
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations" value="classpath:repository.properties"/>
-    </bean>
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"/>
     <bean id="processRepository" class="es.us.isa.bpms.repository.FileSystemRepository">
         <property name="directory" value="${PPINOT_REPOSITORY_DIRECTORY}"/>
     </bean>

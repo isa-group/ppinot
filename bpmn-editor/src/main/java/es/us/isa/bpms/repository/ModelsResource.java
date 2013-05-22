@@ -219,6 +219,9 @@ public class ModelsResource {
 
         OutputStream processWriter = processRepository.getProcessJsonWriter(id);
 
+        log.info("Saving name: "+name);
+        log.info("Saving jsonXML: " + jsonXml);
+
         Model m = new Model();
         m.setName(name);
         m.setDescription(description);
@@ -229,7 +232,6 @@ public class ModelsResource {
             throw new RuntimeException("The submitted model is not valid", e);
         }
 
-        log.info(jsonXml);
         if (jsonXml != null) {
             try {
                 IOUtils.write(m.getJSON(), processWriter);

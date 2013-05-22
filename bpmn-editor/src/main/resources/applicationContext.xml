@@ -31,8 +31,6 @@
         <property name="directory" value="${PPINOT_REPOSITORY_DIRECTORY}"/>
     </bean>
 
-    <!--<bean id="jsonProvider" class="es.us.isa.ppinot.resourcePINOTJsonProvider"/>-->
-
     <!--   Resources  -->
     <bean id="repositoryResource" class="es.us.isa.bpms.repository.ModelsResource">
         <property name="processRepository" ref="processRepository"/>

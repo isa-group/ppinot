@@ -44,8 +44,13 @@ public class ModelsResource {
             .getName());
 
     private ProcessRepository processRepository;
+
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ServletContext context;
+
 
 
     public ModelsResource() {
@@ -131,9 +136,6 @@ public class ModelsResource {
     }
 
 
-    @Autowired
-    private ServletContext context;
-
     @Path("/model/{id}/xml")
     @Produces(MediaType.APPLICATION_XML)
     @GET
@@ -216,12 +218,6 @@ public class ModelsResource {
             throw new UnauthorizedException("User not logged");
 
         OutputStream processWriter = processRepository.getProcessJsonWriter(id);
-        StringBuilder sb = new StringBuilder("{")
-                .append("\"name\":\"").append(name).append("\",")
-                .append("\"description\":\"").append(description).append("\",")
-                .append("\"modelId\":\"").append(id).append("\",")
-                .append("\"revision\":").append(1).append(",")
-                .append("\"model\":").append(jsonXml).append("}");
 
         Model m = new Model();
         m.setName(name);

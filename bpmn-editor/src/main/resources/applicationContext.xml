@@ -30,8 +30,7 @@
         <property name="locations" value="classpath:repository.properties"/>
     </bean>
     <bean id="processRepository" class="es.us.isa.bpms.repository.FileSystemRepository">
-        <property name="directory" value="${repository.directory}"/>
-        <!--<property name="directory" value="/var/lib/tomcat6/cristal"/>-->
+        <property name="directory" value="${PPINOT_REPOSITORY_DIRECTORY}"/>
     </bean>
 
     <!--<bean id="jsonProvider" class="es.us.isa.ppinot.resourcePINOTJsonProvider"/>-->
@@ -58,7 +57,7 @@
         <aop:scoped-proxy/>
     </bean>
     <bean id="socialAuthWebController" class="org.brickred.socialauth.spring.controller.SocialAuthWebController">
-        <constructor-arg value="http://localhost:8080/bpmn-editor" />
+        <constructor-arg value="${PPINOT_BASE_URL}" />
         <constructor-arg value="index.html" />
         <constructor-arg value="index.html" />
     </bean>

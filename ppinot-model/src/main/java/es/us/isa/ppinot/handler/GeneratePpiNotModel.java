@@ -58,7 +58,7 @@ public class GeneratePpiNotModel {
 	 */
 	TimeInstanceMeasure obtainModel(TTimeMeasure measure, TPpiset ppiset) {
 		
-		// crea la definición de la medida TimeMeasure a partir de la información en el xml
+		// crea la definicion de la medida TimeMeasure a partir de la informacion en el xml
 		// las actividades a la cuales se aplica la medida se obtiene de los conectores
 		Map<String, TTimeConnector> map = findTimeConnectors(measure, ppiset);
 		TTimeConnector conFrom = map.get("From");
@@ -105,7 +105,7 @@ public class GeneratePpiNotModel {
 	 */
 	CountInstanceMeasure obtainModel(TCountMeasure measure, TPpiset ppiset) {
 		
-		// crea la definición de la medida CountMeasure a partir de la información en el xml
+		// crea la definicion de la medida CountMeasure a partir de la informacion en el xml
 		// la actividad a la cual se aplica la medida se obtiene del conector
 		TMeasureConnector connector = findMeasureConnector(measure, TAppliesToElementConnector.class, ppiset);
 		CountInstanceMeasure def = null;
@@ -140,7 +140,7 @@ public class GeneratePpiNotModel {
 	 */
 	StateConditionInstanceMeasure obtainModel(TStateConditionMeasure measure, TPpiset ppiset) {
 		
-		// crea la definición de la medida StateConditionMeasure a partir de la información en el xml
+		// crea la definicion de la medida StateConditionMeasure a partir de la informacion en el xml
 		// la tarea a la cual se aplica la medida se obtiene del conector
 		TMeasureConnector connector = findMeasureConnector(measure, TAppliesToElementConnector.class, ppiset);
 		
@@ -175,7 +175,7 @@ public class GeneratePpiNotModel {
 	 */
 	DataInstanceMeasure obtainModel(TDataMeasure measure, TPpiset ppiset) {
 
-		// crea la definición de la medida DataMeasure a partir de la información en el xml
+		// crea la definicion de la medida DataMeasure a partir de la informacion en el xml
 		// el dataobject al cual se aplica la medida se obtiene del conector
 		TMeasureConnector connector = findMeasureConnector(measure, TAppliesToDataConnector.class, ppiset);
 		
@@ -216,7 +216,7 @@ public class GeneratePpiNotModel {
 	 */
 	DataPropertyConditionInstanceMeasure obtainModel(TDataPropertyConditionMeasure measure, TPpiset ppiset) {
 		
-		// crea la definición de la medida DataPropertyConditionMeasure a partir de la información en el xml
+		// crea la definicion de la medida DataPropertyConditionMeasure a partir de la informacion en el xml
 		// la actividad a la cual se aplica la medida se obtiene del conector
 		TMeasureConnector connector = findMeasureConnector(measure, TAppliesToDataConnector.class, ppiset);
 		
@@ -266,7 +266,7 @@ public class GeneratePpiNotModel {
 				baseModel
 				);
 
-		// determina si la medida agregada está asociada a un conector isgroupedby, y si es así se setea la propiedad correspondiente de la
+		// determina si la medida agregada esta asociada a un conector isgroupedby, y si es asi se setea la propiedad correspondiente de la
 		// medida
 		TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class, ppiset);
 		if (con!=null) {
@@ -288,7 +288,7 @@ public class GeneratePpiNotModel {
 	 */
 	AggregatedMeasure obtainModel( TAggregatedMeasure measure, TTimeMeasure baseMeasure, TPpiset ppiset) {
 		
-		// crea la definición de una medida agregada TimeMeasure a partir de la información en el xml
+		// crea la definicion de una medida agregada TimeMeasure a partir de la informacion en el xml
 		// las actividades a laa cuales se aplica la medida se obtienen de los conectores de la medida agregada
 		AggregatedMeasure def = null;
 		
@@ -298,13 +298,13 @@ public class GeneratePpiNotModel {
 		
 		if (mapCon.size()==2) {
 
-			// crea la definición de la medida de instancia que tiene la información para calcular la medida agregada
+			// crea la definicion de la medida de instancia que tiene la informacion para calcular la medida agregada
 			// las actividades a las cuales se aplica la medida se obtiene de los conectores de la medida agregada
 			TimeInstanceMeasure baseModel = this.obtainModel(baseMeasure, ppiset);
 			baseModel.setFrom(new TimeInstantCondition( ((TBaseElement) conFrom.getTargetRef()).getId(), new RuntimeState(conFrom.getWhen())));	// si se mide al inicio o al final de la actividad inicial
 			baseModel.setTo(new TimeInstantCondition( ((TBaseElement) conTo.getTargetRef()).getId(), new RuntimeState(conTo.getWhen())));		// si se mide al inicio o al final de la actividad final
 			
-			// crea la medida agregada. La información del período de análisis se obtiene de la propiedad analysisPeriod
+			// crea la medida agregada. La informacion del periodo de analisis se obtiene de la propiedad analysisPeriod
 			def = new AggregatedMeasure( 
 					measure.getId(), 
 					measure.getName(), 
@@ -316,7 +316,7 @@ public class GeneratePpiNotModel {
 					baseModel
 					);
 
-			// determina si la medida agregada está asociada a un conector isgroupedby, y si es así se setea la propiedad correspondiente de la
+			// determina si la medida agregada esta asociada a un conector isgroupedby, y si es asi se setea la propiedad correspondiente de la
 			// medida
 			TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class, ppiset);
 			if (con!=null) {
@@ -339,7 +339,7 @@ public class GeneratePpiNotModel {
 	 */
 	AggregatedMeasure obtainModel( TAggregatedMeasure measure, TCountMeasure baseMeasure, TPpiset ppiset) {
 		
-		// crea la definición de una medida agregada CountMeasure a partir de la información en el xml
+		// crea la definicion de una medida agregada CountMeasure a partir de la informacion en el xml
 		// la actividad a la cual se aplica la medida se obtiene del conector de la medida agregada
 		AggregatedMeasure def = null;
 		
@@ -347,12 +347,12 @@ public class GeneratePpiNotModel {
 		
 		if (connector!=null) {
 
-			// crea la definición de la medida de instancia que tiene la información para calcular la medida agregada
+			// crea la definicion de la medida de instancia que tiene la informacion para calcular la medida agregada
 			// la actividad a la cual se aplica la medida se obtiene del conector de la medida agregada
 			CountInstanceMeasure baseModel = this.obtainModel(baseMeasure, ppiset);
 			baseModel.setWhen(new TimeInstantCondition(((TBaseElement) connector.getTargetRef()).getId(), new RuntimeState(((TAppliesToElementConnector) connector).getWhen())));
 			
-			// crea la medida agregada. La información del período de análisis se obtiene de la propiedad analysisPeriod
+			// crea la medida agregada. La informacion del periodo de analisis se obtiene de la propiedad analysisPeriod
 			def = new AggregatedMeasure( 
 					measure.getId(), 
 					measure.getName(), 
@@ -363,7 +363,7 @@ public class GeneratePpiNotModel {
 					measure.getSamplingfrequency(),
 					baseModel);
 
-			// determina si la medida agregada está asociada a un conector isgroupedby, y si es así se setea la propiedad correspondiente de la
+			// determina si la medida agregada esta asociada a un conector isgroupedby, y si es asi se setea la propiedad correspondiente de la
 			// medida
 			TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class, ppiset);
 			if (con!=null) {
@@ -386,7 +386,7 @@ public class GeneratePpiNotModel {
 	 */
 	AggregatedMeasure obtainModel( TAggregatedMeasure measure, TStateConditionMeasure baseMeasure, TPpiset ppiset) {
 		
-		// crea la definición de una medida agregada StateConditionMeasure a partir de la información en el xml
+		// crea la definicion de una medida agregada StateConditionMeasure a partir de la informacion en el xml
 		// la actividad a la cual se aplica la medida se obtiene del conector de la medida agregada
 		AggregatedMeasure def = null;
 		
@@ -394,12 +394,12 @@ public class GeneratePpiNotModel {
 		
 		if (connector!=null) {
 
-			// crea la definición de la medida de instancia que tiene la información para calcular la medida agregada
+			// crea la definicion de la medida de instancia que tiene la informacion para calcular la medida agregada
 			// la actividad a la cual se aplica la medida se obtiene del conector de la medida agregada
 			StateConditionInstanceMeasure baseModel = this.obtainModel(baseMeasure, ppiset);
 			baseModel.setCondition(new StateCondition( ((TBaseElement) connector.getTargetRef()).getId(), new RuntimeState(((TAppliesToElementConnector) connector).getState())));
 			
-			// crea la medida agregada. La información del período de análisis se obtiene de la propiedad analysisPeriod
+			// crea la medida agregada. La informacion del periodo de analisis se obtiene de la propiedad analysisPeriod
 			def = new AggregatedMeasure( 
 					measure.getId(), 
 					measure.getName(), 
@@ -410,7 +410,7 @@ public class GeneratePpiNotModel {
 					measure.getSamplingfrequency(),
 					baseModel);
 
-			// determina si la medida agregada está asociada a un conector isgroupedby, y si es así se setea la propiedad correspondiente de la
+			// determina si la medida agregada esta asociada a un conector isgroupedby, y si es asi se setea la propiedad correspondiente de la
 			// medida
 			TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class, ppiset);
 			if (con!=null) {
@@ -433,16 +433,16 @@ public class GeneratePpiNotModel {
 	 */
 	AggregatedMeasure obtainModel( TAggregatedMeasure measure, TDataMeasure baseMeasure, TPpiset ppiset) {
 		
-		// crea la definición de una medida agregada DataMeasure a partir de la información en el xml
+		// crea la definicion de una medida agregada DataMeasure a partir de la informacion en el xml
 		// el dataobject a la cual se aplica la medida se obtiene del conector de la medida agregada
 		AggregatedMeasure def = null;
 		
-		// crea la medida agregada. La información del período de análisis se obtiene de la propiedad analysisPeriod
+		// crea la medida agregada. La informacion del periodo de analisis se obtiene de la propiedad analysisPeriod
 		TMeasureConnector connector = findMeasureConnector(measure, TAppliesToDataConnector.class, ppiset);
 		
 		if (connector!=null) {
 
-			// crea la definición de la medida de instancia que tiene la información para calcular la medida agregada
+			// crea la definicion de la medida de instancia que tiene la informacion para calcular la medida agregada
 			// el dataobject al cual se aplica la medida se obtiene del conector de la medida agregada
 			DataInstanceMeasure baseModel = this.obtainModel(baseMeasure, ppiset);
 			baseModel.setDataContentSelection( new DataContentSelection( 
@@ -464,7 +464,7 @@ public class GeneratePpiNotModel {
 					measure.getSamplingfrequency(), 
 					baseModel);
 
-			// determina si la medida agregada está asociada a un conector isgroupedby, y si es así se setea la propiedad correspondiente de la
+			// determina si la medida agregada esta asociada a un conector isgroupedby, y si es asi se setea la propiedad correspondiente de la
 			// medida
 			TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class, ppiset);
 			if (con!=null) {
@@ -487,16 +487,16 @@ public class GeneratePpiNotModel {
 	 */
 	AggregatedMeasure obtainModel( TAggregatedMeasure measure, TDataPropertyConditionMeasure baseMeasure, TPpiset ppiset) {
 		
-		// crea la definición de una medida agregada DataPropertyConditionMeasure a partir de la información en el xml
+		// crea la definicion de una medida agregada DataPropertyConditionMeasure a partir de la informacion en el xml
 		// el dataobject a la cual se aplica la medida se obtiene del conector de la medida agregada
 		AggregatedMeasure def = null;
 		
-		// crea la medida agregada. La información del período de análisis se obtiene de la propiedad analysisPeriod
+		// crea la medida agregada. La informacion del periodo de analisis se obtiene de la propiedad analysisPeriod
 		TMeasureConnector connector = findMeasureConnector(measure, TAppliesToDataConnector.class, ppiset);
 		
 		if (connector!=null) {
 
-			// crea la definición de la medida de instancia que tiene la información para calcular la medida agregada
+			// crea la definicion de la medida de instancia que tiene la informacion para calcular la medida agregada
 			// el dataobject al cual se aplica la medida se obtiene del conector de la medida agregada
 			DataPropertyConditionInstanceMeasure baseModel = this.obtainModel(baseMeasure, ppiset);
 			baseModel.setCondition( new DataPropertyCondition(
@@ -515,7 +515,7 @@ public class GeneratePpiNotModel {
 					measure.getSamplingfrequency(),
 					baseModel);
 
-			// determina si la medida agregada está asociada a un conector isgroupedby, y si es así se setea la propiedad correspondiente de la
+			// determina si la medida agregada esta asociada a un conector isgroupedby, y si es asi se setea la propiedad correspondiente de la
 			// medida
 			TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class, ppiset);
 			if (con!=null) {
@@ -538,12 +538,12 @@ public class GeneratePpiNotModel {
 	 */
 	AggregatedMeasure obtainModel( TAggregatedMeasure measure, TDerivedSingleInstanceMeasure baseMeasure, TPpiset ppiset) {
 		
-		// crea la definición de una medida agregada DataPropertyConditionMeasure a partir de la información en el xml
+		// crea la definicion de una medida agregada DataPropertyConditionMeasure a partir de la informacion en el xml
 		// el dataobject a la cual se aplica la medida se obtiene del conector de la medida agregada
 		AggregatedMeasure def = null;
 		
 
-		// crea la definición de la medida de instancia que tiene la información para calcular la medida agregada
+		// crea la definicion de la medida de instancia que tiene la informacion para calcular la medida agregada
 		// el dataobject al cual se aplica la medida se obtiene del conector de la medida agregada
 		DerivedSingleInstanceMeasure baseModel = this.obtainModel(baseMeasure);
 		
@@ -557,7 +557,7 @@ public class GeneratePpiNotModel {
 				measure.getSamplingfrequency(),
 				baseModel);
 
-		// determina si la medida agregada está asociada a un conector isgroupedby, y si es así se setea la propiedad correspondiente de la
+		// determina si la medida agregada esta asociada a un conector isgroupedby, y si es asi se setea la propiedad correspondiente de la
 		// medida
 		TMeasureConnector con = findMeasureConnector(measure, TIsGroupedBy.class, ppiset);
 		if (con!=null) {
@@ -576,7 +576,7 @@ public class GeneratePpiNotModel {
 	 */
 	DerivedSingleInstanceMeasure obtainModel(TDerivedSingleInstanceMeasure measure) {
 		
-		// crea la definición de la medida DerivedSingleInstanceMeasure a partir de la información en el xml
+		// crea la definicion de la medida DerivedSingleInstanceMeasure a partir de la informacion en el xml
 		// la medida a la cual se aplica la medida se obtiene del conector
 		DerivedSingleInstanceMeasure def = new DerivedSingleInstanceMeasure( 
 				measure.getId(), 
@@ -597,7 +597,7 @@ public class GeneratePpiNotModel {
 	 */
 	DerivedMultiInstanceMeasure obtainModel(TDerivedMultiInstanceMeasure measure) {
 		
-		// crea la definición de la medida DerivedMultiInstanceMeasure a partir de la información en el xml
+		// crea la definicion de la medida DerivedMultiInstanceMeasure a partir de la informacion en el xml
 		// la medida a la cual se aplica la medida se obtiene del conector
 		DerivedMultiInstanceMeasure def = new DerivedMultiInstanceMeasure( 
 				measure.getId(), 

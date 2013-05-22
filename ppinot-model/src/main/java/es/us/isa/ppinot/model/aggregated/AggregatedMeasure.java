@@ -5,20 +5,20 @@ import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.base.BaseMeasure;
 
 /**
- * Clase con la información de un PPI del tipo AggregatedMeasure
+ * Clase con la informacion de un PPI del tipo AggregatedMeasure
  * 
- * @author Edelia García González
+ * @author Edelia Garcia Gonzalez
  * @version 1.0
  *
  */
 public class AggregatedMeasure extends MeasureDefinition {
     
-    // Función de agregación que se aplica
+    // Funcion de agregacion que se aplica
     private String aggregationFunction;
 
     protected String samplingFrequency;
     
-    // Información para agrupar la medida
+    // Informacion para agrupar la medida
     private DataContentSelection groupedBy;
 
     // La medida que se agrega
@@ -47,10 +47,10 @@ public class AggregatedMeasure extends MeasureDefinition {
      * 
      * @param id Id de la medida
      * @param name Nombre de la medida
-     * @param description Descripción de la medida
+     * @param description Descripcion de la medida
      * @param scale Escala de la medida
      * @param measureUnit Unidad de medida
-     * @param aggregationFunction Función de la medida
+     * @param aggregationFunction Funcion de la medida
      * @param samplingFrequency
      * @param baseMeasure La medida que se agrega
      */
@@ -69,7 +69,7 @@ public class AggregatedMeasure extends MeasureDefinition {
 
     /**
      * Devuelve el atributo aggregationFunction:
-     * Función de agregación que se aplica
+     * Funcion de agregacion que se aplica
      * 
      * @return Valor del atributo
      */
@@ -79,7 +79,7 @@ public class AggregatedMeasure extends MeasureDefinition {
 
     /**
      * Da valor al atributo aggregationFunction:
-     * Función de agregación que se aplica
+     * Funcion de agregacion que se aplica
      * 
      * @param value Valor del atributo
      */
@@ -151,7 +151,7 @@ public class AggregatedMeasure extends MeasureDefinition {
 
     /**
      * Devuelve el atributo groupedBy:
-     * Información para agrupar la medida
+     * Informacion para agrupar la medida
      * 
      * @return La medida que se agrega
      */
@@ -161,7 +161,7 @@ public class AggregatedMeasure extends MeasureDefinition {
 
     /**
      * Da valor al atributo groupedBy:
-     * Información para agrupar la medida
+     * Informacion para agrupar la medida
      * 
      * @param baseMeasure La medida que se agrega
      */
@@ -175,7 +175,7 @@ public class AggregatedMeasure extends MeasureDefinition {
 	 * @return 
 	 */
 	public Boolean getCond() {
-		
+
 		return super.getCond() && 
 				this.getBaseMeasure().getCond() &&
 				this.getAggregationFunction()!=null && this.getAggregationFunction()!="";

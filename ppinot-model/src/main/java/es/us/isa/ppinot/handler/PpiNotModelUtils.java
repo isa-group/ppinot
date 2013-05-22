@@ -131,7 +131,7 @@ public class PpiNotModelUtils {
 	}
 	
 	/**
-	 * Foamatea una cadena con un decimal. Devuelve una cadena con el número con dos lugares decimales
+	 * Foamatea una cadena con un decimal. Devuelve una cadena con el numero con dos lugares decimales
 	 * 
 	 * @param str Cadena
 	 * @return Cadena

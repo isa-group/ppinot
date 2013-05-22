@@ -13,10 +13,10 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 public interface ToOWLConverterInterface {
 
 	/**
-	 * Genera una ontología OWL a partir de los objetos del modelo en un ModelHandleInterface
+	 * Genera una ontologia OWL a partir de los objetos del modelo en un ModelHandleInterface
 	 * 
 	 * @param modelHandler Manejador de los objetos del modelo
-	 * @return Ontología OWL
+	 * @return Ontologia OWL
 	 * @throws OWLOntologyCreationException
 	 */
     public OWLOntology convertToOwlOntology(ModelHandleInterface modelHandler) throws OWLOntologyCreationException;
@@ -28,7 +28,7 @@ public interface ToOWLConverterInterface {
      */
     public String getOntologyURI();
 	/**
-	 * Salva la ontología generada
+	 * Salva la ontologia generada
 	 * 
 	 * @param caminoDestino Camino
 	 * @param bpmnFilename Nombre del archivo

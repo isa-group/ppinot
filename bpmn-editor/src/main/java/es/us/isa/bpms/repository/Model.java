@@ -16,6 +16,7 @@ public class Model {
     private String modelId;
     private int revision;
     private JSONObject model;
+    private String svg;
 
     public Model() {
         revision = 1;
@@ -33,6 +34,7 @@ public class Model {
         jsonModel.put("description", description);
         jsonModel.put("revision", revision);
         jsonModel.put("model", model);
+        jsonModel.put("svg", svg);
 
         return jsonModel.toString();
     }
@@ -67,13 +69,16 @@ public class Model {
             m.setName(jsonModel.getString("name"));
 
         if (jsonModel.has("description"))
-        m.setDescription(jsonModel.getString("description"));
+            m.setDescription(jsonModel.getString("description"));
 
         if (jsonModel.has("revision"))
             m.setRevision(jsonModel.getInt("revision"));
 
         if (jsonModel.has("model"))
             m.setModel(jsonModel.getJSONObject("model"));
+
+        if (jsonModel.has("svg"))
+            m.setSvg(jsonModel.getString("svg"));
 
         return m;
     }
@@ -116,5 +121,13 @@ public class Model {
 
     public void setModel(JSONObject model) {
         this.model = model;
+    }
+
+    public String getSvg() {
+        return svg;
+    }
+
+    public void setSvg(String svg) {
+        this.svg = svg;
     }
 }

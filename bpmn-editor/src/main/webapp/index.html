@@ -14,8 +14,25 @@
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
         }
 
-        p.row-fluid:hover .actions {
+        li.model-row:hover .actions {
             visibility: visible;
+        }
+
+        li.model-row:hover {
+            background-color: #f7f7f7;
+        }
+
+        li.model-row img {
+            background-color: #ffffff;
+        }
+
+        li.model-row {
+            padding: 5px;
+            border-bottom: solid 1px #eeeeee;
+        }
+
+        li.model-row a {
+            text-decoration: none;
         }
 
         .actions {
@@ -23,7 +40,18 @@
             margin-top: 10px;
         }
 
-        .model-title {
+        .actions li:first-child {
+            padding-left: 0px;
+        }
+
+        .model-detail {
+            padding-left: 170px;
+        }
+
+        .model-img {
+            width: 160px;
+            height: 120px;
+            border: dashed lightgray 1px;
         }
 
         #models hr {
@@ -93,14 +121,14 @@
 <div class="container">
 
     <p style="float:right;"><button id="add" class="btn btn-info hide"><i class='icon-plus-sign'></i> Add new model</button> </p>
-    <h1>Models</h1>
+    <h1 class="page-header">Models</h1>
 
-    <hr/>
 
-    <div id="models" class="span8 offset2">
+    <!--<div id="models" class="span8 offset2">-->
+    <!--</div>-->
 
-    </div>
-
+    <ul id="models" class="media-list">
+    </ul>
 </div> <!-- /container -->
 
 <div id="removeModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="removeModalLabel" aria-hidden="true">
@@ -179,6 +207,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="manager/modelhandler.js"></script>
 <script src="manager/navbar.js"></script>
+<script src="manager/modellist.js"></script>
 <script src="libs/bootstrap.js"></script>
 <script src="libs/jquery.json-2.3.js"></script>
 
@@ -212,7 +241,7 @@ $(document).ready(function() {
         };
 
         modelHandler.addModel(model).done(function(data) {
-            loadModels();
+            ModelList.loadModels($("#models"));
             $("#addModal").modal("hide");
             $("#openModel").attr("href", data.editor);
             $("#openModelModal").modal("show");
@@ -223,59 +252,10 @@ $(document).ready(function() {
         return false;
     });
 
+    NavBar.onLogin.add(function () {
+        ModelList.loadModels($("#models"));
+    });
 
-
-
-    var loadModels = function() {
-        modelHandler.loadModelsList().done(function(processes) {
-            var models = $("#models");
-            models.empty();
-
-            $(processes).each(function() {
-                var container = $("<p class='row-fluid'></p>");
-
-                var actions = $("<ul class='pull-right actions inline'></ul>").appendTo(container);
-                addActions(this, actions);
-
-                var title = $("<h4 class='model-title'></h4>").appendTo(container);
-                if (this.editor != "undefined" && this.editor != null)
-                    title.append("<a target='_blank' href='"+this.editor+"'>"+this.name+"</a>");
-                else
-                    title.append(this.name);
-
-
-                if (this.description !== "undefined" && this.description != null)
-                    container.append("<p>"+this.description+"</p>");
-
-
-                models.append(container);
-                models.append("<hr/>");
-
-            });
-
-        });
-    }
-
-    var addActions = function(model, container) {
-        container.append("<li><a class='btn btn-mini' href='"+model.url+"'><i class='icon-download'></i> Download XML</a></li>");
-
-        if (NavBar.isLogged()) {
-            var remove = $("<a class='btn btn-mini' href='#'><i class='icon-trash'></i> Delete model</a>").click(function() {
-                $("#removeModelId").html(model.modelId);
-                $("#acceptRemove").unbind().click(function() {
-                    console.log("Removed "+model.modelId);
-                    $("#removeModal").modal("hide");
-                    modelHandler.removeModel(model.modelId);
-                    loadModels();
-                });
-                $("#removeModal").modal("show");
-            });
-            $("<li></li>").append(remove).appendTo(container);
-        }
-
-    };
-
-    NavBar.onLogin.add(loadModels);
     NavBar.onLogin.add(function (logged) {
         if (!logged) {
             $("#add").hide();

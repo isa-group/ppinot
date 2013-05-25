@@ -38,6 +38,12 @@
 				<artifactId>maven-jetty-plugin</artifactId>
 				<version>6.1.24</version>
 				<configuration>
+                    <systemProperties>
+                        <systemProperty>
+                            <name>org.mortbay.jetty.Request.maxFormContentSize</name>
+                            <value>-1</value> <!-- or any other value -1 is for max -->
+                        </systemProperty>
+                    </systemProperties>
 					<stopPort>9966</stopPort>
 					<stopKey>bpmn-editor</stopKey>
 					<!-- Redeploy every x seconds if changes are detected, 0 for no automatic 

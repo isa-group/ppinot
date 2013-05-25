@@ -5,8 +5,9 @@
 	xmlns:oryx="http://www.b3mn.org/oryx"
 	version="1.0"
 	oryx:edge="edge" >
-	<g id="edgeAppliesTo">
-	    <path d="M10 50 L210 50" stroke="black" fill="none" stroke-width="2" stroke-dasharray="3, 4" marker-end="url(#end)" />
+
+    <g id="edgeAppliesTo">
+	    <path d="M10 50 L210 50" stroke="black" fill="none" stroke-width="2" stroke-dasharray="3, 4" />
 		 <text font-size="12" id="stateText3" x="60" y="0" oryx:align="top left" oryx:edgePosition="endBottom"/>
 		 <text font-size="12" id="restrictionText" x="60" y="0" oryx:align="top left" oryx:edgePosition="endTop"/>
 		 <text font-size="12" id="dataContentSelectionText" x="60" y="0" oryx:align="top left" oryx:edgePosition="midBottom"/>

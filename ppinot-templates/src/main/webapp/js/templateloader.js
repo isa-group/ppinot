@@ -1,347 +1,260 @@
-var activityNames = [];
-var activityNameId = {};
-var activityIdName = {};
-var activityStates = ["Start", "Cancel","End"];
-var DataObjectNames= [];
-var DataObjectState= [];
-var eventNames = [];
-var aggregates=[];
-
-function isActivity(id) {
-	var result = false;
-
-	if (typeof activityIdName[id] != "undefined")
-		result = true;
-
-	return result;
-}
-
-function findPosition(ar, name) {
-	var pos = -1;
-	var j = 0;
-	while (j < ar.length) {
-		if (ar[j] == name) {
-			pos = j;
-			break;
-		}
-		j++;
-	}
-
-	return pos;
-}
-
-
-
 function loadAll(processName) {
-	$.ajax({
-		type: "GET",
-		url: "/api/repository/processes/" + processName + "/activities",
-		dataType: "json",
-		success: function(data) {
-			$(data).each(function (index) {
-				if (this.name == "") {
-					this.name = this.id;
-				}
-				activityNames.push(this.name);
-				activityIdName[this.id] = this.name;
-				activityNameId[this.name] = this.id;				
-			});
-			loadEvents(processName);
-		}
-	});
-}
-
-function loadEvents(processName) {
-	$.ajax({
-		type: "GET",
-		url: "/api/repository/processes/" + processName + "/events",
-		dataType: "json",
-		success: function(data) {
-			$(data).each(function (index) {
-				if (this.name == "") {
-					this.name = this.id;
-				}
-				activityNames.push(this.name);
-				activityIdName[this.id] = this.name;
-				activityNameId[this.name] = this.id;	
-				
-			});
-			loadDataObjects(processName);
-		}
-	});
-}
-
-function loadDataObjects(processName) {
-	$.ajax({
-		type: "GET",
-		url: "/api/repository/processes/" + processName + "/dataobjects",
-		dataType: "json",
-		success: function(data) {
-			$(data).each(function(index){
-					if (this.name == "") {
-				this.name = this.id;
-			}
-			activityNames.push(this.name);
-			activityIdName[this.id] = this.name;
-			activityNameId[this.name] = this.id;	
-			});
-			loadGateways(processName);
-		}
-	});
-}
-
-function loadGateways(processName) {
-	$.ajax({
-		type: "GET",
-		url: "/api/repository/processes/" + processName + "/gateways",
-		dataType: "json",
-		success: function(data) {
-			$(data).each(function (index) {
-				if (this.name == "") {
-					this.name = this.id;
-				}
-				activityNames.push(this.name);
-				activityIdName[this.id] = this.name;
-				activityNameId[this.name] = this.id;	
-			});
-			loadTemplates(processName);
-		}
+	var process = new Process("ppi");
+	process.load().then(function() {
+		var measures = createMeasuresModel(process);
+		console.log(measures);
+		loadTemplates(processName, process, measures);
 	});
 }
 
 
-function loadTemplates(processName) {
+function loadTemplates(processName, process, measuresModel) {
 	$.ajax({
 		type: "GET",
 		url: "/api/repository/processes/" + processName + "/ppis",
 		dataType: "json",
 		success: function(data) {
 			$(data).each(function (index) {
-				if (this.name == "") {
-					this.name = this.id;
-				}
-				activityNames.push(this.name);
-				activityIdName[this.id] = this.name;
-				activityNameId[this.name] = this.id;	
-				loadTemplate(this);
+				var temp = new Template(this, process, measuresModel);
+				var ppi = $("<div></div>");
+				ppi.appendTo($("#container"));
+				temp.load(ppi);
 			});
 		}
 	});
 }
 
-
-
-function loadTemplate(ppi) {
-	// carga plantilla
-	var elem = $("#container");
-
-	var measuredByElem = $("<div></div>");
-	var targetElem = $("<div></div>");
-
-	measuredByElem.appendTo(elem);
-	targetElem.appendTo(elem);
-
-	loadMeasuredBy(measuredByElem, ppi.measuredBy);
-	loadTarget(targetElem, ppi.target);
+function Template(ppi, process, measuresModel) {
+	this.ppi = ppi;
+	this.process = process;
+	this.measuresModel = measuresModel;
 }
 
-function loadMeasuredBy(elem, measuredBy) {loadMeasure(measuredBy);}
-	
-	
-function loadMeasure(measuredBy){
-    var kindIndex = {
-    	TimeInstanceMeasure: 0,
-		CountInstanceMeasure: 1,
-		StateConditionMeasure: 2,
-		DataPropertyCondition: 3,
-		DataMeasure: 4,
-		AggregatedMeasure: 5,
-		DerivedMeasure: 6
-    };
+jQuery.extend(Template.prototype, {
+	load: function (elem) {
+		var measuredByElem = $("<div></div>");
+		var targetElem = $("<div></div>");
 
-    var kindContained = {
-    	TimeInstanceMeasure: containedTimeInstanceMeasure(measuredBy),
-    	CountInstanceMeasure: containedCountInstanceMeasure(measuredBy),
-    	StateConditionMeasure: containedStateConditionInstanceMeasure(measuredBy),
-    	DataPropertyCondition: containedDataPropertyCondition(measuredBy),
-    	DataMeasure: containedDataInstanceMeasure(measuredBy),
-    	AggregatedMeasure: containedAggregatedMeasure(measuredBy),
-    	DerivedMeasure: containedDerivedInstanceMeasure(measuredBy)
-    };
+		measuredByElem.appendTo(elem);
+		targetElem.appendTo(elem);
 
-    var load = {
-    	value: kindIndex[measuredBy.kind],
-    	contained: kindContained[measuredBy.kind](measuredBy)
-    };
+		this.loadMeasuredBy(measuredByElem, this.ppi.measuredBy);
+		// loadTarget(targetElem, ppi.target);
+	},
 
-    // Completarlo para el resto de measures
-
-    console.log(load);
-
-	elem.linguisticPattern("The PPI is defined as", measureOptions, load);
-
-}
-
-function containedTimeInstanceMeasure(measuredBy) {
-	var contained = {
-		startEvent: containedEvent(measuredBy.from),
-		endEvent: containedEvent(measuredBy.to)
-	};
-
-	return contained;
-}
-
-function containedCountInstanceMeasure(measuredBy) {
-	var contained = {
-		event: containedEvent(measuredBy.when)
-	};
-	return contained;
-}
-
-function containedEvent(event) {
-	var contained = {};
-
-	if (isActivity(event.appliesTo)) {
-		contained.value = 0;
-		contained.activityNames = {
-			value: containedActivityNames(event)
-		};		
-		contained.activityState = {
-			value: findPosition(activityStates, event.changesToState.stateString)
-		};
-	}
-
-	// Completarlo salvo para el tipo "process"
-
-	console.log(contained);
-
-	return contained;
-		
-}
-
-function containedActivityType(event){
-	var contained = {
-			value: findPosition(activityNames, activityIdName[event.id])
-	};
-	console.log(contained);
-
-	return contained;
-}
-function containedActivityNames(event){
-	var contained = {
-			value: findPosition(activityNames, activityIdName[event.appliesTo])
-	};
-	console.log(contained);
-
-	return contained;
-}
-
-function containedActivityState(event){
-	var contained = {
-			value: findPosition(activityStates, event.changesToState.stateString)
-	};
-	console.log(contained);
-
-	return contained;
-}
-
-function containedStateConditionInstanceMeasure(measuredBy){
-  var contained={
-		  activityType: containedActivityType(measuredBy.Id),
-		  activityName: containedActivityNames(measuredBy.appliesTo),
-		  activityState: containedActivityState(measuredBy.changesToState.stateString),
-		  state:  containedState(measuredBy)
-  }
- 
-  console.log(contained);
-     return contained;
-}
-
-function containedState(event){
-	  var contained={
-			  activityType: containedActivityType(event),
-			  activityName: containedActivityNames(event),
-			  activityState: containedActivityState(event)
+	findPosition: function(ar, name) {
+		var pos = -1;
+		var j = 0;
+		while (j < ar.length) {
+			if (ar[j] == name) {
+				pos = j;
+				break;
+			}
+			j++;
 		}
-	 console.log(contained);
+
+		return pos;
+	},
+
+	loadMeasuredBy: function(elem, measuredBy) {
+		var load = this.loadMeasure(measuredBy);	
+		elem.linguisticPattern("The PPI is defined as", this.measuresModel, load);
+	},
+
+	loadMeasure: function(measuredBy){
+	    var kindIndex = {
+	    	TimeInstanceMeasure: 0,
+			CountInstanceMeasure: 1,
+			StateConditionMeasure: 2,
+			DataPropertyCondition: 3,
+			DataMeasure: 4,
+			AggregatedMeasure: 5,
+			DerivedMeasure: 6
+	    };
+
+	    // var kindContained = {
+	    // 	TimeInstanceMeasure: this.containedTimeInstanceMeasure,
+	    // 	CountInstanceMeasure: this.containedCountInstanceMeasure,
+	    // 	StateConditionMeasure: this.containedStateConditionInstanceMeasure,
+	    // 	DataPropertyCondition: this.containedDataPropertyCondition,
+	    // 	DataMeasure: this.containedDataInstanceMeasure,
+	    // 	AggregatedMeasure: this.containedAggregatedMeasure,
+	    // 	DerivedMeasure: this.containedDerivedInstanceMeasure
+	    // };
+
+	    var load = {
+	    	value: kindIndex[measuredBy.kind],
+	    	contained: this[measuredBy.kind](measuredBy)
+	    };
+
+	    console.log(load);
+
+	    return load;
+	},
+
+	TimeInstanceMeasure: function(measuredBy) {
+		var contained = {
+			startEvent: this.containedEvent(measuredBy.from),
+			endEvent: this.containedEvent(measuredBy.to)
+		};
+
+		return contained;
+	},
+
+	CountInstanceMeasure: function(measuredBy) {
+		var contained = {
+			event: this.containedEvent(measuredBy.when)
+		};
+		return contained;
+	},
+
+	containedEvent: function(event){
+		var contained = {};
+
+		if (this.process.isActivity(event.appliesTo)) {
+			contained.value = 0;
+			contained.contained = {};
+			contained.contained.activityNames = {
+				value: this.containedActivityNames(event)
+			};		
+			contained.contained.activityState = {
+				value: this.findPosition(this.process.activityStates, event.changesToState.stateString)
+			};
+		}
+
+		// Completarlo salvo para el tipo "process"
+
+		console.log(contained);
+
+		return contained;
+			
+	},
+
+	containedActivityType: function(event){
+		var contained = {
+				value: this.findPosition(this.process.activityNames, this.process.activityIdName[event.id])
+		};
+		console.log(contained);
+
+		return contained;
+	},
+
+	containedActivityNames: function(event){
+		var contained = {
+				value: this.findPosition(this.process.activityNames, this.process.activityIdName[event.appliesTo])
+		};
+		console.log(contained);
+
+		return contained;
+	},
+
+	containedActivityState: function(event){
+		var contained = {
+				value: this.findPosition(this.process.activityStates, event.changesToState.stateString)
+		};
+		console.log(contained);
+
+		return contained;
+	},
+
+	StateConditionMeasure: function(measuredBy){
+	  var contained={
+			  activityType: this.containedActivityType(measuredBy.Id),
+			  activityName: this.containedActivityNames(measuredBy.appliesTo),
+			  activityState: this.containedActivityState(measuredBy.changesToState.stateString),
+			  state:  this.containedState(measuredBy)
+	  }
+	 
+	  console.log(contained);
 	     return contained;
-	}
+	},
 
-function containedDataPropertyCondition(measuredBy){
-	var contained={
-			DataObjectName: containedDataObjectName(measuredBy.groupBy.dataObject),
-			ConditionDataObjectPropertie: containedConditionDataObjectProperty(measuredBy.groupBy.dataObjectId)
-			
-	}
-	console.log(contained);
-    return contained;
-}
+	containedState: function(event){
+		  var contained={
+				  activityType: this.containedActivityType(event),
+				  activityName: this.containedActivityNames(event),
+				  activityState: this.containedActivityState(event)
+			}
+		 console.log(contained);
+		     return contained;
+	},
 
-function containedDataObjectName(measuredBy){
-	var contained={
-			value: findPosition(measuredBy, DataObjectNames[measuredBy.groupBy.dataObject])
-	}
-	console.log(contained);
-    return contained;
-}
+	DataPropertyCondition: function(measuredBy){
+		var contained={
+				DataObjectName: this.containedDataObjectName(measuredBy.groupBy.dataObject),
+				ConditionDataObjectProperties: this.containedConditionDataObjectProperty(measuredBy.groupBy.dataObjectId)
+				
+		}
+		console.log(contained);
+	    return contained;
+	},
 
-function ConditionDataObjectPropertie(measuredBy){
-	var contained={
-			value: findPosition(measuredBy, DataObjectNames[measuredBy.groupBy.dataObjectId])
-	}
-	console.log(contained);
-    return contained;
-}
+	containedDataObjectName: function(measuredBy){
+		var contained={
+				value: this.findPosition(measuredBy, this.dataObjectNames[measuredBy.groupBy.dataObject])
+		}
+		console.log(contained);
+	    return contained;
+	},
 
-function containedDataInstanceMeasure(measuredBy){
-  var contained={
-		  DataObjectPropertyName: containedDataObjectPropertyName(measuredBy.groupBy.dataObject),
-		  DataObjectName: containedDataObjectName(measuredBy.groupBy.dataObject)  
-  }
-  
-  console.log(contained);
-  return contained;
+	ConditionDataObjectPropertie: function(measuredBy){
+		var contained={
+				value: this.findPosition(measuredBy, this.dataObjectNames[measuredBy.groupBy.dataObjectId])
+		}
+		console.log(contained);
+	    return contained;
+	},
+
+	DataMeasure: function(measuredBy){
+	  var contained={
+			  DataObjectPropertyName: this.containedDataObjectPropertyName(measuredBy.groupBy.dataObject),
+			  DataObjectName: this.containedDataObjectName(measuredBy.groupBy.dataObject)  
+	  }
+	  
+	  console.log(contained);
+	  return contained;
+		
+	},
+
+
+
+	AggregatedMeasure: function(measuredBy) {
+		var contained={
+				Aggregate: measuredBy.aggregationFunction,
+				MeasureForAgg: this.loadMeasure(measuredBy.baseMeasure),
+				// DataObjectPropertyName: this.containedDataObjectPropertyName(measuredBy.groupBy.dataObject),
+				// DataObjectName: this.containedDataObjectName(measuredBy.groupBy.dataObject)
+		}
+		console.log(contained);
+	    return contained;
+	},
+
+	containedDataObjectPropertyName: function(measuredBy){
+		var contained={
+				value: this.findPosition(measuredBy, this.process.dataObjectNames[measuredBy.groupBy.dataObject])
+		}
+		console.log(contained);
+	    return contained;
+	},
+
+	DerivedInstanceMeasure: function(measuredBy){
+		var contained={
+				expresion: "",
+				parametros:	"",
+				MeasureForDer: this.loadMeasure(measuredBy)
+				
+		}
+		console.log(contained);
+	    return contained;
+	},	
+
+
+});
+
+
+
+
 	
-}
-
-
-
-function containedAggregatedMeasure(measuredBy) {
-	var contained={
-			Aggregate: containedAggregate(measuredBy.aggregationFunction),
-			MeasureForAgg: loadMeasure(measuredBy),
-			DataObjectPropertyName: containedDataObjectPropertyName(measuredBy.groupBy.dataObject),
-			DataObjectName: containedDataObjectName(measuredBy.groupBy.dataObject)
-	}
-	console.log(contained);
-    return contained;
-}
-
-function containedAggregate(measuredBy){
-	var contained={
-			value: findPosition(measuredBy, aggregates[measuredBy.aggregationFunction])
-	}
-	console.log(contained);
-    return contained;
-}
-function DataObjectPropertyName(measuredBy){
-	var contained={
-			value: findPosition(measuredBy, DataObjectNames[measuredBy.groupBy.dataObject])
-	}
-	console.log(contained);
-    return contained;
-}
-
-function containedDerivedInstanceMeasure(measuredBy){
-	var contained={
-			expresion: "",
-			parametros:	"",
-			MeasureForDer: loadMeasure(measuredBy)
-			
-	}
-	console.log(contained);
-    return contained;
-}
 
 function loadTarget(elem, target){
 	var kindIndex = {

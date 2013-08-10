@@ -10,6 +10,8 @@ function Process(processName) {
 	this.dataObjectNames= [];
 	this.dataObjectPropertyNames = [];
 	this.dataObjectState= [];
+
+	this.id = {};
 }
 
 jQuery.extend(Process.prototype, {
@@ -30,7 +32,8 @@ jQuery.extend(Process.prototype, {
 					}
 					that.activityNames.push(this.name);
 					that.activityIdName[this.id] = this.name;
-					that.activityNameId[this.name] = this.id;				
+					that.activityNameId[this.name] = this.id;
+					that.id[this.id] = {name: this.name, type: "activity"};
 				});
 			}
 		});
@@ -48,6 +51,7 @@ jQuery.extend(Process.prototype, {
 						this.name = this.id;
 					}
 					that.eventNames.push(this.name);
+					that.id[this.id] = {name: this.name, type: "event"};
 				});
 			}
 		});
@@ -65,6 +69,7 @@ jQuery.extend(Process.prototype, {
 						this.name = this.id;
 					}
 					that.dataObjectNames.push(this.name);
+					that.id[this.id] = {name: this.name, type: "data object"};
 				});
 			}
 		});

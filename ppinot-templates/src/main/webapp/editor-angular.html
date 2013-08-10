@@ -1,0 +1,96 @@
+<!doctype html>
+<html ng-app="measuresModule">
+	<head>
+		<meta charset="utf-8">
+		<title>PPINOT Templates</title>
+	    <link rel="stylesheet" href="css/bootstrap.css"/>	    
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.min.js"></script>
+        <script src="js/process.js"></script>
+        <script src="js/templates.js"></script>
+        <script src="js/measures-module.js"></script>
+	</head>
+	<body>
+
+<div class="container" ng-controller="TemplatesCtrl">	
+	<h2>PPI Templates</h2>   
+    <div class="well" ng-repeat="ppi in ppis">
+		<table class="PPITab">
+			<tbody>
+				<tr>
+					<td>PPI</td>						
+					<td><button class="btn" type="button" ng-click="remove(ppi)">
+							Eliminar plantilla <i class="icon-trash"></i>
+						</button>
+					</td> 
+			   	</tr>
+				<tr>
+					<td>PPI:</td>						
+					<td>{{ppi.id}}</td> 
+			   	</tr>		   	
+				<tr>
+					<td>Name:</td>						
+					<td>{{ppi.name}}</td> 
+			   	</tr>		   	
+				<tr>
+					<td>Description:</td>
+					<td>{{ppi.description}}</td>
+				</tr>
+				<tr>
+					<td>Process:</td>
+					<td>process name(process id)</td>
+				</tr>
+		   		<tr>
+		   			<td>Goals:</td>
+		   			<td>{{ppi.goals}}</td>		   			
+		   			<td>
+		   				<button class="btn btn-mini" type="button"><i class="icon-plus"></i></button> 
+					</td>
+		   		</tr>
+		   		<tr>
+		   			<td width="70"></td>
+		   			<td></td>
+		   		</tr>	
+		   		<tr>
+		   			<td>Definition:</td>
+		   			<td>The PPI is defined as <measure ng-model="ppi.measuredBy" process="process"></measure></td>
+		   		</tr>
+		   		<tr>
+		   			<td>Target:</td>
+		   			<td>The PPI value must</td> 
+		   		</tr>
+		   		<tr>
+		   			<td>Unit:</td>
+		   			<td>{{ppi.measuredBy.unitOfMeasure}}</td>
+		   		</tr>
+		   		<tr>
+		   			<td>Scope:</td>
+		   			<td>The process instances considered for this PPI are</td>
+		   		</tr>
+		   		<tr>
+		   			<td>Source:</td>
+		   			<td>{{ppi.source}}</td>
+		   		</tr>
+		   		<tr>
+		   			<td>Responsible:</td>
+		   			<td>{{ppi.responsible}}</td>
+		   		</tr>
+		   		<tr>
+		   			<td>Informed:</td>
+		   			<td>{{ppi.informed}}</td>
+		   		</tr>
+		   		<tr>
+		   			<td>Comments:</td>
+		   			<td>{{ppi.comments}}</td>
+		   		</tr>
+		   	</tbody>	   		
+		</table>	
+	</div>
+	<div class="well" style="text-align:right;">
+		<input class="btn btn-primary" type="submit" ng-click="add();" value="Add PPI">
+		<input class="btn btn-primary" type="submit" ng-click="save();" value="Save PPI">
+	</div>	
+</div>  
+	</body>
+</html>

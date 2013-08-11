@@ -1,0 +1,123 @@
+<!doctype html>
+<html ng-app="measuresModule">
+	<head>
+		<meta charset="utf-8">
+		<title>PPINOT Templates</title>
+	    <link rel="stylesheet" href="css/bootstrap.css"/>	
+	    <style>
+	      input.templatefield{
+	      	border: 0;
+	      	box-shadow: none;
+	      	-webkit-box-shadow: none;
+	      	-mox-box-shadow: none;
+		    margin-bottom: 0;
+		    font-size: 13px;
+	      }
+	      input.templatefield:focus {
+	      	border: 1px solid rgba(82, 168, 236, 0.8);
+	      }
+	      input.templatefield:hover {
+		    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+		    -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+		    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+		    outline: 0;
+		    outline: thin dotted \9;
+	      }
+	    </style> 	        
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.min.js"></script>
+        <script src="js/ui-bootstrap-tpls-0.5.0.min.js"></script>
+        <script src="js/process.js"></script>
+        <script src="js/templates.js"></script>
+        <script src="js/measures-module.js"></script>
+	</head>
+	<body ng-controller="TemplatesCtrl">
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+	    <div class="container">
+		    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+		    	<span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		    </a>
+		    <a class="brand">PPINot Templates Editor</a>
+		    <div class="nav-collapse pull-right">
+		    	<ul class="nav">
+					<li class="dropdown">
+						<a class="dropdown-toggle">
+							Select process <b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+			            	<li ng-repeat="p in processes">
+			            		<a href="#" ng-click="loadProcess(p.name, p.url)">{{p.name}}</a>
+			            	</li>
+						</ul>
+					</li>		    		
+		        	<li><a href="http://www.isa.us.es/ppinot">More information at the PPINot web site</a></li>
+		        </ul>
+		    </div>
+	    </div>
+	</div>
+</div>
+
+<div class="container" >	
+	<h2>PPI Templates</h2>   
+    <div ng-repeat="ppi in ppis">
+    	<button class="btn pull-right" type="button" ng-click="remove(ppi)">
+			Remove template <i class="icon-trash"></i>
+		</button>
+		<table class="table table-bordered">
+				<tr>
+					<th style="width:10em">PPI:</th>						
+					<td>{{ppi.id}}</td> 
+			   	</tr>		   	
+				<tr>
+					<th>Name:</th>						
+					<td>{{ppi.name}}</td> 
+			   	</tr>		   	
+				<tr>
+					<th>Description:</th>
+					<td>{{ppi.description}}</td>
+				</tr>
+		   		<tr>
+		   			<th>Goals:</th>
+		   			<td>{{ppi.goals}}</td>		   			
+		   		</tr>
+		   		<tr>
+		   			<th>Definition:</th>
+		   			<td>The PPI is defined as <measure ng-model="ppi.measuredBy" process="process"></measure></td>
+		   		</tr>
+		   		<tr>
+		   			<th>Target:</th>
+		   			<td>The PPI value must be <target ng-model="ppi.target"></target> {{ppi.measuredBy.unitOfMeasure}}</td> 
+		   		</tr>
+		   		<tr>
+		   			<th>Scope:</th>
+		   			<td>The process instances considered for this PPI are all</td>
+		   		</tr>
+		   		<tr>
+		   			<th>Source:</th>
+		   			<td>{{ppi.source}}</td>
+		   		</tr>
+		   		<tr>
+		   			<th>Responsible:</th>
+		   			<td>{{ppi.responsible}}</td>
+		   		</tr>
+		   		<tr>
+		   			<th>Informed:</th>
+		   			<td>{{ppi.informed}}</td>
+		   		</tr>
+		   		<tr>
+		   			<th>Comments:</th>
+		   			<td>{{ppi.comments}}</td>
+		   		</tr>
+		</table>	
+	</div>
+	<div class="well" style="text-align:right;">
+		<input class="btn btn-primary" type="submit" ng-click="add();" value="Add PPI">
+		<input class="btn btn-primary" type="submit" ng-click="save();" value="Save PPI">
+	</div>	
+</div>  
+	</body>
+</html>

@@ -2,6 +2,7 @@ package es.us.isa.ppinot.model.base;
 
 import es.us.isa.ppinot.model.DataContentSelection;
 import es.us.isa.ppinot.model.condition.DataPropertyCondition;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
  * Clase con la informacion de una medida DataInstanceMeasure

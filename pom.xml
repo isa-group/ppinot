@@ -47,14 +47,14 @@
 		<url>https://bitbucket.org/isagroup/ppinot/issues</url>
 	</issueManagement>
 	
-	<modules>
-		<module>bpmn-model</module>
-		<module>bpmn-xml-owl</module>
+    <modules>
+	<module>bpmn-model</module>
+	<module>bpmn-xml-owl</module>
         <module>bpmn-editor</module>
-		<module>ppinot-model</module>
-		<module>ppinot-xml-owl</module>
-		<module>bpmn-editor-bpmn20xml</module>
-		<module>ppinot-templates</module>
+	<module>ppinot-model</module>
+	<module>ppinot-xml-owl</module>
+	<module>bpmn-editor-bpmn20xml</module>
+	<module>ppinot-templates</module>
         <module>bpmn-editor-diagram</module>
     </modules>
 
@@ -100,7 +100,7 @@
             <dependency>
                 <groupId>es.us.isa.ppinot</groupId>
                 <artifactId>ppinot-model</artifactId>
-                <version>1.0.4-SNAPHSOT</version>
+                <version>1.0.4-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>es.us.isa.ppinot</groupId>

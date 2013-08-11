@@ -1,6 +1,8 @@
 package es.us.isa.ppinot.model.base;
 
+import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.condition.TimeInstantCondition;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
  * Clase con la informacion de las medidas CountInstanceMeasure

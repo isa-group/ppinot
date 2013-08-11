@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:definitions xmlns:ppinot="http://www.isa.us.es/ppinot"
+	xmlns:ns2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:ns3="http://www.omg.org/spec/DD/20100524/DI"
+	xmlns:ns4="http://www.omg.org/spec/DD/20100524/DC" xmlns:ns5="http://www.omg.org/spec/BPMN/20100524/DI"
+	id="sid-71646a2c-043b-4fff-a1b7-469e59c9658f" targetNamespace="http://www.signavio.com/bpmn20"
+	expressionLanguage="http://www.w3.org/1999/XPath" typeLanguage="http://www.w3.org/2001/XMLSchema"
+	exporter="Signavio Process Editor, http://www.signavio.com"
+	exporterVersion="">
+	<ns2:process isExecutable="false"
+		id="sid-83608ef1-955d-465b-aa10-7357fd413f43">
+		<ns2:extensionElements>
+			<ppinot:ppiset id="ppiset_1">
+				<ppinot:countMeasure id="sid-8F97D7AD-B211-429E-911B-F278B5D12D98"
+					name="Count1" description="" scale="" unitofmeasure="" />
+				<ppinot:appliesToElementConnector
+					when="Start" id="appliesToElementConnector_2" sourceRef="sid-8F97D7AD-B211-429E-911B-F278B5D12D98"
+					targetRef="sid-680678C2-CDEE-4852-85E7-CAA68E08DF78" />
+				<ppinot:ppi id="sid-eaf8645a-d548-4e9f-8a39-bf3aa78504fd"
+					name="PPI 1" description="Descripcion PPI 1" goals="This is a goal"
+					target="&lt;10.0" scope="" responsible="" informed="" comments=""
+					measuredBy="sid-8F97D7AD-B211-429E-911B-F278B5D12D98" />
+			</ppinot:ppiset>
+		</ns2:extensionElements>
+		<ns2:startEvent name=""
+			id="sid-9A9977D6-5D29-4FE5-B999-BBA1DF17B4C1">
+			<ns2:extensionElements>
+				<signavio:signavioMetaData xmlns:signavio="http://www.signavio.com"
+					xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+					xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" metaKey="bgcolor"
+					metaValue="#ffffff" />
+			</ns2:extensionElements>
+			<ns2:outgoing>ns2:sid-0E6991F6-B581-474B-8410-8E23DA015062
+			</ns2:outgoing>
+		</ns2:startEvent>
+		<ns2:task isForCompensation="false" startQuantity="1"
+			completionQuantity="1" name="Task11"
+			id="sid-680678C2-CDEE-4852-85E7-CAA68E08DF78">
+			<ns2:extensionElements>
+				<signavio:signavioMetaData xmlns:signavio="http://www.signavio.com"
+					xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+					xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" metaKey="bgcolor"
+					metaValue="#ffffcc" />
+			</ns2:extensionElements>
+			<ns2:incoming>ns2:sid-0E6991F6-B581-474B-8410-8E23DA015062
+			</ns2:incoming>
+			<ns2:outgoing>ns2:sid-FC1E19ED-8540-4D5A-8AF2-C9DB6B4B66FF
+			</ns2:outgoing>
+		</ns2:task>
+		<ns2:task isForCompensation="false" startQuantity="1"
+			completionQuantity="1" name="Task2"
+			id="sid-A96CA54F-FEAC-4E71-AE44-BDE3C98FB11B">
+			<ns2:extensionElements>
+				<signavio:signavioMetaData xmlns:signavio="http://www.signavio.com"
+					xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+					xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" metaKey="bgcolor"
+					metaValue="#ffffcc" />
+			</ns2:extensionElements>
+			<ns2:incoming>ns2:sid-FC1E19ED-8540-4D5A-8AF2-C9DB6B4B66FF
+			</ns2:incoming>
+			<ns2:outgoing>ns2:sid-05667F75-89CD-46F2-9996-2742FD643A13
+			</ns2:outgoing>
+		</ns2:task>
+		<ns2:endEvent name=""
+			id="sid-7E04B962-CCB7-400E-A820-8A065602111F">
+			<ns2:extensionElements>
+				<signavio:signavioMetaData xmlns:signavio="http://www.signavio.com"
+					xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+					xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
+					xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" metaKey="bgcolor"
+					metaValue="#ffffff" />
+			</ns2:extensionElements>
+			<ns2:incoming>ns2:sid-05667F75-89CD-46F2-9996-2742FD643A13
+			</ns2:incoming>
+		</ns2:endEvent>
+		<ns2:sequenceFlow sourceRef="sid-9A9977D6-5D29-4FE5-B999-BBA1DF17B4C1"
+			targetRef="sid-680678C2-CDEE-4852-85E7-CAA68E08DF78" name=""
+			id="sid-0E6991F6-B581-474B-8410-8E23DA015062" />
+		<ns2:sequenceFlow sourceRef="sid-680678C2-CDEE-4852-85E7-CAA68E08DF78"
+			targetRef="sid-A96CA54F-FEAC-4E71-AE44-BDE3C98FB11B" name=""
+			id="sid-FC1E19ED-8540-4D5A-8AF2-C9DB6B4B66FF" />
+		<ns2:sequenceFlow sourceRef="sid-A96CA54F-FEAC-4E71-AE44-BDE3C98FB11B"
+			targetRef="sid-7E04B962-CCB7-400E-A820-8A065602111F" name=""
+			id="sid-05667F75-89CD-46F2-9996-2742FD643A13" />
+	</ns2:process>
+	<ns5:BPMNDiagram id="sid-ee8746dc-5246-4e56-b909-a294e29c2177">
+		<ns5:BPMNPlane bpmnElement="ns2:sid-83608ef1-955d-465b-aa10-7357fd413f43"
+			id="sid-4d33dc83-31db-432f-ab5e-ff7e9ab8289e">
+			<ns5:BPMNShape bpmnElement="ns2:sid-9A9977D6-5D29-4FE5-B999-BBA1DF17B4C1"
+				id="sid-9A9977D6-5D29-4FE5-B999-BBA1DF17B4C1_gui">
+				<ns4:Bounds x="105.0" y="70.0" width="30.0" height="30.0" />
+			</ns5:BPMNShape>
+			<ns5:BPMNShape bpmnElement="ns2:sid-680678C2-CDEE-4852-85E7-CAA68E08DF78"
+				id="sid-680678C2-CDEE-4852-85E7-CAA68E08DF78_gui">
+				<ns4:Bounds x="247.0" y="45.0" width="100.0" height="80.0" />
+			</ns5:BPMNShape>
+			<ns5:BPMNShape bpmnElement="ns2:sid-A96CA54F-FEAC-4E71-AE44-BDE3C98FB11B"
+				id="sid-A96CA54F-FEAC-4E71-AE44-BDE3C98FB11B_gui">
+				<ns4:Bounds x="479.0" y="45.0" width="100.0" height="80.0" />
+			</ns5:BPMNShape>
+			<ns5:BPMNShape bpmnElement="ns2:sid-7E04B962-CCB7-400E-A820-8A065602111F"
+				id="sid-7E04B962-CCB7-400E-A820-8A065602111F_gui">
+				<ns4:Bounds x="653.0" y="71.0" width="28.0" height="28.0" />
+			</ns5:BPMNShape>
+			<ns5:BPMNEdge bpmnElement="ns2:sid-0E6991F6-B581-474B-8410-8E23DA015062"
+				id="sid-0E6991F6-B581-474B-8410-8E23DA015062_gui">
+				<ns3:waypoint x="135.0" y="85.0" />
+				<ns3:waypoint x="247.0" y="85.0" />
+			</ns5:BPMNEdge>
+			<ns5:BPMNEdge bpmnElement="ns2:sid-FC1E19ED-8540-4D5A-8AF2-C9DB6B4B66FF"
+				id="sid-FC1E19ED-8540-4D5A-8AF2-C9DB6B4B66FF_gui">
+				<ns3:waypoint x="347.0" y="85.0" />
+				<ns3:waypoint x="479.0" y="85.0" />
+			</ns5:BPMNEdge>
+			<ns5:BPMNEdge bpmnElement="ns2:sid-05667F75-89CD-46F2-9996-2742FD643A13"
+				id="sid-05667F75-89CD-46F2-9996-2742FD643A13_gui">
+				<ns3:waypoint x="579.0" y="85.0" />
+				<ns3:waypoint x="653.0" y="85.0" />
+			</ns5:BPMNEdge>
+		</ns5:BPMNPlane>
+	</ns5:BPMNDiagram>
+</ns2:definitions>

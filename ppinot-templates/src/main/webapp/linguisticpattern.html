@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>  
+    <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+    <script type= "text/javascript" src="js/jquery.linguisticpattern.js"></script> 
+    <script type= "text/javascript" src="js/templateloader.js"></script> 
+	<script type= "text/javascript">	    
+		  
+		   	$(document).ready(function() {
+    			var options = [{
+						text: "be less than",
+						appendContent: function(container, goBackFunction, load, notifyChange) {
+							$("<span>"+this.text+" </span>").click(goBackFunction).appendTo(container);
+							var input = $("<input type='text' placeholder='value'>").appendTo(container).change(
+									function() {										
+										notifyChange({minRef: $(this).val()});
+									}
+								);
+							try {
+								input.val(load.minRef);
+								notifyChange({minRef: load.minRef});
+							} catch(err) {};
+						}
+					},
+					{
+    					text: "be greater than",
+    					appendContent: function(container, goBackFunction, load, notifyChange) {
+							$("<span>"+this.text+" </span>").click(goBackFunction).appendTo(container);
+							var input = $("<input type='text' placeholder='value'>").appendTo(container).change(
+									function() {										
+										notifyChange({maxRef: $(this).val()});
+									}
+								);
+							try {
+								input.val(load.maxRef);
+								notifyChange({maxRef: load.maxRef});
+							} catch(err) {};
+						}
+    				},
+    				{
+
+    					text: "be less than or equal",
+						appendContent: function(container, goBackFunction, load, notifyChange) {
+							$("<span>"+this.text+" </span>").click(goBackFunction).appendTo(container);
+							var input = $("<input type='text' placeholder='value'>").appendTo(container).change(
+									function() {										
+										notifyChange({minequalRef: $(this).val()});
+									}
+								);
+							try {
+								input.val(load.minequalRef);
+								notifyChange({minequalRef: load.minequalRef});
+							} catch(err) {};
+						}
+    					
+    					
+    					
+    					
+    				},
+    				{
+    					text: "be greater than or equal",
+						appendContent: function(container, goBackFunction, load, notifyChange) {
+							$("<span>"+this.text+" </span>").click(goBackFunction).appendTo(container);
+							var input = $("<input type='text' placeholder='value'>").appendTo(container).change(
+									function() {										
+										notifyChange({maxequalRef: $(this).val()});
+									}
+								);
+							try {
+								input.val(load.maxequalRef);
+								notifyChange({minRef: load.maxequalRef});
+							} catch(err) {};
+						}
+    				}
+    			];
+
+    			var activityStates = ["started", "canceled","completed"];
+                var activityNames = ["Assign priority", "Analyse RFC", "Cancel RFC"];                
+                var activityTypes = ["Activity", "process", "events", "data object"];
+                var DataObjectNames= ["RFC"];
+                var DataObjectState= ["registered"];
+                var ConditionDataObjectProperties= ["type of Change=perfective"];
+                var DataObjectPropertyNames= ["affected department"];
+                var expressions=["SUM(x1, x2, x3, x4)"];
+                var parametres= ["x1", "x2", "x3", "x4"];
+		   		
+                
+
+    			var activityStates = [
+    				"started",
+    				"cancelled",
+    				"completed"
+    			];
+
+    			var activityNames = ["hola"];
+
+		   		var eventOptions = [
+		   			{
+		   				text: "activity {activityName} {state}",
+		   				activityName: {
+		   					options: activityNames
+		   				},
+		   				state: {
+		   					prefix: " becomes",
+		   					options: activityStates
+		   				}
+		   			}, 
+		   			"process BPEN becomes BPES" , 
+		   			"data object BPEN becomes BPES", 
+		   			"event BPEN is triggred"
+		   		];
+
+
+		   		var measureOptions = [
+	   				{
+	   					text: "the duration between the time instants {startEvent} {endEvent}",
+	   					startEvent: {
+	   						prefix: "when",
+	   						options: eventOptions
+	   					},
+	   					endEvent: {
+	   						prefix: " and when",
+	   						options: eventOptions
+	   					}
+	   				},
+					{
+    					text: "the number of times {event}",
+    					event: {
+    						options: eventOptions
+    					}
+
+					}
+	   			];
+
+	   			// ESto es lo que debe ir al HTML. Lo de arriba a un fichero JS externo.
+
+    			var loadTarget = {
+    				value: 0,
+    				contained: {minRef: 89}
+    			};
+
+		   		$("div.selectme2").linguisticPattern("The PPI value must", options);		   		
+
+
+    			var load = {
+    				value: 0, 
+    				contained: {
+    					startEvent: {value: 2}, 
+    					endEvent: {value: 3}
+    				}
+    			};
+
+
+				loadAll("ppi");
+
+
+		   		$("#definition").linguisticPattern("The PPI is defined as", measureOptions, load);
+
+		   		console.log("Hoal mudno");
+		   		var valorDato = $("#definition").data("value");
+		   		console.log(valorDato);
+		    });
+	</script>
+	
+</head>
+<body>
+	
+
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+	    <div class="container">
+		    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+		    	<span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		    </a>
+		    <a class="brand" href="#">PPINot Templates Editor</a>
+		    <div class="nav-collapse pull-right">
+		    	<ul class="nav">
+		        	<li><a href="http://www.isa.us.es/ppinot">More information at the PPINot web site</a></li>
+		        </ul>
+		    </div><!--/.nav-collapse -->
+	    </div>
+	</div>
+</div>
+
+<div class="container">
+    <p>For more info and downloads please see the <a href="http://code.google.com/p/jquery-in-place-editor/">google code project page.</a> </p>		
+	<p style="float:right;"><button class="btn btn-info" onclick="ed.setModel(ExampleData);">Load example (Discards existing model!)</button> </p>
+	<h1>PPI Templates</h1>
+	
+    <div style="position: absolute; left: 39px; top: 45px; " class="ct_cursor ct_cursor_top ct_cursor_left"></div>
+    <div style="position: fixed; display: none; left: 670px; top: 355px; " class="ct_message_popup"></div>
+    
+    <div id="PPI">
+		<table class="ct_element ctc_PPI table table-condensed table-bordered" id="PPI_table">
+			<thead>
+				<tr id="ppi">
+					<td class="ct_class_name">PPI:</td> 
+					<td class="ct_class_name">
+						<input id= "ppi" name= "PPI_id"  type= "text" value= "PPI<id>" size="8"/>
+					</td> 
+			   	</tr>
+		   	</thead>
+		   	<tbody>
+				<tr class="ctn_name" id="name">
+					<td class="ct_feature_name editorcolumn">
+					   Name:
+					</td>
+					<td>
+						<input id="Name" name="Name"  type="text" value=""/>
+					</td>
+				</tr>
+				<tr class="ctn_process" id="Process">
+					<td class="ct_feature_name editorcolumn">
+					   Process:
+					</td>
+					<td>
+						<input id="Process" name="Process"  type="text" value=""/>
+					</td>
+				</tr>
+		   		<tr class="ct_attribute ctn_goals" id="Goals">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Goals:
+		   			</td>
+		   			<td>
+						<input id="Goals" name="Goals"  type="text" value=""/>
+					</td>
+		   		</tr>	
+		   		<tr class="ct_containment ctn_definition" id="Definition">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Definition: 
+		   			</td>
+		   			<td>
+		   			      <div class="selectme1" id="definition">The PPI is defined as &lt;click to select definition&gt;</div>
+		   			</td>
+				</tr>
+		   		<tr class="ct_containment ctn_target" id="Target">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Target:
+		   		    </td>
+		   			<td>
+		   			       
+		   			    <div class="selectme2" id="target" data-value='{"value": 0, "contained": {"minRef": 67}}'>
+		   			    	The PPI value must &lt;click to select target&gt;
+		   			    </div>
+					</td>
+					
+		   		</tr>
+		   		<tr class="ct_attribute ctn_unit" id="Unit">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Unit:
+		   			</td>
+		   			<td>
+						<input id="Unit" name="Unit"  type="text" value=""/>
+					</td>
+		   		</tr>
+		   		<tr class="ct_reference ctn_scope" id="Scope">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Scope:
+		   			</td>
+		   			<td>
+						<input id="Scope" name="Scope"  type="text" value=""/>
+					</td>
+		   		</tr>
+		   		<tr class="ct_attribute ctn_source" id="Source">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Source:
+		   		    </td>
+		   			<td>
+						<input id="Source" name="Source"  type="text" value=""/>
+					</td>
+		   		</tr>
+		   		<tr class="ct_attribute ctn_responsible" id="Responsible">
+		   			<td class="ct_feature_name editorcolumn">
+		   			    Responsible:
+		   		    </td>
+		   			<td>
+						<input id="Responsible" name="Responsible"  type="text" value=""/>
+					</td>
+		   		</tr>
+		   		<tr class="ct_attribute ctn_informed" id="Informed">
+		   			<td class="ct_feature_name editorcolumn">
+		   			    Informed:
+		   			</td>
+		   			<td>
+						<input id="Informed" name="Informed"  type="text" value=""/>
+					</td>
+		   		</tr>
+		   		<tr class="ct_attribute ctn_comments" id="Comments">
+		   			<td class="ct_feature_name editorcolumn">
+		   			   Comments:
+		   			</td>
+		   			<td>
+						<input id="Comments" name="Comments"  type="text" value=""/>
+					</td>
+		   		</tr>
+		   	</tbody>	   		
+		</table>	
+	</div>
+    
+	
+</div>
+
+
+</body>
+
+
+</html>

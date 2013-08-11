@@ -2,6 +2,7 @@ package es.us.isa.ppinot.model.base;
 
 import es.us.isa.ppinot.model.condition.TimeInstantCondition;
 import es.us.isa.ppinot.model.condition.TimeMeasureType;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
  * Clase con la informacion de un PPI del tipo ElapsedTimeInstanceMeasure

@@ -68,21 +68,21 @@ public class pruebaconsola {
 		Map<String, PPI> ppi = ppiNotModelHandler.getPpiModelMap();
 		
 		// exporta el xml
-		ppiNotModelHandler.setTimeModelMap(timeInstanceMeasure);
-		ppiNotModelHandler.setCountModelMap(countInstanceMeasure);
-		ppiNotModelHandler.setStateConditionModelMap(elementConditionInstanceMeasure);
-		ppiNotModelHandler.setDataModelMap(dataInstanceMeasure);
-		ppiNotModelHandler.setDataPropertyConditionModelMap(dataConditionInstanceMeasure);
-
-		ppiNotModelHandler.setTimeAggregatedModelMap(timeAggregatedMeasure);
-		ppiNotModelHandler.setCountAggregatedModelMap(countAggregatedMeasure);
-		ppiNotModelHandler.setStateConditionAggregatedModelMap(elementConditionAggregatedMeasure);
-		ppiNotModelHandler.setDataAggregatedModelMap(dataAggregatedMeasure);
-		ppiNotModelHandler.setDataPropertyConditionAggregatedModelMap(dataConditionAggregatedMeasure);
-		ppiNotModelHandler.setDerivedSingleInstanceAggregatedModelMap(derivedSingleInstanceAggregatedMeasure);
-
-		ppiNotModelHandler.setDerivedSingleInstanceModelMap(derivedInstanceMeasure);
-		ppiNotModelHandler.setDerivedMultiInstanceModelMap(derivedProcessMeasure);
+//		ppiNotModelHandler.setTimeModelMap(timeInstanceMeasure);
+//		ppiNotModelHandler.setCountModelMap(countInstanceMeasure);
+//		ppiNotModelHandler.setStateConditionModelMap(elementConditionInstanceMeasure);
+//		ppiNotModelHandler.setDataModelMap(dataInstanceMeasure);
+//		ppiNotModelHandler.setDataPropertyConditionModelMap(dataConditionInstanceMeasure);
+//
+//		ppiNotModelHandler.setTimeAggregatedModelMap(timeAggregatedMeasure);
+//		ppiNotModelHandler.setCountAggregatedModelMap(countAggregatedMeasure);
+//		ppiNotModelHandler.setStateConditionAggregatedModelMap(elementConditionAggregatedMeasure);
+//		ppiNotModelHandler.setDataAggregatedModelMap(dataAggregatedMeasure);
+//		ppiNotModelHandler.setDataPropertyConditionAggregatedModelMap(dataConditionAggregatedMeasure);
+//		ppiNotModelHandler.setDerivedSingleInstanceAggregatedModelMap(derivedSingleInstanceAggregatedMeasure);
+//
+//		ppiNotModelHandler.setDerivedSingleInstanceModelMap(derivedInstanceMeasure);
+//		ppiNotModelHandler.setDerivedMultiInstanceModelMap(derivedProcessMeasure);
 
 		ppiNotModelHandler.setPpiModelMap(ppi);
 		

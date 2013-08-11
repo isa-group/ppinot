@@ -1,6 +1,7 @@
 package es.us.isa.ppinot.model.condition;
 
 import es.us.isa.ppinot.model.state.RuntimeState;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
  * Clase de las condiciones que debe cumplir un elemento BPMN

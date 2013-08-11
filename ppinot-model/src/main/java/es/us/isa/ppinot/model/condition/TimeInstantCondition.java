@@ -1,6 +1,7 @@
 package es.us.isa.ppinot.model.condition;
 
 import es.us.isa.ppinot.model.state.RuntimeState;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
  * Clase de las condiciones que deben cumplirse en un momento instante de tiempo (inicio o fin)

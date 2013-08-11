@@ -1,5 +1,7 @@
 package es.us.isa.ppinot.model.state;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 /**
  * Clase con el estado de la ejecucion de un elemento BPMN. Maneja la conversion de un estado del cadena a Enum y viceversa
  * 
@@ -10,16 +12,17 @@ package es.us.isa.ppinot.model.state;
 public class RuntimeState {
 	
 	// estado del tipo Enum
-	private Enum state;
+    @JsonIgnore
+	private State state;
 	// la cadena correspondiente al estado
-	private String stateStr;
+	private String stateString;
 	
 	/**
 	 * Constructor de la clase
 	 */
 	public RuntimeState() {
 		super();
-		this.stateStr = "";
+		this.stateString = "";
 	}
 	
 	/**
@@ -27,7 +30,7 @@ public class RuntimeState {
 	 * 
 	 * @param state Estado del tipo Enum
 	 */
-	public RuntimeState(Enum state) {
+	public RuntimeState(State state) {
 		super();
 		this.setState(state);
 	}
@@ -35,7 +38,7 @@ public class RuntimeState {
 	/**
 	 * Constructor de la clase
 	 * 
-	 * @param atStart Indica si esta en el estado START o no
+	 * @param atEnd Indica si esta en el estado START o no
 	 */
 	public RuntimeState(Boolean atEnd) {
 		super();
@@ -45,17 +48,17 @@ public class RuntimeState {
 	/**
 	 * Constructor de la clase
 	 * 
-	 * @param state Estado del tipo String
+	 * @param stateString Estado del tipo String
 	 */
-	public RuntimeState(String stateStr) {
+	public RuntimeState(String stateString) {
 		super();
-		this.iniStateStr(stateStr);
+		this.iniStateStr(stateString);
 	}
-	
-	private void iniStateStr(String stateStr) {
+
+    private void iniStateStr(String stateStr) {
 		
 //		Enum stateEnum = GenericState.START;
-		Enum stateEnum = null;
+		State stateEnum = null;
 		
 		if (stateStr!=null) {
 			
@@ -79,7 +82,7 @@ public class RuntimeState {
 		} else
 			stateStr = "";
 		
-		this.stateStr = stateStr;
+		this.stateString = stateStr;
 		this.setState(stateEnum);
 	}
 	
@@ -89,7 +92,8 @@ public class RuntimeState {
      * 
      * @return Valor del atributo
      */
-	public Enum getState() {
+    @JsonIgnore
+	public State getState() {
 		return state;
 	}
 	
@@ -97,21 +101,25 @@ public class RuntimeState {
      * Da valor al atributo state:
      * Estado del tipo Enum
      * 
-     * @param value Valor del atributo
      */
-	public void setState(Enum state) {
+    @JsonIgnore
+	public void setState(State state) {
 		this.state = state;
 	}
 	
 	/**
-     * Devuelve el atributo stateStr:
+     * Devuelve el atributo stateString:
      * La cadena correspondiente al estado
      * 
      * @return Valor del atributo
      */
 	public String getStateString() {
-		return stateStr;
+		return stateString;
 	}
+
+    public void setStateString(String stateString) {
+        this.stateString = stateString;
+    }
 }
 
 /*

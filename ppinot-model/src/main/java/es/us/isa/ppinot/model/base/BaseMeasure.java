@@ -1,6 +1,9 @@
 package es.us.isa.ppinot.model.base;
 
 import es.us.isa.ppinot.model.MeasureDefinition;
+import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
+import org.codehaus.jackson.annotate.JsonSubTypes;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
  * Clase de las medidas base

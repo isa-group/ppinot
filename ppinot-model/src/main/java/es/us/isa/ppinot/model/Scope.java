@@ -1,5 +1,7 @@
 package es.us.isa.ppinot.model;
 
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+
 import java.util.Date;
 
 public class Scope {

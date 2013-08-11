@@ -1,4 +1,4 @@
-function Process(processName) {
+function Process(processName, processUrl) {
 	this.processName = processName;
 	this.processNames = [processName];
 	this.processStates = ["Start", "Cancel","End"];
@@ -10,6 +10,7 @@ function Process(processName) {
 	this.dataObjectNames= [];
 	this.dataObjectPropertyNames = [];
 	this.dataObjectState= [];
+	this.url = processUrl;
 
 	this.id = {};
 }
@@ -23,7 +24,7 @@ jQuery.extend(Process.prototype, {
 		var that = this;
 		return $.ajax({
 			type: "GET",
-			url: "/api/repository/processes/" + that.processName + "/activities",
+			url: that.url + "/activities",
 			dataType: "json",
 			success: function(data) {
 				$(data).each(function (index) {
@@ -43,7 +44,7 @@ jQuery.extend(Process.prototype, {
 		var that = this;
 		return $.ajax({
 			type: "GET",
-			url: "/api/repository/processes/" + that.processName + "/events",
+			url: that.url + "/events",
 			dataType: "json",
 			success: function(data) {
 				$(data).each(function (index) {
@@ -61,7 +62,7 @@ jQuery.extend(Process.prototype, {
 		var that = this;
 		return $.ajax({
 			type: "GET",
-			url: "/api/repository/processes/" + that.processName + "/dataobjects",
+			url: that.url + "/dataobjects",
 			dataType: "json",
 			success: function(data) {
 				$(data).each(function (index) {

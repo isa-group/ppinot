@@ -1,4 +1,4 @@
-angular.module('measuresModule', [])
+angular.module('measuresModule', ['ui.bootstrap'])
   .directive('measure', function(){
     return {
       restrict: 'E',
@@ -57,5 +57,33 @@ angular.module('measuresModule', [])
       transclude: true,
       scope: { ngModel: '=', process: '='},
       template: '<span>{{process.id[ngModel.appliesTo].type}} {{process.id[ngModel.appliesTo].name}} becomes {{ngModel.changesToState.stateString}}</span>'
+    }
+  })
+  .directive('target', function() {
+    return {
+      restrict: 'E',
+      replace: true,
+      transclude: true,
+      scope: { ngModel: '='},
+      template: '<span>{{tpattern(ngModel.refMin, ngModel.refMax)}}</span>',
+      controller: function($scope, $element) {
+        $scope.tpattern = function(min, max) {
+          var result = "";
+          if (min != null && max == null) 
+            result = "lower than "+min;
+          else if (min == null && max != null) 
+            result = "greater than "+max;
+          else if (min != null && max != null) {
+            if (min == max)
+              result = min;
+            else 
+              result = "between "+min + " and "+max;            
+          }
+
+          return result;
+        }
+
+      }
+
     }
   });

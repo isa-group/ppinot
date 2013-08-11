@@ -1,12 +1,17 @@
 function TemplatesCtrl($scope, $http) {
-	var processName = "base";
+	$http.get("/api/repository/processes/").success(function(data) {
+		$scope.processes = data;
+	})
 
-    $scope.process = new Process(processName);
-    $scope.process.load().then(function () {
-  	    $http.get("/api/repository/processes/"+processName+"/ppis").success(function(data) {
-	        $scope.ppis = data;
-    	});
-    });
+	$scope.loadProcess = function(name, url) {
+	    $scope.process = new Process(name, url);
+	    $scope.process.load().then(function () {
+	  	    $http.get(url+"/ppis").success(function(data) {
+		        $scope.ppis = data;
+	    	});
+	    });		
+	}
+
 
     $scope.remove = function(ppi) {
     	var index = $scope.ppis.indexOf(ppi);
@@ -15,8 +20,12 @@ function TemplatesCtrl($scope, $http) {
 
     $scope.save = function() {
     	// For testing purposes only
-    	$scope.ppis[1].measuredBy.baseMeasure = $scope.ppis[0].measuredBy;
-    	$scope.ppis[1].measuredBy.aggregationFunction = "min";
+    	// $scope.ppis[1].measuredBy.baseMeasure = $scope.ppis[0].measuredBy;
+    	// $scope.ppis[1].measuredBy.aggregationFunction = "min";
+    	$scope.ppis[1].target.refMax=7;
+    	if ($scope.ppis[1].target.refMin==5)
+    		$scope.ppis[1].target.refMax = null;
+    	$scope.ppis[1].target.refMin=5;
     }
 
     $scope.add = function() {

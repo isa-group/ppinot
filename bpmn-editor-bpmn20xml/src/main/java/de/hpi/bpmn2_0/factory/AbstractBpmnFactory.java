@@ -23,7 +23,6 @@ package de.hpi.bpmn2_0.factory;
  * SOFTWARE.
  */
 
-import com.sun.xml.bind.StringInputStream;
 import de.hpi.bpmn2_0.annotations.Property;
 import de.hpi.bpmn2_0.annotations.StencilId;
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
@@ -44,15 +43,12 @@ import de.hpi.bpmn2_0.model.misc.Auditing;
 import de.hpi.bpmn2_0.model.misc.Monitoring;
 import de.hpi.bpmn2_0.transformation.Constants;
 import de.hpi.bpmn2_0.transformation.Diagram2BpmnConverter;
-/* EDE: se importan las factories de los ppi */
 import es.us.isa.ppinot.jsontoxml.factory.edge.AggregatesFactory;
 import es.us.isa.ppinot.jsontoxml.factory.edge.AppliesToConnectorFactory;
 import es.us.isa.ppinot.jsontoxml.factory.edge.IsGroupedByFactory;
 import es.us.isa.ppinot.jsontoxml.factory.edge.UsesFactory;
 import es.us.isa.ppinot.jsontoxml.factory.node.CountMeasureFactory;
 import es.us.isa.ppinot.jsontoxml.factory.node.PpiFactory;
-/* fin EDE */
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,6 +67,9 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
+
+/* EDE: se importan las factories de los ppi */
+/* fin EDE */
 
 
 /**
@@ -343,8 +342,9 @@ public abstract class AbstractBpmnFactory {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		factory.setNamespaceAware(true);
 		DocumentBuilder builder = factory.newDocumentBuilder();
-		StringInputStream sis = new StringInputStream(exElXml);
-		Document exDoc = builder.parse(sis);
+		//StringInputStream sis = new StringInputStream(exElXml);
+//		Document exDoc = builder.parse(sis);
+        Document exDoc = builder.parse(exElXml);
 		if(!exDoc.getFirstChild().getNodeName().equals("external")) {
 			return;
 		}

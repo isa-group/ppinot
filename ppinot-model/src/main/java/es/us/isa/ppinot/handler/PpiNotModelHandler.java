@@ -16,7 +16,6 @@ import es.us.isa.ppinot.xmlClasses.ppinot.*;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -426,14 +425,14 @@ public class PpiNotModelHandler extends ModelHandler implements PpiNotModelHandl
 						def = this.generatePpiNotModel.obtainModel(measure, baseModel, ppiset);
 						wasCreated = def!=null;
 						if (wasCreated) {
-
-//                            List<TUses> uses = this.generatePpiNotModel.findUses(this.derivedSingleInstanceMap.get(baseModel.getId()), ppiset);
+/*
+                            List<TUses> uses = this.generatePpiNotModel.findUses(this.derivedSingleInstanceModelMap.get(baseModel.getId()), ppiset);
                             List<TUses> uses = this.generatePpiNotModel.findUses(measure.getBaseMeasure().getValue(), ppiset);
                             for (TUses con : uses) {
 								
 								((DerivedMeasure) baseModel).addUsedMeasure( con.getVariable(), this.loadConnectedMeasure(con) );
 							}
-							this.derivedSingleInstanceAggregatedModelMap.put( def.getId(), def );
+*/							this.derivedSingleInstanceAggregatedModelMap.put( def.getId(), def );
 						}
 					}
 				}

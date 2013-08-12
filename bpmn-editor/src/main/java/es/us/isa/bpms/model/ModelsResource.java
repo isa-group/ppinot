@@ -1,9 +1,10 @@
-package es.us.isa.bpms.repository;
+package es.us.isa.bpms.model;
 
 import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
 import de.hpi.bpmn2_0.transformation.Diagram2XmlConverter;
 import es.us.isa.bpms.editor.EditorResource;
 import es.us.isa.bpms.process.ProcessElementsResource;
+import es.us.isa.bpms.repository.ProcessRepository;
 import es.us.isa.bpms.users.UserService;
 import es.us.isa.ppinot.resource.PPINOTResource;
 import org.apache.batik.transcoder.AbstractTranscoder;
@@ -72,37 +73,37 @@ public class ModelsResource {
     @Path("/models")
     @GET
     @Produces("application/json")
-    public List<ProcessInfo> getProcesses(@Context UriInfo uriInfo) {
-        List<ProcessInfo> result = new ArrayList<ProcessInfo>();
+    public List<ModelInfo> getProcesses(@Context UriInfo uriInfo) {
+        List<ModelInfo> result = new ArrayList<ModelInfo>();
         Set<String> processes = new HashSet<String>(processRepository.listProcesses());
         List<String> jsonProcesses = processRepository.listJsonProcesses();
         processes.addAll(jsonProcesses);
 
         for (String modelId : processes) {
 
-            ProcessInfo processInfo = createProcessInfo(modelId, uriInfo);
+            ModelInfo modelInfo = createProcessInfo(modelId, uriInfo);
 
-            result.add(processInfo);
+            result.add(modelInfo);
         }
 
         return result;
     }
 
-    private ProcessInfo createProcessInfo(String modelId, UriInfo uriInfo) {
+    private ModelInfo createProcessInfo(String modelId, UriInfo uriInfo) {
         UriBuilder ub = uriInfo.getBaseUriBuilder().path(this.getClass()).path(this.getClass(), "getProcess");
         URI uri = ub.build(modelId);
 
-        ProcessInfo processInfo = new ProcessInfo(modelId, uri.toString());
+        ModelInfo modelInfo = new ModelInfo(modelId, uri.toString());
 
         try {
             Model m = processRepository.getProcessModelInfo(modelId);
-            processInfo.setName(m.getName());
-            processInfo.setDescription(m.getDescription());
+            modelInfo.setName(m.getName());
+            modelInfo.setDescription(m.getDescription());
 
             if (m.getModel() != null) {
                 UriBuilder ubEditor = uriInfo.getBaseUriBuilder().path(EditorResource.class).queryParam("id", modelId);
                 URI uriEditor = ubEditor.build();
-                processInfo.setEditor(uriEditor.toString());
+                modelInfo.setEditor(uriEditor.toString());
             }
 
         } catch (Exception e) {
@@ -110,7 +111,7 @@ public class ModelsResource {
             log.warning(e.toString());
         }
 
-        return processInfo;
+        return modelInfo;
     }
 
     @Path("/model/{id}")
@@ -232,7 +233,7 @@ public class ModelsResource {
     @Path("/models")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addNewProcess(@Context UriInfo uriInfo, ProcessInfo info) {
+    public Response addNewProcess(@Context UriInfo uriInfo, ModelInfo info) {
         if (! userService.isLogged())
             throw new UnauthorizedException("User not logged");
 
@@ -246,8 +247,8 @@ public class ModelsResource {
         model.setDescription(info.getDescription());
 
         if (processRepository.addProcess(model)) {
-            ProcessInfo processInfo = createProcessInfo(info.getModelId(), uriInfo);
-            r = Response.ok(processInfo, MediaType.APPLICATION_JSON_TYPE).build();
+            ModelInfo modelInfo = createProcessInfo(info.getModelId(), uriInfo);
+            r = Response.ok(modelInfo, MediaType.APPLICATION_JSON_TYPE).build();
         }
         else {
             r = Response.status(Response.Status.BAD_REQUEST).build();
@@ -297,13 +298,14 @@ public class ModelsResource {
 
     @Path("/model/{id}")
     public ProcessElementsResource getProcessInfo(@PathParam("id") String id) {
-        InputStream processReader = processRepository.getProcessReader(id);
+        InputStream processReader = IOUtils.toInputStream(getProcess(id));
         return new ProcessElementsResource(processReader);
     }
 
 
     @Path("/model/{id}/ppis")
     public PPINOTResource getPPIs(@PathParam("id") String id) {
-        return new PPINOTResource(id, userService, processRepository);
+        InputStream processReader = IOUtils.toInputStream(getProcess(id));
+        return new PPINOTResource(processReader, id, userService, processRepository);
     }
 }

@@ -1,5 +1,7 @@
 package es.us.isa.bpms.repository;
 
+import es.us.isa.bpms.model.Model;
+
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;

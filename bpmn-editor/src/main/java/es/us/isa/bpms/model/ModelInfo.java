@@ -1,4 +1,4 @@
-package es.us.isa.bpms.repository;
+package es.us.isa.bpms.model;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -12,7 +12,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 //        include=JsonTypeInfo.As.PROPERTY, property="kind")
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 @JsonIgnoreProperties
-public class ProcessInfo {
+public class ModelInfo {
 
     private String modelId;
     private String name;
@@ -44,18 +44,18 @@ public class ProcessInfo {
         this.editor = editor;
     }
 
-    public ProcessInfo() {
+    public ModelInfo() {
 
     }
 
-    public ProcessInfo(String modelId, String url) {
+    public ModelInfo(String modelId, String url) {
         super();
         this.modelId = modelId;
         this.name = modelId;
         this.url = url;
     }
 
-    public ProcessInfo(String modelId, String url, String editor) {
+    public ModelInfo(String modelId, String url, String editor) {
         this(modelId,url);
         this.editor = editor;
     }

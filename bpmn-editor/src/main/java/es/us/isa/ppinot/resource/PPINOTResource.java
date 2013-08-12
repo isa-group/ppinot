@@ -8,6 +8,7 @@ import es.us.isa.ppinot.model.PPI;
 import org.jboss.resteasy.spi.UnauthorizedException;
 
 import javax.ws.rs.*;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -23,8 +24,10 @@ public class PPINOTResource {
     private UserService userService;
     private ProcessRepository processRepository;
     private String id;
+    private InputStream processStream;
 
-    public PPINOTResource(String id, UserService userService, ProcessRepository processRepository) {
+    public PPINOTResource(InputStream processStream, String id, UserService userService, ProcessRepository processRepository) {
+        this.processStream = processStream;
         this.id = id;
         this.userService = userService;
         this.processRepository = processRepository;
@@ -33,14 +36,8 @@ public class PPINOTResource {
     @Produces("application/json")
     @GET
     public Collection<PPI> getPPIs(@PathParam("id") String id) {
-        try {
-            PpiNotModelHandlerInterface handler = new PpiNotModelHandler();
-            handler.load(processRepository.getProcessReader(id));
-            return handler.getPpiModelMap().values();
-        } catch (Exception e) {
-            throw new RuntimeException("Problem loading PPIs of process " + id, e);
-        }
-
+        PpiNotModelHandlerInterface handler = getPpiNotModelHandler(id);
+        return handler.getPpiModelMap().values();
     }
 
     @Consumes("application/json")
@@ -49,13 +46,7 @@ public class PPINOTResource {
         if (! userService.isLogged())
             throw new UnauthorizedException("User not logged");
 
-        PpiNotModelHandlerInterface ppinotModelHandler;
-        try {
-            ppinotModelHandler = new PpiNotModelHandler();
-            ppinotModelHandler.load(processRepository.getProcessReader(id));
-        } catch (Exception e) {
-            throw new RuntimeException("Problem loading PPIs of process " + id, e);
-        }
+        PpiNotModelHandlerInterface ppinotModelHandler = getPpiNotModelHandler(id);
 
         Map<String, PPI> ppiModelMap = new HashMap<String, PPI>();
         for (PPI p: ppis) {
@@ -74,5 +65,16 @@ public class PPINOTResource {
         }
 
 
+    }
+
+    private PpiNotModelHandlerInterface getPpiNotModelHandler(String id) {
+        PpiNotModelHandlerInterface ppinotModelHandler;
+        try {
+            ppinotModelHandler = new PpiNotModelHandler();
+            ppinotModelHandler.load(processStream);
+        } catch (Exception e) {
+            throw new RuntimeException("Problem loading PPIs of process " + id, e);
+        }
+        return ppinotModelHandler;
     }
 }

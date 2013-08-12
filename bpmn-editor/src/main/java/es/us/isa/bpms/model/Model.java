@@ -1,4 +1,4 @@
-package es.us.isa.bpms.repository;
+package es.us.isa.bpms.model;
 
 import org.json.JSONException;
 import org.json.JSONObject;

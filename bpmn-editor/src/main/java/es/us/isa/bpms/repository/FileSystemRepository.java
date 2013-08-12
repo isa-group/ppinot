@@ -1,5 +1,6 @@
 package es.us.isa.bpms.repository;
 
+import es.us.isa.bpms.model.Model;
 import es.us.isa.bpms.users.UserService;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;

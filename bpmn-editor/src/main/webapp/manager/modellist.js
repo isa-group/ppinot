@@ -51,6 +51,8 @@ var ModelList = {};
 
             container.append(exportAction);
 
+            container.append("<li><a class='btn btn-mini btn-primary' href='ppi-template.html#/#"+model.modelId+"'>View PPIs</a></li>");
+
 
             if (NavBar.isLogged()) {
                 var remove = $("<a class='btn btn-mini btn-primary' href='#'><i class='icon-trash icon-white'></i> Delete model</a>").click(function() {

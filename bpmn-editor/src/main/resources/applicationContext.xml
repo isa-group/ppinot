@@ -32,7 +32,7 @@
     </bean>
 
     <!--   Resources  -->
-    <bean id="repositoryResource" class="es.us.isa.bpms.repository.ModelsResource">
+    <bean id="repositoryResource" class="es.us.isa.bpms.model.ModelsResource">
         <property name="processRepository" ref="processRepository"/>
     </bean>
     <bean id="editorResource" class="es.us.isa.bpms.editor.EditorResource"/>

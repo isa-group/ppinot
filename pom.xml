@@ -48,8 +48,8 @@
 	</issueManagement>
 	
     <modules>
-	<module>bpmn-model</module>
-	<module>bpmn-xml-owl</module>
+	<module>bpm-common/bpmn-model</module>
+	<module>bpm-common/bpmn-xml-owl</module>
         <module>bpmn-editor</module>
 	<module>ppinot-model</module>
 	<module>ppinot-xml-owl</module>

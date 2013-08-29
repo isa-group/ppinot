@@ -64,20 +64,12 @@ public class ModelsResource {
         Diagram2BpmnConverter.setConstants(new Constants() {
             @Override
             public List<Class<? extends AbstractBpmnFactory>> getAdditionalFactoryClasses() {
-//                return (List<Class<? extends AbstractBpmnFactory>>) Arrays.asList(
-//                        CountMeasureFactory.class,
-//                        AppliesToConnectorFactory.class,
-//                        UsesFactory.class,
-//                        AggregatesFactory.class,
-//                        IsGroupedByFactory.class,
-//                        PpiFactory.class);
-
                 return new ArrayList<Class<? extends AbstractBpmnFactory>>();
             }
 
             @Override
             public List<Class<? extends PropertyListItem>> getAdditionalPropertyItemClasses() {
-                return null;
+                return new ArrayList<Class<? extends PropertyListItem>>();
             }
 
             @Override

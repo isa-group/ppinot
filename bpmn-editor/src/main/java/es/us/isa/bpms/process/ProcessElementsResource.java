@@ -8,6 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,22 +25,35 @@ public class ProcessElementsResource {
         this.processStream = processStream;
     }
 
+    @Path("/info")
+    @Produces(MediaType.APPLICATION_JSON)
+    @GET
+    public ProcessInfo getProcessInfo(@PathParam("id") String id) {
+        Bpmn20ModelHandler bpmnModelHandler = getBpmnModelHandler(id);
+
+        return new ProcessInfo(
+                listActivities(bpmnModelHandler),
+                listGateways(bpmnModelHandler),
+                listEvents(bpmnModelHandler),
+                listDataObjects(bpmnModelHandler)
+        );
+    }
+
     @Path("/activities")
     @Produces("application/json")
     @GET
     public List<BPElementInfo> getActivityNames(@PathParam("id") String id) {
+        return listActivities(getBpmnModelHandler(id));
+    }
+
+    private List<BPElementInfo> listActivities(Bpmn20ModelHandler bpmnModelHandler) {
         List<BPElementInfo> activities = new ArrayList<BPElementInfo>();
-        Bpmn20ModelHandler bpmnModelHandler;
-
-        bpmnModelHandler = getBpmnModelHandler(id);
-
         for (TTask task : bpmnModelHandler.getTaskMap().values()) {
             activities.add(new BPElementInfo(task.getId(), task.getName(), "task"));
         }
         for (TSubProcess subProcess : bpmnModelHandler.getSubProcessMap().values()) {
             activities.add(new BPElementInfo(subProcess.getId(), subProcess.getName(), "subprocess"));
         }
-
         return activities;
     }
 
@@ -47,10 +61,11 @@ public class ProcessElementsResource {
     @Produces("application/json")
     @GET
     public List<BPElementInfo> getEvents(@PathParam("id") String id) {
-        List<BPElementInfo> events = new ArrayList<BPElementInfo>();
-        Bpmn20ModelHandler bpmnModelHandler;
+        return listEvents(getBpmnModelHandler(id));
+    }
 
-        bpmnModelHandler = getBpmnModelHandler(id);
+    private List<BPElementInfo> listEvents(Bpmn20ModelHandler bpmnModelHandler) {
+        List<BPElementInfo> events = new ArrayList<BPElementInfo>();
 
         for (TStartEvent startEvent : bpmnModelHandler.getStartEventMap().values()) {
             events.add(new BPElementInfo(startEvent.getId(), startEvent.getName(), "startEvent"));
@@ -59,7 +74,6 @@ public class ProcessElementsResource {
         for (TEndEvent endEvent : bpmnModelHandler.getEndEventMap().values()) {
             events.add(new BPElementInfo(endEvent.getId(), endEvent.getName(), "endEvent"));
         }
-
         return events;
     }
 
@@ -67,13 +81,14 @@ public class ProcessElementsResource {
     @Produces("application/json")
     @GET
     public List<BPElementInfo> getGateways(@PathParam("id") String id) {
-        List<BPElementInfo> gatewaysInfo = new ArrayList<BPElementInfo>();
-        Bpmn20ModelHandler bpmnModelHandler = getBpmnModelHandler(id);
+        return listGateways(getBpmnModelHandler(id));
+    }
 
+    private List<BPElementInfo> listGateways(Bpmn20ModelHandler bpmnModelHandler) {
+        List<BPElementInfo> gatewaysInfo = new ArrayList<BPElementInfo>();
         for (TGateway gateway : bpmnModelHandler.getGatewayMap().values()) {
             gatewaysInfo.add(new BPElementInfo(gateway.getId(), gateway.getName(), "gateway"));
         }
-
         return gatewaysInfo;
     }
 
@@ -81,9 +96,11 @@ public class ProcessElementsResource {
     @Produces("application/json")
     @GET
     public List<DataObjectInfo> getDataObjects(@PathParam("id") String id) {
-        List<DataObjectInfo> dataObjectsInfo = new ArrayList<DataObjectInfo>();
-        Bpmn20ModelHandler bpmnModelHandler = getBpmnModelHandler(id);
+        return listDataObjects(getBpmnModelHandler(id));
+    }
 
+    private List<DataObjectInfo> listDataObjects(Bpmn20ModelHandler bpmnModelHandler) {
+        List<DataObjectInfo> dataObjectsInfo = new ArrayList<DataObjectInfo>();
         for (TDataObject dataObject : bpmnModelHandler.getDataObjectMap().values()) {
             DataObjectInfo objectInfo = contained(dataObject.getId(), dataObjectsInfo);
             if (objectInfo == null) {
@@ -96,7 +113,6 @@ public class ProcessElementsResource {
                 objectInfo.addDataState(state.getName());
             }
         }
-
         return dataObjectsInfo;
     }
 

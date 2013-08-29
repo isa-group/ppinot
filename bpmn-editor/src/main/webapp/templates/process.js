@@ -17,63 +17,52 @@ function Process(processName, processUrl) {
 
 jQuery.extend(Process.prototype, {
 	load: function() {
-		return jQuery.when(this.loadActivities(),this.loadEvents(),this.loadDataObjects());
-	},
-
-	loadActivities: function() {
 		var that = this;
 		return $.ajax({
 			type: "GET",
-			url: that.url + "/activities",
+			url: that.url + "/info",
 			dataType: "json",
 			success: function(data) {
-				$(data).each(function (index) {
-					if (this.name == "") {
-						this.name = this.id;
-					}
-					that.activityNames.push(this.name);
-					that.activityIdName[this.id] = this.name;
-					that.activityNameId[this.name] = this.id;
-					that.id[this.id] = {name: this.name, type: "activity"};
-				});
+			    that.loadActivities(data.activities);
+			    that.loadEvents(data.events);
+			    that.loadDataObjects(data.dataObjects);
 			}
 		});
 	},
 
-	loadEvents: function() {
-		var that = this;
-		return $.ajax({
-			type: "GET",
-			url: that.url + "/events",
-			dataType: "json",
-			success: function(data) {
-				$(data).each(function (index) {
-					if (this.name == "") {
-						this.name = this.id;
-					}
-					that.eventNames.push(this.name);
-					that.id[this.id] = {name: this.name, type: "event"};
-				});
-			}
-		});
+	loadActivities: function(data) {
+	    var that = this;
+        $(data).each(function (index) {
+            if (this.name == "") {
+                this.name = this.id;
+            }
+            that.activityNames.push(this.name);
+            that.activityIdName[this.id] = this.name;
+            that.activityNameId[this.name] = this.id;
+            that.id[this.id] = {name: this.name, type: "activity"};
+        });
 	},
 
-	loadDataObjects: function() {
+	loadEvents: function(data) {
 		var that = this;
-		return $.ajax({
-			type: "GET",
-			url: that.url + "/dataobjects",
-			dataType: "json",
-			success: function(data) {
-				$(data).each(function (index) {
-					if (this.name == "") {
-						this.name = this.id;
-					}
-					that.dataObjectNames.push(this.name);
-					that.id[this.id] = {name: this.name, type: "data object"};
-				});
-			}
-		});
+        $(data).each(function (index) {
+            if (this.name == "") {
+                this.name = this.id;
+            }
+            that.eventNames.push(this.name);
+            that.id[this.id] = {name: this.name, type: "event"};
+        });
+	},
+
+	loadDataObjects: function(data) {
+		var that = this;
+        $(data).each(function (index) {
+            if (this.name == "") {
+                this.name = this.id;
+            }
+            that.dataObjectNames.push(this.name);
+            that.id[this.id] = {name: this.name, type: "data object"};
+        });
 	},
 
 	isActivity: function(id) {

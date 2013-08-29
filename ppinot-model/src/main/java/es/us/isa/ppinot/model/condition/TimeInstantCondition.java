@@ -1,7 +1,6 @@
 package es.us.isa.ppinot.model.condition;
 
 import es.us.isa.ppinot.model.state.RuntimeState;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
  * Clase de las condiciones que deben cumplirse en un momento instante de tiempo (inicio o fin)
@@ -48,7 +47,7 @@ public class TimeInstantCondition extends Condition {
      * Da valor al atributo changesToState:
      * Estado de la ejecucion
      * 
-     * @param value Valor del atributo
+     * @param changesToState Valor del atributo
      */
 	public void setChangesToState(RuntimeState changesToState) {
 		this.changesToState = changesToState;

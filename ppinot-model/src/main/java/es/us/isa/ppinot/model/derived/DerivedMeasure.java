@@ -1,12 +1,12 @@
 package es.us.isa.ppinot.model.derived;
 
+import es.us.isa.ppinot.model.MeasureDefinition;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import es.us.isa.ppinot.model.MeasureDefinition;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
  * Clase con la informacion de las medidas derivadas
@@ -44,8 +44,8 @@ public class DerivedMeasure extends MeasureDefinition {
      * @param name Nombre de la medida
      * @param description Descripcion de la medida
      * @param scale Escala de la medida
-     * @param measureUnit Unidad de medida
-     * @param func Funcion de la medida
+     * @param unitOfMeasure Unidad de medida
+     * @param function Funcion de la medida
      */
     public DerivedMeasure(String id, String name, String description, String scale, String unitOfMeasure, 
     		String function) {
@@ -113,16 +113,16 @@ public class DerivedMeasure extends MeasureDefinition {
 	 * 
 	 * @return 
 	 */
-	public Boolean getCond() {
+	public boolean valid() {
 		
-		Boolean cond = super.getCond();
+		Boolean cond = super.valid();
 		
 		Iterator<Entry<String, MeasureDefinition>> itInst = this.getUsedMeasureMap().entrySet().iterator();
 	    while (cond && itInst.hasNext()) {
-	        Map.Entry<String, MeasureDefinition> pairs = (Map.Entry<String, MeasureDefinition>)itInst.next();
+	        Map.Entry<String, MeasureDefinition> pairs = itInst.next();
 	        MeasureDefinition value = pairs.getValue();
 
-	        cond = cond && value.getCond();
+	        cond = cond && value.valid();
 	    }
 	    
 		return cond;

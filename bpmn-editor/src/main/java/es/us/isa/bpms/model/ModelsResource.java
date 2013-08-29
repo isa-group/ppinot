@@ -1,11 +1,18 @@
 package es.us.isa.bpms.model;
 
-import de.hpi.bpmn2_0.exceptions.BpmnConverterException;
-import de.hpi.bpmn2_0.transformation.Diagram2XmlConverter;
+
+import de.hpi.bpmn2_0.factory.AbstractBpmnFactory;
+import de.hpi.bpmn2_0.model.Definitions;
+import de.hpi.bpmn2_0.model.extension.PropertyListItem;
+import de.hpi.bpmn2_0.transformation.Bpmn2XmlConverter;
+import de.hpi.bpmn2_0.transformation.Constants;
+import de.hpi.bpmn2_0.transformation.Diagram2BpmnConverter;
 import es.us.isa.bpms.editor.EditorResource;
 import es.us.isa.bpms.process.ProcessElementsResource;
 import es.us.isa.bpms.repository.ProcessRepository;
 import es.us.isa.bpms.users.UserService;
+import es.us.isa.ppinot.diagram2xml.Diagram2PPINotConverter;
+import es.us.isa.ppinot.diagram2xml.PPINotFactory;
 import es.us.isa.ppinot.resource.PPINOTResource;
 import org.apache.batik.transcoder.AbstractTranscoder;
 import org.apache.batik.transcoder.TranscoderException;
@@ -19,22 +26,16 @@ import org.jboss.resteasy.spi.NotFoundException;
 import org.jboss.resteasy.spi.UnauthorizedException;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.oryxeditor.server.diagram.basic.BasicDiagram;
 import org.oryxeditor.server.diagram.basic.BasicDiagramBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.xml.sax.SAXException;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
-import javax.xml.bind.JAXBException;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 import java.io.*;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -60,6 +61,33 @@ public class ModelsResource {
 
     public ModelsResource() {
         log.info("Loaded ModelsResource");
+        Diagram2BpmnConverter.setConstants(new Constants() {
+            @Override
+            public List<Class<? extends AbstractBpmnFactory>> getAdditionalFactoryClasses() {
+//                return (List<Class<? extends AbstractBpmnFactory>>) Arrays.asList(
+//                        CountMeasureFactory.class,
+//                        AppliesToConnectorFactory.class,
+//                        UsesFactory.class,
+//                        AggregatesFactory.class,
+//                        IsGroupedByFactory.class,
+//                        PpiFactory.class);
+
+                return new ArrayList<Class<? extends AbstractBpmnFactory>>();
+            }
+
+            @Override
+            public List<Class<? extends PropertyListItem>> getAdditionalPropertyItemClasses() {
+                return null;
+            }
+
+            @Override
+            public Map<String, String> getCustomNamespacePrefixMappings() {
+                Map<String, String> n = new HashMap<String, String>();
+                n.put("http://www.isa.us.es/ppinot", "ppinot");
+
+                return n;
+            }
+        });
     }
 
     public ProcessRepository getProcessRepository() {
@@ -196,21 +224,61 @@ public class ModelsResource {
                 throw new RuntimeException("Model not valid");
             }
 
-            Diagram2XmlConverter converter = new Diagram2XmlConverter(BasicDiagramBuilder.parseJson(jsonModel), context.getRealPath("/WEB-INF/xsd/BPMN20.xsd"));
-            StringWriter xml = converter.getXml();
-            return xml.toString();
+            BasicDiagram diagram = BasicDiagramBuilder.parseJson(jsonModel);
+            Diagram2BpmnConverter diagram2BpmnConverter = new Diagram2BpmnConverter(diagram, AbstractBpmnFactory.getFactoryClasses());
+            Definitions def = diagram2BpmnConverter.getDefinitionsFromDiagram();
+            Diagram2PPINotConverter ppiNotConverter = new Diagram2PPINotConverter(diagram, diagram2BpmnConverter, new PPINotFactory());
+            ppiNotConverter.transform();
 
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        } catch (SAXException e) {
-            throw new RuntimeException(e);
-        } catch (TransformerException e) {
-            throw new RuntimeException(e);
-        } catch (BpmnConverterException e) {
-            throw new RuntimeException(e);
-        } catch (ParserConfigurationException e) {
-            throw new RuntimeException(e);
-        } catch (JAXBException e) {
+            Bpmn2XmlConverter xmlConverter = new Bpmn2XmlConverter(def, context.getRealPath("/WEB-INF/xsd/BPMN20.xsd"));
+            StringWriter x = xmlConverter.getXml();
+
+//            Bpmn20ModelHandler handler = new PPINotModelHandlerImpl();
+//            handler.load(new ReaderInputStream(new StringReader(xml.toString())));
+//            Diagram2PPINotConverter ppiNotConverter = new Diagram2PPINotConverter(diagram, handler);
+//            ppiNotConverter.addToProcess();
+//            Diagram2XmlConverter converter = new Diagram2XmlConverter(BasicDiagramBuilder.parseJson(jsonModel), context.getRealPath("/WEB-INF/xsd/BPMN20.xsd"));
+//            StringWriter xml = converter.getXml();
+/*            Class[] classes = {es.us.isa.bpmn.xmlClasses.bpmn20.ObjectFactory.class,
+                    ObjectFactory.class,
+                    es.us.isa.bpmn.xmlClasses.bpmndi.ObjectFactory.class};
+            JAXBContext jc = JAXBContext.newInstance(classes);
+
+
+            StringWriter x = new StringWriter();
+            Marshaller marshaller = jc.createMarshaller();
+            marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", new NamespacePrefixMapper() {
+                @Override
+                public String getPreferredPrefix(String namespace, String suggestion, boolean isRequired) {
+
+		if(namespace.equals("http://www.isa.us.es/ppinot"))
+			return "ppinot";
+		else
+
+                        if(namespace.equals("http://www.omg.org/spec/BPMN/20100524/MODEL"))
+                            return "";
+                        else if(namespace.equals("http://www.omg.org/spec/BPMN/20100524/DI"))
+                            return "bpmndi";
+                        else if(namespace.equals("http://www.w3.org/2001/XMLSchema-instance"))
+                            return "xsi";
+                        else if(namespace.equals("http://www.omg.org/spec/DD/20100524/DI"))
+                            return "omgdi";
+                        else if(namespace.equals("http://www.omg.org/spec/DD/20100524/DC"))
+                            return "omgdc";
+
+                        else if(namespace.equals("http://www.signavio.com"))
+                            return "signavio";
+
+
+                    return suggestion;
+                }
+            });
+            marshaller.marshal(handler.getDefinitions(), x);
+*/
+            return x.toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

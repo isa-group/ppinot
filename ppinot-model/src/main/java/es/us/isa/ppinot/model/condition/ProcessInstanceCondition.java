@@ -1,7 +1,5 @@
 package es.us.isa.ppinot.model.condition;
 
-import org.codehaus.jackson.annotate.JsonTypeInfo;
-
 /**
  * Clase de las condiciones que se utilizan en una medida base
  * 
@@ -15,7 +13,6 @@ public class ProcessInstanceCondition extends Condition {
 	 * 
 	 */
 	public ProcessInstanceCondition() {
-
 		super();
 	}
 	

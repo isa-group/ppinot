@@ -5,7 +5,6 @@ import es.us.isa.ppinot.model.base.*;
 import es.us.isa.ppinot.model.derived.DerivedMeasure;
 import es.us.isa.ppinot.model.derived.DerivedMultiInstanceMeasure;
 import es.us.isa.ppinot.model.derived.DerivedSingleInstanceMeasure;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
@@ -18,12 +17,12 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 @JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
         include=JsonTypeInfo.As.PROPERTY, property="kind")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = CountInstanceMeasure.class, name = "CountInstanceMeasure"),
-        @JsonSubTypes.Type(value = TimeInstanceMeasure.class, name = "TimeInstanceMeasure"),
+        @JsonSubTypes.Type(value = CountMeasure.class, name = "CountMeasure"),
+        @JsonSubTypes.Type(value = TimeMeasure.class, name = "TimeMeasure"),
         @JsonSubTypes.Type(value = ConditionMeasure.class, name="ConditionMeasure"),
-        @JsonSubTypes.Type(value = DataInstanceMeasure.class, name="DataInstanceMeasure"),
-        @JsonSubTypes.Type(value = DataPropertyConditionInstanceMeasure.class, name="DataPropertyConditionInstanceMeasure"),
-        @JsonSubTypes.Type(value = StateConditionInstanceMeasure.class, name="StateConditionInstanceMeasure"),
+        @JsonSubTypes.Type(value = DataMeasure.class, name="DataMeasure"),
+        @JsonSubTypes.Type(value = DataPropertyConditionMeasure.class, name="DataPropertyConditionMeasure"),
+        @JsonSubTypes.Type(value = StateConditionMeasure.class, name="StateConditionMeasure"),
         @JsonSubTypes.Type(value = DerivedMeasure.class, name="DerivedMeasure"),
         @JsonSubTypes.Type(value = DerivedMultiInstanceMeasure.class, name="DerivedMultiInstanceMeasure"),
         @JsonSubTypes.Type(value = DerivedSingleInstanceMeasure.class, name="DerivedSingleInstanceMeasure"),
@@ -58,11 +57,11 @@ public abstract class MeasureDefinition {
 	/**
 	 * Constructor de la clase
 	 * 
-     * @param id Id de la medida
-     * @param name Nombre de la medida
-     * @param description Descripcio de la medida
-     * @param scale Escala de la medida
-     * @param unitOfMeasure Unidad de medida
+     * @param id Measure ID
+     * @param name Measure name
+     * @param description Measure description
+     * @param scale Measure scale
+     * @param unitOfMeasure Unit of measure
 	 */
 	public MeasureDefinition(String id, String name, String description, String scale, String unitOfMeasure) {
 		
@@ -183,10 +182,9 @@ public abstract class MeasureDefinition {
 	/**
 	 * Indica si el valor de la medida puede ser calculado y mostrado
 	 * 
-	 * @return 
+	 * @return Whether the measure is valid
 	 */
-    @JsonIgnore
-	public Boolean getCond() {
+	public boolean valid() {
 		
 		return this.getId()!=null && !this.getId().contentEquals("");
 	}

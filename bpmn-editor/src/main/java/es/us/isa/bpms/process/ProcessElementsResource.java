@@ -1,7 +1,7 @@
 package es.us.isa.bpms.process;
 
 import es.us.isa.bpmn.handler.Bpmn20ModelHandler;
-import es.us.isa.bpmn.handler.Bpmn20ModelHandlerInterface;
+import es.us.isa.bpmn.handler.Bpmn20ModelHandlerImpl;
 import es.us.isa.bpmn.xmlClasses.bpmn20.*;
 
 import javax.ws.rs.GET;
@@ -29,7 +29,7 @@ public class ProcessElementsResource {
     @GET
     public List<BPElementInfo> getActivityNames(@PathParam("id") String id) {
         List<BPElementInfo> activities = new ArrayList<BPElementInfo>();
-        Bpmn20ModelHandlerInterface bpmnModelHandler;
+        Bpmn20ModelHandler bpmnModelHandler;
 
         bpmnModelHandler = getBpmnModelHandler(id);
 
@@ -48,7 +48,7 @@ public class ProcessElementsResource {
     @GET
     public List<BPElementInfo> getEvents(@PathParam("id") String id) {
         List<BPElementInfo> events = new ArrayList<BPElementInfo>();
-        Bpmn20ModelHandlerInterface bpmnModelHandler;
+        Bpmn20ModelHandler bpmnModelHandler;
 
         bpmnModelHandler = getBpmnModelHandler(id);
 
@@ -68,7 +68,7 @@ public class ProcessElementsResource {
     @GET
     public List<BPElementInfo> getGateways(@PathParam("id") String id) {
         List<BPElementInfo> gatewaysInfo = new ArrayList<BPElementInfo>();
-        Bpmn20ModelHandlerInterface bpmnModelHandler = getBpmnModelHandler(id);
+        Bpmn20ModelHandler bpmnModelHandler = getBpmnModelHandler(id);
 
         for (TGateway gateway : bpmnModelHandler.getGatewayMap().values()) {
             gatewaysInfo.add(new BPElementInfo(gateway.getId(), gateway.getName(), "gateway"));
@@ -82,7 +82,7 @@ public class ProcessElementsResource {
     @GET
     public List<DataObjectInfo> getDataObjects(@PathParam("id") String id) {
         List<DataObjectInfo> dataObjectsInfo = new ArrayList<DataObjectInfo>();
-        Bpmn20ModelHandlerInterface bpmnModelHandler = getBpmnModelHandler(id);
+        Bpmn20ModelHandler bpmnModelHandler = getBpmnModelHandler(id);
 
         for (TDataObject dataObject : bpmnModelHandler.getDataObjectMap().values()) {
             DataObjectInfo objectInfo = contained(dataObject.getId(), dataObjectsInfo);
@@ -111,10 +111,10 @@ public class ProcessElementsResource {
         return contained;
     }
 
-    private Bpmn20ModelHandlerInterface getBpmnModelHandler(String id) {
-        Bpmn20ModelHandlerInterface bpmnModelHandler;
+    private Bpmn20ModelHandler getBpmnModelHandler(String id) {
+        Bpmn20ModelHandler bpmnModelHandler;
         try {
-            bpmnModelHandler = new Bpmn20ModelHandler();
+            bpmnModelHandler = new Bpmn20ModelHandlerImpl();
             bpmnModelHandler.load(processStream);
         } catch (Exception e) {
             throw new RuntimeException("Problem loading process " + id, e);

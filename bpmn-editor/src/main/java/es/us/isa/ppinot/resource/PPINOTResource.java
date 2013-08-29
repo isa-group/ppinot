@@ -2,9 +2,10 @@ package es.us.isa.ppinot.resource;
 
 import es.us.isa.bpms.repository.ProcessRepository;
 import es.us.isa.bpms.users.UserService;
-import es.us.isa.ppinot.handler.PpiNotModelHandler;
-import es.us.isa.ppinot.handler.PpiNotModelHandlerInterface;
+import es.us.isa.ppinot.handler.PPINotModelHandler;
+import es.us.isa.ppinot.handler.PPINotModelHandlerImpl;
 import es.us.isa.ppinot.model.PPI;
+import es.us.isa.ppinot.model.PPISet;
 import org.jboss.resteasy.spi.UnauthorizedException;
 
 import javax.ws.rs.*;
@@ -35,9 +36,10 @@ public class PPINOTResource {
 
     @Produces("application/json")
     @GET
-    public Collection<PPI> getPPIs(@PathParam("id") String id) {
-        PpiNotModelHandlerInterface handler = getPpiNotModelHandler(id);
-        return handler.getPpiModelMap().values();
+    public Collection<PPISet> getPPIs(@PathParam("id") String id) {
+        PPINotModelHandler handler = getPpiNotModelHandler(id);
+        return handler.getPPISets();
+//        return handler.getPpiModelMap().values();
     }
 
     @Consumes("application/json")
@@ -46,14 +48,14 @@ public class PPINOTResource {
         if (! userService.isLogged())
             throw new UnauthorizedException("User not logged");
 
-        PpiNotModelHandlerInterface ppinotModelHandler = getPpiNotModelHandler(id);
+        PPINotModelHandler ppinotModelHandler = getPpiNotModelHandler(id);
 
         Map<String, PPI> ppiModelMap = new HashMap<String, PPI>();
         for (PPI p: ppis) {
             ppiModelMap.put(p.getId(), p);
         }
 
-        ppinotModelHandler.setPpiModelMap(ppiModelMap);
+//        ppinotModelHandler.setPpiModelMap(ppiModelMap);
 
         try {
             String procId = ppinotModelHandler.getProcId();
@@ -67,12 +69,13 @@ public class PPINOTResource {
 
     }
 
-    private PpiNotModelHandlerInterface getPpiNotModelHandler(String id) {
-        PpiNotModelHandlerInterface ppinotModelHandler;
+    private PPINotModelHandler getPpiNotModelHandler(String id) {
+        PPINotModelHandler ppinotModelHandler;
         try {
-            ppinotModelHandler = new PpiNotModelHandler();
+            ppinotModelHandler = new PPINotModelHandlerImpl();
             ppinotModelHandler.load(processStream);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException("Problem loading PPIs of process " + id, e);
         }
         return ppinotModelHandler;

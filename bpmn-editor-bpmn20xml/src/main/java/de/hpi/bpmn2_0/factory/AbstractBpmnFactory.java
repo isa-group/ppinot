@@ -43,12 +43,6 @@ import de.hpi.bpmn2_0.model.misc.Auditing;
 import de.hpi.bpmn2_0.model.misc.Monitoring;
 import de.hpi.bpmn2_0.transformation.Constants;
 import de.hpi.bpmn2_0.transformation.Diagram2BpmnConverter;
-import es.us.isa.ppinot.jsontoxml.factory.edge.AggregatesFactory;
-import es.us.isa.ppinot.jsontoxml.factory.edge.AppliesToConnectorFactory;
-import es.us.isa.ppinot.jsontoxml.factory.edge.IsGroupedByFactory;
-import es.us.isa.ppinot.jsontoxml.factory.edge.UsesFactory;
-import es.us.isa.ppinot.jsontoxml.factory.node.CountMeasureFactory;
-import es.us.isa.ppinot.jsontoxml.factory.node.PpiFactory;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -114,15 +108,6 @@ public abstract class AbstractBpmnFactory {
 		factoryClasses.add(ProcessParticipantFactory.class);
 		factoryClasses.add(StartEventFactory.class);
 		factoryClasses.add(TextannotationFactory.class);
-
-		/* EDE: se adicionan las factories de los ppi */
-		factoryClasses.add(CountMeasureFactory.class);
-		factoryClasses.add(AppliesToConnectorFactory.class);
-		factoryClasses.add(UsesFactory.class);
-		factoryClasses.add(AggregatesFactory.class);
-		factoryClasses.add(IsGroupedByFactory.class);
-		factoryClasses.add(PpiFactory.class);
-		/* fin EDE */
 	}
 	
 	public static List<Class<? extends AbstractBpmnFactory>> getFactoryClasses() {

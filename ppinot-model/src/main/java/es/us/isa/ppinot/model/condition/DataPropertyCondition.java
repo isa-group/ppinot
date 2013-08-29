@@ -1,7 +1,10 @@
 package es.us.isa.ppinot.model.condition;
 
 import es.us.isa.ppinot.model.state.RuntimeState;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Clase de las condiciones de un dataobject
@@ -14,21 +17,8 @@ public class DataPropertyCondition extends ProcessInstanceCondition {
 	// Condicion que debe cumplir el dataobject
 	private String restriction;
 	
-	// Estado del dataobject
-	private RuntimeState state;
-	
-	// Nombre del dataobject
-	private String dataobject;
-	
-	/**
-	 * Constructor de la clase
-	 */
-	public DataPropertyCondition () {
-		super();
-		this.setRestriction("");
-		this.setStateConsidered(null);
-		this.setDataobject("");
-	}
+	// Possible states of the data object
+	private Set<RuntimeState> statesConsidered;
 	
 	/**
 	 * Constructor de la clase
@@ -37,11 +27,10 @@ public class DataPropertyCondition extends ProcessInstanceCondition {
 	 * @param restriction Condicion que debe cumplir el dataobject
 	 * @param state Estado del dataobject
 	 */
-	public DataPropertyCondition (String appliesTo, String restriction, RuntimeState state, String dataobject) {
+	public DataPropertyCondition (String appliesTo, String restriction, RuntimeState... state) {
 		super(appliesTo);
-		this.setRestriction(restriction);
-		this.setStateConsidered(state);
-		this.setDataobject(dataobject);
+		this.restriction = restriction;
+        statesConsidered = new HashSet<RuntimeState>(Arrays.asList(state));
 	}
 
 	/**
@@ -54,54 +43,20 @@ public class DataPropertyCondition extends ProcessInstanceCondition {
 		return restriction;
 	}
 
-    /**
-     * Da valor al atributo restriction:
-     * Condicion que debe cumplir el dataobject
-     * 
-     * @param value Valor del atributo
-     */
-	public void setRestriction(String restriction) {
-		this.restriction = restriction;
-	}
-
 	/**
-     * Devuelve el atributo state:
-     * Estado del dataobject
-     * 
-     * @return Valor del atributo
+     * @return The states of the data object considered in the condition
      */
-	public RuntimeState getStateConsidered() {
-		return state;
+	public Set<RuntimeState> getStateConsidered() {
+		return statesConsidered;
 	}
 
     /**
-     * Da valor al atributo state:
-     * Estado del dataobject
-     * 
-     * @param value Valor del atributo
+     * @param state A new state considered in the condition.
      */
-	public void setStateConsidered(RuntimeState state) {
-		this.state = state;
+	public void addStateConsidered(RuntimeState state) {
+		this.statesConsidered.add(state);
 	}
 
-	/**
-     * Devuelve el atributo dataobject:
-     * Nombre del dataobject
-     * 
-     * @return Valor del atributo
-     */
-	public String getDataobject() {
-		return dataobject;
-	}
 
-    /**
-     * Da valor al atributo dataobject:
-     * Nombre del dataobject
-     * 
-     * @param value Valor del atributo
-     */
-	public void setDataobject(String dataobject) {
-		this.dataobject = dataobject;
-	}
 
 }

@@ -3,7 +3,6 @@ package es.us.isa.ppinot.model.aggregated;
 import es.us.isa.ppinot.model.DataContentSelection;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.base.BaseMeasure;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
  * Clase con la informacion de un PPI del tipo AggregatedMeasure
@@ -50,7 +49,7 @@ public class AggregatedMeasure extends MeasureDefinition {
      * @param name Nombre de la medida
      * @param description Descripcion de la medida
      * @param scale Escala de la medida
-     * @param measureUnit Unidad de medida
+     * @param unitOfMeasure Unidad de medida
      * @param aggregationFunction Funcion de la medida
      * @param samplingFrequency
      * @param baseMeasure La medida que se agrega
@@ -65,7 +64,7 @@ public class AggregatedMeasure extends MeasureDefinition {
     	this.setBaseMeasure(baseMeasure);
     	
     	this.setAggregates(false);
-    	this.setGroupedBy(new DataContentSelection());
+    	this.setGroupedBy(null);
 	}
 
     /**
@@ -102,7 +101,7 @@ public class AggregatedMeasure extends MeasureDefinition {
      * Da valor al atributo samplingFrequency:
      * 
      * 
-     * @param value Valor del atributo
+     * @param samplingFrequency
      */
 	public void setSamplingFrequency(String samplingFrequency) {
 		this.samplingFrequency = samplingFrequency;
@@ -144,7 +143,7 @@ public class AggregatedMeasure extends MeasureDefinition {
      * Da valor al atributo aggregates:
      * Indica si la medida utiliza el conector aggregates o no
      * 
-     * @param baseMeasure La medida que se agrega
+     * @param aggregates
      */
 	public void setAggregates(Boolean aggregates) {
 		this.aggregates = aggregates;
@@ -164,7 +163,7 @@ public class AggregatedMeasure extends MeasureDefinition {
      * Da valor al atributo groupedBy:
      * Informacion para agrupar la medida
      * 
-     * @param baseMeasure La medida que se agrega
+     * @param groupedBy
      */
 	public void setGroupedBy(DataContentSelection groupedBy) {
 		this.groupedBy = groupedBy;
@@ -175,11 +174,11 @@ public class AggregatedMeasure extends MeasureDefinition {
 	 * 
 	 * @return 
 	 */
-	public Boolean getCond() {
+	public boolean valid() {
 
-		return super.getCond() && 
-				this.getBaseMeasure().getCond() &&
-				this.getAggregationFunction()!=null && this.getAggregationFunction()!="";
+		return super.valid() &&
+				this.getBaseMeasure().valid() &&
+				this.getAggregationFunction()!=null && !this.getAggregationFunction().isEmpty();
 	}
 
 }

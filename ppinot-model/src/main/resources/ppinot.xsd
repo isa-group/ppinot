@@ -5,54 +5,159 @@ xmlns="http://www.isa.us.es/ppinot"
 xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
 targetNamespace="http://www.isa.us.es/ppinot">
 
-		<!-- 
-				Ppiset 
-		-->
+    <!-- 
+            Ppiset 
+    -->
  
 	<xsd:element name="ppiset" type="tPpiset"/>
 	<xsd:complexType name="tPpiset">
 		<xsd:sequence>
-			<xsd:element ref="baseMeasure" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="aggregatedMeasure" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="derivedMeasure" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="measure" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="measureConnector" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="ppi" minOccurs="0" maxOccurs="unbounded"/>						
 		</xsd:sequence>
 		<xsd:attribute name="id" type="xsd:ID"/>											     
 	</xsd:complexType>
 
-		<!-- 
-				Ppi 
-		-->
+    <!-- 
+            PPI 
+    -->
 
 	<xsd:element name="ppi" type="tPpi"/>																
 	<xsd:complexType name="tPpi">
+        <xsd:all>
+            <xsd:element name="target">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element ref="baseTarget"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="scope" minOccurs="0">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element ref="processInstanceFilter"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="goals" minOccurs="0">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="goal" type="xsd:string" minOccurs="1" maxOccurs="unbounded"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="responsible" type="tHumanResource" minOccurs="0"/>
+            <xsd:element name="informed" minOccurs="0">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="inform" type="tHumanResource" maxOccurs="unbounded"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="comments" type="xsd:string" minOccurs="0"/>
+        </xsd:all>
 		<xsd:attribute name="id" type="xsd:ID"/>
 		<xsd:attribute name="name" type="xsd:string"/>
-		<xsd:attribute name="description" type="xsd:string" default=""/>
-		<xsd:attribute name="goals" type="xsd:string" default=""/>
-		<xsd:attribute name="target" type="xsd:string" default=""/>
-		<xsd:attribute name="scope" type="xsd:string" default=""/>
-		<xsd:attribute name="responsible" type="xsd:string" default=""/>
-		<xsd:attribute name="informed" type="xsd:string" default=""/>
-		<xsd:attribute name="comments" type="xsd:string" default=""/>
-		<xsd:attribute name="measuredBy" type="xsd:IDREF"/>
+        <xsd:attribute name="measuredBy" type="xsd:IDREF" use="required"/>
 	</xsd:complexType>
 
-		<!-- 
-				Superclases de las medidas y los conectores de las medidas
-		-->
+    <xsd:simpleType name="tHumanResource">
+        <xsd:restriction base="xsd:string"/>
+    </xsd:simpleType>
+
+    <!-- 
+            Targets 
+    -->
+
+    <xsd:element name="baseTarget" type="tTarget"/>
+    <xsd:complexType name="tTarget" abstract="true">
+        <xsd:attribute name="id" type="xsd:ID"/>
+    </xsd:complexType>
+
+    <xsd:element name="simpleTarget" type="tSimpleTarget" substitutionGroup="baseTarget"/>
+    <xsd:complexType name="tSimpleTarget">
+        <xsd:complexContent>
+            <xsd:extension base="tTarget">
+                <xsd:attribute name="lowerBound" type="xsd:double"/>
+                <xsd:attribute name="upperBound" type="xsd:double"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:element name="composedTarget" type="tComposedTarget" substitutionGroup="baseTarget"/>
+    <xsd:complexType name="tComposedTarget">
+        <xsd:complexContent>
+            <xsd:extension base="tTarget">
+                <xsd:sequence>
+                    <xsd:element name="target" minOccurs="1" maxOccurs="unbounded">
+                        <xsd:complexType>
+                            <xsd:complexContent>
+                                <xsd:extension base="tSimpleTarget">
+                                    <xsd:attribute name="value" type="xsd:string" use="required"/>
+                                </xsd:extension>
+                            </xsd:complexContent>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    
+    <!--<xsd:element name="customTarget" type="xsd:anyType" substitutionGroup="baseTarget"/>-->
+
+
+    <!-- 
+            Scope 
+    -->
+    
+    <xsd:element name="processInstanceFilter" type="tScope"/>
+    <xsd:complexType name="tScope" abstract="true">
+        <xsd:attribute name="id" type="xsd:ID"/>
+    </xsd:complexType>
+
+    <xsd:element name="lastInstancesFilter" type="tLastInstancesFilter" substitutionGroup="processInstanceFilter"/>
+    <xsd:complexType name="tLastInstancesFilter">
+        <xsd:complexContent>
+            <xsd:extension base="tScope">
+                <xsd:attribute name="numberOfInstances" type="xsd:integer" use="required"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:element name="simpleTimeFilter" type="tSimpleTimeFilter" substitutionGroup="processInstanceFilter"/>
+    <xsd:complexType name="tSimpleTimeFilter">
+        <xsd:complexContent>
+            <xsd:extension base="tScope">
+                <xsd:attribute name="period" type="tPeriod" use="required"/>
+                <xsd:attribute name="frequency" type="xsd:integer" use="required"/>
+                <xsd:attribute name="relative" type="xsd:boolean" use="required"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:simpleType name="tPeriod">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="daily"/>
+            <xsd:enumeration value="weekly"/>
+            <xsd:enumeration value="monthly"/>
+            <xsd:enumeration value="yearly"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!--
+            Superclasses of measures and connectors
+    -->
 
 	<xsd:element name="measure" type="tMeasure"/>
 	<xsd:complexType name="tMeasure" abstract="true">
 		<xsd:attribute name="id" type="xsd:ID"/>
 		<xsd:attribute name="name" type="xsd:string"/>
-		<xsd:attribute name="description" type="xsd:string" default=""/>
-		<xsd:attribute name="scale" type="xsd:string" default=""/>
-		<xsd:attribute name="unitofmeasure" type="xsd:string" default=""/>
+		<xsd:attribute name="description" type="xsd:string"/>
+		<xsd:attribute name="scale" type="xsd:string"/>
+		<xsd:attribute name="unitOfMeasure" type="xsd:string"/>
 	</xsd:complexType>
 
-	<xsd:element name="baseMeasure" type="tBaseMeasure"/>
 	<xsd:complexType name="tBaseMeasure" abstract="true">
 		<xsd:complexContent>
 			<xsd:extension base="tMeasure">
@@ -60,24 +165,28 @@ targetNamespace="http://www.isa.us.es/ppinot">
 		</xsd:complexContent>
 	</xsd:complexType>
 
-	<xsd:element name="aggregatedMeasure" type="tAggregatedMeasure"/>
+	<xsd:element name="aggregatedMeasure" type="tAggregatedMeasure" substitutionGroup="measure"/>
 	<xsd:complexType name="tAggregatedMeasure">
 		<xsd:complexContent>
 			<xsd:extension base="tMeasure">
-				<xsd:sequence>
-					<xsd:element ref="baseMeasure" minOccurs="1" maxOccurs="1"/>
-				</xsd:sequence>
-				<xsd:attribute name="aggregationfunction" type="xsd:string" default=""/>
-				<xsd:attribute name="samplingfrequency" type="xsd:string" default=""/>
+                <xsd:choice>
+                    <xsd:element ref="timeMeasure"/>
+                    <xsd:element ref="countMeasure"/>
+                    <xsd:element ref="stateConditionMeasure"/>
+                    <xsd:element ref="dataPropertyConditionMeasure"/>
+                    <xsd:element ref="dataMeasure"/>
+                    <xsd:element ref="derivedSingleInstanceMeasure"/>
+                </xsd:choice>
+				<xsd:attribute name="aggregationFunction" type="xsd:string" use="required"/>
+				<xsd:attribute name="samplingFrequency" type="xsd:string"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 
-	<xsd:element name="derivedMeasure" type="tDerivedMeasure"/>
 	<xsd:complexType name="tDerivedMeasure" abstract="true">
 		<xsd:complexContent>
 			<xsd:extension base="tMeasure">
-				<xsd:attribute name="function" type="xsd:string" default=""/>
+				<xsd:attribute name="function" type="xsd:string" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -90,22 +199,29 @@ targetNamespace="http://www.isa.us.es/ppinot">
 	</xsd:complexType>
 
 		<!-- 
-				Medidas de instancia 
+				Base measures
 		-->
 		
-	<xsd:element name="timeMeasure" type="tTimeMeasure" substitutionGroup="baseMeasure"/>
+	<xsd:element name="timeMeasure" type="tTimeMeasure" substitutionGroup="measure"/>
 	<xsd:complexType name="tTimeMeasure">
 		<xsd:complexContent>
 			<xsd:extension base="tBaseMeasure">
-				<xsd:attribute name="timeMeasureType" type="xsd:string" default=""/>
-				<xsd:attribute name="singleInstanceAggFunction" type="xsd:string" default=""/>
+				<xsd:attribute name="timeMeasureType" type="tTimeMeasureType" default="linear"/>
+				<xsd:attribute name="singleInstanceAggFunction" type="xsd:string"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
+    
+    <xsd:simpleType name="tTimeMeasureType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="cyclic"/>
+            <xsd:enumeration value="linear"/>
+        </xsd:restriction>
+    </xsd:simpleType>
 	
 	
 		
-	<xsd:element name="countMeasure" type="tCountMeasure" substitutionGroup="baseMeasure"/>
+	<xsd:element name="countMeasure" type="tCountMeasure" substitutionGroup="measure"/>
 	<xsd:complexType name="tCountMeasure">
 		<xsd:complexContent>
 			<xsd:extension base="tBaseMeasure">
@@ -114,7 +230,7 @@ targetNamespace="http://www.isa.us.es/ppinot">
 	</xsd:complexType>
 	
 	
-	<xsd:element name="stateConditionMeasure" type="tStateConditionMeasure" substitutionGroup="baseMeasure"/>
+	<xsd:element name="stateConditionMeasure" type="tStateConditionMeasure" substitutionGroup="measure"/>
 	<xsd:complexType name="tStateConditionMeasure">
 		<xsd:complexContent>
 			<xsd:extension base="tBaseMeasure">
@@ -123,7 +239,7 @@ targetNamespace="http://www.isa.us.es/ppinot">
 	</xsd:complexType>
 	
 
-	<xsd:element name="dataPropertyConditionMeasure" type="tDataPropertyConditionMeasure" substitutionGroup="baseMeasure"/>
+	<xsd:element name="dataPropertyConditionMeasure" type="tDataPropertyConditionMeasure" substitutionGroup="measure"/>
 	<xsd:complexType name="tDataPropertyConditionMeasure">
 		<xsd:complexContent>
 			<xsd:extension base="tBaseMeasure">
@@ -132,7 +248,7 @@ targetNamespace="http://www.isa.us.es/ppinot">
 	</xsd:complexType>
 
 
-	<xsd:element name="dataMeasure" type="tDataMeasure" substitutionGroup="baseMeasure"/>
+	<xsd:element name="dataMeasure" type="tDataMeasure" substitutionGroup="measure"/>
 	<xsd:complexType name="tDataMeasure">
 		<xsd:complexContent>
 			<xsd:extension base="tBaseMeasure">
@@ -141,10 +257,10 @@ targetNamespace="http://www.isa.us.es/ppinot">
 	</xsd:complexType>
 
 		<!-- 
-				Medidas derivadas 
+				Derived measures
 		-->
 
-	<xsd:element name="derivedSingleInstanceMeasure" type="tDerivedSingleInstanceMeasure" substitutionGroup="derivedMeasure"/>
+	<xsd:element name="derivedSingleInstanceMeasure" type="tDerivedSingleInstanceMeasure" substitutionGroup="measure"/>
 	<xsd:complexType name="tDerivedSingleInstanceMeasure">
 		<xsd:complexContent>
 			<xsd:extension base="tDerivedMeasure">
@@ -152,7 +268,7 @@ targetNamespace="http://www.isa.us.es/ppinot">
 		</xsd:complexContent>
 	</xsd:complexType>
 
- 	<xsd:element name="derivedMultiInstanceMeasure" type="tDerivedMultiInstanceMeasure" substitutionGroup="derivedMeasure"/>
+ 	<xsd:element name="derivedMultiInstanceMeasure" type="tDerivedMultiInstanceMeasure" substitutionGroup="measure"/>
 	<xsd:complexType name="tDerivedMultiInstanceMeasure">
 		<xsd:complexContent>
 			<xsd:extension base="tDerivedMeasure">
@@ -161,15 +277,14 @@ targetNamespace="http://www.isa.us.es/ppinot">
 	</xsd:complexType>
 
 		<!-- 
-				Conectores 
+				Connectors
 		-->
 
 	<xsd:element name="appliesToElementConnector" type="tAppliesToElementConnector" substitutionGroup="measureConnector"/>
 	<xsd:complexType name="tAppliesToElementConnector">
 		<xsd:complexContent>
 			<xsd:extension base="tMeasureConnector">
-				<xsd:attribute name="when" type="xsd:string" default="Other"/>
-				<xsd:attribute name="state" type="xsd:string" default=""/>
+				<xsd:attribute name="state" type="xsd:string" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -179,26 +294,33 @@ targetNamespace="http://www.isa.us.es/ppinot">
 		<xsd:complexContent>
 			<xsd:extension base="tMeasureConnector">
 				<xsd:attribute name="restriction" type="xsd:string"/>
-				<xsd:attribute name="state" type="xsd:string" default=""/>
-				<xsd:attribute name="dataContentSelection" type="xsd:string" default=""/>
+				<xsd:attribute name="states" type="xsd:string"/>
+				<xsd:attribute name="dataContentSelection" type="xsd:string"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	
-	<xsd:element name="TimeConnector" type="tTimeConnector" substitutionGroup="measureConnector"/>
+	<xsd:element name="timeConnector" type="tTimeConnector" substitutionGroup="measureConnector"/>
 	<xsd:complexType name="tTimeConnector">
 		<xsd:complexContent>
 			<xsd:extension base="tAppliesToElementConnector">
-				<xsd:attribute name="conditiontype" type="xsd:string" default=""/>
+				<xsd:attribute name="type" type="tTimeConnectorType" default="from"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
+
+    <xsd:simpleType name="tTimeConnectorType">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="from"/>
+            <xsd:enumeration value="to"/>
+        </xsd:restriction>
+    </xsd:simpleType>
 	
 	<xsd:element name="uses" type="tUses" substitutionGroup="measureConnector"/>
 	<xsd:complexType name="tUses">
 		<xsd:complexContent>
 			<xsd:extension base="tMeasureConnector">
-				<xsd:attribute name="variable" type="xsd:string" default="End"/>
+				<xsd:attribute name="variable" type="xsd:string" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -215,7 +337,7 @@ targetNamespace="http://www.isa.us.es/ppinot">
 	<xsd:complexType name="tIsGroupedBy">
 		<xsd:complexContent>
 			<xsd:extension base="tMeasureConnector">
-				<xsd:attribute name="dataContentSelection" type="xsd:string" default=""/>
+				<xsd:attribute name="dataContentSelection" type="xsd:string" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>

@@ -7,7 +7,7 @@
 	<groupId>es.us.isa.ppinot</groupId>
 	<artifactId>ppinot</artifactId>
 
-	<version>1.0-SNAPSHOT</version>
+	<version>2.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<build>
@@ -48,14 +48,14 @@
 	</issueManagement>
 	
     <modules>
-	<module>bpm-common/bpmn-model</module>
-	<module>bpm-common/bpmn-xml-owl</module>
+        <module>bpm-common/bpmn-model</module>
+        <module>bpm-common/bpmn-xml-owl</module>
         <module>bpmn-editor</module>
-	<module>ppinot-model</module>
-	<module>ppinot-xml-owl</module>
-	<module>bpmn-editor-bpmn20xml</module>
-	<module>ppinot-templates</module>
+        <module>ppinot-model</module>
+        <module>ppinot-xml-owl</module>
+        <module>bpmn-editor-bpmn20xml</module>
         <module>bpmn-editor-diagram</module>
+        <module>bpmn-editor-ppinot</module>
     </modules>
 
     <distributionManagement>
@@ -90,17 +90,17 @@
             <dependency>
                 <groupId>es.us.isa.bpmn</groupId>
                 <artifactId>bpmn-model</artifactId>
-                <version>1.0.4-SNAPSHOT</version>
+                <version>2.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>es.us.isa.bpmn</groupId>
                 <artifactId>bpmn-xml-owl</artifactId>
-                <version>1.1.8-SNAPSHOT</version>
+                <version>2.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>es.us.isa.ppinot</groupId>
                 <artifactId>ppinot-model</artifactId>
-                <version>1.0.4-SNAPSHOT</version>
+                <version>2.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>es.us.isa.ppinot</groupId>

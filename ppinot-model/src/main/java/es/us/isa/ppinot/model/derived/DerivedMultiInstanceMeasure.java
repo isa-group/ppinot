@@ -19,8 +19,8 @@ public class DerivedMultiInstanceMeasure extends DerivedMeasure {
      * @param name Nombre de la medida
      * @param description Descripcion de la medida
      * @param scale Escala de la medida
-     * @param measureUnit Unidad de medida
-     * @param func Funcion de la medida
+     * @param unitOfMeasure Unidad de medida
+     * @param function Funcion de la medida
      */
     public DerivedMultiInstanceMeasure(String id, String name, String description, String scale, String unitOfMeasure,
     		String function) {

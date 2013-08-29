@@ -28,15 +28,6 @@ import de.hpi.bpmn2_0.model.FlowNode;
 import de.hpi.bpmn2_0.model.conversation.ConversationLink;
 import de.hpi.bpmn2_0.transformation.Visitor;
 
-/* EDE: */
-import es.us.isa.ppinot.jsontoxml.model.Aggregates;
-import es.us.isa.ppinot.jsontoxml.model.AppliesToConnector;
-import es.us.isa.ppinot.jsontoxml.model.AppliesToDataConnector;
-import es.us.isa.ppinot.jsontoxml.model.AppliesToElementConnector;
-import es.us.isa.ppinot.jsontoxml.model.IsGroupedBy;
-import es.us.isa.ppinot.jsontoxml.model.Uses;
-/* fin EDE */
-
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlSchemaType;
@@ -56,15 +47,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 	ConversationLink.class,
 	DataAssociation.class,
 	DataInputAssociation.class,
-	DataOutputAssociation.class,
-/* EDE: */
-	AppliesToConnector.class,
-	AppliesToElementConnector.class,
-	AppliesToDataConnector.class,
-	Uses.class,
-	Aggregates.class,
-	IsGroupedBy.class
-/* fin EDE */
+	DataOutputAssociation.class
 })
 public abstract class Edge extends FlowElement {
 	

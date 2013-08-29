@@ -1,7 +1,6 @@
 package es.us.isa.ppinot.model.condition;
 
 import es.us.isa.ppinot.model.state.RuntimeState;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
  * Clase de las condiciones que debe cumplir un elemento BPMN
@@ -48,7 +47,7 @@ public class StateCondition extends ProcessInstanceCondition {
      * Da valor al atributo state:
      * Estado de la ejecucion
      * 
-     * @param value Valor del atributo
+     * @param state state
      */
 	public void setState(RuntimeState state) {
 		this.state = state;

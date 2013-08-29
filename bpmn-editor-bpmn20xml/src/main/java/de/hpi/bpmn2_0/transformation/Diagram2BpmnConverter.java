@@ -65,25 +65,6 @@ import de.hpi.bpmn2_0.model.participant.Participant;
 import de.hpi.bpmn2_0.util.DiagramHelper;
 import de.hpi.bpmn2_0.util.SignavioIDChecker;
 import de.hpi.diagram.SignavioUUID;
-
-import es.us.isa.ppinot.jsontoxml.model.AggregatedMeasure;
-import es.us.isa.ppinot.jsontoxml.model.Aggregates;
-import es.us.isa.ppinot.jsontoxml.model.AppliesToDataConnector;
-import es.us.isa.ppinot.jsontoxml.model.AppliesToElementConnector;
-import es.us.isa.ppinot.jsontoxml.model.CountMeasure;
-import es.us.isa.ppinot.jsontoxml.model.DataMeasure;
-import es.us.isa.ppinot.jsontoxml.model.DataPropertyConditionMeasure;
-import es.us.isa.ppinot.jsontoxml.model.DerivedMultiInstanceMeasure;
-import es.us.isa.ppinot.jsontoxml.model.DerivedSingleInstanceMeasure;
-import es.us.isa.ppinot.jsontoxml.model.IsGroupedBy;
-import es.us.isa.ppinot.jsontoxml.model.Ppi;
-import es.us.isa.ppinot.jsontoxml.model.Ppiset;
-import es.us.isa.ppinot.jsontoxml.model.StateConditionMeasure;
-import es.us.isa.ppinot.jsontoxml.model.TimeConnector;
-import es.us.isa.ppinot.jsontoxml.model.TimeMeasure;
-import es.us.isa.ppinot.jsontoxml.model.Uses;
-
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -109,7 +90,7 @@ public class Diagram2BpmnConverter {
 	private GenericDiagram<?,?> diagram;
 	private List<BPMNElement> diagramChilds;
 	private List<Process> processes;
-	
+
 	private static Constants constants;
 	
 	/* Processes just used to identify all processes in the diagram (used i.e. 
@@ -131,14 +112,7 @@ public class Diagram2BpmnConverter {
 	private final static String[] edgeIdsArray = { "SequenceFlow",
 			"Association_Undirected", "Association_Unidirectional",
 			"Association_Bidirectional", "MessageFlow", "ConversationLink",
-/* inicio EDE */
-			/**
-			 * a este arreglo hay que adicionar las clases de los conectores. 
-			 * es utilizado para reconocer si un elemento es un conector o no 
-			 */
-			"appliesToElementConnector", "appliesToDataConnector", "TimeConnector", "uses", "aggregates", "isGroupedBy"
-/* fin EDE */
-			};
+    };
 
 	public final static HashSet<String> edgeIds = new HashSet<String>(Arrays
 			.asList(edgeIdsArray));
@@ -150,7 +124,7 @@ public class Diagram2BpmnConverter {
 	public final static HashSet<String> dataObjectIds = new HashSet<String>(
 			Arrays.asList(dataObjectIdsArray));
 
-	public Diagram2BpmnConverter(GenericDiagram diagram,
+    public Diagram2BpmnConverter(GenericDiagram diagram,
 			List<Class<? extends AbstractBpmnFactory>> factoryClasses) {
 		this.factories = new HashMap<String, AbstractBpmnFactory>();
 		this.bpmnElements = new HashMap<String, BPMNElement>();
@@ -160,8 +134,16 @@ public class Diagram2BpmnConverter {
 		this.factoryClasses = factoryClasses;
 		this.configuration = new Configuration();
 	}
-	
-	/**
+
+    public List<Process> getProcesses() {
+        return processes;
+    }
+
+    public HashMap<String, BPMNElement> getBpmnElements() {
+        return bpmnElements;
+    }
+
+    /**
 	 * Also sets the configuration on reformation the element IDs.
 	 * 
 	 * @param diagram
@@ -177,8 +159,8 @@ public class Diagram2BpmnConverter {
 	 * Constructor receiving an additional configuration map. This map can
 	 * contain linked diagram or the current editor version.
 	 * 
-	 * @param diagram2
-	 * @param factoryClasses2
+	 * @param diagram
+	 * @param factoryClasses
 	 * @param configuration
 	 */
 	public Diagram2BpmnConverter(GenericDiagram diagram,
@@ -318,11 +300,9 @@ public class Diagram2BpmnConverter {
 	/**
 	 * Creates the BPMN 2.0 elements for the parent's child shapes recursively.
 	 * 
-	 * @param childShapes
+	 * @param shape
 	 *            The list of parent's child shapes
-	 * @param parent
-	 *            The parent {@link BPMNElement}
-	 * 
+	 *
 	 * @throws ClassNotFoundException
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
@@ -349,19 +329,25 @@ public class Diagram2BpmnConverter {
 			return null;
 		}
 
-		/* Get the appropriate factory and create the element */
-		AbstractBpmnFactory factory = this.getFactoryForStencilId(shape
-				.getStencilId());
+        BPMNElement bpmnElement = null;
 
-		BPMNElement bpmnElement = null;
-		if (this.configuration == null) {
-			bpmnElement = factory.createBpmnElement(shape, new BPMNElement(
-					null, null, null));
-		} else {
-			bpmnElement = factory.createBpmnElement(shape, this.configuration);
-		}
-		
-		if(bpmnElement != null) {
+		/* Get the appropriate factory and create the element */
+        try {
+            AbstractBpmnFactory factory = this.getFactoryForStencilId(shape
+                    .getStencilId());
+
+            if (this.configuration == null) {
+                bpmnElement = factory.createBpmnElement(shape, new BPMNElement(
+                        null, null, null));
+            } else {
+                bpmnElement = factory.createBpmnElement(shape, this.configuration);
+            }
+        } catch (ClassNotFoundException e) {
+            // Ignores not finding a class by creating an empty BPMN element
+            bpmnElement = new BPMNElement(new BPMNShape(), new BaseElement() {}, shape.getResourceId());
+        }
+
+        if(bpmnElement != null) {
 			/* Add element to flat list of all elements of the diagram */
 			this.addBpmnElement(bpmnElement);
 	
@@ -776,11 +762,8 @@ public class Diagram2BpmnConverter {
 
 	/**
 	 * Identifies sets of nodes, connected through SequenceFlows.
-	 * 
-	 * EDE: parametros adicionados
-	 * @return Proceso al que se adiciona el ppiset
 	 */
-	private Process identifyProcesses() {
+	private void identifyProcesses() {
 
 		this.processes = new ArrayList<Process>();
 		this.tmpProcesses = new ArrayList<Process>();
@@ -879,13 +862,6 @@ public class Diagram2BpmnConverter {
 		
 		/* Remove temporary processes from the list */
 		this.processes.removeAll(this.tmpProcesses);
-		
-/* inicio EDE */
-		/**
-		 *  Retorna el proceso en el que se incluye el ppiset
-		 */
-		return currentProcess;
-/* fin EDE */
 	}
 
 	/**
@@ -1019,182 +995,7 @@ public class Diagram2BpmnConverter {
 		return this.bpmnElements.get(node.getId());
 	}
 	
-/* inicio EDE */
-	/**
-	 * Crea el ppiset y lo inserta en el proceso
-	 * 
-	 * @param currentProcess Proceso donde se inserta el ppiset
-	 */
-	private void identifyPpis(Process currentProcess) {
 
-		// crea el ppiset
-		Ppiset ppiset = new Ppiset(); 
-		this.createPpisetRecursively(this.diagramChilds, ppiset);
-		
-		if (!ppiset.isEmpty()) {
-			
-			// crea un proceso si no hay alguno creado
-	 		if (currentProcess==null) {
-				
-				currentProcess = new Process();
-				currentProcess.setId("");
-				
-				if(this.definitions.getName() != null 
-						&& this.definitions.getName().length() > 0) {
-					currentProcess.setName(this.definitions.getName());
-				}
-				
-				if(!currentProcess.hasId()) {
-					currentProcess.setId(SignavioUUID.generate());
-				}
-	
-				this.processes.add(currentProcess);
-			}
-	
-	 		// inserta el ppiset en el proceso
-			if (currentProcess.getExtensionElements()==null) {
-				ExtensionElements extensionElements = new ExtensionElements();
-				extensionElements.getAny().add(ppiset);
-				currentProcess.setExtensionElements(extensionElements);
-			} else {
-				currentProcess.getExtensionElements().add(ppiset);
-			}
-		}
-	}
-	
-	/**
-	 * Retrieves all nodes included into the diagram and stop recursion at
-	 * subprocesses.
-	 * 
-	 * @param elements The child elements of a parent BPMN element
-	 * @param measureList Lista de las medidas
-	 * @param conectorList Lista de los conectores relacionados con las medidas
-	 * @param ppiList Lista de los PPI
-	 */
-	private void createPpisetRecursively(List<BPMNElement> elements, Ppiset ppiset) {
-		
-		for (BPMNElement element : elements) {
-
-System.out.println("-> elemento "+element.getNode().getClass().getName());
-			/**
-			 * se conserva la informacion en la lista correspondiente, si el elemento es una medida, un conector relacionado 
-			 * con medidas o un PPI.
-			 * si se trata de un Partipant, se conserva en allRelevantNodes
-			 * De esta manera se colecta toda la informacion necesaria para crear el ppiset
-			 */
-			Object elementNode = element.getNode();
-			
-			if (elementNode instanceof Ppi) {
-				
-				Ppi ppi = ((Ppi) elementNode);
-				
-				for (CountMeasure child : ppi.getCountMeasure()) {
-					
-					ppiset.addPpi(child);
-System.out.println("adiciona "+child.getClass().getName());
-					
-					Ppi node = new Ppi(ppi);
-					node.setMeasuredBy(child);
-					ppiset.addPpi(node);
-System.out.println("adiciona "+node.getClass().getName());
-				}
-				for (TimeMeasure child : ppi.getTimeMeasure()) {
-					
-					ppiset.addPpi(child);
-System.out.println("adiciona "+child.getClass().getName());
-					
-					Ppi node = new Ppi(ppi);
-					node.setMeasuredBy(child);
-					ppiset.addPpi(node);
-System.out.println("adiciona "+node.getClass().getName());
-				}
-				for (DataPropertyConditionMeasure child : ppi.getDataPropertyConditionMeasure()) {
-					
-					ppiset.addPpi(child);
-System.out.println("adiciona "+child.getClass().getName());
-					
-					Ppi node = new Ppi(ppi);
-					node.setMeasuredBy(child);
-					ppiset.addPpi(node);
-System.out.println("adiciona "+node.getClass().getName());
-				}
-				for (StateConditionMeasure child : ppi.getStateConditionMeasure()) {
-					
-					ppiset.addPpi(child);
-System.out.println("adiciona "+child.getClass().getName());
-					
-					Ppi node = new Ppi(ppi);
-					node.setMeasuredBy(child);
-					ppiset.addPpi(node);
-System.out.println("adiciona "+node.getClass().getName());
-				}
-				for (DataMeasure child : ppi.getDataMeasure()) {
-					
-					ppiset.addPpi(child);
-System.out.println("adiciona "+child.getClass().getName());
-					
-					Ppi node = new Ppi(ppi);
-					node.setMeasuredBy(child);
-					ppiset.addPpi(node);
-System.out.println("adiciona "+node.getClass().getName());
-				}
-				for (AggregatedMeasure child : ppi.getAggregatedMeasure()) {
-					
-					ppiset.addPpi(child);
-System.out.println("adiciona "+child.getClass().getName());
-					
-					Ppi node = new Ppi(ppi);
-					node.setMeasuredBy(child);
-					ppiset.addPpi(node);
-System.out.println("adiciona "+node.getClass().getName());
-				}
-				for (DerivedSingleInstanceMeasure child : ppi.getDerivedSingleInstanceMeasure()) {
-					
-					ppiset.addPpi(child);
-System.out.println("adiciona "+child.getClass().getName());
-					
-					Ppi node = new Ppi(ppi);
-					node.setMeasuredBy(child);
-					ppiset.addPpi(node);
-System.out.println("adiciona "+node.getClass().getName());
-				}
-				for (DerivedMultiInstanceMeasure child : ppi.getDerivedMultiInstanceMeasure()) {
-					
-					ppiset.addPpi(child);
-System.out.println("adiciona "+child.getClass().getName());
-					
-					Ppi node = new Ppi(ppi);
-					node.setMeasuredBy(child);
-					ppiset.addPpi(node);
-System.out.println("adiciona "+node.getClass().getName());
-				}
-				
-			} else	
-			if (elementNode instanceof CountMeasure) {
-			
-				CountMeasure node = (CountMeasure) elementNode;
-				ppiset.addPpi(node);
-System.out.println("adiciona "+node.getClass().getName());
-			} else	
-			if (elementNode instanceof AppliesToElementConnector ||
-				elementNode instanceof AppliesToDataConnector ||
-				elementNode instanceof TimeConnector ||
-				elementNode instanceof Uses ||
-				elementNode instanceof Aggregates ||
-				elementNode instanceof IsGroupedBy ) {
-			
-				Edge node = (Edge) elementNode;
-				ppiset.addPpiCon(node);
-System.out.println("adiciona "+node.getClass().getName());
-			} else 
-			if (element.getNode() instanceof Lane || element.getNode() instanceof SubProcess) {
-				
-				createPpisetRecursively(this.getChildElements(element), ppiset);
-			}
-		}
-	}
-/* fin EDE */
-	
 	/**
 	 * Adds the node to the connected set of nodes.
 	 * 
@@ -2041,8 +1842,6 @@ System.out.println("adiciona "+node.getClass().getName());
 	/**
 	 * Retrieves a BPMN 2.0 diagram and transforms it into the BPMN 2.0 model.
 	 * 
-	 * @param diagram
-	 *            The BPMN 2.0 {@link GenericDiagram} based on the ORYX JSON.
 	 * @return The definitions root element of the BPMN 2.0 model.
 	 * @throws BpmnConverterException
 	 */
@@ -2072,17 +1871,8 @@ System.out.println("adiciona "+node.getClass().getName());
 
 		this.setDefaultSequenceFlowOfExclusiveGateway();
 		this.setCompensationEventActivityRef();
-		// this.setConversationParticipants();
-
-/* inicio EDE */ 
-		/** 
-		 * crea el ppiset y lo inserta en el ultimo proceso identificado
-		 */
-		// obtiene el ultimo proceso
-		Process currentProcess = this.identifyProcesses();
-		// crea el ppiset
-		this.identifyPpis(currentProcess);
-/* fin EDE */
+//		this.setConversationParticipants();
+        this.identifyProcesses();
 
 		this.handleDataObjects();
 		this.handleArtifacts();

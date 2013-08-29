@@ -85,7 +85,7 @@
 
 <div class="container"  >
 	<h2>PPIs of {{process.processName}}</h2>
-    <div ng-repeat="ppi in ppis">
+    <div ng-repeat="ppi in ppis[0].ppis">
 		<table class="table table-bordered">
 				<tr>
 					<th style="width:10em">PPI:</th>						
@@ -101,7 +101,9 @@
 				</tr>
 		   		<tr>
 		   			<th>Goals:</th>
-		   			<td>{{ppi.goals}}</td>		   			
+		   			<td><ul>
+                          <li ng-repeat="goal in ppi.goals">{{goal}}</li>
+                        </ul></td>
 		   		</tr>
 		   		<tr>
 		   			<th>Definition:</th>
@@ -125,7 +127,9 @@
 		   		</tr>
 		   		<tr>
 		   			<th>Informed:</th>
-		   			<td>{{ppi.informed}}</td>
+		   			<td><ul>
+                        <li ng-repeat="informed in ppi.informed">{{informed}}</li>
+                    </ul></td>
 		   		</tr>
 		   		<tr>
 		   			<th>Comments:</th>

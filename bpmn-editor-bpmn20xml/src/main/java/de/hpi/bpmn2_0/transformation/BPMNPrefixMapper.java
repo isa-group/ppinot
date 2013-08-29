@@ -42,17 +42,9 @@ public class BPMNPrefixMapper extends NamespacePrefixMapper {
 	
 	private static Map<String, String> customExtensions = new HashMap<String, String>();
 
-	/* (non-Javadoc)
-	 * @see com.sun.xml.bind.marshaller.NamespacePrefixMapper#getPreferredPrefix(java.lang.String, java.lang.String, boolean)
-	 */
-	// @Override
+	@Override
 	public String getPreferredPrefix(String namespace, String suggestion, boolean isRequired) {
 		
-		/* EDE: se pone el prefijo de cada namespace que se utilice */
-		if(namespace.equals("http://www.isa.us.es/ppinot"))
-			return "ppinot";
-		else
-			
 		/* BPMN 2.0 Standard Namespaces */
 		if(namespace.equals("http://www.omg.org/spec/BPMN/20100524/MODEL")) 
 			return "";

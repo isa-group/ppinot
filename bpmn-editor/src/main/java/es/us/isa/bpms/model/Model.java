@@ -16,6 +16,7 @@ public class Model {
     private String modelId;
     private int revision;
     private JSONObject model;
+    private String xml;
     private String svg;
 
     public Model() {
@@ -25,6 +26,7 @@ public class Model {
     public Model(String modelId, String name) {
         this.name = name;
         this.modelId = modelId;
+        setEmptyModel();
     }
 
     public String getJSON() throws JSONException {
@@ -34,6 +36,7 @@ public class Model {
         jsonModel.put("description", description);
         jsonModel.put("revision", revision);
         jsonModel.put("model", model);
+        jsonModel.put("xml", xml);
         jsonModel.put("svg", svg);
 
         return jsonModel.toString();
@@ -76,6 +79,10 @@ public class Model {
 
         if (jsonModel.has("model"))
             m.setModel(jsonModel.getJSONObject("model"));
+
+        if (jsonModel.has("xml")) {
+            m.setXml(jsonModel.getString("xml"));
+        }
 
         if (jsonModel.has("svg"))
             m.setSvg(jsonModel.getString("svg"));
@@ -121,6 +128,14 @@ public class Model {
 
     public void setModel(JSONObject model) {
         this.model = model;
+    }
+
+    public String getXml() {
+        return xml;
+    }
+
+    public void setXml(String xml) {
+        this.xml = xml;
     }
 
     public String getSvg() {

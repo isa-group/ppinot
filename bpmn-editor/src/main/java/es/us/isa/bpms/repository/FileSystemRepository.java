@@ -16,14 +16,12 @@ import java.util.List;
  * Date: 09/04/13
  * Time: 09:31
  */
-public class FileSystemRepository implements ProcessRepository {
+public class FileSystemRepository implements ModelRepository {
     private String directory;
     @Autowired
     private UserService userService;
 
-    public FileSystemRepository() {
-
-    }
+    public FileSystemRepository() {   }
 
     public FileSystemRepository(String directory) {
         this.directory = directory;
@@ -39,7 +37,7 @@ public class FileSystemRepository implements ProcessRepository {
 
 
     @Override
-    public Model getProcessModelInfo(String id) {
+    public Model getModelInfo(String id) {
         Model m;
         try {
             m = getProcessJsonModelInfo(id);
@@ -54,12 +52,10 @@ public class FileSystemRepository implements ProcessRepository {
     }
 
     private Model getProcessJsonModelInfo(String id) throws IOException, JSONException {
-        InputStream processReader = getProcessJsonReader(id);
+        InputStream processReader = getModelReader(id);
         String json = IOUtils.toString(processReader);
 
-        Model m = Model.createModel(new JSONObject(json));
-
-        return m;
+        return Model.createModel(new JSONObject(json));
     }
 
     private List<String> genericListProcesses(String ext) {
@@ -80,18 +76,13 @@ public class FileSystemRepository implements ProcessRepository {
     }
 
     @Override
-    public List<String> listProcesses() {
-        return genericListProcesses("bpmn20.xml");
-    }
-
-    @Override
-    public List<String> listJsonProcesses() {
+    public List<String> listModels() {
         return genericListProcesses("json");
     }
 
     @Override
-    public boolean removeProcess(String id) {
-        File processFile = getProcessJsonFile(id);
+    public boolean removeModel(String id) {
+        File processFile = getModelFile(id);
         boolean result = false;
 
         if (processFile.exists())
@@ -105,13 +96,13 @@ public class FileSystemRepository implements ProcessRepository {
     }
 
     @Override
-    public boolean addProcess(Model model) {
+    public boolean addModel(Model model) {
         boolean result = false;
 
         if (model.getModel() == null)
             model.setEmptyModel();
 
-        File newModelFile = getProcessJsonFile(model.getModelId());
+        File newModelFile = getModelFile(model.getModelId());
         if (newModelFile.exists())
             return false;
 
@@ -131,16 +122,16 @@ public class FileSystemRepository implements ProcessRepository {
         return result;
     }
 
-
-
     @Override
-    public InputStream getProcessReader(String id) {
-        File processFile = getProcessFile(id);
-
+    public void saveModel(Model model) {
+        OutputStream processWriter = getModelWriter(model.getModelId());
         try {
-            return new FileInputStream(processFile);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException("Process with id: " + id + " not found ", e);
+            IOUtils.write(model.getJSON(), processWriter);
+            processWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (JSONException e) {
+            throw new RuntimeException("The model metadata is not valid", e);
         }
     }
 
@@ -165,13 +156,13 @@ public class FileSystemRepository implements ProcessRepository {
         return new File(filename);
     }
 
-    private File getProcessJsonFile(String id) {
+    private File getModelFile(String id) {
         String filename = getBaseDirectory() + File.separator + id + ".json";
         return new File(filename);
     }
 
-    public InputStream getProcessJsonReader(String id) {
-        File processFile = getProcessJsonFile(id);
+    public InputStream getModelReader(String id) {
+        File processFile = getModelFile(id);
 
         try {
             return new FileInputStream(processFile);
@@ -180,15 +171,8 @@ public class FileSystemRepository implements ProcessRepository {
         }
     }
 
-    @Override
-    public OutputStream getProcessJsonWriter(String id) {
-        File processFile = getProcessJsonFile(id);
-        return getOutputStream(processFile);
-    }
-
-    @Override
-    public OutputStream getProcessWriter(String id) {
-        File processFile = getProcessFile(id);
+    private OutputStream getModelWriter(String id) {
+        File processFile = getModelFile(id);
         return getOutputStream(processFile);
     }
 

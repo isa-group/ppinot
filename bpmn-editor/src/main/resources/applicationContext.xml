@@ -27,13 +27,13 @@
 
     <!-- Repository -->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"/>
-    <bean id="processRepository" class="es.us.isa.bpms.repository.FileSystemRepository">
+    <bean id="modelRepository" class="es.us.isa.bpms.repository.FileSystemRepository">
         <property name="directory" value="${PPINOT_REPOSITORY_DIRECTORY}"/>
     </bean>
 
     <!--   Resources  -->
     <bean id="repositoryResource" class="es.us.isa.bpms.model.ModelsResource">
-        <property name="processRepository" ref="processRepository"/>
+        <property name="modelRepository" ref="modelRepository"/>
     </bean>
     <bean id="editorResource" class="es.us.isa.bpms.editor.EditorResource"/>
     <bean id="userResource" class="es.us.isa.bpms.users.UserResource"/>

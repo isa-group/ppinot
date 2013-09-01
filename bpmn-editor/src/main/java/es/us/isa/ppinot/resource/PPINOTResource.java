@@ -1,6 +1,6 @@
 package es.us.isa.ppinot.resource;
 
-import es.us.isa.bpms.repository.ProcessRepository;
+import es.us.isa.bpms.repository.ModelRepository;
 import es.us.isa.bpms.users.UserService;
 import es.us.isa.ppinot.handler.PPINotModelHandler;
 import es.us.isa.ppinot.handler.PPINotModelHandlerImpl;
@@ -23,15 +23,15 @@ import java.util.Map;
 public class PPINOTResource {
 
     private UserService userService;
-    private ProcessRepository processRepository;
+    private ModelRepository modelRepository;
     private String id;
     private InputStream processStream;
 
-    public PPINOTResource(InputStream processStream, String id, UserService userService, ProcessRepository processRepository) {
+    public PPINOTResource(InputStream processStream, String id, UserService userService, ModelRepository modelRepository) {
         this.processStream = processStream;
         this.id = id;
         this.userService = userService;
-        this.processRepository = processRepository;
+        this.modelRepository = modelRepository;
     }
 
     @Produces("application/json")
@@ -58,8 +58,8 @@ public class PPINOTResource {
 //        ppinotModelHandler.setPpiModelMap(ppiModelMap);
 
         try {
-            String procId = ppinotModelHandler.getProcId();
-            ppinotModelHandler.save(processRepository.getProcessWriter(id+"-copy-"), procId);
+//            String procId = ppinotModelHandler.getProcId();
+//            ppinotModelHandler.save(modelRepository.getProcessWriter(id+"-copy-"), procId);
 
             return "Ok";
         } catch (Exception e) {

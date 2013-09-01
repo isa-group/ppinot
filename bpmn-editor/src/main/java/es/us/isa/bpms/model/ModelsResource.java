@@ -9,7 +9,7 @@ import de.hpi.bpmn2_0.transformation.Constants;
 import de.hpi.bpmn2_0.transformation.Diagram2BpmnConverter;
 import es.us.isa.bpms.editor.EditorResource;
 import es.us.isa.bpms.process.ProcessElementsResource;
-import es.us.isa.bpms.repository.ProcessRepository;
+import es.us.isa.bpms.repository.ModelRepository;
 import es.us.isa.bpms.users.UserService;
 import es.us.isa.ppinot.diagram2xml.Diagram2PPINotConverter;
 import es.us.isa.ppinot.diagram2xml.PPINotFactory;
@@ -35,7 +35,10 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.io.*;
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -49,7 +52,7 @@ public class ModelsResource {
     private static final Logger log = Logger.getLogger(ModelsResource.class
             .getName());
 
-    private ProcessRepository processRepository;
+    private ModelRepository modelRepository;
 
     @Autowired
     private UserService userService;
@@ -82,12 +85,12 @@ public class ModelsResource {
         });
     }
 
-    public ProcessRepository getProcessRepository() {
-        return processRepository;
+    public ModelRepository getModelRepository() {
+        return modelRepository;
     }
 
-    public void setProcessRepository(ProcessRepository processRepository) {
-        this.processRepository = processRepository;
+    public void setModelRepository(ModelRepository modelRepository) {
+        this.modelRepository = modelRepository;
     }
 
     @Path("/models")
@@ -95,9 +98,7 @@ public class ModelsResource {
     @Produces("application/json")
     public List<ModelInfo> getProcesses(@Context UriInfo uriInfo) {
         List<ModelInfo> result = new ArrayList<ModelInfo>();
-        Set<String> processes = new HashSet<String>(processRepository.listProcesses());
-        List<String> jsonProcesses = processRepository.listJsonProcesses();
-        processes.addAll(jsonProcesses);
+        List<String> processes = modelRepository.listModels();
 
         for (String modelId : processes) {
 
@@ -116,7 +117,7 @@ public class ModelsResource {
         ModelInfo modelInfo = new ModelInfo(modelId, uri.toString());
 
         try {
-            Model m = processRepository.getProcessModelInfo(modelId);
+            Model m = modelRepository.getModelInfo(modelId);
             modelInfo.setName(m.getName());
             modelInfo.setDescription(m.getDescription());
 
@@ -138,33 +139,21 @@ public class ModelsResource {
     @Produces(MediaType.APPLICATION_XML)
     @GET
     public String getProcess(@PathParam("id") String id) {
-        String process;
-        try {
-            process = getProcessXml(id);
-        } catch (Exception e) {
-            try {
-                InputStream processReader = processRepository.getProcessReader(id);
-                process = IOUtils.toString(processReader);
-            } catch(Exception ex) {
-                throw new org.jboss.resteasy.spi.NotFoundException("Process not found", ex);
-            }
-        }
-
-        return process;
+        return getProcessXml(id);
     }
 
     @Path("/model/{id}/json")
     @Produces(MediaType.APPLICATION_JSON)
     @GET
     public InputStream getProcessJson(@PathParam("id") String id) {
-        return processRepository.getProcessJsonReader(id);
+        return modelRepository.getModelReader(id);
     }
 
     @Path("/model/{id}/svg")
     @GET
     @Produces("image/svg+xml")
     public String getProcessSvg(@PathParam("id") String id) {
-        Model m = processRepository.getProcessModelInfo(id);
+        Model m = modelRepository.getModelInfo(id);
 
         return m.getSvg();
     }
@@ -175,6 +164,14 @@ public class ModelsResource {
     public InputStream getProcessPdf(@PathParam("id") String id) {
         PDFTranscoder transcoder = new PDFTranscoder();
 
+        return transcode(id, transcoder);
+    }
+
+    @Path("/model/{id}/png")
+    @GET
+    @Produces("image/png")
+    public InputStream getProcessPng(@PathParam("id") String id) {
+        PNGTranscoder transcoder = new PNGTranscoder();
         return transcode(id, transcoder);
     }
 
@@ -196,26 +193,47 @@ public class ModelsResource {
         return new ByteArrayInputStream(out.toByteArray());
     }
 
-    @Path("/model/{id}/png")
-    @GET
-    @Produces("image/png")
-    public InputStream getProcessPng(@PathParam("id") String id) {
-        PNGTranscoder transcoder = new PNGTranscoder();
-        return transcode(id, transcoder);
-    }
-
     @Path("/model/{id}/xml")
     @Produces(MediaType.APPLICATION_XML)
     @GET
     public String getProcessXml(@PathParam("id") String id) {
-        Model m = processRepository.getProcessModelInfo(id);
+        Model m = modelRepository.getModelInfo(id);
 
-        try {
-            JSONObject jsonModel = m.getModel();
-            if (jsonModel == null) {
-                throw new RuntimeException("Model not valid");
+        if (m == null) {
+            throw new org.jboss.resteasy.spi.NotFoundException("Model not found");
+        }
+
+        String xml = m.getXml();
+
+        if (xml == null || xml.isEmpty()) {
+            try {
+                xml = createAndStoreXml(m);
+            } catch (Exception e) {
+                log.warning("Error while transforming model to XML");
+                log.warning(e.toString());
+                throw new RuntimeException("Error while transforming model to XML", e);
             }
+        }
 
+        return xml;
+    }
+
+    private String createAndStoreXml(Model m) {
+        String xml;
+        JSONObject jsonModel = m.getModel();
+        if (jsonModel == null) {
+            throw new RuntimeException("Model not valid");
+        }
+
+        xml = transformToXml(jsonModel);
+        m.setXml(xml);
+        modelRepository.saveModel(m);
+
+        return xml;
+    }
+
+    private String transformToXml(JSONObject jsonModel) {
+        try {
             BasicDiagram diagram = BasicDiagramBuilder.parseJson(jsonModel);
             Diagram2BpmnConverter diagram2BpmnConverter = new Diagram2BpmnConverter(diagram, AbstractBpmnFactory.getFactoryClasses());
             Definitions def = diagram2BpmnConverter.getDefinitionsFromDiagram();
@@ -225,69 +243,10 @@ public class ModelsResource {
             Bpmn2XmlConverter xmlConverter = new Bpmn2XmlConverter(def, context.getRealPath("/WEB-INF/xsd/BPMN20.xsd"));
             StringWriter x = xmlConverter.getXml();
 
-//            Bpmn20ModelHandler handler = new PPINotModelHandlerImpl();
-//            handler.load(new ReaderInputStream(new StringReader(xml.toString())));
-//            Diagram2PPINotConverter ppiNotConverter = new Diagram2PPINotConverter(diagram, handler);
-//            ppiNotConverter.addToProcess();
-//            Diagram2XmlConverter converter = new Diagram2XmlConverter(BasicDiagramBuilder.parseJson(jsonModel), context.getRealPath("/WEB-INF/xsd/BPMN20.xsd"));
-//            StringWriter xml = converter.getXml();
-/*            Class[] classes = {es.us.isa.bpmn.xmlClasses.bpmn20.ObjectFactory.class,
-                    ObjectFactory.class,
-                    es.us.isa.bpmn.xmlClasses.bpmndi.ObjectFactory.class};
-            JAXBContext jc = JAXBContext.newInstance(classes);
-
-
-            StringWriter x = new StringWriter();
-            Marshaller marshaller = jc.createMarshaller();
-            marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", new NamespacePrefixMapper() {
-                @Override
-                public String getPreferredPrefix(String namespace, String suggestion, boolean isRequired) {
-
-		if(namespace.equals("http://www.isa.us.es/ppinot"))
-			return "ppinot";
-		else
-
-                        if(namespace.equals("http://www.omg.org/spec/BPMN/20100524/MODEL"))
-                            return "";
-                        else if(namespace.equals("http://www.omg.org/spec/BPMN/20100524/DI"))
-                            return "bpmndi";
-                        else if(namespace.equals("http://www.w3.org/2001/XMLSchema-instance"))
-                            return "xsi";
-                        else if(namespace.equals("http://www.omg.org/spec/DD/20100524/DI"))
-                            return "omgdi";
-                        else if(namespace.equals("http://www.omg.org/spec/DD/20100524/DC"))
-                            return "omgdc";
-
-                        else if(namespace.equals("http://www.signavio.com"))
-                            return "signavio";
-
-
-                    return suggestion;
-                }
-            });
-            marshaller.marshal(handler.getDefinitions(), x);
-*/
             return x.toString();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+        } catch(Exception e) {
+            throw new RuntimeException("Error transforming json model to XML", e);
         }
-    }
-
-    @Path("/model/{id}")
-    @DELETE
-    public Response removeProcess(@PathParam("id") String id) {
-        if (! userService.isLogged())
-            throw new UnauthorizedException("User not logged");
-
-        Response r;
-        if (processRepository.removeProcess(id))
-            r = Response.ok().build();
-        else
-            r = Response.status(Response.Status.NOT_FOUND).build();
-
-        return r;
     }
 
     @Path("/models")
@@ -306,13 +265,28 @@ public class ModelsResource {
         Model model = new Model(info.getModelId(), info.getName());
         model.setDescription(info.getDescription());
 
-        if (processRepository.addProcess(model)) {
+        if (modelRepository.addModel(model)) {
             ModelInfo modelInfo = createProcessInfo(info.getModelId(), uriInfo);
             r = Response.ok(modelInfo, MediaType.APPLICATION_JSON_TYPE).build();
         }
         else {
             r = Response.status(Response.Status.BAD_REQUEST).build();
         }
+
+        return r;
+    }
+
+    @Path("/model/{id}")
+    @DELETE
+    public Response removeProcess(@PathParam("id") String id) {
+        if (! userService.isLogged())
+            throw new UnauthorizedException("User not logged");
+
+        Response r;
+        if (modelRepository.removeModel(id))
+            r = Response.ok().build();
+        else
+            r = Response.status(Response.Status.NOT_FOUND).build();
 
         return r;
     }
@@ -328,7 +302,6 @@ public class ModelsResource {
         if (! userService.isLogged())
             throw new UnauthorizedException("User not logged");
 
-        OutputStream processWriter = processRepository.getProcessJsonWriter(id);
 
         Model m = new Model();
         m.setName(name);
@@ -336,23 +309,20 @@ public class ModelsResource {
         m.setModelId(id);
         m.setSvg(svgXml);
         try {
-            m.setModel(new JSONObject(jsonXml));
+            JSONObject jsonObject = new JSONObject(jsonXml);
+            m.setModel(jsonObject);
+            m.setXml(transformToXml(jsonObject));
         } catch (JSONException e) {
             throw new RuntimeException("The submitted model is not valid", e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         if (jsonXml != null) {
-            try {
-                IOUtils.write(m.getJSON(), processWriter);
-                processWriter.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (JSONException e) {
-                throw new RuntimeException("The model metadata is not valid", e);
-            }
+            modelRepository.saveModel(m);
         }
 
-        return processRepository.getProcessJsonReader(id);
+        return modelRepository.getModelReader(id);
     }
 
 
@@ -366,6 +336,6 @@ public class ModelsResource {
     @Path("/model/{id}/ppis")
     public PPINOTResource getPPIs(@PathParam("id") String id) {
         InputStream processReader = IOUtils.toInputStream(getProcess(id));
-        return new PPINOTResource(processReader, id, userService, processRepository);
+        return new PPINOTResource(processReader, id, userService, modelRepository);
     }
 }

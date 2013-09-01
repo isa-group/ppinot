@@ -1,6 +1,33 @@
-function Process(processName, processUrl) {
-	this.processName = processName;
-	this.processNames = [processName];
+function BPMNModel(modelName, modelUrl) {
+    this.modelName = modelName;
+    this.url = modelUrl;
+    this.processes = {};
+}
+
+jQuery.extend(BPMNModel.prototype, {
+	load: function() {
+		var that = this;
+		return $.ajax({
+			type: "GET",
+			url: that.url + "/info",
+			dataType: "json",
+			success: function(data) {
+			    $(data).each(function() {
+			        var process = new Process(that.modelName, that.url);
+			        process.load(this);
+                    that.processes[this.id] = process;
+			    });
+			}
+		});
+	}
+});
+
+function Process(modelId, modelUrl) {
+    this.modelId = modelId;
+    this.modelUrl = modelUrl;
+    this.processId = "";
+	this.processName = "";
+	this.processNames = [];
 	this.processStates = ["Start", "Cancel","End"];
 	this.activityNames = [];
 	this.activityNameId = {};
@@ -10,24 +37,18 @@ function Process(processName, processUrl) {
 	this.dataObjectNames= [];
 	this.dataObjectPropertyNames = [];
 	this.dataObjectState= [];
-	this.url = processUrl;
 
 	this.id = {};
 }
 
 jQuery.extend(Process.prototype, {
-	load: function() {
-		var that = this;
-		return $.ajax({
-			type: "GET",
-			url: that.url + "/info",
-			dataType: "json",
-			success: function(data) {
-			    that.loadActivities(data.activities);
-			    that.loadEvents(data.events);
-			    that.loadDataObjects(data.dataObjects);
-			}
-		});
+	load: function(data) {
+	    this.processId = data.id;
+	    this.processName = data.name;
+	    this.processNames = [data.name];
+        this.loadActivities(data.activities);
+        this.loadEvents(data.events);
+        this.loadDataObjects(data.dataObjects);
 	},
 
 	loadActivities: function(data) {

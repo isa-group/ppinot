@@ -10,8 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: resinas
@@ -28,84 +27,106 @@ public class ProcessElementsResource {
     @Path("/info")
     @Produces(MediaType.APPLICATION_JSON)
     @GET
-    public ProcessInfo getProcessInfo(@PathParam("id") String id) {
+    public Collection<ProcessInfo> getProcessInfo(@PathParam("id") String id) {
         Bpmn20ModelHandler bpmnModelHandler = getBpmnModelHandler(id);
+        Map<String, List<BPElementInfo>> activities = listActivities(bpmnModelHandler);
+        Map<String, List<BPElementInfo>> gateways = listGateways(bpmnModelHandler);
+        Map<String, List<BPElementInfo>> events = listEvents(bpmnModelHandler);
+        Map<String, List<DataObjectInfo>> dataObjects = listDataObjects(bpmnModelHandler);
+        List<ProcessInfo> processes = new ArrayList<ProcessInfo>();
 
-        return new ProcessInfo(
-                listActivities(bpmnModelHandler),
-                listGateways(bpmnModelHandler),
-                listEvents(bpmnModelHandler),
-                listDataObjects(bpmnModelHandler)
-        );
+        for (TProcess p : bpmnModelHandler.getProcesses()) {
+            String processId = p.getId();
+            processes.add(new ProcessInfo(processId,
+                    p.getName(),
+                    activities.get(processId),
+                    gateways.get(processId),
+                    events.get(processId),
+                    dataObjects.get(processId)));
+        }
+
+        return processes;
     }
 
     @Path("/activities")
     @Produces("application/json")
     @GET
     public List<BPElementInfo> getActivityNames(@PathParam("id") String id) {
-        return listActivities(getBpmnModelHandler(id));
-    }
-
-    private List<BPElementInfo> listActivities(Bpmn20ModelHandler bpmnModelHandler) {
-        List<BPElementInfo> activities = new ArrayList<BPElementInfo>();
-        for (TTask task : bpmnModelHandler.getTaskMap().values()) {
-            activities.add(new BPElementInfo(task.getId(), task.getName(), "task"));
-        }
-        for (TSubProcess subProcess : bpmnModelHandler.getSubProcessMap().values()) {
-            activities.add(new BPElementInfo(subProcess.getId(), subProcess.getName(), "subprocess"));
-        }
-        return activities;
+        return group(listActivities(getBpmnModelHandler(id)));
     }
 
     @Path("/events")
     @Produces("application/json")
     @GET
     public List<BPElementInfo> getEvents(@PathParam("id") String id) {
-        return listEvents(getBpmnModelHandler(id));
-    }
-
-    private List<BPElementInfo> listEvents(Bpmn20ModelHandler bpmnModelHandler) {
-        List<BPElementInfo> events = new ArrayList<BPElementInfo>();
-
-        for (TStartEvent startEvent : bpmnModelHandler.getStartEventMap().values()) {
-            events.add(new BPElementInfo(startEvent.getId(), startEvent.getName(), "startEvent"));
-        }
-
-        for (TEndEvent endEvent : bpmnModelHandler.getEndEventMap().values()) {
-            events.add(new BPElementInfo(endEvent.getId(), endEvent.getName(), "endEvent"));
-        }
-        return events;
+        return group(listEvents(getBpmnModelHandler(id)));
     }
 
     @Path("/gateways")
     @Produces("application/json")
     @GET
     public List<BPElementInfo> getGateways(@PathParam("id") String id) {
-        return listGateways(getBpmnModelHandler(id));
+        return group(listGateways(getBpmnModelHandler(id)));
     }
 
-    private List<BPElementInfo> listGateways(Bpmn20ModelHandler bpmnModelHandler) {
-        List<BPElementInfo> gatewaysInfo = new ArrayList<BPElementInfo>();
-        for (TGateway gateway : bpmnModelHandler.getGatewayMap().values()) {
-            gatewaysInfo.add(new BPElementInfo(gateway.getId(), gateway.getName(), "gateway"));
-        }
-        return gatewaysInfo;
-    }
 
     @Path("/dataobjects")
     @Produces("application/json")
     @GET
     public List<DataObjectInfo> getDataObjects(@PathParam("id") String id) {
-        return listDataObjects(getBpmnModelHandler(id));
+        return group(listDataObjects(getBpmnModelHandler(id)));
     }
 
-    private List<DataObjectInfo> listDataObjects(Bpmn20ModelHandler bpmnModelHandler) {
-        List<DataObjectInfo> dataObjectsInfo = new ArrayList<DataObjectInfo>();
+    private <T> List<T> group(Map<String, List<T>> stringListMap) {
+        List<T> result = new ArrayList<T>();
+        for (List<T> list : stringListMap.values()) {
+            result.addAll(list);
+        }
+        return result;
+    }
+
+    private Map<String,List<BPElementInfo>> listActivities(Bpmn20ModelHandler bpmnModelHandler) {
+        ElementMap<BPElementInfo> activities = new ElementMap<BPElementInfo>(bpmnModelHandler);
+
+        for (TTask task : bpmnModelHandler.getTaskMap().values()) {
+            BPElementInfo bpElementInfo = new BPElementInfo(task.getId(), task.getName(), "task");
+            activities.update(bpElementInfo);
+        }
+        for (TSubProcess subProcess : bpmnModelHandler.getSubProcessMap().values()) {
+            activities.update(new BPElementInfo(subProcess.getId(), subProcess.getName(), "subprocess"));
+        }
+        return activities;
+    }
+
+    private Map<String,List<BPElementInfo>> listEvents(Bpmn20ModelHandler bpmnModelHandler) {
+        ElementMap<BPElementInfo> events = new ElementMap<BPElementInfo>(bpmnModelHandler);
+
+        for (TStartEvent startEvent : bpmnModelHandler.getStartEventMap().values()) {
+            events.update(new BPElementInfo(startEvent.getId(), startEvent.getName(), "startEvent"));
+        }
+
+        for (TEndEvent endEvent : bpmnModelHandler.getEndEventMap().values()) {
+            events.update(new BPElementInfo(endEvent.getId(), endEvent.getName(), "endEvent"));
+        }
+        return events;
+    }
+
+    private Map<String,List<BPElementInfo>> listGateways(Bpmn20ModelHandler bpmnModelHandler) {
+        ElementMap<BPElementInfo> gatewaysInfo = new ElementMap<BPElementInfo>(bpmnModelHandler);
+        for (TGateway gateway : bpmnModelHandler.getGatewayMap().values()) {
+            gatewaysInfo.update(new BPElementInfo(gateway.getId(), gateway.getName(), "gateway"));
+        }
+        return gatewaysInfo;
+    }
+
+    private Map<String,List<DataObjectInfo>> listDataObjects(Bpmn20ModelHandler bpmnModelHandler) {
+        ElementMap<DataObjectInfo> dataObjectsInfo = new ElementMap<DataObjectInfo>(bpmnModelHandler);
+
         for (TDataObject dataObject : bpmnModelHandler.getDataObjectMap().values()) {
-            DataObjectInfo objectInfo = contained(dataObject.getId(), dataObjectsInfo);
+            DataObjectInfo objectInfo = contained(dataObject.getId(), group(dataObjectsInfo));
             if (objectInfo == null) {
                 objectInfo = new DataObjectInfo(dataObject.getId(), dataObject.getName(), "dataObject");
-                dataObjectsInfo.add(objectInfo);
+                dataObjectsInfo.update(objectInfo);
             }
 
             TDataState state = dataObject.getDataState();
@@ -136,6 +157,27 @@ public class ProcessElementsResource {
             throw new RuntimeException("Problem loading process " + id, e);
         }
         return bpmnModelHandler;
+    }
+
+    private class ElementMap<T extends BPElementInfo> extends HashMap<String, List<T>> {
+        private Bpmn20ModelHandler bpmnModelHandler;
+
+        public ElementMap(Bpmn20ModelHandler bpmnModelHandler) {
+            super();
+            this.bpmnModelHandler = bpmnModelHandler;
+        }
+
+        public void update(T bpElementInfo) {
+            String processId = bpmnModelHandler.getProcessOfElement(bpElementInfo.getId()).getId();
+            List<T> activities = get(processId);
+            if (activities == null) {
+                activities = new ArrayList<T>();
+                put(processId, activities);
+            }
+
+            activities.add(bpElementInfo);
+        }
+
     }
 
 }

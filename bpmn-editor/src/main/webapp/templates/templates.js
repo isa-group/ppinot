@@ -4,22 +4,21 @@ angular.module('templatesApp', ['measuresModule']);
 function TemplatesCtrl($scope, $location, $http) {
 
 	$http.get("service/models/").success(function(data) {
-		$scope.processes = data;
-	})
+		$scope.models = data;
+	});
+
 
     $scope.load = function(modelId) {
-        $scope.processName = modelId;
+        $scope.modelName = modelId;
         var url = "service/model/"+modelId;
-        $scope.process = new Process(modelId, url);
+        $scope.model = new BPMNModel(modelId, url);
         $scope.ppis = [];
-        $scope.process.load().then(function () {
-            $http.get($scope.process.url+"/ppis").success(function(data) {
+        $scope.model.load().then(function () {
+            $http.get($scope.model.url+"/ppis").success(function(data) {
                 $scope.ppis = data;
             });
         })
     };
-
-    $scope.load($location.hash());
 
     $scope.remove = function(ppi) {
     	var index = $scope.ppis.indexOf(ppi);
@@ -53,4 +52,6 @@ function TemplatesCtrl($scope, $location, $http) {
     	$scope.ppis.push(ppi);
     }
 
+    // Loads the current model
+    $scope.load($location.hash());
 }

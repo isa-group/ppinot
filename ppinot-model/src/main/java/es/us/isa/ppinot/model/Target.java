@@ -20,7 +20,7 @@ public class Target {
      * @param refMax Upper bound of the target
      * @param refMin Lower bound of the target
      */
-    public Target(Double refMax, Double refMin) {
+    public Target(Double refMin, Double refMax) {
     	
     	this.setRefMax(refMax);
     	this.setRefMin(refMin);

@@ -7,6 +7,7 @@ import es.us.isa.ppinot.handler.PPINotModelHandler;
 import es.us.isa.ppinot.handler.PPINotModelHandlerImpl;
 import es.us.isa.ppinot.model.PPI;
 import es.us.isa.ppinot.model.PPISet;
+import es.us.isa.ppinot.model.Target;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -97,28 +98,56 @@ public class PPINOTResource {
         shape.setProperty("name", ppi.getName());
         shape.setProperty("responsible", ppi.getResponsible());
         shape.setProperty("comments", ppi.getComments());
-        shape.setProperty("goals", buildArray(ppi.getGoals(), "goal"));
-        shape.setProperty("informed", buildArray(ppi.getInformed(), "inform"));
+        if (!ppi.getGoals().isEmpty()) {
+            shape.setProperty("goals", buildArray(ppi.getGoals(), "goal"));
+        }
+        if (!ppi.getInformed().isEmpty()) {
+            shape.setProperty("informed", buildArray(ppi.getInformed(), "inform"));
+        }
+        if (ppi.getTarget() != null) {
+            shape.setProperty("target", buildTarget(ppi.getTarget()));
+        }
 
     }
 
-    private JSONObject buildArray(Collection<String> collection, String property) {
-        JSONObject obj = new JSONObject();
+    private JSONObject buildTarget(Target target) {
         try {
-            obj.put("totalCount", collection.size());
+            JSONArray items = new JSONArray();
+
+            JSONObject jsonTarget = new JSONObject();
+            jsonTarget.put("lowerBound", target.getRefMin());
+            jsonTarget.put("upperBound", target.getRefMax());
+            items.put(jsonTarget);
+
+            return buildWrapperObject(items);
+        } catch (JSONException e) {
+            log.severe("Error building json");
+            log.severe(e.toString());
+            throw new RuntimeException("Error building json", e);
+        }
+    }
+
+    private JSONObject buildWrapperObject(JSONArray items) throws JSONException {
+        JSONObject obj = new JSONObject();
+        obj.put("totalCount", items.length());
+        obj.put("items", items);
+        return obj;
+    }
+
+    private JSONObject buildArray(Collection<String> collection, String property) {
+        try {
             JSONArray items = new JSONArray();
             for (String goal : collection) {
                 JSONObject g = new JSONObject();
                 g.put(property, goal);
                 items.put(g);
             }
-            obj.put("items", items);
+            return buildWrapperObject(items);
         } catch (JSONException e) {
             log.severe("Error building json");
             log.severe(e.toString());
+            throw new RuntimeException("Error building json", e);
         }
-
-        return obj;
     }
 
     private GenericShape getShapeById(String resourceId, String stencilId, GenericShape<?,?> shape) {

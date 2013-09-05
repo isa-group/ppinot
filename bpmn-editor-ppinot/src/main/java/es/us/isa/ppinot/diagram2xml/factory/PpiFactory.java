@@ -36,8 +36,14 @@ public class PpiFactory extends AbstractPPINotFactory {
             TPpi.Target target = new TPpi.Target();
             TSimpleTarget simpleTarget = new TSimpleTarget();
             try {
-                simpleTarget.setLowerBound(jsSimpleTarget.getDouble("lowerBound"));
-                simpleTarget.setUpperBound(jsSimpleTarget.getDouble("upperBound"));
+                if (jsSimpleTarget.has("lowerBound")) {
+                    simpleTarget.setLowerBound(jsSimpleTarget.getDouble("lowerBound"));
+                }
+
+                if (jsSimpleTarget.has("upperBound")) {
+                    simpleTarget.setUpperBound(jsSimpleTarget.getDouble("upperBound"));
+                }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

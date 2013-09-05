@@ -100,15 +100,26 @@ angular.module('measuresModule', ['ui.bootstrap'])
       replace: true,
       transclude: true,
       scope: { ngModel: '='},
-      template: '<span>{{tpattern(ngModel.refMin, ngModel.refMax)}}</span>',
+      template: '<span><span>{{tpattern(ngModel.refMin, ngModel.refMax)}}</span> ' +
+                '<a ng-click="toggleEdit()" tooltip="Edit target value"><i class="icon-pencil"></i></a>' +
+                '<form class="form-inline" ng-show="editTarget">' +
+                    '<input type="text" class="input-small" placeholder="Lower bound" ng-model="ngModel.refMin"/> '+
+                    '<input type="text" class="input-small" placeholder="Upper bound" ng-model="ngModel.refMax"/> ' +
+                '</form></span>',
       controller: function($scope, $element) {
+        $scope.editTarget = false;
+        $scope.toggleEdit = function() {
+            $scope.editTarget = !$scope.editTarget;
+        }
         $scope.tpattern = function(min, max) {
-          var result = "";
-          if (min != null && max == null) 
-            result = "lower than "+min;
-          else if (min == null && max != null) 
-            result = "greater than "+max;
-          else if (min != null && max != null) {
+          var isEmpty = function (val) { return val == null || val == ""};
+          var result = "...";
+
+          if (! isEmpty(min) && isEmpty(max))
+            result = "greater than "+min;
+          else if (isEmpty(min) && ! isEmpty(max))
+            result = "lower than "+max;
+          else if (! isEmpty(min) && ! isEmpty(max)) {
             if (min == max)
               result = min;
             else 

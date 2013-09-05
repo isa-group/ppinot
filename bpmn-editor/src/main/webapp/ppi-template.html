@@ -16,7 +16,9 @@
 	      	-webkit-box-shadow: none;
 	      	-mox-box-shadow: none;
 		    margin-bottom: 0;
-		    font-size: 13px;
+		    font-size: 14px;
+            font-color: black;
+            width: 95%;
 	      }
 	      input.templatefield:focus {
 	      	border: 1px solid rgba(82, 168, 236, 0.8);
@@ -94,17 +96,13 @@
 			   	</tr>		   	
 				<tr>
 					<th>Name:</th>						
-					<td>{{ppi.name}}</td> 
+					<td><input type="text" class="templatefield" ng-model="ppi.name" placeholder="PPI descriptive name"/></td>
 			   	</tr>		   	
-				<tr>
-					<th>Description:</th>
-					<td>{{ppi.description}}</td>
-				</tr>
 		   		<tr>
 		   			<th>Goals:</th>
-		   			<td><ul>
-                          <li ng-repeat="goal in ppi.goals">{{goal}}</li>
-                        </ul></td>
+		   			<td>
+                        <elementList ng-model="ppi.ngGoals" placeholder="'Strategic or operational goals the PPI is related to'" add="'Add new goal'"/>
+                    </td>
 		   		</tr>
 		   		<tr>
 		   			<th>Definition:</th>
@@ -124,20 +122,23 @@
 		   		</tr>
 		   		<tr>
 		   			<th>Responsible:</th>
-		   			<td>{{ppi.responsible}}</td>
+		   			<td><input type="text" class="templatefield" ng-model="ppi.responsible" placeholder="Role, department, organization or person responsible for the PPI"/></td>
 		   		</tr>
 		   		<tr>
 		   			<th>Informed:</th>
-		   			<td><ul>
-                        <li ng-repeat="informed in ppi.informed">{{informed}}</li>
-                    </ul></td>
+		   			<td>
+                        <elementList ng-model="ppi.ngInformed" placeholder="'Role, department, organization or person that should be informed about the PPI'" add="'Add new resource that should be informed about the PPI'"/>
+		   			</td>
 		   		</tr>
 		   		<tr>
 		   			<th>Comments:</th>
-		   			<td>{{ppi.comments}}</td>
+		   			<td><input type="text" class="templatefield" ng-model="ppi.comments" placeholder="Additional comments about the PPI"/></td>
 		   		</tr>
 		</table>	
 	</div>
+    <div class="well" style="text-align:right;">
+        <input class="btn btn-primary" type="submit" ng-click="save();" value="Save PPI">
+    </div>
 </div>
 </div>
     <script type="text/javascript" charset="utf-8">

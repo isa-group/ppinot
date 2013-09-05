@@ -31,6 +31,11 @@
         <property name="directory" value="${PPINOT_REPOSITORY_DIRECTORY}"/>
     </bean>
 
+    <!-- XML Converter -->
+    <bean class="es.us.isa.ppinot.resource.PPINOTModel2XmlConverter">
+        <property name="bpmn20Xsd" value="/WEB-INF/xsd/BPMN20.xsd"/>
+    </bean>
+
     <!--   Resources  -->
     <bean id="repositoryResource" class="es.us.isa.bpms.model.ModelsResource">
         <property name="modelRepository" ref="modelRepository"/>

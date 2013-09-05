@@ -56,7 +56,42 @@ angular.module('measuresModule', ['ui.bootstrap'])
       replace: true,
       transclude: true,
       scope: { ngModel: '=', process: '='},
-      template: '<span>{{process.id[ngModel.appliesTo].type}} {{process.id[ngModel.appliesTo].name}} becomes {{ngModel.changesToState}}</span>'
+      template: '<span>{{process.id[ngModel.appliesTo].type}} {{process.id[ngModel.appliesTo].name}} becomes {{stateName(ngModel.changesToState)}}</span>',
+      controller: function($scope) {
+        $scope.stateName = function(changesToState) {
+            var stateName = "";
+            angular.forEach(changesToState, function (value, key) {
+                stateName = value;
+            });
+            return stateName;
+        };
+      }
+    }
+  })
+  .directive('elementlist', function(){
+    return {
+      restrict: 'E',
+      replace: true,
+      transclude: true,
+      scope: { ngModel: '=', placeholder: '=', add: '='},
+      template: '<ul>' +
+                  '<li ng-repeat="el in ngModel">' +
+                     '<input type="text" class="templatefield" ng-model="el.elem" placeholder="{{placeholder}}" />'+
+                     '<a class="btn-mini" ng-click="removeElem(ngModel, $index);"><i class="icon-trash"></i></a>'+
+                  '</li>' +
+                  '<li>' +
+                     '<a class="btn-mini" ng-click="addElem(ngModel);">{{add}}</a>' +
+                  '</li>' +
+                '</ul>',
+      controller: function($scope, $element) {
+        $scope.addElem = function(elems) {
+            elems.push({elem:""});
+        }
+
+        $scope.removeElem = function(elems, index) {
+            elems.splice(index, 1);
+        }
+      }
     }
   })
   .directive('target', function() {

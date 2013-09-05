@@ -124,11 +124,12 @@ public class FileSystemRepository implements ModelRepository {
 
     @Override
     public void saveModel(Model model) {
-        OutputStream processWriter = getModelWriter(model.getModelId());
+        OutputStream modelWriter = getModelWriter(model.getModelId());
         try {
-            IOUtils.write(model.getJSON(), processWriter);
-            processWriter.close();
+            IOUtils.write(model.getJSON(), modelWriter);
+            modelWriter.close();
         } catch (IOException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         } catch (JSONException e) {
             throw new RuntimeException("The model metadata is not valid", e);

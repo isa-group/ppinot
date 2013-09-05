@@ -1,5 +1,42 @@
 angular.module('templatesApp', ['measuresModule']);
 
+function iteratePPIs(ppiSet, iterationFunction) {
+    $(ppiSet).each(function() {
+        $(this.ppis).each(function() {
+            iterationFunction(this);
+        });
+    });
+
+}
+
+function assign(ppiSet, source, origin, transform) {
+    iteratePPIs(ppiSet, function (ppi) {
+        ppi[source] = [];
+        $(ppi[origin]).each(function() {
+            ppi[source].push(transform(this));
+        });
+    });
+}
+
+
+function loadArrays(ppiSet) {
+    var loadTransform = function(value) {
+        return {elem:value};
+    };
+
+    assign(ppiSet, "ngGoals", "goals", loadTransform);
+    assign(ppiSet, "ngInformed", "informed", loadTransform);
+
+}
+
+function saveArrays(ppiSet) {
+    var saveTransform = function(value) {
+        return value.elem;
+    };
+
+    assign(ppiSet, "goals", "ngGoals", saveTransform);
+    assign(ppiSet, "informed", "ngInformed", saveTransform);
+}
 
 function TemplatesCtrl($scope, $location, $http) {
 
@@ -16,6 +53,7 @@ function TemplatesCtrl($scope, $location, $http) {
         $scope.model.load().then(function () {
             $http.get($scope.model.url+"/ppis").success(function(data) {
                 $scope.ppis = data;
+                loadArrays($scope.ppis);
             });
         })
     };
@@ -26,13 +64,8 @@ function TemplatesCtrl($scope, $location, $http) {
     }
 
     $scope.save = function() {
-    	// For testing purposes only
-    	// $scope.ppis[1].measuredBy.baseMeasure = $scope.ppis[0].measuredBy;
-    	// $scope.ppis[1].measuredBy.aggregationFunction = "min";
-    	$scope.ppis[1].target.refMax=7;
-    	if ($scope.ppis[1].target.refMin==5)
-    		$scope.ppis[1].target.refMax = null;
-    	$scope.ppis[1].target.refMin=5;
+        saveArrays($scope.ppis);
+        $http.put($scope.model.url+"/ppis", $scope.ppis);
     }
 
     $scope.add = function() {

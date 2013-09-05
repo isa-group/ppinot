@@ -1,18 +1,11 @@
 package es.us.isa.bpms.model;
 
 
-import de.hpi.bpmn2_0.factory.AbstractBpmnFactory;
-import de.hpi.bpmn2_0.model.Definitions;
-import de.hpi.bpmn2_0.model.extension.PropertyListItem;
-import de.hpi.bpmn2_0.transformation.Bpmn2XmlConverter;
-import de.hpi.bpmn2_0.transformation.Constants;
-import de.hpi.bpmn2_0.transformation.Diagram2BpmnConverter;
 import es.us.isa.bpms.editor.EditorResource;
 import es.us.isa.bpms.process.ProcessElementsResource;
 import es.us.isa.bpms.repository.ModelRepository;
 import es.us.isa.bpms.users.UserService;
-import es.us.isa.ppinot.diagram2xml.Diagram2PPINotConverter;
-import es.us.isa.ppinot.diagram2xml.PPINotFactory;
+import es.us.isa.ppinot.resource.PPINOTModel2XmlConverter;
 import es.us.isa.ppinot.resource.PPINOTResource;
 import org.apache.batik.transcoder.AbstractTranscoder;
 import org.apache.batik.transcoder.TranscoderException;
@@ -26,19 +19,18 @@ import org.jboss.resteasy.spi.NotFoundException;
 import org.jboss.resteasy.spi.UnauthorizedException;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.oryxeditor.server.diagram.basic.BasicDiagram;
-import org.oryxeditor.server.diagram.basic.BasicDiagramBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.StringReader;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -55,34 +47,26 @@ public class ModelsResource {
     private ModelRepository modelRepository;
 
     @Autowired
+    private Model2XmlConverter model2XmlConverter;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
     private ServletContext context;
 
 
+    public ModelsResource(UserService userService, ServletContext context) {
+        this();
+        this.userService = userService;
+        this.context = context;
+        model2XmlConverter = new PPINOTModel2XmlConverter(context.getRealPath("/WEB-INF/xsd/BPMN20.xsd"));
+    }
 
     public ModelsResource() {
+        super();
         log.info("Loaded ModelsResource");
-        Diagram2BpmnConverter.setConstants(new Constants() {
-            @Override
-            public List<Class<? extends AbstractBpmnFactory>> getAdditionalFactoryClasses() {
-                return new ArrayList<Class<? extends AbstractBpmnFactory>>();
-            }
 
-            @Override
-            public List<Class<? extends PropertyListItem>> getAdditionalPropertyItemClasses() {
-                return new ArrayList<Class<? extends PropertyListItem>>();
-            }
-
-            @Override
-            public Map<String, String> getCustomNamespacePrefixMappings() {
-                Map<String, String> n = new HashMap<String, String>();
-                n.put("http://www.isa.us.es/ppinot", "ppinot");
-
-                return n;
-            }
-        });
     }
 
     public ModelRepository getModelRepository() {
@@ -225,29 +209,14 @@ public class ModelsResource {
             throw new RuntimeException("Model not valid");
         }
 
-        xml = transformToXml(jsonModel);
+        xml = model2XmlConverter.transformToXml(jsonModel).toString();
         m.setXml(xml);
+
         modelRepository.saveModel(m);
 
         return xml;
     }
 
-    private String transformToXml(JSONObject jsonModel) {
-        try {
-            BasicDiagram diagram = BasicDiagramBuilder.parseJson(jsonModel);
-            Diagram2BpmnConverter diagram2BpmnConverter = new Diagram2BpmnConverter(diagram, AbstractBpmnFactory.getFactoryClasses());
-            Definitions def = diagram2BpmnConverter.getDefinitionsFromDiagram();
-            Diagram2PPINotConverter ppiNotConverter = new Diagram2PPINotConverter(diagram, diagram2BpmnConverter, new PPINotFactory());
-            ppiNotConverter.transform();
-
-            Bpmn2XmlConverter xmlConverter = new Bpmn2XmlConverter(def, context.getRealPath("/WEB-INF/xsd/BPMN20.xsd"));
-            StringWriter x = xmlConverter.getXml();
-
-            return x.toString();
-        } catch(Exception e) {
-            throw new RuntimeException("Error transforming json model to XML", e);
-        }
-    }
 
     @Path("/models")
     @POST
@@ -311,7 +280,7 @@ public class ModelsResource {
         try {
             JSONObject jsonObject = new JSONObject(jsonXml);
             m.setModel(jsonObject);
-            m.setXml(transformToXml(jsonObject));
+            m.setXml(model2XmlConverter.transformToXml(jsonObject).toString());
         } catch (JSONException e) {
             throw new RuntimeException("The submitted model is not valid", e);
         } catch (Exception e) {
@@ -336,6 +305,6 @@ public class ModelsResource {
     @Path("/model/{id}/ppis")
     public PPINOTResource getPPIs(@PathParam("id") String id) {
         InputStream processReader = IOUtils.toInputStream(getProcess(id));
-        return new PPINOTResource(processReader, id, userService, modelRepository);
+        return new PPINOTResource(processReader, id, userService, model2XmlConverter, modelRepository);
     }
 }

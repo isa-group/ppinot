@@ -1,5 +1,7 @@
 package es.us.isa.ppinot.model;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import java.util.List;
  * @author Edelia
  *
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PPI {
 
 	// Propiedades con las que se define el PPI

@@ -14,6 +14,8 @@ public class PPISet {
     private List<PPI> ppis;
     private List<MeasureDefinition> measures;
 
+    public PPISet() {}
+
     public PPISet(String processId, Collection<PPI> ppis, Collection<MeasureDefinition> measures) {
         this.processId = processId;
         this.ppis = new ArrayList<PPI>(ppis);

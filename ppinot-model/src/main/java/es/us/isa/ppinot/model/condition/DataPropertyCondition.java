@@ -19,7 +19,12 @@ public class DataPropertyCondition extends ProcessInstanceCondition {
 	
 	// Possible states of the data object
 	private Set<RuntimeState> statesConsidered;
-	
+
+    public DataPropertyCondition () {
+        super();
+        statesConsidered = new HashSet<RuntimeState>();
+    }
+
 	/**
 	 * Constructor de la clase
 	 * 

@@ -16,7 +16,12 @@ public class SimpleTimeFilter extends ProcessInstanceFilter {
     private int frequency;
     private boolean relative;
 
+    public SimpleTimeFilter() {
+        super();
+    }
+
     public SimpleTimeFilter(Period period, int frequency, boolean relative) {
+        super();
         this.period = period;
         this.frequency = frequency;
         this.relative = relative;

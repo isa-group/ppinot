@@ -12,6 +12,10 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
         include=JsonTypeInfo.As.PROPERTY, property="kind")
 public class DerivedSingleInstanceMeasure extends DerivedMeasure {
 
+    public DerivedSingleInstanceMeasure() {
+        super();
+    }
+
     /**
      * Constructor de la clase
      * 

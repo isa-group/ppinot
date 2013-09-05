@@ -45,13 +45,14 @@ public abstract class AbstractPPINotFactory {
         return firstObject;
     }
 
-    protected List<String> getStringList(JSONObject jsonObject) {
+    protected List<String> getStringList(JSONObject jsonObject, String property) {
         List<String> result = new ArrayList<String>();
         if (jsonObject != null && jsonObject.has("items")) {
             try {
                 JSONArray array = jsonObject.getJSONArray("items");
                 for (int i = 0; i < array.length(); i++) {
-                    result.add(array.getString(i));
+                    JSONObject elem = array.getJSONObject(i);
+                    result.add(elem.getString(property));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -19,6 +19,7 @@ public class PpiFactory extends AbstractPPINotFactory {
         TPpi ppi = new TPpi();
 
         ppi.setId(shape.getResourceId());
+        ppi.setName(shape.getProperty("name"));
         addTarget(ppi, shape);
         addGoals(ppi, shape);
         addScope(ppi, shape);
@@ -103,7 +104,7 @@ public class PpiFactory extends AbstractPPINotFactory {
     }
 
     private void addGoals(TPpi ppi, GenericShape shape) {
-        List<String> goalsList = getStringList(shape.getPropertyJsonObject("goals"));
+        List<String> goalsList = getStringList(shape.getPropertyJsonObject("goals"), "goal");
         if (!goalsList.isEmpty()) {
             TPpi.Goals goals = new TPpi.Goals();
             goals.getGoal().addAll(goalsList);
@@ -113,7 +114,7 @@ public class PpiFactory extends AbstractPPINotFactory {
     }
 
     private void addInformed(TPpi ppi, GenericShape shape) {
-        List<String> informedList = getStringList(shape.getPropertyJsonObject("informed"));
+        List<String> informedList = getStringList(shape.getPropertyJsonObject("informed"), "inform");
         if (!informedList.isEmpty()) {
             TPpi.Informed informed = new TPpi.Informed();
             informed.getInform().addAll(informedList);

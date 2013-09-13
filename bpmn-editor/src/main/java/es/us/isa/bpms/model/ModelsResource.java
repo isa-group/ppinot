@@ -232,6 +232,11 @@ public class ModelsResource {
         }
 
         Model model = new Model(info.getModelId(), info.getName());
+
+        if (info.hasClone()) {
+            model.cloneFrom(modelRepository.getModelInfo(info.getCloneFrom()));
+        }
+
         model.setDescription(info.getDescription());
 
         if (modelRepository.addModel(model)) {

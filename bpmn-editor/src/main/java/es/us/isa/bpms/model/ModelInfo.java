@@ -19,6 +19,7 @@ public class ModelInfo {
     private String url;
     private String editor;
     private String description;
+    private String cloneFrom;
 
     public String getModelId() {
         return modelId;
@@ -74,6 +75,18 @@ public class ModelInfo {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getCloneFrom() {
+        return cloneFrom;
+    }
+
+    public void setCloneFrom(String cloneFrom) {
+        this.cloneFrom = cloneFrom;
+    }
+
+    public boolean hasClone() {
+        return cloneFrom != null && !"".equals(cloneFrom);
     }
 }
 

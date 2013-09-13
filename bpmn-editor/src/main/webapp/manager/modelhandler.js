@@ -23,14 +23,18 @@ function ModelHandler() {
                 success: function(data) {
                     that.models = data;
                     $(data).each(function() {
-                        that.modelsById[this.modelId] = this;
-                        that.processes[this.name] = this.url;
-                        that.editors[this.name] = this.editor;
+                        that.storeModelInfo(this);
                     });
                     queryingModels.resolve(data);
                 }
             });
             return queryingModels;
+        },
+
+        storeModelInfo: function(modelInfo) {
+            this.modelsById[modelInfo.modelId] = modelInfo;
+            this.processes[modelInfo.name] = modelInfo.url;
+            this.editors[modelInfo.name] = modelInfo.editor;
         },
 
         removeModel: function(id) {
@@ -41,12 +45,14 @@ function ModelHandler() {
         },
 
         addModel: function(model) {
+            var that = this;
             return $.ajax({
                     type: "POST",
                     url: this.modelsUrl,
                     contentType: "application/json",
                     data: $.toJSON(model),
                     success: function(data) {
+                        that.storeModelInfo(data);
                     }
                 });
 

@@ -56,16 +56,14 @@ var ModelList = {};
 
             if (NavBar.isLogged()) {
                 var remove = $("<a class='btn btn-mini btn-primary' href='#'><i class='icon-trash icon-white'></i> Delete model</a>").click(function() {
-                    $("#removeModelId").html(model.modelId);
-                    $("#acceptRemove").unbind().click(function() {
-                        console.log("Removed "+model.modelId);
-                        $("#removeModal").modal("hide");
-                        MODELHANDLER.removeModel(model.modelId);
-                        loadModels();
-                    });
-                    $("#removeModal").modal("show");
+                    removeModelDialog(model.modelId);
                 });
                 $("<li></li>").append(remove).appendTo(container);
+
+                var clone = $("<a class='btn btn-mini btn-primary' href='#'><i class='icon-th-large icon-white'></i> Clone model</a>").click(function() {
+                    openAddDialog("Clone " + model.modelId, {cloneFrom: model.modelId});
+                });
+                $("<li></li>").append(clone).appendTo(container);
             }
 
         }

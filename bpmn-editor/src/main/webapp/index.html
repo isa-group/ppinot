@@ -212,17 +212,64 @@
 <script src="libs/jquery.json-2.3.js"></script>
 
 <script type="text/javascript" charset="utf-8">
-// <![CDATA[
+
+    // <![CDATA[
+
+
+var openAddDialog = function (dialogTitle, params) {
+    $("#name").val("");
+    $("#description").val("");
+    $("#modelId").val("");
+    $("#errorAdding").hide();
+
+    $("#addModalLabel").html(dialogTitle);
+
+    $("#addModelForm").unbind().submit(function () {
+        doAddModel(params);
+        return false;
+    });
+
+    $("#addModal").modal("show");
+};
+
+var doAddModel = function (params) {
+    var model = $.extend({
+                            modelId: $("#modelId").val(),
+                            name: $("#name").val(),
+                            description: $("#description").val()
+                        }, params);
+
+    MODELHANDLER.addModel(model).done(function(data) {
+        ModelList.loadModels($("#models"));
+        $("#addModal").modal("hide");
+        openOpenModelDialog(data.editor);
+    }).fail(function() {
+        $("#errorAdding").show();
+    });
+};
+
+var openOpenModelDialog = function (url) {
+    $("#openModel").attr("href", url);
+    $("#openModelModal").modal("show");
+};
+
+var removeModelDialog = function(modelId) {
+    $("#removeModelId").html(modelId);
+    $("#acceptRemove").unbind().click(function() {
+        MODELHANDLER.removeModel(modelId).done(function() {
+            console.log("Removed "+modelId);
+            ModelList.loadModels($("#models"));
+            $("#removeModal").modal("hide");
+        });
+    });
+    $("#removeModal").modal("show");
+};
+
 
 $(document).ready(function() {
-    var modelHandler = new ModelHandler();
 
     $("#add").click(function () {
-        $("#name").val("");
-        $("#description").val("");
-        $("#modelId").val("");
-        $("#errorAdding").hide();
-        $("#addModal").modal("show");
+        openAddDialog("Add new model", {});
     });
 
     $("#openModel").click( function () {
@@ -233,24 +280,6 @@ $(document).ready(function() {
         $("#modelId").val(JSON.stringify($("#name").val()).replace( /\W/g , ''));
     });
 
-    $("#addModelForm").submit(function () {
-        var model = {
-            modelId: $("#modelId").val(),
-            name: $("#name").val(),
-            description: $("#description").val()
-        };
-
-        modelHandler.addModel(model).done(function(data) {
-            ModelList.loadModels($("#models"));
-            $("#addModal").modal("hide");
-            $("#openModel").attr("href", data.editor);
-            $("#openModelModal").modal("show");
-        }).fail(function() {
-                $("#errorAdding").show();
-        });
-
-        return false;
-    });
 
     NavBar.onLogin.add(function () {
         ModelList.loadModels($("#models"));

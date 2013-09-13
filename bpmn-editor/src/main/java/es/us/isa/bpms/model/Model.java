@@ -29,6 +29,17 @@ public class Model {
         setEmptyModel();
     }
 
+    public void cloneFrom(Model clone) {
+        this.description = clone.description;
+        try {
+            this.model = new JSONObject(clone.model.toString());
+        } catch (JSONException e) {
+            throw new RuntimeException("Error cloning JSON Model", e);
+        }
+        this.xml = clone.xml;
+        this.svg = clone.svg;
+    }
+
     public String getJSON() throws JSONException {
         JSONObject jsonModel = new JSONObject();
         jsonModel.put("modelId", modelId);

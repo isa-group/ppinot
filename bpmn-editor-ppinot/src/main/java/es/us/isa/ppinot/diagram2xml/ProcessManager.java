@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ProcessHandler
+ * ProcessManager
  *
  * @author resinas
  */
-public interface ProcessHandler {
+public interface ProcessManager {
     String getProcessIdOfElement(Object element);
 
     List<String> getProcessIds();

@@ -1,5 +1,8 @@
 package es.us.isa.ppinot.diagram2xml;
 
+import de.hpi.bpmn2_0.factory.AbstractBpmnFactory;
+import de.hpi.bpmn2_0.model.extension.PropertyListItem;
+import de.hpi.bpmn2_0.transformation.Constants;
 import de.hpi.bpmn2_0.transformation.Diagram2BpmnConverter;
 import es.us.isa.ppinot.xml.*;
 import org.oryxeditor.server.diagram.basic.BasicDiagram;
@@ -16,7 +19,30 @@ import java.util.*;
  * @author resinas
  */
 public class Diagram2PPINotConverter {
-    private final ProcessHandler handler;
+
+    public static Constants getConstants() {
+        return new Constants() {
+            @Override
+            public List<Class<? extends AbstractBpmnFactory>> getAdditionalFactoryClasses() {
+                return new ArrayList<Class<? extends AbstractBpmnFactory>>();
+            }
+
+            @Override
+            public List<Class<? extends PropertyListItem>> getAdditionalPropertyItemClasses() {
+                return new ArrayList<Class<? extends PropertyListItem>>();
+            }
+
+            @Override
+            public Map<String, String> getCustomNamespacePrefixMappings() {
+                Map<String, String> n = new HashMap<String, String>();
+                n.put("http://www.isa.us.es/ppinot", "ppinot");
+
+                return n;
+            }
+        };
+    }
+
+    private final ProcessManager handler;
     private GenericDiagram<?, ?> diagram;
 
     private Map<String, JAXBElement<?>> elementsById;

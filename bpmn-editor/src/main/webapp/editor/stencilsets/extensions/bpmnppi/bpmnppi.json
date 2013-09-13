@@ -377,30 +377,30 @@
                                 {
                                     "id":"dailyScope",
                                     "title":"Daily",
-                                    "value":"Daily"
+                                    "value":"daily"
                                 },
                                 {
                                     "id":"weeklyScope",
                                     "title":"Weekly",
-                                    "value":"Weekly"
+                                    "value":"weekly"
                                 },
                                 {
                                     "id":"monthlyScope",
                                     "title":"Monthly",
-                                    "value":"Monthly"
+                                    "value":"monthly"
                                 },
                                 {
                                     "id":"yearlyScope",
                                     "title":"Yearly",
-                                    "value":"Yearly"
+                                    "value":"yearly"
                                 }
 							]
 						},
 						{
 							"id":"frequencyScope",
 							"name":"Frequency",
-							"type":"Integer",
-							"value":"1",
+							"type":"String",
+							"value":"",
 							"width":100,
 							"optional":false
 						},
@@ -408,11 +408,21 @@
 							"id":"relativeScope",
 							"name":"Relative",
 							"type":"Boolean",
-							"value":"false",
+							"value":"",
 							"width":100,
 							"optional":false
 						}
 					]
+				},
+				{
+					"id":"source",
+					"type":"String",
+					"title":"Source",
+					"value":"",
+					"description":"Identifies the source of the values of the PPI",
+					"readonly":false,
+					"optional":true,
+					"length":""
 				},
 				{
 					"id":"responsible",
@@ -452,7 +462,7 @@
 					"readonly":false,
 					"optional":true,
 					"length":""
-				},
+				}
 			]
 		},
 		{

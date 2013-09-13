@@ -74,15 +74,13 @@ angular.module('measuresModule', ['ui.bootstrap'])
       replace: true,
       transclude: true,
       scope: { ngModel: '=', placeholder: '=', add: '='},
-      template: '<ul>' +
+      template: '<span><ul style="margin-bottom:0px">' +
                   '<li ng-repeat="el in ngModel">' +
                      '<input type="text" class="templatefield" ng-model="el.elem" placeholder="{{placeholder}}" />'+
                      '<a class="btn-mini" ng-click="removeElem(ngModel, $index);"><i class="icon-trash"></i></a>'+
                   '</li>' +
-                  '<li>' +
-                     '<a class="btn-mini" ng-click="addElem(ngModel);">{{add}}</a>' +
-                  '</li>' +
-                '</ul>',
+                  '</ul>' +
+                  '<a class="btn-mini" ng-click="addElem(ngModel);" tooltip="{{add}}"><i class="icon-pencil"></i></a></span>',
       controller: function($scope, $element) {
         $scope.addElem = function(elems) {
             elems.push({elem:""});
@@ -131,5 +129,79 @@ angular.module('measuresModule', ['ui.bootstrap'])
 
       }
 
+    }
+  })
+  .directive('scope', function(){
+    return {
+      restrict: 'E',
+      replace: true,
+      transclude: true,
+      require: '?ngModel',
+      scope: { ngModel:'=' },
+      template: '<span>'+
+                    '<span ng-switch="ngModel.kind">' +
+                      '<span ng-switch-when="LastInstancesFilter">the last {{empty(ngModel.numberOfInstances)}} instances</span>' +
+                      '<span ng-switch-when="SimpleTimeFilter">those finished {{relativeText(ngModel.relative)}} {{empty(ngModel.frequency)}} {{empty(periods[ngModel.period])}}</span>' +
+                      '<span ng-switch-default>all</span>' +
+                    '</span> '+
+                    '<a ng-click="toggleEdit()" tooltip="Edit scope"><i class="icon-pencil"></i></a>' +
+                    '<form class="form-inline" ng-show="isEditing">' +
+                        '<select ng-model="ngModel.kind" ng-options="c.value as c.name for c in kinds"/>' +
+                        ' <input ng-show="ngModel.kind==\'LastInstancesFilter\'" type="text" class="input-medium" placeholder="Number of instances" ng-model="ngModel.numberOfInstances"/> '+
+                        ' <select ng-show="ngModel.kind==\'SimpleTimeFilter\'" ng-model="ngModel.relative" ng-options="c.value as c.name for c in relative"/>' +
+                        ' <input ng-show="ngModel.kind==\'SimpleTimeFilter\'" type="text" class="input-small" placeholder="Frequency" ng-model="ngModel.frequency"/> '+
+                        ' <select ng-show="ngModel.kind==\'SimpleTimeFilter\'" ng-model="ngModel.period" ng-options="key as value for (key, value) in periods"/>' +
+                    '</form>'+
+                '</span>',
+      controller: function($scope) {
+
+        $scope.isEditing = false;
+
+        $scope.periods = {
+            DAILY: "day",
+            WEEKLY: "week",
+            MONTHLY: "month",
+            YEARLY: "year"
+        }
+
+        $scope.relative = [
+            {name: "In the last", value: true},
+            {name: "Every", value: false}
+        ];
+
+        $scope.kinds = [
+            {name: "All", value:"other"},
+            {name: "Last instances", value:"LastInstancesFilter"},
+            {name: "Time", value:"SimpleTimeFilter"}
+        ];
+
+        $scope.toggleEdit = function() {
+            $scope.isEditing = !$scope.isEditing;
+        }
+
+        $scope.empty = function(text) {
+            var result = text;
+            if (text == null || text == "") {
+                result = "...";
+            }
+            return result;
+        }
+
+        $scope.relativeText = function(relative) {
+            var text = "";
+            if (relative) {
+                text = "in the last";
+            }
+            else {
+                text = "every";
+            }
+            return text;
+        }
+
+        if ($scope.ngModel == null) {
+            $scope.ngModel = {kind: "other"};
+        }
+
+      }
     }
   });

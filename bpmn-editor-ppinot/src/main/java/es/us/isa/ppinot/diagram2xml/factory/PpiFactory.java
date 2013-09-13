@@ -72,9 +72,9 @@ public class PpiFactory extends AbstractPPINotFactory {
 
     private JAXBElement<? extends TScope> getTimeFilter(GenericShape shape) {
         JAXBElement<TSimpleTimeFilter> element = null;
-        if (shape.hasProperty("timeScope")) {
+        if (shape.hasProperty("timescope")) {
 
-            JSONObject time = getFirstObject(shape.getPropertyJsonObject("timeScope"));
+            JSONObject time = getFirstObject(shape.getPropertyJsonObject("timescope"));
             if (time != null) {
                 TSimpleTimeFilter filter = new TSimpleTimeFilter();
                 try {
@@ -95,8 +95,8 @@ public class PpiFactory extends AbstractPPINotFactory {
     private JAXBElement<? extends TScope> getLastInstancesFilter(GenericShape shape) {
         JAXBElement<TLastInstancesFilter> element = null;
 
-        if (shape.hasProperty("lastInstancesScope")) {
-            int lastInstances = shape.getPropertyInteger("lastInstancesScope");
+        if (shape.hasProperty("lastinstancesscope")) {
+            int lastInstances = shape.getPropertyInteger("lastinstancesscope");
 
             if (lastInstances != 0) {
                 TLastInstancesFilter filter = new TLastInstancesFilter();

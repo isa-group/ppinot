@@ -26,7 +26,7 @@ import java.util.Map;
  *
  * @author resinas
  */
-public class BpmnConverterProcess implements ProcessHandler {
+public class BpmnConverterProcess implements ProcessManager {
     private Diagram2BpmnConverter bpmnConverter;
 
     public BpmnConverterProcess(Diagram2BpmnConverter bpmnConverter) {

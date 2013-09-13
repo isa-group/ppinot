@@ -16,7 +16,7 @@ import java.util.Map;
  *
  * @author resinas
  */
-public class BpmnHandlerProcess implements ProcessHandler {
+public class BpmnHandlerProcess implements ProcessManager {
     private Bpmn20ModelHandler handler;
 
     public BpmnHandlerProcess(Bpmn20ModelHandler handler) {

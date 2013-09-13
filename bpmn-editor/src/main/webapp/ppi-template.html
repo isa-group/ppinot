@@ -10,7 +10,7 @@
             padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
           }
 
-          input.templatefield{
+          input.templatefield, .templatefield{
 	      	border: 0;
 	      	box-shadow: none;
 	      	-webkit-box-shadow: none;
@@ -20,10 +20,10 @@
             font-color: black;
             width: 95%;
 	      }
-	      input.templatefield:focus {
+	      input.templatefield:focus, .templatefield:focus {
 	      	border: 1px solid rgba(82, 168, 236, 0.8);
 	      }
-	      input.templatefield:hover {
+	      input.templatefield:hover, .templatefield:hover{
 		    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
 		    -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
 		    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
@@ -86,6 +86,7 @@
     </div>
 
 <div class="container">
+
 <div ng-repeat="processPPIs in ppis">
 	<h2>PPIs of {{model.processes[processPPIs.processId].processName}}</h2>
     <div ng-repeat="ppi in processPPIs.ppis">
@@ -110,15 +111,11 @@
 		   		</tr>
 		   		<tr>
 		   			<th>Target:</th>
-		   			<td>The PPI value must be <target ng-model="ppi.target"></target> {{ppi.measuredBy.unitOfMeasure}}</td> 
+		   			<td>The PPI value must be <target ng-model="ppi.target"></target> {{ppi.measuredBy.unitOfMeasure}}</td>
 		   		</tr>
 		   		<tr>
 		   			<th>Scope:</th>
-		   			<td>The process instances considered for this PPI are all</td>
-		   		</tr>
-		   		<tr>
-		   			<th>Source:</th>
-		   			<td>{{ppi.source}}</td>
+		   			<td>The process instances considered for this PPI are <scope ng-model="ppi.scope"/></td>
 		   		</tr>
 		   		<tr>
 		   			<th>Responsible:</th>
@@ -132,15 +129,16 @@
 		   		</tr>
 		   		<tr>
 		   			<th>Comments:</th>
-		   			<td><input type="text" class="templatefield" ng-model="ppi.comments" placeholder="Additional comments about the PPI"/></td>
+		   			<td><textarea class="templatefield" ng-model="ppi.comments" rows="4" placeholder="Additional comments about the PPI"></textarea></td>
 		   		</tr>
 		</table>	
 	</div>
+</div>
+</div>
     <div class="well" style="text-align:right;">
-        <input class="btn btn-primary" type="submit" ng-click="save();" value="Save PPI">
+        <input class="btn btn-primary" type="submit" ng-click="save();" value="Save PPIs">
     </div>
-</div>
-</div>
+
     <script type="text/javascript" charset="utf-8">
         // <![CDATA[
 

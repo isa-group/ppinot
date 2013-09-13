@@ -36,6 +36,29 @@ function saveArrays(ppiSet) {
 
     assign(ppiSet, "goals", "ngGoals", saveTransform);
     assign(ppiSet, "informed", "ngInformed", saveTransform);
+    cleanScope(ppiSet);
+}
+
+function cleanScope(ppiSet) {
+    iteratePPIs(ppiSet, function(ppi) {
+        if (ppi.scope != null) {
+            var scope = {kind: ppi.scope.kind};
+
+            if (ppi.scope.kind == "LastInstancesFilter") {
+                scope.numberOfInstances = ppi.scope.numberOfInstances;
+            }
+            else if (ppi.scope.kind == "SimpleTimeFilter") {
+                scope.relative = ppi.scope.relative;
+                scope.frequency = ppi.scope.frequency;
+                scope.period = ppi.scope.period;
+            }
+            else {
+                scope = null;
+            }
+
+            ppi.scope = scope;
+        }
+    });
 }
 
 function TemplatesCtrl($scope, $location, $http) {
@@ -66,23 +89,6 @@ function TemplatesCtrl($scope, $location, $http) {
     $scope.save = function() {
         saveArrays($scope.ppis);
         $http.put($scope.model.url+"/ppis", $scope.ppis);
-    }
-
-    $scope.add = function() {
-    	ppi = {
-    		id: "00",
-    		name: "PPI descriptive name",
-    		description: "PPI description",
-    		goals: "strategic or operational goals the PPI is related to",
-    		measuredBy: {unit: "unit"},
-    		target: "The PPI value must",
-    		scope: "The process instances considered for this PPI are",
-    		source: "source from which the PPI measure can be obtained",
-    		responsible: "role | department | organization | person",
-    		informed: "role | department | organization | person",
-    		comments: "additional comments about the PPI"
-    	};
-    	$scope.ppis.push(ppi);
     }
 
     // Loads the current model

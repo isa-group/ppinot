@@ -85,18 +85,18 @@
 
 <div class="container">
 
+<h2>PPIs of {{models[currentModel].name}}</h2>
 <div ng-repeat="processPPIs in ppis">
-	<h2>PPIs of {{model.processes[processPPIs.processId].processName}}</h2>
     <div ng-repeat="ppi in processPPIs.ppis">
 		<table class="table table-bordered">
 				<tr>
-					<th style="width:10em">PPI:</th>						
-					<td>{{ppi.id}}</td> 
+					<th style="width:10em"><span tooltip="Id: {{ppi.id}}" tooltip-placement="right">PPI:</span></th>
+                    <td><input type="text" class="templatefield" ng-model="ppi.name" placeholder="PPI descriptive name"/></td>
 			   	</tr>		   	
 				<tr>
-					<th>Name:</th>						
-					<td><input type="text" class="templatefield" ng-model="ppi.name" placeholder="PPI descriptive name"/></td>
-			   	</tr>		   	
+					<th>Process:</th>
+                    <td>{{model.processes[processPPIs.processId].processName}}</td>
+			   	</tr>
 		   		<tr>
 		   			<th>Goals:</th>
 		   			<td>

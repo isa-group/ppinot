@@ -65,7 +65,7 @@ angular.module('loginModule', ['ui.bootstrap'])
       link: function(scope, element, attrs) {
         var logged = false;
         var logOutMenu = angular.element(element.children()[1]);
-        var logout = angular.element('<a id="logout" href="#"><i class="icon-off"></i> Logout</a>');
+        var logout = angular.element('<a id="logout" href="index.html"><i class="icon-off"></i> Logout</a>');
         var menu = angular.element('<ul class="dropdown-menu"></ul>').append(angular.element("<li></li>").append(logout));
 
         logout.on('click', function() {

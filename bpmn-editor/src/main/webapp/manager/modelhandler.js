@@ -55,7 +55,15 @@ function ModelHandler() {
                         that.storeModelInfo(data);
                     }
                 });
+        },
 
+        updateShares: function(model) {
+            return $.ajax({
+               type: "PUT",
+               url: model.url + "/share",
+               contentType: "application/json",
+               data: $.toJSON(model.shared)
+            });
         }
 
     });

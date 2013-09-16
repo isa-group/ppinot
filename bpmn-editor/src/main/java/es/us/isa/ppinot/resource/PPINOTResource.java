@@ -53,7 +53,7 @@ public class PPINOTResource {
     public Collection<PPISet> storePPIs(Collection<PPISet> ppiSets) {
 //        if (! userService.isLogged())
 //            throw new UnauthorizedException("User not logged");
-        Model m = modelRepository.getModelInfo(id);
+        Model m = modelRepository.getModel(id);
 
         try {
             BasicDiagram diagram = BasicDiagramBuilder.parseJson(m.getModel());
@@ -63,7 +63,7 @@ public class PPINOTResource {
             JSONObject diagramJSON = diagram.getJSON();
             m.setModel(diagramJSON);
             m.setXml(converter.transformToXml(diagramJSON).toString());
-            modelRepository.saveModel(m);
+            modelRepository.saveModel(id, m);
         } catch (JSONException e) {
             log.warning("Could not load model of  " + id);
             log.warning(e.toString());

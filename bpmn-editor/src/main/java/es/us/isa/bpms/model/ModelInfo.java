@@ -3,6 +3,8 @@ package es.us.isa.bpms.model;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+import java.util.Set;
+
 /**
  * User: resinas
  * Date: 09/04/13
@@ -20,6 +22,8 @@ public class ModelInfo {
     private String editor;
     private String description;
     private String cloneFrom;
+    private Set<String> shared;
+    private boolean owner;
 
     public String getModelId() {
         return modelId;
@@ -87,6 +91,22 @@ public class ModelInfo {
 
     public boolean hasClone() {
         return cloneFrom != null && !"".equals(cloneFrom);
+    }
+
+    public Set<String> getShared() {
+        return shared;
+    }
+
+    public void setShared(Set<String> shared) {
+        this.shared = shared;
+    }
+
+    public boolean isOwner() {
+        return owner;
+    }
+
+    public void setOwner(boolean owner) {
+        this.owner = owner;
     }
 }
 

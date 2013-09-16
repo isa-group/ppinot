@@ -137,7 +137,7 @@
         <h3 id="removeModalLabel">Delete model</h3>
     </div>
     <div class="modal-body">
-        <p>Model <span id="removeModelId"></span> is going to be deleted. Do you want to continue?</p>
+        <p>Model <span id="removeModelId"></span> is going to be deleted. <span id="shareHint"></span> Do you want to continue?</p>
     </div>
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
@@ -188,6 +188,33 @@
     </form>
 </div>
 
+<div id="shareModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="shareModalLabel">Share model</h3>
+    </div>
+    <div class="modal-body">
+        <div class="alert alert-error hide" id="errorSharing">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Warning!</strong> There was an error sharing the model.
+        </div>
+        <form action="#" method="post" id="shareModelForm" class="form-inline" accept-charset="utf-8">
+            <label for="share">
+                Add share:
+            </label>
+            <input name="share" class="input-xlarge" value="" id="share" placeholder="Enter the email address" required="true" type="email">
+            <button type="submit" class="btn">Add</button>
+        </form>
+
+        <div>This model is shared with:</div>
+        <ul class="unstyled" id="sharedList"></ul>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button id="acceptShare" class="btn btn-primary">Accept</button>
+    </div>
+</div>
+
 <div id="openModelModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="openModelModalLabel" aria-hidden="true">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -213,7 +240,48 @@
 
 <script type="text/javascript" charset="utf-8">
 
-    // <![CDATA[
+// <![CDATA[
+
+var openShareDialog = function (model) {
+    $("#shareModalLabel").html("Share model: " + model.name);
+    var shareList = model.shared;
+    $("#shareModelForm").unbind().submit(function () {
+        shareList.push($("#share").val());
+        $("#share").val("");
+        displayShared(shareList);
+        return false;
+    });
+
+    $("#acceptShare").unbind().click(function () {
+        model.shared = shareList;
+        MODELHANDLER.updateShares(model).success(function(data) {
+            $("#shareModal").modal("hide");
+        }).fail(function() {
+            $("#errorSharing").show();
+        });
+    });
+
+    displayShared(shareList);
+
+    $("#shareModal").modal("show");
+};
+
+var displayShared = function(shareList) {
+    var ul = $("#sharedList");
+    ul.empty();
+    if (shareList.length == 0) {
+        ul.append($("<li>No one</li>"));
+    }
+    $(shareList).each(function (key) {
+        var remove = $('<a class="btn-mini" href="#" tooltip="Remove share"><i class="icon-trash"></i></a>');
+        remove.click(function () {
+            shareList.splice(key, 1);
+            displayShared(shareList);
+        });
+        var li = $('<li>'+this+'</li>').append(remove);
+        ul.append(li);
+    });
+};
 
 
 var openAddDialog = function (dialogTitle, params) {
@@ -253,8 +321,17 @@ var openOpenModelDialog = function (url) {
     $("#openModelModal").modal("show");
 };
 
-var removeModelDialog = function(modelId) {
-    $("#removeModelId").html(modelId);
+var removeModelDialog = function(model) {
+    var modelId = model.modelId;
+    $("#removeModelId").html("<em>"+model.name+"</em>");
+    var shareHint = "";
+    if (model.owner) {
+        shareHint = model.shared.length == 0 ? "" : "It will also be removed to all the users that share this model.";
+    } else {
+        shareHint = "The original model will not be removed.";
+    }
+    $("#shareHint").html(shareHint);
+
     $("#acceptRemove").unbind().click(function() {
         MODELHANDLER.removeModel(modelId).done(function() {
             console.log("Removed "+modelId);

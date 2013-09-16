@@ -1,16 +1,20 @@
 package es.us.isa.bpms.model;
 
+import es.us.isa.bpms.repository.Storeable;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * User: resinas
  * Date: 13/05/13
  * Time: 13:32
  */
-public class Model {
+public class Model implements Storeable{
     private String name;
     private String description;
     private String modelId;
@@ -19,14 +23,18 @@ public class Model {
     private String xml;
     private String svg;
 
-    public Model() {
-        revision = 1;
+    private Set<String> shared;
+
+    private Model() {
+        this.revision = 1;
+        this.shared = new HashSet<String>();
     }
 
     public Model(String modelId, String name) {
         this.name = name;
         this.modelId = modelId;
-        setEmptyModel();
+        this.shared = new HashSet<String>();
+        loadEmptyModel();
     }
 
     public void cloneFrom(Model clone) {
@@ -40,6 +48,7 @@ public class Model {
         this.svg = clone.svg;
     }
 
+    @Override
     public String getJSON() throws JSONException {
         JSONObject jsonModel = new JSONObject();
         jsonModel.put("modelId", modelId);
@@ -49,11 +58,12 @@ public class Model {
         jsonModel.put("model", model);
         jsonModel.put("xml", xml);
         jsonModel.put("svg", svg);
+        jsonModel.put("shared", shared);
 
         return jsonModel.toString();
     }
 
-    public void setEmptyModel() {
+    public void loadEmptyModel() {
         JSONObject jsonModel = new JSONObject();
         try {
             jsonModel.put("ssextensions", Arrays.asList("http://www.isa.us.es/ppiontology/stencilsets/extensions/bpmnppi#"));
@@ -97,6 +107,13 @@ public class Model {
 
         if (jsonModel.has("svg"))
             m.setSvg(jsonModel.getString("svg"));
+
+        if (jsonModel.has("shared")) {
+            JSONArray shared = jsonModel.getJSONArray("shared");
+            for (int i = 0; i < shared.length(); i++) {
+                m.shared.add(shared.getString(i));
+            }
+        }
 
         return m;
     }
@@ -155,5 +172,26 @@ public class Model {
 
     public void setSvg(String svg) {
         this.svg = svg;
+    }
+
+    public Set<String> getShared() {
+        return shared;
+    }
+
+    public void setShared(Set<String> shared) {
+        this.shared = shared;
+    }
+
+    public Set<String> differenceShared(Model m) {
+        Set<String> difference = new HashSet<String>(this.shared);
+        if (m != null) {
+            difference.removeAll(m.shared);
+        }
+
+        return difference;
+    }
+
+    public boolean sameSharedAs(Model m) {
+        return m != null && shared.equals(m.shared);
     }
 }

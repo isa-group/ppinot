@@ -8593,7 +8593,7 @@ ORYX.Core.StencilSet.StencilSet = Clazz.extend({
                         pps[pp.name] = pp.properties;
                     }).bind(this));
                 }
-				
+
 				var defaultPosition = this._stencils.keys().size();
 				//load new stencils
 				if(jsonExtension.stencils) {
@@ -24644,7 +24644,8 @@ ORYX.Plugins.Save = Clazz.extend({
 		}
 		
 		var modelMeta = this.facade.getModelMetaData();
-		var reqURI = modelMeta.modelHandler;
+		//var reqURI = modelMeta.modelHandler;
+		var reqURI = modelMeta.id;
 
 
 		// Get the stencilset
@@ -24963,8 +24964,8 @@ ORYX.Plugins.Save = Clazz.extend({
 
 		//new Ajax.Request(window.location.href.replace(/#.*/g, "") + "&data", {
 
-		//new Ajax.Request("../service/model/" + modelMeta.modelId + "/json", {
-		new Ajax.Request(ORYX.CONFIG.SERVER_MODEL_HANDLER + "/" + modelMeta.modelId + "/json", {
+		//new Ajax.Request(ORYX.CONFIG.SERVER_MODEL_HANDLER + "/" + modelMeta.modelId + "/json", {
+		new Ajax.Request(modelMeta.id, {
             method: 'get',
             asynchronous: true,
 			requestHeaders: {
@@ -25024,7 +25025,8 @@ ORYX.Plugins.Save = Clazz.extend({
 		var saveUri;
 		if(forceNew == false) {
 		    // "../service/model" + params.id + "/save"
-			saveUri = ORYX.CONFIG.SERVER_MODEL_HANDLER + "/" + params.id;
+			//saveUri = ORYX.CONFIG.SERVER_MODEL_HANDLER + "/" + params.id;
+			saveUri = url;
 		} else {
 		    // "../service/model/new"
 			saveUri = ORYX.CONFIG.SERVER_MODEL_HANDLER + ORYX.CONFIG.ORYX_NEW_URL;

@@ -38,6 +38,10 @@ var ModelList = {};
                 title.append("<a target='_blank' href='"+model.editor+"'>"+model.name+"</a>");
             else
                 title.append(model.name);
+
+            if (! model.owner) {
+                title.append(" <small>(Shared model)</small>")
+            }
         },
 
         _addActions : function(model, container) {
@@ -56,14 +60,21 @@ var ModelList = {};
 
             if (NavBar.isLogged()) {
                 var remove = $("<a class='btn btn-mini btn-primary' href='#'><i class='icon-trash icon-white'></i> Delete model</a>").click(function() {
-                    removeModelDialog(model.modelId);
+                    removeModelDialog(model);
                 });
                 $("<li></li>").append(remove).appendTo(container);
 
                 var clone = $("<a class='btn btn-mini btn-primary' href='#'><i class='icon-th-large icon-white'></i> Clone model</a>").click(function() {
-                    openAddDialog("Clone " + model.modelId, {cloneFrom: model.modelId});
+                    openAddDialog("Clone " + model.name, {cloneFrom: model.modelId});
                 });
                 $("<li></li>").append(clone).appendTo(container);
+
+                if (model.owner) {
+                    var share = $("<a class='btn btn-mini btn-primary' href='#'><i class='icon-share-alt icon-white'></i> Share model</a>").click(function() {
+                        openShareDialog(model);
+                    });
+                    $("<li></li>").append(share).appendTo(container);
+                }
             }
 
         }

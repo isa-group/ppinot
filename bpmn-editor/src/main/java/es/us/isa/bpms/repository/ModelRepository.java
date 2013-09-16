@@ -11,12 +11,12 @@ import java.util.List;
  * Time: 09:28
  */
 public interface ModelRepository {
-    public Model getModelInfo(String id);
+    public Model getModel(String id);
 
     public List<String> listModels();
     public InputStream getModelReader(String id);
 
     public boolean addModel(Model model);
     public boolean removeModel(String id);
-    public void saveModel(Model model);
+    public void saveModel(String id, Model model);
 }

@@ -30,6 +30,7 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -86,7 +87,7 @@ public class ModelsResource {
 
         for (String modelId : processes) {
 
-            ModelInfo modelInfo = createProcessInfo(modelId, uriInfo);
+            ModelInfo modelInfo = createModelInfo(modelId, uriInfo);
 
             result.add(modelInfo);
         }
@@ -94,16 +95,18 @@ public class ModelsResource {
         return result;
     }
 
-    private ModelInfo createProcessInfo(String modelId, UriInfo uriInfo) {
+    private ModelInfo createModelInfo(String modelId, UriInfo uriInfo) {
         UriBuilder ub = uriInfo.getBaseUriBuilder().path(this.getClass()).path(this.getClass(), "getProcess");
         URI uri = ub.build(modelId);
 
         ModelInfo modelInfo = new ModelInfo(modelId, uri.toString());
 
         try {
-            Model m = modelRepository.getModelInfo(modelId);
+            Model m = modelRepository.getModel(modelId);
             modelInfo.setName(m.getName());
             modelInfo.setDescription(m.getDescription());
+            modelInfo.setShared(m.getShared());
+            modelInfo.setOwner(modelId.equals(m.getModelId()));
 
             if (m.getModel() != null) {
                 UriBuilder ubEditor = uriInfo.getBaseUriBuilder().path(EditorResource.class).queryParam("id", modelId);
@@ -137,7 +140,7 @@ public class ModelsResource {
     @GET
     @Produces("image/svg+xml")
     public String getProcessSvg(@PathParam("id") String id) {
-        Model m = modelRepository.getModelInfo(id);
+        Model m = modelRepository.getModel(id);
 
         return m.getSvg();
     }
@@ -181,7 +184,7 @@ public class ModelsResource {
     @Produces(MediaType.APPLICATION_XML)
     @GET
     public String getProcessXml(@PathParam("id") String id) {
-        Model m = modelRepository.getModelInfo(id);
+        Model m = modelRepository.getModel(id);
 
         if (m == null) {
             throw new org.jboss.resteasy.spi.NotFoundException("Model not found");
@@ -212,7 +215,12 @@ public class ModelsResource {
         xml = model2XmlConverter.transformToXml(jsonModel).toString();
         m.setXml(xml);
 
-        modelRepository.saveModel(m);
+        try {
+            modelRepository.saveModel(m.getModelId(), m);
+        } catch (Exception e) {
+            log.warning("Error saving model");
+            log.warning(e.toString());
+        }
 
         return xml;
     }
@@ -234,13 +242,13 @@ public class ModelsResource {
         Model model = new Model(info.getModelId(), info.getName());
 
         if (info.hasClone()) {
-            model.cloneFrom(modelRepository.getModelInfo(info.getCloneFrom()));
+            model.cloneFrom(modelRepository.getModel(info.getCloneFrom()));
         }
 
         model.setDescription(info.getDescription());
 
         if (modelRepository.addModel(model)) {
-            ModelInfo modelInfo = createProcessInfo(info.getModelId(), uriInfo);
+            ModelInfo modelInfo = createModelInfo(info.getModelId(), uriInfo);
             r = Response.ok(modelInfo, MediaType.APPLICATION_JSON_TYPE).build();
         }
         else {
@@ -266,21 +274,23 @@ public class ModelsResource {
     }
 
 
-    @Path("/model/{id}")
+    @Path("/model/{id}/json")
     @Produces(MediaType.APPLICATION_JSON)
     @PUT
-    public InputStream getProcessJson(@PathParam("id") String id, @FormParam("json_xml") String jsonXml, @FormParam("name") String name, @FormParam("type") String type, @FormParam("description") String description, @FormParam("svg_xml") String svgXml) {
+    public InputStream updateModel(@PathParam("id") String id, @FormParam("json_xml") String jsonXml, @FormParam("name") String name, @FormParam("type") String type, @FormParam("description") String description, @FormParam("svg_xml") String svgXml) {
         log.info("Saving name: "+name);
         log.info("Saving jsonXML: " + jsonXml);
 
         if (! userService.isLogged())
             throw new UnauthorizedException("User not logged");
 
+        Model m = modelRepository.getModel(id);
+        if (m == null) {
+            throw new org.jboss.resteasy.spi.NotFoundException("Model not found");
+        }
 
-        Model m = new Model();
         m.setName(name);
         m.setDescription(description);
-        m.setModelId(id);
         m.setSvg(svgXml);
         try {
             JSONObject jsonObject = new JSONObject(jsonXml);
@@ -289,14 +299,40 @@ public class ModelsResource {
         } catch (JSONException e) {
             throw new RuntimeException("The submitted model is not valid", e);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.warning(e.toString());
         }
 
         if (jsonXml != null) {
-            modelRepository.saveModel(m);
+            modelRepository.saveModel(id, m);
         }
 
         return modelRepository.getModelReader(id);
+    }
+
+    @Path("/model/{id}/share")
+    @Produces(MediaType.APPLICATION_JSON)
+    @PUT
+    public List<String> updateShare(@PathParam("id") String id, List<String> shares) {
+        log.info("Updating share " + id);
+
+        if (! userService.isLogged())
+            throw new UnauthorizedException("User not logged");
+
+        Model m = modelRepository.getModel(id);
+        if (m == null) {
+            throw new org.jboss.resteasy.spi.NotFoundException("Model not found");
+        }
+
+        if (!id.equals(m.getModelId())) {
+            throw new UnauthorizedException("Not allowed to change shared");
+        }
+
+        m.setShared(new HashSet<String>(shares));
+
+        modelRepository.saveModel(id, m);
+
+        return shares;
+
     }
 
 

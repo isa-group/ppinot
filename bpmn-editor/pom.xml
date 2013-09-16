@@ -10,7 +10,7 @@
     <parent>
         <groupId>es.us.isa.ppinot</groupId>
         <artifactId>ppinot</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>2.0-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -67,27 +67,22 @@
 		<dependency>
 			<groupId>es.us.isa.bpmn</groupId>
 			<artifactId>bpmn-model</artifactId>
-            <version>2.0-SNAPSHOT</version>
 		</dependency>
         <dependency>
             <groupId>es.us.isa.ppinot</groupId>
             <artifactId>ppinot-model</artifactId>
-            <version>2.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>es.us.isa.ppinot</groupId>
             <artifactId>bpmn-editor-diagram</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>es.us.isa.ppinot</groupId>
             <artifactId>bpmn-editor-bpmn20xml</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>es.us.isa.ppinot</groupId>
             <artifactId>bpmn-editor-ppinot</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>

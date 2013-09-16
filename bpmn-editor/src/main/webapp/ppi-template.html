@@ -40,7 +40,7 @@
         <script src="templates/templates.js"></script>
         <script src="templates/measures-module.js"></script>
         <script src="manager/modelhandler.js"></script>
-        <script src="manager/navbar.js"></script>
+        <script src="templates/login.js"></script>
     </head>
 	<body ng-controller="TemplatesCtrl">
     <div class="navbar navbar-fixed-top">
@@ -58,11 +58,11 @@
                         <li><a><b class="icon-chevron-right"></b></a></li>
                         <li class="dropdown">
                             <a class="dropdown-toggle">
-                                {{modelName}} <b class="caret"></b>
+                                {{models[currentModel].name}} <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
                                 <li ng-repeat="m in models">
-                                    <a ng-click="load(m.modelId)" ng-href="#/#{{m.modelId}}">{{p.name}}</a>
+                                    <a ng-click="load(m.modelId)" ng-href="#/#{{m.modelId}}">{{m.name}}</a>
                                 </li>
                             </ul>
                         </li>
@@ -73,11 +73,9 @@
                     <ul class="nav pull-right">
                         <li><a href="#about">About</a></li>
                         <li class="divider-vertical"></li>
-                        <li class="dropdown" id="login"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span id="username">Log in</span> <b class="caret"></b></a>
-                            <div class="dropdown-menu" style="padding: 15px">
-                                <a class="btn btn-primary btn-block" href="socialauth.do?id=googlePlus" id="sign-in-google">Sign In with Google</a>
-                                <a class="btn btn-primary btn-block" href="socialauth.do?id=facebook" id="sign-in-facebook">Sign In with Facebook</a>
-                            </div>
+                        <li class="login" title="Log in">
+                            <a class="btn btn-primary btn-block" href="socialauth.do?id=googlePlus" id="sign-in-google">Sign In with Google</a>
+                            <a class="btn btn-primary btn-block" href="socialauth.do?id=facebook" id="sign-in-facebook">Sign In with Facebook</a>
                         </li>
                     </ul>
                 </div>
@@ -144,7 +142,7 @@
 
         $(document).ready(function() {
 
-            NavBar.init();
+            //NavBar.init();
 
         });
         // ]]>

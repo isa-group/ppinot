@@ -1,5 +1,5 @@
-function BPMNModel(modelName, modelUrl) {
-    this.modelName = modelName;
+function BPMNModel(modelId, modelUrl) {
+    this.modelId = modelId;
     this.url = modelUrl;
     this.processes = {};
 }
@@ -13,7 +13,7 @@ jQuery.extend(BPMNModel.prototype, {
 			dataType: "json",
 			success: function(data) {
 			    $(data).each(function() {
-			        var process = new Process(that.modelName, that.url);
+			        var process = new Process(that.modelId, that.url);
 			        process.load(this);
                     that.processes[this.id] = process;
 			    });

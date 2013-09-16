@@ -1,4 +1,4 @@
-angular.module('templatesApp', ['measuresModule']);
+angular.module('templatesApp', ['measuresModule', 'loginModule']);
 
 function iteratePPIs(ppiSet, iterationFunction) {
     $(ppiSet).each(function() {
@@ -64,12 +64,15 @@ function cleanScope(ppiSet) {
 function TemplatesCtrl($scope, $location, $http) {
 
 	$http.get("service/models/").success(function(data) {
-		$scope.models = data;
+	    $scope.models = {};
+	    angular.forEach(data, function(info) {
+		    $scope.models[info.modelId] = info;
+	    });
 	});
 
 
     $scope.load = function(modelId) {
-        $scope.modelName = modelId;
+        $scope.currentModel = modelId;
         var url = "service/model/"+modelId;
         $scope.model = new BPMNModel(modelId, url);
         $scope.ppis = [];

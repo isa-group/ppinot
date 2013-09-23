@@ -4,7 +4,6 @@ var MODELHANDLER_MODEL_URL = "service/model/";
 function ModelHandler() {
     this.modelsUrl = typeof ORYX == "undefined" ? MODELHANDLER_MODELS_URL : ORYX.CONFIG.MODEL_LIST_URL;
     this.processes = {};
-    this.editors = {};
     this.models = {};
     this.modelsById = {};
     this.processLoaded = null;
@@ -34,7 +33,6 @@ function ModelHandler() {
         storeModelInfo: function(modelInfo) {
             this.modelsById[modelInfo.modelId] = modelInfo;
             this.processes[modelInfo.name] = modelInfo.url;
-            this.editors[modelInfo.name] = modelInfo.editor;
         },
 
         removeModel: function(id) {

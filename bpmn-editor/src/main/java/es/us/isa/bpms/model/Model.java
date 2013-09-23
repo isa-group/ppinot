@@ -1,13 +1,14 @@
 package es.us.isa.bpms.model;
 
+import es.us.isa.bpms.editor.EditorResource;
 import es.us.isa.bpms.repository.Storeable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import javax.ws.rs.core.UriBuilder;
+import java.net.URI;
+import java.util.*;
 
 /**
  * User: resinas
@@ -15,6 +16,10 @@ import java.util.Set;
  * Time: 13:32
  */
 public class Model implements Storeable{
+
+    public static final String BPMN20 = "BPMN 2.0";
+    public static final String ORG = "Organization";
+
     private String name;
     private String description;
     private String modelId;
@@ -22,6 +27,7 @@ public class Model implements Storeable{
     private JSONObject model;
     private String xml;
     private String svg;
+    private String type;
 
     private Set<String> shared;
 
@@ -30,10 +36,12 @@ public class Model implements Storeable{
         this.shared = new HashSet<String>();
     }
 
-    public Model(String modelId, String name) {
+    public Model(String modelId, String name, String type) {
         this.name = name;
         this.modelId = modelId;
+        this.type = type;
         this.shared = new HashSet<String>();
+
         loadEmptyModel();
     }
 
@@ -46,6 +54,7 @@ public class Model implements Storeable{
         }
         this.xml = clone.xml;
         this.svg = clone.svg;
+        this.type = clone.type;
     }
 
     @Override
@@ -58,6 +67,7 @@ public class Model implements Storeable{
         jsonModel.put("model", model);
         jsonModel.put("xml", xml);
         jsonModel.put("svg", svg);
+        jsonModel.put("type", type);
         jsonModel.put("shared", shared);
 
         return jsonModel.toString();
@@ -65,17 +75,20 @@ public class Model implements Storeable{
 
     public void loadEmptyModel() {
         JSONObject jsonModel = new JSONObject();
-        try {
-            jsonModel.put("ssextensions", Arrays.asList("http://www.isa.us.es/ppiontology/stencilsets/extensions/bpmnppi#"));
-            JSONObject stencilset = new JSONObject();
-            stencilset.put("url", "../stencilsets/bpmn2.0/bpmn2.0.json");
-            stencilset.put("namespace", "http://b3mn.org/stencilset/bpmn2.0#");
-            jsonModel.put("stencilset", stencilset);
-            JSONObject stencil = new JSONObject();
-            stencil.put("id", "BPMNDiagram");
-            jsonModel.put("stencil", stencil);
-        } catch (JSONException e) {
-            throw new RuntimeException("Unexpected error", e);
+
+        if (BPMN20.equals(type)) {
+            try {
+                jsonModel.put("ssextensions", Arrays.asList("http://www.isa.us.es/ppiontology/stencilsets/extensions/bpmnppi#"));
+                JSONObject stencilset = new JSONObject();
+                stencilset.put("url", "../stencilsets/bpmn2.0/bpmn2.0.json");
+                stencilset.put("namespace", "http://b3mn.org/stencilset/bpmn2.0#");
+                jsonModel.put("stencilset", stencilset);
+                JSONObject stencil = new JSONObject();
+                stencil.put("id", "BPMNDiagram");
+                jsonModel.put("stencil", stencil);
+            } catch (JSONException e) {
+                throw new RuntimeException("Unexpected error", e);
+            }
         }
 
         this.setModel(jsonModel);
@@ -107,6 +120,9 @@ public class Model implements Storeable{
 
         if (jsonModel.has("svg"))
             m.setSvg(jsonModel.getString("svg"));
+
+        if (jsonModel.has("type"))
+            m.setType(jsonModel.getString("type"));
 
         if (jsonModel.has("shared")) {
             JSONArray shared = jsonModel.getJSONArray("shared");
@@ -174,6 +190,14 @@ public class Model implements Storeable{
         this.svg = svg;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public Set<String> getShared() {
         return shared;
     }
@@ -193,5 +217,37 @@ public class Model implements Storeable{
 
     public boolean sameSharedAs(Model m) {
         return m != null && shared.equals(m.shared);
+    }
+
+    public Map<String, URI> createLinks(UriBuilder builder) {
+        Map<String, URI> links = new HashMap<String, URI>();
+
+        UriBuilder basic = builder.clone().path("{html}").fragment("{id}");
+
+        if (ORG.equals(type)) {
+            links.put("editor", basic.build("organizational.html", "/" + modelId));
+        } else {
+            links.put("editor", builder.clone().path(EditorResource.class).queryParam("id", modelId).build());
+            links.put("View PPIs", basic.build("ppi-template.html", "/" + modelId));
+        }
+
+        return links;
+    }
+
+    public Map<String, URI> createExports(UriBuilder builder) {
+        Map<String, URI> exports = new HashMap<String, URI>();
+
+        UriBuilder base = builder.clone().path(ModelsResource.class);
+
+        if (ORG.equals(type)) {
+            exports.put("JSON", base.clone().path(ModelsResource.class, "getModelJson").build(modelId));
+        } else {
+            exports.put("XML", base.clone().path(ModelsResource.class, "getModelXml").build(modelId));
+            exports.put("SVG", base.clone().path(ModelsResource.class, "getModelSvg").build(modelId));
+            exports.put("PNG", base.clone().path(ModelsResource.class, "getModelPng").build(modelId));
+            exports.put("PDF", base.clone().path(ModelsResource.class, "getModelPdf").build(modelId));
+        }
+
+        return exports;
     }
 }

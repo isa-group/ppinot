@@ -1,7 +1,6 @@
 package es.us.isa.bpms.model;
 
 
-import es.us.isa.bpms.editor.EditorResource;
 import es.us.isa.bpms.process.ProcessElementsResource;
 import es.us.isa.bpms.repository.ModelRepository;
 import es.us.isa.bpms.users.UserService;
@@ -96,7 +95,7 @@ public class ModelsResource {
     }
 
     private ModelInfo createModelInfo(String modelId, UriInfo uriInfo) {
-        UriBuilder ub = uriInfo.getBaseUriBuilder().path(this.getClass()).path(this.getClass(), "getProcess");
+        UriBuilder ub = uriInfo.getBaseUriBuilder().path(this.getClass()).path(this.getClass(), "getModel");
         URI uri = ub.build(modelId);
 
         ModelInfo modelInfo = new ModelInfo(modelId, uri.toString());
@@ -106,14 +105,10 @@ public class ModelsResource {
             modelInfo.setName(m.getName());
             modelInfo.setDescription(m.getDescription());
             modelInfo.setShared(m.getShared());
+            modelInfo.setType(m.getType());
             modelInfo.setOwner(modelId.equals(m.getModelId()));
-
-            if (m.getModel() != null) {
-                UriBuilder ubEditor = uriInfo.getBaseUriBuilder().path(EditorResource.class).queryParam("id", modelId);
-                URI uriEditor = ubEditor.build();
-                modelInfo.setEditor(uriEditor.toString());
-            }
-
+            modelInfo.setLinks(m.createLinks(uriInfo.getBaseUriBuilder()));
+            modelInfo.setExport(m.createExports(uriInfo.getBaseUriBuilder()));
         } catch (Exception e) {
             log.warning("Error processing model info of "+modelId);
             log.warning(e.toString());
@@ -125,21 +120,21 @@ public class ModelsResource {
     @Path("/model/{id}")
     @Produces(MediaType.APPLICATION_XML)
     @GET
-    public String getProcess(@PathParam("id") String id) {
-        return getProcessXml(id);
+    public String getModel(@PathParam("id") String id) {
+        return getModelXml(id);
     }
 
     @Path("/model/{id}/json")
     @Produces(MediaType.APPLICATION_JSON)
     @GET
-    public InputStream getProcessJson(@PathParam("id") String id) {
+    public InputStream getModelJson(@PathParam("id") String id) {
         return modelRepository.getModelReader(id);
     }
 
     @Path("/model/{id}/svg")
     @GET
     @Produces("image/svg+xml")
-    public String getProcessSvg(@PathParam("id") String id) {
+    public String getModelSvg(@PathParam("id") String id) {
         Model m = modelRepository.getModel(id);
 
         return m.getSvg();
@@ -148,7 +143,7 @@ public class ModelsResource {
     @Path("/model/{id}/pdf")
     @GET
     @Produces("application/pdf")
-    public InputStream getProcessPdf(@PathParam("id") String id) {
+    public InputStream getModelPdf(@PathParam("id") String id) {
         PDFTranscoder transcoder = new PDFTranscoder();
 
         return transcode(id, transcoder);
@@ -157,13 +152,13 @@ public class ModelsResource {
     @Path("/model/{id}/png")
     @GET
     @Produces("image/png")
-    public InputStream getProcessPng(@PathParam("id") String id) {
+    public InputStream getModelPng(@PathParam("id") String id) {
         PNGTranscoder transcoder = new PNGTranscoder();
         return transcode(id, transcoder);
     }
 
     private InputStream transcode(String id, AbstractTranscoder transcoder) {
-        String svg = getProcessSvg(id);
+        String svg = getModelSvg(id);
         if (svg == null)
             throw new NotFoundException("No image of model");
 
@@ -183,10 +178,10 @@ public class ModelsResource {
     @Path("/model/{id}/xml")
     @Produces(MediaType.APPLICATION_XML)
     @GET
-    public String getProcessXml(@PathParam("id") String id) {
+    public String getModelXml(@PathParam("id") String id) {
         Model m = modelRepository.getModel(id);
 
-        if (m == null) {
+        if (m == null || ! model2XmlConverter.canTransform(m.getType())) {
             throw new org.jboss.resteasy.spi.NotFoundException("Model not found");
         }
 
@@ -239,7 +234,7 @@ public class ModelsResource {
             throw new BadRequestException("Invalid modelId");
         }
 
-        Model model = new Model(info.getModelId(), info.getName());
+        Model model = new Model(info.getModelId(), info.getName(), info.getType());
 
         if (info.hasClone()) {
             model.cloneFrom(modelRepository.getModel(info.getCloneFrom()));
@@ -292,10 +287,13 @@ public class ModelsResource {
         m.setName(name);
         m.setDescription(description);
         m.setSvg(svgXml);
+        m.setType(type);
         try {
             JSONObject jsonObject = new JSONObject(jsonXml);
             m.setModel(jsonObject);
-            m.setXml(model2XmlConverter.transformToXml(jsonObject).toString());
+            if (model2XmlConverter.canTransform(type)) {
+                m.setXml(model2XmlConverter.transformToXml(jsonObject).toString());
+            }
         } catch (JSONException e) {
             throw new RuntimeException("The submitted model is not valid", e);
         } catch (Exception e) {
@@ -338,14 +336,14 @@ public class ModelsResource {
 
     @Path("/model/{id}")
     public ProcessElementsResource getProcessInfo(@PathParam("id") String id) {
-        InputStream processReader = IOUtils.toInputStream(getProcess(id));
+        InputStream processReader = IOUtils.toInputStream(getModel(id));
         return new ProcessElementsResource(processReader);
     }
 
 
     @Path("/model/{id}/ppis")
     public PPINOTResource getPPIs(@PathParam("id") String id) {
-        InputStream processReader = IOUtils.toInputStream(getProcess(id));
+        InputStream processReader = IOUtils.toInputStream(getModel(id));
         return new PPINOTResource(processReader, id, userService, model2XmlConverter, modelRepository);
     }
 }

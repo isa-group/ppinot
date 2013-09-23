@@ -7,6 +7,7 @@ import es.us.isa.ppinot.handler.PPINotModelHandler;
 import es.us.isa.ppinot.handler.PPINotModelHandlerImpl;
 import es.us.isa.ppinot.model.PPISet;
 import es.us.isa.ppinot.model2diagram.PPI2DiagramUpdater;
+import org.jboss.resteasy.spi.UnauthorizedException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.oryxeditor.server.diagram.basic.BasicDiagram;
@@ -51,8 +52,8 @@ public class PPINOTResource {
     @Consumes("application/json")
     @PUT
     public Collection<PPISet> storePPIs(Collection<PPISet> ppiSets) {
-//        if (! userService.isLogged())
-//            throw new UnauthorizedException("User not logged");
+        if (! userService.isLogged())
+            throw new UnauthorizedException("User not logged");
         Model m = modelRepository.getModel(id);
 
         try {
@@ -62,7 +63,9 @@ public class PPINOTResource {
 
             JSONObject diagramJSON = diagram.getJSON();
             m.setModel(diagramJSON);
-            m.setXml(converter.transformToXml(diagramJSON).toString());
+            if (converter.canTransform(m.getType())) {
+                m.setXml(converter.transformToXml(diagramJSON).toString());
+            }
             modelRepository.saveModel(id, m);
         } catch (JSONException e) {
             log.warning("Could not load model of  " + id);

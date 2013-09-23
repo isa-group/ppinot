@@ -42,6 +42,11 @@ public abstract class BPMNModel2XmlConverter implements Model2XmlConverter {
     }
 
     @Override
+    public boolean canTransform(String type) {
+        return Model.BPMN20.equals(type);
+    }
+
+    @Override
     public StringWriter transformToXml(JSONObject jsonModel) {
         try {
             BasicDiagram diagram = BasicDiagramBuilder.parseJson(jsonModel);
@@ -52,7 +57,6 @@ public abstract class BPMNModel2XmlConverter implements Model2XmlConverter {
         }
     }
 
-    @Override
     public StringWriter transformToXml(BasicDiagram diagram) {
         try {
             Diagram2BpmnConverter diagram2BpmnConverter = new Diagram2BpmnConverter(diagram, AbstractBpmnFactory.getFactoryClasses());

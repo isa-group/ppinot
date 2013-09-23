@@ -173,6 +173,17 @@
             </div>
         </div>
         <div class="control-group">
+            <label for="type" class="control-label">
+                Type:
+            </label>
+            <div class="controls">
+                <select name="name" id="type" required="true">
+                    <option value="BPMN 2.0">BPMN 2.0</option>
+                    <option value="Organization">Organization</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
             <label for="description" class="control-label">
                 Description:
             </label>
@@ -292,6 +303,13 @@ var openAddDialog = function (dialogTitle, params) {
 
     $("#addModalLabel").html(dialogTitle);
 
+    if (params.type) {
+        $("#type").val(params.type);
+        $("#type").prop("disabled", true);
+    } else {
+        $("#type").prop("disabled", false);
+    }
+
     $("#addModelForm").unbind().submit(function () {
         doAddModel(params);
         return false;
@@ -304,13 +322,14 @@ var doAddModel = function (params) {
     var model = $.extend({
                             modelId: $("#modelId").val(),
                             name: $("#name").val(),
-                            description: $("#description").val()
+                            description: $("#description").val(),
+                            type: $("#type").val()
                         }, params);
 
     MODELHANDLER.addModel(model).done(function(data) {
         ModelList.loadModels($("#models"));
         $("#addModal").modal("hide");
-        openOpenModelDialog(data.editor);
+        openOpenModelDialog(data.links.editor);
     }).fail(function() {
         $("#errorAdding").show();
     });

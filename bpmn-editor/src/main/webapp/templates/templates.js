@@ -95,5 +95,6 @@ function TemplatesCtrl($scope, $location, $http) {
     }
 
     // Loads the current model
-    $scope.load($location.hash());
+    var modelId = $location.path().substr(1);
+    $scope.load(modelId);
 }

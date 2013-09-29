@@ -35,12 +35,12 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.min.js"></script>
-        <script src="templates/ui-bootstrap-tpls-0.5.0.min.js"></script>
+        <script src="libs/ui-bootstrap-tpls-0.5.0.min.js"></script>
         <script src="templates/process.js"></script>
         <script src="templates/templates.js"></script>
-        <script src="templates/measures-module.js"></script>
-        <script src="manager/modelhandler.js"></script>
-        <script src="templates/login.js"></script>
+        <script src="templates/ppinot-templates.js"></script>
+        <script src="common/modelhandler.js"></script>
+        <script src="common/ng-login.js"></script>
     </head>
 	<body ng-controller="TemplatesCtrl">
     <div class="navbar navbar-fixed-top">
@@ -62,7 +62,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li ng-repeat="m in models">
-                                    <a ng-click="load(m.modelId)" ng-href="#/#{{m.modelId}}">{{m.name}}</a>
+                                    <a ng-click="load(m.modelId)" ng-href="#/{{m.modelId}}">{{m.name}}</a>
                                 </li>
                             </ul>
                         </li>

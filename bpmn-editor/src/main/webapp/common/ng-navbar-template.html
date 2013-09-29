@@ -1,0 +1,39 @@
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="brand" href="#">PPINOT Modeller</a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li><a href="index.html">Models</a></li>
+                        <li><a><b class="icon-chevron-right"></b></a></li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle">
+                                {{navbar.currentModel.name}} <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li ng-repeat="m in navbar.models">
+                                    <a ng-href="#/{{m.modelId}}">{{m.name}}</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><a><b class="icon-chevron-right"></b></a></li>
+                        <li class="active"><a href="#">{{title}}</a></li>
+                    </ul>
+
+                    <ul class="nav pull-right">
+                        <li><a href="#about">About</a></li>
+                        <li class="divider-vertical"></li>
+                        <li class="login" title="Log in">
+                            <a class="btn btn-primary btn-block" href="socialauth.do?id=googlePlus" id="sign-in-google">Sign In with Google</a>
+                            <a class="btn btn-primary btn-block" href="socialauth.do?id=facebook" id="sign-in-facebook">Sign In with Facebook</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>

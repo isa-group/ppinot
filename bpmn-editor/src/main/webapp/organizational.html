@@ -1,0 +1,52 @@
+<!doctype html>
+<html ng-app="organizationalApp">
+	<head>
+		<meta charset="utf-8">
+		<title>Organizational model</title>
+	    <link rel="stylesheet" href="manager/css/bootstrap.css"/>
+        <link href="manager/css/bootstrap-responsive.css" rel="stylesheet">
+	    <style>
+          body {
+            padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+          }
+
+          input.templatefield, .templatefield{
+	      	border: 0;
+	      	box-shadow: none;
+	      	-webkit-box-shadow: none;
+	      	-mox-box-shadow: none;
+		    margin-bottom: 0;
+		    font-size: 14px;
+            font-color: black;
+            width: 95%;
+	      }
+	      input.templatefield:focus, .templatefield:focus {
+	      	border: 1px solid rgba(82, 168, 236, 0.8);
+	      }
+	      input.templatefield:hover, .templatefield:hover{
+		    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+		    -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+		    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+		    outline: 0;
+		    outline: thin dotted \9;
+	      }
+
+	    </style> 	        
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.min.js"></script>
+        <script src="libs/ui-bootstrap-tpls-0.5.0.min.js"></script>
+        <script src="organizational/app.js"></script>
+        <script src="common/modelhandler.js"></script>
+        <script src="common/ng-login.js"></script>
+        <script src="common/ng-navbar.js"></script>
+    </head>
+<body ng-controller="OrganizationalCtrl">
+
+<navbar data="navbar" title="Organizational Modeler"></navbar>
+<h2>{{navbar.currentModel.name}}</h2>
+
+<div class="container">
+</div>
+</body>
+</html>

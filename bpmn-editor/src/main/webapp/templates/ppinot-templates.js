@@ -1,4 +1,4 @@
-angular.module('measuresModule', ['ui.bootstrap'])
+angular.module('ppinotTemplates', ['ui.bootstrap'])
   .directive('measure', function(){
     return {
       restrict: 'E',

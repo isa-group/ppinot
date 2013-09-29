@@ -1,4 +1,4 @@
-angular.module('templatesApp', ['measuresModule', 'loginModule']);
+angular.module('templatesApp', ['ppinotTemplates', 'loginModule']);
 
 function iteratePPIs(ppiSet, iterationFunction) {
     $(ppiSet).each(function() {

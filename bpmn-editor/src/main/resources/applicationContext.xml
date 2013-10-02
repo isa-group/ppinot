@@ -58,7 +58,7 @@
         <aop:scoped-proxy/>
     </bean>
     <bean id="socialAuthWebController" class="org.brickred.socialauth.spring.controller.SocialAuthWebController">
-        <constructor-arg value="${PPINOT_BASE_URL}" />
+        <constructor-arg value="${PPINOT_BASE_URL}#{servletContext.contextPath}" />
         <constructor-arg value="index.html" />
         <constructor-arg value="index.html" />
     </bean>

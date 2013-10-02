@@ -4,10 +4,23 @@
 		<meta charset="utf-8">
 		<title>Organizational model</title>
 	    <link rel="stylesheet" href="manager/css/bootstrap.css"/>
-        <link href="manager/css/bootstrap-responsive.css" rel="stylesheet">
+        <link href="manager/css/bootstrap-responsive.css" rel="stylesheet"/>
+        <link href="manager/css/angular-taglist-directive.css" rel="stylesheet"/>
 	    <style>
           body {
             padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+          }
+
+          .positions ul.actions {
+            display: none;
+          }
+
+          .positions li.liposition:hover > ul.actions {
+            display: inline;
+          }
+
+          .positions li.liposition {
+            margin-bottom: 1em;
           }
 
           input.templatefield, .templatefield{
@@ -18,7 +31,6 @@
 		    margin-bottom: 0;
 		    font-size: 14px;
             font-color: black;
-            width: 95%;
 	      }
 	      input.templatefield:focus, .templatefield:focus {
 	      	border: 1px solid rgba(82, 168, 236, 0.8);
@@ -35,18 +47,55 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.min.js"></script>
-        <script src="libs/ui-bootstrap-tpls-0.5.0.min.js"></script>
+        <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js"></script>
+        <script src="libs/angular-taglist-directive.js"></script>
         <script src="organizational/app.js"></script>
         <script src="common/modelhandler.js"></script>
         <script src="common/ng-login.js"></script>
         <script src="common/ng-navbar.js"></script>
+        <script src="organizational/list-handling.js"></script>
     </head>
 <body ng-controller="OrganizationalCtrl">
 
 <navbar data="navbar" title="Organizational Modeler"></navbar>
-<h2>{{navbar.currentModel.name}}</h2>
 
 <div class="container">
+    <h2>{{navbar.currentModel.name}}</h2>
+    <tabset>
+        <tab heading="Units and Positions">
+            <form addform list="model.units" placeholder="Unit name" button="Add new unit"></form>
+
+            <div class="well" ng-repeat="unit in model.units">
+                <div class="pull-right">
+                    <button ng-hide="poscollapsed || unit.positions.length == 0" class="btn" ng-click="poscollapsed = true" ng-init="poscollapsed=true">Collapse people and role information</button>
+                    <button ng-show="poscollapsed && ! unit.positions.length == 0" class="btn" ng-click="poscollapsed = false">Show people and role information</button>
+                </div>
+
+                <h3>Unit: {{unit.name}} <a data-remove data-from="model.units" data-index="{{$index}}"></a></h3>
+
+                <ul positionslist model="model" positions="unit.positions" details-collapsed="{{poscollapsed}}" placeholder="Name of the position" add="Add a new position to this unit">
+                </ul>
+
+                <hr/>
+                <form addform list="unit.positions" placeholder="Position name" button="Add a new position to this unit"></form>
+            </div>
+        </tab>
+
+        <tab heading="Roles">
+            <form addform list="model.roles" placeholder="Role name" button="Add new role"></form>
+
+            <ul elementlist ng-model="model.roles" placeholder="Name of the role"></ul>
+        </tab>
+
+        <tab heading="People">
+            <form addform list="model.persons" placeholder="Person name" button="Add new person"></form>
+            <ul elementlist ng-model="model.persons" placeholder="Person name"></ul>
+        </tab>
+    </tabset>
+
+</div>
+<div class="well" style="text-align:right;">
+    <input class="btn btn-primary" type="submit" ng-click="save();" value="Save Model">
 </div>
 </body>
 </html>

@@ -225,8 +225,7 @@ public class ModelsResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addNewProcess(@Context UriInfo uriInfo, ModelInfo info) {
-        if (! userService.isLogged())
-            throw new UnauthorizedException("User not logged");
+        checkUserLogged();
 
         Response r;
 
@@ -256,8 +255,7 @@ public class ModelsResource {
     @Path("/model/{id}")
     @DELETE
     public Response removeProcess(@PathParam("id") String id) {
-        if (! userService.isLogged())
-            throw new UnauthorizedException("User not logged");
+        checkUserLogged();
 
         Response r;
         if (modelRepository.removeModel(id))
@@ -268,21 +266,42 @@ public class ModelsResource {
         return r;
     }
 
+    @Path("/model/{id}/json")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @PUT
+    public InputStream updateModel(@PathParam("id") String id, String json) {
+        checkUserLogged();
+        getModelOrNotFound(id);
+
+        Model newM;
+
+        try {
+            newM = Model.createModel(new JSONObject(json));
+        } catch (JSONException e) {
+            throw new IllegalArgumentException();
+        }
+
+        if (!newM.getModelId().equals(id)) {
+            throw new IllegalArgumentException();
+        }
+
+        modelRepository.saveModel(id, newM);
+
+        return modelRepository.getModelReader(id);
+    }
+
 
     @Path("/model/{id}/json")
     @Produces(MediaType.APPLICATION_JSON)
     @PUT
-    public InputStream updateModel(@PathParam("id") String id, @FormParam("json_xml") String jsonXml, @FormParam("name") String name, @FormParam("type") String type, @FormParam("description") String description, @FormParam("svg_xml") String svgXml) {
+    public InputStream oryxUpdateModel(@PathParam("id") String id, @FormParam("json_xml") String jsonXml, @FormParam("name") String name, @FormParam("type") String type, @FormParam("description") String description, @FormParam("svg_xml") String svgXml) {
         log.info("Saving name: "+name);
         log.info("Saving jsonXML: " + jsonXml);
 
-        if (! userService.isLogged())
-            throw new UnauthorizedException("User not logged");
+        checkUserLogged();
 
-        Model m = modelRepository.getModel(id);
-        if (m == null) {
-            throw new org.jboss.resteasy.spi.NotFoundException("Model not found");
-        }
+        Model m = getModelOrNotFound(id);
 
         m.setName(name);
         m.setDescription(description);
@@ -307,19 +326,20 @@ public class ModelsResource {
         return modelRepository.getModelReader(id);
     }
 
+    private void checkUserLogged() {
+        if (! userService.isLogged())
+            throw new UnauthorizedException("User not logged");
+    }
+
     @Path("/model/{id}/share")
     @Produces(MediaType.APPLICATION_JSON)
     @PUT
     public List<String> updateShare(@PathParam("id") String id, List<String> shares) {
         log.info("Updating share " + id);
 
-        if (! userService.isLogged())
-            throw new UnauthorizedException("User not logged");
+        checkUserLogged();
 
-        Model m = modelRepository.getModel(id);
-        if (m == null) {
-            throw new org.jboss.resteasy.spi.NotFoundException("Model not found");
-        }
+        Model m = getModelOrNotFound(id);
 
         if (!id.equals(m.getModelId())) {
             throw new UnauthorizedException("Not allowed to change shared");
@@ -331,6 +351,14 @@ public class ModelsResource {
 
         return shares;
 
+    }
+
+    private Model getModelOrNotFound(String id) {
+        Model m = modelRepository.getModel(id);
+        if (m == null) {
+            throw new NotFoundException("Model not found");
+        }
+        return m;
     }
 
 

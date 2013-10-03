@@ -22,7 +22,16 @@
                             </ul>
                         </li>
                         <li><a><b class="icon-chevron-right"></b></a></li>
-                        <li class="active"><a href="#">{{title}}</a></li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle">
+                                {{title}} <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li ng-repeat="(name, url) in navbar.currentModel.links">
+                                    <a ng-href="{{url}}">{{name}}</a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
 
                     <ul class="nav pull-right">

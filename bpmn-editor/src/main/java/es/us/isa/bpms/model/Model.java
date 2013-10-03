@@ -25,6 +25,7 @@ public class Model implements Storeable{
     private String modelId;
     private int revision;
     private JSONObject model;
+    private JSONObject extensions;
     private String xml;
     private String svg;
     private String type;
@@ -34,6 +35,8 @@ public class Model implements Storeable{
     private Model() {
         this.revision = 1;
         this.shared = new HashSet<String>();
+        this.model = new JSONObject();
+        this.extensions = new JSONObject();
     }
 
     public Model(String modelId, String name, String type) {
@@ -43,12 +46,14 @@ public class Model implements Storeable{
         this.shared = new HashSet<String>();
 
         loadEmptyModel();
+        this.extensions = new JSONObject();
     }
 
     public void cloneFrom(Model clone) {
         this.description = clone.description;
         try {
             this.model = new JSONObject(clone.model.toString());
+            this.extensions = new JSONObject(clone.extensions.toString());
         } catch (JSONException e) {
             throw new RuntimeException("Error cloning JSON Model", e);
         }
@@ -65,6 +70,7 @@ public class Model implements Storeable{
         jsonModel.put("description", description);
         jsonModel.put("revision", revision);
         jsonModel.put("model", model);
+        jsonModel.put("extensions", extensions);
         jsonModel.put("xml", xml);
         jsonModel.put("svg", svg);
         jsonModel.put("type", type);
@@ -113,6 +119,9 @@ public class Model implements Storeable{
 
         if (jsonModel.has("model"))
             m.setModel(jsonModel.getJSONObject("model"));
+
+        if (jsonModel.has("extensions"))
+            m.setExtensions(jsonModel.getJSONObject("extensions"));
 
         if (jsonModel.has("xml")) {
             m.setXml(jsonModel.getString("xml"));
@@ -174,6 +183,14 @@ public class Model implements Storeable{
         this.model = model;
     }
 
+    public JSONObject getExtensions() {
+        return extensions;
+    }
+
+    public void setExtensions(JSONObject extensions) {
+        this.extensions = extensions;
+    }
+
     public String getXml() {
         return xml;
     }
@@ -229,6 +246,7 @@ public class Model implements Storeable{
         } else {
             links.put("editor", builder.clone().path(EditorResource.class).queryParam("id", modelId).build());
             links.put("View PPIs", basic.build("ppi-template.html", "/" + modelId));
+            links.put("Resource assignment", basic.build("resource-assignment.html", "/" + modelId));
         }
 
         return links;

@@ -43,7 +43,8 @@ public abstract class BPMNModel2XmlConverter implements Model2XmlConverter {
 
     @Override
     public boolean canTransform(String type) {
-        return Model.BPMN20.equals(type);
+        // For backwards compatibility, we assume that if type is not specified, then it is BPMN20
+        return type == null || Model.BPMN20.equals(type);
     }
 
     @Override

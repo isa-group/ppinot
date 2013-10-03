@@ -23,14 +23,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.servlet.ServletContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.StringReader;
+import java.io.*;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -137,7 +135,17 @@ public class ModelsResource {
     public String getModelSvg(@PathParam("id") String id) {
         Model m = modelRepository.getModel(id);
 
-        return m.getSvg();
+        String svg = m.getSvg();
+
+        if (svg == null || svg.isEmpty()) {
+            try {
+                svg = IOUtils.toString(this.getClass().getResourceAsStream("/No_image_available.svg"));
+            } catch (IOException e) {
+                log.log(Level.WARNING, "SVG fallback image not found", e);
+            }
+        }
+
+        return svg;
     }
 
     @Path("/model/{id}/pdf")
@@ -181,19 +189,22 @@ public class ModelsResource {
     public String getModelXml(@PathParam("id") String id) {
         Model m = modelRepository.getModel(id);
 
-        if (m == null || ! model2XmlConverter.canTransform(m.getType())) {
+        if (m == null) {
             throw new org.jboss.resteasy.spi.NotFoundException("Model not found");
         }
 
         String xml = m.getXml();
 
-        if (xml == null || xml.isEmpty()) {
-            try {
-                xml = createAndStoreXml(m);
-            } catch (Exception e) {
-                log.warning("Error while transforming model to XML");
-                log.warning(e.toString());
-                throw new RuntimeException("Error while transforming model to XML", e);
+        if ((xml == null || xml.isEmpty())) {
+            if (model2XmlConverter.canTransform(m.getType())) {
+                try {
+                    xml = createAndStoreXml(m);
+                } catch (Exception e) {
+                    log.log(Level.WARNING, "Error while transforming model to XML", e);
+                    throw new RuntimeException("Error while transforming model to XML", e);
+                }
+            } else {
+                throw new NotFoundException("XML representation not available");
             }
         }
 

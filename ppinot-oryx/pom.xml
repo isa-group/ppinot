@@ -9,8 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>bpmn-editor-ppinot</artifactId>
-    <name>BPMN Editor - PPINOT</name>
+    <artifactId>ppinot-oryx</artifactId>
+    <name>PPINOT extension for ORYX Editor</name>
+
+    <properties>
+        <oryx.version>1.0-SNAPSHOT</oryx.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -27,12 +31,14 @@
         </dependency>
 
         <dependency>
-            <groupId>es.us.isa.ppinot</groupId>
-            <artifactId>bpmn-editor-diagram</artifactId>
+            <groupId>oryx-mod</groupId>
+            <artifactId>oryx-editor-diagram</artifactId>
+            <version>${oryx.version}</version>
         </dependency>
         <dependency>
-            <groupId>es.us.isa.ppinot</groupId>
-            <artifactId>bpmn-editor-bpmn20xml</artifactId>
+            <groupId>oryx-mod</groupId>
+            <artifactId>oryx-editor-bpmn20</artifactId>
+            <version>${oryx.version}</version>
         </dependency>
     </dependencies>
 

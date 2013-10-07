@@ -10,6 +10,10 @@
 	<version>2.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
+    <properties>
+        <bpmn.version>2.0-SNAPSHOT</bpmn.version>
+    </properties>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -90,17 +94,17 @@
             <dependency>
                 <groupId>es.us.isa.bpmn</groupId>
                 <artifactId>bpmn-model</artifactId>
-                <version>2.0-SNAPSHOT</version>
+                <version>${bpmn.version}</version>
             </dependency>
             <dependency>
                 <groupId>es.us.isa.bpmn</groupId>
                 <artifactId>bpmn-xml-owl</artifactId>
-                <version>2.0-SNAPSHOT</version>
+                <version>${bpmn.version}</version>
             </dependency>
             <dependency>
                 <groupId>es.us.isa.ppinot</groupId>
                 <artifactId>ppinot-model</artifactId>
-                <version>2.0-SNAPSHOT</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>es.us.isa.ppinot</groupId>
@@ -109,23 +113,8 @@
             </dependency>
             <dependency>
                 <groupId>es.us.isa.ppinot</groupId>
-                <artifactId>bpmn-editor</artifactId>
-                <version>2.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>es.us.isa.ppinot</groupId>
-                <artifactId>bpmn-editor-diagram</artifactId>
-                <version>2.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>es.us.isa.ppinot</groupId>
-                <artifactId>bpmn-editor-bpmn20xml</artifactId>
-                <version>2.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>es.us.isa.ppinot</groupId>
-                <artifactId>bpmn-editor-ppinot</artifactId>
-                <version>2.0-SNAPSHOT</version>
+                <artifactId>ppinot-oryx</artifactId>
+                <version>${project.version}</version>
             </dependency>
 
 

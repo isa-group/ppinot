@@ -18,11 +18,11 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 
 /**
- * XMLToMeasureTest
+ * XMLToMeasureAbstract
  *
  * @author resinas
  */
-public class XMLToMeasureTest {
+public class XMLToMeasureAbstract {
     protected TPpiset unmarshallWithTargetIds(String dataMeasureXML, final String... id) throws JAXBException {
         JAXBContext ctx = JAXBContext.newInstance(ObjectFactory.class);
         Unmarshaller unmarshaller = ctx.createUnmarshaller();

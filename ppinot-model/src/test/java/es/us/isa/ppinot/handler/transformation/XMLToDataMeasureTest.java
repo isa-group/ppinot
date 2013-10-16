@@ -13,7 +13,7 @@ import javax.xml.bind.JAXBException;
  *
  * @author resinas
  */
-public class XMLToDataMeasureTest extends XMLToMeasureTest {
+public class XMLToDataMeasureTest extends XMLToMeasureAbstract {
 
     @Test
     public void shouldCreateDataMeasure() throws JAXBException {

@@ -9,23 +9,30 @@ import org.oryxeditor.server.diagram.generic.GenericShape;
 import javax.xml.bind.JAXBElement;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.logging.Logger;
 
 @StencilId({"ppi"})
 public class PpiFactory extends AbstractPPINotFactory {
+
+    private static final Logger log = Logger.getLogger(PpiFactory.class.toString());
 
     @StencilId("ppi")
 	public JAXBElement<TPpi> createPpi(GenericShape shape) {
 
         TPpi ppi = new TPpi();
-
-        ppi.setId(shape.getResourceId());
-        ppi.setName(shape.getProperty("name"));
-        addTarget(ppi, shape);
-        addGoals(ppi, shape);
-        addScope(ppi, shape);
-        ppi.setResponsible(valueOrNull(shape.getProperty("responsible")));
-        addInformed(ppi, shape);
-        ppi.setComments(valueOrNull(shape.getProperty("comments")));
+        try {
+            ppi.setId(shape.getResourceId());
+            ppi.setName(shape.getProperty("name"));
+            addTarget(ppi, shape);
+            addGoals(ppi, shape);
+            addScope(ppi, shape);
+            ppi.setResponsible(valueOrNull(shape.getProperty("responsible")));
+            addInformed(ppi, shape);
+            ppi.setComments(valueOrNull(shape.getProperty("comments")));
+        } catch (Exception e) {
+            log.warning("Error converting PPI from JSON to model " + shape.getResourceId());
+            throw new RuntimeException(e);
+        }
 
         return factory.createPpi(ppi);
     }
@@ -35,18 +42,17 @@ public class PpiFactory extends AbstractPPINotFactory {
         if (jsSimpleTarget != null) {
             TPpi.Target target = new TPpi.Target();
             TSimpleTarget simpleTarget = new TSimpleTarget();
-            try {
-                if (jsSimpleTarget.has("lowerBound")) {
-                    simpleTarget.setLowerBound(jsSimpleTarget.getDouble("lowerBound"));
-                }
 
-                if (jsSimpleTarget.has("upperBound")) {
-                    simpleTarget.setUpperBound(jsSimpleTarget.getDouble("upperBound"));
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
+            double lowerBound = jsSimpleTarget.optDouble("lowerBound");
+            if (! Double.isNaN(lowerBound)) {
+                simpleTarget.setLowerBound(lowerBound);
             }
+
+            double upperBound = jsSimpleTarget.optDouble("upperBound");
+            if (!Double.isNaN(upperBound)) {
+                simpleTarget.setUpperBound(upperBound);
+            }
+
             target.setBaseTarget(factory.createSimpleTarget(simpleTarget));
             ppi.setTarget(target);
         }
@@ -56,16 +62,20 @@ public class PpiFactory extends AbstractPPINotFactory {
     private void addScope(TPpi ppi, GenericShape shape) {
         JAXBElement<? extends TScope> scopeElement;
 
-        scopeElement = getLastInstancesFilter(shape);
+        try {
+            scopeElement = getLastInstancesFilter(shape);
 
-        if (scopeElement == null) {
-            scopeElement = getTimeFilter(shape);
-        }
+            if (scopeElement == null) {
+                scopeElement = getTimeFilter(shape);
+            }
 
-        if (scopeElement != null) {
-            TPpi.Scope scope = new TPpi.Scope();
-            scope.setProcessInstanceFilter(scopeElement);
-            ppi.setScope(scope);
+            if (scopeElement != null) {
+                TPpi.Scope scope = new TPpi.Scope();
+                scope.setProcessInstanceFilter(scopeElement);
+                ppi.setScope(scope);
+            }
+        } catch (Exception e) {
+            log.warning(e.toString());
         }
 
     }
@@ -77,13 +87,24 @@ public class PpiFactory extends AbstractPPINotFactory {
             JSONObject time = getFirstObject(shape.getPropertyJsonObject("timescope"));
             if (time != null) {
                 TSimpleTimeFilter filter = new TSimpleTimeFilter();
+
+                BigInteger frequencyScope = null;
                 try {
-                    filter.setFrequency(BigInteger.valueOf(time.getInt("frequencyScope")));
-                    filter.setRelative(time.getBoolean("relativeScope"));
-                    filter.setPeriod(TPeriod.fromValue(time.getString("scopePeriod")));
-                } catch (JSONException e) {
+                    frequencyScope = BigInteger.valueOf(time.getInt("frequencyScope"));
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
+                filter.setFrequency(frequencyScope);
+
+                filter.setRelative(time.optBoolean("relativeScope"));
+
+                TPeriod tPeriod = null;
+                try {
+                    tPeriod = TPeriod.fromValue(time.getString("scopePeriod"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                filter.setPeriod(tPeriod);
 
                 element = factory.createSimpleTimeFilter(filter);
             }
@@ -96,9 +117,9 @@ public class PpiFactory extends AbstractPPINotFactory {
         JAXBElement<TLastInstancesFilter> element = null;
 
         if (shape.hasProperty("lastinstancesscope")) {
-            int lastInstances = shape.getPropertyInteger("lastinstancesscope");
+            Integer lastInstances = shape.getPropertyInteger("lastinstancesscope");
 
-            if (lastInstances != 0) {
+            if (lastInstances != null && lastInstances != 0) {
                 TLastInstancesFilter filter = new TLastInstancesFilter();
                 filter.setNumberOfInstances(BigInteger.valueOf(lastInstances));
                 element = factory.createLastInstancesFilter(filter);

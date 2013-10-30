@@ -54,13 +54,26 @@ public class XMLToPPI {
             Object value = scope.getProcessInstanceFilter().getValue();
             if (value instanceof TLastInstancesFilter) {
                 TLastInstancesFilter f = (TLastInstancesFilter) value;
-                filter = new LastInstancesFilter(f.getNumberOfInstances().intValue());
+                int numberOfInstances = 0;
+                if (f.getNumberOfInstances() != null) {
+                    numberOfInstances = f.getNumberOfInstances().intValue();
+                }
+
+                filter = new LastInstancesFilter(numberOfInstances);
             }
             else if (value instanceof TSimpleTimeFilter) {
                 TSimpleTimeFilter f = (TSimpleTimeFilter) value;
+                Period period = null;
+                int frequency = 0;
+
+                if (f.getPeriod() != null)
+                    period = Period.valueOf(f.getPeriod().value().toUpperCase());
+                if (f.getFrequency() != null)
+                    frequency = f.getFrequency().intValue();
+
                 filter = new SimpleTimeFilter(
-                        Period.valueOf(f.getPeriod().value().toUpperCase()),
-                        f.getFrequency().intValue(),
+                        period,
+                        frequency,
                         f.isRelative());
             }
             else {
@@ -91,12 +104,14 @@ public class XMLToPPI {
 
     private Target createTarget(TPpi.Target target) {
         Target baseTarget = null;
-        if (target != null) {
+        if (target != null && target.getBaseTarget() != null) {
             if (! (target.getBaseTarget().getValue() instanceof TSimpleTarget)) {
                 throw new RuntimeException("Target not supported: " + target.getBaseTarget().getValue());
             }
             TSimpleTarget t = (TSimpleTarget) target.getBaseTarget().getValue();
-            baseTarget = new Target(t.getLowerBound(), t.getUpperBound());
+
+            if (t != null)
+                baseTarget = new Target(t.getLowerBound(), t.getUpperBound());
         }
 
         return baseTarget;

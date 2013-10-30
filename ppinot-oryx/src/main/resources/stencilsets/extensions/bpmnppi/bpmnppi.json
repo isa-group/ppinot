@@ -4,6 +4,247 @@
 	"description":"Adds definition of Process Performance Indicators to BPMN 2.0",
 	"definition":"bpmnppi/bpmnppi.json",
 	"extends":"http://b3mn.org/stencilset/bpmn2.0#",
+	"propertyPackages": [
+	    {
+	        "name": "measureCommon",
+	        "properties": [
+                {
+                    "id":"id",
+                    "type":"String",
+                    "title":"Id",
+                    "value":"",
+                    "description":"It uniquely identifies the measure definition.",
+                    "readonly":false,
+                    "optional":false,
+                    "length":"50"
+                },
+                {
+                    "id":"description",
+                    "type":"String",
+                    "title":"Description",
+                    "value":"",
+                    "description":"Describes the measure.",
+                    "readonly":false,
+                    "optional":true,
+                    "length":""
+                },
+                {
+                    "id":"name",
+                    "type":"String",
+                    "title":"Name",
+                    "value":"",
+                    "description":"The descriptive name of the measure.",
+                    "readonly":false,
+                    "optional":true,
+                    "refToView":"text",
+                    "length":""
+                },
+ 				{
+					"id":"scale",
+					"type":"String",
+					"title":"Scale",
+					"value":"",
+					"description":"It defines the measure domain (a set of values with defined properties).",
+					"readonly":false,
+					"optional":true
+				},
+				{
+					"id":"unitOfMeasure",
+					"type":"String",
+					"title":"Unit of Measure",
+					"value":"",
+					"description":"It defines the unit of measure.",
+					"readonly":false,
+					"optional":true
+				}
+	        ]
+	    },
+	    {
+	        "name": "timeMeasureProperties",
+			"properties": [
+				{
+					"id":"timeMeasureType",
+					"type":"Choice",
+					"title":"Type",
+					"value":"Linear",
+					"description":"It defines the type of time measure when it is defined over elements within a loop.",
+					"readonly":false,
+					"items" : [
+					        {
+					          "id":"linearTimeMeasure",
+					      	   "title":"Linear",
+					      	   "value":"Linear",
+					         },
+					         {
+					       	   "id":"CyclicTimeMeasure",
+				        	   "title":"Cyclic",
+				        	   "value":"Cyclic",
+					      	   "refToView":"cyclic"
+					          },
+							],
+					"optional":false
+				},
+				{
+					"id":"singleInstanceAggFunction",
+					"type":"Choice",
+					"title":"Cycle aggregation",
+					"value":"",
+					"description":"It defines the aggregation function applied if TimeMeasureType is cyclic.",
+					"readonly":false,
+				    "items" : [
+                        {
+                          "id":"minimum",
+                           "title":"Minimum",
+                           "value":"Minimum",
+                         },
+                         {
+                           "id":"maximum",
+                           "title":"Maximum",
+                           "value":"Maximum",
+                          },
+                         {
+                           "id":"average",
+                           "title":"Average",
+                           "value":"Average",
+                          },
+                         {
+                           "id":"sum",
+                           "title":"Sum",
+                           "value":"Sum",
+                          },
+					],
+					"optional":true
+				}
+			]
+	    },
+	    {
+	        "name": "aggregatedCommon",
+			"properties": [
+				{
+					"id":"aggregationFunction",
+					"type":"Choice",
+					"title":"Aggregation Function",
+					"value":"",
+					"description":"Function defined through the operators: maximum, minimum, average, sum or count to calculate the aggregated measure value.",
+					"tooltip":"Choose the operator to calculate the measure value",
+					"readonly":false,
+					"items" : [
+					        {
+					          "id":"minimum",
+					      	   "title":"Minimum",
+					      	   "value":"Minimum",
+					      	   "refToView":"minimum"
+					         },
+					         {
+					       	   "id":"maximum",
+				        	   "title":"Maximum",
+				        	   "value":"Maximum",
+				        	   "refToView":"maximum"
+					          },
+							 {
+					           "id":"average",
+					           "title":"Average",
+					           "value":"Average",
+					           "refToView":"average"
+					          },
+							 {
+					       	   "id":"sum",
+					       	   "title":"Sum",
+					       	   "value":"Sum",
+					       	   "refToView":"sum"
+					          },
+							],
+					"width":80,
+					"optional":false
+				},
+				{
+					"id":"samplingFrequency",
+					"type":"String",
+					"title":"Sampling frequency",
+					"value":"",
+					"description":"This attribute defines the frequency of sampling.",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				}
+			]
+	    },
+	    {
+	        "name": "derivedCommon",
+			"properties": [
+				{
+					"id":"function",
+					"type":"String",
+					"title":"Function",
+					"value":"",
+					"description":"The mathematical function used to combine two or more instanceMeasures",
+					"readonly":false,
+					"optional":true,
+					"refToView":"function"
+				}
+			]
+	    },
+	    {
+	        "name": "appliesToElementProperties",
+			"properties":[
+				{
+					"id":"when",
+					"type":"Choice",
+					"title":"State",
+					"value":"Other",
+					"description":"State of the element",
+					"readonly":false,
+					"optional":false,
+					"items": [
+						{
+							"id":"start2",
+							"title":"Start",
+							"value":"Start",
+							"refToView":["start2","endActivityWhite"]
+						},
+						{
+							"id":"end2",
+							"title":"End",
+							"value":"End",
+							"refToView":["end2","endActivityBlack"]
+						},
+						{
+							"id":"otherPointInTime",
+							"title":"Other",
+							"value":"Other"
+						}
+					]
+				},
+				{
+					"id":"state",
+					"type":"String",
+					"title":"BPMN State",
+					"value":"",
+					"description":"It defines the state the element must be in to be measured.",
+					"readonly":false,
+					"optional":false,
+					"refToView":"stateText2"
+				}
+			]
+	    },
+	    {
+	        "name": "dataContentProperties",
+			"properties":[
+				{
+					"id":"dataContentSelection",
+					"type":"String",
+					"title":"DataContentSelection",
+					"value":"",
+					"description":"This attribute is used to define the specific part of the data object that has to be measured.",
+					"readonly":false,
+					"optional":false,
+					"refToView":"dataContentSelectionText"
+				},
+
+			]
+	    }
+
+	],
 	"stencils": [
 		{
 			"type": "node",
@@ -24,7 +265,7 @@
 					"type":"String",
 					"title":"Id",
 					"value":"",
-					"description":"This attribute is used to uniquely identify elements of the ppi extension.",
+					"description":"It uniquely identify elements of the ppi extension.",
 					"readonly":false,
 					"optional":false,
 					"length":"50",
@@ -45,37 +286,140 @@
 					"type":"String",
 					"title":"Description",
 					"value":"",
-					"description":"This attribute is used to describe the element.",
+					"description":"A long description of the PPI.",
 					"readonly":false,
 					"optional":true,
 					"length":""
 				},	
 				{
 					"id":"goals",
-					"type":"String",
+					"type":"Complex",
 					"title":"Goals",
 					"value":"",
-					"description":"This attribute is used to establish strategic or operational goals.",
+					"description":"Specifies the strategic or operational goals the PPI is related with.",
 					"readonly":false,
 					"optional":true,
-					"length":""
+					"complexItems": [
+						{
+							"id":"goal",
+							"name":"Goal",
+							"type":"String",
+							"value":"",
+							"width": 400,
+							"optional":false
+						}
+					]
 				},		
 				{
 					"id":"target",
-					"type":"String",
+					"type":"Complex",
 					"title":"Target",
 					"value":"",
 					"description":"Restriction that the value of a PPI must fulfill",
 					"readonly":false,
 					"optional":false,
-					"length":""
+					"popular": true,
+					"complexItems": [
+						{
+							"id":"lowerBound",
+							"name":"Lower bound",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":true
+						},
+						{
+							"id":"upperBound",
+							"name":"Upper bound",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":true
+						},
+						{
+							"id":"groupedByValue",
+							"name":"Grouped by",
+							"type":"String",
+							"value":"",
+							"width":200,
+							"optional":true
+						}
+					]
 				},
 				{
-					"id":"scope",
-					"type":"String",
-					"title":"Scope",
+					"id":"lastInstancesScope",
+					"type":"Integer",
+					"title":"Last instances scope",
 					"value":"",
-					"description":"This attribute is used to indicate the subset of instances taken into account to calculate the PPI value.",
+					"description":"It indicates the subset of instances taken into account to calculate the PPI value.",
+					"readonly":false,
+					"popular": true,
+					"optional":true
+				},
+				{
+					"id":"timeScope",
+					"type":"Complex",
+					"title":"Time scope",
+					"value":"",
+					"description":"It indicates the subset of instances taken into account to calculate the PPI value.",
+					"readonly":false,
+					"optional":true,
+					"popular": true,
+					"complexItems": [
+						{
+							"id":"scopePeriod",
+							"name":"Period",
+							"type":"Choice",
+							"value":"",
+							"width":100,
+							"optional":false,
+							"items": [
+                                {
+                                    "id":"dailyScope",
+                                    "title":"Daily",
+                                    "value":"daily"
+                                },
+                                {
+                                    "id":"weeklyScope",
+                                    "title":"Weekly",
+                                    "value":"weekly"
+                                },
+                                {
+                                    "id":"monthlyScope",
+                                    "title":"Monthly",
+                                    "value":"monthly"
+                                },
+                                {
+                                    "id":"yearlyScope",
+                                    "title":"Yearly",
+                                    "value":"yearly"
+                                }
+							]
+						},
+						{
+							"id":"frequencyScope",
+							"name":"Frequency",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":false
+						},
+						{
+							"id":"relativeScope",
+							"name":"Relative",
+							"type":"Boolean",
+							"value":"",
+							"width":100,
+							"optional":false
+						}
+					]
+				},
+				{
+					"id":"source",
+					"type":"String",
+					"title":"Source",
+					"value":"",
+					"description":"Identifies the source of the values of the PPI",
 					"readonly":false,
 					"optional":true,
 					"length":""
@@ -92,13 +436,22 @@
 				},
 				{
 					"id":"informed",
-					"type":"String",
+					"type":"Complex",
 					"title":"Informed",
 					"value":"",
 					"description":"This attribute is used to describe the human resource interested in the PPI.",
 					"readonly":false,
 					"optional":true,
-					"length":""
+					"complexItems": [
+						{
+							"id":"inform",
+							"name":"Informed",
+							"type":"String",
+							"value":"",
+							"width":200,
+							"optional":false
+						}
+					]
 				},
 				{
 					"id":"comments",
@@ -109,17 +462,18 @@
 					"readonly":false,
 					"optional":true,
 					"length":""
-				},
+				}
 			]
 		},
 		{
 			"type": "node",
 			"id":"timeMeasure",
-			"title":"TimeMeasure",
+			"title":"Time Measure",
 			"description":"It measures the duration between two instants (start and end) in a process instance.",
 			"groups":["BaseMeasure"],
 			"view":"../../extensions/bpmnppi/view/timeMeasure.svg",
 			"icon":"../../extensions/bpmnppi/icons/timeMeasure.png",
+            "propertyPackages" : ["measureCommon", "timeMeasureProperties"],
 			"roles": [
 				"fromtoall",
 				"all",
@@ -128,120 +482,17 @@
 				"instanceMeasure"
 			],
 			"properties": [
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"This attribute is used to uniquely identify elements of the ppi extension.",
-					"readonly":false,
-					"optional":false,
-					"length":"50"
-				},
-				{
-					"id":"description",
-					"type":"String",
-					"title":"Description",
-					"value":"",
-					"description":"This attribute is used to describe the element.",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"The descriptive name of the measure.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":""
-				},
- 				{
-					"id":"scale",
-					"type":"String",
-					"title":"Scale",
-					"value":"",
-					"description":"This attribute is used to define the measure domain (a set of values with defined properties).",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"unitOfMeasure",
-					"type":"String",
-					"title":"UnitOfMeasure",
-					"value":"",
-					"description":"This attribute is used to define the unit of measure.",
-					"readonly":false,
-					"optional":false
-				},	
-				{
-					"id":"timeMeasureType",
-					"type":"Choice",
-					"title":"TimeMeasureType",
-					"value":"",
-					"description":"This attribute is used to define the type of timeMeasure, when it is defined over elements within a loop.",
-					"readonly":false,
-					"items" : [
-					        {
-					          "id":"linearTimeMeasure",
-					      	   "title":"Linear",
-					      	   "value":"Linear",
-					         },
-					         {
-					       	   "id":"CyclicTimeMeasure",
-				        	   "title":"Cyclic",
-				        	   "value":"Cyclic",
-					      	   "refToView":"cyclic"
-					          },
-							],
-					"optional":false
-				},
-				
-				{
-					"id":"singleInstanceAggFunction",
-					"type":"Choice",
-					"title":"SingleInstanceAggregationFunction",
-					"value":"",
-					"description":"This attribute is used to define the aggregation function applied if TimeMeasureType is cyclic.",
-					"readonly":false,
-				
-				"items" : [
-					        {
-					          "id":"minimum",
-					      	   "title":"Minimum",
-					      	   "value":"Minimum",
-					         },
-					         {
-					       	   "id":"maximum",
-				        	   "title":"Maximum",
-				        	   "value":"Maximum",
-					          },
-							 {
-					           "id":"average",
-					           "title":"Average",
-					           "value":"Average",
-					          },
-							 {
-					       	   "id":"sum",
-					       	   "title":"Sum",
-					       	   "value":"Sum",
-					          },   
-							],	
-					"optional":false
-				},		
 			]
 		},
 		{
 			"type": "node",
 			"id":"countMeasure",
-			"title":"CountMeasure",
+			"title":"Count Measure",
 			"description":"It counts the number of times a certain timeInstantCondition is met.",
 			"groups":["BaseMeasure"],
 			"view":"../../extensions/bpmnppi/view/countMeasure.svg",
 			"icon":"../../extensions/bpmnppi/icons/countMeasure.png",
+            "propertyPackages" : ["measureCommon"],
 			"roles": [
 				"fromtoall",
 				"all",
@@ -251,67 +502,17 @@
 				"appliesToElementMeasure"
 			],
 			"properties": [
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"This attribute is used to uniquely identify elements of the ppi extension.",
-					"readonly":false,
-					"optional":false,
-					"length":"50"
-				},
-				{
-					"id":"description",
-					"type":"String",
-					"title":"Description",
-					"value":"",
-					"description":"This attribute is used to describe the element.",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"The descriptive name of the measure.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":""
-				},
- 				{
-					"id":"scale",
-					"type":"String",
-					"title":"Scale",
-					"value":"",
-					"description":"This attribute is used to define the measure domain (a set of values with defined properties).",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"unitOfMeasure",
-					"type":"String",
-					"title":"UnitOfMeasure",
-					"value":"",
-					"description":"This attribute is used to define the unit of measure.",
-					"readonly":false,
-					"optional":false,
-					"refToView":"unitOfMeasure"
-				},
-				
 			]
 		},
 		{
 			"type": "node",
 			"id":"stateConditionMeasure",
-			"title":"StateConditionMeasure",
-			"description":"It checks wether a flow element's instance is currently in execution (its statusor state).",
+			"title":"State Condition Measure",
+			"description":"It checks whether a flow element's instance is currently in execution (its statusor state).",
 			"groups":["BaseMeasure"],
 			"view":"../../extensions/bpmnppi/view/stateConditionMeasure.svg",
 			"icon":"../../extensions/bpmnppi/icons/stateConditionMeasure.png",
+            "propertyPackages" : ["measureCommon"],
 			"roles": [
 				"fromtoall",
 				"all",
@@ -321,67 +522,17 @@
 				"instanceMeasure"
 			],
 			"properties": [
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"This attribute is used to uniquely identify elements of the ppi extension.",
-					"readonly":false,
-					"optional":false,
-					"length":"50"
-				},
-				{
-					"id":"description",
-					"type":"String",
-					"title":"Description",
-					"value":"",
-					"description":"This attribute is used to describe the element.",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"The descriptive name of the measure.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":""
-				},
- 				{
-					"id":"scale",
-					"type":"String",
-					"title":"Scale",
-					"value":"",
-					"description":"This attribute is used to define the measure domain (a set of values with defined properties).",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"unitOfMeasure",
-					"type":"String",
-					"title":"UnitOfMeasure",
-					"value":"",
-					"description":"This attribute is used to define the unit of measure.",
-					"readonly":false,
-					"optional":false,
-					"refToView":"unitOfMeasure"
-				},
-				
 			]
 		},
 		{
 			"type": "node",
 			"id":"dataPropertyConditionMeasure",
-			"title":"DataPropertyConditionMeasure",
+			"title":"Data Property Condition Measure",
 			"description":"It checks certain conditions (e.g. states or restriction related to a property) over Data Objects' instances.",
 			"groups":["BaseMeasure"],
 			"view":"../../extensions/bpmnppi/view/dataPropertyConditionMeasure.svg",
 			"icon":"../../extensions/bpmnppi/icons/dataPropertyConditionMeasure.png",
+            "propertyPackages" : ["measureCommon"],
 			"roles": [
 				"fromtoall",
 				"all",
@@ -391,68 +542,18 @@
 				"instanceMeasure"
 			],
 			"properties": [
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"This attribute is used to uniquely identify elements of the ppi extension.",
-					"readonly":false,
-					"optional":false,
-					"length":"50"
-				},
-				{
-					"id":"description",
-					"type":"String",
-					"title":"Description",
-					"value":"",
-					"description":"This attribute is used to describe the element.",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"The descriptive name of the measure.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":""
-				},
- 				{
-					"id":"scale",
-					"type":"String",
-					"title":"Scale",
-					"value":"",
-					"description":"This attribute is used to define the measure domain (a set of values with defined properties).",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"unitOfMeasure",
-					"type":"String",
-					"title":"UnitOfMeasure",
-					"value":"",
-					"description":"This attribute is used to define the unit of measure.",
-					"readonly":false,
-					"optional":false,
-					"refToView":"unitOfMeasure"
-				},
-				
 			]
 		},
 		
 		{
 			"type": "node",
 			"id":"dataMeasure",
-			"title":"DataMeasure",
+			"title":"Data Measure",
 			"description":"It measures certain properties contained in a dataObject's instance that this measure is related to",
 			"groups":["BaseMeasure"],
 			"view":"../../extensions/bpmnppi/view/dataMeasure.svg",
 			"icon":"../../extensions/bpmnppi/icons/dataMeasure.png",
+            "propertyPackages" : ["measureCommon"],
 			"roles": [
 				"fromtoall",
 				"all",
@@ -462,67 +563,18 @@
 				"instanceMeasure"
 			],
 			"properties": [
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"This attribute is used to uniquely identify elements of the ppi extension.",
-					"readonly":false,
-					"optional":false,
-					"length":"50"
-				},
-				{
-					"id":"description",
-					"type":"String",
-					"title":"Description",
-					"value":"",
-					"description":"This attribute is used to describe the element.",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"The descriptive name of the measure.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":""
-				},
- 				{
-					"id":"scale",
-					"type":"String",
-					"title":"Scale",
-					"value":"",
-					"description":"This attribute is used to define the measure domain (a set of values with defined properties).",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"unitOfMeasure",
-					"type":"String",
-					"title":"UnitOfMeasure",
-					"value":"",
-					"description":"This attribute is used to define the unit of measure.",
-					"readonly":false,
-					"optional":false
-				},
-				
 			]
 		},
 		
 		{
 			"type": "node",
 			"id":"aggregatedMeasureGeneric", 
-			"title":"aggregatedMeasure",
+			"title":"Aggregated Measure",
 			"description":"It aggregates values of InstanceMeasures contained in the analysis period through an aggregation function",
 			"groups":["AggregatedMeasure"],
 			"view":"../../extensions/bpmnppi/view/aggregatedMeasure.svg",
 			"icon":"../../extensions/bpmnppi/icons/aggregatedMeasure.png",
+            "propertyPackages" : ["measureCommon", "aggregatedCommon"],
 			"roles": [
 				"fromtoall",
 				"all",
@@ -531,113 +583,18 @@
 			], 
 
 			"properties": [	
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"This attribute is used to uniquely identify elements of the ppi extension.",
-					"readonly":false,
-					"optional":false,
-					"length":"50"
-				},
-				{
-					"id":"description",
-					"type":"String",
-					"title":"Description",
-					"value":"",
-					"description":"This attribute is used to describe the element.",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"The descriptive name of the measure.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":""
-				},
- 				{
-					"id":"scale",
-					"type":"String",
-					"title":"Scale",
-					"value":"",
-					"description":"This attribute is used to define the measure domain (a set of values with defined properties).",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"unitOfMeasure",
-					"type":"String",
-					"title":"UnitOfMeasure",
-					"value":"",
-					"description":"This attribute is used to define the unit of measure.",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"aggregationFunction",
-					"type":"Choice",
-					"title":"Aggregation Function",
-					"value":"",
-					"description":"Function defined through the operators: maximum, minimum, average, sum or count to calculate the aggregated measure value.",
-					"tooltip":"Choose the operator to calculate the measure value",
-					"readonly":false,
-					"items" : [
-					        {
-					          "id":"minimum",
-					      	   "title":"Minimum",
-					      	   "value":"Minimum",
-					      	   "refToView":"minimum"
-					         },
-					         {
-					       	   "id":"maximum",
-				        	   "title":"Maximum",
-				        	   "value":"Maximum",
-				        	   "refToView":"maximum"
-					          },
-							 {
-					           "id":"average",
-					           "title":"Average",
-					           "value":"Average",
-					           "refToView":"average"
-					          },
-							 {
-					       	   "id":"sum",
-					       	   "title":"Sum",
-					       	   "value":"Sum",
-					       	   "refToView":"sum"
-					          },   
-							],
-					"width":80,
-					"optional":false		
-				},
-				{
-					"id":"samplingFrequency",
-					"type":"String",
-					"title":"Sampling frequency",
-					"value":"",
-					"description":"This attribute defines the frequency of sampling.",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				}
 			]
 		},
 				
 		{
 			"type": "node",
 			"id":"timeAggregatedMeasure",
-			"title":"TimeAggregatedMeasure",
+			"title":"Time Aggregated Measure",
 			"description":"It aggregates values of TimeMeasures contained in the analysis period through an aggregation function",
 			"groups":["AggregatedMeasure"],
 			"view":"../../extensions/bpmnppi/view/timeAggregatedMeasure.svg",
 			"icon":"../../extensions/bpmnppi/icons/timeAggregatedMeasure.png",
+            "propertyPackages" : ["measureCommon", "aggregatedCommon", "timeMeasureProperties"],
 			"roles": [
 				"fromtoall",
 				"all",
@@ -647,164 +604,14 @@
 			], 
 
 			"properties": [	
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"This attribute is used to uniquely identify elements of the ppi extension.",
-					"readonly":false,
-					"optional":false,
-					"length":"50"
-				},
-				{
-					"id":"description",
-					"type":"String",
-					"title":"Description",
-					"value":"",
-					"description":"This attribute is used to describe the element.",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"The descriptive name of the measure.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":""
-				},
- 				{
-					"id":"scale",
-					"type":"String",
-					"title":"Scale",
-					"value":"",
-					"description":"This attribute is used to define the measure domain (a set of values with defined properties).",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"unitOfMeasure",
-					"type":"String",
-					"title":"UnitOfMeasure",
-					"value":"",
-					"description":"This attribute is used to define the unit of measure.",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"timeMeasureType",
-					"type":"Choice",
-					"title":"TimeMeasureType",
-					"value":"",
-					"description":"This attribute is used to define the type of timeMeasure, when it is defined over elements within a loop.",
-					"readonly":false,
-					"items" : [
-					        {
-					          "id":"linearTimeMeasure",
-					      	   "title":"Linear",
-					      	   "value":"Linear",
-					         },
-					         {
-					       	   "id":"CyclicTimeMeasure",
-				        	   "title":"Cyclic",
-				        	   "value":"Cyclic",
-					      	   "refToView":"cyclic"
-					          },
-							],
-					"optional":false
-				},
-				
-				{
-					"id":"singleInstanceAggFunction",
-					"type":"Choice",
-					"title":"SingleInstanceAggregationFunction",
-					"value":"",
-					"description":"This attribute is used to define the aggregation function applied if TimeMeasureType is cyclic.",
-					"readonly":false,
-				
-				"items" : [
-					        {
-					          "id":"minimum",
-					      	   "title":"Minimum",
-					      	   "value":"Minimum",
-					         },
-					         {
-					       	   "id":"maximum",
-				        	   "title":"Maximum",
-				        	   "value":"Maximum",
-					          },
-							 {
-					           "id":"average",
-					           "title":"Average",
-					           "value":"Average",
-					          },
-							 {
-					       	   "id":"sum",
-					       	   "title":"Sum",
-					       	   "value":"Sum",
-					          },   
-							],	
-					"optional":false
-				},	
-				{
-					"id":"aggregationFunction",
-					"type":"Choice",
-					"title":"Aggregation Function",
-					"value":"",
-					"description":"Function defined through the operators: maximum, minimum, average, sum or count to calculate the aggregated measure value.",
-					"tooltip":"Choose the operator to calculate the measure value",
-					"readonly":false,
-					"items" : [
-					        {
-					          "id":"minimum",
-					      	   "title":"Minimum",
-					      	   "value":"Minimum",
-					      	   "refToView":"minimum"
-					         },
-					         {
-					       	   "id":"maximum",
-				        	   "title":"Maximum",
-				        	   "value":"Maximum",
-				        	   "refToView":"maximum"
-					          },
-							 {
-					           "id":"average",
-					           "title":"Average",
-					           "value":"Average",
-					           "refToView":"average"
-					          },
-							 {
-					       	   "id":"sum",
-					       	   "title":"Sum",
-					       	   "value":"Sum",
-					       	   "refToView":"sum"
-					          },   
-							],
-					"width":80,
-					"optional":false		
-				},
-				{
-					"id":"samplingFrequency",
-					"type":"String",
-					"title":"Sampling frequency",
-					"value":"",
-					"description":"This attribute defines the frequency of sampling.",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				}
 			]
 		},
 		{
 			"type": "node",
 			"id":"countAggregatedMeasure",
-			"title":"CountAggregatedMeasure",
+			"title":"Count Aggregated Measure",
 			"description":"It aggregates values of CountMeasures contained in the analysis period through an aggregation function",
+            "propertyPackages" : ["measureCommon", "aggregatedCommon"],
 			"groups":["AggregatedMeasure"],
 			"view":"../../extensions/bpmnppi/view/countAggregatedMeasure.svg",
 			"icon":"../../extensions/bpmnppi/icons/countAggregatedMeasure.png",
@@ -818,113 +625,17 @@
 			], 
 
 			"properties": [	
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"This attribute is used to uniquely identify elements of the ppi extension.",
-					"readonly":false,
-					"optional":false,
-					"length":"50"
-				},
-				{
-					"id":"description",
-					"type":"String",
-					"title":"Description",
-					"value":"",
-					"description":"This attribute is used to describe the element.",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"The descriptive name of the measure.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":""
-				},
- 				{
-					"id":"scale",
-					"type":"String",
-					"title":"Scale",
-					"value":"",
-					"description":"This attribute is used to define the measure domain (a set of values with defined properties).",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"unitOfMeasure",
-					"type":"String",
-					"title":"UnitOfMeasure",
-					"value":"",
-					"description":"This attribute is used to define the unit of measure.",
-					"readonly":false,
-					"optional":false,
-					"refToView":"unitOfMeasure"
-				},	
-				{
-					"id":"aggregationFunction",
-					"type":"Choice",
-					"title":"Aggregation Function",
-					"value":"",
-					"description":"Function defined through the operators: maximum, minimum, average, sum or count to calculate the aggregated measure value.",
-					"tooltip":"Choose the operator to calculate the measure value",
-					"readonly":false,
-					"items" : [
-					        {
-					          "id":"minimum",
-					      	   "title":"Minimum",
-					      	   "value":"Minimum",
-					      	   "refToView":"minimum"
-					         },
-					         {
-					       	   "id":"maximum",
-				        	   "title":"Maximum",
-				        	   "value":"Maximum",
-				        	   "refToView":"maximum"
-					          },
-							 {
-					           "id":"average",
-					           "title":"Average",
-					           "value":"Average",
-					           "refToView":"average"
-					          },
-							 {
-					       	   "id":"sum",
-					       	   "title":"Sum",
-					       	   "value":"Sum",
-					       	   "refToView":"sum"
-					          },    
-							],
-					"width":80,
-					"optional":false		
-				},
-				{
-					"id":"samplingFrequency",
-					"type":"String",
-					"title":"Sampling frequency",
-					"value":"",
-					"description":"This attribute defines the frequency of sampling.",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				}
 			]
 		},
 		{
 			"type": "node",
 			"id":"stateConditionAggregatedMeasure",
-			"title":"StateConditionAggregatedMeasure",
+			"title":"State Condition Aggregated Measure",
 			"description":"It aggregates values of stateConditionMeasures contained in the analysis period through an aggregation function",
 			"groups":["AggregatedMeasure"],
 			"view":"../../extensions/bpmnppi/view/stateConditionAggregatedMeasure.svg",
 			"icon":"../../extensions/bpmnppi/icons/stateConditionAggregatedMeasure.png",
+            "propertyPackages" : ["measureCommon", "aggregatedCommon"],
 			"roles": [
 				"fromtoall",
 				"all",
@@ -935,97 +646,17 @@
 			], 
 
 			"properties": [	
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"This attribute is used to uniquely identify elements of the ppi extension.",
-					"readonly":false,
-					"optional":false,
-					"length":"50"
-				},
-				{
-					"id":"description",
-					"type":"String",
-					"title":"Description",
-					"value":"",
-					"description":"This attribute is used to describe the element.",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"The descriptive name of the measure.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":""
-				},
- 				{
-					"id":"scale",
-					"type":"String",
-					"title":"Scale",
-					"value":"",
-					"description":"This attribute is used to define the measure domain (a set of values with defined properties).",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"unitOfMeasure",
-					"type":"String",
-					"title":"UnitOfMeasure",
-					"value":"",
-					"description":"This attribute is used to define the unit of measure.",
-					"readonly":false,
-					"optional":false,
-					"refToView":"unitOfMeasure"
-				},	
-				{
-					"id":"aggregationFunction",
-					"type":"Choice",
-					"title":"Aggregation Function",
-					"value":"",
-					"description":"Function defined through the operators: maximum, minimum, average, sum or count to calculate the aggregated measure value.",
-					"tooltip":"Choose the operator to calculate the measure value",
-					"readonly":false,
-					"items" : [  
-							 {
-					       	   "id":"sum",
-					       	   "title":"Sum",
-					       	   "value":"Sum",
-					       	   "refToView":"sum"
-					          },
-		    
-							],
-					"width":80,
-					"optional":false		
-				},
-				{
-					"id":"samplingFrequency",
-					"type":"String",
-					"title":"Sampling frequency",
-					"value":"",
-					"description":"This attribute defines the frequency of sampling.",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				
 			]
 		},
 		{
 			"type": "node",
 			"id":"dataPropertyConditionAggregatedMeasure",
-			"title":"DataPropertyConditionAggregatedMeasure",
+			"title":"Data Property Condition Aggregated Measure",
 			"description":"It aggregates values of dataPropertyConditionMeasures contained in the analysis period through an aggregation function.",
 			"groups":["AggregatedMeasure"],
 			"view":"../../extensions/bpmnppi/view/dataPropertyConditionAggregatedMeasure.svg",
 			"icon":"../../extensions/bpmnppi/icons/dataPropertyConditionAggregatedMeasure.png",
+            "propertyPackages" : ["measureCommon", "aggregatedCommon"],
 			"roles": [
 				"fromtoall",
 				"all",
@@ -1034,97 +665,18 @@
 				"processMeasure",
 				"appliesToDataMeasure"
 			], 
-
-			"properties": [	
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"This attribute is used to uniquely identify elements of the ppi extension.",
-					"readonly":false,
-					"optional":false,
-					"length":"50"
-				},
-				{
-					"id":"description",
-					"type":"String",
-					"title":"Description",
-					"value":"",
-					"description":"This attribute is used to describe the element.",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"The descriptive name of the measure.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":""
-				},
- 				{
-					"id":"scale",
-					"type":"String",
-					"title":"Scale",
-					"value":"",
-					"description":"This attribute is used to define the measure domain (a set of values with defined properties).",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"unitOfMeasure",
-					"type":"String",
-					"title":"UnitOfMeasure",
-					"value":"",
-					"description":"This attribute is used to define the unit of measure.",
-					"readonly":false,
-					"optional":false,
-					"refToView":"unitOfMeasure"
-				},				
-				{
-					"id":"aggregationFunction",
-					"type":"Choice",
-					"title":"Aggregation Function",
-					"value":"",
-					"description":"Function defined through the operators: maximum, minimum, average, sum or count to calculate the aggregated measure value.",
-					"tooltip":"Choose the operator to calculate the measure value",
-					"readonly":false,
-					"items" : [
-							 {
-					       	   "id":"sum",
-					       	   "title":"Sum",
-					       	   "value":"Sum",
-					       	   "refToView":"sum"
-					          },  
-							],
-					"width":80,
-					"optional":false		
-				},
-				{
-					"id":"samplingFrequency",
-					"type":"String",
-					"title":"Sampling frequency",
-					"value":"",
-					"description":"This attribute defines the frequency of sampling.",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				}
+			"properties": [
 			]
 		},
 		{
 			"type": "node",
 			"id":"dataAggregatedMeasure",
-			"title":"DataAggregatedMeasure",
+			"title":"Data Aggregated Measure",
 			"description":"It aggregates values of DataMeasures contained in the analysis period through an aggregation function",
 			"groups":["AggregatedMeasure"],
 			"view":"../../extensions/bpmnppi/view/dataAggregatedMeasure.svg",
 			"icon":"../../extensions/bpmnppi/icons/dataAggregatedMeasure.png",
+            "propertyPackages" : ["measureCommon", "aggregatedCommon"],
 			"roles": [
 				"fromtoall",
 				"all",
@@ -1135,112 +687,17 @@
 			], 
 
 			"properties": [	
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"This attribute is used to uniquely identify elements of the ppi extension.",
-					"readonly":false,
-					"optional":false,
-					"length":"50"
-				},
-				{
-					"id":"description",
-					"type":"String",
-					"title":"Description",
-					"value":"",
-					"description":"This attribute is used to describe the element.",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"The descriptive name of the measure.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":""
-				},
- 				{
-					"id":"scale",
-					"type":"String",
-					"title":"Scale",
-					"value":"",
-					"description":"This attribute is used to define the measure domain (a set of values with defined properties).",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"unitOfMeasure",
-					"type":"String",
-					"title":"UnitOfMeasure",
-					"value":"",
-					"description":"This attribute is used to define the unit of measure.",
-					"readonly":false,
-					"optional":false
-				},	
-				{
-					"id":"aggregationFunction",
-					"type":"Choice",
-					"title":"Aggregation Function",
-					"value":"",
-					"description":"Function defined through the operators: maximum, minimum, average, sum or count to calculate the aggregated measure value.",
-					"tooltip":"Choose the operator to calculate the measure value",
-					"readonly":false,
-					"items" : [
-					        {
-					          "id":"minimum",
-					      	   "title":"Minimum",
-					      	   "value":"Minimum",
-					      	   "refToView":"minimum"
-					         },
-					         {
-					       	   "id":"maximum",
-				        	   "title":"Maximum",
-				        	   "value":"Maximum",
-				        	   "refToView":"maximum"
-					          },
-							 {
-					           "id":"average",
-					           "title":"Average",
-					           "value":"Average",
-					           "refToView":"average"
-					          },
-							 {
-					       	   "id":"sum",
-					       	   "title":"Sum",
-					       	   "value":"Sum",
-					       	   "refToView":"sum"
-					          },   
-							],
-					"width":80,
-					"optional":false		
-				},
-				{
-					"id":"samplingFrequency",
-					"type":"String",
-					"title":"Sampling frequency",
-					"value":"",
-					"description":"This attribute defines the frequency of sampling.",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				}
 			]
 		},
 		{
 			"type": "node",
 			"id":"derivedSingleInstanceMeasure",
-			"title":"derivedSingleInstanceMeasure",
+			"title":"Derived Single-Instance Measure",
 			"description":"It is defined as a function of two or more base and/or composed measures",
 			"groups":["DerivedMeasure"],
 			"view":"../../extensions/bpmnppi/view/derivedSingleInstanceMeasure.svg",
 			"icon":"../../extensions/bpmnppi/icons/derivedSingleInstanceMeasure.png",
+            "propertyPackages" : ["measureCommon", "derivedCommon"],
 			"roles": [
 				"fromtoall",
 				"all",
@@ -1248,77 +705,18 @@
 				"instanceMeasure",
 			], 
 			"properties": [		
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"This attribute is used to uniquely identify elements of the ppi extension.",
-					"readonly":false,
-					"optional":false,
-					"length":"50"
-				},
-				{
-					"id":"description",
-					"type":"String",
-					"title":"Description",
-					"value":"",
-					"description":"This attribute is used to describe the element.",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"The descriptive name of the measure.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":""
-				},
- 				{
-					"id":"scale",
-					"type":"String",
-					"title":"Scale",
-					"value":"",
-					"description":"This attribute is used to define the measure domain (a set of values with defined properties).",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"unitOfMeasure",
-					"type":"String",
-					"title":"UnitOfMeasure",
-					"value":"",
-					"description":"This attribute is used to define the unit of measure.",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"function",
-					"type":"String",
-					"title":"Function",
-					"value":"",
-					"description":"The mathematical function used to combine two or more instanceMeasures",
-					"readonly":false,
-					"optional":true,
-					"refToView":"function"
-				},
-						
 			]
 		},
 		
 		{
 			"type": "node",
 			"id":"derivedMultiInstanceMeasure",
-			"title":"DerivedMultiInstanceMeasure",
+			"title":"Derived Multi-Instance Measure",
 			"description":"It is defined as a function of two or more ProcessMeasures",
 			"groups":["DerivedMeasure"],
 			"view":"../../extensions/bpmnppi/view/derivedMultiInstanceMeasure.svg",
 			"icon":"../../extensions/bpmnppi/icons/derivedMultiInstanceMeasure.png",
+            "propertyPackages" : ["measureCommon", "derivedCommon"],
 			"roles": [
 				"fromtoall",
 				"all",
@@ -1326,66 +724,6 @@
 				"processMeasure"
 			], 
 			"properties": [		
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"This attribute is used to uniquely identify elements of the ppi extension.",
-					"readonly":false,
-					"optional":false,
-					"length":"50"
-				},
-				{
-					"id":"description",
-					"type":"String",
-					"title":"Description",
-					"value":"",
-					"description":"This attribute is used to describe the element.",
-					"readonly":false,
-					"optional":true,
-					"length":""
-				},
-				{
-					"id":"name",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"The descriptive name of the measure.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"text",
-					"length":""
-				},
- 				{
-					"id":"scale",
-					"type":"String",
-					"title":"Scale",
-					"value":"",
-					"description":"This attribute is used to define the measure domain (a set of values with defined properties).",
-					"readonly":false,
-					"optional":false
-				},
-				{
-					"id":"unitOfMeasure",
-					"type":"String",
-					"title":"UnitOfMeasure",
-					"value":"",
-					"description":"This attribute is used to define the unit of measure.",
-					"readonly":false,
-					"optional":false,
-					
-				},	
-				{
-					"id":"function",
-					"type":"String",
-					"title":"Function",
-					"value":"",
-					"description":"This attribute describes the mathematical function used to combine the corresponding ProcessMeasures, that allows to calculate the measure value",
-					"readonly":false,
-					"optional":true,
-					"refToView":"function"
-				}		
 			]
 		},
 		
@@ -1402,26 +740,17 @@
 			"groups":["PPI Connectors"],
 			"view":"../../extensions/bpmnppi/view/timeConnector.svg",
 			"icon":"../../extensions/bpmnppi/icons/timeConnector.png",
+            "propertyPackages" : ["appliesToElementProperties"],
 			"roles": [ //revisar
 				"all",
 				"ConnectorsMorph"
 			],
 			"properties":[
 				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"This attribute is used to uniquely identify the time connector.",
-					"readonly":false,
-					"optional":false,
-					"length":"50"
-				},
-				{   
 					"id":"ConditionType",
 					"type":"Choice",
-					"title":"ConditionType",
-					"value":"",
+					"title":"Connector Type",
+					"value":"From",
 					"description":"This attribute determines the type of the time connector.",
 					"readonly":false,
 					"optional":false,
@@ -1439,136 +768,40 @@
 							"refToView":["to","startmeasureblack"]
 						}
 					]
-				},
-				{
-					"id":"when",
-					"type":"Choice",
-					"title":"When",
-					"value":"",
-					"description":"Variable to check the condition at the end of an activity or a pool, if sourceShape is a countMeasure and targetShape is an activity or a pool",
-					"readonly":false,
-					"optional":true,
-					"items": [
-						{
-							"id":"start2",
-							"title":"Start",
-							"value":"Start",
-							"refToView":["start2","endActivityWhite"]
-						},
-						{
-							"id":"end2",
-							"title":"End",
-							"value":"End",
-							"refToView":["end2","endActivityBlack"]
-						},
-						{
-							"id":"otherPointInTime",
-							"title":"Other",
-							"value":"Other"
-						}
-					]
-				},
-				{
-					"id":"state",
-					"type":"String",
-					"title":"State",
-					"value":"",
-					"description":"This attribute is used to define the state the element must be in to be measured.",
-					"readonly":false,
-					"optional":false,
-				},
-			],
+				}
+			]
 		},
 		
 		{
 			"type": "edge",
 			"id":"appliesToElementConnector",
-			"title":"AppliesToElement",
+			"title":"Applies To Element",
 			"description":"Defines the connection of the PPI to the BPMN flowelement, in the case of CountMeasure or StateConditionMeasure",
 			"groups":["PPI Connectors"],
 			"view":"../../extensions/bpmnppi/view/appliesToElementConnector.svg",
 			"icon":"../../extensions/bpmnppi/icons/appliesToElementConnector.png",
+            "propertyPackages" : ["appliesToElementProperties"],
 			"roles": [ //revisar
 				"all",
 				"ConnectorsMorph"
 			],
 			"properties":[
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"This attribute is used to uniquely identify PPI extension elements.",
-					"readonly":false,
-					"optional":false,
-					"length":"50"
-				},
-				{
-					"id":"when",
-					"type":"Choice",
-					"title":"When",
-					"value":"",
-					"description":"Variable to check the condition at the end of an activity or a pool, if sourceShape is a countMeasure and targetShape is an activity or a pool",
-					"readonly":false,
-					"optional":true,
-					"items": [
-						{
-							"id":"start2",
-							"title":"Start",
-							"value":"Start",
-							"refToView":["start2","endActivityWhite"]
-						},
-						{
-							"id":"end2",
-							"title":"End",
-							"value":"End",
-							"refToView":["end2","endActivityBlack"]
-						},
-						{
-							"id":"otherPointInTime",
-							"title":"Other",
-							"value":"Other"
-						}
-					]
-				},
-				{
-					"id":"state",
-					"type":"String",
-					"title":"State",
-					"value":"",
-					"description":"This attribute is used to define the state the element must be in to be measured.",
-					"readonly":false,
-					"optional":false,
-					"refToView":"stateText2"
-				},
-				
-			],
+			]
 		},
-		
 		{
 			"type": "edge",
 			"id":"appliesToDataConnector",
-			"title":"AppliesToData",
+			"title":"Applies To Data",
 			"description":"Defines the connection of the PPI to the BPMN flowelement, in the case of DataPropertyConditionMeasure or DataMeasure",
 			"groups":["PPI Connectors"],
 			"view":"../../extensions/bpmnppi/view/appliesToDataConnector.svg",
 			"icon":"../../extensions/bpmnppi/icons/appliesToDataConnector.png",
+            "propertyPackages" : ["dataContentProperties"],
 			"roles": [ //revisar
 				"all",
 				"ConnectorsMorph"
 			],
 			"properties":[
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"This attribute is used to uniquely identify PPI extension elements.",
-					"readonly":false,
-					"optional":false,
-					"length":"50"
-				},
-				
 				{
 					"id":"restriction",
 					"type":"String",
@@ -1576,7 +809,7 @@
 					"value":"",
 					"description":"This attribute is used to specify the restriction certain Data property must fulfill.",
 					"readonly":false,
-					"optional":false,
+					"optional":true,
 					"refToView":"restrictionText" 
 				},
 				{
@@ -1584,26 +817,14 @@
 					"type":"String",
 					"title":"State",
 					"value":"",
-					"description":"This attribute is used to define the state the element must be in to be measured.",
+					"description":"It defines the state the element must be in to be measured.",
 					"readonly":false,
 					"optional":false,
 					"refToView":"stateText3"
 					
-				},
-				{
-					"id":"dataContentSelection",
-					"type":"String",
-					"title":"DataContentSelection",
-					"value":"",
-					"description":"This attribute is used to define the specific part of the data object that has to be measured.",
-					"readonly":false,
-					"optional":false,
-					"refToView":"dataContentSelectionText"
-				},
-				
-			],
+				}
+			]
 		},
-		
 		{
 			"type": "edge",
 			"id":"aggregates",
@@ -1617,53 +838,23 @@
 				"ConnectorsMorph"
 			],
 			"properties":[
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"This attribute is used to uniquely identify PPI extension elements.",
-					"readonly":false,
-					"optional":false,
-					"length":"50"
-				}
 			],
 		},
 		{
 			"type": "edge",
 			"id":"isGroupedBy",
-			"title":"IsGroupedBy",
+			"title":"Is Grouped By",
 			"description":"Connects to the element whose condition is used to group an AggregatedMeasure.",
 			"groups":["PPI Connectors"],
 			"view":"../../extensions/bpmnppi/view/isGroupedBy.svg",
 			"icon":"../../extensions/bpmnppi/icons/isGroupedBy.png",
+            "propertyPackages" : ["dataContentProperties"],
 			"roles": [
 				"all",
 				"ConnectorsMorph"
 			],
 			"properties":[
-				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"This attribute is used to uniquely identify PPI extension elements.",
-					"readonly":false,
-					"optional":false,
-					"length":"50"
-				},
-				{
-					"id":"dataContentSelection",
-					"type":"String",
-					"title":"DataContentSelection",
-					"value":"",
-					"description":"This attribute is used to define the specific part of the data object that has to be measured.",
-					"readonly":false,
-					"optional":false,
-					"refToView":"dataContentSelectionText"
-				},
-
-			],
+			]
 		},
 		
 		{
@@ -1680,32 +871,11 @@
 			],
 			"properties":[
 				{
-					"id":"id",
-					"type":"String",
-					"title":"Id",
-					"value":"",
-					"description":"This attribute is used to uniquely identify PPI extension elements.",
-					"readonly":false,
-					"optional":false,
-					"length":"50"
-				},
-				/*{
-					"id":"connectorType",
-					"type":"String",
-					"title":"ConnectorType",
-					"value":"uses",
-					"description":"",
-					"readonly":true,
-					"optional":false,
-					"length":"",
-					"refToView":"connectorType"
-				},*/
-				{
 					"id":"variable",
 					"type":"String",
 					"title":"Variable",
 					"value":"",
-					"description":"This attribute defines the variable with which the measure that is target of this connector is defined in the corresponding function.",
+					"description":"It defines the variable with which the measure that is target of this connector is defined in the corresponding function.",
 					"tooltip":"Write the variable in brackets.",
 					"readonly":false,
 					"optional":false,

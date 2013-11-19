@@ -26,7 +26,7 @@ angular.module('ppinotTemplates', ['ui.bootstrap'])
       scope: {aggFunction: '=', baseMeasure: '=', process:'='},
       link: function(scope, element, attrs) {
         if (scope.baseMeasure != null) {
-          $compile("<span>the {{aggregationFunction}} of <measure ng-model='baseMeasure' process='process'></measure></span>")(scope, function(cloned, scope) {
+          $compile("<span>the {{aggFunction}} of <measure ng-model='baseMeasure' process='process'></measure></span>")(scope, function(cloned, scope) {
             element.replaceWith(cloned);
           })
         }
@@ -61,7 +61,9 @@ angular.module('ppinotTemplates', ['ui.bootstrap'])
         $scope.stateName = function(changesToState) {
             var stateName = "";
             angular.forEach(changesToState, function (value, key) {
-                stateName = value;
+                if (value == "START") stateName = "active"
+                else if (value == "END") stateName = "completed"
+                else stateName = value;
             });
             return stateName;
         };

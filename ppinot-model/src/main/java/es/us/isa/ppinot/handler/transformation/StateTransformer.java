@@ -18,17 +18,20 @@ import java.util.Set;
 public class StateTransformer {
     public static RuntimeState transform(String state) {
         RuntimeState result = null;
+
         try{
             result = GenericState.valueOf(state.toUpperCase());
-            if (result == null) {
+        } catch (IllegalArgumentException e) {
+
+            try {
                 result = BPMNState.valueOf(state.toUpperCase());
-            }
-            if (result == null) {
+            } catch (IllegalArgumentException e2) {
                 result = new DataObjectState(state);
             }
-        } catch (IllegalArgumentException e) {
-            // ignores
+        } catch (NullPointerException e) {
+            // Do nothing
         }
+
 
 
         return result;

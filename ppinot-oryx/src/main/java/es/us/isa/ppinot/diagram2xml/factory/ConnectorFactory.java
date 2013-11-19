@@ -2,6 +2,8 @@ package es.us.isa.ppinot.diagram2xml.factory;
 
 import de.hpi.bpmn2_0.annotations.StencilId;
 import es.us.isa.ppinot.xml.*;
+import org.oryxeditor.server.diagram.basic.BasicEdge;
+import org.oryxeditor.server.diagram.basic.BasicShape;
 import org.oryxeditor.server.diagram.generic.GenericShape;
 
 import javax.xml.bind.JAXBElement;
@@ -18,7 +20,23 @@ public class ConnectorFactory extends AbstractPPINotFactory {
         if ("Other".equals(state)) {
             state = shape.getProperty("state");
         }
+
+        if (state == null)
+            state = getStateFromDataObject(shape);
+
         connector.setState(state);
+    }
+
+    private String getStateFromDataObject(GenericShape shape) {
+        String state = null;
+        if (shape instanceof BasicEdge) {
+
+            BasicShape target = ((BasicEdge) shape).getTarget();
+            if (target != null && "DataObject".equals(target.getStencilId())) {
+                state = target.getProperty("state");
+            }
+        }
+        return state;
     }
 
     @StencilId("TimeConnector")
@@ -55,8 +73,11 @@ public class ConnectorFactory extends AbstractPPINotFactory {
 
         appliesToDataConnector.setId(shape.getResourceId());
         appliesToDataConnector.setRestriction(valueOrNull(shape.getProperty("restriction")));
-        appliesToDataConnector.setStates(valueOrNull(shape.getProperty("state")));
-        appliesToDataConnector.setDataContentSelection(valueOrNull(shape.getProperty("dataContentSelection")));
+        appliesToDataConnector.setDataContentSelection(valueOrNull(shape.getProperty("datacontentselection")));
+
+        String state = valueOrNull(shape.getProperty("state"));
+        if (state == null) state = getStateFromDataObject(shape);
+        appliesToDataConnector.setStates(state);
 
         return factory.createAppliesToDataConnector(appliesToDataConnector);
     }
@@ -73,7 +94,7 @@ public class ConnectorFactory extends AbstractPPINotFactory {
         TIsGroupedBy isGroupedBy = new TIsGroupedBy();
 
         isGroupedBy.setId(shape.getResourceId());
-        isGroupedBy.setDataContentSelection(shape.getProperty("dataContentSelection"));
+        isGroupedBy.setDataContentSelection(shape.getProperty("datacontentselection"));
 
         return factory.createIsGroupedBy(isGroupedBy);
     }

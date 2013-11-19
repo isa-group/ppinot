@@ -9,6 +9,7 @@ import org.oryxeditor.server.diagram.generic.GenericShape;
 import javax.xml.bind.JAXBElement;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @StencilId({"ppi"})
@@ -22,16 +23,50 @@ public class PpiFactory extends AbstractPPINotFactory {
         TPpi ppi = new TPpi();
         try {
             ppi.setId(shape.getResourceId());
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Error converting PPI from JSON to model in id" + shape.getResourceId(), e);
+        }
+
+        try {
             ppi.setName(shape.getProperty("name"));
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Error converting PPI from JSON to model in name " + shape.getResourceId(), e);
+        }
+
+        try {
             addTarget(ppi, shape);
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Error converting PPI from JSON to model in Target " + shape.getResourceId(), e);
+        }
+
+        try {
             addGoals(ppi, shape);
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Error converting PPI from JSON to model in goals " + shape.getResourceId(), e);
+        }
+
+        try {
             addScope(ppi, shape);
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Error converting PPI from JSON to model in scope " + shape.getResourceId(), e);
+        }
+
+        try {
             ppi.setResponsible(valueOrNull(shape.getProperty("responsible")));
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Error converting PPI from JSON to model in responsible " + shape.getResourceId(), e);
+        }
+
+        try {
             addInformed(ppi, shape);
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Error converting PPI from JSON to model in informed " + shape.getResourceId(), e);
+        }
+
+        try {
             ppi.setComments(valueOrNull(shape.getProperty("comments")));
         } catch (Exception e) {
-            log.warning("Error converting PPI from JSON to model " + shape.getResourceId());
-            throw new RuntimeException(e);
+            log.log(Level.WARNING, "Error converting PPI from JSON to model in comments " + shape.getResourceId(), e);
         }
 
         return factory.createPpi(ppi);

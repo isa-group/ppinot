@@ -28,20 +28,20 @@ public class MeasureFactory extends AbstractPPINotFactory {
         measure.setName(valueOrNull(shape.getProperty("name")));
         measure.setDescription(valueOrNull(shape.getProperty("description")));
         measure.setScale(valueOrNull(shape.getProperty("scale")));
-        measure.setUnitOfMeasure(valueOrNull(shape.getProperty("unitOfMeasure")));
+        measure.setUnitOfMeasure(valueOrNull(shape.getProperty("unitofmeasure")));
     }
 
     private void setTimeMeasureProperties(TTimeMeasure measure, GenericShape shape) {
-        String timeMeasureType = shape.getProperty("timeMeasureType");
+        String timeMeasureType = shape.getProperty("timemeasuretype");
         if (notEmpty(timeMeasureType)) {
             measure.setTimeMeasureType(TTimeMeasureType.valueOf(timeMeasureType.toUpperCase()));
         }
-        measure.setSingleInstanceAggFunction(valueOrNull(shape.getProperty("singleInstanceAggFunction")));
+        measure.setSingleInstanceAggFunction(valueOrNull(shape.getProperty("singleinstanceaggfunction")));
     }
 
     private void setAggregatedCommon(TAggregatedMeasure measure, GenericShape shape) {
-        measure.setSamplingFrequency(valueOrNull(shape.getProperty("samplingFrequency")));
-        measure.setAggregationFunction(shape.getProperty("aggregationFunction"));
+        measure.setSamplingFrequency(valueOrNull(shape.getProperty("samplingfrequency")));
+        measure.setAggregationFunction(shape.getProperty("aggregationfunction"));
     }
 
     private void setDerivedCommon(TDerivedMeasure derivedMeasure, GenericShape shape) {

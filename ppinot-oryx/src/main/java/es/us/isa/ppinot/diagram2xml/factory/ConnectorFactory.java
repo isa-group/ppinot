@@ -21,7 +21,7 @@ public class ConnectorFactory extends AbstractPPINotFactory {
             state = shape.getProperty("state");
         }
 
-        if (state == null)
+        if (state == null || state.isEmpty())
             state = getStateFromDataObject(shape);
 
         connector.setState(state);

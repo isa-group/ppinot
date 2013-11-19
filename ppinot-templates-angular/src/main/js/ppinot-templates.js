@@ -1,13 +1,12 @@
 angular.module('ppinotTemplates', ['ui.bootstrap'])
   .factory('stateService', function() {
     return function(changesToState) {
-                       var stateName = "";
+                       var stateName = "(unknown state)";
                        angular.forEach(changesToState, function (value, key) {
-                           if (value == "START") stateName = "active"
-                           else if (value == "END") stateName = "completed"
+                           if (key == "genericState" && value == "START") stateName = "active"
+                           else if (key == "genericState" && value == "END") stateName = "completed"
                            else if (key == "dataObjectState" ) stateName = value.name;
-                           else if (value == null) stateName = "(unknown state)"
-                           else stateName = value;
+                           else if (value != null) stateName = value;
                        });
                        return stateName;
                    };

@@ -183,8 +183,19 @@ public class Diagram2PPINotConverter {
         GenericEdge<?, ?> edge = (GenericEdge<?, ?>) shapesById.get(connector.getId());
         String sourceId = edge.getSource().getResourceId();
         String targetId = edge.getTarget().getResourceId();
-        Object source = getRef(getElement(sourceId));
-        Object target = getRef(getElement(targetId));
+
+        Object source = null;
+        Object target = null;
+
+        if (connector instanceof TUses ||
+                connector instanceof TIsGroupedBy ||
+                connector instanceof TAggregates) {
+            source = getElement(sourceId);
+            target = getElement(targetId);
+        } else {
+            source = getRef(getElement(sourceId));
+            target = getRef(getElement(targetId));
+        }
 
         connector.setSourceRef(source);
         connector.setTargetRef(target);

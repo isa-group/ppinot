@@ -1,5 +1,18 @@
 angular.module('ppinotTemplates', ['ui.bootstrap'])
-  .directive('measure', function(){
+  .factory('stateService', function() {
+    return function(changesToState) {
+                       var stateName = "";
+                       angular.forEach(changesToState, function (value, key) {
+                           if (value == "START") stateName = "active"
+                           else if (value == "END") stateName = "completed"
+                           else if (key == "dataObjectState" ) stateName = value.name;
+                           else if (value == null) stateName = "(unknown state)"
+                           else stateName = value;
+                       });
+                       return stateName;
+                   };
+  })
+  .directive('measure', ['stateService', function($stateService){
     return {
       restrict: 'E',
       replace: true,
@@ -11,14 +24,19 @@ angular.module('ppinotTemplates', ['ui.bootstrap'])
                   '<span ng-switch-when="TimeMeasure">the duration between the time instants when <event ng-model="ngModel.from" process="process"></event> and when <event ng-model="ngModel.to" process="process"></event></span>' +
                   '<span ng-switch-when="DataMeasure">the value <span ng-hide="ngModel.dataContentSelection.selection==\'\'">of {{ngModel.dataContentSelection.selection}}</span> of {{process.id[ngModel.dataContentSelection.dataobjectId].name}}</span>' +
                   '<span ng-switch-when="DataPropertyConditionMeasure">{{ngModel.condition.statesConsidered.stateString}} {{process.id[ngModel.condition.appliesTo].name}} that satisfies: {{ngModel.condition.restriction}}</span>' +
-                  '<span ng-switch-when="StateConditionMeasure">{{process.id[ngModel.condition.appliesTo].type}} {{process.id[ngModel.condition.appliesTo].name}} that is currently or has finished {{ngModel.condition.state.stateString}}</span>' +
+                  '<span ng-switch-when="StateConditionMeasure">{{process.id[ngModel.condition.appliesTo].type}} {{process.id[ngModel.condition.appliesTo].name}} that is currently or has finished in state {{stateName(ngModel.condition.state)}}</span>' +
                   '<span ng-switch-when="AggregatedMeasure"><aggregatedMeasure base-measure="ngModel.baseMeasure" agg-function="ngModel.aggregationFunction" process="process"></aggregatedMeasure></span>' +
                   '<span ng-switch-when="DerivedSingleInstanceMeasure"><derivedMeasure derived="ngModel" process="process"></derivedMeasure></span>' +
                   '<span ng-switch-when="DerivedMultiInstanceMeasure"><derivedMeasure derived="ngModel" process="process"></derivedMeasure></span>' +
                   '<span ng-switch-default>{{ngModel.kind}}</span>' +
-                '</span>'
+                '</span>',
+      controller: function($scope) {
+        $scope.stateName = function(changesToState) {
+            return $stateService(changesToState);
+        };
+      }
     }
-  })
+  }])
   .directive('aggregatedmeasure', function($compile){
     return {
       restrict: 'E',
@@ -50,7 +68,7 @@ angular.module('ppinotTemplates', ['ui.bootstrap'])
       }
     }
   })
-  .directive('event', function(){
+  .directive('event', ['stateService', function($stateService){
     return {
       restrict: 'E',
       replace: true,
@@ -59,17 +77,11 @@ angular.module('ppinotTemplates', ['ui.bootstrap'])
       template: '<span>{{process.id[ngModel.appliesTo].type}} {{process.id[ngModel.appliesTo].name}} becomes {{stateName(ngModel.changesToState)}}</span>',
       controller: function($scope) {
         $scope.stateName = function(changesToState) {
-            var stateName = "";
-            angular.forEach(changesToState, function (value, key) {
-                if (value == "START") stateName = "active"
-                else if (value == "END") stateName = "completed"
-                else stateName = value;
-            });
-            return stateName;
+            return $stateService(changesToState);
         };
       }
     }
-  })
+  }])
   .directive('elementlist', function(){
     return {
       restrict: 'E',

@@ -19,20 +19,21 @@ public class StateTransformer {
     public static RuntimeState transform(String state) {
         RuntimeState result = null;
 
-        try{
-            result = GenericState.valueOf(state.toUpperCase());
-        } catch (IllegalArgumentException e) {
+        if (state != null && ! state.isEmpty()) {
+            try{
+                result = GenericState.valueOf(state.toUpperCase());
+            } catch (IllegalArgumentException e) {
 
-            try {
-                result = BPMNState.valueOf(state.toUpperCase());
-            } catch (IllegalArgumentException e2) {
-                result = new DataObjectState(state);
+                try {
+                    result = BPMNState.valueOf(state.toUpperCase());
+                } catch (IllegalArgumentException e2) {
+                    //TODO It should be checked that the state refers to a data object state.
+                    result = new DataObjectState(state);
+                }
+            } catch (NullPointerException e) {
+                // Do nothing
             }
-        } catch (NullPointerException e) {
-            // Do nothing
         }
-
-
 
         return result;
     }

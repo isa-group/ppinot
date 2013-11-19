@@ -23,6 +23,9 @@ public class StateTransformer {
             if (result == null) {
                 result = BPMNState.valueOf(state.toUpperCase());
             }
+            if (result == null) {
+                result = new DataObjectState(state);
+            }
         } catch (IllegalArgumentException e) {
             // ignores
         }

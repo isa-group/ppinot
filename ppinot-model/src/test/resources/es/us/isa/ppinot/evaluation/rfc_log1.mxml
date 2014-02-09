@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- MXML version 1.1 -->
+<!-- Created by MXMLib, Version 1.9 -->
+<!-- via MXMLib Version 1.9 (http://promimport.sf.net/) -->
+<!-- (c) 2004-2007 C.W. Guenther (christian@deckfour.org); Eindhoven Technical University -->
+<!-- This event log is formatted in MXML, for use by BPI and Process Mining Tools. -->
+<!-- You can load this file e.g. in the ProM Framework for Process Mining. -->
+<!-- More information about MXML, Process Mining, and ProM: http://www.processmining.org/. -->
+<WorkflowLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://is.tm.tue.nl/research/processmining/WorkflowLog.xsd">
+	<Data>
+		<Attribute name="app.name">MXMLib</Attribute>
+		<Attribute name="app.version">1.9</Attribute>
+		<Attribute name="java.vendor">Oracle Corporation</Attribute>
+		<Attribute name="java.version">1.7.0_17</Attribute>
+		<Attribute name="mxml.creator">MXMLib (http://promimport.sf.net/)</Attribute>
+		<Attribute name="mxml.version">1.1</Attribute>
+		<Attribute name="os.arch">amd64</Attribute>
+		<Attribute name="os.name">Linux</Attribute>
+		<Attribute name="os.version">2.6.18-308.13.1.el5xen</Attribute>
+		<Attribute name="user.name">dumas</Attribute>
+	</Data>
+	<Source program="com.bimpsimulator"/>
+	<Process id="in_8029559475398663243.bpmn">
+		<ProcessInstance id="113">
+			<Data>
+				<Attribute name="LogType">MXML.EnactmentLog</Attribute>
+			</Data>
+			<AuditTrailEntry>
+				<WorkflowModelElement>EVENT 2 START MESSAGE</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-07T16:18:55.428+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>EVENT 2 START MESSAGE</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-07T16:18:55.428+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Analyse RFC</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-07T16:18:55.428+03:00</Timestamp>
+				<Originator>PLanning &amp; Quality Manager</Originator>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Analyse RFC</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-07T16:20:50.099+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Approve RFC</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-07T16:20:50.099+03:00</Timestamp>
+				<Originator>PLanning &amp; Quality Manager</Originator>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Approve RFC</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-07T16:26:03.797+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Report RFC approved</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-07T16:26:03.797+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Report RFC approved</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-07T16:26:03.797+03:00</Timestamp>
+			</AuditTrailEntry>
+		</ProcessInstance>
+		<ProcessInstance id="12">
+			<Data>
+				<Attribute name="LogType">MXML.EnactmentLog</Attribute>
+			</Data>
+			<AuditTrailEntry>
+				<WorkflowModelElement>EVENT 2 START MESSAGE</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-03T19:59:10.428+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>EVENT 2 START MESSAGE</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-03T19:59:10.428+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Analyse RFC</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-03T19:59:10.428+03:00</Timestamp>
+				<Originator>PLanning &amp; Quality Manager</Originator>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Analyse RFC</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-04T09:16:46.290+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Approve RFC</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-04T09:16:46.290+03:00</Timestamp>
+				<Originator>PLanning &amp; Quality Manager</Originator>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Approve RFC</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-04T10:21:42.669+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Report RFC approved</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-04T10:21:42.669+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Report RFC approved</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-04T10:21:42.669+03:00</Timestamp>
+			</AuditTrailEntry>
+		</ProcessInstance>
+		<ProcessInstance id="84">
+			<Data>
+				<Attribute name="LogType">MXML.EnactmentLog</Attribute>
+			</Data>
+			<AuditTrailEntry>
+				<WorkflowModelElement>EVENT 2 START MESSAGE</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-06T23:39:50.018+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>EVENT 2 START MESSAGE</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-06T23:39:50.018+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Analyse RFC</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-06T23:39:50.018+03:00</Timestamp>
+				<Originator>PLanning &amp; Quality Manager</Originator>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Analyse RFC</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-07T09:15:51.304+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Approve RFC</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-07T09:15:51.304+03:00</Timestamp>
+				<Originator>PLanning &amp; Quality Manager</Originator>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Approve RFC</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-07T12:04:19.021+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Report RFC approved</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-07T12:04:19.021+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Report RFC approved</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-07T12:04:19.021+03:00</Timestamp>
+			</AuditTrailEntry>
+		</ProcessInstance>
+		<ProcessInstance id="154">
+			<Data>
+				<Attribute name="LogType">MXML.EnactmentLog</Attribute>
+			</Data>
+			<AuditTrailEntry>
+				<WorkflowModelElement>EVENT 2 START MESSAGE</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-09T12:29:14.461+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>EVENT 2 START MESSAGE</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-09T12:29:14.461+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Analyse RFC</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-09T12:29:14.461+03:00</Timestamp>
+				<Originator>PLanning &amp; Quality Manager</Originator>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Analyse RFC</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-10T13:12:17.129+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Approve RFC</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-10T13:12:17.129+03:00</Timestamp>
+				<Originator>PLanning &amp; Quality Manager</Originator>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Approve RFC</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-10T16:54:42.458+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Report RFC approved</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-10T16:54:42.458+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Report RFC approved</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-10T16:54:42.458+03:00</Timestamp>
+			</AuditTrailEntry>
+		</ProcessInstance>
+		<ProcessInstance id="2">
+			<Data>
+				<Attribute name="LogType">MXML.EnactmentLog</Attribute>
+			</Data>
+			<AuditTrailEntry>
+				<WorkflowModelElement>EVENT 2 START MESSAGE</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-03T12:34:50.200+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>EVENT 2 START MESSAGE</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-03T12:34:50.200+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Analyse RFC</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-03T12:34:50.200+03:00</Timestamp>
+				<Originator>PLanning &amp; Quality Manager</Originator>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Approve RFC</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-03T13:31:24.603+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Report RFC approved</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-03T13:31:24.603+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Report RFC approved</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-03T13:31:24.603+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Analyse RFC</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-03T13:32:14.771+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Approve RFC</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-03T13:32:14.771+03:00</Timestamp>
+				<Originator>PLanning &amp; Quality Manager</Originator>
+			</AuditTrailEntry>
+		</ProcessInstance>
+		<ProcessInstance id="249">
+			<Data>
+				<Attribute name="LogType">MXML.EnactmentLog</Attribute>
+			</Data>
+			<AuditTrailEntry>
+				<WorkflowModelElement>EVENT 2 START MESSAGE</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-13T16:07:21.346+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>EVENT 2 START MESSAGE</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-13T16:07:21.346+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Analyse RFC</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-13T16:07:21.346+03:00</Timestamp>
+				<Originator>PLanning &amp; Quality Manager</Originator>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Analyse RFC</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-13T16:16:17.126+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Approve RFC</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-13T16:16:17.126+03:00</Timestamp>
+				<Originator>PLanning &amp; Quality Manager</Originator>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Approve RFC</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-13T16:18:37.130+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Report RFC approved</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-13T16:18:37.130+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Report RFC approved</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-13T16:18:37.130+03:00</Timestamp>
+			</AuditTrailEntry>
+		</ProcessInstance>
+		<ProcessInstance id="341">
+			<Data>
+				<Attribute name="LogType">MXML.EnactmentLog</Attribute>
+			</Data>
+			<AuditTrailEntry>
+				<WorkflowModelElement>EVENT 2 START MESSAGE</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-17T09:05:55.934+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>EVENT 2 START MESSAGE</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-17T09:05:55.934+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Analyse RFC</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-17T09:05:55.934+03:00</Timestamp>
+				<Originator>PLanning &amp; Quality Manager</Originator>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Analyse RFC</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-17T14:29:17.170+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Elevate decision to committee</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-17T14:29:17.170+03:00</Timestamp>
+				<Originator>PLanning &amp; Quality Manager</Originator>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Elevate decision to committee</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-17T16:26:23.091+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Analyse in committee</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-17T16:26:23.091+03:00</Timestamp>
+				<Originator>Committee</Originator>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Analyse in committee</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-19T13:57:58.252+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Analyse RFC</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-19T13:57:58.252+03:00</Timestamp>
+				<Originator>PLanning &amp; Quality Manager</Originator>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Analyse RFC</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-19T14:15:12.409+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Approve RFC</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-19T14:15:12.409+03:00</Timestamp>
+				<Originator>PLanning &amp; Quality Manager</Originator>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Approve RFC</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-19T14:21:54.621+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Report RFC approved</WorkflowModelElement>
+				<EventType>assign</EventType>
+				<Timestamp>2013-06-19T14:21:54.621+03:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<WorkflowModelElement>Report RFC approved</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2013-06-19T14:21:54.621+03:00</Timestamp>
+			</AuditTrailEntry>
+		</ProcessInstance>
+	</Process>
+</WorkflowLog>

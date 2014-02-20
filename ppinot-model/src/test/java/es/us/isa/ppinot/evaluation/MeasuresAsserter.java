@@ -35,6 +35,28 @@ public class MeasuresAsserter {
 
         Assert.assertTrue("Instance " + instance + " has not been evaluated", found);
     }
+    
+    public void assertNumOfInstances(int value) {
+    	boolean check = true;
+    	for (Measure m: measures) {
+            if (m.measureScope.getInstances().size()!=value) {
+            	check=false;
+            }
+        }
+    	
+    	Assert.assertTrue(check);
+    }
+    
+    public void assertNumOfInstancesNull() {
+    	boolean check = true;
+    	for (Measure m: measures) {
+            if (m.value!=0) {
+            	check=false;
+            }
+        }
+    	
+    	Assert.assertTrue(check);
+    }
 
 
 }

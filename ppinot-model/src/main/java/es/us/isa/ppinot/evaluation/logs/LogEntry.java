@@ -41,6 +41,10 @@ public class LogEntry {
     public static LogEntry instance(String processId, String instanceId, EventType eventType, DateTime timeStamp) {
         return new LogEntry(processId, instanceId, processId, ElementType.process, eventType, timeStamp);
     }
+    
+    public static LogEntry instance(String processId, String instanceId, String bpElement ,EventType eventType, DateTime timeStamp) {
+        return new LogEntry(processId, instanceId, bpElement, ElementType.process, eventType, timeStamp);
+    }
 
     public static LogEntry data(String processId, String instanceId, String data, EventType eventType, DateTime timeStamp) {
         return new LogEntry(processId, instanceId, data, ElementType.data, eventType, timeStamp);

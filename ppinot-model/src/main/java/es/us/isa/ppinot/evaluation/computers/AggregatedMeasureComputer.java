@@ -44,7 +44,6 @@ public class AggregatedMeasureComputer implements MeasureComputer {
     public List<? extends Measure> compute() {
         List<Measure> result = new ArrayList<Measure>();
         Collection<? extends Measure> measures = baseComputer.compute();
-
         Map<String, MeasureInstance> measureMap = buildMeasureMap(measures);
 
         Collection<MeasureScope> scopes = classifier.listScopes();
@@ -54,7 +53,9 @@ public class AggregatedMeasureComputer implements MeasureComputer {
 
             result.add(new Measure(definition, scope, val));
         }
-
+        for (Measure m:result){
+        	System.out.println(m.getInstances()+" "+m.getValue());
+        }
         return result;
     }
 

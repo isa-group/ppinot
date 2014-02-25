@@ -3,7 +3,9 @@ package es.us.isa.ppinot.evaluation;
 import org.junit.Assert;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * MeasuresAsserter
@@ -42,16 +44,15 @@ public class MeasuresAsserter {
     
     public void assertNumOfInstances(int value) {
     	boolean check = true;
+    	Set<String> instances=new HashSet<String>();
     	for (Measure m: measures) {
-            if (m.measureScope.getInstances().size()!=value) {
-            	check=false;
-            }
+            instances.addAll(m.getInstances());
         }
     	
-    	Assert.assertTrue(check);
+    	Assert.assertEquals(value, instances.size());
     }
     
-    public void assertNumOfInstancesNull() {
+    public void assertNumOfMeasureCero() {
     	boolean check = true;
     	for (Measure m: measures) {
             if (m.value!=0) {

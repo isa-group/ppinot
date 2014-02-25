@@ -47,12 +47,12 @@ public abstract class ScopeClassifier implements LogListener {
     }
 
     private boolean endsProcess(LogEntry entry) {
-        return LogEntry.ElementType.flowElement.equals(entry.getElementType()) &&
+        return LogEntry.ElementType.process.equals(entry.getElementType()) &&
                 StateMatcher.matches(entry.getEventType(), GenericState.END);
     }
 
     private boolean startsProcess(LogEntry entry) {
-        return LogEntry.ElementType.flowElement.equals(entry.getElementType()) &&
+        return LogEntry.ElementType.process.equals(entry.getElementType()) &&
                 StateMatcher.matches(entry.getEventType(), GenericState.START);
     }
 

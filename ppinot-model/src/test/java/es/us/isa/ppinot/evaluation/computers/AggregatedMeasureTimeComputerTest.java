@@ -22,56 +22,83 @@ public class AggregatedMeasureTimeComputerTest extends MeasureComputerHelper {
 		AggregatedMeasure measure = new AggregatedMeasure("id","name","desc",null,null,Aggregator.AVG,null,createCountMeasure(withCondition("Analyse RFC",GenericState.END)));
 		AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure,new SimpleTimeFilter(Period.DAILY, 1, true));
 		
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1",DateTime.now()));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1",DateTime.now()));
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1",DateTime.now()));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1",DateTime.now()));
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1",DateTime.now()));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1",DateTime.now().plusDays(1)));
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1",DateTime.now().plusDays(1)));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1",DateTime.now().plusDays(1)));
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1",DateTime.now().plusDays(1)));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1",DateTime.now().plusDays(2)));
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1",DateTime.now().plusDays(2)));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1",DateTime.now().plusDays(2)));
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1",DateTime.now().plusDays(2)));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1",DateTime.now().plusDays(2)));
+		computer.update(helper.newInstance("i1",EventType.ready,DateTime.now().plusDays(-5)));
+		computer.update(helper.newInstance("i3",EventType.ready,DateTime.now().plusDays(-5)));
+		computer.update(helper.newInstance("i4",EventType.ready,DateTime.now().plusDays(-5)));
+		computer.update(helper.newInstance("i5",EventType.ready,DateTime.now().plusDays(-5)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1",DateTime.now().plusDays(-5)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1",DateTime.now().plusDays(-4)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i2",DateTime.now().plusDays(-5)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i2",DateTime.now().plusDays(-4)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1",DateTime.now().plusDays(-5)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1",DateTime.now().plusDays(-4)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i3",DateTime.now().plusDays(-5)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i3",DateTime.now().plusDays(-4)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i3",DateTime.now().plusDays(-5)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i3",DateTime.now().plusDays(-4)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1",DateTime.now().plusDays(-4)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1",DateTime.now().plusDays(-3)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i4",DateTime.now().plusDays(-4)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i4",DateTime.now().plusDays(-3)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i5",DateTime.now().plusDays(-4)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i5",DateTime.now().plusDays(-2)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i4",DateTime.now().plusDays(-2)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i4",DateTime.now().plusDays(-1)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1",DateTime.now().plusDays(-2)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1",DateTime.now().plusDays(-1)));
+		computer.update(helper.newInstance("i1",EventType.complete,DateTime.now().plusDays(-1)));
+		computer.update(helper.newInstance("i3",EventType.complete,DateTime.now().plusDays(-1)));
+		computer.update(helper.newInstance("i4",EventType.complete,DateTime.now().plusDays(-1)));
+		computer.update(helper.newInstance("i5",EventType.complete,DateTime.now().plusDays(-1)));
+		
 		
 
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
-        asserter.assertTheNumberOfMeasuresIs(3);
-        asserter.assertInstanceHasValue("i1", 7);
+        asserter.assertTheNumberOfMeasuresIs(1);
+        asserter.assertInstanceHasValue("i1", 3);
 	}
 	
 	@Test
 	public void testComputeAggregatedTimeAbsolute2DaysScope() {
 		LogEntryHelper helper = new LogEntryHelper(10);
 		AggregatedMeasure measure = new AggregatedMeasure("id","name","desc",null,null,Aggregator.AVG,null,createCountMeasure(withCondition("Analyse RFC",GenericState.END)));
-		AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure,new SimpleTimeFilter(Period.DAILY, 1, false));
+		AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure,new SimpleTimeFilter(Period.DAILY, 2, false));
 		
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1",DateTime.now()));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1",DateTime.now()));
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i2",DateTime.now()));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i2",DateTime.now()));
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i3",DateTime.now().plusDays(1)));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i3",DateTime.now().plusDays(1)));
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i4",DateTime.now().plusDays(1)));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i4",DateTime.now().plusDays(1)));
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i5",DateTime.now().plusDays(2)));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i5",DateTime.now().plusDays(2)));
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i6",DateTime.now().plusDays(2)));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i6",DateTime.now().plusDays(2)));
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i7",DateTime.now().plusDays(3)));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i7",DateTime.now().plusDays(3)));
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i7",DateTime.now().plusDays(4)));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i7",DateTime.now().plusDays(4)));
+		computer.update(helper.newInstance("i1",EventType.ready));
+		computer.update(helper.newInstance("i3",EventType.ready));
+		computer.update(helper.newInstance("i4",EventType.ready));
+		computer.update(helper.newInstance("i5",EventType.ready));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1",DateTime.now().plusDays(-1)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1",DateTime.now().plusDays(-1)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i2",DateTime.now().plusDays(-1)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i2",DateTime.now().plusDays(-1)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1",DateTime.now().plusDays(-1)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1",DateTime.now().plusDays(-1)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i3",DateTime.now().plusDays(-1)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i3",DateTime.now().plusDays(-1)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i3",DateTime.now().plusDays(-1)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i3",DateTime.now().plusDays(-2)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1",DateTime.now().plusDays(-2)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1",DateTime.now().plusDays(-2)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i4",DateTime.now().plusDays(-2)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i4",DateTime.now().plusDays(-2)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i5",DateTime.now().plusDays(-3)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i5",DateTime.now().plusDays(-3)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i4",DateTime.now().plusDays(-4)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i4",DateTime.now().plusDays(-4)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1",DateTime.now().plusDays(-5)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1",DateTime.now().plusDays(-5)));
+		computer.update(helper.newInstance("i1",EventType.complete));
+		computer.update(helper.newInstance("i3",EventType.complete));
+		computer.update(helper.newInstance("i4",EventType.complete));
+		computer.update(helper.newInstance("i5",EventType.complete));
 		
 
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
-        asserter.assertTheNumberOfMeasuresIs(3);
-        asserter.assertInstanceHasValue("i1", 1);
+        asserter.assertTheNumberOfMeasuresIs(1);
+        asserter.assertInstanceHasValue("i1", 4);
 	}
 	
 	@Test
@@ -80,10 +107,35 @@ public class AggregatedMeasureTimeComputerTest extends MeasureComputerHelper {
 		AggregatedMeasure measure = new AggregatedMeasure("id","name","desc",null,null,Aggregator.AVG,null,createCountMeasure(withCondition("Analyse RFC",GenericState.END)));
 		AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure,new SimpleTimeFilter(Period.DAILY, 1, false));
 		
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i6",DateTime.now().plusDays(2)));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i6",DateTime.now().plusDays(2)));
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i7",DateTime.now().plusDays(2)));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i7",DateTime.now().plusDays(2)));
+		computer.update(helper.newInstance("i1",EventType.ready));
+		computer.update(helper.newInstance("i3",EventType.ready));
+		computer.update(helper.newInstance("i4",EventType.ready));
+		computer.update(helper.newInstance("i5",EventType.ready));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1",DateTime.now().plusDays(-1)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1",DateTime.now().plusDays(-1)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i2",DateTime.now().plusDays(-1)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i2",DateTime.now().plusDays(-1)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1",DateTime.now().plusDays(-1)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1",DateTime.now().plusDays(-1)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i3",DateTime.now().plusDays(-1)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i3",DateTime.now().plusDays(-1)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i3",DateTime.now().plusDays(-1)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i3",DateTime.now().plusDays(-2)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1",DateTime.now().plusDays(-2)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1",DateTime.now().plusDays(-2)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i4",DateTime.now().plusDays(-2)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i4",DateTime.now().plusDays(-2)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i5",DateTime.now().plusDays(-3)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i5",DateTime.now().plusDays(-3)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i4",DateTime.now().plusDays(-4)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i4",DateTime.now().plusDays(-4)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1",DateTime.now().plusDays(-5)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1",DateTime.now().plusDays(-5)));
+		computer.update(helper.newInstance("i1",EventType.complete));
+		computer.update(helper.newInstance("i3",EventType.complete));
+		computer.update(helper.newInstance("i4",EventType.complete));
+		computer.update(helper.newInstance("i5",EventType.complete));
+		
 		
 
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());

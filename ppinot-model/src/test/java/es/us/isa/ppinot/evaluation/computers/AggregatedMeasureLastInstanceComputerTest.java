@@ -20,6 +20,10 @@ public class AggregatedMeasureLastInstanceComputerTest extends MeasureComputerHe
 		AggregatedMeasure measure = new AggregatedMeasure("id","name","desc",null,null,Aggregator.MAX,null,createCountMeasure(withCondition("Analyse RFC",GenericState.END)));
 		AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure,new LastInstancesFilter(3));
 		
+		computer.update(helper.newInstance("i1",EventType.ready));
+		computer.update(helper.newInstance("i3",EventType.ready));
+		computer.update(helper.newInstance("i4",EventType.ready));
+		computer.update(helper.newInstance("i5",EventType.ready));
 		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1"));
 		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1"));
 		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1"));
@@ -32,13 +36,18 @@ public class AggregatedMeasureLastInstanceComputerTest extends MeasureComputerHe
 		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i5"));
 		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1"));
 		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1"));
+		computer.update(helper.newInstance("i1",EventType.complete));
+		computer.update(helper.newInstance("i3",EventType.complete));
+		computer.update(helper.newInstance("i4",EventType.complete));
+		computer.update(helper.newInstance("i5",EventType.complete));
 		
 
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
-        asserter.assertTheNumberOfMeasuresIs(4);
-        asserter.assertValueOfMeasureNumber(3, 1);
-        asserter.assertNumOfInstances(3);
+        asserter.assertTheNumberOfMeasuresIs(2);
+        asserter.assertValueOfMeasureNumber(0, 3);
+        asserter.assertValueOfMeasureNumber(1, 1);
+        asserter.assertNumOfInstances(4);
 	}
 	
 	@Test
@@ -47,48 +56,69 @@ public class AggregatedMeasureLastInstanceComputerTest extends MeasureComputerHe
 		AggregatedMeasure measure = new AggregatedMeasure("id","name","desc",null,null,Aggregator.SUM,null,createCountMeasure(withCondition("Approve RFC",GenericState.END)));
 		AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure,new LastInstancesFilter(3));
 		
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete));
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete));
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete));
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete));
+		computer.update(helper.newInstance("i1",EventType.ready));
+		computer.update(helper.newInstance("i3",EventType.ready));
+		computer.update(helper.newInstance("i4",EventType.ready));
+		computer.update(helper.newInstance("i5",EventType.ready));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1"));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1"));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1"));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1"));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i3"));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i3"));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i4"));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i4"));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i5"));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i5"));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1"));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1"));
+		computer.update(helper.newInstance("i1",EventType.complete));
+		computer.update(helper.newInstance("i3",EventType.complete));
+		computer.update(helper.newInstance("i4",EventType.complete));
+		computer.update(helper.newInstance("i5",EventType.complete));
 		
 
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
         asserter.assertTheNumberOfMeasuresIs(2);
-        asserter.assertNumOfInstancesNull();
+        asserter.assertNumOfMeasureCero();
 	}
 	
+	
 	@Test
-	public void testComputeAggregatedLastInstanceScopeMultiInstance() {
+	public void testComputeAggregatedLastInstanceScopeInverse() {
 		LogEntryHelper helper = new LogEntryHelper(10);
-		AggregatedMeasure measure = new AggregatedMeasure("id","name","desc",null,null,Aggregator.SUM,null,createCountMeasure(withCondition("Analyse RFC",GenericState.END)));
+		AggregatedMeasure measure = new AggregatedMeasure("id","name","desc",null,null,Aggregator.MAX,null,createCountMeasure(withCondition("Analyse RFC",GenericState.END)));
 		AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure,new LastInstancesFilter(3));
 		
+		computer.update(helper.newInstance("i1",EventType.ready));
+		computer.update(helper.newInstance("i3",EventType.ready));
+		computer.update(helper.newInstance("i4",EventType.ready));
+		computer.update(helper.newInstance("i5",EventType.ready));
 		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1"));
 		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1"));
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i2"));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1"));
 		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1"));
 		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1"));
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i2"));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1"));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i3"));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i3"));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i4"));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i4"));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i5"));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i5"));
 		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1"));
 		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1"));
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i2"));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1"));
-		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1"));
-		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i2"));
+		computer.update(helper.newInstance("i5",EventType.complete));
+		computer.update(helper.newInstance("i4",EventType.complete));
+		computer.update(helper.newInstance("i3",EventType.complete));
+		computer.update(helper.newInstance("i1",EventType.complete));
 		
 
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
-        asserter.assertTheNumberOfMeasuresIs(5);
-        asserter.assertNumOfInstances(3);
+        asserter.assertTheNumberOfMeasuresIs(2);
+        asserter.assertValueOfMeasureNumber(0, 1);
+        asserter.assertValueOfMeasureNumber(1, 3);
+        asserter.assertNumOfInstances(4);
 	}
 
 }

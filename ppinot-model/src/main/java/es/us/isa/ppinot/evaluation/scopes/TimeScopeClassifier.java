@@ -47,7 +47,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
         DateTime currentDate = instances.first().getEnd();
         Interval currentInterval = new Interval(currentDate, period);
         List<ProcessInstance> current = new ArrayList<ProcessInstance>();
-
+        
         for (ProcessInstance instance : instances) {
             DateTime ends = instance.getEnd();
             if (currentInterval.isBefore(ends)) {

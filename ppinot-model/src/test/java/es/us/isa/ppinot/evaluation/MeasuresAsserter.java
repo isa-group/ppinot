@@ -36,20 +36,12 @@ public class MeasuresAsserter {
         Assert.assertTrue("Instance " + instance + " has not been evaluated", found);
     }
 
-	public void assertNumberOfInstances(int i) {
-		boolean tam = true;
-		
-		if (measures.isEmpty()) {
-			tam = false;
+	public void assertNumberOfInstances(int i, double j) {
+		Boolean res = false;
+		if (((Measure) measures.toArray()[i]).getValue() == j){
+			res = true;
 		}
-		
-        for (Measure m: measures) {
-            if (m.getInstances().size() != i){
-            	tam = false;
-            	break;
-            }
-        }
-        Assert.assertTrue(tam);
+		Assert.assertTrue("Valor encontrado "+((Measure) measures.toArray()[i]).getValue(),res);
 	}
 
 

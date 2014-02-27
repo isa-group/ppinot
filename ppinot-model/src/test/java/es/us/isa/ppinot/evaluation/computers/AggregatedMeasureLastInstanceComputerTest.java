@@ -45,8 +45,8 @@ public class AggregatedMeasureLastInstanceComputerTest extends MeasureComputerHe
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
         asserter.assertTheNumberOfMeasuresIs(2);
-        asserter.assertValueOfMeasureNumber(0, 3);
-        asserter.assertValueOfMeasureNumber(1, 1);
+        asserter.assertValueOfInterval(0, 3);
+        asserter.assertValueOfInterval(1, 1);
         asserter.assertNumOfInstances(4);
 	}
 	
@@ -116,8 +116,8 @@ public class AggregatedMeasureLastInstanceComputerTest extends MeasureComputerHe
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
         asserter.assertTheNumberOfMeasuresIs(2);
-        asserter.assertValueOfMeasureNumber(0, 1);
-        asserter.assertValueOfMeasureNumber(1, 3);
+        asserter.assertValueOfInterval(0, 1);
+        asserter.assertValueOfInterval(1, 3);
         asserter.assertNumOfInstances(4);
 	}
 

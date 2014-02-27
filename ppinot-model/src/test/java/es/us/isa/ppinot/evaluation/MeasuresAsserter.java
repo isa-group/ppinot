@@ -38,7 +38,7 @@ public class MeasuresAsserter {
         Assert.assertTrue("Instance " + instance + " has not been evaluated", found);
     }
     
-    public void assertValueOfMeasureNumber(int measure,double value) {
+    public void assertValueOfInterval(int measure,double value) {
     	Assert.assertEquals(value,((Measure)((List)measures).get(measure)).value,0.0);
     }
     

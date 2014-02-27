@@ -60,6 +60,49 @@ public class AggregatedMeasureTimeComputerTest extends MeasureComputerHelper {
 	}
 	
 	@Test
+	public void testComputeAggregatedTimeRelativeScope1DaySameFinish() {
+		LogEntryHelper helper = new LogEntryHelper(10);
+		AggregatedMeasure measure = new AggregatedMeasure("id","name","desc",null,null,Aggregator.SUM,null,createCountMeasure(withCondition("Analyse RFC",GenericState.END)));
+		AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure,new SimpleTimeFilter(Period.DAILY, 1, true));
+		
+		computer.update(helper.newInstance("i1",EventType.ready,DateTime.now().plusDays(-6)));
+		computer.update(helper.newInstance("i3",EventType.ready,DateTime.now().plusDays(-6)));
+		computer.update(helper.newInstance("i4",EventType.ready,DateTime.now().plusDays(-6)));
+		computer.update(helper.newInstance("i5",EventType.ready,DateTime.now().plusDays(-6)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1",DateTime.now().plusDays(-5)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1",DateTime.now().plusDays(-4)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1",DateTime.now().plusDays(-5)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1",DateTime.now().plusDays(-4)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i3",DateTime.now().plusDays(-5)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i3",DateTime.now().plusDays(-4)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i3",DateTime.now().plusDays(-5)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i3",DateTime.now().plusDays(-4)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1",DateTime.now().plusDays(-4)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1",DateTime.now().plusDays(-3)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i4",DateTime.now().plusDays(-4)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i4",DateTime.now().plusDays(-3)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i5",DateTime.now().plusDays(-4)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i5",DateTime.now().plusDays(-2)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i4",DateTime.now().plusDays(-2)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i4",DateTime.now().plusDays(-1)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.ready,"i1",DateTime.now().plusDays(-2)));
+		computer.update(helper.newEntry("Analyse RFC", EventType.complete,"i1",DateTime.now().plusDays(-1)));
+		computer.update(helper.newInstance("i1",EventType.complete,DateTime.now()));
+		computer.update(helper.newInstance("i3",EventType.complete,DateTime.now()));
+		computer.update(helper.newInstance("i4",EventType.complete,DateTime.now()));
+		computer.update(helper.newInstance("i5",EventType.complete,DateTime.now()));
+		
+		
+
+        MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
+
+        asserter.assertTheNumberOfMeasuresIs(3);
+        asserter.assertValueOfInterval(0, 2);
+        asserter.assertValueOfInterval(1, 5);
+        asserter.assertValueOfInterval(2, 2);
+	}
+	
+	@Test
 	public void testComputeAggregatedTimeRelativeScope2Days() {
 		LogEntryHelper helper = new LogEntryHelper(10);
 		AggregatedMeasure measure = new AggregatedMeasure("id","name","desc",null,null,Aggregator.MIN,null,createCountMeasure(withCondition("Analyse RFC",GenericState.END)));

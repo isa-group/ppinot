@@ -163,8 +163,11 @@ public class TimeScopeClassifier extends ScopeClassifier {
         public int compare(ProcessInstance instance, ProcessInstance instance2) {
             DateTime end1 = instance.getEnd();
             DateTime end2 = instance2.getEnd();
-
-            return end1.compareTo(end2);
+            //if there are a instance with the same date add the new isntaces after
+            if (end1.compareTo(end2)==0)
+            	return 1;
+            else
+            	return end1.compareTo(end2);
         }
     }
 

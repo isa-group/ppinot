@@ -38,12 +38,10 @@ public class StateMatcher {
 
     public static boolean matches(LogEntry.EventType eventType, RuntimeState state) {
         boolean matches = false;
-
         if (state instanceof BPMNState)
             matches = BPMNMATCH.get(eventType).contains(state);
         else if (state instanceof GenericState)
-            matches = GENERICMATCH.get(eventType).contains(state);
-
+        	matches = GENERICMATCH.get(eventType).contains(state);
         return matches;
     }
 }

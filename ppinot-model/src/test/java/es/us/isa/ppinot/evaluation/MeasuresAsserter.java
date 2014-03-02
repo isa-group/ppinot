@@ -63,5 +63,13 @@ public class MeasuresAsserter {
     	Assert.assertTrue(check);
     }
 
+	public void assertNumberOfInstances(int i, double j) {
+		Boolean res = false;
+		if (((Measure) measures.toArray()[i]).getValue() == j){
+			res = true;
+		}
+		Assert.assertTrue("Valor encontrado "+((Measure) measures.toArray()[i]).getValue(),res);
+	}
+
 
 }

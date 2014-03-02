@@ -96,10 +96,8 @@ public class AggregatedMeasureTimeComputerTest extends MeasureComputerHelper {
 
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
-        asserter.assertTheNumberOfMeasuresIs(3);
-        asserter.assertValueOfInterval(0, 2);
-        asserter.assertValueOfInterval(1, 5);
-        asserter.assertValueOfInterval(2, 2);
+        asserter.assertTheNumberOfMeasuresIs(1);
+        asserter.assertValueOfInterval(0, 9);
 	}
 	
 	@Test

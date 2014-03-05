@@ -6,9 +6,11 @@ import org.junit.Test;
 import es.us.isa.ppinot.evaluation.Aggregator;
 import es.us.isa.ppinot.evaluation.LogEntryHelper;
 import es.us.isa.ppinot.evaluation.MeasuresAsserter;
+import es.us.isa.ppinot.evaluation.logs.LogEntry;
 import es.us.isa.ppinot.evaluation.logs.LogEntry.EventType;
 import es.us.isa.ppinot.evaluation.scopes.TimeScopeClassifier;
 import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
+import es.us.isa.ppinot.model.base.CountMeasure;
 import es.us.isa.ppinot.model.scope.LastInstancesFilter;
 import es.us.isa.ppinot.model.scope.Period;
 import es.us.isa.ppinot.model.scope.SimpleTimeFilter;
@@ -137,8 +139,7 @@ public class AggregatedMeasureTimeComputerTest extends MeasureComputerHelper {
 
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
-        asserter.assertTheNumberOfMeasuresIs(3);
-        asserter.assertValueOfInterval(2, 1);
+        asserter.assertTheNumberOfMeasuresIs(2);
         asserter.assertValueOfInterval(0, 2);
         asserter.assertValueOfInterval(1, 1);
 	}
@@ -308,4 +309,5 @@ public class AggregatedMeasureTimeComputerTest extends MeasureComputerHelper {
         asserter.assertTheNumberOfMeasuresIs(4);
         asserter.assertNumOfMeasureCero();
 	}
+
 }

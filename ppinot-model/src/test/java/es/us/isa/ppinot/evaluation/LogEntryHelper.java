@@ -80,10 +80,5 @@ public class LogEntryHelper {
 		DateTime time = timestamp;
 		return LogEntry.instance("pid", instance, eventType, timestamp);
 	}
-	
-	public LogEntry newEntryProcess (String activity, LogEntry.EventType eventType, String instance) {
-		DateTime time = timestamp;
-		return LogEntry.instance("pid", instance, eventType, time);
-	}
 
 }

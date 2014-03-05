@@ -33,7 +33,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
         if (instances.isEmpty()) {
             scopes = Collections.EMPTY_LIST;
         } else if (filter.isRelative()) {
-            scopes = listRelativeScopes(Period.days(1));
+            scopes = listRelativeScopes();
         } else {
             scopes = listAbsoluteScopes();
         }
@@ -41,7 +41,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
         return scopes;
     }
 
-    private Collection<MeasureScope> listRelativeScopes(Period step) {
+    private Collection<MeasureScope> listRelativeScopes() {
         Collection<MeasureScope> scopes = new ArrayList<MeasureScope>();
         Period period = buildPeriod();
         DateTime currentDate = instances.first().getEnd();
@@ -58,7 +58,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
                         currentInterval.getEnd()));
 
                 while (currentInterval.isBefore(ends)) {
-                    currentDate = currentDate.plus(step);
+                    currentDate = currentDate.plus(period);
                     currentInterval = new Interval(currentDate, period);
                 }
 

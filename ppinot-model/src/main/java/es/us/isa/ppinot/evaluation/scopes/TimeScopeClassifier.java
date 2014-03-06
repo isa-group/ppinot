@@ -33,7 +33,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
         if (instances.isEmpty()) {
             scopes = Collections.EMPTY_LIST;
         } else if (filter.isRelative()) {
-            scopes = listRelativeScopes(Period.days(1));
+            scopes = listRelativeScopes();
         } else {
             scopes = listAbsoluteScopes();
         }
@@ -41,13 +41,13 @@ public class TimeScopeClassifier extends ScopeClassifier {
         return scopes;
     }
 
-    private Collection<MeasureScope> listRelativeScopes(Period step) {
+    private Collection<MeasureScope> listRelativeScopes() {
         Collection<MeasureScope> scopes = new ArrayList<MeasureScope>();
         Period period = buildPeriod();
         DateTime currentDate = instances.first().getEnd();
         Interval currentInterval = new Interval(currentDate, period);
         List<ProcessInstance> current = new ArrayList<ProcessInstance>();
-
+        
         for (ProcessInstance instance : instances) {
             DateTime ends = instance.getEnd();
             if (currentInterval.isBefore(ends)) {
@@ -58,7 +58,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
                         currentInterval.getEnd()));
 
                 while (currentInterval.isBefore(ends)) {
-                    currentDate = currentDate.plus(step);
+                    currentDate = currentDate.plus(period);
                     currentInterval = new Interval(currentDate, period);
                 }
 
@@ -68,8 +68,8 @@ public class TimeScopeClassifier extends ScopeClassifier {
             }
             current.add(instance);
         }
-
-        scopes.add(new MeasureScope(instances.first().getProcessId(), instanceToId(current)));
+        
+        scopes.add(new TemporalMeasureScope(instances.first().getProcessId(),instanceToId(current),currentInterval.getStart(),currentInterval.getEnd()));
 
         return scopes;
     }
@@ -82,7 +82,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
         String processId = instances.first().getProcessId();
 
         if (lastDate.isBefore(currentDate.plus(period))) {
-            scopes.add(new MeasureScope(processId, instanceToId(instances)));
+            scopes.add(new TemporalMeasureScope(processId, instanceToId(instances),currentDate,currentDate.plus(period)));
         } else {
             Interval i = new Interval(currentDate, period);
             Collection<String> current = new ArrayList<String>();
@@ -92,7 +92,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
                     current.add(instance.getInstanceId());
                 } else {
                     if (!current.isEmpty()) {
-                        scopes.add(new MeasureScope(processId, current));
+                    	scopes.add(new TemporalMeasureScope(processId, current,currentDate,currentDate.plus(period)));
                         current = new ArrayList<String>();
                     }
 
@@ -103,6 +103,10 @@ public class TimeScopeClassifier extends ScopeClassifier {
 
                     current.add(instance.getInstanceId());
                 }
+            }
+            if (!current.isEmpty()) {
+            	scopes.add(new TemporalMeasureScope(processId, current,currentDate,currentDate.plus(period)));
+                current = new ArrayList<String>();
             }
         }
 
@@ -159,8 +163,11 @@ public class TimeScopeClassifier extends ScopeClassifier {
         public int compare(ProcessInstance instance, ProcessInstance instance2) {
             DateTime end1 = instance.getEnd();
             DateTime end2 = instance2.getEnd();
-
-            return end1.compareTo(end2);
+            //if there are a instance with the same date add the new isntaces after
+            if (end1.compareTo(end2)==0)
+            	return 1;
+            else
+            	return end1.compareTo(end2);
         }
     }
 

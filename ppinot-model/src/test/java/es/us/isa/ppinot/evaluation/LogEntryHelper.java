@@ -1,6 +1,7 @@
 package es.us.isa.ppinot.evaluation;
 
 import es.us.isa.ppinot.evaluation.logs.LogEntry;
+
 import org.joda.time.DateTime;
 
 /**
@@ -69,5 +70,15 @@ public class LogEntryHelper {
     public LogEntry newEntry(String activity, LogEntry.EventType eventType, String instance, DateTime timestamp) {
         return LogEntry.flowElement("pid", instance, activity, eventType, timestamp);
     }
+
+	public LogEntry newInstance(String instance, LogEntry.EventType eventType) {
+		DateTime time = timestamp;
+		return LogEntry.instance("pid", instance, eventType, time);
+	}
+	
+	public LogEntry newInstance(String instance, LogEntry.EventType eventType, DateTime timestamp) {
+		DateTime time = timestamp;
+		return LogEntry.instance("pid", instance, eventType, timestamp);
+	}
 
 }

@@ -40,7 +40,6 @@ public abstract class ScopeClassifier implements LogListener {
             ProcessInstance instance = instances.get(measureIdOf(entry));
             if (instance != null) {
                 instance.ends(entry.getTimeStamp());
-
                 instanceEnded(instance);
             }
         }

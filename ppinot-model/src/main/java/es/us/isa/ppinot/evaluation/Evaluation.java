@@ -27,6 +27,10 @@ public class Evaluation {
     public MeasureScope getScope() {
         return scope;
     }
+    
+    public PPI getPpi() {
+    	return ppi;
+    }
 
     public boolean success() {
         boolean success = true;

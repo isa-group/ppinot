@@ -1,6 +1,7 @@
 package es.us.isa.ppinot.handler.transformation;
 
 import es.us.isa.bpmn.xmlClasses.bpmn20.TBaseElement;
+import es.us.isa.bpmn.xmlClasses.bpmn20.TTask;
 import es.us.isa.ppinot.model.DataContentSelection;
 import es.us.isa.ppinot.model.condition.DataPropertyCondition;
 import es.us.isa.ppinot.model.condition.StateCondition;
@@ -8,6 +9,7 @@ import es.us.isa.ppinot.model.condition.TimeInstantCondition;
 import es.us.isa.ppinot.xml.*;
 
 import javax.xml.bind.JAXBElement;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,7 +110,7 @@ public class ConnectorsHandler {
     }
 
     private String getTargetElement(TMeasureConnector connector) {
-        return ((TBaseElement) connector.getTargetRef()).getId();
+        return ((TTask) connector.getTargetRef()).getName();
     }
 
     public TMeasure getTargetMeasure(TMeasureConnector connector) {

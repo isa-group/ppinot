@@ -106,15 +106,15 @@ public class TimeMeasureComputer implements MeasureComputer {
 
         @Override
         public double getValue() {
-            Duration value;
+            double value;
 
             if (duration != null)
-                value = duration;
+                value = duration.getMillis();
             else {
-                value = new Duration(start, DateTime.now());
+                value = Double.NaN;
             }
 
-            return value.getMillis();
+            return value;
         }
 
         public void ends(DateTime end) {
@@ -146,16 +146,19 @@ public class TimeMeasureComputer implements MeasureComputer {
 
         @Override
         public double getValue() {
+            double value;
             Collection<Double> measures = new ArrayList<Double>();
             for (Duration d : durations) {
                 measures.add((double) d.getMillis());
             }
 
-            if (isRunning()) {
-                measures.add((double) new Duration(start, DateTime.now()).getMillis());
+            if (isRunning() || measures.isEmpty()) {
+                value = Double.NaN;
+            } else {
+                value = aggregator.aggregate(measures);
             }
 
-            return aggregator.aggregate(measures);
+            return value;
         }
 
         public void ends(DateTime end) {

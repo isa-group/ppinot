@@ -1,6 +1,7 @@
 package es.us.isa.ppinot.handler.transformation;
 
 import es.us.isa.bpmn.xmlClasses.bpmn20.TBaseElement;
+import es.us.isa.bpmn.xmlClasses.bpmn20.TFlowElement;
 import es.us.isa.bpmn.xmlClasses.bpmn20.TTask;
 import es.us.isa.ppinot.model.DataContentSelection;
 import es.us.isa.ppinot.model.condition.DataPropertyCondition;
@@ -21,10 +22,15 @@ import java.util.List;
 public class ConnectorsHandler {
 
     private List<JAXBElement<? extends TMeasureConnector>> connectors;
+    private boolean useName = false;
 
     public ConnectorsHandler(List<JAXBElement<? extends TMeasureConnector>> measureConnector) {
         connectors = measureConnector;
+    }
 
+    public ConnectorsHandler(List<JAXBElement<? extends TMeasureConnector>> measureConnector, boolean useName) {
+        this(measureConnector);
+        this.useName = useName;
     }
 
     public <T extends TMeasureConnector> T findConnector(TMeasure measure, Class<T> clazz) {
@@ -110,7 +116,14 @@ public class ConnectorsHandler {
     }
 
     private String getTargetElement(TMeasureConnector connector) {
-        return ((TTask) connector.getTargetRef()).getName();
+        String targetElement;
+        TFlowElement targetRef = (TFlowElement) connector.getTargetRef();
+        if (useName) {
+            targetElement = targetRef.getName();
+        } else {
+            targetElement = targetRef.getId();
+        }
+        return targetElement;
     }
 
     public TMeasure getTargetMeasure(TMeasureConnector connector) {

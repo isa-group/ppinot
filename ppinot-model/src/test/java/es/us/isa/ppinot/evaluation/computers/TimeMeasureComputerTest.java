@@ -48,7 +48,7 @@ public class TimeMeasureComputerTest extends MeasureComputerHelper {
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
         asserter.assertTheNumberOfMeasuresIs(1);
-        asserter.assertInstanceHasValue("i1", new Duration(DateTime.now(), initial).getMillis());
+        asserter.assertInstanceHasValue("i1", Double.NaN);
     }
 
     @Test

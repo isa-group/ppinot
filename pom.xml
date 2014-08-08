@@ -53,7 +53,6 @@
 	
     <modules>
         <module>ppinot-model</module>
-        <module>ppinot-xml-owl</module>
         <module>ppinot-oryx</module>
         <module>ppinot-templates-angular</module>
     </modules>
@@ -101,11 +100,6 @@
                 <groupId>es.us.isa.ppinot</groupId>
                 <artifactId>ppinot-model</artifactId>
                 <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>es.us.isa.ppinot</groupId>
-                <artifactId>ppinot-xml-owl</artifactId>
-                <version>1.1.8-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>es.us.isa.ppinot</groupId>

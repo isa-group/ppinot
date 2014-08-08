@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<config>
-
-	<tmppath>${tmppath}</tmppath>
-	<uploadpath>${uploadpath}</uploadpath>
-	<database driver="${database.driverClassName.bpms}" url="${database.url.bpms}" username="${database.user.bpms}" password="${database.password.bpms}"/>
-</config>

@@ -1,4 +1,4 @@
-angular.module('ppinotTemplates', ['ui.bootstrap'])
+angular.module('ppinot.templates', ['ui.bootstrap'])
   .factory('stateService', function() {
     return function(changesToState) {
                        var stateName = "(unknown state)";
@@ -110,9 +110,9 @@ angular.module('ppinotTemplates', ['ui.bootstrap'])
       restrict: 'E',
       replace: true,
       transclude: true,
-      scope: { ngModel: '='},
+      scope: { ngModel: '=', readonly: '@'},
       template: '<span><span>{{tpattern(ngModel.refMin, ngModel.refMax)}}</span> ' +
-                '<a ng-click="toggleEdit()" tooltip="Edit target value"><i class="icon-pencil"></i></a>' +
+                '<a ng-hide="readonly" ng-click="toggleEdit()" tooltip="Edit target value"><i class="icon-pencil"></i></a>' +
                 '<form class="form-inline" ng-show="editTarget">' +
                     '<input type="text" class="input-small" placeholder="Lower bound" ng-model="ngModel.refMin"/> '+
                     '<input type="text" class="input-small" placeholder="Upper bound" ng-model="ngModel.refMax"/> ' +

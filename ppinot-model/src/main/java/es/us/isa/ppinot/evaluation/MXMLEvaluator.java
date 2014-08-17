@@ -1,5 +1,6 @@
 package es.us.isa.ppinot.evaluation;
 
+import es.us.isa.bpmn.handler.Bpmn20ModelHandler;
 import es.us.isa.ppinot.evaluation.computers.MeasureComputer;
 import es.us.isa.ppinot.evaluation.computers.MeasureComputerFactory;
 import es.us.isa.ppinot.evaluation.logs.LogEntry;
@@ -25,9 +26,11 @@ public class MXMLEvaluator implements PPIEvaluator {
     private static final Logger log = Logger.getLogger(MXMLEvaluator.class.getName());
 
     private InputStream stream;
+    private Bpmn20ModelHandler bpmn20ModelHandler;
 
-    public MXMLEvaluator(InputStream inputStream) {
+    public MXMLEvaluator(InputStream inputStream, Bpmn20ModelHandler bpmn20ModelHandler) {
         this.stream = inputStream;
+        this.bpmn20ModelHandler = bpmn20ModelHandler;
     }
 
     @Override
@@ -37,7 +40,7 @@ public class MXMLEvaluator implements PPIEvaluator {
         MeasureDefinition definition = ppi.getMeasuredBy();
 
         MeasureComputer computer = new MeasureComputerFactory().create(definition, ppi.getScope());
-        MXMLLog mxmlLog = new MXMLLog(stream, computer);
+        MXMLLog mxmlLog = new MXMLLog(stream, computer, bpmn20ModelHandler);
 
         mxmlLog.processLog();
 

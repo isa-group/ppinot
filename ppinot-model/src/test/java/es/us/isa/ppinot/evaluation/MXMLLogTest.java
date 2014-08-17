@@ -20,7 +20,7 @@ public class MXMLLogTest {
     @Test
     public void testProcessLog() throws Exception {
         LogChecker logChecker = new LogChecker();
-        MXMLLog log = new MXMLLog(getClass().getResourceAsStream("rfc_log2.mxml"), logChecker);
+        MXMLLog log = new MXMLLog(getClass().getResourceAsStream("rfc_log2.mxml"), logChecker, null);
 
         log.processLog();
 

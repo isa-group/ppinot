@@ -1,5 +1,7 @@
 package es.us.isa.ppinot.evaluation.logs;
 
+import es.us.isa.bpmn.handler.Bpmn20ModelHandler;
+import es.us.isa.bpmn.xmlClasses.bpmn20.TFlowElement;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -33,7 +35,14 @@ public class MXMLLog  {
     private XMLStreamReader reader;
     private LogListener listener;
 
-    public MXMLLog(InputStream inputStream, LogListener listener) {
+    private ElementName elementName;
+    private Bpmn20ModelHandler bpmn20ModelHandler;
+
+    public enum ElementName {
+        UNKNOWN, ID, NAME
+    }
+
+    public MXMLLog(InputStream inputStream, LogListener listener, Bpmn20ModelHandler bpmn20ModelHandler) {
         this.listener = listener;
         XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
         try {
@@ -42,6 +51,8 @@ public class MXMLLog  {
             log.log(Level.SEVERE, "Error loading inputstream", e);
             throw new RuntimeException(e);
         }
+        this.elementName = ElementName.UNKNOWN;
+        this.bpmn20ModelHandler = bpmn20ModelHandler;
     }
 
     public void processLog() {
@@ -127,7 +138,7 @@ public class MXMLLog  {
                 if (isEndElement(type) && hasName(reader, TAG_AUDITTRAILENTRY)) {
                     endEntry = true;
                 } else if (isStartElement(type) && hasName(reader, TAG_WORKFLOWMODELELEMENT)) {
-                    bpElement = reader.getElementText();
+                    bpElement = elementName();
                 } else if (isStartElement(type) && hasName(reader, TAG_EVENTTYPE)) {
                     eventType = LogEntry.EventType.valueOf(reader.getElementText());
                 } else if (isStartElement(type) && hasName(reader, TAG_TIMESTAMP)) {
@@ -148,6 +159,29 @@ public class MXMLLog  {
             entry.setResource(originator);
 
         return entry;
+    }
+
+    private String elementName() throws XMLStreamException {
+        String name = reader.getElementText();
+        if (bpmn20ModelHandler != null) {
+            TFlowElement element = bpmn20ModelHandler.getElementById(name);
+            if (element == null) {
+                element = bpmn20ModelHandler.getElementByName(name);
+                if (element != null) {
+                    name = element.getId();
+                }
+            }
+        }
+        return name;
+//        if (elementName != ElementName.ID && bpmn20ModelHandler != null) {
+//            TFlowElement element = bpmn20ModelHandler.getElementByName(name);
+//            if (element != null) {
+//                name = element.getName();
+//                elementName = ElementName.NAME;
+//            } else {
+//                elementName = ElementName.ID;
+//            }
+//        }
     }
 
     private boolean hasName(XMLStreamReader reader, String name) {

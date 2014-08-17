@@ -22,7 +22,7 @@ import java.util.Collection;
 public class MXMLEvaluatorTest {
     @Test
     public void testEval() throws Exception {
-        PPIEvaluator evaluator = new MXMLEvaluator(getClass().getResourceAsStream("rfc_log1.mxml"));
+        PPIEvaluator evaluator = new MXMLEvaluator(getClass().getResourceAsStream("rfc_log1.mxml"),null);
 
         CountMeasure count = new CountMeasure();
         count.setWhen(new TimeInstantCondition("Elevate decision to committee", GenericState.START));
@@ -49,7 +49,7 @@ public class MXMLEvaluatorTest {
 
     @Test
     public void testSeveralEval() throws Exception {
-        PPIEvaluator evaluator = new MXMLEvaluator(getClass().getResourceAsStream("rfc_log1.mxml"));
+        PPIEvaluator evaluator = new MXMLEvaluator(getClass().getResourceAsStream("rfc_log1.mxml"),null);
 
         CountMeasure count = new CountMeasure();
         count.setWhen(new TimeInstantCondition("Elevate decision to committee", GenericState.START));

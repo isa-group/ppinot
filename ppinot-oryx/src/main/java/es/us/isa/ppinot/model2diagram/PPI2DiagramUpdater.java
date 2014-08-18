@@ -59,6 +59,9 @@ public class PPI2DiagramUpdater {
     }
 
     private void buildScope(ProcessInstanceFilter scope, GenericShape shape) {
+        shape.removeProperty("lastinstancesscope");
+        shape.removeProperty("timescope");
+
         if (scope instanceof LastInstancesFilter) {
             shape.setProperty("lastinstancesscope", ((LastInstancesFilter) scope).getNumberOfInstances());
         }

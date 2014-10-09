@@ -80,7 +80,7 @@ public class PPINotModelHandlerImpl extends Bpmn20ModelHandlerImpl implements PP
     }
 
     @Override
-    protected void generateXml(String procId) {
+    protected void beforeSave() {
         PPISetToXML converter = new PPISetToXML(measureConverter, getElementIds(), new ObjectFactory());
 
         for (String id : ppiSetMap.keySet()) {
@@ -125,8 +125,8 @@ public class PPINotModelHandlerImpl extends Bpmn20ModelHandlerImpl implements PP
      * After invoking this method, model instances are available from the corresponding get methods
 	 */
 	@Override
-	protected void generateModel() {
-        super.generateModel();
+	protected void afterLoad() {
+        super.afterLoad();
 
         XMLToPPISet ppiSetConverter = new XMLToPPISet(xmlConverter);
 

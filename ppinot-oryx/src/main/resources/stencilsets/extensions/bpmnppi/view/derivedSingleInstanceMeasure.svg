@@ -20,7 +20,7 @@
 			
 		 	<rect oryx:resize="vertical horizontal" oryx:anchors="top bottom left right" x="0" y="18" width="60" height="40" stroke="black" stroke-width="1" fill="white" />
 			<path oryx:resize="vertical horizontal" oryx:anchors="bottom" fill="none" stroke="black" stroke-width="1" d="M3 53 v5 m 3 -5 v5 m 3 -5 v5 m 3 -10 v10 m 3 -5 v5 m 3 -5 v5 m 3 -5 v5 m 3 -10 v10 m 3 -5 v5 m 3 -5 v5 m 3 -5 v5 m 3 -10 v10 m 3 -5 v5 m 3 -5 v5 m 3 -5 v5 m 3 -10 v10 m 3 -5 v5 m 3 -5 v5 m 3 -5 v5"/>
-			<path oryx:anchors="top" fill="none" stroke="black" stroke-width="1" d="M24 18 v12 h12 v-12 M 30 20 v8 M 26 24 h8"/>
+			<!-- <path oryx:anchors="top" fill="none" stroke="black" stroke-width="1" d="M24 18 v12 h12 v-12 M 30 20 v8 M 26 24 h8"/> -->
 			
 		</g>
 		
@@ -30,6 +30,11 @@
     	
     	<!-- <text font-size="12" id="text" x="10" y="45" oryx:align="bottom left" stroke="black" oryx:fittoelem="derivedInstanceMeasure"></text>
     	<text font-size="10" id="unitOfMeasure" x="35" y="45" oryx:align="middle center" stroke="black" oryx:fittoelem="derivedInstanceMeasure"></text> -->
+    	
+    	<text font-weight="bold" font-style="italic" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="13" id="svg_1" y="13.7" x="4.4" stroke-width="0" stroke="#000000" fill="#000000">fx</text>
+    	<!-- <text id="svg_2" font-weight="bold" font-style="italic" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="9" y="16.303125" x="7" stroke-width="0" stroke="#000000" fill="#000000">x</text>-->
+  		
+    	
     	
   </g>
 </svg>

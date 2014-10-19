@@ -24,9 +24,14 @@
 			<path oryx:resize="vertical horizontal" fill="none" stroke="black" stroke-width="1" d="M 12 22 v-4 h48 v32 h-6 M 57 45 v5"/>
 				
 			<!-- Data icon -->
-			<ellipse oryx:anchors="top left" cx="6" cy="4" rx="2" ry="2" stroke="black" stroke-width="1" fill ="none"/>
+			<!-- <ellipse oryx:anchors="top left" cx="6" cy="4" rx="2" ry="2" stroke="black" stroke-width="1" fill ="none"/>
 			<path oryx:anchors="top left" fill="none" stroke="black" d="M 6 6 v2 M 6 7 l -2 1 M6 7 l 2 1 M 6 16 l-3 3 M6 16 l3 3 M1.75 16 v-1 M2 16 v-1 M2.25 16 v-1 M 9.75 16 v-1 M10 16 v-1 M10.25 16 v-1" stroke-width="1"/>
-			<path oryx:anchors="top left" fill="none" stroke="black" d="M 0 8 h12 v8 h -12 v-8 l 6 4 l6 -4" stroke-width="1"/>
+			<path oryx:anchors="top left" fill="none" stroke="black" d="M 0 8 h12 v8 h -12 v-8 l 6 4 l6 -4" stroke-width="1"/> -->
+			
+			<rect oryx:anchors="top left" x="0.1" y="0.55977" width="12.16667" height="15.8069" stroke="black" stroke-width="1" fill="white" />
+			<rect oryx:anchors="top left" x="7.46667" y="-0.16667" width="5.6" height="5.4" stroke="white" stroke-width="0" fill="white" />
+			<path oryx:anchors="top left" fill="white" stroke="black" d="m7.916667,4.833333l0,-3.791667l3.708334,3.727942l-3.708334,0.063725z" stroke-width="1"/>
+			
 			
 		</g>
     	

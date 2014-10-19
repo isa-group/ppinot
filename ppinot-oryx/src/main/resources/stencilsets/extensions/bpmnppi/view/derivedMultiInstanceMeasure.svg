@@ -24,13 +24,17 @@
 			</g>
 		 	
 			<path oryx:resize="vertical horizontal" oryx:anchors="bottom" fill="none" stroke="black" stroke-width="1" d="M3 53 v5 m 3 -5 v5 m 3 -5 v5 m 3 -10 v10 m 3 -5 v5 m 3 -5 v5 m 3 -5 v5 m 3 -10 v10 m 3 -5 v5 m 3 -5 v5 m 3 -5 v5 m 3 -10 v10 m 3 -5 v5 m 3 -5 v5 m 3 -5 v5"/>
-			<path oryx:resize="vertical horizontal" fill="none" stroke="black" stroke-width="1" d="M6 26 v-4 h20 m8 0 h20 v32 h-6 M 51 49 v5"/>
-			<path oryx:resize="vertical horizontal" fill="none" stroke="black" stroke-width="1" d="M 12 22 v-4 h20 m8 0 h20 v32 h-6 M 57 45 v5"/>
-			<path oryx:resize="vertical horizontal" fill="none" stroke="black" stroke-width="1" d="M 32 18 L 20 26 v8 h8 v-8 L 40 18 M 22 30 h4 M 24 28 v4"/>
-			<path oryx:resize="vertical horizontal" fill="none" stroke="white" stroke-width="1" d="M 20 26 h8"/>
+			<path oryx:resize="vertical horizontal" fill="none" stroke="black" stroke-width="1" d="M6 26 v-4 h28 m0 0 h20 v32 h-6 M 51 49 v5"/>
+			<path oryx:resize="vertical horizontal" fill="none" stroke="black" stroke-width="1" d="M 12 22 v-4 h28 m0 0 h20 v32 h-6 M 57 45 v5"/>
+			<!-- <path oryx:resize="vertical horizontal" fill="none" stroke="black" stroke-width="1" d="M 32 18 L 20 26 v8 h8 v-8 L 40 18 M 22 30 h4 M 24 28 v4"/> -->
+			<!-- <path oryx:resize="vertical horizontal" fill="none" stroke="white" stroke-width="1" d="M 20 26 h8"/> -->
 			
 			<text font-size="12" id="function" x="5" y="45" oryx:align="bottom left" stroke="black" oryx:fittoelem="rectangle"></text>
 			<text font-size="11" id="text" x="30" y="60" oryx:align="top center" stroke="black"></text>
+					
+					
+			<text font-weight="bold" font-style="italic" xml:space="preserve" text-anchor="middle" font-family="serif" font-size="13" id="svg_1" y="13.7" x="4.4" stroke-width="0" stroke="#000000" fill="#000000">fx</text>
+			
 					
 			<!-- <text font-size="12" id="text" x="5" y="45" oryx:align="bottom left" stroke="black" oryx:fittoelem="rectangle"></text>
 			<text font-size="10" id="unitOfMeasure" x="35" y="45" oryx:align="middle center" stroke="black" oryx:fittoelem="rectangle"></text> -->

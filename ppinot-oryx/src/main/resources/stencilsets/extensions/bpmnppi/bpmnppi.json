@@ -96,21 +96,25 @@
                           "id":"minimum",
                            "title":"Minimum",
                            "value":"Minimum",
+                           "refToView":"mintime"
                          },
                          {
                            "id":"maximum",
                            "title":"Maximum",
                            "value":"Maximum",
+                           "refToView":"maxtime"
                           },
                          {
                            "id":"average",
                            "title":"Average",
                            "value":"Average",
+                           "refToView":"avgtime"
                           },
                          {
                            "id":"sum",
                            "title":"Sum",
                            "value":"Sum",
+                           "refToView":"sumtime"
                           },
 					],
 					"optional":true

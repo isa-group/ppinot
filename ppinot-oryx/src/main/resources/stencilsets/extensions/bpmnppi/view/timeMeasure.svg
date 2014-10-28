@@ -33,14 +33,40 @@
 	        <path oryx:anchors="top left" stroke="black"
 	       	style="opacity:1;fill:none;fill-opacity:1;;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:2.0999999;stroke-dasharray:none;stroke-opacity:1"
 	        d="M 20.75,7.5 A 3.875,3.875 0 1 1 13,8 M 18.75,8.5 L 20.75,7.5 L 22.75,8.5" />
-	        
-	        
+	        	        
+			<!-- <text oryx:anchors="top left" font-size="11" id="text" x="30" y="60" oryx:align="top center" stroke="black">XSX</text> -->
+			
+			 
+    		  
+			      	   
+				        	        
 	        <!--<path oryx:anchors="top left" stroke="black"
 	       	style="opacity:1;fill:none;fill-opacity:1;;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:2.0999999;stroke-dasharray:none;stroke-opacity:1"
 	        d="M 14.5,5 L 14.5,8 L 11.5,8 M 14.5,8 A 4.875,4.875 0 1 1 18.5,8" /> -->
 		</g>
+		
+		
+			<!-- TEXTOS -->
+			<text oryx:anchors="top left" font-size="11" id="mintime" x="25" y="10" oryx:fittoelem="timeMeasure"> min </text>
+    		<text oryx:anchors="top left" font-size="11" id="maxtime" x="25" y="10" oryx:fittoelem="timeMeasure"> max </text>
+    		<text oryx:anchors="top left" font-size="11" id="avgtime" x="25" y="10" oryx:fittoelem="timeMeasure"> avg </text>
+    		<text oryx:anchors="top left" font-size="11" id="sumtime" x="25" y="10" oryx:fittoelem="timeMeasure"> sum </text>
+    		 
     
-    	<text font-size="11" id="text" x="30" y="60" oryx:align="top center" stroke="black"></text>
+    	<text oryx:anchors="top left" font-size="11" id="text" x="30" y="60" oryx:align="top center" stroke="black"></text>
     	<!-- <text font-size="10" id="unitOfMeasure" x="35" y="33" oryx:align="middle center" stroke="black" oryx:fittoelem="baseMeasure"></text> -->
+    	
+    	<text oryx:anchors="top left" font-size="12" id="singleInstanceAggFunction" x="10" y="45" oryx:align="bottom left" stroke="green" oryx:fittoelem="cyclic"></text>
+
+    
+    
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
   </g>
 </svg>

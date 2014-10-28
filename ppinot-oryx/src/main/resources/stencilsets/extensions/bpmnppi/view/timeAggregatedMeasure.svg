@@ -50,5 +50,11 @@
     	
     	<!-- <text font-size="10" id="unitOfMeasure" x="35" y="38" oryx:align="middle center" stroke="black" oryx:fittoelem="aggregateMeasure"></text> -->
     	
+    	<!-- TEXTOS_CYCLE_AGGREGATION -->
+			<text oryx:anchors="top left" font-size="11" id="mintime" x="25" y="10" oryx:fittoelem="timeAggregatedMeasure"> min </text>
+    		<text oryx:anchors="top left" font-size="11" id="maxtime" x="25" y="10" oryx:fittoelem="timeAggregatedMeasure"> max </text>
+    		<text oryx:anchors="top left" font-size="11" id="avgtime" x="25" y="10" oryx:fittoelem="timeAggregatedMeasure"> avg </text>
+    		<text oryx:anchors="top left" font-size="11" id="sumtime" x="25" y="10" oryx:fittoelem="timeAggregatedMeasure"> sum </text>
+    		
   </g>
 </svg>

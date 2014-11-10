@@ -8,8 +8,8 @@
 	<g id="edgeAppliesTo">
 	    <path d="M10 50 L210 50" stroke="black" fill="none" stroke-width="2" stroke-dasharray="3, 4" marker-end="url(#end)" />
 		 <text font-size="12" id="stateText3" x="60" y="0" oryx:align="top left" oryx:edgePosition="endBottom"/>
-		 <text font-size="12" id="restrictionText" x="60" y="0" oryx:align="top left" oryx:edgePosition="endTop"/>
-		 <text font-size="12" id="dataContentSelectionText" x="60" y="0" oryx:align="top left" oryx:edgePosition="midBottom"/>
+		 <!--<text font-size="12" id="restrictionText" x="60" y="0" oryx:align="top left" oryx:edgePosition="endTop"/>-->
+		 <text font-size="12" id="dataContentSelectionText" x="60" y="0" oryx:align="top left" oryx:edgePosition="endTop"/>
 	</g>
 		
 	

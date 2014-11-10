@@ -32,7 +32,7 @@
     <oryx:magnet oryx:cx="80" oryx:cy="0" oryx:anchors="top" />
     <oryx:magnet oryx:cx="80" oryx:cy="40" oryx:default="yes" />
   </oryx:magnets>
-  <g id="g2821">
+  <!--<g id="g2821">-->
     <g
        transform="translate(0.34745763,0.34745763)"
        id="g2917"
@@ -40,7 +40,7 @@
        oryx:minimumSize="15 10"
        pointer-events="fill">
       <g
-         oryx:anchors="bottom"
+         oryx:anchors="top"
          id="ppi">
         <rect
            style="fill:#ffffff;stroke:#000000;stroke-width:1"
@@ -49,49 +49,18 @@
            width="160"
            y="0"
            x="0"
-           oryx:anchors="bottom"
+           oryx:anchors="top"
            oryx:resize="vertical horizontal" />
+        
         <text
            style="font-size:12px"
            oryx:fittoelem="ppi"
-           oryx:align="top left"
+           oryx:align="top center"
            y="0"
            x="60"
            id="idPpi"
            font-size="12" />
-        <!-- CREO_QUE_SON_MARCAS_GRISES 
-        <path
-           oryx:fittoelem="ppi"
-           oryx:anchors="top left"
-           transform="translate(-38.915254,-3.1271186)"
-           d="m 69.491527,16.677965 c 0,2.110851 -5.21133,3.822034 -11.639831,3.822034 -6.428501,0 -11.639831,-1.711183 -11.639831,-3.822034 0,-2.110851 5.21133,-3.822034 11.639831,-3.822034 6.428501,0 11.639831,1.711183 11.639831,3.822034 z"
-           id="path3828"
-           style="fill:#ffffff;stroke:#f6f3f3;stroke-opacity:1"/> -->
-        <!-- RUEDA_NEGRA_FONDO_RELOJ
-        <path
-           oryx:fittoelem="ppi"
-           oryx:anchors="top left"
-           transform="matrix(0.98627275,0,0,0.98627275,-48.306792,-0.96323897)"
-           d="m 78.525426,16.677965 c 0,7.675822 -6.300264,13.898304 -14.072034,13.898304 -7.77177,0 -14.072034,-6.222482 -14.072034,-13.898304 0,-7.6758212 6.300264,-13.8983038 14.072034,-13.8983038 7.77177,0 14.072034,6.2224826 14.072034,13.8983038 z"
-           id="path3833"
-           style="fill:#000000;stroke:#f6f3f3;stroke-opacity:1" /> -->
-        <!-- MARCAS_BLANCAS_RELOJ
-        <path
-           oryx:fittoelem="ppi"
-           oryx:anchors="top left"
-           id="path3969"
-           style="fill:#4d4d4d;fill-opacity:1;fill-rule:evenodd;stroke:#e6e6e6;stroke-width:0.51599997;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline"
-           d="M 10.946819,6.7445339 9.9968627,4.8955738 M 8.8306415,8.1909513 7.4321465,6.652723 m -0.295043,3.513438 -1.762648,-1.121907 m 0.750672,3.181669 -1.975176,-0.6815 m 1.500812,2.695309 -2.077037,-0.253169 m 2.11988,2.909865 -2.067899,0.311815 m 2.850246,2.291386 -1.900489,0.866033 m 3.440125,1.483055 -1.573993,1.367048 m 3.6188945,0.397333 -1.1363445,1.737961 m 3.5243365,-0.617328 -0.630206,1.98051 m 3.391856,-1.538269 -0.04308,2.074781 m 2.958458,-2.449668 0.578385,1.993841 m 2.169512,-3.255231 1.162729,1.725009 m 1.037897,-3.728246 1.631142,1.29908 m -0.172283,-3.768717 1.941321,0.772893 m -1.276162,-3.470148 2.086002,0.202347 m -2.23283,-3.074604 2.052287,-0.410488 m -2.920278,-2.042037 1.869162,-0.936069 M 22.699472,8.9045791 24.250939,7.514386 M 21.224678,7.58674 22.462528,5.9156403 M 18.192094,6.0921824 18.785135,4.100051 m 0.799168,2.5214875 0.888995,-1.8780823 m 0.244335,1.8061874 0.762231,-1.2768242 m 0.845802,2.4408008 0.993644,-1.1105093 m 0.645215,2.9341744 1.231063,-0.8499565 m 0.03323,3.2909902 1.411916,-0.49806 m -0.832931,3.28794 1.495475,-0.101101 m -1.759692,3.192209 1.454886,0.349301 m -2.559786,2.396446 1.297017,0.741727 m -3.181111,1.61514 1.027214,1.081175 m -3.657005,0.71012 0.649342,1.338991 m -3.654552,-0.429079 0.217415,1.471405 m -3.392312,-1.491922 -0.238939,1.464854 m -4.9689715,-3.899762 -0.988502,1.1173 m -0.880255,-3.252418 -1.257493,0.810343 m -0.005,-3.525614 -1.438797,0.421297 m 1.011724,-3.337017 -1.49989,0 m 2.592779,-4.586506 -1.341838,-0.65883 M 7.4217265,8.7937788 6.2740085,7.838869 M 9.4535577,6.9546533 8.5984525,5.7367394 M 11.884271,5.736617 11.376803,4.3365657 m -0.511879,20.4211623 -0.653408,1.336766 m 2.498975,-22.1726255 0.477655,2.0415638 m 5.906815,-0.1781266 0.524427,-1.377005" />
-           -->
-        <!-- AGUJA 
-        <path
-           oryx:fittoelem="ppi"
-           oryx:anchors="top left"
-           style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#e6e6e6;stroke-width:0.15134281;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline"
-           d="m 22.338619,21.062216 c 0.05638,-0.553011 -3.505869,-3.536268 -4.136989,-3.995973 l -2.271401,-1.838105 c -0.04069,-0.499 -0.460736,-0.890319 -0.973695,-0.890319 -0.03751,0 -0.07496,4.8e-5 -0.111865,4.8e-5 L 13.34138,13.117389 c -0.05417,-0.484174 -0.468153,-0.861638 -0.971321,-0.861638 -0.540293,0 -0.97843,0.431627 -0.978435,0.970259 0,0.535177 0.438142,0.971596 0.978435,0.971596 0.06983,0 0.138398,-5.9e-5 0.204248,-1.3e-4 l 1.403536,1.140091 c 0.0028,0.529083 0.442955,0.956473 0.978427,0.956473 0.06178,0 0.121761,-1.29e-4 0.180481,-1.29e-4 l 2.145492,1.73745 c 0.496156,0.43144 4.437765,3.07621 5.056066,3.063231 z"
-           id="path4067"/> -->
-          
-        <!-- NUEVO_RELOJ --> 
+           
         <ellipse oryx:fittoelem="ppi" oryx:anchors="top left" cx="15.6785" cy="15.77078" rx="13.78889" ry="13.65" stroke="black" stroke-width="1" fill ="none"/>
         
         <line oryx:fittoelem="ppi" oryx:anchors="top left" transform="rotate(90 3.7007207870483385,15.778500556945803) " fill="none" stroke="#000000" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x1="3.70072" y1="13.98961" x2="3.70072" y2="17.56739" />  
@@ -103,11 +72,15 @@
      	<line oryx:fittoelem="ppi" oryx:anchors="top left" transform="rotate(45 24.200735092163082,7.778497219085695) "  fill="none" stroke="black" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x1="24.20072" y1="5.98961" x2="24.20072" y2="9.56739"/>
      	
      	<path oryx:fittoelem="ppi" oryx:anchors="top left" fill="none" stroke="#050505" stroke-width="null" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" id="svg_22" d="m4.57633,23.81787l0.49586,-0.48581l0.66923,-0.54491l0.79471,-0.63201l0.69015,-0.47952l0.81563,-0.50124l0.83651,-0.43592l0.75289,-0.3487l0.83658,-0.32692l0.77378,-0.23976l0.79473,-0.17438l0.77378,-0.15254l0.77377,-0.08716l0.69015,-0.06538l0.81562,-0.04362l0.83659,0l0.69014,0.02178l0.85741,0.08722l0.75289,0.08715l0.69014,0.13078l0.75289,0.19615l0.69014,0.17438l0.7111,0.2397l0.66919,0.26154l0.66925,0.32692l0.66926,0.37053l0.58555,0.3487l0.58556,0.39231l0.50192,0.37053l0.52288,0.41408l0.46007,0.41414l0.35556,0.32693l0.37643,0.37046"/>
-     	<path oryx:fittoelem="ppi" oryx:anchors="top left" fill="none" stroke="red" stroke-width="null" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" opacity="0.5" d="m38.24516,35.73189" id="svg_6"/>
-     	<path oryx:fittoelem="ppi" oryx:anchors="top left" fill="none" stroke="red" stroke-width="null" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" opacity="0.5" d="m39.243,36.043" id="svg_12"/>
-     
-     	 
+
+		
       </g>
-    </g>
+
+      
+
+      
   </g>
+      
+  <!--</g>-->
 </svg>
+

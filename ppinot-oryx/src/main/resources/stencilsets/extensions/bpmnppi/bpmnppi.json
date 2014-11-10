@@ -1,5 +1,5 @@
 {
-	"title":"PPIs",
+	"title":"PPIs_e",
 	"namespace":"http://www.isa.us.es/ppiontology/stencilsets/extensions/bpmnppi#",
 	"description":"Adds definition of Process Performance Indicators to BPMN 2.0",
 	"definition":"bpmnppi/bpmnppi.json",
@@ -74,6 +74,7 @@
 					          "id":"linearTimeMeasure",
 					      	   "title":"Linear",
 					      	   "value":"Linear",
+					      	   "refToView":"linear"
 					         },
 					         {
 					       	   "id":"CyclicTimeMeasure",

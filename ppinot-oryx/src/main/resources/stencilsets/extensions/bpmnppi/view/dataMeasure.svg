@@ -18,7 +18,7 @@
   <g pointer-events="fill" oryx:minimumSize="15 10" oryx:maximumSize="240 160" >
   		<g id="dataMeasure">
 			
-		 	<rect oryx:resize="vertical horizontal" oryx:anchors="top bottom left right" x="0" y="18" width="60" height="40" stroke="red" stroke-width="1" fill="white" />
+		 	<rect oryx:resize="vertical horizontal" oryx:anchors="top bottom left right" x="0" y="18" width="60" height="40" stroke="black" stroke-width="1" fill="white" />
 			<path oryx:resize="vertical horizontal" oryx:anchors="bottom" fill="none" stroke="black" d="M3 53 v5 m 3 -5 v5 m 3 -5 v5 m 3 -10 v10 m 3 -5 v5 m 3 -5 v5 m 3 -5 v5 m 3 -10 v10 m 3 -5 v5 m 3 -5 v5 m 3 -5 v5 m 3 -10 v10 m 3 -5 v5 m 3 -5 v5 m 3 -5 v5 m 3 -10 v10 m 3 -5 v5 m 3 -5 v5 m 3 -5 v5" stroke-width="1"/>
 			<!-- <ellipse oryx:anchors="top left" cx="6" cy="2" rx="2" ry="2" stroke="black" stroke-width="1" fill ="none"/>
 			<path oryx:anchors="top left" fill="none" stroke="black" d="M 6 4 v2 M 6 5 l -2 1 M6 5 l 2 1 M 6 14 l-3 3 M6 14 l3 3 M1.75 14 v-1 M2 14 v-1 M2.25 14 v-1 M 9.75 14 v-1 M10 14 v-1 M10.25 14 v-1" stroke-width="1"/>

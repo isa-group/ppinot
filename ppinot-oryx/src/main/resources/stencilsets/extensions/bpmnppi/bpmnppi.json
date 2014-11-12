@@ -1,5 +1,5 @@
 {
-	"title":"PPIs_e",
+	"title":"PPIs",
 	"namespace":"http://www.isa.us.es/ppiontology/stencilsets/extensions/bpmnppi#",
 	"description":"Adds definition of Process Performance Indicators to BPMN 2.0",
 	"definition":"bpmnppi/bpmnppi.json",
@@ -157,6 +157,64 @@
 					       	   "title":"Sum",
 					       	   "value":"Sum",
 					       	   "refToView":"sum"
+					          },
+							],
+					"width":80,
+					"optional":false
+				},
+				{
+					"id":"samplingFrequency",
+					"type":"String",
+					"title":"Sampling frequency",
+					"value":"",
+					"description":"This attribute defines the frequency of sampling.",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				}
+			]
+	    },
+	    {
+	        "name": "stateAggregatedProperties",
+			"properties": [
+				{
+					"id":"stateAggregationFunction",
+					"type":"Choice",
+					"title":"State Aggregation Function",
+					"value":"",
+					"description":"Function defined through the operators: change values to calculate the aggregated measure value.",
+					"tooltip":"Choose one",
+					"readonly":false,
+					"items" : [
+					        {
+					          "id":"numberProcessInstance",
+					      	   "title":"Number of Process Instance",
+					      	   "value":"numberProcIns",
+					      	   "refToView":"numberProcIns"
+					         },
+					         {
+					       	   "id":"percentageProcessInstance",
+				        	   "title":"Percentage of Process Instance",
+				        	   "value":"percentageProcIns",
+				        	   "refToView":"percentageProcIns"
+					          },
+							 {
+					           "id":"allProcessInstance",
+					           "title":"All Process Instance",
+					           "value":"allProcIns",
+					           "refToView":"allProcIns"
+					          },
+							 {
+					       	   "id":"atLeastOneProcessInstance",
+					       	   "title":"At Least One Process Instance",
+					       	   "value":"atLeastOneProcIns",
+					       	   "refToView":"atLeastOneProcIns"
+					          },
+					          {
+					       	   "id":"noProcessInstance",
+					       	   "title":"No Process Instance",
+					       	   "value":"noProcIns",
+					       	   "refToView":"noProcIns"
 					          },
 							],
 					"width":80,
@@ -640,7 +698,7 @@
 			"groups":["AggregatedMeasure"],
 			"view":"../../extensions/bpmnppi/view/stateConditionAggregatedMeasure.svg",
 			"icon":"../../extensions/bpmnppi/icons/stateConditionAggregatedMeasure.png",
-            "propertyPackages" : ["measureCommon", "aggregatedCommon"],
+            "propertyPackages" : ["measureCommon", "stateAggregatedProperties"],
 			"roles": [
 				"fromtoall",
 				"all",

@@ -29,8 +29,37 @@
 			<path oryx:anchors="top left" d="M6,9 L11 12 M11,12 L16,6" stroke="black" stroke-width="1" fill="none" />
 			
 		</g>
+		
+		<g id="numberProcIns">
+			<path oryx:align="middle left" oryx:fittoelem="timeAggregatedMeasure" stroke="black" fill="#FFFFFF" d="m20,31v15m7,-15v15m-12,-10h17m-17,5h17"/>
+		</g>
+		<g id="percentageProcIns">
+			<path oryx:align="middle left" stroke="black" fill="#FFFFFF" d="m19.66667,43.8889l9,-13.44444"/>
+   			<ellipse oryx:align="middle left" fill="#ffffff" stroke="#000000" cx="21.22222" cy="33" rx="1.88889" ry="2.55556"/>
+   			<ellipse oryx:align="middle left" fill="#ffffff" stroke="#000000" cx="27.66667" cy="41" rx="1.88889" ry="2.55556"/>
+		
+		</g>
+		<g id="allProcIns">
+			<path oryx:align="middle left" stroke="black" fill="#FFFFFF" d="m17.5,29l6,15l6,-15m-10,6h8"/>
+		</g>
+		<g id="atLeastOneProcIns">
+			<path oryx:align="middle left" d="m18.5,30h10l0,14l-10,0m0,-7h10" fill="#FFFFFF" stroke="black"/>
+		</g>
+		<g id="noProcIns">
+			<path oryx:align="middle left" stroke="black" fill="#FFFFFF" d="m18.5,30h10l0,14l-10,0m0,-7h10m-8,9l7,-18"/>
+		</g>
+		
+		<text oryx:anchors="top left" font-size="12" id="stateAggregationFunction" x="10" y="45" oryx:align="bottom left" stroke="green" oryx:fittoelem="numberProcIns"></text>
+		<text oryx:anchors="top left" font-size="12" id="stateAggregationFunction" x="10" y="45" oryx:align="bottom left" stroke="green" oryx:fittoelem="percentageProcIns"></text>
+		<text oryx:anchors="top left" font-size="12" id="stateAggregationFunction" x="10" y="45" oryx:align="bottom left" stroke="green" oryx:fittoelem="allProcIns"></text>
+		<text oryx:anchors="top left" font-size="12" id="stateAggregationFunction" x="10" y="45" oryx:align="bottom left" stroke="green" oryx:fittoelem="atLeastOneProcIns"></text>
+		<text oryx:anchors="top left" font-size="12" id="stateAggregationFunction" x="10" y="45" oryx:align="bottom left" stroke="green" oryx:fittoelem="noProcIns"></text>
+		
+    	<!--<text font-size="12" id="sum" x="10" y="38" oryx:align="middle left" oryx:fittoelem="timeAggregatedMeasure"> SUM </text>-->
     	
-    	<text font-size="12" id="sum" x="10" y="38" oryx:align="middle left" oryx:fittoelem="timeAggregatedMeasure"> SUM </text>
+    	
+    	
+    	
     	
     	<text font-size="11" id="text" x="30" y="60" oryx:align="top center" stroke="black"></text>
     	

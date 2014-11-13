@@ -587,27 +587,7 @@
 			"properties": [
 			]
 		},
-		{
-			"type": "node",
-			"id":"dataPropertyConditionMeasure",
-			"title":"Data Property Condition Measure",
-			"description":"It checks certain conditions (e.g. states or restriction related to a property) over Data Objects' instances.",
-			"groups":["BaseMeasure"],
-			"view":"../../extensions/bpmnppi/view/dataPropertyConditionMeasure.svg",
-			"icon":"../../extensions/bpmnppi/icons/dataPropertyConditionMeasure.png",
-            "propertyPackages" : ["measureCommon"],
-			"roles": [
-				"fromtoall",
-				"all",
-				"baseMeasureMorph",
-				"dataMeasures",
-				"appliesToDataMeasure",
-				"instanceMeasure"
-			],
-			"properties": [
-			]
-		},
-		
+				
 		{
 			"type": "node",
 			"id":"dataMeasure",
@@ -709,26 +689,6 @@
 			], 
 
 			"properties": [	
-			]
-		},
-		{
-			"type": "node",
-			"id":"dataPropertyConditionAggregatedMeasure",
-			"title":"Data Property Condition Aggregated Measure",
-			"description":"It aggregates values of dataPropertyConditionMeasures contained in the analysis period through an aggregation function.",
-			"groups":["AggregatedMeasure"],
-			"view":"../../extensions/bpmnppi/view/dataPropertyConditionAggregatedMeasure.svg",
-			"icon":"../../extensions/bpmnppi/icons/dataPropertyConditionAggregatedMeasure.png",
-            "propertyPackages" : ["measureCommon", "aggregatedCommon"],
-			"roles": [
-				"fromtoall",
-				"all",
-				"aggregatedMeasure",
-				"dataMeasures",
-				"processMeasure",
-				"appliesToDataMeasure"
-			], 
-			"properties": [
 			]
 		},
 		{

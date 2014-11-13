@@ -94,6 +94,12 @@
 					"readonly":false,
 				    "items" : [
                         {
+                          "id":"nodata",
+                           "title":" ",
+                           "value":"nodata",
+                           "refToView":"nodata"
+                         },
+                         {
                           "id":"minimum",
                            "title":"Minimum",
                            "value":"Minimum",

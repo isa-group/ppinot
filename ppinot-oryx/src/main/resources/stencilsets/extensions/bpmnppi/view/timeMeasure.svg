@@ -43,8 +43,9 @@
 	       	style="opacity:1;fill:none;fill-opacity:1;;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:2.0999999;stroke-dasharray:none;stroke-opacity:1"
 	        d="M 14.5,5 L 14.5,8 L 11.5,8 M 14.5,8 A 4.875,4.875 0 1 1 18.5,8" /> -->
 		</g>
-				
+		
 			<!-- TEXTOS -->
+			<text oryx:anchors="top left" font-size="11" id="nodata" x="25" y="10" oryx:fittoelem="timeMeasure"> </text>
 			<text oryx:anchors="top left" font-size="11" id="mintime" x="25" y="10" oryx:fittoelem="timeMeasure"> min </text>
     		<text oryx:anchors="top left" font-size="11" id="maxtime" x="25" y="10" oryx:fittoelem="timeMeasure"> max </text>
     		<text oryx:anchors="top left" font-size="11" id="avgtime" x="25" y="10" oryx:fittoelem="timeMeasure"> avg </text>
@@ -56,7 +57,8 @@
     	<!-- <text font-size="10" id="unitOfMeasure" x="35" y="33" oryx:align="middle center" stroke="black" oryx:fittoelem="baseMeasure"></text> -->
     	
     	<text oryx:anchors="top left" font-size="12" id="singleInstanceAggFunction" x="10" y="45" oryx:align="bottom left" stroke="green" oryx:fittoelem="cyclic"></text>
-
+    	
+		<!-- <text oryx:anchors="top left" font-size="12" id="linear" x="25" y="10" oryx:align="bottom left" stroke="green" oryx:fittoelem="timeMeasure">_</text> -->
     
     
     	

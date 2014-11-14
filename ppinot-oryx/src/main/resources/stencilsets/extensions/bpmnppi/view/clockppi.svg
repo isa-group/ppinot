@@ -75,21 +75,31 @@
 
 		
       </g>
-	  <!--<g id="opcionales">
       
-        <rect oryx:anchors="bottom" fill="#a0a0a0" stroke="#000000" x="0" y="56" width="160" height="24" oryx:resize="horizontal"/>
-      	
-      	<rect oryx:anchors="bottom" id="svg_3" height="12.571429" width="21.857142" y="63.42857" x="82.785715" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="null" stroke="#ffffff" fill="#ffffff"/>
-      	
-      	<path oryx:anchors="bottom" stroke="black" fill="#FFFFFF" d="m82,61v15m4.5,-15v15m4.5,-15v15m4.5,-15v15m4.5,-15v15m4.5,-15v15m-23,-15h23.5m-23.5,15h23.5m-23.5,-4.5h23.5m-23.5,-4.5h23.5m-23.5,-4.5h23.5m-23.5,-4h23.5m-23.5,3h23.5m-23.5,-2h23.5m-23.5,1h23.5"/>
-      	
+      <g>
+      	<rect oryx:anchors="bottom" fill="#a0a0a0" stroke="#000000" x="0" y="56" width="160" height="24" oryx:resize="horizontal"/>
+      </g>
+      
+      <g>
       	<circle oryx:anchors="bottom" r="8.09086" cy="67.875" cx="14.5" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="3" stroke="#000000" fill="#ffffff"/>
   		<circle oryx:anchors="bottom" r="1.52069" cy="68" cx="14.5" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="3" stroke="#000000" fill="#ffffff"/>
-  
-  
   		<text oryx:anchors="bottom" font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="14" y="74" x="25" stroke-linecap="null" stroke-width="0" stroke="#000000" fill="#000000">target</text>
-  		<text oryx:anchors="bottom" font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="14" y="74" x="107" stroke-linecap="null" stroke-width="0" stroke="#000000" fill="#000000">scope</text>
+      </g>
+      
+      <g>
+      	<rect oryx:anchors="bottom" id="svg_3" height="12.571429" width="21.857142" y="63.42857" x="82.785715" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="null" stroke="#ffffff" fill="#ffffff"/>
+      	<path oryx:anchors="bottom" stroke="black" fill="#FFFFFF" d="m82,61v15m4.5,-15v15m4.5,-15v15m4.5,-15v15m4.5,-15v15m4.5,-15v15m-23,-15h23.5m-23.5,15h23.5m-23.5,-4.5h23.5m-23.5,-4.5h23.5m-23.5,-4.5h23.5m-23.5,-4h23.5m-23.5,3h23.5m-23.5,-2h23.5m-23.5,1h23.5"/>
+      	<text oryx:anchors="bottom" font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="14" y="74" x="107" stroke-linecap="null" stroke-width="0" stroke="#000000" fill="#000000">scope</text>
+      </g>
+      
+	  <!--<g id="opcionales">
+      
+        
+      	
+      	
+      	
   
+  		
       </g>-->
       
 

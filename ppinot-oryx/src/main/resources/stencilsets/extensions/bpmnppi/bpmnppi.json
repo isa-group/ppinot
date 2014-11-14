@@ -832,16 +832,6 @@
 			],
 			"properties":[
 				{
-					"id":"restriction",
-					"type":"String",
-					"title":"Restriction",
-					"value":"",
-					"description":"This attribute is used to specify the restriction certain Data property must fulfill.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"restrictionText" 
-				},
-				{
 					"id":"state",
 					"type":"String",
 					"title":"State",

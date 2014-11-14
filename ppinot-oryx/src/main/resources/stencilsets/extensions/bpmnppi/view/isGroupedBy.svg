@@ -14,7 +14,7 @@
 	
 	<g id="edge">
 	    <path d="M10 50 L210 50" stroke="black" fill="none" stroke-width="2" stroke-dasharray="3, 4" marker-start="url(#start)"/>
-	    <text x="0" y="0" oryx:edgePosition="endTop"> isGroupedBy </text>	
+	    <text x="0" y="0" oryx:edgePosition="midTop"> isGroupedBy </text>	
 	    <text x="0" y="0" oryx:edgePosition="endBottom" id="dataContentSelectionText"></text>
 	</g>
 </svg>

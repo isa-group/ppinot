@@ -1,5 +1,5 @@
 {
-	"title":"PPIs_df",
+	"title":"PPIs",
 	"namespace":"http://www.isa.us.es/ppiontology/stencilsets/extensions/bpmnppi#",
 	"description":"Adds definition of Process Performance Indicators to BPMN 2.0",
 	"definition":"bpmnppi/bpmnppi.json",
@@ -921,12 +921,12 @@
 			"groups":["SCOR extension"],
 			"view":"../../extensions/bpmnppi/view/SCORmetric.svg",
 			"icon":"../../extensions/bpmnppi/icons/SCORmetric.png",
-            //"propertyPackages" : ["measureCommon", "derivedCommon"],
+            "propertyPackages" : ["measureCommon","derivedCommon"], 
 			"roles": [
 				"fromtoall",
-				"all"//,
-				//"derivedMeasuresMorph",
-				//"processMeasure"
+				"all",
+				"derivedMeasuresMorph",
+				"processMeasure"
 			], 
 			"properties": [	
 				{
@@ -1198,6 +1198,10 @@
 					{
 						"from" : "derivedMultiInstanceMeasure",
 						"to" : ["aggregatedMeasureGeneric"] 
+					},
+					{
+						"from" : "SCORmetric",
+						"to" : ["instanceMeasure"] 
 					}
 				]
 			}

@@ -9,21 +9,29 @@
    version="1.0">
   <defs></defs>
   <oryx:magnets>
-    <oryx:magnet oryx:cx="0" oryx:cy="38" oryx:anchors="left" />
-  	<oryx:magnet oryx:cx="30" oryx:cy="58" oryx:anchors="bottom" />
-  	<oryx:magnet oryx:cx="60" oryx:cy="38" oryx:anchors="right" />
-  	<oryx:magnet oryx:cx="30" oryx:cy="18" oryx:anchors="top" />
-	<oryx:magnet oryx:cx="30" oryx:cy="38" oryx:default="yes" />
+    <oryx:magnet oryx:cx="0" oryx:cy="95" oryx:anchors="left" />
+    <oryx:magnet oryx:cx="0" oryx:cy="57" oryx:anchors="left" />
+    <oryx:magnet oryx:cx="0" oryx:cy="133" oryx:anchors="left" />
+  	<oryx:magnet oryx:cx="75" oryx:cy="170" oryx:anchors="bottom" />
+  	<oryx:magnet oryx:cx="37" oryx:cy="170" oryx:anchors="bottom" />
+  	<oryx:magnet oryx:cx="113" oryx:cy="170" oryx:anchors="bottom" />
+  	<oryx:magnet oryx:cx="150" oryx:cy="95" oryx:anchors="right" />
+  	<oryx:magnet oryx:cx="150" oryx:cy="57" oryx:anchors="right" />
+  	<oryx:magnet oryx:cx="150" oryx:cy="133" oryx:anchors="right" />
+  	<oryx:magnet oryx:cx="75" oryx:cy="20" oryx:anchors="top" />
+  	<oryx:magnet oryx:cx="37" oryx:cy="20" oryx:anchors="top" />
+  	<oryx:magnet oryx:cx="113" oryx:cy="20" oryx:anchors="top" />
+	<oryx:magnet oryx:cx="75" oryx:cy="95" oryx:default="yes" />
   </oryx:magnets>
   <g pointer-events="fill" oryx:minimumSize="15 10" >
   		<g id="metric">
 			<!--<path oryx:resize="vertical horizontal" oryx:anchors="top bottom left right" fill="#007fff" stroke="black" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" d="m1,14.116667c0,-6.946196 5.996033,-12.783334 13.131313,-12.783334l73.737392,0c7.135277,0 13.13131,5.837138 13.13131,12.783334l0,53.099993c0,6.946198 -5.996033,12.78334 -13.13131,12.78334l-73.737392,0c-7.135283,0 -13.131313,-5.837143 -13.131313,-12.78334l0,-53.099993z"/>-->
-			<rect oryx:resize="vertical horizontal" oryx:anchors="top bottom left right" fill="#007fff" x="50" y="20" rx="10" ry="10" width="150" height="150" stroke="black"/>
+			<rect oryx:resize="vertical horizontal" oryx:anchors="top bottom left right" fill="#007fff" x="0" y="20" rx="10" ry="10" width="150" height="150" stroke="black"/>
 			
-			<path oryx:anchors="bottom" fill="none" stroke="black" d="m117,153.5h16v16h-16v-16m8,4v8m-4,-4h8"/>
+			<path oryx:anchors="bottom" fill="none" stroke="black" d="m67,153.5h16v16h-16v-16m8,4v8m-4,-4h8"/>
   
 		</g>
-		<text font-size="12" id="metricname" x="122" y="100" oryx:align="bottom center" stroke="red" oryx:fittoelem="metric"></text>
+		<text font-size="12" id="metricname" x="72" y="100" oryx:align="bottom center" stroke="red" oryx:fittoelem="metric"></text>
 		
   </g>
 </svg>

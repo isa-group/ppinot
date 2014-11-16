@@ -1,5 +1,5 @@
 {
-	"title":"PPIs",
+	"title":"PPIs_df",
 	"namespace":"http://www.isa.us.es/ppiontology/stencilsets/extensions/bpmnppi#",
 	"description":"Adds definition of Process Performance Indicators to BPMN 2.0",
 	"definition":"bpmnppi/bpmnppi.json",
@@ -832,6 +832,16 @@
 			],
 			"properties":[
 				{
+					"id":"restriction",
+					"type":"String",
+					"title":"Restriction",
+					"value":"",
+					"description":"This attribute is used to specify the restriction certain Data property must fulfill.",
+					"readonly":false,
+					"optional":true,
+					"refToView":"restrictionText" 
+				},
+				{
 					"id":"state",
 					"type":"String",
 					"title":"State",
@@ -902,7 +912,62 @@
 					"refToView":"variable"
 				}
 			],
-		}	
+		},
+		{
+			"type": "node",
+			"id":"SCORmetric",
+			"title":"SCOR metric",
+			"description":"It is used to represent a SCOR metric.",
+			"groups":["SCOR extension"],
+			"view":"../../extensions/bpmnppi/view/SCORmetric.svg",
+			"icon":"../../extensions/bpmnppi/icons/SCORmetric.png",
+            "propertyPackages" : ["measureCommon", "derivedCommon"],
+			"roles": [
+				"fromtoall",
+				"all",
+				"derivedMeasuresMorph",
+				"processMeasure"
+			], 
+			"properties": [		
+			]
+		},
+		{
+			"type": "node",
+			"id":"SCORcontainer",
+			"title":"SCOR container",
+			"description":"It is used to describe the measures that constitute SCOR metrics.",
+			"groups":["SCOR extension"],
+			"view":"../../extensions/bpmnppi/view/SCORcontainer.svg",
+			"icon":"../../extensions/bpmnppi/icons/SCORcontainer.png",
+            //"propertyPackages" : ["measureCommon", "derivedCommon"],
+			"roles": [
+				"fromtoall",
+				"all",
+				//"derivedMeasuresMorph",
+				//"processMeasure"
+				"container"
+			], 
+			"properties": [		
+			]
+		},
+		{
+			"type": "node",
+			"id":"SCORlist",
+			"title":"SCOR List Measure",
+			"description":"List of measures.",
+			"groups":["SCOR extension"],
+			"view":"../../extensions/bpmnppi/view/SCORlist.svg",
+			"icon":"../../extensions/bpmnppi/icons/SCORlist.png",
+            "propertyPackages" : ["measureCommon", "derivedCommon"],
+			"roles": [
+				"fromtoall",
+				"all",
+				"derivedMeasuresMorph",
+				"processMeasure"
+			], 
+			"properties": [		
+			]
+		}
 	],
 	
 	//Rules
@@ -926,6 +991,15 @@
 					},
 					{
 						"from" : "ppiexpanded",
+						"to" : "fromtoall"
+					},
+					//--
+					{
+						"from" : "fromtoall",
+						"to" : ["metricconect"]
+					},
+					{
+						"from" : "metricconect",
 						"to" : "fromtoall"
 					}
 					
@@ -1171,7 +1245,14 @@
 					"aggregatedMeasureGeneric"
 				]
 			},
-			
+			{
+				"role":"SCORcontainer",
+				"contains":[
+					"instanceMeasure",
+					"processMeasure",
+					"aggregatedMeasureGeneric"
+				]
+			}
 		],
 		"morphingRules": [
 			{
@@ -1191,6 +1272,12 @@
 				"role": "ppiMorph",
 				"baseMorphs": ["ppi"]
 			},
+			
+			{
+				"role": "container",
+				"baseMorphs": ["SCORcontainer"]
+			},
+			
 			{
 				"role": "ConnectorsMorph",
 				"baseMorphs": ["timeConnector"] 

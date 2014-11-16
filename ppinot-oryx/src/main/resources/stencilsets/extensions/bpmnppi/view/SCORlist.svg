@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:oryx="http://www.b3mn.org/oryx"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   width="102"
+   height="82"
+   version="1.0">
+  <defs></defs>
+  <oryx:magnets>
+    <oryx:magnet oryx:cx="0" oryx:cy="38" oryx:anchors="left" />
+  	<oryx:magnet oryx:cx="30" oryx:cy="58" oryx:anchors="bottom" />
+  	<oryx:magnet oryx:cx="60" oryx:cy="38" oryx:anchors="right" />
+  	<oryx:magnet oryx:cx="30" oryx:cy="18" oryx:anchors="top" />
+	<oryx:magnet oryx:cx="30" oryx:cy="38" oryx:default="yes" />
+  </oryx:magnets>
+  <g pointer-events="fill" oryx:minimumSize="15 10">
+	<rect fill="white" stroke="black" height="40" width="60" y="18" x="0"/>
+	<path d="m21,18v12h12v-12m-6,2v8m-4,-4h8m5,-6v12m3,-12v12h-6" stroke="black" fill="none"/>
+  </g>	
+		
+		
+  		
+    	
+    	
+  
+</svg>

@@ -914,6 +914,33 @@
 			],
 		},
 		{
+			"type": "edge",
+			"id":"SCORuses",
+			"title":"SCOR Uses",
+			"description":"Defines the connection of a DerivedMeasure with the base or aggergatedMeasures that combines in its function.",
+			"groups":["PPI Connectors"],
+			"view":"../../extensions/bpmnppi/view/SCORuses.svg",
+			"icon":"../../extensions/bpmnppi/icons/usesConnector.png",
+			"roles": [ 
+				"all",
+				"ConnectorsMorph"
+			],
+			"properties":[
+				{
+					"id":"scorevariable",
+					"type":"String",
+					"title":"Variable",
+					"value":"",
+					"description":"It defines the variable with which the measure that is target of this connector is defined in the corresponding function.",
+					"tooltip":"Write the variable in brackets.",
+					"readonly":false,
+					"optional":false,
+					"length":"",
+					"refToView":"scorevariable"
+				}
+			],
+		},
+		{
 			"type": "node",
 			"id":"SCORmetric",
 			"title":"SCOR metric",
@@ -1198,7 +1225,18 @@
 					{
 						"from" : "derivedMultiInstanceMeasure",
 						"to" : ["aggregatedMeasureGeneric"] 
-					},
+					}
+					//,
+					//{
+					//	"from" : "SCORmetric",
+					//	"to" : ["instanceMeasure"] 
+					//}
+				]
+			},
+			
+			{
+				"role" : "SCORuses",
+				"connects" : [
 					{
 						"from" : "SCORmetric",
 						"to" : ["instanceMeasure"] 

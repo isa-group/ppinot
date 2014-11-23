@@ -1252,7 +1252,16 @@
 					{
 						"from" : "derivedMultiInstanceMeasure",
 						"to" : ["aggregatedMeasureGeneric"] 
+					},
+					{
+						"from" : "SCORmetric",
+						"to" : ["SCORlist"] 
+					},
+					{
+						"from" : "SCORlist",
+						"to" : ["instanceMeasure"] 
 					}
+					
 					//,
 					//{
 					//	"from" : "SCORmetric",

@@ -254,6 +254,31 @@
 			]
 	    },
 	    {
+	        "name": "listCommon",
+			"properties": [
+				{
+					"id":"namelist",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"The name of the list of values.",
+					"readonly":false,
+					"optional":false,
+					"refToView":"namelist"
+				},
+				{
+					"id":"functionlist",
+					"type":"String",
+					"title":"Function",
+					"value":"",
+					"description":"The mathematical function used to combine two or more elements of the list.",
+					"readonly":false,
+					"optional":true,
+					"refToView":"functionlist"
+				}
+			]
+	    },
+	    {
 	        "name": "appliesToElementProperties",
 			"properties":[
 				{
@@ -983,7 +1008,8 @@
 			"groups":["SCOR extension"],
 			"view":"../../extensions/bpmnppi/view/SCORlist.svg",
 			"icon":"../../extensions/bpmnppi/icons/SCORlist.png",
-            "propertyPackages" : ["measureCommon", "derivedCommon"],
+            //"propertyPackages" : ["measureCommon", "derivedCommon"],
+            "propertyPackages" : ["listCommon"],
 			"roles": [
 				"fromtoall",
 				"all",

@@ -21,6 +21,7 @@
 		<rect oryx:resize="vertical horizontal" oryx:anchors="top bottom left right"  fill="white" stroke="black" height="40" width="60" y="18" x="0"/>
 		<!-- <path oryx:anchors="top" d="m21,18v12h12v-12m-6,2v8m-4,-4h8m5,-6v12m3,-12v12h-6" stroke="black" fill="none"/> -->
 		<path oryx:anchors="top" stroke-width="2" d="m26,20v10m4,-10v10m4,-10v10" stroke="black" fill="none"/>
+		<oryx:docker oryx:cx="16" oryx:cy="16" />
  	 </g>	
 	<text font-size="12" id="functionlist" x="28" y="45" oryx:align="middle center" stroke="black" oryx:fittoelem="scoreList">X</text>
 	<text font-size="12" id="namelist" x="28" y="58" oryx:align="top center" stroke="black" oryx:fittoelem="scoreList">Y</text>

@@ -279,6 +279,21 @@
 			]
 	    },
 	    {
+	        "name": "listMember",
+			"properties": [
+				{
+					"id":"numberMember",
+					"type":"String",
+					"title":"Number of Member",
+					"value":"",
+					"description":"The number of members of the list.",
+					"readonly":false,
+					"optional":false,
+					"refToView":"nummember"
+				}
+			]
+	    },
+	    {
 	        "name": "appliesToElementProperties",
 			"properties":[
 				{
@@ -1045,6 +1060,101 @@
 					"refToView":"scorevariable"
 				}
 			],
+		},
+		{
+			"type": "node",
+			"id":"listCountMember",
+			"title":"List - Count Measure",
+			"description":"Elements of the list: Count",
+			"groups":["SCOR extension"],
+			"view":"../../extensions/bpmnppi/view/listCountMeasure.svg",
+			"icon":"../../extensions/bpmnppi/icons/listCountMember.png",
+            //"propertyPackages" : ["measureCommon", "derivedCommon"],
+            "propertyPackages" : ["listMember"],
+			"roles": [
+				"fromtoall",
+				"all",
+				"derivedMeasuresMorph",
+				"processMeasure"
+			], 
+			"properties": [		
+			]
+		},
+		{
+			"type": "node",
+			"id":"listDataMember",
+			"title":"List - Data Measure",
+			"description":"Elements of the list: Data",
+			"groups":["SCOR extension"],
+			"view":"../../extensions/bpmnppi/view/listDataMeasure.svg",
+			"icon":"../../extensions/bpmnppi/icons/listDataMember.png",
+            //"propertyPackages" : ["measureCommon", "derivedCommon"],
+            "propertyPackages" : ["listMember"],
+			"roles": [
+				"fromtoall",
+				"all",
+				"derivedMeasuresMorph",
+				"processMeasure"
+			], 
+			"properties": [		
+			]
+		},
+		{
+			"type": "node",
+			"id":"listStateConditionMember",
+			"title":"List - State Condition Measure",
+			"description":"Elements of the list: State Condition",
+			"groups":["SCOR extension"],
+			"view":"../../extensions/bpmnppi/view/listStateConditionMeasure.svg",
+			"icon":"../../extensions/bpmnppi/icons/listStateConditionMember.png",
+            //"propertyPackages" : ["measureCommon", "derivedCommon"],
+            "propertyPackages" : ["listMember"],
+			"roles": [
+				"fromtoall",
+				"all",
+				"derivedMeasuresMorph",
+				"processMeasure"
+			], 
+			"properties": [		
+			]
+		},
+		{
+			"type": "node",
+			"id":"listMember",
+			"title":"List - Members",
+			"description":"Elements of the list: Undefined",
+			"groups":["SCOR extension"],
+			"view":"../../extensions/bpmnppi/view/listMeasure.svg",
+			"icon":"../../extensions/bpmnppi/icons/listMember.png",
+            //"propertyPackages" : ["measureCommon", "derivedCommon"],
+            "propertyPackages" : ["listMember"],
+			"roles": [
+				"fromtoall",
+				"all",
+				"derivedMeasuresMorph",
+				"processMeasure"
+			], 
+			"properties": [		
+			]
+		},
+		{
+			"type": "node",
+			"id":"listTimeMember",
+			"title":"List - Time Member",
+			"description":"Elements of the list: Time",
+			"groups":["SCOR extension"],
+			"view":"../../extensions/bpmnppi/view/listTimeMeasure.svg",
+			"icon":"../../extensions/bpmnppi/icons/listTimeMember.png",
+            //"propertyPackages" : ["measureCommon", "derivedCommon"],
+            "propertyPackages" : ["listMember"],
+			"roles": [
+				"fromtoall",
+				"all",
+				"derivedMeasuresMorph",
+				"processMeasure"
+			], 
+			"properties": [		
+			]
 		}
 	],
 	
@@ -1284,6 +1394,26 @@
 						"from" : "SCORlist",
 						"to" : ["derivedMultiInstanceMeasure"] 
 					},
+					{
+						"from" : "SCORlist",
+						"to" : ["listCountMember"] 
+					},
+					{
+						"from" : "SCORlist",
+						"to" : ["listDataMember"] 
+					}, 
+					{
+						"from" : "SCORlist",
+						"to" : ["listStateConditionMember"] 
+					}, 
+					{
+						"from" : "SCORlist",
+						"to" : ["listMember"] 
+					},
+					{
+						"from" : "SCORlist",
+						"to" : ["listTimeMember"] 
+					}
 				]
 			},
 			

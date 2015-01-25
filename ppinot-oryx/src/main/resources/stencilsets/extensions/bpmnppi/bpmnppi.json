@@ -1022,7 +1022,7 @@
 		{
 			"type": "edge",
 			"id":"SCORuses",
-			"title":"SCOR Uses",
+			"title":"SCOR Uses List",
 			"description":"Defines the connection of a DerivedMeasure with the base or aggergatedMeasures that combines in its function.",
 			"groups":["SCOR extension"],
 			"view":"../../extensions/bpmnppi/view/SCORuses.svg",
@@ -1233,7 +1233,10 @@
 						"from" : "aggregatedMeasureGeneric",
 						"to" : ["baseMeasure"] 
 					},
-					
+					{
+						"from" : "aggregatedMeasureGeneric",
+						"to" : ["SCORlist"] 
+					},
 				]
 			},
 			
@@ -1258,15 +1261,29 @@
 						"to" : ["SCORlist"] 
 					},
 					{
+						"from" : "SCORmetric",
+						"to" : ["aggregatedMeasureGeneric"]
+					},
+					{
+						"from" : "SCORmetric",
+						"to" : ["instanceMeasure"] 
+					},
+					{
+						"from" : "SCORmetric",
+						"to" : ["derivedMultiInstanceMeasure"] 
+					},
+					{
 						"from" : "SCORlist",
 						"to" : ["instanceMeasure"] 
-					}
-					
-					//,
-					//{
-					//	"from" : "SCORmetric",
-					//	"to" : ["instanceMeasure"] 
-					//}
+					},
+					{
+						"from" : "SCORlist",
+						"to" : ["aggregatedMeasureGeneric"]
+					},
+					{
+						"from" : "SCORlist",
+						"to" : ["derivedMultiInstanceMeasure"] 
+					},
 				]
 			},
 			
@@ -1276,6 +1293,18 @@
 					{
 						"from" : "SCORmetric",
 						"to" : ["instanceMeasure"] 
+					},
+					{
+						"from" : "SCORmetric",
+						"to" : ["aggregatedMeasureGeneric"] 
+					},
+					{
+						"from" : "SCORmetric",
+						"to" : ["SCORlist"] 
+					},
+					{
+						"from" : "SCORmetric",
+						"to" : ["derivedMultiInstanceMeasure"] 
 					}
 				]
 			}

@@ -1,5 +1,5 @@
 {
-	"title":"PPIs",
+	"title":"PPIs_DockerDemo",
 	"namespace":"http://www.isa.us.es/ppiontology/stencilsets/extensions/bpmnppi#",
 	"description":"Adds definition of Process Performance Indicators to BPMN 2.0",
 	"definition":"bpmnppi/bpmnppi.json",
@@ -1061,7 +1061,7 @@
 				}
 			],
 		},
-		{
+		/*{
 			"type": "node",
 			"id":"listCountMember",
 			"title":"List - Count Measure",
@@ -1117,13 +1117,13 @@
 			], 
 			"properties": [		
 			]
-		},
+		},*/
 		{
 			"type": "node",
 			"id":"listMember",
 			"title":"List - Members",
 			"description":"Elements of the list: Undefined",
-			"groups":["SCOR extension"],
+			"groups":["SCOR extension connector"],
 			"view":"../../extensions/bpmnppi/view/listMeasure.svg",
 			"icon":"../../extensions/bpmnppi/icons/listMember.png",
             //"propertyPackages" : ["measureCommon", "derivedCommon"],
@@ -1132,11 +1132,12 @@
 				"fromtoall",
 				"all",
 				"derivedMeasuresMorph",
+				"BoundTest",
 				"processMeasure"
 			], 
 			"properties": [		
 			]
-		},
+		}/*,
 		{
 			"type": "node",
 			"id":"listTimeMember",
@@ -1155,7 +1156,7 @@
 			], 
 			"properties": [		
 			]
-		}
+		}*/
 	],
 	
 	//Rules
@@ -1413,6 +1414,11 @@
 					{
 						"from" : "SCORlist",
 						"to" : ["listTimeMember"] 
+					},
+					//ConectoresMember-----------------------------------------------------
+					{
+						"from" : "listMember",
+						"to" : ["instanceMeasure"] 
 					}
 				]
 			},
@@ -1437,6 +1443,16 @@
 						"to" : ["derivedMultiInstanceMeasure"] 
 					}
 				]
+			},
+			{
+				"role" : "BoundTest",
+				"connects" : [
+					{
+						"from" : "SCORmetric",
+						"to" : ["BoundTest"] 
+					}
+				]
+			
 			}
 		],
         "cardinalityRules": [

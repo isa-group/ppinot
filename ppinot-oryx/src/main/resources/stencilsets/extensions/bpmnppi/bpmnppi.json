@@ -1,5 +1,5 @@
 {
-	"title":"PPIs_DockerDemo",
+	"title":"PPIs_DockerDemo1",
 	"namespace":"http://www.isa.us.es/ppiontology/stencilsets/extensions/bpmnppi#",
 	"description":"Adds definition of Process Performance Indicators to BPMN 2.0",
 	"definition":"bpmnppi/bpmnppi.json",
@@ -128,6 +128,48 @@
 				}
 			]
 	    },
+	    //--------------------
+	    {
+	        "name": "measureTypeProperties",
+			"properties": [
+				{
+					"id":"measureTypeProperties",
+					"type":"Choice",
+					"title":"Type",
+					"value":"dataObjectType",
+					"description":"Types of measures.",
+					"readonly":false,
+					"items" : [
+					        {
+					          "id":"dataObjectType",
+					      	   "title":"Data Object",
+					      	   "value":"dataObjectType",
+					      	   "refToView":"dataobjecttype"
+					         },
+					         {
+					       	   "id":"countType",
+				        	   "title":"Count",
+				        	   "value":"Count",
+					      	   "refToView":"counttype"
+					          }, 
+					          {
+					       	   "id":"timeType",
+				        	   "title":"Time",
+				        	   "value":"Time",
+					      	   "refToView":"timetype"
+					          }, 
+					          {
+					       	   "id":"stateType",
+				        	   "title":"State Condition",
+				        	   "value":"StateCondition",
+					      	   "refToView":"statetype"
+					          }
+							],
+					"optional":false
+				}
+			]
+	    },
+	    //--------------------
 	    {
 	        "name": "aggregatedCommon",
 			"properties": [
@@ -290,6 +332,16 @@
 					"readonly":false,
 					"optional":false,
 					"refToView":"nummember"
+				},
+				{
+					"id":"nameMember",
+					"type":"String",
+					"title":"Name function",
+					"value":"",
+					"description":"Name of the internal function applied to the list.",
+					"readonly":false,
+					"optional":false,
+					"refToView":"namemember"
 				}
 			]
 	    },
@@ -1127,7 +1179,7 @@
 			"view":"../../extensions/bpmnppi/view/listMeasure.svg",
 			"icon":"../../extensions/bpmnppi/icons/listMember.png",
             //"propertyPackages" : ["measureCommon", "derivedCommon"],
-            "propertyPackages" : ["listMember"],
+            "propertyPackages" : ["listMember","measureTypeProperties"],
 			"roles": [
 				"fromtoall",
 				"all",

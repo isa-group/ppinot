@@ -51,10 +51,10 @@
 		</g>
 		<g id="timetype">
 			<rect fill="white" stroke-width="0" stroke="white" height="18" width="25" y="0" x="1"/>
-			<path oryx:anchors="top left" fill="#666666" stroke="black" d="M 2 16 h8 v-4 h-8 v4" stroke-width="1"/>
-			<path oryx:anchors="top left" fill="none" stroke="black" d="M 2 12 l4 -4 l4 4" stroke-width="1"/>
-			<path oryx:anchors="top left" fill="#666666" stroke="black" d="M 2 4 l4 4 l4 -4 h-8" stroke-width="1"/>
-			<path oryx:anchors="top left" fill="none" stroke="black" d="M 2 4 v-4 h8 v4" stroke-width="1"/>	
+			<path oryx:anchors="top left" fill="#666666" stroke="black" d="M 5 16 h8 v-4 h-8 v4" stroke-width="1"/>
+			<path oryx:anchors="top left" fill="none" stroke="black" d="M 5 12 l4 -4 l4 4" stroke-width="1"/>
+			<path oryx:anchors="top left" fill="#666666" stroke="black" d="M 5 4 l4 4 l4 -4 h-8" stroke-width="1"/>
+			<path oryx:anchors="top left" fill="none" stroke="black" d="M 5 4 v-4 h8 v4" stroke-width="1"/>	
 			<path stroke-width="2" d="m26,2.5v13m4,-13v13m4,-13v13" stroke="black" fill="none"/>
 		</g>
 		<g id="statetype">

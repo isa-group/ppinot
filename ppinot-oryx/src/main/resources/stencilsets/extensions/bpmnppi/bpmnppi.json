@@ -1,5 +1,5 @@
 {
-	"title":"PPIs_DockerDemo1",
+	"title":"PPIs_conectores_individuales",
 	"namespace":"http://www.isa.us.es/ppiontology/stencilsets/extensions/bpmnppi#",
 	"description":"Adds definition of Process Performance Indicators to BPMN 2.0",
 	"definition":"bpmnppi/bpmnppi.json",
@@ -328,7 +328,7 @@
 					"type":"String",
 					"title":"Number of Member",
 					"value":"",
-					"description":"The number of members of the list.",
+					"description":"The number of elements of the list.",
 					"readonly":false,
 					"optional":false,
 					"refToView":"nummember"
@@ -342,6 +342,36 @@
 					"readonly":false,
 					"optional":false,
 					"refToView":"namemember"
+				}
+			]
+	    },
+	    {
+	        "name": "singleConnector",
+			"properties": [
+				{
+					"id":"nameSingleConector",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"Name of the single connector.",
+					"readonly":false,
+					"optional":false,
+					"refToView":"namesingleconnector"
+				}
+			]
+	    },
+	    {
+	        "name": "singleTimeConnector",
+			"properties": [
+				{
+					"id":"nameSingleTimeConector",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"Name of the single type connector.",
+					"readonly":false,
+					"optional":false,
+					"refToView":"namesingletimeconnector"
 				}
 			]
 	    },
@@ -1005,7 +1035,8 @@
 				}
 			],
 		},
-		
+
+	//SCOR		
 		{
 			"type": "node",
 			"id":"SCORmetric",
@@ -1113,69 +1144,12 @@
 				}
 			],
 		},
-		/*{
-			"type": "node",
-			"id":"listCountMember",
-			"title":"List - Count Measure",
-			"description":"Elements of the list: Count",
-			"groups":["SCOR extension"],
-			"view":"../../extensions/bpmnppi/view/listCountMeasure.svg",
-			"icon":"../../extensions/bpmnppi/icons/listCountMember.png",
-            //"propertyPackages" : ["measureCommon", "derivedCommon"],
-            "propertyPackages" : ["listMember"],
-			"roles": [
-				"fromtoall",
-				"all",
-				"derivedMeasuresMorph",
-				"processMeasure"
-			], 
-			"properties": [		
-			]
-		},
-		{
-			"type": "node",
-			"id":"listDataMember",
-			"title":"List - Data Measure",
-			"description":"Elements of the list: Data",
-			"groups":["SCOR extension"],
-			"view":"../../extensions/bpmnppi/view/listDataMeasure.svg",
-			"icon":"../../extensions/bpmnppi/icons/listDataMember.png",
-            //"propertyPackages" : ["measureCommon", "derivedCommon"],
-            "propertyPackages" : ["listMember"],
-			"roles": [
-				"fromtoall",
-				"all",
-				"derivedMeasuresMorph",
-				"processMeasure"
-			], 
-			"properties": [		
-			]
-		},
-		{
-			"type": "node",
-			"id":"listStateConditionMember",
-			"title":"List - State Condition Measure",
-			"description":"Elements of the list: State Condition",
-			"groups":["SCOR extension"],
-			"view":"../../extensions/bpmnppi/view/listStateConditionMeasure.svg",
-			"icon":"../../extensions/bpmnppi/icons/listStateConditionMember.png",
-            //"propertyPackages" : ["measureCommon", "derivedCommon"],
-            "propertyPackages" : ["listMember"],
-			"roles": [
-				"fromtoall",
-				"all",
-				"derivedMeasuresMorph",
-				"processMeasure"
-			], 
-			"properties": [		
-			]
-		},*/
 		{
 			"type": "node",
 			"id":"listMember",
-			"title":"List - Members",
-			"description":"Elements of the list: Undefined",
-			"groups":["SCOR extension connector"],
+			"title":"List connector",
+			"description":"List of elements: Meauseres or data object.",
+			"groups":["SCOR connector"],
 			"view":"../../extensions/bpmnppi/view/listMeasure.svg",
 			"icon":"../../extensions/bpmnppi/icons/listMember.png",
             //"propertyPackages" : ["measureCommon", "derivedCommon"],
@@ -1189,26 +1163,27 @@
 			], 
 			"properties": [		
 			]
-		}/*,
+		},
+		//Los conectores que no son de lista se muestran separados por los tipos de conectores que se utilizan
 		{
 			"type": "node",
-			"id":"listTimeMember",
-			"title":"List - Time Member",
-			"description":"Elements of the list: Time",
-			"groups":["SCOR extension"],
-			"view":"../../extensions/bpmnppi/view/listTimeMeasure.svg",
-			"icon":"../../extensions/bpmnppi/icons/listTimeMember.png",
-            //"propertyPackages" : ["measureCommon", "derivedCommon"],
-            "propertyPackages" : ["listMember"],
+			"id":"singleTimeConnector",
+			"title":"Single time connector",
+			"description":"",
+			"groups":["SCOR connector"],
+			"view":"../../extensions/bpmnppi/view/singleTimeConnector.svg",
+			"icon":"../../extensions/bpmnppi/icons/singleTimeConnector.png",
+            "propertyPackages" : ["singleTimeConnector"],
 			"roles": [
 				"fromtoall",
 				"all",
 				"derivedMeasuresMorph",
+				"BoundTest",
 				"processMeasure"
 			], 
 			"properties": [		
 			]
-		}*/
+		}
 	],
 	
 	//Rules
@@ -1280,6 +1255,11 @@
 					{
 						"from" : "timeMeasures",
 						"to" : ["EndEventsMorph"]
+					},
+					//****************
+					{
+						"from" : "singleTimeConnector",
+						"to" : ["instanceMeasure"] 
 					}
 					
 				]

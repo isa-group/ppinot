@@ -1,5 +1,5 @@
 {
-	"title":"PPIs_conectores_individuales",
+	"title":"PPIs_conectores_y",
 	"namespace":"http://www.isa.us.es/ppiontology/stencilsets/extensions/bpmnppi#",
 	"description":"Adds definition of Process Performance Indicators to BPMN 2.0",
 	"definition":"bpmnppi/bpmnppi.json",
@@ -1183,6 +1183,26 @@
 			], 
 			"properties": [		
 			]
+		},
+		{
+			"type": "node",
+			"id":"singleStateConditionConnector",
+			"title":"Single State Condition connector",
+			"description":"",
+			"groups":["SCOR connector"],
+			"view":"../../extensions/bpmnppi/view/singleStateConditionConnector.svg",
+			"icon":"../../extensions/bpmnppi/icons/singleStateConditionConnector.png",
+            "propertyPackages" : ["singleConnector"],
+			"roles": [
+				"fromtoall",
+				"all",
+				"derivedMeasuresMorph",
+				"stateConditionMeasures",
+				"BoundTest",
+				"processMeasure"
+			], 
+			"properties": [		
+			]
 		}
 	],
 	
@@ -1259,8 +1279,41 @@
 					//****************
 					{
 						"from" : "singleTimeConnector",
-						"to" : ["instanceMeasure"] 
+						"to" : ["timeMeasures"] 
 					}
+					//************************
+					/*{
+						"from" : "singleTimeConnector",
+						"to" : ["ActivitiesMorph"]
+					},
+					{
+						"from" : "singleTimeConnector",
+						"to" : ["EventActivitiesMorph"]
+					},
+					{
+						"from" : "singleTimeConnector",
+						"to" : ["Pool"]
+					},
+					{
+						"from" : "singleTimeConnector",
+						"to" : ["CollapsedPool"]
+					},
+					{
+						"from" : "singleTimeConnector",
+						"to" : ["DataObject"]
+					},
+					{
+						"from" : "singleTimeConnector",
+						"to" : ["Startevents_all"]
+					},
+					{
+						"from" : "singleTimeConnector",
+						"to" : ["IntermediateEventsMorph"]
+					},
+					{
+						"from" : "singleTimeConnector",
+						"to" : ["EndEventsMorph"]
+					},*/
 					
 				]
 			},
@@ -1328,7 +1381,40 @@
 					{
 						"from" : "stateConditionMeasures",
 						"to" : ["Message"]
+					},
+					{
+						"from" : "singleConnector",
+						"to" : [""] 
 					}
+					//--Single_Connector
+					/*{
+						"from" : "singleConnector",
+						"to" : ["ActivitiesMorph"] 
+					},
+					{
+						"from" : "singleConnector",
+						"to" : ["EventActivitiesMorph"] 
+					},
+					{
+						"from" : "singleConnector",
+						"to" : ["Pool"] 
+					},
+					{
+						"from" : "singleConnector",
+						"to" : ["CollapsedPool"] 
+					},
+					{
+						"from" : "singleConnector",
+						"to" : ["DataObject"] 
+					},
+					{
+						"from" : "singleConnector",
+						"to" : ["DataStore"] 
+					},
+					{
+						"from" : "singleConnector",
+						"to" : ["Message"] 
+					}*/
 				]
 			},
 			

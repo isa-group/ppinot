@@ -10,21 +10,21 @@
   <defs></defs>
  
  <oryx:magnets> 
-		   	<oryx:magnet oryx:cx="13" oryx:cy="0" oryx:anchors="top" /> 
-		   	<oryx:magnet oryx:cx="13" oryx:cy="23" oryx:anchors="bottom" />
-		   	<oryx:magnet oryx:cx="0" oryx:cy="12" oryx:anchors="left" />
-		   	<oryx:magnet oryx:cx="25" oryx:cy="12" oryx:anchors="right" />
-		   	<oryx:magnet oryx:cx="13" oryx:cy="12" oryx:default="yes" />
+		   	<oryx:magnet oryx:cx="15" oryx:cy="0" oryx:anchors="top" /> 
+		   	<oryx:magnet oryx:cx="15" oryx:cy="23" oryx:anchors="bottom" />
+		   	<oryx:magnet oryx:cx="0" oryx:cy="13" oryx:anchors="left" />
+		   	<oryx:magnet oryx:cx="30" oryx:cy="13" oryx:anchors="right" />
+		   	<oryx:magnet oryx:cx="15" oryx:cy="13" oryx:default="yes" />
   </oryx:magnets> 
-  <oryx:docker oryx:cx="13" oryx:cy="12" /> 
+  <oryx:docker oryx:cx="15" oryx:cy="13" /> 
 
   <g pointer-events="fill" oryx:minimumSize="15 10" oryx:maximumSize="240 160" >
   		<g id="singleTimeConnector">
-  			<rect oryx:anchors="top left" fill="white" stroke="#000000" x="-4" y="-2" width="25" height="23"/>
-  			<path oryx:anchors="top left" fill="#666666" stroke="black" d="M 5 16 h8 v-4 h-8 v4" stroke-width="1"/>
-			<path oryx:anchors="top left" fill="none" stroke="black" d="M 5 12 l4 -4 l4 4" stroke-width="1"/>
-			<path oryx:anchors="top left" fill="#666666" stroke="black" d="M 5 4 l4 4 l4 -4 h-8" stroke-width="1"/>
-			<path oryx:anchors="top left" fill="none" stroke="black" d="M 5 4 v-4 h8 v4" stroke-width="1"/>	
+  			<rect oryx:anchors="top left" fill="white" stroke="#000000" x="-4" y="-2" width="30" height="23"/>
+  			<path oryx:anchors="top left" fill="#666666" stroke="black" d="M 7 16 h8 v-4 h-8 v4" stroke-width="1"/>
+			<path oryx:anchors="top left" fill="none" stroke="black" d="M 7 12 l4 -4 l4 4" stroke-width="1"/>
+			<path oryx:anchors="top left" fill="#666666" stroke="black" d="M 7 4 l4 4 l4 -4 h-8" stroke-width="1"/>
+			<path oryx:anchors="top left" fill="none" stroke="black" d="M 7 4 v-4 h8 v4" stroke-width="1"/>	
 		</g>
     	<text font-size="8" id="namesingletimeconnector" x="0" y="20" oryx:align="top left" stroke="black" oryx:fittoelem="singleTimeConnector"></text>
     	

@@ -8,23 +8,25 @@
    height="80"
    version="1.0">
   <defs></defs>
-  <oryx:magnets>
-  	<oryx:magnet oryx:cx="0" oryx:cy="38" oryx:anchors="left" />
-  	<oryx:magnet oryx:cx="30" oryx:cy="58" oryx:anchors="bottom" />
-  	<oryx:magnet oryx:cx="60" oryx:cy="38" oryx:anchors="right" />
-  	<oryx:magnet oryx:cx="30" oryx:cy="18" oryx:anchors="top" />
-	<oryx:magnet oryx:cx="30" oryx:cy="38" oryx:default="yes" />
-  </oryx:magnets>
+  <oryx:magnets> 
+		   	<oryx:magnet oryx:cx="15" oryx:cy="0" oryx:anchors="top" /> 
+		   	<oryx:magnet oryx:cx="15" oryx:cy="23" oryx:anchors="bottom" />
+		   	<oryx:magnet oryx:cx="0" oryx:cy="12" oryx:anchors="left" />
+		   	<oryx:magnet oryx:cx="29" oryx:cy="12" oryx:anchors="right" />
+		   	<oryx:magnet oryx:cx="15" oryx:cy="12" oryx:default="yes" />
+  </oryx:magnets> 
+  <oryx:docker oryx:cx="15" oryx:cy="12" /> 
+  
   <g pointer-events="fill" oryx:minimumSize="15 10" oryx:maximumSize="240 160" >
   		<g id="singleCountConnector">
+			<rect oryx:anchors="top left" fill="white" stroke="#000000" x="-4" y="-2" width="30" height="23"/>
 			<ellipse oryx:anchors="top left" cx="11" cy="9" rx="12" ry="7" fill="white" />
 			<text oryx:anchors="top left" x="2" y="11" fill="black" font-size="7" text-anchor="middle">1</text>
 			<text oryx:anchors="top left" x="8" y="14" fill="black" font-size="7" text-anchor="middle">2</text>
 			<text oryx:anchors="top left" x="14" y="11" fill="black" font-size="7" text-anchor="middle">3</text>
-			<rect oryx:anchors="top left" fill="none" stroke="#000000" x="-4" y="-2" width="25" height="23"/>
 		</g>
     	
-    	<text font-size="11" id="nummember" x="7" y="23" oryx:align="top left" stroke="black" oryx:fittoelem="listCountMeasure">#</text>
+    	<text font-size="8" id="namesingleconnector" x="0" y="20" oryx:align="top left" stroke="black" oryx:fittoelem="singleCountConnector"></text>
     	
   </g>
 </svg>

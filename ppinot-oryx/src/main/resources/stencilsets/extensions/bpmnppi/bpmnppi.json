@@ -1,5 +1,5 @@
 {
-	"title":"PPIs_SCOR",
+	"title":"PPIs",
 	"namespace":"http://www.isa.us.es/ppiontology/stencilsets/extensions/bpmnppi#",
 	"description":"Adds definition of Process Performance Indicators to BPMN 2.0",
 	"definition":"bpmnppi/bpmnppi.json",
@@ -321,7 +321,7 @@
 			]
 	    },
 	    {
-	        "name": "listMember",
+	        "name": "listOfElements",
 			"properties": [
 				{
 					"id":"numberMember",
@@ -1119,19 +1119,19 @@
 		},
 		{
 			"type": "node",
-			"id":"listMember",
+			"id":"listOfElements",
 			"title":"List connector",
 			"description":"List of elements: Meauseres or data object.",
 			"groups":["SCOR connector"],
-			"view":"../../extensions/bpmnppi/view/listMeasure.svg",
-			"icon":"../../extensions/bpmnppi/icons/listMember.png",
+			"view":"../../extensions/bpmnppi/view/listOfElements.svg",
+			"icon":"../../extensions/bpmnppi/icons/listOfElements.png",
             //"propertyPackages" : ["measureCommon", "derivedCommon"],
-            "propertyPackages" : ["listMember","measureTypeProperties"],
+            "propertyPackages" : ["listOfElements","measureTypeProperties"],
 			"roles": [
 				"fromtoall",
 				"all",
 				"derivedMeasuresMorph",
-				"BoundTest",
+				"SCORconnectors",
 				"processMeasure"
 			], 
 			"properties": [		
@@ -1151,7 +1151,7 @@
 				"fromtoall",
 				"all",
 				"derivedMeasuresMorph",
-				"BoundTest",
+				"SCORconnectors",
 				"processMeasure"
 			], 
 			"properties": [		
@@ -1172,7 +1172,7 @@
 				"derivedMeasuresMorph",
 				"singleConnector",
 				"appliesToElementMeasure",
-				"BoundTest",
+				"SCORconnectors",
 				"processMeasure"
 			], 
 			"properties": [		
@@ -1193,7 +1193,7 @@
 				"derivedMeasuresMorph",
 				"singleConnector",
 				"appliesToElementMeasure",
-				"BoundTest",
+				"SCORconnectors",
 				"processMeasure"
 			], 
 			"properties": [		
@@ -1481,6 +1481,7 @@
 						"from" : "derivedMultiInstanceMeasure",
 						"to" : ["aggregatedMeasureGeneric"] 
 					},
+					//--SCORmetric------------------------------------------------------------
 					{
 						"from" : "SCORmetric",
 						"to" : ["aggregatedMeasureGeneric"]
@@ -1492,24 +1493,41 @@
 					{
 						"from" : "SCORmetric",
 						"to" : ["derivedMultiInstanceMeasure"] 
+					},//----------
+					{
+						"from" : "SCORmetric",
+						"to" : ["ActivitiesMorph"] 
 					},
+					{
+						"from" : "SCORmetric",
+						"to" : ["Pool"] 
+					},
+					{
+						"from" : "SCORmetric",
+						"to" : ["CollapsedPool"] 
+					},
+					{
+						"from" : "SCORmetric",
+						"to" : ["DataObject"] 
+					},
+					//--SCORlist-------------------------------------------------------------
 					{
 						"from" : "SCORlist",
 						"to" : ["instanceMeasure"] 
 					},
-					//ConectoresMember-----------------------------------------------------
+					//--ConectoresMember-----------------------------------------------------
 					{
-						"from" : "listMember",
+						"from" : "listOfElements",
 						"to" : ["instanceMeasure"] 
 					}
 				]
 			},
 			{
-				"role" : "BoundTest",
+				"role" : "SCORconnectors",
 				"connects" : [
 					{
 						"from" : "SCORmetric",
-						"to" : ["BoundTest"] 
+						"to" : ["SCORconnectors"] 
 					}
 				]
 			

@@ -1,5 +1,5 @@
 {
-	"title":"PPIs_mod1",
+	"title":"PPIs_cardinalidad",
 	"namespace":"http://www.isa.us.es/ppiontology/stencilsets/extensions/bpmnppi#",
 	"description":"Adds definition of Process Performance Indicators to BPMN 2.0",
 	"definition":"bpmnppi/bpmnppi.json",
@@ -1197,7 +1197,8 @@
 				"fromtoall",
 				"all",
 				"derivedMeasuresMorph",
-				"stateConditionMeasures",
+				"singleConnector",
+				"appliesToElementMeasure",
 				"BoundTest",
 				"processMeasure"
 			], 
@@ -1217,7 +1218,8 @@
 				"fromtoall",
 				"all",
 				"derivedMeasuresMorph",
-				"stateConditionMeasures",
+				"singleConnector",
+				"appliesToElementMeasure",
 				"BoundTest",
 				"processMeasure"
 			], 
@@ -1401,6 +1403,39 @@
 					{
 						"from" : "stateConditionMeasures",
 						"to" : ["Message"]
+					},
+					//*****Un singleConnector es [(123)] [(v)]
+					{
+						"from" : "singleConnector",
+						"to" : ["ActivitiesMorph"] //incluye task, CollapsedSubprocess y Subprocess
+					},
+					{
+						"from" : "singleConnector",
+						"to" : ["EventActivitiesMorph"] //incluye CollapsedEventSubprocess y EventSubprocess
+					},
+					{
+						"from" : "singleConnector",
+						"to" : ["Pool"]
+					},
+					{
+						"from" : "singleConnector",
+						"to" : ["CollapsedPool"]
+					},
+					{
+						"from" : "singleConnector",
+						"to" : ["DataObject"]
+					},
+					{
+						"from" : "singleConnector",
+						"to" : ["Startevents_all"]
+					},
+					{
+						"from" : "singleConnector",
+						"to" : ["IntermediateEventsMorph"]
+					},
+					{
+						"from" : "singleConnector",
+						"to" : ["EndEventsMorph"]
 					},
 										
 				]

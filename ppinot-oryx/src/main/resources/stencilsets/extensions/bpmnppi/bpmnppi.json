@@ -1,5 +1,5 @@
 {
-	"title":"PPIs_cardinalidad",
+	"title":"PPIs_SCOR",
 	"namespace":"http://www.isa.us.es/ppiontology/stencilsets/extensions/bpmnppi#",
 	"description":"Adds definition of Process Performance Indicators to BPMN 2.0",
 	"definition":"bpmnppi/bpmnppi.json",
@@ -1101,7 +1101,7 @@
 		{
 			"type": "node",
 			"id":"SCORlist",
-			"title":"SCOR List Measure",
+			"title":"SCOR List",
 			"description":"List of measures.",
 			"groups":["SCOR extension"],
 			"view":"../../extensions/bpmnppi/view/SCORlist.svg",
@@ -1116,33 +1116,6 @@
 			], 
 			"properties": [		
 			]
-		},
-		{
-			"type": "edge",
-			"id":"SCORuses",
-			"title":"SCOR Uses List",
-			"description":"Defines the connection of a DerivedMeasure with the base or aggergatedMeasures that combines in its function.",
-			"groups":["SCOR extension"],
-			"view":"../../extensions/bpmnppi/view/SCORuses.svg",
-			"icon":"../../extensions/bpmnppi/icons/usesConnector.png",
-			"roles": [ 
-				"all",
-				"ConnectorsMorph"
-			],
-			"properties":[
-				{
-					"id":"scorevariable",
-					"type":"String",
-					"title":"Variable",
-					"value":"",
-					"description":"It defines the variable with which the measure that is target of this connector is defined in the corresponding function.",
-					"tooltip":"Write the variable in brackets.",
-					"readonly":false,
-					"optional":false,
-					"length":"",
-					"refToView":"scorevariable"
-				}
-			],
 		},
 		{
 			"type": "node",
@@ -1510,10 +1483,6 @@
 					},
 					{
 						"from" : "SCORmetric",
-						"to" : ["SCORlist"] 
-					},
-					{
-						"from" : "SCORmetric",
 						"to" : ["aggregatedMeasureGeneric"]
 					},
 					{
@@ -1527,61 +1496,11 @@
 					{
 						"from" : "SCORlist",
 						"to" : ["instanceMeasure"] 
-					},
-					{
-						"from" : "SCORlist",
-						"to" : ["aggregatedMeasureGeneric"]
-					},
-					{
-						"from" : "SCORlist",
-						"to" : ["derivedMultiInstanceMeasure"] 
-					},
-					{
-						"from" : "SCORlist",
-						"to" : ["listCountMember"] 
-					},
-					{
-						"from" : "SCORlist",
-						"to" : ["listDataMember"] 
-					}, 
-					{
-						"from" : "SCORlist",
-						"to" : ["listStateConditionMember"] 
-					}, 
-					{
-						"from" : "SCORlist",
-						"to" : ["listMember"] 
-					},
-					{
-						"from" : "SCORlist",
-						"to" : ["listTimeMember"] 
 					},
 					//ConectoresMember-----------------------------------------------------
 					{
 						"from" : "listMember",
 						"to" : ["instanceMeasure"] 
-					}
-				]
-			},
-			
-			{
-				"role" : "SCORuses",
-				"connects" : [
-					{
-						"from" : "SCORmetric",
-						"to" : ["instanceMeasure"] 
-					},
-					{
-						"from" : "SCORmetric",
-						"to" : ["aggregatedMeasureGeneric"] 
-					},
-					{
-						"from" : "SCORmetric",
-						"to" : ["SCORlist"] 
-					},
-					{
-						"from" : "SCORmetric",
-						"to" : ["derivedMultiInstanceMeasure"] 
 					}
 				]
 			},

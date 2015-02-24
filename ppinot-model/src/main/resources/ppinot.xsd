@@ -172,6 +172,7 @@ targetNamespace="http://www.isa.us.es/ppinot">
                 <xsd:choice>
                     <xsd:element ref="timeMeasure"/>
                     <xsd:element ref="countMeasure"/>
+                    <xsd:element ref="timeInstantMeasure"/>
                     <xsd:element ref="stateConditionMeasure"/>
                     <xsd:element ref="dataPropertyConditionMeasure"/>
                     <xsd:element ref="dataMeasure"/>
@@ -223,6 +224,14 @@ targetNamespace="http://www.isa.us.es/ppinot">
 		
 	<xsd:element name="countMeasure" type="tCountMeasure" substitutionGroup="measure"/>
 	<xsd:complexType name="tCountMeasure">
+		<xsd:complexContent>
+			<xsd:extension base="tBaseMeasure">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:element name="timeInstantMeasure" type="tTimeInstantMeasure" substitutionGroup="measure"/>
+	<xsd:complexType name="tTimeInstantMeasure">
 		<xsd:complexContent>
 			<xsd:extension base="tBaseMeasure">
 			</xsd:extension>

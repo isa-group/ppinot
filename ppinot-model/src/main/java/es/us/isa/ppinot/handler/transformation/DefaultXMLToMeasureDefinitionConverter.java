@@ -27,6 +27,7 @@ public class DefaultXMLToMeasureDefinitionConverter implements XMLToMeasureDefin
         addConverter(new XMLToStateConditionMeasure());
         addConverter(new XMLToDataPropertyConditionMeasure());
         addConverter(new XMLToCountMeasure());
+        addConverter(new XMLToTimeInstantMeasure());
         addConverter(new XMLToDataMeasure());
         addConverter(new XMLToAggregatedMeasure(this));
         addConverter(new XMLToDerivedSingleInstanceMeasure(this));
@@ -39,6 +40,7 @@ public class DefaultXMLToMeasureDefinitionConverter implements XMLToMeasureDefin
         addConverter(new AggregatedMeasureToXML(this));
         addConverter(new DerivedSingleInstanceMeasureToXML(this));
         addConverter(new DerivedMultiInstanceMeasureToXML(this));
+        
     }
 
     private void addConverter(Object converter) {
@@ -64,7 +66,6 @@ public class DefaultXMLToMeasureDefinitionConverter implements XMLToMeasureDefin
         }
     }
 
-    @Override
     public MeasureDefinition create(TMeasure xml, ConnectorsHandler connectors) {
         XMLToMeasureDefinition<? extends TMeasure> converter = xmlConverters.get(xml.getClass());
         if (converter == null)
@@ -72,7 +73,6 @@ public class DefaultXMLToMeasureDefinitionConverter implements XMLToMeasureDefin
         return converter.create(xml, connectors);
     }
 
-    @Override
     public TMeasure create(MeasureDefinition measure, ConnectorsBuilder connectors) {
         MeasureDefinitionToXML<? extends MeasureDefinition> converter = measureConverters.get(measure.getClass());
         if (converter == null)

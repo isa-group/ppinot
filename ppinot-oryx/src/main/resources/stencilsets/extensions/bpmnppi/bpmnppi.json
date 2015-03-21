@@ -303,7 +303,7 @@
 					"type":"String",
 					"title":"Name",
 					"value":"",
-					"description":"Name of the SCOR metric.",
+					"description":"Name of the metric.",
 					"readonly":false,
 					"optional":true,
 					"refToView":"namemetric"
@@ -1051,15 +1051,15 @@
 			],
 		},
 
-	//SCOR		
+	//Composite Measures		
 		{
 			"type": "node",
-			"id":"SCORmetric",
-			"title":"SCOR metric",
-			"description":"It is used to represent a SCOR metric.",
-			"groups":["SCOR extension"],
-			"view":"../../extensions/bpmnppi/view/SCORmetric.svg",
-			"icon":"../../extensions/bpmnppi/icons/SCORmetric.png",
+			"id":"metric",
+			"title":"Metric",
+			"description":"It is used to represent a metric.",
+			"groups":["Composite Measures"],
+			"view":"../../extensions/bpmnppi/view/metric.svg",
+			"icon":"../../extensions/bpmnppi/icons/metric.png",
             "propertyPackages" : ["metricProperties"], //"measureCommon","derivedCommon"
 			"roles": [
 				"fromtoall",
@@ -1084,12 +1084,12 @@
 		},
 		{
 			"type": "node",
-			"id":"SCORcontainer",
-			"title":"SCOR container",
-			"description":"It is used to describe the measures that constitute SCOR metrics.",
-			"groups":["SCOR extension"],
-			"view":"../../extensions/bpmnppi/view/SCORcontainer.svg",
-			"icon":"../../extensions/bpmnppi/icons/SCORcontainer.png",
+			"id":"container",
+			"title":"Container",
+			"description":"It is used to describe the measures that constitute metrics.",
+			"groups":["Composite Measures"],
+			"view":"../../extensions/bpmnppi/view/container.svg",
+			"icon":"../../extensions/bpmnppi/icons/container.png",
             //"propertyPackages" : ["measureCommon", "derivedCommon"],
 			"roles": [
 				"fromtoall",
@@ -1115,12 +1115,12 @@
 		},
 		{
 			"type": "node",
-			"id":"SCORlist",
-			"title":"SCOR List",
+			"id":"list",
+			"title":"List",
 			"description":"List of measures.",
-			"groups":["SCOR extension"],
-			"view":"../../extensions/bpmnppi/view/SCORlist.svg",
-			"icon":"../../extensions/bpmnppi/icons/SCORlist.png",
+			"groups":["Composite Measures"],
+			"view":"../../extensions/bpmnppi/view/list.svg",
+			"icon":"../../extensions/bpmnppi/icons/list.png",
             //"propertyPackages" : ["measureCommon", "derivedCommon"],
             "propertyPackages" : ["listCommon"],
 			"roles": [
@@ -1137,7 +1137,7 @@
 			"id":"listOfElements",
 			"title":"List connector",
 			"description":"List of elements: Meauseres or data object.",
-			"groups":["SCOR connector"],
+			"groups":["Composite Measures"],
 			"view":"../../extensions/bpmnppi/view/listOfElements.svg",
 			"icon":"../../extensions/bpmnppi/icons/listOfElements.png",
             //"propertyPackages" : ["measureCommon", "derivedCommon"],
@@ -1146,7 +1146,7 @@
 				"fromtoall",
 				"all",
 				"derivedMeasuresMorph",
-				"SCORconnectors",
+				"connectors",
 				"processMeasure"
 			], 
 			"properties": [		
@@ -1158,7 +1158,7 @@
 			"id":"singleTimeConnector",
 			"title":"Single time connector",
 			"description":"",
-			"groups":["SCOR connector"],
+			"groups":["Composite Measures"],
 			"view":"../../extensions/bpmnppi/view/singleTimeConnector.svg",
 			"icon":"../../extensions/bpmnppi/icons/singleTimeConnector.png",
             "propertyPackages" : ["singleTimeConnector"],
@@ -1166,7 +1166,7 @@
 				"fromtoall",
 				"all",
 				"derivedMeasuresMorph",
-				"SCORconnectors",
+				"connectors",
 				"processMeasure"
 			], 
 			"properties": [		
@@ -1177,7 +1177,7 @@
 			"id":"singleStateConditionConnector",
 			"title":"Single State Condition connector",
 			"description":"",
-			"groups":["SCOR connector"],
+			"groups":["Composite Measures"],
 			"view":"../../extensions/bpmnppi/view/singleStateConditionConnector.svg",
 			"icon":"../../extensions/bpmnppi/icons/singleStateConditionConnector.png",
             "propertyPackages" : ["singleConnector"],
@@ -1187,7 +1187,7 @@
 				"derivedMeasuresMorph",
 				"singleConnector",
 				"appliesToElementMeasure",
-				"SCORconnectors",
+				"connectors",
 				"processMeasure"
 			], 
 			"properties": [		
@@ -1198,7 +1198,7 @@
 			"id":"singleCountConnector",
 			"title":"Single Count connector",
 			"description":"",
-			"groups":["SCOR connector"],
+			"groups":["Composite Measures"],
 			"view":"../../extensions/bpmnppi/view/singleCountConnector.svg",
 			"icon":"../../extensions/bpmnppi/icons/singleCountConnector.png",
             "propertyPackages" : ["singleConnector"],
@@ -1208,7 +1208,7 @@
 				"derivedMeasuresMorph",
 				"singleConnector",
 				"appliesToElementMeasure",
-				"SCORconnectors",
+				"connectors",
 				"processMeasure"
 			], 
 			"properties": [		
@@ -1475,7 +1475,7 @@
 					},
 					{
 						"from" : "aggregatedMeasureGeneric",
-						"to" : ["SCORlist"] 
+						"to" : ["list"] 
 					},
 				]
 			},
@@ -1496,44 +1496,44 @@
 						"from" : "derivedMultiInstanceMeasure",
 						"to" : ["aggregatedMeasureGeneric"] 
 					},
-					//--SCORmetric------------------------------------------------------------
+					//--metric------------------------------------------------------------
 					{
-						"from" : "SCORmetric",
+						"from" : "metric",
 						"to" : ["aggregatedMeasureGeneric"]
 					},
 					{
-						"from" : "SCORmetric",
+						"from" : "metric",
 						"to" : ["instanceMeasure"] 
 					},
 					{
-						"from" : "SCORmetric",
+						"from" : "metric",
 						"to" : ["derivedMultiInstanceMeasure"] 
 					},
 					//----------
 					{
-						"from" : "SCORmetric",
+						"from" : "metric",
 						"to" : ["ActivitiesMorph"] 
 					},
 					{
-						"from" : "SCORmetric",
+						"from" : "metric",
 						"to" : ["Pool"] 
 					},
 					{
-						"from" : "SCORmetric",
+						"from" : "metric",
 						"to" : ["CollapsedPool"] 
 					},
 					{
-						"from" : "SCORmetric",
+						"from" : "metric",
 						"to" : ["DataObject"] 
 					},
-					//--SCORlist-------------------------------------------------------------
+					//--list-------------------------------------------------------------
 					{
-						"from" : "SCORlist",
+						"from" : "list",
 						"to" : ["instanceMeasure"] 
 					},
 					{
 						"from" : "derivedSingleInstanceMeasure",
-						"to" : ["SCORlist"] 
+						"to" : ["list"] 
 					},
 					//--ConectoresMember-----------------------------------------------------
 					{
@@ -1543,11 +1543,11 @@
 				]
 			},
 			{
-				"role" : "SCORconnectors",
+				"role" : "connectors",
 				"connects" : [
 					{
-						"from" : "SCORmetric",
-						"to" : ["SCORconnectors"] 
+						"from" : "metric",
+						"to" : ["connectors"] 
 					}
 				]
 			
@@ -1621,7 +1621,7 @@
 				]
 			},
 			{
-				"role":"SCORcontainer",
+				"role":"container",
 				"contains":[
 					"instanceMeasure",
 					"processMeasure",
@@ -1650,7 +1650,7 @@
 			
 			{
 				"role": "container",
-				"baseMorphs": ["SCORcontainer"]
+				"baseMorphs": ["container"]
 			},
 			
 			{

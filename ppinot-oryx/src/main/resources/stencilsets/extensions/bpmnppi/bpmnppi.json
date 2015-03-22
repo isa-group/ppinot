@@ -341,9 +341,9 @@
 				{
 					"id":"numberMember",
 					"type":"String",
-					"title":"Number of Member",
+					"title":"Number of measures",
 					"value":"",
-					"description":"The number of elements of the list.",
+					"description":"The number of measures included in the list.",
 					"readonly":false,
 					"optional":false,
 					"refToView":"nummember"
@@ -351,7 +351,7 @@
 				{
 					"id":"nameMember",
 					"type":"String",
-					"title":"Name function",
+					"title":"Name list",
 					"value":"",
 					"description":"Name of the internal function applied to the list.",
 					"readonly":false,
@@ -376,7 +376,7 @@
 			]
 	    },
 	    {
-	        "name": "singleTimeConnector",
+	        "name": "timeConnector",
 			"properties": [
 				{
 					"id":"nameSingleTimeConector",
@@ -386,7 +386,7 @@
 					"description":"Name of the single type connector.",
 					"readonly":false,
 					"optional":false,
-					"refToView":"namesingletimeconnector"
+					"refToView":"nametimeconnector"
 				}
 			]
 	    },
@@ -1115,25 +1115,6 @@
 		},
 		{
 			"type": "node",
-			"id":"list",
-			"title":"List",
-			"description":"List of measures.",
-			"groups":["Composite Measures"],
-			"view":"../../extensions/bpmnppi/view/list.svg",
-			"icon":"../../extensions/bpmnppi/icons/list.png",
-            //"propertyPackages" : ["measureCommon", "derivedCommon"],
-            "propertyPackages" : ["listCommon"],
-			"roles": [
-				"fromtoall",
-				"all",
-				"derivedMeasuresMorph",
-				"processMeasure"
-			], 
-			"properties": [		
-			]
-		},
-		{
-			"type": "node",
 			"id":"listOfElements",
 			"title":"List connector",
 			"description":"List of elements: Meauseres or data object.",
@@ -1152,16 +1133,35 @@
 			"properties": [		
 			]
 		},
+		{
+			"type": "node",
+			"id":"list",
+			"title":"List",
+			"description":"List of measures.",
+			"groups":["Composite Measures"],
+			"view":"../../extensions/bpmnppi/view/list.svg",
+			"icon":"../../extensions/bpmnppi/icons/list.png",
+            //"propertyPackages" : ["measureCommon", "derivedCommon"],
+            "propertyPackages" : ["listCommon"],
+			"roles": [
+				"fromtoall",
+				"all",
+				"derivedMeasuresMorph",
+				"processMeasure"
+			], 
+			"properties": [		
+			]
+		},
 		//Los conectores que no son de lista se muestran separados por los tipos de conectores que se utilizan
 		{
 			"type": "node",
-			"id":"singleTimeConnector",
-			"title":"Single time connector",
+			"id":"timeSingleConnector",
+			"title":"Time connector",
 			"description":"",
 			"groups":["Composite Measures"],
-			"view":"../../extensions/bpmnppi/view/singleTimeConnector.svg",
-			"icon":"../../extensions/bpmnppi/icons/singleTimeConnector.png",
-            "propertyPackages" : ["singleTimeConnector"],
+			"view":"../../extensions/bpmnppi/view/cmTimeSingleConnector.svg",
+			"icon":"../../extensions/bpmnppi/icons/cmTimeSingleConnector.png",
+            "propertyPackages" : ["timeConnector"],
 			"roles": [
 				"fromtoall",
 				"all",
@@ -1174,12 +1174,12 @@
 		},
 		{
 			"type": "node",
-			"id":"singleStateConditionConnector",
-			"title":"Single State Condition connector",
+			"id":"stateConditionSingleConnector",
+			"title":"State Condition connector",
 			"description":"",
 			"groups":["Composite Measures"],
-			"view":"../../extensions/bpmnppi/view/singleStateConditionConnector.svg",
-			"icon":"../../extensions/bpmnppi/icons/singleStateConditionConnector.png",
+			"view":"../../extensions/bpmnppi/view/cmStateConditionSingleConnector.svg",
+			"icon":"../../extensions/bpmnppi/icons/cmStateConditionSingleConnector.png",
             "propertyPackages" : ["singleConnector"],
 			"roles": [
 				"fromtoall",
@@ -1195,12 +1195,12 @@
 		},
 		{
 			"type": "node",
-			"id":"singleCountConnector",
-			"title":"Single Count connector",
+			"id":"countSingleConnector",
+			"title":"Count connector",
 			"description":"",
 			"groups":["Composite Measures"],
-			"view":"../../extensions/bpmnppi/view/singleCountConnector.svg",
-			"icon":"../../extensions/bpmnppi/icons/singleCountConnector.png",
+			"view":"../../extensions/bpmnppi/view/cmCountSingleConnector.svg",
+			"icon":"../../extensions/bpmnppi/icons/cmCountSingleConnector.png",
             "propertyPackages" : ["singleConnector"],
 			"roles": [
 				"fromtoall",
@@ -1213,7 +1213,153 @@
 			], 
 			"properties": [		
 			]
-		}
+		},
+		{
+			"type": "node",
+			"id":"dataSingleConnector",
+			"title":"Data connector",
+			"description":"",
+			"groups":["Composite Measures"],
+			"view":"../../extensions/bpmnppi/view/cmDataSingleConnector.svg",
+			"icon":"../../extensions/bpmnppi/icons/cmDataSingleConnector.png",
+            "propertyPackages" : ["singleConnector"],
+			"roles": [
+				"fromtoall",
+				"all",
+				"derivedMeasuresMorph",
+				"singleConnector",
+				"appliesToElementMeasure",
+				"connectors",
+				"processMeasure"
+			], 
+			"properties": [		
+			]
+		},
+		//AGREGATED COMPOSITE MEASURE
+		{
+			"type": "node",
+			"id":"listOfAggregatedElements",
+			"title":"List Aggregated connector",
+			"description":"List of elements: Aggregated meauseres.",
+			"groups":["Aggregated Composite Measures"],
+			"view":"../../extensions/bpmnppi/view/listOfAggregatedElements.svg",
+			"icon":"../../extensions/bpmnppi/icons/listOfAggregatedElements.png",
+            //"propertyPackages" : ["measureCommon", "derivedCommon"],
+            "propertyPackages" : ["listOfElements","measureTypeProperties"],
+			"roles": [
+				"fromtoall",
+				"all",
+				"derivedMeasuresMorph",
+				"connectors",
+				"processMeasure"
+			], 
+			"properties": [		
+			]
+		},
+		{
+			"type": "node",
+			"id":"listAggregated",
+			"title":"List Aggregated",
+			"description":"List of aggregated measures.",
+			"groups":["Aggregated Composite Measures"],
+			"view":"../../extensions/bpmnppi/view/listAggregated.svg",
+			"icon":"../../extensions/bpmnppi/icons/listAggregated.png",
+            //"propertyPackages" : ["measureCommon", "derivedCommon"],
+            "propertyPackages" : ["listCommon"],
+			"roles": [
+				"fromtoall",
+				"all",
+				"derivedMeasuresMorph",
+				"processMeasure"
+			], 
+			"properties": [		
+			]
+		},
+		{
+			"type": "node",
+			"id":"countAggregatedConnector",
+			"title":"Count Aggregated connector",
+			"description":"",
+			"groups":["Aggregated Composite Measures"],
+			"view":"../../extensions/bpmnppi/view/cmCountAggregatedConnector.svg",
+			"icon":"../../extensions/bpmnppi/icons/cmCountAggregatedConnector.png",
+            "propertyPackages" : ["singleConnector"],
+			"roles": [
+				"fromtoall",
+				"all",
+				"derivedMeasuresMorph",
+				"singleConnector",
+				"appliesToElementMeasure",
+				"connectors",
+				"processMeasure"
+			], 
+			"properties": [		
+			]
+		},
+		{
+			"type": "node",
+			"id":"stateConditionAggregatedConnector",
+			"title":"State Condition Aggregated connector",
+			"description":"",
+			"groups":["Aggregated Composite Measures"],
+			"view":"../../extensions/bpmnppi/view/cmStateConditionAggregatedConnector.svg",
+			"icon":"../../extensions/bpmnppi/icons/cmStateConditionAggregatedConnector.png",
+            "propertyPackages" : ["singleConnector"],
+			"roles": [
+				"fromtoall",
+				"all",
+				"derivedMeasuresMorph",
+				"singleConnector",
+				"appliesToElementMeasure",
+				"connectors",
+				"processMeasure"
+			], 
+			"properties": [		
+			]
+		},
+		{
+			"type": "node",
+			"id":"timeAggregatedConnector",
+			"title":"Time Aggregated connector",
+			"description":"",
+			"groups":["Aggregated Composite Measures"],
+			"view":"../../extensions/bpmnppi/view/cmTimeAggregatedConnector.svg",
+			"icon":"../../extensions/bpmnppi/icons/cmTimeAggregatedConnector.png",
+            "propertyPackages" : ["timeConnector"],
+			"roles": [
+				"fromtoall",
+				"all",
+				"derivedMeasuresMorph",
+				"singleConnector",
+				"appliesToElementMeasure",
+				"connectors",
+				"processMeasure"
+			], 
+			"properties": [		
+			]
+		}//,
+		//{
+		//	"type": "node",
+		//	"id":"dataAggregatedConnector",
+		//	"title":"Data Aggregated connector",
+		//	"description":"",
+		//	"groups":["Aggregated Composite Measures"],
+		//	"view":"../../extensions/bpmnppi/view/cmDataAggregatedConnector.svg",
+		//	"icon":"../../extensions/bpmnppi/icons/cmDataAggregatedConnector.png",
+        //    "propertyPackages" : ["singleConnector"],
+		//	"roles": [
+		//		"fromtoall",
+		//		"all",
+		//		"derivedMeasuresMorph",
+		//		"singleConnector",
+		//		"appliesToElementMeasure",
+		//		"connectors",
+		//		"processMeasure"
+		//	], 
+		//	"properties": [		
+		//	]
+		//}
+		
 	],
 	
 	//Rules
@@ -1293,35 +1439,68 @@
 					//}
 					//****************************************************
 					{
-						"from" : "singleTimeConnector",
+						"from" : "timeSingleConnector",
 						"to" : ["ActivitiesMorph"]
 					},
 					{
-						"from" : "singleTimeConnector",
+						"from" : "timeSingleConnector",
 						"to" : ["EventActivitiesMorph"]
 					},
 					{
-						"from" : "singleTimeConnector",
+						"from" : "timeSingleConnector",
 						"to" : ["Pool"]
 					},
 					{
-						"from" : "singleTimeConnector",
+						"from" : "timeSingleConnector",
 						"to" : ["CollapsedPool"]
 					},
 					{
-						"from" : "singleTimeConnector",
+						"from" : "timeSingleConnector",
 						"to" : ["DataObject"]
 					},
 					{
-						"from" : "singleTimeConnector",
+						"from" : "timeSingleConnector",
 						"to" : ["Startevents_all"]
 					},
 					{
-						"from" : "singleTimeConnector",
+						"from" : "timeSingleConnector",
 						"to" : ["IntermediateEventsMorph"]
 					},
 					{
-						"from" : "singleTimeConnector",
+						"from" : "timeSingleConnector",
+						"to" : ["EndEventsMorph"]
+					},
+					//***************************************************
+					{
+						"from" : "timeAggregatedConnector",
+						"to" : ["ActivitiesMorph"]
+					},
+					{
+						"from" : "timeAggregatedConnector",
+						"to" : ["EventActivitiesMorph"]
+					},
+					{
+						"from" : "timeAggregatedConnector",
+						"to" : ["Pool"]
+					},
+					{
+						"from" : "timeAggregatedConnector",
+						"to" : ["CollapsedPool"]
+					},
+					{
+						"from" : "timeAggregatedConnector",
+						"to" : ["DataObject"]
+					},
+					{
+						"from" : "timeAggregatedConnector",
+						"to" : ["Startevents_all"]
+					},
+					{
+						"from" : "timeAggregatedConnector",
+						"to" : ["IntermediateEventsMorph"]
+					},
+					{
+						"from" : "timeAggregatedConnector",
 						"to" : ["EndEventsMorph"]
 					}
 					
@@ -1539,7 +1718,15 @@
 					{
 						"from" : "listOfElements",
 						"to" : ["instanceMeasure"] 
-					}
+					},
+					{
+						"from" : "listOfAggregatedElements",
+						"to" : ["aggregatedMeasureGeneric"] 
+					},
+					{
+						"from" : "listOfAggregatedElements",
+						"to" : ["aggregatedMeasure"]
+					},
 				]
 			},
 			{

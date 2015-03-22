@@ -20,13 +20,14 @@
 
   <g pointer-events="fill" oryx:minimumSize="15 10" oryx:maximumSize="240 160" >
   		<g id="singleTimeConnector">
-  			<rect oryx:anchors="top left" fill="white" stroke="#000000" x="-4" y="-2" width="30" height="23"/>
-  			<path oryx:anchors="top left" fill="#666666" stroke="black" d="M 7 16 h8 v-4 h-8 v4" stroke-width="1"/>
-			<path oryx:anchors="top left" fill="none" stroke="black" d="M 7 12 l4 -4 l4 4" stroke-width="1"/>
-			<path oryx:anchors="top left" fill="#666666" stroke="black" d="M 7 4 l4 4 l4 -4 h-8" stroke-width="1"/>
-			<path oryx:anchors="top left" fill="none" stroke="black" d="M 7 4 v-4 h8 v4" stroke-width="1"/>	
+  			<rect oryx:anchors="top left" fill="white" stroke="#000000" x="0" y="0" width="30" height="23"/>
+  			<path oryx:anchors="top left" fill="#666666" stroke="black" d="M 11 19 h8 v-3 h-8 v3" stroke-width="1"/>
+			<path oryx:anchors="top left" fill="none" stroke="black" d="M 11 16 l4 -4 l4 4" stroke-width="1"/>
+			<path oryx:anchors="top left" fill="#666666" stroke="black" d="M 11 8 l4 4 l4 -4 h-8" stroke-width="1"/>
+			<path oryx:anchors="top left" fill="none" stroke="black" d="M 10.9 8.2 v-3 h8.62 v3" stroke-width="1"/>
+			                                                        
 		</g>
-    	<text font-size="8" id="namesingletimeconnector" x="0" y="20" oryx:align="top left" stroke="black" oryx:fittoelem="singleTimeConnector"></text>
+    	<text font-size="8" id="nametimeconnector" x="0" y="20" oryx:align="top left" stroke="black" oryx:fittoelem="singleTimeConnector"></text>
     	
   </g>
 </svg>

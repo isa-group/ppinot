@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:oryx="http://www.b3mn.org/oryx"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   width="80"
+   height="80"
+   version="1.0">
+  <defs></defs>
+ 
+ <oryx:magnets> 
+		   	<oryx:magnet oryx:cx="15" oryx:cy="0" oryx:anchors="top" /> 
+		   	<oryx:magnet oryx:cx="15" oryx:cy="23" oryx:anchors="bottom" />
+		   	<oryx:magnet oryx:cx="0" oryx:cy="12" oryx:anchors="left" />
+		   	<oryx:magnet oryx:cx="29" oryx:cy="12" oryx:anchors="right" />
+		   	<oryx:magnet oryx:cx="15" oryx:cy="12" oryx:default="yes" />
+  </oryx:magnets> 
+  <oryx:docker oryx:cx="15" oryx:cy="12" /> 
+
+  <g pointer-events="fill" oryx:minimumSize="15 10" oryx:maximumSize="240 160" >
+  		<g id="singleStateConditionConnector">
+  			<rect height="23" width="26" y="-6" x="6" stroke="#000000" fill="white"/>
+		    <rect height="23" width="26" y="-3" x="3" stroke="#000000" fill="white"/>
+		    <rect height="23" width="26" y="0" x="0" stroke="#000000" fill="white"/>
+		    <ellipse stroke="#000000" fill="none" ry="8" rx="11" cy="11" cx="13"/>
+		    <path d="m7,11l5,3m0,0l7,-6" stroke="black" fill="none"/>	
+		</g>
+    	<text font-size="8" id="namesingleconnector" x="0" y="20" oryx:align="top left" stroke="black" oryx:fittoelem="singleStateConditionConnector"></text>
+    	
+  </g>
+</svg>

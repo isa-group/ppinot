@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:oryx="http://www.b3mn.org/oryx"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   width="80"
+   height="80"
+   version="1.0">
+  <defs></defs>
+  <!--<oryx:magnets>
+  	<oryx:magnet oryx:cx="0" oryx:cy="38" oryx:anchors="left" />
+  	<oryx:magnet oryx:cx="30" oryx:cy="58" oryx:anchors="bottom" />
+  	<oryx:magnet oryx:cx="60" oryx:cy="38" oryx:anchors="right" />
+  	<oryx:magnet oryx:cx="30" oryx:cy="18" oryx:anchors="top" />
+	<oryx:magnet oryx:cx="30" oryx:cy="38" oryx:default="yes" />
+  </oryx:magnets>-->
+  <oryx:magnets> 
+		   	<oryx:magnet oryx:cx="22" oryx:cy="0" oryx:anchors="top" /> 
+		   	<oryx:magnet oryx:cx="22" oryx:cy="23" oryx:anchors="bottom" />
+		   	<oryx:magnet oryx:cx="0" oryx:cy="11" oryx:anchors="left" />
+		   	<oryx:magnet oryx:cx="44" oryx:cy="11" oryx:anchors="right" />
+		   	<oryx:magnet oryx:cx="22" oryx:cy="11" oryx:default="yes" />
+  </oryx:magnets> 
+  <oryx:docker oryx:cx="22" oryx:cy="11" /> 
+  		
+  <g pointer-events="fill" oryx:minimumSize="15 10" oryx:maximumSize="240 160" >
+  				
+  		<g id="listMeasure">
+  		    <rect oryx:anchors="top left" fill="white" stroke="#000000" x="4" y="-8" width="44" height="23"/>
+  		    <rect oryx:anchors="top left" fill="white" stroke="#000000" x="0" y="-5" width="44" height="23"/>
+  			<rect oryx:anchors="top left" fill="white" stroke="#000000" x="-4" y="-2" width="44" height="23"/>
+  			<path stroke-width="2" d="m26,2.5v13m4,-13v13m4,-13v13" stroke="black" fill="none"/>
+  			
+  			<rect fill="white" stroke="black" height="15.8069" width="12.16667" y="0.55977" x="4.1"/>
+    		<rect fill="white" stroke-width="0" stroke="white" height="5.4" width="5.6" y="-0.16667" x="11.46667"/>
+    		<path d="m11.91667,4.83333l0,-3.79166l3.70833,3.72794l-3.70833,0.06372z" stroke="black" fill="white"/>
+		</g>
+		
+		<g id="dataobjecttype">
+			<rect fill="white" stroke="black" height="15.8069" width="12.16667" y="0.55977" x="4.1"/>
+    		<rect fill="white" stroke-width="0" stroke="white" height="5.4" width="5.6" y="-0.16667" x="11.46667"/>
+    		<path d="m11.91667,4.83333l0,-3.79166l3.70833,3.72794l-3.70833,0.06372z" stroke="black" fill="white"/>
+    		<path stroke-width="2" d="m26,2.5v13m4,-13v13m4,-13v13" stroke="black" fill="none"/>
+		</g>
+		<g id="counttype">
+			<rect fill="white" stroke-width="0" stroke="white" height="18" width="25" y="0" x="1"/>
+			<ellipse oryx:anchors="top left" cx="11" cy="9" rx="12" ry="7" fill="white" />
+			<text oryx:anchors="top left" x="2" y="11" fill="black" font-size="7" text-anchor="middle">1</text>
+			<text oryx:anchors="top left" x="8" y="14" fill="black" font-size="7" text-anchor="middle">2</text>
+			<text oryx:anchors="top left" x="14" y="11" fill="black" font-size="7" text-anchor="middle">3</text>
+			<path stroke-width="2" d="m26,2.5v13m4,-13v13m4,-13v13" stroke="black" fill="none"/>
+		</g>
+		<g id="timetype">
+			<rect fill="white" stroke-width="0" stroke="white" height="18" width="25" y="0" x="1"/>
+			<path oryx:anchors="top left" fill="#666666" stroke="black" d="M 5 16 h8 v-4 h-8 v4" stroke-width="1"/>
+			<path oryx:anchors="top left" fill="none" stroke="black" d="M 5 12 l4 -4 l4 4" stroke-width="1"/>
+			<path oryx:anchors="top left" fill="#666666" stroke="black" d="M 5 4 l4 4 l4 -4 h-8" stroke-width="1"/>
+			<path oryx:anchors="top left" fill="none" stroke="black" d="M 5 4 v-4 h8 v4" stroke-width="1"/>	
+			<path stroke-width="2" d="m26,2.5v13m4,-13v13m4,-13v13" stroke="black" fill="none"/>
+		</g>
+		<g id="statetype">
+			<rect fill="white" stroke-width="0" stroke="white" height="18" width="25" y="0" x="1"/>
+			<ellipse oryx:anchors="top left" cx="11" cy="9" rx="12" ry="7" fill="white" />
+			<path d="m6,9l5,3m0,0l5,-6" stroke="black" fill="none"/>
+			<path stroke-width="2" d="m26,2.5v13m4,-13v13m4,-13v13" stroke="black" fill="none"/>
+		</g>
+				
+    	<text font-size="8" x="0" y="-18" oryx:align="top left" stroke="black" oryx:fittoelem="listMeasure">#</text>
+    	<text font-size="8" id="nummember" x="6" y="-18" oryx:align="top left" stroke="black" oryx:fittoelem="listMeasure">#</text>
+    	<text font-size="11" id="namemember" x="0" y="20" oryx:align="top left" stroke="black" oryx:fittoelem="listMeasure"></text>
+    	
+    	<!--IMAGENES_EXTRAS-->
+    	<text oryx:anchors="top left" font-size="12" id="measureTypeProperties" x="10" y="45" oryx:align="bottom left" stroke="green" oryx:fittoelem="dataobjecttype"></text>
+    	<text oryx:anchors="top left" font-size="12" id="measureTypeProperties" x="10" y="45" oryx:align="bottom left" stroke="green" oryx:fittoelem="counttype"></text>
+    	
+    	    	
+  </g>
+</svg>

@@ -5,6 +5,7 @@ import es.us.isa.ppinot.evaluation.computers.MeasureComputer;
 import es.us.isa.ppinot.evaluation.computers.MeasureComputerFactory;
 import es.us.isa.ppinot.evaluation.logs.LogEntry;
 import es.us.isa.ppinot.evaluation.logs.LogListener;
+import es.us.isa.ppinot.evaluation.logs.LogProvider;
 import es.us.isa.ppinot.evaluation.logs.MXMLLog;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.PPI;
@@ -37,14 +38,11 @@ public class MXMLEvaluator implements PPIEvaluator {
     public Collection<Evaluation> eval(PPI ppi) {
         List<Evaluation> evaluations = new ArrayList<Evaluation>();
 
-        MeasureDefinition definition = ppi.getMeasuredBy();
+        LogProvider mxmlLog = new MXMLLog(stream, bpmn20ModelHandler);
+        LogMeasureEvaluator evaluator = new LogMeasureEvaluator(mxmlLog);
 
-        MeasureComputer computer = new MeasureComputerFactory().create(definition, ppi.getScope());
-        MXMLLog mxmlLog = new MXMLLog(stream, computer, bpmn20ModelHandler);
+        List<? extends Measure> measures = evaluator.eval(ppi.getMeasuredBy(), ppi.getScope());
 
-        mxmlLog.processLog();
-
-        List<? extends Measure> measures = computer.compute();
         for (Measure m : measures) {
             evaluations.add(new Evaluation(ppi, m.getValue(), m.getMeasureScope()));
         }

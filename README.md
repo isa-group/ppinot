@@ -81,17 +81,17 @@ of your project:
     <dependency>
         <groupId>es.us.isa.ppinot</groupId>
         <artifactId>ppinot-model</artifactId>
-        <version>2.0-SNAPSHOT</version>
+        <version>2.1-SNAPSHOT</version>
     </dependency>
     <dependency>
         <groupId>es.us.isa.ppinot</groupId>
         <artifactId>ppinot-oryx</artifactId>
-        <version>2.0-SNAPSHOT</version>
+        <version>2.1-SNAPSHOT</version>
     </dependency>
     <dependency>
         <groupId>es.us.isa.ppinot</groupId>
         <artifactId>ppinot-templates-angular</artifactId>
-        <version>2.0-SNAPSHOT</version>
+        <version>2.1-SNAPSHOT</version>
     </dependency>
 </dependencies>
 ```

@@ -28,13 +28,13 @@ public class LogMeasureEvaluator implements MeasureEvaluator {
     }
 
     @Override
-    public List<? extends Measure> eval(MeasureDefinition definition, ProcessInstanceFilter filter) {
+    public List<Measure> eval(MeasureDefinition definition, ProcessInstanceFilter filter) {
         MeasureComputer computer = new MeasureComputerFactory().create(definition, filter);
         logProvider.registerListener(computer);
 
         logProvider.processLog();
 
-        return computer.compute();
+        return (List<Measure>) computer.compute();
     }
 
 }

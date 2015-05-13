@@ -53,9 +53,7 @@ public class AggregatedMeasureComputer implements MeasureComputer {
 
             result.add(new Measure(definition, scope, val));
         }
-        for (Measure m:result){
-        	System.out.println(m.getInstances()+" "+m.getValue());
-        }
+
         return result;
     }
 

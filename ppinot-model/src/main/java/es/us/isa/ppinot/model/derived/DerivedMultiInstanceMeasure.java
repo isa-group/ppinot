@@ -11,7 +11,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
         include = JsonTypeInfo.As.PROPERTY, property = "kind")
 public class DerivedMultiInstanceMeasure extends DerivedMeasure {
 
-    private DerivedMultiInstanceMeasure() {
+    public DerivedMultiInstanceMeasure() {
         super();
     }
 

@@ -12,5 +12,5 @@ import java.util.List;
  * @author resinas
  */
 public interface MeasureEvaluator {
-    public List<? extends Measure> eval(MeasureDefinition definition, ProcessInstanceFilter filter);
+    public List<Measure> eval(MeasureDefinition definition, ProcessInstanceFilter filter);
 }

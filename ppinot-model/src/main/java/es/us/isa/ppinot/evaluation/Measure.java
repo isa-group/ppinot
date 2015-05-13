@@ -15,6 +15,23 @@ public class Measure {
     protected MeasureDefinition definition;
     protected double value;
 
+    public Measure(MeasureDefinition definition, MeasureScope scope, Object value) {
+        this(definition, scope, toDouble(value));
+    }
+
+    private static double toDouble(Object value) {
+        double doubleValue;
+
+        if (value instanceof Boolean) {
+            doubleValue = (Boolean) value ? 1 : 0;
+        } else if (value instanceof String) {
+            doubleValue = Double.parseDouble((String) value);
+        } else {
+            doubleValue = (Double) value;
+        }
+        return doubleValue;
+    }
+
     public Measure(MeasureDefinition definition, String processId, Collection<String> instances, double value) {
         this(definition, new MeasureScope(processId, instances), value);
     }

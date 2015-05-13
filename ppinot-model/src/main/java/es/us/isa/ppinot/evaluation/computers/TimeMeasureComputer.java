@@ -5,6 +5,7 @@ import es.us.isa.ppinot.evaluation.logs.LogEntry;
 import es.us.isa.ppinot.evaluation.matchers.TimeInstantMatcher;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.Schedule;
+import es.us.isa.ppinot.model.TimeUnit;
 import es.us.isa.ppinot.model.base.TimeMeasure;
 import es.us.isa.ppinot.model.condition.TimeMeasureType;
 import org.joda.time.*;
@@ -43,20 +44,20 @@ public class TimeMeasureComputer implements MeasureComputer {
 
     @Override
     public void update(LogEntry entry) {
+        MeasureInstanceTimer m = getOrCreateTimer(entry);
+
         if (startMatcher.matches(entry)) {
-            startTimer(entry);
+            startTimer(m, entry);
         } else if (endMatcher.matches(entry)) {
-            endTimer(entry);
+            endTimer(m, entry);
         }
     }
 
-    private void startTimer(LogEntry entry) {
-        MeasureInstanceTimer m = getOrCreateTimer(entry);
+    private void startTimer(MeasureInstanceTimer m, LogEntry entry) {
         m.starts(entry.getTimeStamp());
     }
 
-    private void endTimer(LogEntry entry) {
-        MeasureInstanceTimer m = getOrCreateTimer(entry);
+    private void endTimer(MeasureInstanceTimer m, LogEntry entry) {
         m.ends(entry.getTimeStamp());
     }
 
@@ -82,10 +83,25 @@ public class TimeMeasureComputer implements MeasureComputer {
     private abstract class MeasureInstanceTimer extends MeasureInstance {
         public abstract void starts(DateTime start);
         public abstract void ends(DateTime ends);
+        protected abstract double computeValue();
 
         public MeasureInstanceTimer(TimeMeasure definition, String processId, String instanceId) {
             super(definition, Double.NaN, processId, instanceId);
         }
+
+        @Override
+        public double getValue() {
+            double value = computeValue();
+
+            if (!Double.isNaN(value)) {
+                long millisValue = (long) value;
+                Duration duration = Duration.millis(millisValue);
+                value = TimeUnit.toTimeUnit(duration, definition.getUnitOfMeasure());
+            }
+
+            return value;
+        }
+
     }
 
     private class LinearMeasureInstanceTimer extends MeasureInstanceTimer {
@@ -105,7 +121,7 @@ public class TimeMeasureComputer implements MeasureComputer {
         }
 
         @Override
-        public double getValue() {
+        protected double computeValue() {
             double value;
 
             if (duration != null)
@@ -145,7 +161,7 @@ public class TimeMeasureComputer implements MeasureComputer {
         }
 
         @Override
-        public double getValue() {
+        protected double computeValue() {
             double value;
             Collection<Double> measures = new ArrayList<Double>();
             for (DurationWithExclusion d : durations) {
@@ -160,6 +176,7 @@ public class TimeMeasureComputer implements MeasureComputer {
 
             return value;
         }
+
 
         public void ends(DateTime end) {
             if (isRunning()) {
@@ -205,72 +222,80 @@ public class TimeMeasureComputer implements MeasureComputer {
         }
 
         private long dayExclusion() {
-            int daysPerWeek = 7 - (schedule.getEndDay() - schedule.getBeginDay() + 1);
-            Weeks weeks = Weeks.weeksBetween(start, end);
-            long exclusion = Days.days(daysPerWeek * weeks.getWeeks()).toStandardDuration().getMillis();
+            long fullDay = DateTimeConstants.MILLIS_PER_DAY;
+            long exclusionPerDay = Duration.standardDays(1).minus(Seconds.secondsBetween(schedule.getBeginTime(), schedule.getEndTime()).toStandardDuration()).getMillis();
+            long exclusion = 0;
 
-            if (schedule.dayOfWeekExcluded(start.getDayOfWeek())) {
-                exclusion += Hours.hoursBetween(start, start.withTimeAtStartOfDay().plusDays(1)).toStandardDuration().getMillis();
+            DateTime nextDay = start.withTimeAtStartOfDay().plusDays(1);
+            DateTime endDay = end.withTimeAtStartOfDay();
+            int days = Math.max(Days.daysBetween(nextDay, endDay).getDays(), 0);
+
+            int dayOfWeek = nextDay.getDayOfWeek();
+            for (int i = 1; i <= days; i++) {
+                if (schedule.dayOfWeekExcluded(dayOfWeek)) {
+                    exclusion += fullDay;
+                } else {
+                    exclusion += exclusionPerDay;
+                }
+                dayOfWeek++;
+                if (dayOfWeek > DateTimeConstants.DAYS_PER_WEEK) {
+                    dayOfWeek = dayOfWeek % 7;
+                }
             }
-
-            if (schedule.dayOfWeekExcluded(end.getDayOfWeek())) {
-                exclusion += Hours.hoursBetween(end.withTimeAtStartOfDay(), end).toStandardDuration().getMillis();
-            }
-
 
             return exclusion;
         }
 
         private long hourExclusion() {
-            return startDayExclusion() + endDayExclusion() + middleDaysExclusion();
+            long exclusion = 0;
+
+            if (sameDay(start, end)) {
+                if (schedule.dayOfWeekExcluded(start.getDayOfWeek())) {
+                    exclusion = new Duration(start, end).getMillis();
+                } else {
+                    exclusion = oneDayExclusion(start, end);
+                }
+            } else {
+                if (schedule.dayOfWeekExcluded(start.getDayOfWeek())) {
+                    exclusion += new Duration(start, start.withTimeAtStartOfDay().plusDays(1)).getMillis();
+                } else {
+                    exclusion += oneDayExclusion(start, start.withTimeAtStartOfDay().plusDays(1));
+                }
+
+                if (schedule.dayOfWeekExcluded(end.getDayOfWeek())) {
+                    exclusion += new Duration(end.withTimeAtStartOfDay(), end).getMillis();
+                } else {
+                    exclusion += oneDayExclusion(end.withTimeAtStartOfDay(), end);
+                }
+            }
+
+            return exclusion;
         }
 
-        private long startDayExclusion() {
+        private boolean sameDay(DateTime oneDay, DateTime anotherDay) {
+            return oneDay.withTimeAtStartOfDay().equals(anotherDay.withTimeAtStartOfDay());
+        }
+
+        private long oneDayExclusion(DateTime start, DateTime end) {
             DateTime beginInDay = start.withFields(schedule.getBeginTime());
             DateTime endInDay = start.withFields(schedule.getEndTime());
-            DateTime midnight = start.withTimeAtStartOfDay();
-            Hours exclusionHours;
+            Duration exclusionHours = Duration.millis(0);
 
-            if (start.isBefore(endInDay)) {
-                exclusionHours = Hours.hoursBetween(endInDay, midnight.plusDays(1));
+            if (end.isBefore(beginInDay) || start.isAfter(endInDay)) {
+                exclusionHours = new Duration(start, end);
+            } else {
                 if (start.isBefore(beginInDay)) {
-                    exclusionHours.plus(Hours.hoursBetween(start, beginInDay));
+                    exclusionHours = exclusionHours.plus(new Duration(start, beginInDay));
                 }
-            } else {
-                exclusionHours = Hours.hoursBetween(start, midnight.plusDays(1));
-            }
-
-            return exclusionHours.toStandardDuration().getMillis();
-        }
-
-        private long endDayExclusion() {
-            DateTime beginInDay = end.withFields(schedule.getBeginTime());
-            DateTime endInDay = end.withFields(schedule.getEndTime());
-            DateTime midnight = end.withTimeAtStartOfDay();
-            Hours exclusionHours;
-
-            if (end.isBefore(beginInDay)) {
-                exclusionHours = Hours.hoursBetween(midnight, end);
-            } else {
-                exclusionHours = Hours.hoursBetween(midnight, beginInDay);
                 if (end.isAfter(endInDay)) {
-                    exclusionHours.plus(Hours.hoursBetween(endInDay, end));
+                    exclusionHours = exclusionHours.plus(new Duration(endInDay, end));
                 }
             }
 
-            return exclusionHours.toStandardDuration().getMillis();
+            return exclusionHours.getMillis();
+
         }
 
-        private long middleDaysExclusion() {
-            Hours exclusionHoursPerDay = Days.ONE.toStandardHours().minus(Hours.hoursBetween(schedule.getBeginTime(), schedule.getEndTime()));
-
-            DateTime nextDay = start.withTimeAtStartOfDay().plusDays(1);
-            DateTime endDay = end.withTimeAtStartOfDay();
-
-            int days = Math.max(Days.daysBetween(nextDay, endDay).getDays(), 0);
-
-            return days * exclusionHoursPerDay.toStandardDuration().getMillis();
-        }
 
     }
 }

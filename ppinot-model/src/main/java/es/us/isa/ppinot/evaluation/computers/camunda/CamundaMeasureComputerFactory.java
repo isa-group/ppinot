@@ -1,4 +1,4 @@
-package es.us.isa.ppinot.calculator.camunda;
+package es.us.isa.ppinot.evaluation.computers.camunda;
 
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.ProcessInstanceFilter;
@@ -10,24 +10,24 @@ import es.us.isa.ppinot.model.base.TimeInstantMeasure;
 import es.us.isa.ppinot.model.base.TimeMeasure;
 import es.us.isa.ppinot.model.derived.DerivedMeasure;
 
-public class CamundaMeasureExecutionFactory {
+public class CamundaMeasureComputerFactory {
 
-	public CamundaMeasureExecution create(MeasureDefinition definition, ProcessInstanceFilter filter) {
-	    CamundaMeasureExecution execution = null;
+	public CamundaMeasureComputer create(MeasureDefinition definition, ProcessInstanceFilter filter) {
+	    CamundaMeasureComputer execution = null;
 	    if (definition instanceof TimeMeasure) {
-            execution = new CamundaTimeMeasureExecution(definition);
+            execution = new CamundaTimeMeasureComputer(definition);
         } else if (definition instanceof TimeInstantMeasure) {
-            execution = new CamundaTimeInstantMeasureExecution(definition);
+            execution = new CamundaTimeInstantMeasureComputer(definition);
         } else if (definition instanceof CountMeasure) {
-            execution = new CamundaCountMeasureExecution(definition);
+            execution = new CamundaCountMeasureComputer(definition);
         } else if (definition instanceof StateConditionMeasure) {
-            execution = new CamundaStateConditionMeasureExecution(definition);
+            execution = new CamundaStateConditionMeasureComputer(definition);
         } else if (definition instanceof AggregatedMeasure) {
-            execution = new CamundaAggregatedMeasureExecution(definition, filter);
+            execution = new CamundaAggregatedMeasureComputer(definition, filter);
         }else if (definition instanceof DerivedMeasure) { 
-            execution = new CamundaDerivedMeasureExecution(definition, filter);
+            execution = new CamundaDerivedMeasureComputer(definition, filter);
         }else if (definition instanceof DataMeasure){
-        	execution = new CamundaDataMeasureExecution(definition);
+        	execution = new CamundaDataMeasureComputer(definition);
         }
 
         return execution;

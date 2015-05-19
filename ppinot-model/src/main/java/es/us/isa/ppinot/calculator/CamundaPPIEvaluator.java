@@ -7,39 +7,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.camunda.bpm.engine.HistoryService;
 
-import es.us.eii.gps.ppi.model.PPIValue;
-import es.us.eii.gps.ppi.model.SimplePPI;
 import es.us.isa.bpmn.xmlClasses.bpmn20.TProcess;
-import es.us.isa.ppinot.calculator.camunda.CamundaMeasureExecution;
-import es.us.isa.ppinot.calculator.camunda.CamundaMeasureExecutionFactory;
 import es.us.isa.ppinot.evaluation.Evaluation;
 import es.us.isa.ppinot.evaluation.Measure;
 import es.us.isa.ppinot.evaluation.PPIEvaluator;
+import es.us.isa.ppinot.evaluation.computers.camunda.CamundaMeasureComputer;
+import es.us.isa.ppinot.evaluation.computers.camunda.CamundaMeasureComputerFactory;
 import es.us.isa.ppinot.handler.PPINotModelHandler;
 import es.us.isa.ppinot.handler.PPINotModelHandlerImpl;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.PPI;
 import es.us.isa.ppinot.model.PPISet;
 import es.us.isa.ppinot.model.ProcessInstanceFilter;
-import es.us.isa.ppinot.model.base.TimeMeasure;
 
 public class CamundaPPIEvaluator implements PPIEvaluator {
 
-		// TODO Auto-generated method stub
-	 //private static final Logger log = Logger.getLogger(MXMLEvaluator.class.getName());
 
     private InputStream 									stream;
     private PPINotModelHandler 								ppiNotModelHandler;
     private HistoryService 									camundaHistory;
     private Map<PPI, List<Evaluation>> 						allEvaluations; 
     private Map<MeasureDefinition, List<? extends Measure>> allMeasures; 
-    
-    
-    
-    private static final Logger LOGGER = Logger.getLogger("PPIEval");
 
     public CamundaPPIEvaluator(InputStream inputStream, HistoryService camundaHistory) throws Exception {
         this.stream 			= inputStream;
@@ -63,7 +53,6 @@ public class CamundaPPIEvaluator implements PPIEvaluator {
 			}
 			
 			for(MeasureDefinition currentMeasure:ppiSet.getMeasures()){
-				
 				//List<? extends Measure> measures = (List)evalMeasure(currentMeasure,relProcessIdName.get(ppiSet.getProcessId()));
 				//allMeasures.put(currentMeasure, measures);//result.add(currentPPIValue);				
 			}
@@ -74,15 +63,13 @@ public class CamundaPPIEvaluator implements PPIEvaluator {
      * 	Not used now
      */
     
-    public Collection<Evaluation> eval(PPI ppi) {
+    public Collection<Evaluation> eval(PPI ppi, String processName) {
     	
         List<Evaluation> evaluations = new ArrayList<Evaluation>();
         MeasureDefinition definition = ppi.getMeasuredBy();
   
-        CamundaMeasureExecution execution = new CamundaMeasureExecutionFactory().create(definition,ppi.getScope());
-        LOGGER.info("Evaluating PPIs");
-        LOGGER.info("Measure: "+execution.getClass());
-        List<? extends Measure> measures = execution.calculate(camundaHistory);
+        CamundaMeasureComputer execution = new CamundaMeasureComputerFactory().create(definition,ppi.getScope());
+        List<? extends Measure> measures = execution.compute(camundaHistory, processName);
         
         for (Measure m : measures) {
             evaluations.add(new Evaluation(ppi, m.getValue(), m.getMeasureScope()));
@@ -91,16 +78,16 @@ public class CamundaPPIEvaluator implements PPIEvaluator {
     }
     
     /**
-     * Equivalent to Evaluate PPI but we use Calculate Measure
+     * Equivalent to Evaluate PPI but we use Compute Measure
      */
     public Collection<? extends Measure> evalMeasure(MeasureDefinition measureDefinition, String processId) {
     	return evalMeasure(measureDefinition, processId, null);
     }
     
-    public Collection<? extends Measure> evalMeasure(MeasureDefinition measureDefinition, String processId, ProcessInstanceFilter filter) {
+    public Collection<? extends Measure> evalMeasure(MeasureDefinition measureDefinition, String processName, ProcessInstanceFilter filter) {
     	
-        CamundaMeasureExecution execution = new CamundaMeasureExecutionFactory().create(measureDefinition, filter);
-        List<? extends Measure> measures = execution.calculate(camundaHistory, processId);
+        CamundaMeasureComputer execution = new CamundaMeasureComputerFactory().create(measureDefinition, filter);
+        List<? extends Measure> measures = execution.compute(camundaHistory, processName);
         return measures;
     }
 

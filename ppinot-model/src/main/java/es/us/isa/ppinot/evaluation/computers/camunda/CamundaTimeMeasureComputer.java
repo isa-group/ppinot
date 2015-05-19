@@ -1,4 +1,5 @@
-package es.us.isa.ppinot.calculator.camunda;
+package es.us.isa.ppinot.evaluation.computers.camunda;
+
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,14 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.history.HistoricActivityInstance;
 import org.camunda.bpm.engine.history.HistoricActivityInstanceQuery;
 import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.history.HistoricProcessInstanceQuery;
-import org.camunda.bpm.engine.history.HistoricTaskInstance;
-import org.camunda.bpm.engine.history.HistoricTaskInstanceQuery;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
@@ -32,13 +30,12 @@ import es.us.isa.ppinot.model.state.GenericState;
  * @author cefiro
  *
  */
-public class CamundaTimeMeasureExecution implements CamundaMeasureExecution {
+public class CamundaTimeMeasureComputer implements CamundaMeasureComputer {
 
 	private TimeMeasure definition;
     private Map<String, MeasureInstanceTimer> measures;
-    private static final Logger LOGGER = Logger.getLogger("PPIEval");
   
-    public CamundaTimeMeasureExecution(MeasureDefinition definition) {
+    public CamundaTimeMeasureComputer(MeasureDefinition definition) {
         if (!(definition instanceof TimeMeasure)) {
             throw new IllegalArgumentException();
         }
@@ -52,7 +49,7 @@ public class CamundaTimeMeasureExecution implements CamundaMeasureExecution {
         return computation;
     }
     
-    public List<? extends Measure> calculate(HistoryService camundaHistory, String processID) {
+    public List<? extends Measure> compute(HistoryService camundaHistory, String processID) {
         List<MeasureInstance> computation = new ArrayList<MeasureInstance>(calculate(definition, camundaHistory, processID));
         return computation;
     }

@@ -1,4 +1,4 @@
-package es.us.isa.ppinot.calculator.camunda;
+package es.us.isa.ppinot.evaluation.computers.camunda;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,33 +24,28 @@ import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.ProcessInstanceFilter;
 import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
 
-public class CamundaAggregatedMeasureExecution implements CamundaMeasureExecution{
+public class CamundaAggregatedMeasureComputer implements CamundaMeasureComputer{
 
-	private AggregatedMeasure definition;
+	private AggregatedMeasure 		definition;
 	
-	private CamundaMeasureExecution baseExecution;
-    private Aggregator agg;
-    private ScopeClassifier classifier;
+	private CamundaMeasureComputer 	baseExecution;
+    private Aggregator 				agg;
+    private ScopeClassifier 		classifier;
 
 	
-	public CamundaAggregatedMeasureExecution(MeasureDefinition definition, ProcessInstanceFilter filter){
+	public CamundaAggregatedMeasureComputer(MeasureDefinition definition, ProcessInstanceFilter filter){
 		if (!(definition instanceof AggregatedMeasure)) {
             throw new IllegalArgumentException();
 		}
 		this.definition = (AggregatedMeasure) definition;
-		this.baseExecution = new CamundaMeasureExecutionFactory().create(this.definition.getBaseMeasure(), filter);
+		this.baseExecution = new CamundaMeasureComputerFactory().create(this.definition.getBaseMeasure(), filter);
 		
 		this.classifier = new ScopeClassifierFactory().create(filter);
         //this.classifier = new ScopeClassifierFactory().create(filter);
         this.agg = new Aggregator(this.definition.getAggregationFunction());
 	}
 	
-	public List<? extends Measure> calculate(HistoryService camundaHistory) {
-		// TODO Auto-generated method stub
-		return calculate(camundaHistory, "");
-	}
-
-	public List<? extends Measure> calculate(HistoryService camundaHistory,
+	public List<? extends Measure> compute(HistoryService camundaHistory,
 			String processName) {
 		
 		//Lo que hay que hacer
@@ -60,7 +55,7 @@ public class CamundaAggregatedMeasureExecution implements CamundaMeasureExecutio
 				
 		List<Measure> result = new ArrayList<Measure>();
         //Esto es 1)
-		Collection<? extends Measure> measures = baseExecution.calculate(camundaHistory, processName);
+		Collection<? extends Measure> measures = baseExecution.compute(camundaHistory, processName);
         Map<String, MeasureInstance> measureMap = buildMeasureMap(measures);
         //List<String> processIds = new ArrayList<String>();
         HistoricProcessInstanceQuery	processQuery		= camundaHistory.createHistoricProcessInstanceQuery();	

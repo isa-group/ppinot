@@ -1,4 +1,4 @@
-package es.us.isa.ppinot.calculator.camunda;
+package es.us.isa.ppinot.evaluation.computers.camunda;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,24 +14,18 @@ import es.us.isa.ppinot.evaluation.MeasureInstance;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.base.StateConditionMeasure;
 import es.us.isa.ppinot.model.condition.StateCondition;
-import es.us.isa.ppinot.model.condition.TimeInstantCondition;
 import es.us.isa.ppinot.model.state.GenericState;
 
-public class CamundaStateConditionMeasureExecution implements CamundaMeasureExecution {
+public class CamundaStateConditionMeasureComputer implements CamundaMeasureComputer {
 
 	private StateConditionMeasure definition;
 	
-	public CamundaStateConditionMeasureExecution(MeasureDefinition definition){
+	public CamundaStateConditionMeasureComputer(MeasureDefinition definition){
 		this.definition = (StateConditionMeasure)definition;
 	}
 	
-	public List<? extends Measure> calculate(HistoryService camundaHistory) {
-		// TODO Auto-generated method stub
-		return calculate(camundaHistory,"");
-	}
-
 	//Checking an Activity has Started or Finished anytime per Process Instance
-	public List<? extends Measure> calculate(HistoryService camundaHistory,
+	public List<? extends Measure> compute(HistoryService camundaHistory,
 			String processName) {
 		List<MeasureInstance> result = new ArrayList<MeasureInstance>();
     	StateCondition eventState 	= definition.getCondition();

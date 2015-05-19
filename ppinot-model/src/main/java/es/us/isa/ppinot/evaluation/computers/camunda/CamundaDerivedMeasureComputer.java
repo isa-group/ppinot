@@ -1,4 +1,4 @@
-package es.us.isa.ppinot.calculator.camunda;
+package es.us.isa.ppinot.evaluation.computers.camunda;
 
 import java.util.*;
 
@@ -14,42 +14,38 @@ import org.mvel2.MVEL;
 
 import java.io.Serializable;
 
-public class CamundaDerivedMeasureExecution implements CamundaMeasureExecution {
+public class CamundaDerivedMeasureComputer implements CamundaMeasureComputer {
 
 	private DerivedMeasure definition;
 	private Serializable expression;
-	private Map<String, CamundaMeasureExecution> executions;
+	private Map<String, CamundaMeasureComputer> executions;
 
 	
-	public CamundaDerivedMeasureExecution(MeasureDefinition definition , ProcessInstanceFilter filter){
+	public CamundaDerivedMeasureComputer(MeasureDefinition definition , ProcessInstanceFilter filter){
 		if (!(definition instanceof DerivedMeasure)) {
 	            throw new IllegalArgumentException();
         }
 		this.definition = (DerivedMeasure) definition;
 
-        CamundaMeasureExecutionFactory executionFactory = new CamundaMeasureExecutionFactory();
+        CamundaMeasureComputerFactory executionFactory = new CamundaMeasureComputerFactory();
 
         this.definition = (DerivedMeasure) definition;
         this.expression = MVEL.compileExpression(this.definition.getFunction());
-        this.executions = new HashMap<String, CamundaMeasureExecution>();
+        this.executions = new HashMap<String, CamundaMeasureComputer>();
         for (Map.Entry<String, MeasureDefinition> entry : this.definition.getUsedMeasureMap().entrySet()) {
             this.executions.put(entry.getKey(), executionFactory.create(entry.getValue(),filter));
         }
 	}
 	
-	public List<? extends Measure> calculate(HistoryService camundaHistory) {
-		// TODO Auto-generated method stub
-		return calculate(camundaHistory, "");
-	}
 
-	public List<? extends Measure> calculate(HistoryService camundaHistory,
+	public List<? extends Measure> compute(HistoryService camundaHistory,
 			String processName) {
 		List<Measure> results = new ArrayList<Measure>();
         Map<String, List<? extends Measure>> measures = new HashMap<String, List<? extends Measure>>();
 
         int size = 0;
         for (String varName : executions.keySet()) {
-            List<? extends Measure> execution = executions.get(varName).calculate(camundaHistory, processName);
+            List<? extends Measure> execution = executions.get(varName).compute(camundaHistory, processName);
             measures.put(varName, execution);
             size = execution.size();
         }

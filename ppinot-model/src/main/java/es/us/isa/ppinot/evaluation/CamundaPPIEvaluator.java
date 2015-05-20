@@ -1,4 +1,4 @@
-package es.us.isa.ppinot.calculator;
+package es.us.isa.ppinot.evaluation;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -10,9 +10,6 @@ import java.util.Map;
 import org.camunda.bpm.engine.HistoryService;
 
 import es.us.isa.bpmn.xmlClasses.bpmn20.TProcess;
-import es.us.isa.ppinot.evaluation.Evaluation;
-import es.us.isa.ppinot.evaluation.Measure;
-import es.us.isa.ppinot.evaluation.PPIEvaluator;
 import es.us.isa.ppinot.evaluation.computers.camunda.CamundaMeasureComputer;
 import es.us.isa.ppinot.evaluation.computers.camunda.CamundaMeasureComputerFactory;
 import es.us.isa.ppinot.handler.PPINotModelHandler;
@@ -93,6 +90,12 @@ public class CamundaPPIEvaluator implements PPIEvaluator {
 
 	public Map<MeasureDefinition, List<? extends Measure>> getMeasures() {
 		return allMeasures;
+	}
+
+	@Override
+	public Collection<Evaluation> eval(PPI ppi) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

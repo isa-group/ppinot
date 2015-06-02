@@ -24,4 +24,24 @@ public class MeasureScope {
     public Collection<String> getInstances() {
         return instances;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MeasureScope)) return false;
+
+        MeasureScope that = (MeasureScope) o;
+
+        if (!instances.equals(that.instances)) return false;
+        if (!processId.equals(that.processId)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = processId.hashCode();
+        result = 31 * result + instances.hashCode();
+        return result;
+    }
 }

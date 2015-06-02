@@ -1,5 +1,7 @@
 package es.us.isa.ppinot.model.base;
 
+import es.us.isa.ppinot.model.Schedule;
+import es.us.isa.ppinot.model.TimeUnit;
 import es.us.isa.ppinot.model.condition.TimeInstantCondition;
 import es.us.isa.ppinot.model.condition.TimeMeasureType;
 
@@ -11,7 +13,7 @@ import es.us.isa.ppinot.model.condition.TimeMeasureType;
  *
  */
 public class TimeMeasure extends BaseMeasure {
-	
+
 	// Momento en el cual se toma la medida en la actividad inicial (el inicio o el final)
 	private TimeInstantCondition from;
 	// Momento en el cual se toma la medida en la actividad final (el inicio o el final)
@@ -21,13 +23,15 @@ public class TimeMeasure extends BaseMeasure {
 	// Funcion de agregacion
 	private String singleInstanceAggFunction;
 
+    private Schedule considerOnly;
+
 	/**
 	 * Constructor de la clase
 	 */
 	public TimeMeasure() {
 		super();
 		
-    	this.setUnitOfMeasure("mseg");
+    	this.setUnitOfMeasure(TimeUnit.MILLIS);
     	
 		this.setFrom(null);
 		this.setTo(null);
@@ -136,8 +140,16 @@ public class TimeMeasure extends BaseMeasure {
 	public void setTo(TimeInstantCondition to) {
 		this.to = to;
 	}
-	
-	/**
+
+    public Schedule getConsiderOnly() {
+        return considerOnly;
+    }
+
+    public void setConsiderOnly(Schedule considerOnly) {
+        this.considerOnly = considerOnly;
+    }
+
+    /**
 	 * Indica si la medida puede ser calculada
 	 * 
 	 * @return Whether the measure is valid

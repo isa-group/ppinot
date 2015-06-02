@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  *
  * @author resinas
  */
-public class MXMLLog  {
+public class MXMLLog extends AbstractLogProvider {
     private static final Logger log = Logger.getLogger(MXMLLog.class.getName());
 
     private static final String TAG_PROCESS = "Process";
@@ -33,7 +33,6 @@ public class MXMLLog  {
     private static final String TAG_ORIGINATOR = "Originator";
 
     private XMLStreamReader reader;
-    private LogListener listener;
 
     private ElementName elementName;
     private Bpmn20ModelHandler bpmn20ModelHandler;
@@ -42,8 +41,7 @@ public class MXMLLog  {
         UNKNOWN, ID, NAME
     }
 
-    public MXMLLog(InputStream inputStream, LogListener listener, Bpmn20ModelHandler bpmn20ModelHandler) {
-        this.listener = listener;
+    public MXMLLog(InputStream inputStream, Bpmn20ModelHandler bpmn20ModelHandler) {
         XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
         try {
             reader = xmlInputFactory.createXMLStreamReader(inputStream);
@@ -55,6 +53,12 @@ public class MXMLLog  {
         this.bpmn20ModelHandler = bpmn20ModelHandler;
     }
 
+    public MXMLLog(InputStream inputStream, LogListener listener, Bpmn20ModelHandler bpmn20ModelHandler) {
+        this(inputStream, bpmn20ModelHandler);
+        registerListener(listener);
+    }
+
+    @Override
     public void processLog() {
         try {
             while (reader.hasNext()) {
@@ -98,18 +102,18 @@ public class MXMLLog  {
                 if (isEndElement(type) && hasName(reader, TAG_PROCESSINSTANCE)) {
                     endInstance = true;
                     if (lastLogEntry != null) {
-                        listener.update(createInstanceEntry(lastLogEntry, LogEntry.EventType.complete));
+                        updateListeners(createInstanceEntry(lastLogEntry, LogEntry.EventType.complete));
                     }
 
                 } else if (isStartElement(type) && hasName(reader, TAG_AUDITTRAILENTRY)) {
                     lastLogEntry = createLogEntry(processId, instanceId);
 
                     if (isFirstElement) {
-                        listener.update(createInstanceEntry(lastLogEntry, LogEntry.EventType.assign));
+                        updateListeners(createInstanceEntry(lastLogEntry, LogEntry.EventType.assign));
                         isFirstElement = false;
                     }
 
-                    listener.update(lastLogEntry);
+                    updateListeners(lastLogEntry);
                 }
             }
         } catch (XMLStreamException e) {

@@ -29,7 +29,7 @@
 			<path oryx:anchors="top left" fill="#666666" stroke="black" d="M 9 7 l4 4 l4 -4 h-8" stroke-width="1"/>
 			<path oryx:anchors="top left" fill="none" stroke="black" d="M 9 7 v-4 h8 v4" stroke-width="1"/>	
 		</g>
-    	<text font-size="8" id="nametimeconnector" x="0" y="20" oryx:align="top left" stroke="black" oryx:fittoelem="timeAggregatedConnector"></text>
+    	<text font-size="8" id="nametimeconnector" x="6" y="22" oryx:align="top left" stroke="black" oryx:fittoelem="timeAggregatedConnector"></text>
     	
   </g>
 </svg>

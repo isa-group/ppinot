@@ -1194,27 +1194,27 @@
 			"properties": [		
 			]
 		},
-		//{
-		//	"type": "node",
-		//	"id":"dataSingleConnector",
-		//	"title":"Data connector",
-		//	"description":"",
-		//	"groups":["Composite Measures"],
-		//	"view":"../../extensions/bpmnppi/view/cmDataSingleConnector.svg",
-		//	"icon":"../../extensions/bpmnppi/icons/cmDataSingleConnector.png",
-        //    "propertyPackages" : ["singleConnector"],
-		//	"roles": [
-		//		"fromtoall",
-		//		"all",
-		//		"derivedMeasuresMorph",
-		//		"singleConnector",
-		//		"appliesToElementMeasure",
-		//		"connectors",
-		//		"processMeasure"
-		//	], 
-		//	"properties": [		
-		//	]
-		//},
+		{
+			"type": "node",
+			"id":"dataSingleConnector",
+			"title":"Data connector",
+			"description":"",
+			"groups":["Composite Measures"],
+			"view":"../../extensions/bpmnppi/view/cmDataSingleConnector.svg",
+			"icon":"../../extensions/bpmnppi/icons/cmDataSingleConnector.png",
+            "propertyPackages" : ["singleConnector"],
+			"roles": [
+				"fromtoall",
+				"all",
+				"derivedMeasuresMorph",
+				"singleConnector",
+				"appliesToElementMeasure",
+				"connectors",
+				"processMeasure"
+			], 
+			"properties": [		
+			]
+		},
 		{
 			"type": "node",
 			"id":"listOfElements",

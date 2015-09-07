@@ -1,5 +1,5 @@
 {
-	"title":"PPIs",
+	"title":"PPIs_CONNECTORS2",
 	"namespace":"http://www.isa.us.es/ppiontology/stencilsets/extensions/bpmnppi#",
 	"description":"Adds definition of Process Performance Indicators to BPMN 2.0",
 	"definition":"bpmnppi/bpmnppi.json",
@@ -357,6 +357,15 @@
 					"readonly":false,
 					"optional":false,
 					"refToView":"namemember"
+				},
+				{
+					"id":"processSingleConector",
+					"type":"String",
+					"title":"Process origin",
+					"value":"",
+					"description":"Name of the process that provides the data.",
+					"readonly":false,
+					"optional":false
 				}
 			]
 	    },
@@ -372,6 +381,15 @@
 					"readonly":false,
 					"optional":false,
 					"refToView":"namesingleconnector"
+				},
+				{
+					"id":"processSingleConector",
+					"type":"String",
+					"title":"Process origin",
+					"value":"",
+					"description":"Name of the process that provides the data.",
+					"readonly":false,
+					"optional":false
 				}
 			]
 	    },
@@ -387,6 +405,15 @@
 					"readonly":false,
 					"optional":false,
 					"refToView":"nametimeconnector"
+				},
+				{
+					"id":"processTimeConector",
+					"type":"String",
+					"title":"Process origin",
+					"value":"",
+					"description":"Name of the process that provides the data.",
+					"readonly":false,
+					"optional":false
 				}
 			]
 	    },
@@ -1668,6 +1695,10 @@
 					{
 						"from" : "derivedSingleInstanceMeasure",
 						"to" : ["instanceMeasure"] 
+					},
+					{
+						"from" : "derivedSingleInstanceMeasure",
+						"to" : ["metric"] 
 					},
 					{
 						"from" : "derivedMultiInstanceMeasure",

@@ -18,11 +18,13 @@ import es.us.isa.ppinot.model.derived.DerivedSingleInstanceMeasure;
  * @author BEstrada
  *
  */
-public class ExpandedCompositeMeasure {
+public class ExpandedCompositeMeasure implements Cloneable{
 		
 	private String name;
 	private CompositeTypeDefinition typeDefinition;
 	private MeasureDefinition rootMeasure;
+	
+	//ESTE DEBERÍA QUITARLO. COMO AHORA SE PASA EL ROOT NO TIENE SENTIDO PONER ESTE
 	protected Map<String, MeasureDefinition> usedMeasureIdMap;
 	
 	public ExpandedCompositeMeasure() {
@@ -124,6 +126,22 @@ public class ExpandedCompositeMeasure {
 		
 	}
 
+	public ExpandedCompositeMeasure clone(){
+		
+		final ExpandedCompositeMeasure clone;
+		
+		try{
+			clone = (ExpandedCompositeMeasure) super.clone();
+			//clone.name = new String(this.name);
+			//clone.rootMeasure = this.rootMeasure.clone();
+			//clone.usedMeasureIdMap = this.usedMeasureIdMap.clone();
+			
+			
+		}catch(CloneNotSupportedException ex){
+			throw new RuntimeException( "\t!>>>> Excepción en ExpandedCompositeMeasure - clone()" );
+		}
+		return clone;
+	}
 	
 	
 }

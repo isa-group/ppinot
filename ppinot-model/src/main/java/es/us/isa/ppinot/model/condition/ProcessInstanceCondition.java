@@ -25,5 +25,17 @@ public class ProcessInstanceCondition extends Condition {
 
 		super(appliesTo);
 	}
+	
+	public ProcessInstanceCondition clone(){
+
+		final ProcessInstanceCondition clone;
+		
+		try{
+			clone = (ProcessInstanceCondition) super.clone();
+		}catch(Exception e){
+			throw new RuntimeException( "\t!>>>> Excepción en ProcessInstanceCondition - clone()" );
+		}
+		return clone;
+	}
 
 }

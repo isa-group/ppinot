@@ -12,7 +12,7 @@ import java.util.Set;
  * @author Edelia
  *
  */
-public class DataPropertyCondition extends ProcessInstanceCondition {
+public class DataPropertyCondition extends ProcessInstanceCondition implements Cloneable{
 
 	// Condicion que debe cumplir el dataobject
 	private String restriction;
@@ -62,6 +62,26 @@ public class DataPropertyCondition extends ProcessInstanceCondition {
 		this.statesConsidered.add(state);
 	}
 
+	public DataPropertyCondition clone(){
+		
+		final DataPropertyCondition clone;
+		
+		try{
+			//clone = this.clone();
+			//FALTA CLONAR: statesConsidered
+			
+			clone = (DataPropertyCondition)super.clone();
+			clone.restriction = new String(this.restriction);
+			//clone.statesConsidered -- NO ES CLONABLE. 
+			
+			return clone;
+			
+		}catch(Exception e){
+			System.out.println("\t!>>>> Excepción en DataPropertyCondition - clone()");
+			return null;
+		}
+		
+	}
 
 
 }

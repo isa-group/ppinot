@@ -10,7 +10,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
  */
 @JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
         include=JsonTypeInfo.As.PROPERTY, property="kind")
-public class DerivedSingleInstanceMeasure extends DerivedMeasure {
+public class DerivedSingleInstanceMeasure extends DerivedMeasure implements Cloneable{
 
     public DerivedSingleInstanceMeasure() {
         super();
@@ -31,5 +31,18 @@ public class DerivedSingleInstanceMeasure extends DerivedMeasure {
 
     	super(id, name, description, scale, unitOfMeasure, function);
 	}
+    
+    public DerivedSingleInstanceMeasure clone(){
+    	
+    	final DerivedSingleInstanceMeasure clone;
+    	
+    	try{
+    		clone = (DerivedSingleInstanceMeasure) super.clone();
+    	}catch(Exception ex){ //CloneNotSupported
+    		throw new RuntimeException( "\t!>>>> Excepción en DerivedSingleInstanceMeasure - clone()" );
+    	}
+    	
+    	return clone;
+    }
 	
 }

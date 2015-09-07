@@ -4,7 +4,7 @@
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns:oryx="http://www.b3mn.org/oryx"
    xmlns:xlink="http://www.w3.org/1999/xlink"
-   width="80"
+   width="200"
    height="80"
    version="1.0">
   <defs></defs>
@@ -28,7 +28,7 @@
 		    <text text-anchor="middle" font-size="7" fill="black" y="13" x="17">3</text>
 		</g>
     	
-    	<text font-size="8" id="namesingleconnector" x="0" y="20" oryx:align="top left" stroke="black" oryx:fittoelem="singleCountConnector"></text>
+    	<text font-size="10" id="namesingleconnector" x="0" y="18" oryx:align="top left" stroke="black" oryx:fittoelem="singleCountConnector"></text>
     	
   </g>
 </svg>

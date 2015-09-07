@@ -11,7 +11,7 @@ import es.us.isa.ppinot.model.base.BaseMeasure;
  * @version 1.0
  *
  */
-public class AggregatedMeasure extends MeasureDefinition {
+public class AggregatedMeasure extends MeasureDefinition implements Cloneable{
     
     // Funcion de agregacion que se aplica
     private String aggregationFunction;
@@ -181,4 +181,16 @@ public class AggregatedMeasure extends MeasureDefinition {
 				this.getAggregationFunction()!=null && !this.getAggregationFunction().isEmpty();
 	}
 
+	public AggregatedMeasure clone(){
+		
+		final AggregatedMeasure clone;
+		
+		try{
+			clone = (AggregatedMeasure) super.clone();
+		}catch(Exception ex){
+			throw new RuntimeException( "\t!>>>> Excepción en AggregatedMeasure - clone()" );
+		}
+		return clone;
+	}
+	
 }

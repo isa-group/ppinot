@@ -6,7 +6,7 @@ package es.us.isa.ppinot.model;
  * @author Edelia
  *
  */
-public class DataContentSelection {
+public class DataContentSelection implements Cloneable{
 
 	// Propiedad que se agrupa
 	private String selection;
@@ -76,5 +76,26 @@ public class DataContentSelection {
 	public void setSelection(String selection) {
 		this.selection = selection;
 	}
+	
+	public DataContentSelection clone(){
+		
+		final DataContentSelection clone;
+		
+		try{
+			//clone = this.clone();
+			//clone = (DataContentSelection)this.clone();
+			clone = (DataContentSelection) super.clone();
+			/*clone.dataobjectId = new String(this.dataobjectId);
+			clone.selection = new String(this.selection);*/
+			return clone;
+		
+		}catch(Exception e){
+			System.out.println("\t!>>>> Excepción en DataContentSelection - clone()\n~~~" + e.getMessage());
+			return null;
+		}
+		
+		
+	}
+	
 
 }

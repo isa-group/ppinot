@@ -6,6 +6,7 @@ import es.us.isa.ppinot.model.derived.DerivedMeasure;
 import es.us.isa.ppinot.model.derived.DerivedMultiInstanceMeasure;
 import es.us.isa.ppinot.model.derived.DerivedSingleInstanceMeasure;
 import es.us.isa.ppinot.model.composite.*;
+
 import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
@@ -31,7 +32,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
         @JsonSubTypes.Type(value = ListMeasure.class, name = "ListMeasure"),
  })
 		
-public abstract class MeasureDefinition {
+public abstract class MeasureDefinition implements Cloneable{
     
 	// Propiedades comunes para definir todas las medidas
     	// Id de la medida
@@ -191,5 +192,20 @@ public abstract class MeasureDefinition {
 	public boolean valid() {
 		
 		return this.getId()!=null && !this.getId().contentEquals("");
+	}
+	
+	public MeasureDefinition clone(){
+		final MeasureDefinition clone;
+		
+		try{
+			
+			clone = (MeasureDefinition) super.clone();
+			
+			return clone;
+			
+		}catch(Exception e){
+			System.out.println("\t!>>>> Excepción en MeasureDefinition - clone()\n~~~" + e.getMessage());
+			return null;
+		}
 	}
 }

@@ -2,6 +2,7 @@ package es.us.isa.ppinot.model.base;
 
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.condition.ProcessInstanceCondition;
+
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
@@ -10,7 +11,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
  * @author Edelia
  *
  */
-public class ConditionMeasure extends BaseMeasure {
+public class ConditionMeasure extends BaseMeasure implements Cloneable {
 	
 	// condicion de la medida
 	private ProcessInstanceCondition condition;
@@ -57,6 +58,27 @@ public class ConditionMeasure extends BaseMeasure {
      */
 	public void setCondition(ProcessInstanceCondition condition) {
 		this.condition = condition;
+	}
+	
+	public ConditionMeasure clone(){
+		
+		final ConditionMeasure clone;
+		
+		try{
+			
+			clone = (ConditionMeasure) super.clone();
+			
+			if(this.condition != null){
+				clone.condition = this.condition.clone();
+			}else{
+				clone.condition = null;
+			}
+			
+		}catch(Exception ex){
+			throw new RuntimeException( "\t!>>>> Excepción en ConditionMeasure - clone()" );
+		}
+		
+		return clone;
 	}
 
 }

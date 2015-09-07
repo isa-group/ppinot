@@ -1,6 +1,7 @@
 package es.us.isa.ppinot.handler.transformation.xml;
 
 import es.us.isa.ppinot.model.MeasureDefinition;
+import es.us.isa.ppinot.model.composite.CollapsedCompositeMeasure;
 import es.us.isa.ppinot.xml.TMeasure;
 
 import java.util.UUID;
@@ -11,6 +12,7 @@ import java.util.UUID;
  * @author resinas
  */
 public abstract class AbstractMeasureToXML {
+	
     protected void loadBaseAttributes(MeasureDefinition measure, TMeasure xml) {
         if (notEmpty(measure.getId())) {
             xml.setId(measure.getId());

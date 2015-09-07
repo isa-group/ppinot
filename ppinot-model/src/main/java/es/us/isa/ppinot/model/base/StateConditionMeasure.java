@@ -9,7 +9,7 @@ import es.us.isa.ppinot.model.condition.StateCondition;
  * @version 1.0
  *
  */
-public class StateConditionMeasure extends ConditionMeasure {
+public class StateConditionMeasure extends ConditionMeasure implements Cloneable{
 	
 	/**
 	 * Constructor de la clase
@@ -64,6 +64,20 @@ public class StateConditionMeasure extends ConditionMeasure {
 		return super.valid() &&
 				this.getCondition().getAppliesTo()!=null && !this.getCondition().getAppliesTo().isEmpty() &&
 				this.getCondition().getState()!=null;
+	}
+	
+	public StateConditionMeasure clone(){
+		
+		final StateConditionMeasure clone;
+		
+		try{
+			clone = (StateConditionMeasure) super.clone();
+			
+		}catch(Exception e){
+			throw new RuntimeException( "\t!>>>> Excepción en StateConditionMeasure - clone()" );
+		}
+		
+		return clone;
 	}
 
 }

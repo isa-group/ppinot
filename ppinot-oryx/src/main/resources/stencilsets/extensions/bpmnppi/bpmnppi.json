@@ -1707,6 +1707,10 @@
 						"from" : "metric",
 						"to" : ["DataObject"] 
 					},
+					{ //PARA CONECTAR UNA COLLAPSED CON OTRA COLLAPSED CON UN 'use'
+						"from" : "metric",
+						"to" : ["metric"] 
+					},
 					//--list-------------------------------------------------------------
 					{
 						"from" : "list",

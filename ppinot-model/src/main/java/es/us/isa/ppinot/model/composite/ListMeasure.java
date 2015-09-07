@@ -13,7 +13,7 @@ import es.us.isa.ppinot.model.base.TimeMeasure;
 
 import java.io.PrintStream; //Para imprimir de una forma diferente los valores de i+1
 
-public class ListMeasure extends MeasureDefinition{
+public class ListMeasure extends MeasureDefinition implements Cloneable{
 	public String name;
 	public String function;
 	protected Map<String, MeasureDefinition> usedMeasureIdMap;
@@ -74,6 +74,7 @@ public class ListMeasure extends MeasureDefinition{
 	 */
 	 public boolean valid(){
 		 
+		 //TENER UN NOMBRE Y UNA FUNCIÓN DEFINIDA
 		 		 
 		 int iElements = this.getUsedMeasureMap().size();
 		 
@@ -190,6 +191,20 @@ public class ListMeasure extends MeasureDefinition{
 		 vcResult.setUnrealizedConnections(lsConexionesNoRealizadas);
 		
 		 return vcResult;
+	 }
+	 
+	 public ListMeasure clone(){
+		 
+		 final ListMeasure clone;
+		 
+		 try{
+			 
+			 clone = (ListMeasure) super.clone();
+			 
+		 }catch(Exception e){ //CloneNotSupported
+			 throw new RuntimeException( "\t!>>>> Excepción en ListMeasure - clone()" );
+		 }
+		 return clone;
 	 }
 	 
 }

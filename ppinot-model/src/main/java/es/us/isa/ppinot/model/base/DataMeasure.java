@@ -1,7 +1,12 @@
 package es.us.isa.ppinot.model.base;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.lang.Object;
+
 import es.us.isa.ppinot.model.DataContentSelection;
 import es.us.isa.ppinot.model.condition.DataPropertyCondition;
+
 
 /**
  * Clase con la informacion de una medida DataMeasure
@@ -10,7 +15,7 @@ import es.us.isa.ppinot.model.condition.DataPropertyCondition;
  * @version 1.0
  *
  */
-public class DataMeasure extends BaseMeasure {
+public class DataMeasure extends BaseMeasure implements Cloneable{
 	
 	// Dataobject y propiedad a la que se le aplica la medida
 	private DataContentSelection dataContentSelection;
@@ -95,5 +100,22 @@ public class DataMeasure extends BaseMeasure {
 				this.getDataContentSelection().getDataobjectId()!=null && ! "".equals(this.getDataContentSelection().getDataobjectId()) &&
 				this.getDataContentSelection().getSelection()!=null && ! this.getDataContentSelection().getSelection().isEmpty();
 	}
-
+		
+	public DataMeasure clone() {
+        final DataMeasure clone;
+        try {
+        	//Se recomienda usar DEEP-CLONE y no SHALLOW-CLONE
+        	//clone = new DataMeasure(this.getId(), this.getName(), this.getDescription(), this.getScale(), this.getUnitOfMeasure(), this.getDataContentSelection(), this.getPrecondition());
+        	
+        	//Shallow-Clone
+        	clone = (DataMeasure) super.clone();
+        	
+        }
+        catch( Exception ex ) { //CloneNotSupportedException
+            throw new RuntimeException( "\t!>>>> Excepción en DataMeasure - clone() \n" + ex.getMessage());
+        }
+        
+        return clone;
+    }
+	
 }

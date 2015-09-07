@@ -19,7 +19,8 @@ import javax.xml.bind.JAXBElement;
         "stateConditionAggregatedMeasure",
         "dataAggregatedMeasure",
         "derivedSingleInstanceMeasure",
-        "derivedMultiInstanceMeasure"
+        "derivedMultiInstanceMeasure",
+        "listMeasure"
 })
 public class MeasureFactory extends AbstractPPINotFactory {
 
@@ -48,6 +49,13 @@ public class MeasureFactory extends AbstractPPINotFactory {
         derivedMeasure.setFunction(shape.getProperty("function"));
     }
 
+    /*@StencilId("listMeasure")
+    public JAXBElement<TListMeasure> createListMeasure(GenericShape shape){
+    	TListMeasure measure = new TListMeasure();
+    	setMeasureCommon(measure, shape);
+    	return factory.createListMeasure(measure);
+    }*/
+    
     @StencilId("countMeasure")
     public JAXBElement<TCountMeasure> createCountMeasure(GenericShape shape) {
         TCountMeasure measure = new TCountMeasure();

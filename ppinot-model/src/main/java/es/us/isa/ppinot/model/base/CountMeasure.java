@@ -9,7 +9,7 @@ import es.us.isa.ppinot.model.condition.TimeInstantCondition;
  * @version 1.0
  *
  */
-public class CountMeasure extends BaseMeasure {
+public class CountMeasure extends BaseMeasure implements Cloneable{
 
 	// Momento en que se aplica la medida
 	private TimeInstantCondition when;
@@ -67,6 +67,21 @@ public class CountMeasure extends BaseMeasure {
 		
 		return super.valid() &&
 				this.getWhen().getAppliesTo()!=null && !this.getWhen().getAppliesTo().isEmpty();
+	}
+	
+	public CountMeasure clone(){
+		
+		final CountMeasure clone;
+		
+		try{
+
+			clone = (CountMeasure) super.clone();
+
+		}catch(Exception ex){
+			throw new RuntimeException( "\t!>>>> Excepción en CountMeasure - clone()" );
+		}
+		
+		return clone;
 	}
 
 }

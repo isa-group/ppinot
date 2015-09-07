@@ -342,6 +342,27 @@ targetNamespace="http://www.isa.us.es/ppinot">
 		</xsd:complexContent>
 	</xsd:complexType>
 	
+	<!-- 
+            Composite Measures  TENGO QUE PONERLA COMO COMENTARIO O NO GUARDA LOS DIAGRAMAS
+    -->
+	<!--
+	<xsd:element name="listMeasure" type="tListMeasure" substitutionGroup="measure"/>
+	<xsd:complexType name="tListMeasure">
+		<xsd:complexContent>
+			<xsd:extension base="tBaseMeasure">
+				<xsd:attribute name="function" type="xsd:string"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	-->
 	
+
+	
+	<!--
+	<xsd:element name="collapsedCompositeMeasure" type="tCollapsedCompositeMeasure"/>
+	<xsd:complexType name="tCollapsedCompositeMeasure" >
+        <xsd:attribute name="name" type="xsd:string"/>
+    </xsd:complexType>
+	-->
 
 </xsd:schema>

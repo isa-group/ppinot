@@ -10,7 +10,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
  */
 @JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
         include=JsonTypeInfo.As.PROPERTY, property="kind")
-public class Condition {
+public class Condition implements Cloneable {
 	
 	// Id del elemento al que se aplica una medida
 	private String appliesTo;
@@ -34,5 +34,22 @@ public class Condition {
      */
 	public String getAppliesTo() {
 		return appliesTo;
+	}
+	
+	public Condition clone(){
+		final Condition clone;
+		
+		try{		
+			clone = (Condition)super.clone();
+			
+			if(this.appliesTo != null)
+				clone.appliesTo = new String(this.appliesTo);
+			else
+				clone.appliesTo = null;
+			
+		}catch(Exception e){
+			throw new RuntimeException( "\t!>>>> Excepción en Condition - clone()" );
+		}
+		return clone;
 	}
 }

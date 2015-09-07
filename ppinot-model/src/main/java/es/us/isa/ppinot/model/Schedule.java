@@ -9,7 +9,7 @@ import org.joda.time.LocalTime;
  *
  * @author resinas
  */
-public class Schedule {
+public class Schedule implements Cloneable{
 
     private int beginDay;
     private int endDay;
@@ -45,5 +45,22 @@ public class Schedule {
 
     public boolean dayOfWeekExcluded(int dayOfWeek) {
         return (dayOfWeek < getBeginDay() || dayOfWeek > getEndDay());
+    }
+    
+    public Schedule clone(){
+    	
+    	final Schedule clone;
+    	
+    	try{
+    		
+    		clone = (Schedule)super.clone();
+    		//los valores "int" y "localTime" no están clonados.
+    		return clone;
+    		
+    	}catch(Exception e){
+    		System.out.println("\t!>>>> Excepción en Schedule - clone()\n~~~" + e.getMessage());
+    		return null;
+    	}
+    	
     }
 }

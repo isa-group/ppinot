@@ -52,4 +52,20 @@ public class TimeInstantCondition extends Condition {
 	public void setChangesToState(RuntimeState changesToState) {
 		this.changesToState = changesToState;
 	}
+	
+	public TimeInstantCondition clone(){
+		
+		final TimeInstantCondition clone;
+		
+		try{
+			
+			clone = (TimeInstantCondition) super.clone();
+			//(NO-USA)clone.changesToState = this.changesToState.clone(); Un ENUM no se puede clonar
+			return clone;
+		}catch(Exception e){
+			System.out.println("\t!>>>> Excepción en TimeInstantCondition - clone()\n~~~" + e.getMessage());
+			return null;
+		}
+		
+	}
 }

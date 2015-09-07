@@ -12,7 +12,7 @@ import es.us.isa.ppinot.model.condition.TimeMeasureType;
  * @version 1.0
  *
  */
-public class TimeMeasure extends BaseMeasure {
+public class TimeMeasure extends BaseMeasure implements Cloneable{
 
 	// Momento en el cual se toma la medida en la actividad inicial (el inicio o el final)
 	private TimeInstantCondition from;
@@ -159,6 +159,21 @@ public class TimeMeasure extends BaseMeasure {
 		return super.valid() &&
 				this.getFrom().getAppliesTo()!=null && !this.getFrom().getAppliesTo().isEmpty() &&
 				this.getTo().getAppliesTo()!=null && !this.getTo().getAppliesTo().isEmpty();
+	}
+	
+	public TimeMeasure clone(){
+		
+		final TimeMeasure clone;
+		
+		try{
+
+			clone = (TimeMeasure) super.clone();
+			
+		}catch(Exception ex){ //CloneNotSupported
+			throw new RuntimeException( "\t!>>>> Excepción en TimeMeasure - clone()" );
+		}
+		
+		return clone;
 	}
 	
 }

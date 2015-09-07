@@ -7,6 +7,7 @@ import java.util.Map;
 
 import es.us.isa.ppinot.model.DataContentSelection;
 import es.us.isa.ppinot.model.MeasureDefinition;
+import es.us.isa.ppinot.model.base.BaseMeasure;
 import es.us.isa.ppinot.model.base.CountMeasure;
 import es.us.isa.ppinot.model.base.DataMeasure;
 import es.us.isa.ppinot.model.base.StateConditionMeasure;
@@ -16,13 +17,33 @@ import es.us.isa.ppinot.model.condition.StateCondition;
 import es.us.isa.ppinot.model.condition.TimeInstantCondition;
 import es.us.isa.ppinot.model.state.TimeConnectionType;
 
-public class CollapsedCompositeMeasure {
+public class CollapsedCompositeMeasure implements Cloneable{
 
 	private String name;
 	//private List<MeasureDefinition> connectedMeasures;
 	protected ExpandedCompositeMeasure ecm;
 	protected Map<String, MeasureDefinition> usedMeasureIdMap;
 		
+	
+	
+	
+	
+	
+
+	/**
+	 * @return the usedMeasureIdMap
+	 */
+	public Map<String, MeasureDefinition> getUsedMeasureIdMap() {
+		return usedMeasureIdMap;
+	}
+
+	/**
+	 * @param usedMeasureIdMap the usedMeasureIdMap to set
+	 */
+	public void setUsedMeasureIdMap(Map<String, MeasureDefinition> usedMeasureIdMap) {
+		this.usedMeasureIdMap = usedMeasureIdMap;
+	}
+
 	/*
 	 * Constructores de la clase
 	 * */
@@ -104,7 +125,9 @@ public class CollapsedCompositeMeasure {
 			iConexionesRequeridas = 0, //Algunas, como las de tiempo, requieren dos conexiones.
 			iConexionesNoRealizadas = 0;
 		Object[] clases = new Object[iElements];
-		clases  = this.getUsedMeasureMap().values().toArray();
+		clases  = this.getUsedMeasureMap().values().toArray().clone();
+		
+		//System.out.println("ANTES DE ENTRAR a lo del IF para distinguir las medidas. >> ConexionesRealizadas: " + clases.length);
 		
 		for(int i=0; i < iElements; i++){
 			if(clases[i].getClass().getName().contains("TimeMeasure")){
@@ -215,6 +238,140 @@ public class CollapsedCompositeMeasure {
 		return vcResult;
 	}
 	
+	public void PrintConnections(){
+		
+		System.out.println("[[Imprimiendo_las_medidas_conectadas]]"); //---------------------------------------------
+		
+		System.out.println("IMPRIMIEND DATOS DE: " + this.getName());
+		
+		if(!this.valid()) {
+			System.out.println("La medida CCM no es válida y no es posible evaluarla.");
+			return;
+		}
+		
+		List<String> lsConexionesExistentes = new ArrayList<String>();
+		//List<String> lsConexionesNoRealizadas = new ArrayList<String>();
+		 
+		int iElements = this.getUsedMeasureMap().size(), //Conexiones externas
+			iConexionesRequeridas = 0, //Algunas, como las de tiempo, requieren dos conexiones.
+			//iConexionesNoRealizadas = 0,
+			iConexionesRealizadas = 0;
+		Object[] clases = new Object[iElements];
+		clases  = this.getUsedMeasureMap().values().toArray();
+		
+		//System.out.println("ANTES DE ENTRAR a lo del IF para distinguir las medidas. >> ConexionesRealizadas: " + clases.length);
+		
+		for(int i=0; i < iElements; i++){
+			
+			if(clases[i].getClass().getName().contains("TimeMeasure")){
+				iConexionesRequeridas += 2;
+				TimeMeasure tmTiempo = new TimeMeasure();
+				 tmTiempo = (TimeMeasure)clases[i];
+				 
+				 if(tmTiempo.getFrom() != null) {
+					 iConexionesRealizadas++;
+					 lsConexionesExistentes.add("TimeMeasure("+tmTiempo.getName()+") - Conection: From - " + tmTiempo.getFrom() + "(" +tmTiempo.getFrom().getAppliesTo() +"," +tmTiempo.getFrom().getChangesToState()+")");
+				 }
+				 if(tmTiempo.getTo() != null) {
+					 iConexionesRealizadas++;
+					 lsConexionesExistentes.add("TimeMeasure("+tmTiempo.getName()+") - Conection: To - " + tmTiempo.getTo() + "(" + tmTiempo.getTo().getAppliesTo() + ","+tmTiempo.getTo().getChangesToState()+")");
+				 }
+				
+			}else{
+				if(clases[i].getClass().getName().contains("DataMeasure")){
+					
+					iConexionesRequeridas++;
+					 
+					 DataMeasure dmDatos = new DataMeasure();
+					 dmDatos = (DataMeasure)clases[i];
+					 
+					 if(dmDatos.getDataContentSelection() != null){
+						 iConexionesRealizadas++;
+						 lsConexionesExistentes.add("DataMeasure("+dmDatos.getName()+") - Conection: DataContentSelection - " + dmDatos.getDataContentSelection() + "(" +dmDatos.getDataContentSelection().getSelection()+"," +dmDatos.getDataContentSelection().getDataobjectId()+ ")");
+					 }	
+					 
+				}else{
+					if(clases[i].getClass().getName().contains("StateConditionMeasure")){
+						
+						iConexionesRequeridas++;
+						 
+						 StateConditionMeasure scEstado = new StateConditionMeasure();
+						 scEstado = (StateConditionMeasure)clases[i];
+						 
+						 if(scEstado.getCondition() != null){
+							 iConexionesRealizadas++;
+							 lsConexionesExistentes.add("StateConditionMeasure("+scEstado.getName()+") - Conection: Condition - " + scEstado.getCondition() + "("+scEstado.getCondition().getAppliesTo() + ","+scEstado.getCondition().getState()+")");
+						 }
+					}
+					else{
+						if(clases[i].getClass().getName().contains("CountMeasure")){
+							iConexionesRequeridas++;
+							 
+							 CountMeasure cmConteo = new CountMeasure();
+							 cmConteo = (CountMeasure)clases[i];
+							 
+							 if(cmConteo.getWhen() != null){
+								 iConexionesRealizadas++;
+								 lsConexionesExistentes.add("CountMeasure("+cmConteo.getName()+") - Conection: When - " + cmConteo.getWhen() + "(" + cmConteo.getWhen().getAppliesTo() +","+cmConteo.getWhen().getChangesToState()+")");
+							 }
+						}else{
+							if(clases[i].getClass().getName().contains("ListMeasure")){
+								
+								ListMeasure lmMeasure = new ListMeasure();
+								lmMeasure = (ListMeasure)clases[i];
+								ValidateConnection vcLista = lmMeasure.ValidateConnections();
+								
+								if(vcLista != null){
+									
+									
+									if(vcLista.getUnrealizedConnections() == null){
+										iConexionesRequeridas++; //Al menos debe haber una conexión a la medida de lista y no está.
+										//NO-iConexionesNoRealizadas++; //Al menos debe haber una conexión a la medida de lista y no está.
+										//NO-lsConexionesNoRealizadas.add("Se necesita al menos una conexión hacia la lista.");
+									}
+									else{
+										System.out.println("EL TEMA DE LAS CONEXIONES EXISTENTES AUN ESTÁ PENDIENTE.");
+										/*iConexionesRequeridas = iConexionesRequeridas + vcLista.getTotalRequiredConnections();
+										iConexionesNoRealizadas = iConexionesNoRealizadas + vcLista.getTotalUnrealizedConnections();
+										for(int jl = 0; jl < vcLista.getUnrealizedConnections().size(); jl++ ){
+											lsConexionesNoRealizadas.add(vcLista.getUnrealizedConnections().get(jl));
+										}*/
+									}
+									
+								}else{
+									System.out.println(">>ERROR: ListMeasure is Null.");
+									 return;// vcResult;
+								}
+							}else{
+								System.out.println(">>ERROR: Trying to use an unidentified measure.");
+								 return; // vcResult;
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		/*if(iConexionesNoRealizadas == iConexionesRequeridas){ vcResult.setAllMeasuresConnected(true); }
+		 
+		vcResult.setTotalRequiredConnections(iConexionesRequeridas);
+		vcResult.setTotalUnrealizedConnections(iConexionesNoRealizadas);
+		vcResult.setUnrealizedConnections(lsConexionesNoRealizadas);*/
+		
+		//Esto eventualmente se puede eliminar, ya que debería mostrarse directamente desde donde se llama, con el objeto devuelto
+		System.out.println("* Conexiones requeridas: " + iConexionesRequeridas);// vcResult.isAllMeasuresConnected());
+		//System.out.println("* Total conexiones existentes: " + );
+		System.out.println("* Total conexiones realizadas " + lsConexionesExistentes.size());//+ vcResult.getTotalUnrealizedConnections());
+		System.out.println("* : ");
+		for(int ic = 0; ic < lsConexionesExistentes.size() ; ic++){
+			System.out.println("\t["+ic+"]"+lsConexionesExistentes.get(ic));
+		}
+				
+		return;
+	}
+	
+	
+	
 	//TimeMeasure - setFrom | setTo
 	/**
 	 * Utilizado para definir las conexiones de una TimeMeasure.
@@ -227,7 +384,7 @@ public class CollapsedCompositeMeasure {
 	public boolean AddConnection(String nameMeasure, TimeInstantCondition tic, TimeConnectionType tct){ //String connector es para identificar si es From o To
 		//TimeMeasure - setFrom / setTo
 		
-		int iElements = this.getUsedMeasureMap().size(), iResultados = 0;
+		int iElements = this.getUsedMeasureMap().size();
 		Object[] variable = new Object[iElements], types = new Object[iElements];
 		variable = this.getUsedMeasureMap().values().toArray();
 		types = this.getUsedMeasureMap().keySet().toArray();
@@ -236,7 +393,7 @@ public class CollapsedCompositeMeasure {
 		for(int i = 0; i < this.getUsedMeasureMap().size(); i++){
 			
 			if(types[i].toString().equals(nameMeasure)){//Ha encontrado la medida como elemento de conexion interna
-				iResultados ++;
+
 				if(variable[i].getClass().getName().toString().contains("TimeMeasure")){
 					
 					TimeMeasure tmMeasure = new TimeMeasure();
@@ -313,6 +470,8 @@ public class CollapsedCompositeMeasure {
 	 * @return boolean
 	 */
 	public boolean AddConnection(String nameMeasure, DataContentSelection dcs){ 
+		
+		//System.out.println("Estoy agregando conexión en: " + this.getName());
 		
 		//DataMeasure - setDataContentSelection
 		
@@ -505,4 +664,81 @@ public class CollapsedCompositeMeasure {
 		return sCadena;
 	}
 
+	@Override
+	public CollapsedCompositeMeasure clone(){
+		
+		CollapsedCompositeMeasure clone = new CollapsedCompositeMeasure();
+		try{
+					
+		clone.name = this.name;
+		clone.ecm = ecm.clone(); //VERIFICAR QUE ESTE SE ESTÉ HACIENDO BIEN
+		clone.usedMeasureIdMap = new HashMap<String, MeasureDefinition>(); //¿MAP?
+		
+		Object[] keys = new Object[this.usedMeasureIdMap.size()];
+		keys = this.usedMeasureIdMap.keySet().toArray();
+		
+		for(int i= 0; i < this.usedMeasureIdMap.size(); i++){
+			String s = (String) keys[i];
+			clone.usedMeasureIdMap.put(s, this.usedMeasureIdMap.get(s).clone());
+			System.out.println("Imprimiendo la iteración del Keys: "+ s);
+			
+		}
+		
+		/*for (String s : this.usedMeasureIdMap.getKeys()) {
+            clone.usedMeasureIdMap.put(s, this.usedMeasureIdMap.get(s).clone());
+        }*/
+		
+		
+		
+		/*------------------------------------------------
+		 * final CollapsedCompositeMeasure clone;
+		
+		try{
+			
+			clone = (CollapsedCompositeMeasure) super.clone();
+						
+			//Intentando clonar las cosas del Map
+			clone.usedMeasureIdMap = new Map<String,MeasureDefinition>();
+			
+			Object[] variable = new Object[this.getUsedMeasureMap().size()], types = new Object[this.getUsedMeasureMap().size()];
+			variable = ecm.getUsedMeasureMap().values().toArray();
+			types = ecm.getUsedMeasureMap().keySet().toArray();
+			
+			for(int i=0; i < this.getUsedMeasureMap().size(); i++){
+				System.out.println("types[i]: " + types[i].toString());
+				
+				//HE PROBADO CON BASE MEASURE Y CON DATA MEASURE -- NO SE DEJA""""
+				
+				DataMeasure bm = new DataMeasure();
+				bm = (DataMeasure)variable[i];
+				System.out.println("variable[i]: Name(" + bm.getName()+") - Description:"+bm.getDescription());
+				
+				//System.out.println("[i:"+i+"]" + "[" + types[i].toString() + "] " + LimpiarCadena(variable[i].toString(), ".", "@"));
+				clone.getUsedMeasureMap().put((types[i].toString().contentEquals(""))?bm.getId():variable, bm);
+				
+			}
+			
+			
+		------------------------------------------------*/ //HASTA AQUÍ!!!!!!!
+			
+			
+			
+			
+			//System.out.println("\nIntentando clonar el Map - ANTES: " + clone.getUsedMeasureMap().size()+"\n");
+			//clone.usedMeasureIdMap = new HashMap<String, MeasureDefinition>();
+			//System.out.println("\nIntentando clonar el Map - DESPUÉS: " + clone.getUsedMeasureMap().size()+"\n");
+			
+			
+			/*System.out.println(">>>>>>>>CLONANDO -- VALIDANDO CONEXIONES INTERNAS!<<<<<<<<<<<<<");
+			this.ValidateConnections();
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<");
+			*/
+			
+		}catch(Exception ex){ //CloneNotSupportedException
+			throw new RuntimeException( "\t!>>>> Excepción en CollapsedCompositeMeasure - clone()" );
+		}
+		
+		return clone;
+	}
+	
 }

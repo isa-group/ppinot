@@ -8,5 +8,6 @@ package es.us.isa.ppinot.evaluation.logs;
  */
 public interface LogProvider {
     public void registerListener(LogListener listener);
+    public void registerEntryTransformer(LogEntryTransformer transformer);
     public void processLog();
 }

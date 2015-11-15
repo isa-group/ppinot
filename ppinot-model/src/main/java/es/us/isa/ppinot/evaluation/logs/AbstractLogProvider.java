@@ -11,9 +11,11 @@ import java.util.List;
  */
 public abstract class AbstractLogProvider implements LogProvider {
     private List<LogListener> listeners;
+    private List<LogEntryTransformer> transfomers;
 
     public AbstractLogProvider() {
         listeners = new ArrayList<LogListener>();
+        transfomers = new ArrayList<LogEntryTransformer>();
     }
 
     @Override
@@ -21,9 +23,21 @@ public abstract class AbstractLogProvider implements LogProvider {
         listeners.add(listener);
     }
 
+    @Override
+    public void registerEntryTransformer(LogEntryTransformer transformer) {
+        transfomers.add(transformer);
+    }
+
     protected void updateListeners(LogEntry entry) {
+        LogEntry transformedEntry = entry;
+
+
+        for (LogEntryTransformer transformer : transfomers) {
+            transformedEntry = transformer.transform(transformedEntry);
+        }
+
         for (LogListener listener : listeners) {
-            listener.update(entry);
+            listener.update(transformedEntry);
         }
     }
 }

@@ -19,15 +19,29 @@ public class TimeInstantMatcher {
     }
 
     public boolean matches(LogEntry entry) {
-        return matchesName(entry) && matchesState(entry);
-    }
-
-    private boolean matchesState(LogEntry entry) {
+        boolean matches = false;
         RuntimeState state = condition.getChangesToState();
-        return StateMatcher.matches(entry.getEventType(), state);
+
+        if (FlowElementStateMatcher.supports(state)) {
+            matches = matchesFlowName(entry) && matchesFlowState(entry);
+        } else {
+            matches = matchesDataState(entry);
+        }
+
+        return matches;
     }
 
-    private boolean matchesName(LogEntry entry) {
+    private boolean matchesDataState(LogEntry entry) {
+        RuntimeState state = condition.getChangesToState();
+        return DataObjectStateMatcher.matches(entry, state);
+    }
+
+    private boolean matchesFlowState(LogEntry entry) {
+        RuntimeState state = condition.getChangesToState();
+        return FlowElementStateMatcher.matches(entry.getEventType(), state);
+    }
+
+    private boolean matchesFlowName(LogEntry entry) {
         return condition.getAppliesTo().equals(entry.getBpElement());
     }
 }

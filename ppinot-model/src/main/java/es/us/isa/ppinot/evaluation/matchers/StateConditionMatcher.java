@@ -24,7 +24,7 @@ public class StateConditionMatcher {
 
     public boolean matchesState(LogEntry entry) {
         RuntimeState state = condition.getState();
-        return StateMatcher.matches(entry.getEventType(), state);
+        return FlowElementStateMatcher.matches(entry.getEventType(), state);
     }
 
     public boolean matchesName(LogEntry entry) {

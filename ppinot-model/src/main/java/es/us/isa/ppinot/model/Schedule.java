@@ -1,5 +1,9 @@
 package es.us.isa.ppinot.model;
 
+import es.us.isa.ppinot.handler.json.LocalTimeDeserializer;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.ser.std.ToStringSerializer;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalTime;
 
@@ -13,8 +17,14 @@ public class Schedule {
 
     private int beginDay;
     private int endDay;
+    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonDeserialize(using = LocalTimeDeserializer.class)
     private LocalTime beginTime;
+    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonDeserialize(using = LocalTimeDeserializer.class)
     private LocalTime endTime;
+
+    private Schedule() {}
 
     public Schedule(int beginDay, int endDay, LocalTime beginTime, LocalTime endTime) {
         this.beginDay = beginDay;

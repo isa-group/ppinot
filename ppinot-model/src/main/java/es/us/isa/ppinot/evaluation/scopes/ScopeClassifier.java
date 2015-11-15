@@ -3,7 +3,7 @@ package es.us.isa.ppinot.evaluation.scopes;
 import es.us.isa.ppinot.evaluation.MeasureScope;
 import es.us.isa.ppinot.evaluation.logs.LogEntry;
 import es.us.isa.ppinot.evaluation.logs.LogListener;
-import es.us.isa.ppinot.evaluation.matchers.StateMatcher;
+import es.us.isa.ppinot.evaluation.matchers.FlowElementStateMatcher;
 import es.us.isa.ppinot.model.state.GenericState;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -32,7 +32,7 @@ public abstract class ScopeClassifier implements LogListener {
     protected abstract void instanceEnded(ProcessInstance instance);
 
     @Override
-    public void update(LogEntry entry) {
+    public final void update(LogEntry entry) {
         if (startsProcess(entry)) {
             ProcessInstance instance = new ProcessInstance(entry.getProcessId(), entry.getInstanceId(), entry.getTimeStamp());
             instances.put(measureIdOf(entry), instance);
@@ -47,12 +47,12 @@ public abstract class ScopeClassifier implements LogListener {
 
     private boolean endsProcess(LogEntry entry) {
         return LogEntry.ElementType.process.equals(entry.getElementType()) &&
-                StateMatcher.matches(entry.getEventType(), GenericState.END);
+                FlowElementStateMatcher.matches(entry.getEventType(), GenericState.END);
     }
 
     private boolean startsProcess(LogEntry entry) {
         return LogEntry.ElementType.process.equals(entry.getElementType()) &&
-                StateMatcher.matches(entry.getEventType(), GenericState.START);
+                FlowElementStateMatcher.matches(entry.getEventType(), GenericState.START);
     }
 
     private String measureIdOf(LogEntry entry) {

@@ -8,6 +8,8 @@ package es.us.isa.ppinot.model.state;
 public class DataObjectState implements RuntimeState{
     private String name;
 
+    public DataObjectState() {}
+
     public DataObjectState(String name) {
         this.name = name;
     }

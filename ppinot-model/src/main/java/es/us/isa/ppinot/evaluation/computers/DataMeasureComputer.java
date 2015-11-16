@@ -3,6 +3,7 @@ package es.us.isa.ppinot.evaluation.computers;
 import es.us.isa.ppinot.evaluation.Measure;
 import es.us.isa.ppinot.evaluation.MeasureInstance;
 import es.us.isa.ppinot.evaluation.logs.LogEntry;
+import es.us.isa.ppinot.evaluation.matchers.DataPropertyMatcher;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.base.DataMeasure;
 import org.mvel2.MVEL;
@@ -22,14 +23,14 @@ public class DataMeasureComputer extends AbstractBaseMeasureComputer<DataMeasure
 
     private static final Logger log = Logger.getLogger(DataMeasureComputer.class.getName());
 
-    private Serializable preconditionExpression;
+    private DataPropertyMatcher precondition = null;
     private Serializable selectionExpression;
 
     public DataMeasureComputer(MeasureDefinition definition) {
         super(definition);
 
         if (this.definition.getPrecondition() != null) {
-            preconditionExpression = MVEL.compileExpression(this.definition.getPrecondition().getRestriction());
+            precondition = new DataPropertyMatcher(this.definition.getPrecondition());
         }
         selectionExpression = MVEL.compileExpression(this.definition.getDataContentSelection().getSelection());
     }
@@ -37,7 +38,7 @@ public class DataMeasureComputer extends AbstractBaseMeasureComputer<DataMeasure
     @Override
     public void update(LogEntry entry) {
 
-        if (precondition(entry.getData())) {
+        if (precondition(entry)) {
             try {
                 Object value = MVEL.executeExpression(selectionExpression, entry.getData());
                 MeasureInstance m = getOrCreateMeasure(entry, null);
@@ -49,20 +50,13 @@ public class DataMeasureComputer extends AbstractBaseMeasureComputer<DataMeasure
 
     }
 
-    private boolean precondition(Map<String, Object> data) {
-        boolean condition = false;
+    private boolean precondition(LogEntry entry) {
+        boolean condition;
 
-        if (preconditionExpression == null) {
+        if (precondition == null) {
             condition = true;
         } else {
-            try {
-                Object value = MVEL.executeExpression(preconditionExpression, data);
-                if (value instanceof Boolean) {
-                    condition = (Boolean) value;
-                }
-            } catch (Exception e) {
-                condition = false;
-            }
+            condition = precondition.matches(entry);
         }
 
         return condition;

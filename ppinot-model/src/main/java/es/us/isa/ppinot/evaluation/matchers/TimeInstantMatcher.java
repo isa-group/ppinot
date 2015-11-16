@@ -13,13 +13,22 @@ import es.us.isa.ppinot.model.state.RuntimeState;
 public class TimeInstantMatcher {
 
     private TimeInstantCondition condition;
+    private DataPropertyMatcher precondition = null;
 
     public TimeInstantMatcher(TimeInstantCondition instantCondition) {
         this.condition = instantCondition;
+        if (this.condition.getPrecondition() != null) {
+            precondition = new DataPropertyMatcher(this.condition.getPrecondition());
+        }
     }
 
     public boolean matches(LogEntry entry) {
         boolean matches = false;
+
+        if (precondition != null && !precondition.matches(entry)) {
+            return false;
+        }
+
         RuntimeState state = condition.getChangesToState();
 
         if (FlowElementStateMatcher.supports(state)) {

@@ -2,10 +2,12 @@ package es.us.isa.ppinot.evaluation.matchers;
 
 import es.us.isa.ppinot.evaluation.LogEntryHelper;
 import es.us.isa.ppinot.evaluation.matchers.TimeInstantMatcher;
+import es.us.isa.ppinot.model.condition.DataPropertyCondition;
 import es.us.isa.ppinot.model.condition.TimeInstantCondition;
 import es.us.isa.ppinot.model.state.GenericState;
-import junit.framework.Assert;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * TimeInstantMatcherTest
@@ -15,14 +17,25 @@ import org.junit.Test;
  */
 public class TimeInstantMatcherTest {
     @Test
-    public void testMatches() throws Exception {
+    public void testMatches() {
         LogEntryHelper helper = new LogEntryHelper();
         TimeInstantCondition condition = new TimeInstantCondition("Analyse RFC", GenericState.START);
         TimeInstantMatcher matcher = new TimeInstantMatcher(condition);
 
-        Assert.assertTrue(matcher.matches(helper.newAssignEntry("Analyse RFC")));
-        Assert.assertFalse(matcher.matches(helper.newAssignEntry("Approve RFC")));
-        Assert.assertFalse(matcher.matches(helper.newCompleteEntry("Analyse RFC")));
+        assertTrue(matcher.matches(helper.newAssignEntry("Analyse RFC")));
+        assertFalse(matcher.matches(helper.newAssignEntry("Approve RFC")));
+        assertFalse(matcher.matches(helper.newCompleteEntry("Analyse RFC")));
+    }
+
+    @Test
+    public void testWithPreconditionMatches() {
+        LogEntryHelper helper = new LogEntryHelper();
+        TimeInstantCondition condition = new TimeInstantCondition("Analyse RFC", GenericState.START, new DataPropertyCondition("Provider", "provider == 'p1'"));
+        TimeInstantMatcher matcher = new TimeInstantMatcher(condition);
+
+        assertTrue(matcher.matches(helper.newAssignEntry("Analyse RFC").withData("provider", "p1")));
+        assertFalse(matcher.matches(helper.newAssignEntry("Analyse RFC").withData("provider", "p2")));
+
     }
 
 }

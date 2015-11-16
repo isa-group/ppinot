@@ -19,6 +19,19 @@ public class StateConditionMatcher {
     }
 
     public boolean matches(LogEntry entry) {
+        boolean matches = false;
+        RuntimeState state = condition.getState();
+
+        if (FlowElementStateMatcher.supports(state)) {
+            matches = matchesFlowElement(entry);
+        } else {
+            matches = DataObjectStateMatcher.matches(entry, state);
+        }
+
+        return matches;
+    }
+
+    private boolean matchesFlowElement(LogEntry entry) {
         return matchesName(entry) && matchesState(entry);
     }
 

@@ -19,6 +19,11 @@ public class MeasureInstance extends Measure {
         this.instanceId = instanceId;
     }
 
+    public MeasureInstance(MeasureDefinition definition, Object value, String processId, String instanceId) {
+        super(definition, processId, Arrays.asList(instanceId), value);
+        this.instanceId = instanceId;
+    }
+
     public MeasureInstance(MeasureDefinition definition, MeasureScope scope, Object value) {
         super(definition, scope, value);
 

@@ -19,10 +19,19 @@ public class Measure {
         this(definition, scope, toDouble(value));
     }
 
+    public Measure(MeasureDefinition definition, String processId, Collection<String> instances, Object value) {
+        this(definition, new MeasureScope(processId, instances), value);
+    }
+
+
     private static double toDouble(Object value) {
         double doubleValue;
 
-        if (value instanceof Boolean) {
+        if (value == null) {
+            doubleValue = Double.NaN;
+        } else if (value instanceof Integer) {
+            doubleValue = ((Integer) value).doubleValue();
+        } else if (value instanceof Boolean) {
             doubleValue = (Boolean) value ? 1 : 0;
         } else if (value instanceof String) {
             doubleValue = Double.parseDouble((String) value);
@@ -52,6 +61,10 @@ public class Measure {
 
     public void setValue(double value) {
         this.value = value;
+    }
+
+    public void setValue(Object value) {
+        this.value = toDouble(value);
     }
 
     public String getProcessId() {

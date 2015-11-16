@@ -18,43 +18,21 @@ import java.util.Map;
  *
  * @author resinas
  */
-public class CountMeasureComputer implements MeasureComputer {
+public class CountMeasureComputer extends AbstractBaseMeasureComputer<CountMeasure> {
 
-    private Map<String,MeasureInstance> measures;
-    private CountMeasure definition;
     private TimeInstantMatcher matcher;
 
     public CountMeasureComputer(MeasureDefinition definition) {
-        if (! (definition instanceof CountMeasure)) {
-            throw new IllegalArgumentException();
-        }
-        this.definition = (CountMeasure) definition;
-        measures = new HashMap<String, MeasureInstance>();
+        super(definition);
         this.matcher = new TimeInstantMatcher(this.definition.getWhen());
     }
 
     @Override
-    public List<? extends Measure> compute() {
-        return new ArrayList<Measure>(measures.values());
-    }
-
-    @Override
     public void update(LogEntry entry) {
-        MeasureInstance m = getOrCreateMeasure(entry);
+        MeasureInstance m = getOrCreateMeasure(entry, 0);
 
         if (matcher.matches(entry))
             m.setValue(m.getValue() + 1);
-    }
-
-    private MeasureInstance getOrCreateMeasure(LogEntry entry) {
-        String measureId = entry.getProcessId() + "#" + entry.getInstanceId();
-        MeasureInstance m = measures.get(measureId);
-
-        if (m == null) {
-            m = new MeasureInstance(definition, 0, entry.getProcessId(), entry.getInstanceId());
-            measures.put(measureId, m);
-        }
-        return m;
     }
 
 }

@@ -12,14 +12,18 @@ import es.us.isa.ppinot.model.condition.TimeInstantCondition;
 import es.us.isa.ppinot.model.condition.TimeMeasureType;
 import es.us.isa.ppinot.model.derived.DerivedMultiInstanceMeasure;
 import es.us.isa.ppinot.model.derived.DerivedSingleInstanceMeasure;
+import es.us.isa.ppinot.model.state.DataObjectState;
 import es.us.isa.ppinot.model.state.GenericState;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalTime;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * JSONMeasuresCollectionHandlerTest
@@ -47,6 +51,38 @@ public class JSONMeasuresCollectionHandlerTest {
         assertEquals(1, readCollection.getDefinitions().size());
         MeasureDefinition md = readCollection.getDefinitions().get(0);
         assertTrue(md instanceof DerivedMultiInstanceMeasure);
+    }
+
+    @Test
+    public void shouldReplaceWithTemplate() throws IOException {
+        Map<String, String> parameters = new HashMap<String, String>();
+        parameters.put("proveedor", "p1");
+        JSONMeasuresCollectionHandler handler = new JSONMeasuresCollectionHandler();
+
+        handler.load(new StringReader(countWithTemplate()), parameters);
+        MeasuresCollection mc = handler.getCollection();
+
+        CountMeasure count = (CountMeasure) mc.getDefinitions().get(0);
+        DataObjectState state = (DataObjectState) count.getWhen().getChangesToState();
+        assertEquals("Grupo == 'p1'", state.getName());
+    }
+
+    private String countWithTemplate() {
+        return "{\n" +
+                "  \"name\": \"ANS measures\",\n" +
+                "  \"description\": \"Medidas para la gestión de incidentes\",\n" +
+                "  \"definitions\": [{\n" +
+                "                \"kind\": \"CountMeasure\",\n" +
+                "                \"when\": {\n" +
+                "                  \"kind\": \"TimeInstantCondition\",\n" +
+                "                  \"appliesTo\": \"Grupo\",\n" +
+                "                  \"changesToState\": {\n" +
+                "                    \"dataObjectState\": {\n" +
+                "                      \"name\": \"Grupo == '${proveedor}'\"\n" +
+                "                    }\n" +
+                "                  }\n" +
+                "                }\n" +
+                "              }]}";
     }
 
     private MeasureDefinition buildAFIP() throws Exception {

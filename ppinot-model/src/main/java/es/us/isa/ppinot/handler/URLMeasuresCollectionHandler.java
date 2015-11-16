@@ -11,6 +11,8 @@ import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * URLMeasuresCollectionHandler
@@ -19,10 +21,18 @@ import java.util.Map;
  * @author resinas
  */
 public class URLMeasuresCollectionHandler {
+    private static final Logger log = Logger.getLogger(URLMeasuresCollectionHandler.class.getName());
+
     private Map<URL, MeasuresCollection> collectionCache;
+    private Map<String, String> parameters;
 
     public URLMeasuresCollectionHandler() {
+        this(new HashMap<String, String>());
+    }
+
+    public URLMeasuresCollectionHandler(Map<String, String> parameters) {
         this.collectionCache = new HashMap<URL, MeasuresCollection>();
+        this.parameters = parameters;
     }
 
     public MeasureDefinition load(URL url) {
@@ -37,13 +47,7 @@ public class URLMeasuresCollectionHandler {
     }
 
     public MeasuresCollection loadCollection(URL url) {
-        URL cleanedURL = url;
-        try {
-            cleanedURL = cleanURL(url);
-
-        } catch(Exception e) {
-
-        }
+        URL cleanedURL = cleanURL(url);
 
         MeasuresCollection measuresCollection = collectionCache.get(cleanedURL);
 
@@ -55,8 +59,13 @@ public class URLMeasuresCollectionHandler {
         return measuresCollection;
     }
 
-    private URL cleanURL(URL url) throws MalformedURLException {
-        return new URL(url.getProtocol(), url.getHost(), url.getPort(), url.getFile());
+    private URL cleanURL(URL url)  {
+        try {
+            return new URL(url.getProtocol(), url.getHost(), url.getPort(), url.getFile());
+        } catch (MalformedURLException e) {
+            log.log(Level.INFO, "Could not clean URL: " + url, e);
+        }
+        return url;
     }
 
     public MeasuresCollection downloadCollection(URL url) {
@@ -72,7 +81,7 @@ public class URLMeasuresCollectionHandler {
                 BufferedReader bufferedReader = new BufferedReader(in);
 
                 JSONMeasuresCollectionHandler handler = new JSONMeasuresCollectionHandler();
-                handler.load(bufferedReader);
+                handler.load(bufferedReader, parameters);
                 measureDefinitions = handler.getCollection();
 
                 bufferedReader.close();

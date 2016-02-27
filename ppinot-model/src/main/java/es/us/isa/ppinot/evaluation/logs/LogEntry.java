@@ -90,8 +90,9 @@ public class LogEntry {
         return resource;
     }
 
-    public void setResource(String resource) {
+    public LogEntry setResource(String resource) {
         this.resource = resource;
+        return this;
     }
 
     public Map<String, Object> getData() {

@@ -21,26 +21,59 @@ public class JSONLogEntryLoader {
 
     private ObjectMapper mapper;
 
+    private String processIdField;
     private String instanceIdField;
     private String bpElementField;
     private String timestampField;
+    private String eventField;
+    private String resourceField;
+    private String elementTypeField;
 
     private DateTimeFormatter dateTimeFormatter;
-
     private String defaultProcessId = "0";
     private LogEntry.EventType defaultEventType = LogEntry.EventType.complete;
+    private LogEntry.ElementType defaultElementType = LogEntry.ElementType.flowElement;
+    private String defaultResource = null;
 
     public JSONLogEntryLoader(String instanceIdField, String bpElementField, String timestampField) {
         mapper = new ObjectMapper();
+        this.processIdField = null;
+        this.eventField = null;
+        this.resourceField = null;
+        this.elementTypeField = null;
         this.instanceIdField = instanceIdField;
         this.bpElementField = bpElementField;
         this.timestampField = timestampField;
         this.dateTimeFormatter = ISODateTimeFormat.dateOptionalTimeParser();
     }
 
+    public JSONLogEntryLoader setElementTypeField(String elementTypeField) {
+        this.elementTypeField = elementTypeField;
+        return this;
+    }
+
+    public JSONLogEntryLoader setResourceField(String resourceField) {
+        this.resourceField = resourceField;
+        return this;
+    }
+
+    public JSONLogEntryLoader setProcessIdField(String processIdField) {
+        this.processIdField = processIdField;
+        return this;
+    }
+
+    public JSONLogEntryLoader setEventField(String eventField) {
+        this.eventField = eventField;
+        return this;
+    }
+
     public JSONLogEntryLoader setDateTimeFormatter(DateTimeFormatter dateTimeFormatter) {
         this.dateTimeFormatter = dateTimeFormatter;
         return this;
+    }
+
+    private boolean matches(String key, String fieldName) {
+        return fieldName != null && fieldName.equals(key);
     }
 
     public LogEntry loadEvent(String jsonEvent) {
@@ -51,23 +84,38 @@ public class JSONLogEntryLoader {
             String instanceId = null;
             DateTime date = null;
             String bpElement = null;
+            String processId = defaultProcessId;
+            LogEntry.EventType eventType = defaultEventType;
+            String resource = defaultResource;
+            LogEntry.ElementType elementType = defaultElementType;
+
             Map<String, Object> data = new HashMap<String, Object>();
 
             while (fields.hasNext()) {
                 Map.Entry<String, JsonNode> field = fields.next();
-                if (field.getKey().equals(instanceIdField)) {
+                if (matches(field.getKey(), instanceIdField)) {
                     instanceId = field.getValue().asText();
-                } else if (field.getKey().equals(bpElementField)) {
+                } else if (matches(field.getKey(), bpElementField)) {
                     bpElement = field.getValue().asText();
-                } else if (field.getKey().equals(timestampField)) {
+                } else if (matches(field.getKey(), timestampField)) {
                     date = DateTime.parse(field.getValue().asText(), dateTimeFormatter);
+                } else if (matches(field.getKey(), processIdField)) {
+                    processId = field.getValue().asText();
+                } else if (matches(field.getKey(), eventField)) {
+                    eventType = LogEntry.EventType.valueOf(field.getValue().asText());
+                } else if (matches(field.getKey(), resourceField)) {
+                    resource = field.getValue().asText();
+                } else if (matches(field.getKey(), elementTypeField)) {
+                    elementType = LogEntry.ElementType.valueOf(field.getValue().asText());
                 } else {
                     data.put(field.getKey(), field.getValue().asText());
                 }
 
             }
 
-            return LogEntry.flowElement(defaultProcessId, instanceId, bpElement, defaultEventType, date).withData(data);
+            return new LogEntry(processId, instanceId, bpElement, elementType, eventType, date)
+                    .setResource(resource)
+                    .withData(data);
 
         } catch (IOException e) {
             throw new RuntimeException("Invalid event format: " + jsonEvent, e);

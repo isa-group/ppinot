@@ -5,7 +5,7 @@
     <parent>
         <groupId>es.us.isa.ppinot</groupId>
         <artifactId>ppinot</artifactId>
-        <version>2.1-SNAPSHOT</version>
+        <version>2.2-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -38,15 +38,28 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.3.2</version>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${maven-assembly-plugin.version}</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
+        
         <resources>
             <resource>
-               <directory>${project.basedir}/src/main/js</directory>
-               <targetPath>${destDir}</targetPath>
+                <directory>${project.basedir}/src/main/js</directory>
+                <targetPath>${destDir}</targetPath>
             </resource>
         </resources>
     </build>

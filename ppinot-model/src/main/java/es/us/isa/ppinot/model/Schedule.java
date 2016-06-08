@@ -20,8 +20,7 @@ import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalTime;
 
 /**
- * Schedule
- * Copyright (C) 2015 Universidad de Sevilla
+ * Schedule Copyright (C) 2015 Universidad de Sevilla
  *
  * @author resinas
  */
@@ -35,7 +34,7 @@ public class Schedule {
     @JsonSerialize(using = ToStringSerializer.class)
     @JsonDeserialize(using = LocalTimeDeserializer.class)
     private LocalTime endTime;
-    private boolean considerHolidays;
+    private List<DateTime> holidays;
 
     private Schedule() {
     }
@@ -45,7 +44,18 @@ public class Schedule {
         this.endDay = endDay;
         this.beginTime = beginTime;
         this.endTime = endTime;
-        this.considerHolidays = false;
+
+        if (beginDay < DateTimeConstants.MONDAY || beginDay > DateTimeConstants.SUNDAY || endDay < DateTimeConstants.MONDAY || endDay > DateTimeConstants.SUNDAY) {
+            throw new RuntimeException("Invalid day of week");
+        }
+    }
+
+    public Schedule(int beginDay, int endDay, LocalTime beginTime, LocalTime endTime, List<DateTime> holidays) {
+        this.beginDay = beginDay;
+        this.endDay = endDay;
+        this.beginTime = beginTime;
+        this.endTime = endTime;
+        this.holidays = holidays;
 
         if (beginDay < DateTimeConstants.MONDAY || beginDay > DateTimeConstants.SUNDAY || endDay < DateTimeConstants.MONDAY || endDay > DateTimeConstants.SUNDAY) {
             throw new RuntimeException("Invalid day of week");
@@ -68,73 +78,24 @@ public class Schedule {
         return endTime;
     }
 
-    public void setConsiderHolidays(boolean consider) {
-        this.considerHolidays = consider;
+    public List<DateTime> getHolidays() {
+        return holidays;
     }
 
     public boolean dayOfWeekExcluded(int dayOfWeek) {
         return (dayOfWeek < getBeginDay() || dayOfWeek > getEndDay());
     }
 
-    public boolean dayOfHolidayExcluded(List<DateTime> holidays, DateTime day) {
-
+    public boolean dayOfHolidayExcluded(DateTime day) {
         boolean result = false;
-
-        if (this.considerHolidays) {
-            // Ignore year
+        if (this.getHolidays() != null) {
             for (DateTime h : holidays) {
-                if (h.getMonthOfYear() == day.getMonthOfYear() && h.getDayOfMonth() == day.getDayOfMonth()) {
+                if (h.getYear() == day.getYear() && h.getMonthOfYear() == day.getMonthOfYear() && h.getDayOfMonth() == day.getDayOfMonth()) {
                     result = true;
                     break;
                 }
             }
         }
-
         return result;
     }
-    
-    public List<DateTime> getHolidaysFromJson() {
-        
-        ObjectMapper mapper = new ObjectMapper();
-        Holidays h = new Holidays();
-        String json;
-        
-        try {
-            json = loadFile("src/main/resources/holidays.json");
-            h = mapper.readValue(json, Holidays.class);
-        } catch (IOException ex) {
-            Logger.getLogger(Schedule.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return h.getList();
-    }
-
-    private static String loadFile(String filePath) throws FileNotFoundException, IOException {
-        
-        File file = new File(filePath);
-        FileInputStream is;
-        String result = "";
-
-        is = new FileInputStream(file);
-        result = getStringFromInputStream(is);
-        is.close();
-
-        return result;
-        
-    }
-
-    private static String getStringFromInputStream(InputStream in) throws IOException {
-        
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-        StringBuilder sb = new StringBuilder();
-        String line = null;
-        
-        while ((line = reader.readLine()) != null) {
-            sb.append(line.replaceAll("	", "\t")).append("\n");
-        }
-        
-        return sb.toString();
-        
-    }
-
 }

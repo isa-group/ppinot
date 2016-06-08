@@ -3,6 +3,7 @@ package es.us.isa.ppinot.evaluation.computers;
 import es.us.isa.ppinot.evaluation.*;
 import es.us.isa.ppinot.evaluation.logs.LogEntry;
 import es.us.isa.ppinot.evaluation.matchers.TimeInstantMatcher;
+import es.us.isa.ppinot.model.Holidays;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.Schedule;
 import es.us.isa.ppinot.model.TimeUnit;
@@ -225,7 +226,7 @@ public class TimeMeasureComputer implements MeasureComputer {
             long fullDay = DateTimeConstants.MILLIS_PER_DAY;
             long exclusionPerDay = Duration.standardDays(1).minus(Seconds.secondsBetween(schedule.getBeginTime(), schedule.getEndTime()).toStandardDuration()).getMillis();
             long exclusion = 0;
-            List<DateTime> holidays = schedule.getHolidaysFromJson();
+            List<DateTime> holidays = Holidays.getHolidaysFromJson();
 
             DateTime nextDay = start.withTimeAtStartOfDay().plusDays(1);
             DateTime endDay = end.withTimeAtStartOfDay();
@@ -233,7 +234,7 @@ public class TimeMeasureComputer implements MeasureComputer {
 
             int dayOfWeek = nextDay.getDayOfWeek();
             for (int i = 1; i <= days; i++) {
-                if (schedule.dayOfWeekExcluded(dayOfWeek) || schedule.dayOfHolidayExcluded(holidays, nextDay.plusDays(i-1))) {
+                if (schedule.dayOfWeekExcluded(dayOfWeek) || schedule.dayOfHolidayExcluded(nextDay.plusDays(i-1))) {
                     exclusion += fullDay;
                 } else {
                     exclusion += exclusionPerDay;
@@ -249,22 +250,21 @@ public class TimeMeasureComputer implements MeasureComputer {
 
         private long hourExclusion() {
             long exclusion = 0;
-            List<DateTime> holidays = schedule.getHolidaysFromJson();
 
             if (sameDay(start, end)) {
-                if (schedule.dayOfWeekExcluded(start.getDayOfWeek()) || schedule.dayOfHolidayExcluded(holidays, start)) {
+                if (schedule.dayOfWeekExcluded(start.getDayOfWeek()) || schedule.dayOfHolidayExcluded(start)) {
                     exclusion = new Duration(start, end).getMillis();
                 } else {
                     exclusion = oneDayExclusion(start, end);
                 }
             } else {
-                if (schedule.dayOfWeekExcluded(start.getDayOfWeek()) || schedule.dayOfHolidayExcluded(holidays, start)) {
+                if (schedule.dayOfWeekExcluded(start.getDayOfWeek()) || schedule.dayOfHolidayExcluded(start)) {
                     exclusion += new Duration(start, start.withTimeAtStartOfDay().plusDays(1)).getMillis();
                 } else {
                     exclusion += oneDayExclusion(start, start.withTimeAtStartOfDay().plusDays(1));
                 }
 
-                if (schedule.dayOfWeekExcluded(end.getDayOfWeek()) || schedule.dayOfHolidayExcluded(holidays, end)) {
+                if (schedule.dayOfWeekExcluded(end.getDayOfWeek()) || schedule.dayOfHolidayExcluded(end)) {
                     exclusion += new Duration(end.withTimeAtStartOfDay(), end).getMillis();
                 } else {
                     exclusion += oneDayExclusion(end.withTimeAtStartOfDay(), end);

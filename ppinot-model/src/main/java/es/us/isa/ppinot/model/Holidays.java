@@ -1,7 +1,17 @@
 package es.us.isa.ppinot.model;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.joda.time.DateTime;
 
@@ -23,6 +33,50 @@ public class Holidays {
     
     public void setList(List<DateTime> list) {
         this.list = list;
+    }
+    
+    public static List<DateTime> getHolidaysFromJson() {
+        
+        ObjectMapper mapper = new ObjectMapper();
+        Holidays h = new Holidays();
+        String json;
+        
+        try {
+            json = loadFile("src/main/resources/holidays.json");
+            h = mapper.readValue(json, Holidays.class);
+        } catch (IOException ex) {
+            Logger.getLogger(Schedule.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return h.getList();
+    }
+
+    private static String loadFile(String filePath) throws FileNotFoundException, IOException {
+        
+        File file = new File(filePath);
+        FileInputStream is;
+        String result = "";
+
+        is = new FileInputStream(file);
+        result = getStringFromInputStream(is);
+        is.close();
+
+        return result;
+        
+    }
+
+    private static String getStringFromInputStream(InputStream in) throws IOException {
+        
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        StringBuilder sb = new StringBuilder();
+        String line = null;
+        
+        while ((line = reader.readLine()) != null) {
+            sb.append(line.replaceAll("	", "\t")).append("\n");
+        }
+        
+        return sb.toString();
+        
     }
 
 }

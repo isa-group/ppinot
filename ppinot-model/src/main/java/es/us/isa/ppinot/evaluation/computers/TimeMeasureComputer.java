@@ -225,6 +225,7 @@ public class TimeMeasureComputer implements MeasureComputer {
             long fullDay = DateTimeConstants.MILLIS_PER_DAY;
             long exclusionPerDay = Duration.standardDays(1).minus(Seconds.secondsBetween(schedule.getBeginTime(), schedule.getEndTime()).toStandardDuration()).getMillis();
             long exclusion = 0;
+            List<DateTime> holidays = schedule.getHolidaysFromJson();
 
             DateTime nextDay = start.withTimeAtStartOfDay().plusDays(1);
             DateTime endDay = end.withTimeAtStartOfDay();
@@ -232,7 +233,7 @@ public class TimeMeasureComputer implements MeasureComputer {
 
             int dayOfWeek = nextDay.getDayOfWeek();
             for (int i = 1; i <= days; i++) {
-                if (schedule.dayOfWeekExcluded(dayOfWeek)) {
+                if (schedule.dayOfWeekExcluded(dayOfWeek) || schedule.dayOfHolidayExcluded(holidays, nextDay.plusDays(i-1))) {
                     exclusion += fullDay;
                 } else {
                     exclusion += exclusionPerDay;
@@ -248,21 +249,22 @@ public class TimeMeasureComputer implements MeasureComputer {
 
         private long hourExclusion() {
             long exclusion = 0;
+            List<DateTime> holidays = schedule.getHolidaysFromJson();
 
             if (sameDay(start, end)) {
-                if (schedule.dayOfWeekExcluded(start.getDayOfWeek())) {
+                if (schedule.dayOfWeekExcluded(start.getDayOfWeek()) || schedule.dayOfHolidayExcluded(holidays, start)) {
                     exclusion = new Duration(start, end).getMillis();
                 } else {
                     exclusion = oneDayExclusion(start, end);
                 }
             } else {
-                if (schedule.dayOfWeekExcluded(start.getDayOfWeek())) {
+                if (schedule.dayOfWeekExcluded(start.getDayOfWeek()) || schedule.dayOfHolidayExcluded(holidays, start)) {
                     exclusion += new Duration(start, start.withTimeAtStartOfDay().plusDays(1)).getMillis();
                 } else {
                     exclusion += oneDayExclusion(start, start.withTimeAtStartOfDay().plusDays(1));
                 }
 
-                if (schedule.dayOfWeekExcluded(end.getDayOfWeek())) {
+                if (schedule.dayOfWeekExcluded(end.getDayOfWeek()) || schedule.dayOfHolidayExcluded(holidays, end)) {
                     exclusion += new Duration(end.withTimeAtStartOfDay(), end).getMillis();
                 } else {
                     exclusion += oneDayExclusion(end.withTimeAtStartOfDay(), end);

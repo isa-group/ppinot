@@ -1,5 +1,6 @@
 package es.us.isa.ppinot.evaluation.computers;
 
+import es.us.isa.ppinot.model.Schedule;
 import es.us.isa.ppinot.model.base.CountMeasure;
 import es.us.isa.ppinot.model.base.TimeMeasure;
 import es.us.isa.ppinot.model.condition.TimeInstantCondition;
@@ -32,6 +33,16 @@ public class MeasureComputerHelper {
                                                                   String activityEnd, GenericState stateEnd) {
         TimeMeasure measure = createTimeMeasure(activityStart, stateStart, activityEnd, stateEnd);
         measure.setTimeMeasureType(TimeMeasureType.LINEAR);
+
+        return new TimeMeasureComputer(measure);
+    }
+
+    protected TimeMeasureComputer createLinearTimeMeasureComputerWithSchedule(String activityStart, GenericState stateStart,
+                                                                  String activityEnd, GenericState stateEnd, Schedule workingHours, String timeUnit) {
+        TimeMeasure measure = createTimeMeasure(activityStart, stateStart, activityEnd, stateEnd);
+        measure.setTimeMeasureType(TimeMeasureType.LINEAR);
+        measure.setConsiderOnly(workingHours);
+        measure.setUnitOfMeasure(timeUnit);
 
         return new TimeMeasureComputer(measure);
     }

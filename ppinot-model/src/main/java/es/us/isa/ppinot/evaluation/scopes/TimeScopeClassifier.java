@@ -1,7 +1,7 @@
 package es.us.isa.ppinot.evaluation.scopes;
 
 import es.us.isa.ppinot.evaluation.MeasureScope;
-import es.us.isa.ppinot.evaluation.TemporalMeasureScope;
+import es.us.isa.ppinot.evaluation.TemporalMeasureScopeImpl;
 import es.us.isa.ppinot.model.scope.SimpleTimeFilter;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -51,7 +51,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
         for (ProcessInstance instance : instances) {
             DateTime ends = instance.getEnd();
             if (currentInterval.isBefore(ends)) {
-                scopes.add(new TemporalMeasureScope(
+                scopes.add(new TemporalMeasureScopeImpl(
                         instance.getProcessId(),
                         instanceToId(current),
                         currentInterval.getStart(),
@@ -69,7 +69,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
             current.add(instance);
         }
         
-        scopes.add(new TemporalMeasureScope(instances.first().getProcessId(),instanceToId(current),currentInterval.getStart(),currentInterval.getEnd()));
+        scopes.add(new TemporalMeasureScopeImpl(instances.first().getProcessId(),instanceToId(current),currentInterval.getStart(),currentInterval.getEnd()));
 
         return scopes;
     }
@@ -82,7 +82,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
         String processId = instances.first().getProcessId();
 
         if (lastDate.isBefore(currentDate.plus(period))) {
-            scopes.add(new TemporalMeasureScope(processId, instanceToId(instances),currentDate,currentDate.plus(period)));
+            scopes.add(new TemporalMeasureScopeImpl(processId, instanceToId(instances),currentDate,currentDate.plus(period)));
         } else {
             Interval i = new Interval(currentDate, period);
             Collection<String> current = new ArrayList<String>();
@@ -92,7 +92,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
                     current.add(instance.getInstanceId());
                 } else {
                     if (!current.isEmpty()) {
-                    	scopes.add(new TemporalMeasureScope(processId, current,currentDate,currentDate.plus(period)));
+                    	scopes.add(new TemporalMeasureScopeImpl(processId, current,currentDate,currentDate.plus(period)));
                         current = new ArrayList<String>();
                     }
 
@@ -105,7 +105,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
                 }
             }
             if (!current.isEmpty()) {
-            	scopes.add(new TemporalMeasureScope(processId, current,currentDate,currentDate.plus(period)));
+            	scopes.add(new TemporalMeasureScopeImpl(processId, current,currentDate,currentDate.plus(period)));
                 current = new ArrayList<String>();
             }
         }

@@ -6,11 +6,9 @@ import es.us.isa.ppinot.evaluation.MeasureScope;
 import es.us.isa.ppinot.evaluation.logs.LogEntry;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.ProcessInstanceFilter;
-import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
 import es.us.isa.ppinot.model.derived.DerivedMeasure;
 import es.us.isa.ppinot.model.derived.DerivedSingleInstanceMeasure;
 import org.mvel2.MVEL;
-import org.mvel2.compiler.CompiledExpression;
 
 import java.io.Serializable;
 import java.util.*;

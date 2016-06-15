@@ -23,7 +23,7 @@ public class AggregatedMeasureComputer implements MeasureComputer {
     private MeasureComputer baseComputer;
     private ScopeClassifier classifier;
     private Aggregator agg;
-    private final List<MeasureComputer> listDataMeasure;
+    private final List<MeasureComputer> listGroupByMeasureComputer;
 
     public AggregatedMeasureComputer(MeasureDefinition definition, ProcessInstanceFilter filter) {
         if (!(definition instanceof AggregatedMeasure)) {
@@ -32,17 +32,17 @@ public class AggregatedMeasureComputer implements MeasureComputer {
 
         this.definition = (AggregatedMeasure) definition;
 
-        this.listDataMeasure = new ArrayList<MeasureComputer>();
+        this.listGroupByMeasureComputer = new ArrayList<MeasureComputer>();
         final MeasureComputerFactory measureComputerFactory = new MeasureComputerFactory();
         if (this.definition.getGroupedBy() != null) {
             for (DataContentSelection s : this.definition.getGroupedBy()) {
                 DataMeasure dm = new DataMeasure();
                 dm.setDataContentSelection(s);
-                listDataMeasure.add(measureComputerFactory.create(dm, filter));
+                listGroupByMeasureComputer.add(measureComputerFactory.create(dm, filter));
             }
         }
-        this.baseComputer = measureComputerFactory.create(this.definition.getBaseMeasure(), filter);
 
+        this.baseComputer = measureComputerFactory.create(this.definition.getBaseMeasure(), filter);
         this.classifier = new ScopeClassifierFactory().create(filter);
         this.agg = new Aggregator(this.definition.getAggregationFunction());
     }
@@ -50,7 +50,7 @@ public class AggregatedMeasureComputer implements MeasureComputer {
     @Override
     public void update(LogEntry entry) {
         classifier.update(entry);
-        for (MeasureComputer c : listDataMeasure) {
+        for (MeasureComputer c : listGroupByMeasureComputer) {
             c.update(entry);
         }
         baseComputer.update(entry);
@@ -62,50 +62,73 @@ public class AggregatedMeasureComputer implements MeasureComputer {
         Collection<? extends Measure> measures = baseComputer.compute();
         Map<String, MeasureInstance> measureMap = buildMeasureMap(measures);
 
-        Collection<MeasureScope> scopes = classifier.listScopes();
-        for (MeasureScope scope : scopes) {
+        if (listGroupByMeasureComputer != null && listGroupByMeasureComputer.size() > 0) { // agrupar entrada del log
 
-//            Collection<Double> toAggregate = Collections.EMPTY_LIST;
-//            if (listDataMeasure != null) {
-//                for (MeasureComputer md : listDataMeasure) {
-//                    if (md.compute().contains(scope.getInstances().iterator().next())) {
-//                        toAggregate = chooseMeasuresToAggregate(scope, measureMap);
-//                    }
-//                }
-//            } else {
-//                toAggregate = chooseMeasuresToAggregate(scope, measureMap);
-//            }
-            
-            Collection<Double> toAggregate = chooseMeasuresToAggregate(scope, measureMap);
-            
-            
-//            Map<MeasureInstance, Map<String, String>> measureInstanceGroup = new HashMap<MeasureInstance, Map<String, String>>();
+            // Mapa de instance y groupBy
+            Map<String, Map<String, String>> instanceGroupBy = new HashMap<String, Map<String, String>>(); // string -> instanceId
+            for (MeasureComputer mc : listGroupByMeasureComputer) {
+                DataMeasureComputer dmc = (DataMeasureComputer) mc;
+                for (Measure measure : mc.compute()) {
+                    MeasureInstance mi = (MeasureInstance) measure;
+                    Map<String, String> measureGroup = new HashMap<String, String>(); // groupbyscope
+                    measureGroup.put(dmc.definition.getDataContentSelection().getSelection(), mi.getValueAsString());
+                    if (instanceGroupBy.containsKey(mi.getInstanceId())) {
+                        instanceGroupBy.get(mi.getInstanceId()).putAll(measureGroup);
+                    } else {
+                        instanceGroupBy.put(mi.getInstanceId(), measureGroup);
+                    }
+                }
+            }
 
-            double val = agg.aggregate(toAggregate);
+            // Reverted map
+            Map<Map<String, String>, List<String>> groupByInstances = new HashMap<Map<String, String>, List<String>>();
+            for (String instance : instanceGroupBy.keySet()) {
+                List<String> values = new ArrayList<String>();
+                if (groupByInstances.containsKey(instanceGroupBy.get(instance))) {
+                    values = groupByInstances.get(instanceGroupBy.get(instance));
+                    values.add(instance);
+                    groupByInstances.put(instanceGroupBy.get(instance), values);
+                } else {
+                    values.add(instance);
+                    groupByInstances.put(instanceGroupBy.get(instance), values);
+                }
+            }
 
-            result.add(new Measure(definition, scope, val));
+            // Construye scope
+            Map<String, MeasureScope> instanceMeasureScope = new HashMap<String, MeasureScope>();
+            for (MeasureScope scope : classifier.listScopes()) {
+                for (String instance : scope.getInstances()) {
+                    instanceMeasureScope.put(instance, scope);
+                }
+            }
+
+            for (Map<String, String> group : groupByInstances.keySet()) {
+                List<String> groupedInstances = groupByInstances.get(group);
+                String instance = groupedInstances.iterator().next();
+
+                TemporalMeasureScope tempScope = (TemporalMeasureScope) instanceMeasureScope.get(instance);
+                GroupByMeasureScope groupByScope = new GroupByTemporalMeasureScopeImpl(instance, groupByInstances.get(instanceGroupBy.get(instance)), tempScope.getStart(), tempScope.getEnd());
+                groupByScope.setGroupParameters(instanceGroupBy.get(instance));
+
+                Collection<Double> toAggregate = new ArrayList<Double>();
+                for (String gi : groupedInstances) {
+                    toAggregate.add(measureMap.get(gi).getValue());
+                }
+
+                double val = agg.aggregate(toAggregate);
+                result.add(new Measure(definition, groupByScope, val));
+            }
+
+        } else {
+            Collection<MeasureScope> scopes = classifier.listScopes();
+            for (MeasureScope scope : scopes) {
+                Collection<Double> toAggregate = chooseMeasuresToAggregate(scope, measureMap);
+                double val = agg.aggregate(toAggregate);
+                result.add(new Measure(definition, scope, val));
+            }
         }
 
         return result;
-    }
-
-    private class XX {
-
-        private Map<String, MeasureInstance> measureMap;
-        private Map<MeasureInstance, Map<String, String>> measureInstanceGroup;
-
-        public XX(Map<String, MeasureInstance> measureMap, Map<MeasureInstance, Map<String, String>> measureInstanceGroup) {
-            this.measureMap = measureMap;
-            this.measureInstanceGroup = measureInstanceGroup;
-        }
-
-        public Map<String, MeasureInstance> getMeasureMap() {
-            return measureMap;
-        }
-
-        public Map<MeasureInstance, Map<String, String>> getMeasureInstanceGroup() {
-            return measureInstanceGroup;
-        }
     }
 
     private Collection<Double> chooseMeasuresToAggregate(MeasureScope scope, Map<String, MeasureInstance> measureMap) {

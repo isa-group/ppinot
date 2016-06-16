@@ -64,7 +64,7 @@ public class AggregatedMeasureComputer implements MeasureComputer {
 
         if (listGroupByMeasureComputer != null && listGroupByMeasureComputer.size() > 0) { // agrupar entrada del log
 
-            // Mapa de instance y groupBy
+            // Mapa de instance y groupBy construido en función de los parámetros que se quieren agrupar
             Map<String, Map<String, String>> instanceGroupBy = new HashMap<String, Map<String, String>>(); // string -> instanceId
             for (MeasureComputer mc : listGroupByMeasureComputer) {
                 DataMeasureComputer dmc = (DataMeasureComputer) mc;
@@ -80,7 +80,7 @@ public class AggregatedMeasureComputer implements MeasureComputer {
                 }
             }
 
-            // Reverted map
+            // Reverted map. De esta forma que consiguen las instancias de una agrupación
             Map<Map<String, String>, List<String>> groupByInstances = new HashMap<Map<String, String>, List<String>>();
             for (String instance : instanceGroupBy.keySet()) {
                 List<String> values = new ArrayList<String>();
@@ -94,29 +94,38 @@ public class AggregatedMeasureComputer implements MeasureComputer {
                 }
             }
 
-            // Construye scope
+            // Asocia un scope a cada instancia
+            List<MeasureScope> listScopes = (List<MeasureScope>) classifier.listScopes();
             Map<String, MeasureScope> instanceMeasureScope = new HashMap<String, MeasureScope>();
-            for (MeasureScope scope : classifier.listScopes()) {
+            for (MeasureScope scope : listScopes) {
                 for (String instance : scope.getInstances()) {
                     instanceMeasureScope.put(instance, scope);
                 }
             }
 
+            // Agrupa medidas usando GroupByMeasureScope
             for (Map<String, String> group : groupByInstances.keySet()) {
-                List<String> groupedInstances = groupByInstances.get(group);
-                String instance = groupedInstances.iterator().next();
+                for (MeasureScope scope : listScopes) {
 
-                TemporalMeasureScope tempScope = (TemporalMeasureScope) instanceMeasureScope.get(instance);
-                GroupByMeasureScope groupByScope = new GroupByTemporalMeasureScopeImpl(instance, groupByInstances.get(instanceGroupBy.get(instance)), tempScope.getStart(), tempScope.getEnd());
-                groupByScope.setGroupParameters(instanceGroupBy.get(instance));
+                    List<String> groupedInstances = new ArrayList<String>(groupByInstances.get(group));
+                    groupedInstances.retainAll(scope.getInstances());
 
-                Collection<Double> toAggregate = new ArrayList<Double>();
-                for (String gi : groupedInstances) {
-                    toAggregate.add(measureMap.get(gi).getValue());
+                    if (!groupedInstances.isEmpty()) {
+                        String instance = groupedInstances.iterator().next();
+                        TemporalMeasureScope tempScope = (TemporalMeasureScope) instanceMeasureScope.get(instance);
+                        GroupByMeasureScope groupByScope = new GroupByTemporalMeasureScopeImpl(tempScope.getProcessId(), groupedInstances, tempScope.getStart(), tempScope.getEnd());
+                        groupByScope.setGroupParameters(group);
+
+                        Collection<Double> toAggregate = new ArrayList<Double>();
+                        for (String gi : groupedInstances) {
+                            toAggregate.add(measureMap.get(gi).getValue());
+                        }
+
+                        double val = agg.aggregate(toAggregate);
+                        result.add(new Measure(definition, groupByScope, val));
+                    }
+
                 }
-
-                double val = agg.aggregate(toAggregate);
-                result.add(new Measure(definition, groupByScope, val));
             }
 
         } else {

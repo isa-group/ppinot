@@ -19,8 +19,9 @@ import java.util.List;
 import java.util.Map;
 
 public class AggregatedGroupByMeasureTimeComputerTest extends MeasureComputerHelper {
+    
+    //TODO: Realizar algunos tests con período superior al tiempo de medida.
 
-    // Realiza una agrupacion de parámetros encontrados en el log
     @Test
     public void testGroupByComputeAggregatedTimeRelativeScope1Day() {
         LogEntryHelper helper = new LogEntryHelper(10);
@@ -28,7 +29,6 @@ public class AggregatedGroupByMeasureTimeComputerTest extends MeasureComputerHel
 
         List<DataContentSelection> groupBy = new ArrayList<DataContentSelection>();
         groupBy.add(new DataContentSelection("nodo", ""));
-//        groupBy.add(new DataContentSelection("centro", ""));
         measure.setGroupedBy(groupBy);
 
         AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure, new SimpleTimeFilter(Period.DAILY, 1, true));
@@ -71,22 +71,17 @@ public class AggregatedGroupByMeasureTimeComputerTest extends MeasureComputerHel
 
         List<Measure> result = (List<Measure>) computer.compute();
         MeasuresAsserter asserter = new MeasuresAsserter(result);
-        asserter.assertTheNumberOfMeasuresIs(1); // El resultado sólo tiene una única medida
-//        asserter.assertValueOfInterval(0, 2);
-//        asserter.assertValueOfInterval(1, 5);
-//        asserter.assertValueOfInterval(2, 2);
+        asserter.assertTheNumberOfMeasuresIs(3);
     }
 
-    // Agrupación con distintos valores y un parametro no definido
-    // Este test produce excepciones capturadas en la consola
     @Test
-    public void testGroupByComputeAggregatedWithIgnoredData() {
+    public void testGroupByComputeAggregationWithIgnoredColumn() {
         LogEntryHelper helper = new LogEntryHelper(10);
         AggregatedMeasure measure = new AggregatedMeasure("id", "name", "desc", null, null, Aggregator.SUM, null, createCountMeasure(withCondition("Analyse RFC", GenericState.END)));
 
         List<DataContentSelection> groupBy = new ArrayList<DataContentSelection>();
         groupBy.add(new DataContentSelection("nodo", ""));
-        groupBy.add(new DataContentSelection("centro", "")); // ignored group data
+        groupBy.add(new DataContentSelection("centro", ""));
         measure.setGroupedBy(groupBy);
 
         AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure, new SimpleTimeFilter(Period.DAILY, 1, true));
@@ -96,7 +91,6 @@ public class AggregatedGroupByMeasureTimeComputerTest extends MeasureComputerHel
         Map<String, Object> inst4Data = new HashMap<String, Object>();
         Map<String, Object> inst5Data = new HashMap<String, Object>();
 
-        // multiple kind of group data
         inst1Data.put("nodo", "sevilla");
         inst3Data.put("nodo", "sevilla");
         inst4Data.put("nodo", "cordoba");
@@ -131,17 +125,16 @@ public class AggregatedGroupByMeasureTimeComputerTest extends MeasureComputerHel
 
         List<Measure> result = (List<Measure>) computer.compute();
         MeasuresAsserter asserter = new MeasuresAsserter(result);
-        asserter.assertTheNumberOfMeasuresIs(3);
+        asserter.assertTheNumberOfMeasuresIs(4);
     }
 
-    // Agrupación de parámetro no definido 
     @Test
     public void testGroupByComputeAggregationNotFound() {
         LogEntryHelper helper = new LogEntryHelper(10);
         AggregatedMeasure measure = new AggregatedMeasure("id", "name", "desc", null, null, Aggregator.SUM, null, createCountMeasure(withCondition("Analyse RFC", GenericState.END)));
 
         List<DataContentSelection> groupBy = new ArrayList<DataContentSelection>();
-        groupBy.add(new DataContentSelection("centro", "")); // log entries don't have this data
+        groupBy.add(new DataContentSelection("centro", ""));
         measure.setGroupedBy(groupBy);
 
         AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure, new SimpleTimeFilter(Period.DAILY, 1, true));

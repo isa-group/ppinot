@@ -21,6 +21,7 @@ public class AggregatedMeasureComputer implements MeasureComputer {
 
     private AggregatedMeasure definition;
     private MeasureComputer baseComputer;
+    private MeasureComputer filterComputer;
     private ScopeClassifier classifier;
     private Aggregator agg;
     private final List<MeasureComputer> listGroupByMeasureComputer;
@@ -43,6 +44,9 @@ public class AggregatedMeasureComputer implements MeasureComputer {
         }
 
         this.baseComputer = measureComputerFactory.create(this.definition.getBaseMeasure(), filter);
+        if (this.definition.getFilter() != null) {
+            this.filterComputer = measureComputerFactory.create(this.definition.getFilter(), filter);
+        }
         this.classifier = new ScopeClassifierFactory().create(filter);
         this.agg = new Aggregator(this.definition.getAggregationFunction());
     }
@@ -54,13 +58,22 @@ public class AggregatedMeasureComputer implements MeasureComputer {
             c.update(entry);
         }
         baseComputer.update(entry);
+        if (filterComputer != null) {
+            filterComputer.update(entry);
+        }
     }
 
     @Override
     public List<? extends Measure> compute() {
         List<Measure> result = new ArrayList<Measure>();
         Collection<? extends Measure> measures = baseComputer.compute();
+        List<? extends Measure> filters = new ArrayList<Measure>();
+        if (filterComputer != null) {
+            filters = filterComputer.compute();
+        }
+
         Map<String, MeasureInstance> measureMap = buildMeasureMap(measures);
+        Map<String, MeasureInstance> filterMap = buildFilterMap(filters);
 
         if (listGroupByMeasureComputer != null && listGroupByMeasureComputer.size() > 0) { // agrupar entrada del log
 
@@ -109,6 +122,9 @@ public class AggregatedMeasureComputer implements MeasureComputer {
 
                     List<String> groupedInstances = new ArrayList<String>(groupByInstances.get(group));
                     groupedInstances.retainAll(scope.getInstances());
+                    if (filterComputer != null) {
+                        groupedInstances.retainAll(filterTrueInstances(groupedInstances, filterMap));
+                    }
 
                     if (!groupedInstances.isEmpty()) {
                         String instance = groupedInstances.iterator().next();
@@ -120,30 +136,55 @@ public class AggregatedMeasureComputer implements MeasureComputer {
                         for (String gi : groupedInstances) {
                             toAggregate.add(measureMap.get(gi).getValue());
                         }
-
-                        double val = agg.aggregate(toAggregate);
-                        result.add(new Measure(definition, groupByScope, val));
+                        if (!toAggregate.isEmpty()) {
+                            double val = agg.aggregate(toAggregate);
+                            result.add(new Measure(definition, groupByScope, val));
+                        }
                     }
 
                 }
             }
 
-        } else {
+        } else { // not grouping
+
             Collection<MeasureScope> scopes = classifier.listScopes();
-            for (MeasureScope scope : scopes) {
-                Collection<Double> toAggregate = chooseMeasuresToAggregate(scope, measureMap);
-                double val = agg.aggregate(toAggregate);
-                result.add(new Measure(definition, scope, val));
+            if (filterComputer != null) {
+
+                for (MeasureScope scope : scopes) {
+                    Collection<String> filterScopeInstances = filterTrueInstances(scope.getInstances(), filterMap);
+
+                    scope.getInstances().retainAll(filterScopeInstances);
+
+                    Map<String, MeasureInstance> auxMeasureMap = new HashMap<String, MeasureInstance>(measureMap);
+                    for (String instance : measureMap.keySet()) {
+                        if (!filterScopeInstances.contains(instance)) {
+                            auxMeasureMap.remove(instance); // filtro sobre 'measureMap'
+                        }
+                    }
+                    Collection<Double> toAggregate = chooseMeasuresToAggregate(scope, auxMeasureMap);
+                    if (!toAggregate.isEmpty()) {
+                        double val = agg.aggregate(toAggregate);
+                        result.add(new Measure(definition, scope, val));
+                    }
+                }
+            } else { // not filtering
+
+                for (MeasureScope scope : scopes) {
+                    Collection<Double> toAggregate = chooseMeasuresToAggregate(scope, measureMap);
+                    double val = agg.aggregate(toAggregate);
+                    result.add(new Measure(definition, scope, val));
+                }
             }
         }
-
         return result;
     }
 
     private Collection<Double> chooseMeasuresToAggregate(MeasureScope scope, Map<String, MeasureInstance> measureMap) {
         Collection<Double> toAggregate = new ArrayList<Double>();
         for (String instance : scope.getInstances()) {
-            toAggregate.add(measureMap.get(instance).getValue());
+            if (measureMap.containsKey(instance)) {
+                toAggregate.add(measureMap.get(instance).getValue());
+            }
         }
         return toAggregate;
     }
@@ -157,6 +198,30 @@ public class AggregatedMeasureComputer implements MeasureComputer {
             }
         }
         return measureMap;
+    }
+
+    private Map<String, MeasureInstance> buildFilterMap(Collection<? extends Measure> filters) {
+        Map<String, MeasureInstance> measureMap = new HashMap<String, MeasureInstance>();
+        for (Measure m : filters) {
+            if (m instanceof MeasureInstance) {
+                MeasureInstance mi = (MeasureInstance) m;
+                measureMap.put(mi.getInstanceId(), mi);
+            }
+        }
+        return measureMap;
+    }
+
+    // Filtra las instancias que tengan el valor del filtro a true.
+    private Collection<String> filterTrueInstances(Collection<String> instances, Map<String, MeasureInstance> filterMap) {
+        Collection<String> found = new ArrayList<String>();
+        if (filterMap.size() > 0) {
+            for (String instance : instances) {
+                if (filterMap.get(instance).getValueAsBoolean()) {
+                    found.add(instance);
+                }
+            }
+        }
+        return found;
     }
 
 }

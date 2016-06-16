@@ -59,6 +59,10 @@ public class Measure {
         return toDouble(value);
     }
     
+    public Boolean getValueAsBoolean() {
+        return (Boolean) value;
+    }
+    
     public String getValueAsString() {
         return value.toString();
     }

@@ -25,6 +25,8 @@ public class AggregatedMeasure extends MeasureDefinition {
     // La medida que se agrega
     protected MeasureDefinition baseMeasure;
     
+    protected MeasureDefinition filter;
+    
     // Indica si la medida utiliza el conector aggregates o no
     protected Boolean aggregates;
 
@@ -38,6 +40,7 @@ public class AggregatedMeasure extends MeasureDefinition {
     	this.setAggregationFunction("");
     	this.setSamplingFrequency("");
     	this.setBaseMeasure(new BaseMeasure());
+    	this.setFilter(new BaseMeasure());
     	
     	this.setAggregates(false);
     	this.setGroupedBy(null);
@@ -63,6 +66,34 @@ public class AggregatedMeasure extends MeasureDefinition {
     	this.setAggregationFunction(aggregationFunction);
     	this.setSamplingFrequency(samplingFrequency);
     	this.setBaseMeasure(baseMeasure);
+    	
+    	this.setAggregates(false);
+    	this.setGroupedBy(null);
+	}
+    
+    
+    /**
+     * Constructor de la clase
+     * 
+     * @param id Id de la medida
+     * @param name Nombre de la medida
+     * @param description Descripcion de la medida
+     * @param scale Escala de la medida
+     * @param unitOfMeasure Unidad de medida
+     * @param aggregationFunction Funcion de la medida
+     * @param samplingFrequency
+     * @param baseMeasure La medida que se agrega
+     * @param filter 
+     */
+    public AggregatedMeasure(String id, String name, String description, String scale, String unitOfMeasure,
+    		String aggregationFunction, String samplingFrequency, MeasureDefinition baseMeasure, MeasureDefinition filter) {
+    	
+    	super(id, name, description, scale, unitOfMeasure);
+    	
+    	this.setAggregationFunction(aggregationFunction);
+    	this.setSamplingFrequency(samplingFrequency);
+    	this.setBaseMeasure(baseMeasure);
+        this.setFilter(filter);
     	
     	this.setAggregates(false);
     	this.setGroupedBy(null);
@@ -128,6 +159,14 @@ public class AggregatedMeasure extends MeasureDefinition {
     public void setBaseMeasure(MeasureDefinition baseMeasure) {
     	
     	this.baseMeasure = baseMeasure;
+    }
+
+    public MeasureDefinition getFilter() {
+        return filter;
+    }
+
+    public void setFilter(MeasureDefinition filter) {
+        this.filter = filter;
     }
 
     /**

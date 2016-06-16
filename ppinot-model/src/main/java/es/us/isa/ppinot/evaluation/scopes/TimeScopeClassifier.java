@@ -133,13 +133,16 @@ public class TimeScopeClassifier extends ScopeClassifier {
         DateTime startDate;
 
         if (es.us.isa.ppinot.model.scope.Period.DAILY.equals(filter.getPeriod())) {
-            startDate = firstInstance.withTimeAtStartOfDay();
+            if (filter.getAbsoluteStart() > firstInstance.getHourOfDay()) {
+                firstInstance.minusDays(1);
+            }
+            startDate = firstInstance.withHourOfDay(filter.getAbsoluteStart());
         } else if (es.us.isa.ppinot.model.scope.Period.WEEKLY.equals(filter.getPeriod())) {
-            startDate = firstInstance.withDayOfWeek(1).withTimeAtStartOfDay();
+            startDate = firstInstance.withDayOfWeek(filter.getAbsoluteStart()).withTimeAtStartOfDay();
         } else if (es.us.isa.ppinot.model.scope.Period.MONTHLY.equals(filter.getPeriod())) {
-            startDate = firstInstance.withDayOfYear(1).withTimeAtStartOfDay();
+            startDate = firstInstance.withDayOfYear(filter.getAbsoluteStart()).withTimeAtStartOfDay();
         } else {
-            startDate = firstInstance.withDayOfYear(1).withTimeAtStartOfDay();
+            startDate = firstInstance.withDayOfYear(filter.getAbsoluteStart()).withTimeAtStartOfDay();
         }
 
         return startDate;

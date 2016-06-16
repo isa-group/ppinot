@@ -14,6 +14,7 @@ public class SimpleTimeFilter extends ProcessInstanceFilter {
 
     private Period period;
     private int frequency;
+    private int absoluteStart;
     private boolean relative;
 
     public SimpleTimeFilter() {
@@ -27,12 +28,21 @@ public class SimpleTimeFilter extends ProcessInstanceFilter {
         this.relative = relative;
     }
 
+    public SimpleTimeFilter(Period period, int frequency, int absoluteStart) {
+        this(period, frequency, false);
+        this.absoluteStart = absoluteStart;
+    }
+
     public Period getPeriod() {
         return period;
     }
 
     public int getFrequency() {
         return frequency;
+    }
+
+    public int getAbsoluteStart() {
+        return absoluteStart;
     }
 
     public boolean isRelative() {

@@ -6,12 +6,8 @@ import org.junit.Test;
 import es.us.isa.ppinot.evaluation.Aggregator;
 import es.us.isa.ppinot.evaluation.LogEntryHelper;
 import es.us.isa.ppinot.evaluation.MeasuresAsserter;
-import es.us.isa.ppinot.evaluation.logs.LogEntry;
 import es.us.isa.ppinot.evaluation.logs.LogEntry.EventType;
-import es.us.isa.ppinot.evaluation.scopes.TimeScopeClassifier;
 import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
-import es.us.isa.ppinot.model.base.CountMeasure;
-import es.us.isa.ppinot.model.scope.LastInstancesFilter;
 import es.us.isa.ppinot.model.scope.Period;
 import es.us.isa.ppinot.model.scope.SimpleTimeFilter;
 import es.us.isa.ppinot.model.state.GenericState;
@@ -272,7 +268,7 @@ public class AggregatedMeasureTimeComputerTest extends MeasureComputerHelper {
 	@Test
 	public void testComputeAggregatedTimeAbsoluteScopeNoMeasure() {
 		LogEntryHelper helper = new LogEntryHelper(10);
-		AggregatedMeasure measure = new AggregatedMeasure("id","name","desc",null,null,Aggregator.AVG,null,createCountMeasure(withCondition("Approve RFC",GenericState.END)));
+		AggregatedMeasure measure = new AggregatedMeasure("id","name","desc",null,null,Aggregator.AVG,null,createCountMeasure(withCondition("Approve RFC",GenericState.END)));        
 		AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure,new SimpleTimeFilter(Period.DAILY, 1, false));
 		
 		computer.update(helper.newInstance("i1",EventType.ready,DateTime.now().plusDays(-6)));

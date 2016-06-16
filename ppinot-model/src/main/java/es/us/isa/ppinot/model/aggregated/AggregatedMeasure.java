@@ -3,6 +3,7 @@ package es.us.isa.ppinot.model.aggregated;
 import es.us.isa.ppinot.model.DataContentSelection;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.base.BaseMeasure;
+import java.util.List;
 
 /**
  * Clase con la informacion de un PPI del tipo AggregatedMeasure
@@ -19,7 +20,7 @@ public class AggregatedMeasure extends MeasureDefinition {
     protected String samplingFrequency;
     
     // Informacion para agrupar la medida
-    private DataContentSelection groupedBy;
+    private List<DataContentSelection> groupedBy;
 
     // La medida que se agrega
     protected MeasureDefinition baseMeasure;
@@ -155,7 +156,7 @@ public class AggregatedMeasure extends MeasureDefinition {
      * 
      * @return La medida que se agrega
      */
-	public DataContentSelection getGroupedBy() {
+	public List<DataContentSelection> getGroupedBy() {
 		return groupedBy;
 	}
 
@@ -165,7 +166,7 @@ public class AggregatedMeasure extends MeasureDefinition {
      * 
      * @param groupedBy
      */
-	public void setGroupedBy(DataContentSelection groupedBy) {
+	public void setGroupedBy(List<DataContentSelection> groupedBy) {
 		this.groupedBy = groupedBy;
 	}
 	

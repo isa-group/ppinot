@@ -39,7 +39,7 @@ public class MeasuresAsserter {
     }
     
     public void assertValueOfInterval(int measure,double value) {
-    	Assert.assertEquals(value,((Measure)((List)measures).get(measure)).value,0.0);
+    	Assert.assertEquals(value,((Measure)((List)measures).get(measure)).getValue(),0.0);
     }
     
     public void assertNumOfInstances(int value) {
@@ -55,7 +55,7 @@ public class MeasuresAsserter {
     public void assertNumOfMeasureCero() {
     	boolean check = true;
     	for (Measure m: measures) {
-            if (m.value!=0) {
+            if (m.getValue()!=0) {
             	check=false;
             }
         }

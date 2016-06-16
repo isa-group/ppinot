@@ -30,8 +30,9 @@ public class AggregatedMeasureToXML extends AbstractMeasureToXML implements Meas
 
         addAggregated(xml, aggregated);
 
-        if (aggregatedMeasure.getGroupedBy() != null) {
-            connectors.addGroupedBy(aggregatedMeasure.getGroupedBy(), aggregated);
+        //TODO: Change to return a comma separated list of all groups by instead of just the first one
+        if (aggregatedMeasure.getGroupedBy() != null && ! aggregatedMeasure.getGroupedBy().isEmpty()) {            
+            connectors.addGroupedBy(aggregatedMeasure.getGroupedBy().get(0), aggregated);
         }
 
         return xml;

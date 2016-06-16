@@ -13,14 +13,16 @@ import java.util.Collection;
 public class Measure {
     protected final MeasureScope measureScope;
     protected MeasureDefinition definition;
-    protected double value;
+    private Object value;
 
     public Measure(MeasureDefinition definition, MeasureScope scope, Object value) {
-        this(definition, scope, toDouble(value));
+        this.definition = definition;
+        this.measureScope = scope;
+        this.value = value;
     }
 
     public Measure(MeasureDefinition definition, String processId, Collection<String> instances, Object value) {
-        this(definition, new MeasureScope(processId, instances), value);
+        this(definition, new MeasureScopeImpl(processId, instances), value);
     }
 
 
@@ -42,21 +44,23 @@ public class Measure {
     }
 
     public Measure(MeasureDefinition definition, String processId, Collection<String> instances, double value) {
-        this(definition, new MeasureScope(processId, instances), value);
+        this(definition, new MeasureScopeImpl(processId, instances), value);
     }
 
-    public Measure(MeasureDefinition definition, MeasureScope scope, double value) {
-        this.definition = definition;
-        this.measureScope = scope;
-        this.value = value;
-    }
+//    public Measure(MeasureDefinition definition, MeasureScope scope, double value) {
+//        this(definition, scope, value);
+//    }
 
     public MeasureDefinition getDefinition() {
         return definition;
     }
 
     public double getValue() {
-        return value;
+        return toDouble(value);
+    }
+    
+    public String getValueAsString() {
+        return value.toString();
     }
 
     public void setValue(double value) {
@@ -64,7 +68,7 @@ public class Measure {
     }
 
     public void setValue(Object value) {
-        this.value = toDouble(value);
+        this.value = value;
     }
 
     public String getProcessId() {

@@ -7,6 +7,7 @@ import es.us.isa.ppinot.xml.TAggregatedMeasure;
 import es.us.isa.ppinot.xml.TAggregates;
 import es.us.isa.ppinot.xml.TIsGroupedBy;
 import es.us.isa.ppinot.xml.TMeasure;
+import java.util.Arrays;
 
 /**
  * XMLToAggregatedMeasure
@@ -38,7 +39,7 @@ public class XMLToAggregatedMeasure implements XMLToMeasureDefinition<TAggregate
 
         TIsGroupedBy con = connectors.findConnector(xml, TIsGroupedBy.class);
         if (con != null) {
-            def.setGroupedBy(connectors.createDataContentSelection(con));
+            def.setGroupedBy(Arrays.asList(connectors.createDataContentSelection(con)));
         }
 
         return def;

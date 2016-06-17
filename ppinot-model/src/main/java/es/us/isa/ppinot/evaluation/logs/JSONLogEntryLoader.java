@@ -77,49 +77,53 @@ public class JSONLogEntryLoader {
     }
 
     public LogEntry loadEvent(String jsonEvent) {
-        try {
+        try{
             JsonNode rootNode = mapper.readValue(jsonEvent, JsonNode.class);
-            Iterator<Map.Entry<String, JsonNode>> fields = rootNode.getFields();
-
-            String instanceId = null;
-            DateTime date = null;
-            String bpElement = null;
-            String processId = defaultProcessId;
-            LogEntry.EventType eventType = defaultEventType;
-            String resource = defaultResource;
-            LogEntry.ElementType elementType = defaultElementType;
-
-            Map<String, Object> data = new HashMap<String, Object>();
-
-            while (fields.hasNext()) {
-                Map.Entry<String, JsonNode> field = fields.next();
-                if (matches(field.getKey(), instanceIdField)) {
-                    instanceId = field.getValue().asText();
-                } else if (matches(field.getKey(), bpElementField)) {
-                    bpElement = field.getValue().asText();
-                } else if (matches(field.getKey(), timestampField)) {
-                    date = DateTime.parse(field.getValue().asText(), dateTimeFormatter);
-                } else if (matches(field.getKey(), processIdField)) {
-                    processId = field.getValue().asText();
-                } else if (matches(field.getKey(), eventField)) {
-                    eventType = LogEntry.EventType.valueOf(field.getValue().asText());
-                } else if (matches(field.getKey(), resourceField)) {
-                    resource = field.getValue().asText();
-                } else if (matches(field.getKey(), elementTypeField)) {
-                    elementType = LogEntry.ElementType.valueOf(field.getValue().asText());
-                } else {
-                    data.put(field.getKey(), field.getValue().asText());
-                }
-
-            }
-
-            return new LogEntry(processId, instanceId, bpElement, elementType, eventType, date)
-                    .setResource(resource)
-                    .withData(data);
-
+            return loadEvent(rootNode);
         } catch (IOException e) {
             throw new RuntimeException("Invalid event format: " + jsonEvent, e);
         }
+    }
+
+    public LogEntry loadEvent(JsonNode jsonEvent) {
+        Iterator<Map.Entry<String, JsonNode>> fields = jsonEvent.getFields();
+
+        String instanceId = null;
+        DateTime date = null;
+        String bpElement = null;
+        String processId = defaultProcessId;
+        LogEntry.EventType eventType = defaultEventType;
+        String resource = defaultResource;
+        LogEntry.ElementType elementType = defaultElementType;
+
+        Map<String, Object> data = new HashMap<String, Object>();
+
+        while (fields.hasNext()) {
+            Map.Entry<String, JsonNode> field = fields.next();
+            if (matches(field.getKey(), instanceIdField)) {
+                instanceId = field.getValue().asText();
+            } else if (matches(field.getKey(), bpElementField)) {
+                bpElement = field.getValue().asText();
+            } else if (matches(field.getKey(), timestampField)) {
+                date = DateTime.parse(field.getValue().asText(), dateTimeFormatter);
+            } else if (matches(field.getKey(), processIdField)) {
+                processId = field.getValue().asText();
+            } else if (matches(field.getKey(), eventField)) {
+                eventType = LogEntry.EventType.valueOf(field.getValue().asText());
+            } else if (matches(field.getKey(), resourceField)) {
+                resource = field.getValue().asText();
+            } else if (matches(field.getKey(), elementTypeField)) {
+                elementType = LogEntry.ElementType.valueOf(field.getValue().asText());
+            } else {
+                data.put(field.getKey(), field.getValue().asText());
+            }
+
+        }
+
+        return new LogEntry(processId, instanceId, bpElement, elementType, eventType, date)
+                .setResource(resource)
+                .withData(data);
+
     }
 
 }

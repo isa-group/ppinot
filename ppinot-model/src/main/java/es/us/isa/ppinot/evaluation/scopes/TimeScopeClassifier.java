@@ -30,6 +30,10 @@ public class TimeScopeClassifier extends ScopeClassifier {
     public Collection<MeasureScope> listScopes() {
         Collection<MeasureScope> scopes;
 
+        if (filter.includesUnfinished()) {
+            addUnfinishedInstances();
+        }
+
         if (instances.isEmpty()) {
             scopes = Collections.EMPTY_LIST;
         } else if (filter.isRelative()) {
@@ -39,6 +43,16 @@ public class TimeScopeClassifier extends ScopeClassifier {
         }
 
         return scopes;
+    }
+
+    private void addUnfinishedInstances() {
+        DateTime now = DateTime.now();
+
+        for (ProcessInstance pi : getUnfinishedInstances()) {
+            ProcessInstance adaptedPi = new ProcessInstance(pi.getProcessId(), pi.getInstanceId(), pi.getStart());
+            adaptedPi.ends(now);
+            instances.add(adaptedPi);
+        }
     }
 
     private Collection<MeasureScope> listRelativeScopes() {

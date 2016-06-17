@@ -25,6 +25,8 @@ public class TimeMeasure extends BaseMeasure {
 
     private Schedule considerOnly;
 
+	private boolean computeUnfinished;
+
 	/**
 	 * Constructor de la clase
 	 */
@@ -149,7 +151,16 @@ public class TimeMeasure extends BaseMeasure {
         this.considerOnly = considerOnly;
     }
 
-    /**
+	public boolean isComputeUnfinished() {
+		return computeUnfinished;
+	}
+
+	public TimeMeasure setComputeUnfinished(boolean computeUnfinished) {
+		this.computeUnfinished = computeUnfinished;
+		return this;
+	}
+
+	/**
 	 * Indica si la medida puede ser calculada
 	 * 
 	 * @return Whether the measure is valid

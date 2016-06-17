@@ -139,7 +139,7 @@ public class LogEntry {
     public int hashCode() {
         int result = processId.hashCode();
         result = 31 * result + instanceId.hashCode();
-        result = 31 * result + bpElement.hashCode();
+        result = 31 * result + (bpElement != null ? bpElement.hashCode() : 0);
         result = 31 * result + elementType.hashCode();
         result = 31 * result + eventType.hashCode();
         result = 31 * result + timeStamp.hashCode();

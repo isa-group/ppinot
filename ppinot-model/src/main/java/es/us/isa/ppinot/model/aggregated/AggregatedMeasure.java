@@ -40,7 +40,7 @@ public class AggregatedMeasure extends MeasureDefinition {
     	this.setAggregationFunction("");
     	this.setSamplingFrequency("");
     	this.setBaseMeasure(new BaseMeasure());
-    	this.setFilter(new BaseMeasure());
+    	this.setFilter(null);
     	
     	this.setAggregates(false);
     	this.setGroupedBy(null);
@@ -66,6 +66,7 @@ public class AggregatedMeasure extends MeasureDefinition {
     	this.setAggregationFunction(aggregationFunction);
     	this.setSamplingFrequency(samplingFrequency);
     	this.setBaseMeasure(baseMeasure);
+        this.setFilter(null);
     	
     	this.setAggregates(false);
     	this.setGroupedBy(null);

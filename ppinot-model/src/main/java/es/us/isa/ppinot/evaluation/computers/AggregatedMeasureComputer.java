@@ -73,7 +73,7 @@ public class AggregatedMeasureComputer implements MeasureComputer {
         }
 
         Map<String, MeasureInstance> measureMap = buildMeasureMap(measures);
-        Map<String, MeasureInstance> filterMap = buildFilterMap(filters);
+        Map<String, MeasureInstance> filterMap = buildMeasureMap(filters);
 
         if (listGroupByMeasureComputer != null && listGroupByMeasureComputer.size() > 0) { // agrupar entrada del log
 
@@ -152,16 +152,9 @@ public class AggregatedMeasureComputer implements MeasureComputer {
 
                 for (MeasureScope scope : scopes) {
                     Collection<String> filterScopeInstances = filterTrueInstances(scope.getInstances(), filterMap);
-
                     scope.getInstances().retainAll(filterScopeInstances);
 
-                    Map<String, MeasureInstance> auxMeasureMap = new HashMap<String, MeasureInstance>(measureMap);
-                    for (String instance : measureMap.keySet()) {
-                        if (!filterScopeInstances.contains(instance)) {
-                            auxMeasureMap.remove(instance); // filtro sobre 'measureMap'
-                        }
-                    }
-                    Collection<Double> toAggregate = chooseMeasuresToAggregate(scope, auxMeasureMap);
+                    Collection<Double> toAggregate = chooseMeasuresToAggregate(scope, measureMap);
                     if (!toAggregate.isEmpty()) {
                         double val = agg.aggregate(toAggregate);
                         result.add(new Measure(definition, scope, val));
@@ -192,17 +185,6 @@ public class AggregatedMeasureComputer implements MeasureComputer {
     private Map<String, MeasureInstance> buildMeasureMap(Collection<? extends Measure> measures) {
         Map<String, MeasureInstance> measureMap = new HashMap<String, MeasureInstance>();
         for (Measure m : measures) {
-            if (m instanceof MeasureInstance) {
-                MeasureInstance mi = (MeasureInstance) m;
-                measureMap.put(mi.getInstanceId(), mi);
-            }
-        }
-        return measureMap;
-    }
-
-    private Map<String, MeasureInstance> buildFilterMap(Collection<? extends Measure> filters) {
-        Map<String, MeasureInstance> measureMap = new HashMap<String, MeasureInstance>();
-        for (Measure m : filters) {
             if (m instanceof MeasureInstance) {
                 MeasureInstance mi = (MeasureInstance) m;
                 measureMap.put(mi.getInstanceId(), mi);

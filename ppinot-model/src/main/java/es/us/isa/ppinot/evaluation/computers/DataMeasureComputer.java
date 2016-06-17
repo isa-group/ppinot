@@ -1,15 +1,14 @@
 package es.us.isa.ppinot.evaluation.computers;
 
-import es.us.isa.ppinot.evaluation.Measure;
 import es.us.isa.ppinot.evaluation.MeasureInstance;
 import es.us.isa.ppinot.evaluation.logs.LogEntry;
-import es.us.isa.ppinot.evaluation.matchers.DataPropertyMatcher;
+import es.us.isa.ppinot.evaluation.matchers.Matcher;
+import es.us.isa.ppinot.evaluation.matchers.MatcherFactory;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.base.DataMeasure;
 import org.mvel2.MVEL;
 
 import java.io.Serializable;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,14 +22,14 @@ public class DataMeasureComputer extends AbstractBaseMeasureComputer<DataMeasure
 
     private static final Logger log = Logger.getLogger(DataMeasureComputer.class.getName());
 
-    private DataPropertyMatcher precondition = null;
+    private Matcher precondition = null;
     private Serializable selectionExpression;
 
     public DataMeasureComputer(MeasureDefinition definition) {
         super(definition);
 
         if (this.definition.getPrecondition() != null) {
-            precondition = new DataPropertyMatcher(this.definition.getPrecondition());
+            precondition = new MatcherFactory().create(this.definition.getPrecondition());
         }
         selectionExpression = MVEL.compileExpression(this.definition.getDataContentSelection().getSelection());
     }
@@ -56,7 +55,7 @@ public class DataMeasureComputer extends AbstractBaseMeasureComputer<DataMeasure
         if (precondition == null) {
             condition = true;
         } else {
-            condition = precondition.matches(entry);
+            condition = new MatcherFactory().matches(precondition, entry);
         }
 
         return condition;

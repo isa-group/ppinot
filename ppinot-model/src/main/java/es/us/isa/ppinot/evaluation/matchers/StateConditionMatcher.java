@@ -10,7 +10,7 @@ import es.us.isa.ppinot.model.state.RuntimeState;
  *
  * @author resinas
  */
-public class StateConditionMatcher {
+public class StateConditionMatcher implements Matcher {
 
     private StateCondition condition;
 
@@ -18,6 +18,7 @@ public class StateConditionMatcher {
         this.condition = condition;
     }
 
+    @Override
     public boolean matches(LogEntry entry) {
         boolean matches = false;
         RuntimeState state = condition.getState();

@@ -1,6 +1,7 @@
 package es.us.isa.ppinot.model.base;
 
 import es.us.isa.ppinot.model.DataContentSelection;
+import es.us.isa.ppinot.model.condition.Condition;
 import es.us.isa.ppinot.model.condition.DataPropertyCondition;
 
 /**
@@ -15,7 +16,7 @@ public class DataMeasure extends BaseMeasure {
 	// Dataobject y propiedad a la que se le aplica la medida
 	private DataContentSelection dataContentSelection;
 	// Condicion de la medida
-	private DataPropertyCondition precondition;
+	private Condition precondition;
 	
 	/**
 	 * Constructor de la clase
@@ -70,7 +71,7 @@ public class DataMeasure extends BaseMeasure {
 	 * 
 	 * @return Valor del atributo
 	 */
-	public DataPropertyCondition getPrecondition() {
+	public Condition getPrecondition() {
 		return precondition;
 	}
 

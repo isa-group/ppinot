@@ -1,6 +1,7 @@
 package es.us.isa.ppinot.handler.transformation;
 
 import es.us.isa.ppinot.model.DataContentSelection;
+import es.us.isa.ppinot.model.condition.Condition;
 import es.us.isa.ppinot.model.condition.DataPropertyCondition;
 import es.us.isa.ppinot.model.condition.StateCondition;
 import es.us.isa.ppinot.model.condition.TimeInstantCondition;

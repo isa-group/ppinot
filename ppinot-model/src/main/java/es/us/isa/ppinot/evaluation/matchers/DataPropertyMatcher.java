@@ -12,7 +12,7 @@ import java.io.Serializable;
  *
  * @author resinas
  */
-public class DataPropertyMatcher {
+public class DataPropertyMatcher implements Matcher {
     private Serializable restrictionExpression = null;
 
     public DataPropertyMatcher(DataPropertyCondition condition) {
@@ -20,6 +20,7 @@ public class DataPropertyMatcher {
             this.restrictionExpression = MVEL.compileExpression(condition.getRestriction());
     }
 
+    @Override
     public boolean matches(LogEntry entry) {
         boolean condition = false;
 

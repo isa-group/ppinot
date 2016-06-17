@@ -2,6 +2,7 @@ package es.us.isa.ppinot.handler.transformation;
 
 import es.us.isa.ppinot.handler.transformation.model.XMLToDataMeasure;
 import es.us.isa.ppinot.model.base.DataMeasure;
+import es.us.isa.ppinot.model.condition.DataPropertyCondition;
 import es.us.isa.ppinot.xml.TPpiset;
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,7 +28,7 @@ public class XMLToDataMeasureTest extends XMLToMeasureAbstract {
         Assert.assertEquals("dataId", dm.getId());
         Assert.assertEquals("data", dm.getName());
         Assert.assertEquals("sel", dm.getDataContentSelection().getSelection());
-        Assert.assertEquals("r", dm.getPrecondition().getRestriction());
+        Assert.assertEquals("r", ((DataPropertyCondition) dm.getPrecondition()).getRestriction());
         Assert.assertEquals("xxx", dm.getPrecondition().getAppliesTo());
     }
 

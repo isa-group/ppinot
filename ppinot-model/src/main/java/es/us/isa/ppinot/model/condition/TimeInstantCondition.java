@@ -8,7 +8,7 @@ import es.us.isa.ppinot.model.state.RuntimeState;
  * @author Edelia
  *
  */
-public class TimeInstantCondition extends Condition {
+public class TimeInstantCondition extends ConditionImpl {
 
 	private RuntimeState changesToState;
     private DataPropertyCondition precondition;

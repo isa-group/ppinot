@@ -10,7 +10,7 @@ import es.us.isa.ppinot.model.state.RuntimeState;
  *
  * @author resinas
  */
-public class TimeInstantMatcher {
+public class TimeInstantMatcher implements Matcher {
 
     private TimeInstantCondition condition;
     private DataPropertyMatcher precondition = null;
@@ -22,6 +22,7 @@ public class TimeInstantMatcher {
         }
     }
 
+    @Override
     public boolean matches(LogEntry entry) {
         boolean matches = false;
 

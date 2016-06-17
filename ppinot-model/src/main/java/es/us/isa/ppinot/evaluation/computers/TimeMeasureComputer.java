@@ -2,12 +2,14 @@ package es.us.isa.ppinot.evaluation.computers;
 
 import es.us.isa.ppinot.evaluation.*;
 import es.us.isa.ppinot.evaluation.logs.LogEntry;
+import es.us.isa.ppinot.evaluation.matchers.FlowElementStateMatcher;
 import es.us.isa.ppinot.evaluation.matchers.TimeInstantMatcher;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.Schedule;
 import es.us.isa.ppinot.model.TimeUnit;
 import es.us.isa.ppinot.model.base.TimeMeasure;
 import es.us.isa.ppinot.model.condition.TimeMeasureType;
+import es.us.isa.ppinot.model.state.GenericState;
 import org.joda.time.*;
 
 import java.util.*;
@@ -24,6 +26,7 @@ public class TimeMeasureComputer implements MeasureComputer {
     private Map<String, MeasureInstanceTimer> measures;
     private TimeInstantMatcher startMatcher;
     private TimeInstantMatcher endMatcher;
+    private TimeInstantMatcher endInstanceMatcher;
 
     public TimeMeasureComputer(MeasureDefinition definition) {
         if (!(definition instanceof TimeMeasure)) {
@@ -35,6 +38,12 @@ public class TimeMeasureComputer implements MeasureComputer {
         this.startMatcher = new TimeInstantMatcher(this.definition.getFrom());
         this.endMatcher = new TimeInstantMatcher(this.definition.getTo());
     }
+
+    private boolean endsProcess(LogEntry entry) {
+        return LogEntry.ElementType.process.equals(entry.getElementType()) &&
+                FlowElementStateMatcher.matches(entry.getEventType(), GenericState.END);
+    }
+
 
     @Override
     public List<? extends Measure> compute() {
@@ -51,6 +60,14 @@ public class TimeMeasureComputer implements MeasureComputer {
         } else if (endMatcher.matches(entry)) {
             endTimer(m, entry);
         }
+
+        if (endsProcess(entry)) {
+            processFinished(m);
+        }
+    }
+
+    private void processFinished(MeasureInstanceTimer m) {
+        m.processFinished();
     }
 
     private void startTimer(MeasureInstanceTimer m, LogEntry entry) {
@@ -81,12 +98,22 @@ public class TimeMeasureComputer implements MeasureComputer {
     }
 
     private abstract class MeasureInstanceTimer extends MeasureInstance {
+        private boolean processFinished = false;
+
         public abstract void starts(DateTime start);
         public abstract void ends(DateTime ends);
         protected abstract double computeValue();
 
         public MeasureInstanceTimer(TimeMeasure definition, String processId, String instanceId) {
             super(definition, Double.NaN, processId, instanceId);
+        }
+
+        protected boolean isProcessFinished() {
+            return processFinished;
+        }
+
+        public void processFinished() {
+            this.processFinished = true;
         }
 
         @Override
@@ -127,7 +154,11 @@ public class TimeMeasureComputer implements MeasureComputer {
             if (duration != null)
                 value = duration.getMillis();
             else {
-                value = Double.NaN;
+                if (isRunning() && !isProcessFinished() && ((TimeMeasure) definition).isComputeUnfinished()) {
+                    value = new DurationWithExclusion(start, DateTime.now(), ((TimeMeasure)definition).getConsiderOnly()).getMillis();
+                } else {
+                    value = Double.NaN;
+                }
             }
 
             return value;
@@ -168,7 +199,15 @@ public class TimeMeasureComputer implements MeasureComputer {
                 measures.add((double) d.getMillis());
             }
 
-            if (isRunning() || measures.isEmpty()) {
+            if (isRunning()) {
+                if (!isProcessFinished() && ((TimeMeasure) definition).isComputeUnfinished()) {
+                    measures.add((double) new DurationWithExclusion(start, DateTime.now(), ((TimeMeasure) definition).getConsiderOnly()).getMillis());
+                } else {
+                    measures.clear();
+                }
+            }
+
+            if (measures.isEmpty()) {
                 value = Double.NaN;
             } else {
                 value = aggregator.aggregate(measures);

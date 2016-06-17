@@ -8,9 +8,7 @@ import es.us.isa.ppinot.model.state.GenericState;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * ScopeClassifier
@@ -45,6 +43,16 @@ public abstract class ScopeClassifier implements LogListener {
         }
     }
 
+    protected List<ProcessInstance> getUnfinishedInstances() {
+        List<ProcessInstance> unfinishedInstances = new ArrayList<ProcessInstance>();
+        for (ProcessInstance p : instances.values()) {
+            if (p.unfinished())
+                unfinishedInstances.add(p);
+        }
+
+        return unfinishedInstances;
+    }
+
     private boolean endsProcess(LogEntry entry) {
         return LogEntry.ElementType.process.equals(entry.getElementType()) &&
                 FlowElementStateMatcher.matches(entry.getEventType(), GenericState.END);
@@ -71,7 +79,7 @@ public abstract class ScopeClassifier implements LogListener {
             this.start = start;
         }
 
-        private void ends(DateTime end) {
+        protected void ends(DateTime end) {
             this.end = end;
         }
 
@@ -94,5 +102,7 @@ public abstract class ScopeClassifier implements LogListener {
         protected DateTime getEnd() {
             return end;
         }
+
+        protected boolean unfinished() { return end == null;}
     }
 }

@@ -26,6 +26,11 @@ public class SimpleTimeFilter extends ProcessInstanceFilter {
         this.period = period;
         this.frequency = frequency;
         this.relative = relative;
+        if (period.equals(Period.DAILY)) {
+            this.absoluteStart = 0;
+        } else {
+            this.absoluteStart = 1;
+        }
     }
 
     public SimpleTimeFilter(Period period, int frequency, int absoluteStart) {

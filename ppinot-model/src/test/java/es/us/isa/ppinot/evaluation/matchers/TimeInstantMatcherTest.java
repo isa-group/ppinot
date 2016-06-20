@@ -1,7 +1,6 @@
 package es.us.isa.ppinot.evaluation.matchers;
 
 import es.us.isa.ppinot.evaluation.LogEntryHelper;
-import es.us.isa.ppinot.evaluation.matchers.TimeInstantMatcher;
 import es.us.isa.ppinot.model.condition.DataPropertyCondition;
 import es.us.isa.ppinot.model.condition.TimeInstantCondition;
 import es.us.isa.ppinot.model.state.GenericState;
@@ -16,6 +15,7 @@ import static org.junit.Assert.*;
  * @author resinas
  */
 public class TimeInstantMatcherTest {
+
     @Test
     public void testMatches() {
         LogEntryHelper helper = new LogEntryHelper();

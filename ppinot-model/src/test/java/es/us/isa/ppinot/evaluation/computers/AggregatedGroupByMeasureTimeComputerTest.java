@@ -19,8 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 public class AggregatedGroupByMeasureTimeComputerTest extends MeasureComputerHelper {
-    
-    //TODO: Realizar algunos tests con período superior al tiempo de medida.
 
     @Test
     public void testGroupByComputeAggregatedTimeRelativeScope1Day() {

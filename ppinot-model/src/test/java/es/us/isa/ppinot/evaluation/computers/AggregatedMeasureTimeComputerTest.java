@@ -7,55 +7,13 @@ import es.us.isa.ppinot.evaluation.Aggregator;
 import es.us.isa.ppinot.evaluation.LogEntryHelper;
 import es.us.isa.ppinot.evaluation.MeasuresAsserter;
 import es.us.isa.ppinot.evaluation.logs.LogEntry.EventType;
-import es.us.isa.ppinot.evaluation.scopes.TimeScopeClassifier;
 import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
 import es.us.isa.ppinot.model.scope.Period;
 import es.us.isa.ppinot.model.scope.SimpleTimeFilter;
 import es.us.isa.ppinot.model.state.GenericState;
-import org.junit.Assert;
 
 public class AggregatedMeasureTimeComputerTest extends MeasureComputerHelper {
-
-    @Test
-    public void testComputeAggregatedTimeAbsoluteScopeSameMonth() {
-        
-        int dayOfMonth = 15;
-        LogEntryHelper helper = new LogEntryHelper();
-        SimpleTimeFilter filter = new SimpleTimeFilter(Period.MONTHLY, 1, dayOfMonth);
-        TimeScopeClassifier classifier = new TimeScopeClassifier(filter);
-        
-        classifier.update(helper.newInstance("i1", EventType.ready, DateTime.now().withDayOfMonth(dayOfMonth)));
-        classifier.update(helper.newInstance("i2", EventType.ready, DateTime.now().withDayOfMonth(dayOfMonth)));
-        classifier.update(helper.newEntry("Analyse RFC", EventType.ready, "i1", DateTime.now().withDayOfMonth(dayOfMonth+5)));
-        classifier.update(helper.newEntry("Analyse RFC", EventType.complete, "i1", DateTime.now().withDayOfMonth(dayOfMonth+5)));
-        classifier.update(helper.newEntry("Analyse RFC", EventType.ready, "i2", DateTime.now().withDayOfMonth(dayOfMonth-1).plusMonths(1)));
-        classifier.update(helper.newEntry("Analyse RFC", EventType.complete, "i2", DateTime.now().withDayOfMonth(dayOfMonth-1).plusMonths(1)));
-        classifier.update(helper.newInstance("i1", EventType.complete, DateTime.now().withDayOfMonth(dayOfMonth)));
-        classifier.update(helper.newInstance("i2", EventType.complete, DateTime.now().withDayOfMonth(dayOfMonth-1).plusMonths(1)));
-        
-        Assert.assertTrue(classifier.listScopes().size() == 1);
-    }
-
-    @Test
-    public void testComputeAggregatedTimeAbsoluteScopeDifferentMonth() {
-        
-        int dayOfMonth = 15;
-        LogEntryHelper helper = new LogEntryHelper();
-        SimpleTimeFilter filter = new SimpleTimeFilter(Period.MONTHLY, 1, dayOfMonth);
-        TimeScopeClassifier classifier = new TimeScopeClassifier(filter);
-
-        classifier.update(helper.newInstance("i1", EventType.ready, DateTime.now().withDayOfMonth(dayOfMonth)));
-        classifier.update(helper.newInstance("i2", EventType.ready, DateTime.now().withDayOfMonth(dayOfMonth)));
-        classifier.update(helper.newEntry("Analyse RFC", EventType.ready, "i1", DateTime.now().withDayOfMonth(dayOfMonth+5)));
-        classifier.update(helper.newEntry("Analyse RFC", EventType.complete, "i1", DateTime.now().withDayOfMonth(dayOfMonth+5)));
-        classifier.update(helper.newEntry("Analyse RFC", EventType.ready, "i2", DateTime.now().withDayOfMonth(dayOfMonth+5).plusMonths(1)));
-        classifier.update(helper.newEntry("Analyse RFC", EventType.complete, "i2", DateTime.now().withDayOfMonth(dayOfMonth+5).plusMonths(1)));
-        classifier.update(helper.newInstance("i1", EventType.complete, DateTime.now().withDayOfMonth(dayOfMonth)));
-        classifier.update(helper.newInstance("i2", EventType.complete, DateTime.now().withDayOfMonth(dayOfMonth+5).plusMonths(1)));
-
-        Assert.assertTrue(classifier.listScopes().size() == 2);
-    }
-
+    
     @Test
     public void testComputeAggregatedTimeRelativeScope1Day() {
         LogEntryHelper helper = new LogEntryHelper(10);

@@ -3,12 +3,9 @@ package es.us.isa.ppinot.evaluation.computers;
 import es.us.isa.ppinot.evaluation.Aggregator;
 import es.us.isa.ppinot.evaluation.LogEntryHelper;
 import es.us.isa.ppinot.evaluation.MeasuresAsserter;
-import es.us.isa.ppinot.model.base.TimeMeasure;
-import es.us.isa.ppinot.model.condition.TimeInstantCondition;
-import es.us.isa.ppinot.model.condition.TimeMeasureType;
+import es.us.isa.ppinot.evaluation.logs.LogEntry.EventType;
 import es.us.isa.ppinot.model.state.GenericState;
 import org.joda.time.DateTime;
-import org.joda.time.Duration;
 import org.junit.Test;
 
 /**
@@ -111,6 +108,21 @@ public class TimeMeasureComputerTest extends MeasureComputerHelper {
 
         asserter.assertTheNumberOfMeasuresIs(2);
         asserter.assertInstanceHasValue("i1", 40);
+    }
+    
+    @Test
+    public void testUnfinishedComputeLinearInstances() throws Exception {
+        LogEntryHelper helper = new LogEntryHelper(10);
+        TimeMeasureComputer computer = createLinearUnfinishedTimeMeasureComputer("Analyse RFC", GenericState.START, "Approve RFC", GenericState.END);
+
+        computer.update(helper.newAssignEntry("Analyse RFC", "i1"));
+        computer.update(helper.newCompleteEntry("Analyse RFC", "i1"));
+        computer.update(helper.newAssignEntry("Approve RFC", "i1"));
+
+        MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
+
+        asserter.assertTheNumberOfMeasuresIs(1);
+        asserter.assertInstanceHasValueGreaterThan("i1", 20);
     }
 
 }

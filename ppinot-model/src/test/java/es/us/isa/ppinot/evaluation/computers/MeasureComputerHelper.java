@@ -37,6 +37,15 @@ public class MeasureComputerHelper {
         return new TimeMeasureComputer(measure);
     }
 
+    protected TimeMeasureComputer createLinearUnfinishedTimeMeasureComputer(String activityStart, GenericState stateStart,
+                                                                  String activityEnd, GenericState stateEnd) {
+        TimeMeasure measure = createTimeMeasure(activityStart, stateStart, activityEnd, stateEnd);
+        measure.setTimeMeasureType(TimeMeasureType.LINEAR);
+        measure.setComputeUnfinished(true);
+
+        return new TimeMeasureComputer(measure);
+    }
+
     protected TimeMeasureComputer createLinearTimeMeasureComputerWithSchedule(String activityStart, GenericState stateStart,
                                                                   String activityEnd, GenericState stateEnd, Schedule workingHours, String timeUnit) {
         TimeMeasure measure = createTimeMeasure(activityStart, stateStart, activityEnd, stateEnd);

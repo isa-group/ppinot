@@ -30,7 +30,7 @@ public class AggregatedFilteredMeasureTimeComputerTest extends MeasureComputerHe
         countMeasure.setWhen(new TimeInstantCondition("Analyse RFC", GenericState.END));
 
         DerivedSingleInstanceMeasure filterMeasure = new DerivedSingleInstanceMeasure();
-        filterMeasure.setFunction("param == 4"); // número de veces que ha ocurrido
+        filterMeasure.setFunction("param == 4");
         filterMeasure.addUsedMeasure("param", countMeasure);
 
         AggregatedMeasure measure = new AggregatedMeasure("id", "name", "desc", null, null, Aggregator.SUM, null, createCountMeasure(withCondition("Analyse RFC", GenericState.START)), filterMeasure);
@@ -77,7 +77,7 @@ public class AggregatedFilteredMeasureTimeComputerTest extends MeasureComputerHe
         countMeasure.setWhen(new TimeInstantCondition("Analyse RFC", GenericState.END));
         
         DerivedSingleInstanceMeasure filterMeasure = new DerivedSingleInstanceMeasure();
-        filterMeasure.setFunction("param == 4"); // número de veces que ha ocurrido
+        filterMeasure.setFunction("param == 4");
         filterMeasure.addUsedMeasure("param", countMeasure);
         
         AggregatedMeasure measure = new AggregatedMeasure("id", "name", "desc", null, null, Aggregator.SUM, null, createCountMeasure(withCondition("Analyse RFC", GenericState.START)), filterMeasure);
@@ -124,6 +124,43 @@ public class AggregatedFilteredMeasureTimeComputerTest extends MeasureComputerHe
         computer.update(helper.newInstance("i3", EventType.complete, DateTime.now().minusDays(4).plusMillis(10)).withData(inst3Data));
         computer.update(helper.newInstance("i4", EventType.complete, DateTime.now().minusDays(1).plusMillis(20)).withData(inst4Data));
         computer.update(helper.newInstance("i5", EventType.complete, DateTime.now().minusDays(2).plusMillis(30)).withData(inst5Data));
+
+        MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
+
+        asserter.assertTheNumberOfMeasuresIs(1);
+    }
+    
+    @Test
+    public void testComputeUnfinishedAggregatedTimeRelativeScope1Day() {
+        LogEntryHelper helper = new LogEntryHelper(10);
+
+        CountMeasure countMeasure = new CountMeasure();
+        countMeasure.setWhen(new TimeInstantCondition("Analyse RFC", GenericState.START));
+
+        DerivedSingleInstanceMeasure filterMeasure = new DerivedSingleInstanceMeasure();
+        filterMeasure.setFunction("param == 4");
+        filterMeasure.addUsedMeasure("param", countMeasure);
+
+        AggregatedMeasure measure = new AggregatedMeasure("id", "name", "desc", null, null, Aggregator.SUM, null, createCountMeasure(withCondition("Analyse RFC", GenericState.START)), filterMeasure);
+        AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure, new SimpleTimeFilter(Period.DAILY, 1, true));
+
+        computer.update(helper.newInstance("i1", EventType.ready, DateTime.now().plusDays(-6)));
+        computer.update(helper.newInstance("i3", EventType.ready, DateTime.now().plusDays(-6)));
+        computer.update(helper.newInstance("i4", EventType.ready, DateTime.now().plusDays(-6)));
+        computer.update(helper.newInstance("i5", EventType.ready, DateTime.now().plusDays(-6)));
+        computer.update(helper.newEntry("Analyse RFC", EventType.ready, "i1", DateTime.now().plusDays(-5)));
+        computer.update(helper.newEntry("Analyse RFC", EventType.ready, "i1", DateTime.now().plusDays(-5)));
+        computer.update(helper.newEntry("Analyse RFC", EventType.ready, "i3", DateTime.now().plusDays(-5)));
+        computer.update(helper.newEntry("Analyse RFC", EventType.ready, "i3", DateTime.now().plusDays(-5)));
+        computer.update(helper.newEntry("Analyse RFC", EventType.ready, "i1", DateTime.now().plusDays(-4)));
+        computer.update(helper.newEntry("Analyse RFC", EventType.ready, "i4", DateTime.now().plusDays(-4)));
+        computer.update(helper.newEntry("Analyse RFC", EventType.ready, "i5", DateTime.now().plusDays(-4)));
+        computer.update(helper.newEntry("Analyse RFC", EventType.ready, "i4", DateTime.now().plusDays(-2)));
+        computer.update(helper.newEntry("Analyse RFC", EventType.ready, "i1", DateTime.now().plusDays(-2)));
+        computer.update(helper.newInstance("i1", EventType.complete, DateTime.now().minusDays(1)));
+        computer.update(helper.newInstance("i3", EventType.complete, DateTime.now().minusDays(4).plusMillis(10)));
+        computer.update(helper.newInstance("i4", EventType.complete, DateTime.now().minusDays(1).plusMillis(20)));
+        computer.update(helper.newInstance("i5", EventType.complete, DateTime.now().minusDays(2).plusMillis(30)));
 
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 

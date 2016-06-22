@@ -39,7 +39,7 @@ public class DataMeasure extends BaseMeasure {
 	 * @param precondition Condicion de la medida
 	 */
 	public DataMeasure(String id, String name, String description, String scale, String unitOfMeasure,
-                       DataContentSelection dataContentSelection, DataPropertyCondition precondition) {
+                       DataContentSelection dataContentSelection, Condition precondition) {
 		super(id, name, description, scale, unitOfMeasure);
 		this.setDataContentSelection(dataContentSelection);
 		this.setPrecondition(precondition);
@@ -81,7 +81,7 @@ public class DataMeasure extends BaseMeasure {
 	 * 
 	 * @param precondition Data property precondition that enables the measure
 	 */
-	public void setPrecondition(DataPropertyCondition precondition) {
+	public void setPrecondition(Condition precondition) {
 		this.precondition = precondition;
 	}
 	

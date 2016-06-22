@@ -55,7 +55,7 @@ public class HolidaysTest extends MeasureComputerHelper {
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
         asserter.assertTheNumberOfMeasuresIs(1);
-        asserter.assertInstanceHasValue("i1", 24);
+        asserter.assertInstanceHasDoubleValue("i1", 24);
     }
     
     // An activity begins and ends on vacation.
@@ -81,7 +81,7 @@ public class HolidaysTest extends MeasureComputerHelper {
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
         asserter.assertTheNumberOfMeasuresIs(1);
-        asserter.assertInstanceHasValue("i1", 12);
+        asserter.assertInstanceHasDoubleValue("i1", 12);
     }
     
     // Begins and ends holiday activities.
@@ -106,7 +106,7 @@ public class HolidaysTest extends MeasureComputerHelper {
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
         asserter.assertTheNumberOfMeasuresIs(1);
-        asserter.assertInstanceHasValue("i1", 0);
+        asserter.assertInstanceHasDoubleValue("i1", 0);
     }
     
     // Begins activities in holidays and ends in working hours.
@@ -131,7 +131,7 @@ public class HolidaysTest extends MeasureComputerHelper {
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
         asserter.assertTheNumberOfMeasuresIs(1);
-        asserter.assertInstanceHasValue("i1", 2);
+        asserter.assertInstanceHasDoubleValue("i1", 2);
     }
     
     // Load holidays from JSON file.

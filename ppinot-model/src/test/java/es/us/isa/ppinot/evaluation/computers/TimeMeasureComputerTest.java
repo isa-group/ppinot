@@ -3,6 +3,8 @@ package es.us.isa.ppinot.evaluation.computers;
 import es.us.isa.ppinot.evaluation.Aggregator;
 import es.us.isa.ppinot.evaluation.LogEntryHelper;
 import es.us.isa.ppinot.evaluation.MeasuresAsserter;
+import es.us.isa.ppinot.model.DataContentSelection;
+import es.us.isa.ppinot.model.base.DataMeasure;
 import es.us.isa.ppinot.model.base.TimeMeasure;
 import es.us.isa.ppinot.model.condition.DataPropertyCondition;
 import es.us.isa.ppinot.model.condition.TimeInstantCondition;
@@ -32,23 +34,17 @@ public class TimeMeasureComputerTest extends MeasureComputerHelper {
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
         asserter.assertTheNumberOfMeasuresIs(1);
-        asserter.assertInstanceHasValue("i1", 30);
+        asserter.assertInstanceHasDoubleValue("i1", 30);
     }
 
     @Test
     public void testComputeLinearInstancesInSpecificPointOfTime() throws Exception {
         LogEntryHelper helper = new LogEntryHelper(10);
         
-        TimeInstantCondition conditionFrom = new TimeInstantCondition("Analyse RFC", GenericState.START, new DataPropertyCondition("Provider", "provider == 'p1'"));
-        TimeInstantCondition conditionTo = new TimeInstantCondition("Approve RFC", GenericState.END, new DataPropertyCondition("Provider", "provider == 'p2'"));
-        TimeMeasure measure = new TimeMeasure("id", "name", "desc", null, null, conditionFrom, conditionTo, TimeMeasureType.LINEAR, Aggregator.SUM);
-        TimeMeasureComputer computer = new TimeMeasureComputer(measure);
+        DataMeasure measure = new DataMeasure("id", "name", "desc", null, null, new DataContentSelection("provider", ""), new TimeInstantCondition("Analyse RFC", GenericState.START));
+        DataMeasureComputer computer = new DataMeasureComputer(measure);
 
         computer.update(helper.newAssignEntry("Analyse RFC", "i1").withData("provider", "p1"));
-        computer.update(helper.newCompleteEntry("Analyse RFC", "i1"));
-        computer.update(helper.newAssignEntry("Approve RFC", "i1"));
-        computer.update(helper.newCompleteEntry("Approve RFC", "i1").withData("provider", "p2"));
-        computer.update(helper.newAssignEntry("Analyse RFC", "i1"));
         computer.update(helper.newCompleteEntry("Analyse RFC", "i1"));
         computer.update(helper.newAssignEntry("Approve RFC", "i1"));
         computer.update(helper.newCompleteEntry("Approve RFC", "i1"));
@@ -56,7 +52,43 @@ public class TimeMeasureComputerTest extends MeasureComputerHelper {
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
         asserter.assertTheNumberOfMeasuresIs(1);
-        asserter.assertInstanceHasValue("i1", 30);
+        asserter.assertInstanceHasStringValue("i1", "p1");
+    }
+
+    @Test
+    public void testComputeLinearInstancesInSpecificPointOfTimeWithMultipleInstances() throws Exception {
+        LogEntryHelper helper = new LogEntryHelper(10);
+        
+        DataMeasure measure = new DataMeasure("id", "name", "desc", null, null, new DataContentSelection("provider", ""), new TimeInstantCondition("Analyse RFC", GenericState.START));
+        DataMeasureComputer computer = new DataMeasureComputer(measure);
+
+        computer.update(helper.newAssignEntry("Analyse RFC", "i1").withData("provider", "p1"));
+        computer.update(helper.newCompleteEntry("Analyse RFC", "i1"));
+        computer.update(helper.newAssignEntry("Approve RFC", "i1"));
+        computer.update(helper.newCompleteEntry("Approve RFC", "i1"));
+        computer.update(helper.newAssignEntry("Analyse RFC", "i1").withData("provider", "p2"));
+
+        MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
+
+        asserter.assertTheNumberOfMeasuresIs(1);
+        asserter.assertInstanceHasStringValue("i1", "p2");
+    }
+
+    @Test
+    public void testComputeLinearInstancesInSpecificPointOfTimeNotFound() throws Exception {
+        LogEntryHelper helper = new LogEntryHelper(10);
+        
+        DataMeasure measure = new DataMeasure("id", "name", "desc", null, null, new DataContentSelection("provider", ""), new TimeInstantCondition("Analyse RFC", GenericState.START));
+        DataMeasureComputer computer = new DataMeasureComputer(measure);
+
+        computer.update(helper.newAssignEntry("Analyse RFC", "i1"));
+        computer.update(helper.newCompleteEntry("Analyse RFC", "i1"));
+        computer.update(helper.newAssignEntry("Approve RFC", "i1"));
+        computer.update(helper.newCompleteEntry("Approve RFC", "i1"));
+
+        MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
+
+        asserter.assertTheNumberOfMeasuresIs(0);
     }
 
     @Test
@@ -72,7 +104,7 @@ public class TimeMeasureComputerTest extends MeasureComputerHelper {
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
         asserter.assertTheNumberOfMeasuresIs(1);
-        asserter.assertInstanceHasValue("i1", Double.NaN);
+        asserter.assertInstanceHasDoubleValue("i1", Double.NaN);
     }
 
     @Test
@@ -92,7 +124,7 @@ public class TimeMeasureComputerTest extends MeasureComputerHelper {
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
         asserter.assertTheNumberOfMeasuresIs(1);
-        asserter.assertInstanceHasValue("i1", 70);
+        asserter.assertInstanceHasDoubleValue("i1", 70);
     }
 
     @Test
@@ -113,7 +145,7 @@ public class TimeMeasureComputerTest extends MeasureComputerHelper {
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
         asserter.assertTheNumberOfMeasuresIs(2);
-        asserter.assertInstanceHasValue("i1", 70);
+        asserter.assertInstanceHasDoubleValue("i1", 70);
     }
 
     @Test
@@ -134,7 +166,7 @@ public class TimeMeasureComputerTest extends MeasureComputerHelper {
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
         asserter.assertTheNumberOfMeasuresIs(2);
-        asserter.assertInstanceHasValue("i1", 40);
+        asserter.assertInstanceHasDoubleValue("i1", 40);
     }
     
     @Test
@@ -149,7 +181,7 @@ public class TimeMeasureComputerTest extends MeasureComputerHelper {
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
         asserter.assertTheNumberOfMeasuresIs(1);
-        asserter.assertInstanceHasValue("i1", 15);
+        asserter.assertInstanceHasDoubleValue("i1", 15);
     }
 
 }

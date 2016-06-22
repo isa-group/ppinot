@@ -25,7 +25,7 @@ public class CountMeasureComputerTest extends MeasureComputerHelper {
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
         asserter.assertTheNumberOfMeasuresIs(1);
-        asserter.assertInstanceHasValue(LogEntryHelper.DEFAULT_INSTANCE, 1);
+        asserter.assertInstanceHasDoubleValue(LogEntryHelper.DEFAULT_INSTANCE, 1);
     }
 
     @Test
@@ -41,7 +41,7 @@ public class CountMeasureComputerTest extends MeasureComputerHelper {
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
         asserter.assertTheNumberOfMeasuresIs(1);
-        asserter.assertInstanceHasValue(LogEntryHelper.DEFAULT_INSTANCE, 0);
+        asserter.assertInstanceHasDoubleValue(LogEntryHelper.DEFAULT_INSTANCE, 0);
     }
 
     @Test
@@ -61,8 +61,8 @@ public class CountMeasureComputerTest extends MeasureComputerHelper {
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
         asserter.assertTheNumberOfMeasuresIs(2);
-        asserter.assertInstanceHasValue("i1", 2);
-        asserter.assertInstanceHasValue("i2", 1);
+        asserter.assertInstanceHasDoubleValue("i1", 2);
+        asserter.assertInstanceHasDoubleValue("i2", 1);
     }
 
 }

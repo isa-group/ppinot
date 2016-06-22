@@ -37,20 +37,6 @@ public class MeasuresAsserter {
 
         Assert.assertTrue("Instance " + instance + " has not been evaluated", found);
     }
-
-    public void assertInstanceHasValueGreaterThan(String instance, double value) {
-        boolean found = false;
-
-        for (Measure m: measures) {
-            if (m.getInstances().contains(instance)) {
-                Assert.assertTrue(m.getValue() > value);
-                found = true;
-                break;
-            }
-        }
-
-        Assert.assertTrue("Instance " + instance + " has not been evaluated", found);
-    }
     
     public void assertValueOfInterval(int measure,double value) {
     	Assert.assertEquals(value,((Measure)((List)measures).get(measure)).getValue(),0.0);

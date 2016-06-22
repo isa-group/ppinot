@@ -3,7 +3,10 @@ package es.us.isa.ppinot.evaluation.computers;
 import es.us.isa.ppinot.evaluation.Aggregator;
 import es.us.isa.ppinot.evaluation.LogEntryHelper;
 import es.us.isa.ppinot.evaluation.MeasuresAsserter;
-import es.us.isa.ppinot.evaluation.logs.LogEntry.EventType;
+import es.us.isa.ppinot.model.base.TimeMeasure;
+import es.us.isa.ppinot.model.condition.DataPropertyCondition;
+import es.us.isa.ppinot.model.condition.TimeInstantCondition;
+import es.us.isa.ppinot.model.condition.TimeMeasureType;
 import es.us.isa.ppinot.model.state.GenericState;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -20,7 +23,31 @@ public class TimeMeasureComputerTest extends MeasureComputerHelper {
     public void testComputeLinearInstances() throws Exception {
         LogEntryHelper helper = new LogEntryHelper(10);
         TimeMeasureComputer computer = createLinearTimeMeasureComputer("Analyse RFC", GenericState.START, "Approve RFC", GenericState.END);
+        
+        computer.update(helper.newAssignEntry("Analyse RFC", "i1"));
+        computer.update(helper.newCompleteEntry("Analyse RFC", "i1"));
+        computer.update(helper.newAssignEntry("Approve RFC", "i1"));
+        computer.update(helper.newCompleteEntry("Approve RFC", "i1"));
 
+        MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
+
+        asserter.assertTheNumberOfMeasuresIs(1);
+        asserter.assertInstanceHasValue("i1", 30);
+    }
+
+    @Test
+    public void testComputeLinearInstancesInSpecificPointOfTime() throws Exception {
+        LogEntryHelper helper = new LogEntryHelper(10);
+        
+        TimeInstantCondition conditionFrom = new TimeInstantCondition("Analyse RFC", GenericState.START, new DataPropertyCondition("Provider", "provider == 'p1'"));
+        TimeInstantCondition conditionTo = new TimeInstantCondition("Approve RFC", GenericState.END, new DataPropertyCondition("Provider", "provider == 'p2'"));
+        TimeMeasure measure = new TimeMeasure("id", "name", "desc", null, null, conditionFrom, conditionTo, TimeMeasureType.LINEAR, Aggregator.SUM);
+        TimeMeasureComputer computer = new TimeMeasureComputer(measure);
+
+        computer.update(helper.newAssignEntry("Analyse RFC", "i1").withData("provider", "p1"));
+        computer.update(helper.newCompleteEntry("Analyse RFC", "i1"));
+        computer.update(helper.newAssignEntry("Approve RFC", "i1"));
+        computer.update(helper.newCompleteEntry("Approve RFC", "i1").withData("provider", "p2"));
         computer.update(helper.newAssignEntry("Analyse RFC", "i1"));
         computer.update(helper.newCompleteEntry("Analyse RFC", "i1"));
         computer.update(helper.newAssignEntry("Approve RFC", "i1"));
@@ -112,17 +139,17 @@ public class TimeMeasureComputerTest extends MeasureComputerHelper {
     
     @Test
     public void testUnfinishedComputeLinearInstances() throws Exception {
-        LogEntryHelper helper = new LogEntryHelper(10);
+        LogEntryHelper helper = new LogEntryHelper();
         TimeMeasureComputer computer = createLinearUnfinishedTimeMeasureComputer("Analyse RFC", GenericState.START, "Approve RFC", GenericState.END);
 
-        computer.update(helper.newAssignEntry("Analyse RFC", "i1"));
-        computer.update(helper.newCompleteEntry("Analyse RFC", "i1"));
-        computer.update(helper.newAssignEntry("Approve RFC", "i1"));
+        computer.update(helper.newAssignEntry("Analyse RFC", "i1", DateTime.now().minusMillis(15)));
+        computer.update(helper.newCompleteEntry("Analyse RFC", "i1", DateTime.now().minusMillis(10)));
+        computer.update(helper.newAssignEntry("Approve RFC", "i1", DateTime.now().minusMillis(5)));
 
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
         asserter.assertTheNumberOfMeasuresIs(1);
-        asserter.assertInstanceHasValueGreaterThan("i1", 20);
+        asserter.assertInstanceHasValue("i1", 15);
     }
 
 }

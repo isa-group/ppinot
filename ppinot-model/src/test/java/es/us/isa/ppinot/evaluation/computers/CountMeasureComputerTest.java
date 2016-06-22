@@ -2,10 +2,7 @@ package es.us.isa.ppinot.evaluation.computers;
 
 import es.us.isa.ppinot.evaluation.LogEntryHelper;
 import es.us.isa.ppinot.evaluation.MeasuresAsserter;
-import es.us.isa.ppinot.model.base.CountMeasure;
-import es.us.isa.ppinot.model.condition.TimeInstantCondition;
 import es.us.isa.ppinot.model.state.GenericState;
-import es.us.isa.ppinot.model.state.RuntimeState;
 import org.junit.Test;
 
 /**

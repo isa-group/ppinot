@@ -47,15 +47,15 @@ public class HolidaysTest extends MeasureComputerHelper {
 
         computer.update(helper.newInstance("i1", EventType.ready, DateTime.now().withTime(8, 0, 0, 0)));
         computer.update(helper.newEntry("Analyse RFC", EventType.ready, "i1", DateTime.now().withTime(8, 0, 0, 0)));
-        computer.update(helper.newEntry("Analyse RFC", EventType.complete, "i1", DateTime.now().plusDays(2).withTime(10, 0, 0, 0)));
-        computer.update(helper.newEntry("Approve RFC", EventType.ready, "i1", DateTime.now().plusDays(2).withTime(10, 0, 0, 0)));
-        computer.update(helper.newEntry("Approve RFC", EventType.complete, "i1", DateTime.now().plusDays(4).withTime(9, 0, 0, 0)));
-        computer.update(helper.newInstance("i1", EventType.complete, DateTime.now().plusDays(4).withTime(9, 0, 0, 0)));
+        computer.update(helper.newEntry("Analyse RFC", EventType.complete, "i1", DateTime.now().plusDays(2).withTime(8, 0, 0, 0)));
+        computer.update(helper.newEntry("Approve RFC", EventType.ready, "i1", DateTime.now().plusDays(2).withTime(8, 0, 0, 0)));
+        computer.update(helper.newEntry("Approve RFC", EventType.complete, "i1", DateTime.now().plusDays(4).withTime(8, 0, 0, 0)));
+        computer.update(helper.newInstance("i1", EventType.complete, DateTime.now().plusDays(4).withTime(8, 0, 0, 0)));
 
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
         asserter.assertTheNumberOfMeasuresIs(1);
-        asserter.assertInstanceHasValue("i1", 25);
+        asserter.assertInstanceHasValue("i1", 24);
     }
     
     // An activity begins and ends on vacation.

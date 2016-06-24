@@ -33,4 +33,11 @@ public class GroupByTemporalMeasureScopeImpl extends TemporalMeasureScopeImpl im
         this.groupParameters = groupParameters;
     }
 
+    @Override
+    public Map<String, Object> getScopeInfo() {
+        Map<String,Object> scope = super.getScopeInfo();
+        scope.putAll(groupParameters);
+
+        return scope;
+    }
 }

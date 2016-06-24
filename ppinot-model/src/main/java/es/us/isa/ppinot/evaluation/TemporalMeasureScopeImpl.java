@@ -3,6 +3,7 @@ package es.us.isa.ppinot.evaluation;
 import org.joda.time.DateTime;
 
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * TemporalMeasureScope
@@ -24,6 +25,15 @@ public class TemporalMeasureScopeImpl extends MeasureScopeImpl implements Tempor
         super(processId, instances);
         this.start = start;
         this.end = end;
+    }
+
+    @Override
+    public Map<String, Object> getScopeInfo() {
+        Map<String,Object> scope = super.getScopeInfo();
+        scope.put("start", start);
+        scope.put("end", end);
+
+        return scope;
     }
 
     @Override

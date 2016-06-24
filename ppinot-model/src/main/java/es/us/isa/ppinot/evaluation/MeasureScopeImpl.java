@@ -1,7 +1,6 @@
 package es.us.isa.ppinot.evaluation;
 
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.*;
 
 public class MeasureScopeImpl implements MeasureScope {
     
@@ -39,6 +38,11 @@ public class MeasureScopeImpl implements MeasureScope {
         if (!processId.equals(that.processId)) return false;
 
         return true;
+    }
+
+    @Override
+    public Map<String, Object> getScopeInfo() {
+        return new HashMap<String, Object>();
     }
 
     @Override

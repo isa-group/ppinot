@@ -29,7 +29,7 @@ public class StartDecoratorLog extends AbstractLogProvider implements LogProvide
     @Override
     public void update(LogEntry entry) {
         if (! instances.contains(entry.getInstanceId())) {
-            LogEntry startEvent = LogEntry.instance(entry.getProcessId(), entry.getInstanceId(), LogEntry.EventType.ready, entry.getTimeStamp());
+            LogEntry startEvent = LogEntry.instance(entry.getProcessId(), entry.getInstanceId(), LogEntry.EventType.ready, entry.getTimeStamp()).withData(entry.getData());
             updateListeners(startEvent);
             instances.add(entry.getInstanceId());
         }

@@ -58,7 +58,7 @@ public class EndDecoratorLog extends AbstractLogProvider implements LogProvider,
     }
 
     private void generateEventAndNotify(LogEntry entry) {
-        LogEntry endEvent = LogEntry.instance(entry.getProcessId(), entry.getInstanceId(), LogEntry.EventType.complete, entry.getTimeStamp());
+        LogEntry endEvent = LogEntry.instance(entry.getProcessId(), entry.getInstanceId(), LogEntry.EventType.complete, entry.getTimeStamp()).withData(entry.getData());
         updateListeners(endEvent);
     }
 

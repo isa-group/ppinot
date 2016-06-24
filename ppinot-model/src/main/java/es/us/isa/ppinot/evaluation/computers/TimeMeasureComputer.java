@@ -48,7 +48,10 @@ public class TimeMeasureComputer implements MeasureComputer {
 
     @Override
     public List<? extends Measure> compute() {
-        List<MeasureInstance> computation = new ArrayList<MeasureInstance>(measures.values());
+        List<MeasureInstance> computation = new ArrayList<MeasureInstance>();
+        for (MeasureInstanceTimer timer : measures.values()) {
+            computation.add(new MeasureInstance(timer.getDefinition(), timer.getMeasureScope(), timer.getValue()));
+        }
         return computation;
     }
 
@@ -265,7 +268,6 @@ public class TimeMeasureComputer implements MeasureComputer {
             long fullDay = DateTimeConstants.MILLIS_PER_DAY;
             long exclusionPerDay = Duration.standardDays(1).minus(Seconds.secondsBetween(schedule.getBeginTime(), schedule.getEndTime()).toStandardDuration()).getMillis();
             long exclusion = 0;
-            List<DateTime> holidays = Holidays.getHolidaysFromJson();
 
             DateTime nextDay = start.withTimeAtStartOfDay().plusDays(1);
             DateTime endDay = end.withTimeAtStartOfDay();

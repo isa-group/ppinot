@@ -67,6 +67,9 @@ public class Measure {
         return value.toString();
     }
 
+    public Object getValueAsObject() {
+        return value; }
+
     public void setValue(double value) {
         this.value = value;
     }

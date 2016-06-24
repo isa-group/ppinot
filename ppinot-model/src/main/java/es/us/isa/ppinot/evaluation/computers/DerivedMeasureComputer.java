@@ -62,7 +62,7 @@ public class DerivedMeasureComputer implements MeasureComputer {
         if (oneVar == null) throw new RuntimeException("No variables defined");
 
         for (MeasureScope scope : variables.get(oneVar).keySet()) {
-            Map<String, Double> expressionVariables = new HashMap<String, Double>();
+            Map<String, Object> expressionVariables = new HashMap<String, Object>();
             boolean ignoreScope = false;
 
             for (String varName : variables.keySet()) {
@@ -71,7 +71,7 @@ public class DerivedMeasureComputer implements MeasureComputer {
                     ignoreScope = true;
                     break;
                 }
-                expressionVariables.put(varName, measure.getValue());
+                expressionVariables.put(varName, measure.getValueAsObject());
             }
 
             if (ignoreScope) {

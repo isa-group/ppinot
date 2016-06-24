@@ -74,101 +74,71 @@ public class AggregatedMeasureComputer implements MeasureComputer {
 
         Map<String, MeasureInstance> measureMap = buildMeasureMap(measures);
         Map<String, MeasureInstance> filterMap = buildMeasureMap(filters);
+        Collection<MeasureScope> allScopes;
 
-        if (listGroupByMeasureComputer != null && listGroupByMeasureComputer.size() > 0) { // agrupar entrada del log
+        if (listGroupByMeasureComputer != null && listGroupByMeasureComputer.size() > 0) {
 
-            // Mapa de instance y groupBy construido en función de los parámetros que se quieren agrupar
             Map<String, Map<String, String>> instanceGroupBy = new HashMap<String, Map<String, String>>(); // string -> instanceId
             for (MeasureComputer mc : listGroupByMeasureComputer) {
                 DataMeasureComputer dmc = (DataMeasureComputer) mc;
                 for (Measure measure : mc.compute()) {
                     MeasureInstance mi = (MeasureInstance) measure;
-                    Map<String, String> measureGroup = new HashMap<String, String>(); // groupbyscope
-                    measureGroup.put(dmc.definition.getDataContentSelection().getSelection(), mi.getValueAsString());
-                    if (instanceGroupBy.containsKey(mi.getInstanceId())) {
-                        instanceGroupBy.get(mi.getInstanceId()).putAll(measureGroup);
-                    } else {
-                        instanceGroupBy.put(mi.getInstanceId(), measureGroup);
-                    }
-                }
-            }
 
-            // Reverted map. De esta forma que consiguen las instancias de una agrupación
-            Map<Map<String, String>, List<String>> groupByInstances = new HashMap<Map<String, String>, List<String>>();
-            for (String instance : instanceGroupBy.keySet()) {
-                List<String> values = new ArrayList<String>();
-                if (groupByInstances.containsKey(instanceGroupBy.get(instance))) {
-                    values = groupByInstances.get(instanceGroupBy.get(instance));
-                    values.add(instance);
-                    groupByInstances.put(instanceGroupBy.get(instance), values);
-                } else {
-                    values.add(instance);
-                    groupByInstances.put(instanceGroupBy.get(instance), values);
-                }
-            }
-
-            // Asocia un scope a cada instancia
-            List<MeasureScope> listScopes = (List<MeasureScope>) classifier.listScopes();
-            Map<String, MeasureScope> instanceMeasureScope = new HashMap<String, MeasureScope>();
-            for (MeasureScope scope : listScopes) {
-                for (String instance : scope.getInstances()) {
-                    instanceMeasureScope.put(instance, scope);
-                }
-            }
-
-            // Agrupa medidas usando GroupByMeasureScope
-            for (Map<String, String> group : groupByInstances.keySet()) {
-                for (MeasureScope scope : listScopes) {
-
-                    List<String> groupedInstances = new ArrayList<String>(groupByInstances.get(group));
-                    groupedInstances.retainAll(scope.getInstances());
-                    if (filterComputer != null) {
-                        groupedInstances.retainAll(filterTrueInstances(groupedInstances, filterMap));
+                    if (!instanceGroupBy.containsKey(mi.getInstanceId())) {
+                        instanceGroupBy.put(mi.getInstanceId(), new HashMap<String, String>());
                     }
 
-                    if (!groupedInstances.isEmpty()) {
-                        String instance = groupedInstances.iterator().next();
-                        TemporalMeasureScope tempScope = (TemporalMeasureScope) instanceMeasureScope.get(instance);
-                        GroupByMeasureScope groupByScope = new GroupByTemporalMeasureScopeImpl(tempScope.getProcessId(), groupedInstances, tempScope.getStart(), tempScope.getEnd());
-                        groupByScope.setGroupParameters(group);
+                    instanceGroupBy.get(mi.getInstanceId()).put(dmc.definition.getDataContentSelection().getSelection(), mi.getValueAsString());
+                }
+            }
 
-                        Collection<Double> toAggregate = new ArrayList<Double>();
-                        for (String gi : groupedInstances) {
-                            toAggregate.add(measureMap.get(gi).getValue());
+            Collection<MeasureScope> temporalScopes = classifier.listScopes();
+
+            allScopes = new ArrayList<MeasureScope>();
+            for (MeasureScope temporalScope : temporalScopes) {
+                Map<Map<String, String>, List<String>> instancesByGroup = new HashMap<Map<String, String>, List<String>>();
+                for (String instanceId : temporalScope.getInstances()) {
+                    Map<String, String> group = instanceGroupBy.get(instanceId);
+
+                    if (group != null) {
+                        List<String> instances = instancesByGroup.get(group);
+                        if (instances == null) {
+                            instances = new ArrayList<String>();
+                            instancesByGroup.put(group, instances);
                         }
-                        if (!toAggregate.isEmpty()) {
-                            double val = agg.aggregate(toAggregate);
-                            result.add(new Measure(definition, groupByScope, val));
-                        }
-                    }
 
+                        instances.add(instanceId);
+                    }
+                }
+
+                for (Map<String, String> groupScope : instancesByGroup.keySet()) {
+                    TemporalMeasureScope tScope = (TemporalMeasureScope) temporalScope;
+                    List<String> instances = instancesByGroup.get(groupScope);
+                    GroupByTemporalMeasureScopeImpl groupByTemporalMeasureScope = new GroupByTemporalMeasureScopeImpl(tScope.getProcessId(), instances, tScope.getStart(), tScope.getEnd());
+                    groupByTemporalMeasureScope.setGroupParameters(groupScope);
+
+                    allScopes.add(groupByTemporalMeasureScope);
                 }
             }
+        } else {
+            allScopes = classifier.listScopes();
+        }
 
-        } else { // not grouping
 
-            Collection<MeasureScope> scopes = classifier.listScopes();
+        for (MeasureScope scope : allScopes) {
             if (filterComputer != null) {
+                Collection<String> filterScopeInstances = filterTrueInstances(scope.getInstances(), filterMap);
+                scope.getInstances().retainAll(filterScopeInstances);
+            }
 
-                for (MeasureScope scope : scopes) {
-                    Collection<String> filterScopeInstances = filterTrueInstances(scope.getInstances(), filterMap);
-                    scope.getInstances().retainAll(filterScopeInstances);
-
-                    Collection<Double> toAggregate = chooseMeasuresToAggregate(scope, measureMap);
-                    if (!toAggregate.isEmpty()) {
-                        double val = agg.aggregate(toAggregate);
-                        result.add(new Measure(definition, scope, val));
-                    }
-                }
-            } else { // not filtering
-
-                for (MeasureScope scope : scopes) {
-                    Collection<Double> toAggregate = chooseMeasuresToAggregate(scope, measureMap);
-                    double val = agg.aggregate(toAggregate);
-                    result.add(new Measure(definition, scope, val));
-                }
+            Collection<Double> toAggregate = chooseMeasuresToAggregate(scope, measureMap);
+            if (!toAggregate.isEmpty()) {
+                double val = agg.aggregate(toAggregate);
+                result.add(new Measure(definition, scope, val));
             }
         }
+
+
         return result;
     }
 
@@ -193,7 +163,7 @@ public class AggregatedMeasureComputer implements MeasureComputer {
         return measureMap;
     }
 
-    // Filtra las instancias que tengan el valor del filtro a true.
+    // Filter instances whose filter value is true
     private Collection<String> filterTrueInstances(Collection<String> instances, Map<String, MeasureInstance> filterMap) {
         Collection<String> found = new ArrayList<String>();
         if (filterMap.size() > 0) {

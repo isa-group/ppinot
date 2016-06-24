@@ -24,12 +24,26 @@ public class MeasuresAsserter {
         Assert.assertEquals(n, measures.size());
     }
 
-    public void assertInstanceHasValue(String instance, double value) {
+    public void assertInstanceHasDoubleValue(String instance, double value) {
         boolean found = false;
 
         for (Measure m: measures) {
             if (m.getInstances().contains(instance)) {
                 Assert.assertEquals(value, m.getValue(), 0);
+                found = true;
+                break;
+            }
+        }
+
+        Assert.assertTrue("Instance " + instance + " has not been evaluated", found);
+    }
+
+    public void assertInstanceHasStringValue(String instance, String value) {
+        boolean found = false;
+
+        for (Measure m: measures) {
+            if (m.getInstances().contains(instance)) {
+                Assert.assertEquals(value, m.getValueAsString());
                 found = true;
                 break;
             }

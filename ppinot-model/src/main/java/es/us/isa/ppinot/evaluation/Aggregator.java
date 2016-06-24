@@ -47,19 +47,28 @@ public class Aggregator {
 
     public double sum(Collection<Double> values) {
         double result = 0;
+        boolean processed = false;
         for (Double v: values) {
-            result += v;
+            if (!v.isNaN()) {
+                result += v;
+                processed = true;
+            }
         }
 
-        return result;
+        return (processed ? result : Double.NaN);
     }
 
     public double avg(Collection<Double> values) {
-        if (values.isEmpty()) {
-            return Double.NaN;
+        double sum = 0;
+        double count = 0;
+        for (Double v: values) {
+            if (!v.isNaN()) {
+                sum += v;
+                count += 1;
+            }
         }
 
-        return sum(values) / values.size();
+        return (count > 0 ? sum / count : Double.NaN);
     }
 
     public double max(Collection<Double> values) {

@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * LogMeasureEvaluator
- * Copyright (C) 2015 Universidad de Sevilla
+ * LogMeasureEvaluator Copyright (C) 2015 Universidad de Sevilla
  *
  * @author resinas
  */
 public class LogMeasureEvaluator implements MeasureEvaluator {
+
     private static final Logger log = Logger.getLogger(LogMeasureEvaluator.class.getName());
 
     private LogProvider logProvider;
@@ -31,6 +31,20 @@ public class LogMeasureEvaluator implements MeasureEvaluator {
         logProvider.registerListener(computer);
         logProvider.registerEntryTransformer(new PreviousDataStateTransformer());
 
+        logProvider.processLog();
+
+        return (List<Measure>) computer.compute();
+    }
+
+    public List<Measure> eval(List<MeasureDefinition> definitions, ProcessInstanceFilter filter) {
+
+        MeasureComputer computer = null;
+        
+        for (MeasureDefinition definition : definitions) {
+            computer = new MeasureComputerFactory().create(definition, filter);
+            logProvider.registerListener(computer);
+        }
+        logProvider.registerEntryTransformer(new PreviousDataStateTransformer());
         logProvider.processLog();
 
         return (List<Measure>) computer.compute();

@@ -5,10 +5,7 @@ import es.us.isa.ppinot.evaluation.LogEntryHelper;
 import es.us.isa.ppinot.evaluation.MeasuresAsserter;
 import es.us.isa.ppinot.model.DataContentSelection;
 import es.us.isa.ppinot.model.base.DataMeasure;
-import es.us.isa.ppinot.model.base.TimeMeasure;
-import es.us.isa.ppinot.model.condition.DataPropertyCondition;
 import es.us.isa.ppinot.model.condition.TimeInstantCondition;
-import es.us.isa.ppinot.model.condition.TimeMeasureType;
 import es.us.isa.ppinot.model.state.GenericState;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -170,18 +167,18 @@ public class TimeMeasureComputerTest extends MeasureComputerHelper {
     }
     
     @Test
-    public void testUnfinishedComputeLinearInstances() throws Exception {
-        LogEntryHelper helper = new LogEntryHelper();
+    public void testUnfinishedComputerLinearInstances() throws Exception {
+        LogEntryHelper helper = new LogEntryHelper(10);
         TimeMeasureComputer computer = createLinearUnfinishedTimeMeasureComputer("Analyse RFC", GenericState.START, "Approve RFC", GenericState.END);
 
-        computer.update(helper.newAssignEntry("Analyse RFC", "i1", DateTime.now().minusMillis(15)));
-        computer.update(helper.newCompleteEntry("Analyse RFC", "i1", DateTime.now().minusMillis(10)));
-        computer.update(helper.newAssignEntry("Approve RFC", "i1", DateTime.now().minusMillis(5)));
+        computer.update(helper.newAssignEntry("Analyse RFC", "i1"));
+        computer.update(helper.newCompleteEntry("Analyse RFC", "i1"));
+        computer.update(helper.newAssignEntry("Approve RFC", "i1"));
 
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
         asserter.assertTheNumberOfMeasuresIs(1);
-        asserter.assertInstanceHasDoubleValue("i1", 15);
+        asserter.assertInstanceHasDoubleValueGreaterThanOrEqual("i1", 20);
     }
 
 }

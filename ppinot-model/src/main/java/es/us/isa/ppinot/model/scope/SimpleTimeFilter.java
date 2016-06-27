@@ -16,7 +16,6 @@ public class SimpleTimeFilter extends ProcessInstanceFilter {
     private int frequency;
     private int absoluteStart;
     private boolean relative;
-
     private boolean includeUnfinished = false;
 
     public SimpleTimeFilter() {
@@ -45,6 +44,12 @@ public class SimpleTimeFilter extends ProcessInstanceFilter {
         this.includeUnfinished = includeUnfinished;
     }
 
+    public SimpleTimeFilter(Period period, int frequency, int absoluteStart, boolean includeUnfinished) {
+        this(period, frequency, false);
+        this.absoluteStart = absoluteStart;
+        this.includeUnfinished = includeUnfinished;
+    }
+
     public Period getPeriod() {
         return period;
     }
@@ -61,7 +66,7 @@ public class SimpleTimeFilter extends ProcessInstanceFilter {
         return relative;
     }
 
-    public boolean includesUnfinished() {
+    public boolean isIncludeUnfinished() {
         return includeUnfinished;
     }
 }

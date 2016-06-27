@@ -27,10 +27,10 @@ public class TimeScopeClassifier extends ScopeClassifier {
     }
 
     @Override
-    public Collection<MeasureScope> listScopes() {
+    public Collection<MeasureScope> listScopes(boolean isIncludeUnfinished) {
         Collection<MeasureScope> scopes;
 
-        if (filter.includesUnfinished()) {
+        if (filter.isIncludeUnfinished() || isIncludeUnfinished) {
             addUnfinishedInstances();
         }
 

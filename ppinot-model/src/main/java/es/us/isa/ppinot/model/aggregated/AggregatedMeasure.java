@@ -27,6 +27,9 @@ public class AggregatedMeasure extends MeasureDefinition {
     
     protected MeasureDefinition filter;
     
+    protected boolean includeUnfinished = false;
+
+    
     // Indica si la medida utiliza el conector aggregates o no
     protected Boolean aggregates;
 
@@ -44,6 +47,10 @@ public class AggregatedMeasure extends MeasureDefinition {
     	
     	this.setAggregates(false);
     	this.setGroupedBy(null);
+    }
+
+    public boolean isIncludeUnfinished() {
+        return includeUnfinished;
     }
     
     /**

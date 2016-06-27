@@ -27,7 +27,7 @@ public class LastInstancesScopeClassifier extends ScopeClassifier {
     }
 
     @Override
-    public Collection<MeasureScope> listScopes() {
+    public Collection<MeasureScope> listScopes(boolean isIncludeUnfinished) {
         return scopes;
     }
 

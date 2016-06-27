@@ -92,7 +92,7 @@ public class AggregatedMeasureComputer implements MeasureComputer {
                 }
             }
 
-            Collection<MeasureScope> temporalScopes = classifier.listScopes();
+            Collection<MeasureScope> temporalScopes = classifier.listScopes(definition.isIncludeUnfinished());
 
             allScopes = new ArrayList<MeasureScope>();
             for (MeasureScope temporalScope : temporalScopes) {
@@ -121,7 +121,7 @@ public class AggregatedMeasureComputer implements MeasureComputer {
                 }
             }
         } else {
-            allScopes = classifier.listScopes();
+            allScopes = classifier.listScopes(definition.isIncludeUnfinished());
         }
 
 

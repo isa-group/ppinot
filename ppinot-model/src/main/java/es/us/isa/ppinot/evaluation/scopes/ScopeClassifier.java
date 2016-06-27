@@ -25,7 +25,7 @@ public abstract class ScopeClassifier implements LogListener {
         this.instances = new HashMap<String, ProcessInstance>();
     }
 
-    public abstract Collection<MeasureScope> listScopes();
+    public abstract Collection<MeasureScope> listScopes(boolean isIncludeUnfinished);
 
     protected abstract void instanceEnded(ProcessInstance instance);
 

@@ -30,7 +30,7 @@ public class TimeAbsoluteScopeTest extends MeasureComputerHelper {
         classifier.update(helper.newInstance("i1", EventType.complete, DateTime.now().withDayOfMonth(dayOfMonth)));
         classifier.update(helper.newInstance("i2", EventType.complete, DateTime.now().withDayOfMonth(dayOfMonth-1).plusMonths(1)));
         
-        Assert.assertTrue(classifier.listScopes().size() == 1);
+        Assert.assertTrue(classifier.listScopes(filter.isIncludeUnfinished()).size() == 1);
     }
 
     @Test
@@ -50,7 +50,7 @@ public class TimeAbsoluteScopeTest extends MeasureComputerHelper {
         classifier.update(helper.newInstance("i1", EventType.complete, DateTime.now().withDayOfMonth(dayOfMonth+5)));
         classifier.update(helper.newInstance("i2", EventType.complete, DateTime.now().withDayOfMonth(dayOfMonth+5).plusMonths(1)));
 
-        Assert.assertTrue(classifier.listScopes().size() == 2);
+        Assert.assertTrue(classifier.listScopes(filter.isIncludeUnfinished()).size() == 2);
     }
 
 }

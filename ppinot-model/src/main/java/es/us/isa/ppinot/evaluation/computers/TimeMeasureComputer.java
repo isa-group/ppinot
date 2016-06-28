@@ -27,7 +27,6 @@ public class TimeMeasureComputer implements MeasureComputer {
     private Map<String, MeasureInstanceTimer> measures;
     private TimeInstantMatcher startMatcher;
     private TimeInstantMatcher endMatcher;
-    private TimeInstantMatcher endInstanceMatcher;
 
     public TimeMeasureComputer(MeasureDefinition definition) {
         if (!(definition instanceof TimeMeasure)) {

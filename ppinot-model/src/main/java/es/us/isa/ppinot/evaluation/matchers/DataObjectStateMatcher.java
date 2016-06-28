@@ -43,6 +43,10 @@ public class DataObjectStateMatcher {
         return matches;
     }
 
+    public static boolean supports(RuntimeState state) {
+        return state instanceof DataObjectState;
+    }
+
     private static Map<String, Object> currentState(LogEntry entry) {
         return entry.getData();
     }

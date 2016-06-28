@@ -55,7 +55,7 @@ public class DataMeasureComputer extends AbstractBaseMeasureComputer<DataMeasure
         if (precondition == null) {
             condition = true;
         } else {
-            condition = new MatcherFactory().matches(precondition, entry);
+            condition = precondition.matches(entry);
         }
 
         return condition;

@@ -9,6 +9,7 @@ import es.us.isa.ppinot.model.base.DataMeasure;
 import org.mvel2.MVEL;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,6 +40,8 @@ public class DataMeasureComputer extends AbstractBaseMeasureComputer<DataMeasure
 
         if (precondition(entry)) {
             try {
+                Map<String, Object> data = entry.getData();
+                data.put("##timestamp", entry.getTimeStamp());
                 Object value = MVEL.executeExpression(selectionExpression, entry.getData());
                 MeasureInstance m = getOrCreateMeasure(entry, null);
                 m.setValue(value);

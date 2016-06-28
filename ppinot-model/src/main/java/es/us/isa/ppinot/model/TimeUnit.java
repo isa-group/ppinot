@@ -48,4 +48,20 @@ public class TimeUnit {
 
         return convertedDuration;
     }
+
+    public static Duration toTimeUnit(double duration, String timeUnit) {
+        Duration convertedDuration = null;
+
+        if (SECONDS.equals(timeUnit)) {
+            convertedDuration = Duration.standardSeconds((long) duration);
+        } else if (MINUTES.equals(timeUnit)) {
+            convertedDuration = Duration.standardMinutes((long) duration);
+        } else if (HOURS.equals(timeUnit)) {
+            convertedDuration = Duration.standardHours((long) duration);
+        } else if (DAYS.equals(timeUnit)) {
+            convertedDuration = Duration.standardDays((long) duration);
+        }
+
+        return convertedDuration;
+    }
 }

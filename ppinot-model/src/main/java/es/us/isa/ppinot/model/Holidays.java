@@ -42,7 +42,7 @@ public class Holidays {
         String json;
         
         try {
-            json = loadFile("src/main/resources/holidays.json");
+            json = loadFile(Holidays.class.getResourceAsStream("/holidays.json"));
             h = mapper.readValue(json, Holidays.class);
         } catch (IOException ex) {
             Logger.getLogger(Schedule.class.getName()).log(Level.SEVERE, null, ex);
@@ -51,13 +51,8 @@ public class Holidays {
         return h.getList();
     }
 
-    private static String loadFile(String filePath) throws FileNotFoundException, IOException {
-        
-        File file = new File(filePath);
-        FileInputStream is;
+    private static String loadFile(InputStream is) throws FileNotFoundException, IOException {
         String result = "";
-
-        is = new FileInputStream(file);
         result = getStringFromInputStream(is);
         is.close();
 

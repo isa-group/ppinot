@@ -142,7 +142,7 @@ public class HolidaysTest extends MeasureComputerHelper {
         Holidays h = new Holidays();
 
         try {
-            String json = loadFile("src/test/resources/holidays.json");
+            String json = loadFile("/holidays.json");
             h = mapper.readValue(json, Holidays.class);
         } catch (JsonGenerationException ex) {
             Logger.getLogger(Schedule.class.getName()).log(Level.SEVERE, null, ex);
@@ -156,11 +156,9 @@ public class HolidaysTest extends MeasureComputerHelper {
     }
 
     private static String loadFile(String filePath) {
-        File f = new File(filePath);
-        FileInputStream is;
+        InputStream is = HolidaysTest.class.getResourceAsStream(filePath);
         String res = "";
         try {
-            is = new FileInputStream(f);
             res = getStringFromInputStream(is);
             is.close();
         } catch (FileNotFoundException e) {

@@ -38,6 +38,11 @@ public abstract class AbstractBaseMeasureComputer<T extends MeasureDefinition> i
     @Override
     public abstract void update(LogEntry entry);
 
+    protected MeasureInstance getMeasure(LogEntry entry) {
+        String measureId = entry.getProcessId() + "#" + entry.getInstanceId();
+        return measures.get(measureId);
+    }
+
     protected MeasureInstance getOrCreateMeasure(LogEntry entry, Object defaultValue) {
         String measureId = entry.getProcessId() + "#" + entry.getInstanceId();
         MeasureInstance m = measures.get(measureId);

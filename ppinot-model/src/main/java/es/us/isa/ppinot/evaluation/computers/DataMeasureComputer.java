@@ -25,6 +25,7 @@ public class DataMeasureComputer extends AbstractBaseMeasureComputer<DataMeasure
 
     private Matcher precondition = null;
     private Serializable selectionExpression;
+    private boolean onlyFirst = false;
 
     public DataMeasureComputer(MeasureDefinition definition) {
         super(definition);
@@ -32,6 +33,11 @@ public class DataMeasureComputer extends AbstractBaseMeasureComputer<DataMeasure
         if (this.definition.getPrecondition() != null) {
             precondition = new MatcherFactory().create(this.definition.getPrecondition());
         }
+
+        if (this.definition.isFirst()) {
+            onlyFirst = true;
+        }
+
         selectionExpression = MVEL.compileExpression(this.definition.getDataContentSelection().getSelection());
     }
 
@@ -43,8 +49,12 @@ public class DataMeasureComputer extends AbstractBaseMeasureComputer<DataMeasure
                 Map<String, Object> data = entry.getData();
                 data.put("##timestamp", entry.getTimeStamp());
                 Object value = MVEL.executeExpression(selectionExpression, entry.getData());
-                MeasureInstance m = getOrCreateMeasure(entry, null);
-                m.setValue(value);
+                MeasureInstance m = getMeasure(entry);
+                if (m == null || ! onlyFirst) {
+                    m = getOrCreateMeasure(entry, null);
+                    m.setValue(value);
+                }
+
             } catch (Exception e) {
                 log.log(Level.INFO, "Expression evaluation failed: " + this.definition.getDataContentSelection().getSelection(), e);
             }

@@ -28,7 +28,7 @@ public abstract class AbstractLogProvider implements LogProvider {
         transfomers.add(transformer);
     }
 
-    protected void updateListeners(LogEntry entry) {
+    protected LogEntry updateListeners(LogEntry entry) {
         LogEntry transformedEntry = entry;
 
 
@@ -39,5 +39,7 @@ public abstract class AbstractLogProvider implements LogProvider {
         for (LogListener listener : listeners) {
             listener.update(transformedEntry);
         }
+
+        return transformedEntry;
     }
 }

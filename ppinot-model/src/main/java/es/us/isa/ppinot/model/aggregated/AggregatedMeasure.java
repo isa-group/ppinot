@@ -52,8 +52,13 @@ public class AggregatedMeasure extends MeasureDefinition {
     public boolean isIncludeUnfinished() {
         return includeUnfinished;
     }
-    
-    /**
+
+	public AggregatedMeasure setIncludeUnfinished(boolean includeUnfinished) {
+		this.includeUnfinished = includeUnfinished;
+		return this;
+	}
+
+	/**
      * Constructor de la clase
      * 
      * @param id Id de la medida

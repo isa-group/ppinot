@@ -45,7 +45,6 @@ public class DataMeasureComputer extends AbstractBaseMeasureComputer<DataMeasure
     public void update(LogEntry entry) {
         Map<String, Object> data = entry.getData();
         data.put("##timestamp", entry.getTimeStamp());
-        MeasureInstance m = getOrCreateMeasure(entry, null);
 
         if (precondition(entry)) {
             try {

@@ -48,7 +48,7 @@ public class DataMeasureComputer extends AbstractBaseMeasureComputer<DataMeasure
             try {
                 Map<String, Object> data = entry.getData();
                 data.put("##timestamp", entry.getTimeStamp());
-                Object value = MVEL.executeExpression(selectionExpression, entry.getData());
+                Object value = MVEL.executeExpression(selectionExpression, data);
                 MeasureInstance m = getMeasure(entry);
                 if (m == null || ! onlyFirst) {
                     m = getOrCreateMeasure(entry, null);

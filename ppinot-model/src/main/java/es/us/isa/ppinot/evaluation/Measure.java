@@ -64,7 +64,7 @@ public class Measure {
     }
     
     public String getValueAsString() {
-        return value.toString();
+        return (value == null ? null : value.toString());
     }
 
     public Object getValueAsObject() {

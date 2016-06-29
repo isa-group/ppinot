@@ -79,6 +79,7 @@ public class AggregatedMeasureComputer implements MeasureComputer {
         if (listGroupByMeasureComputer != null && listGroupByMeasureComputer.size() > 0) {
 
             Map<String, Map<String, String>> instanceGroupBy = new HashMap<String, Map<String, String>>(); // string -> instanceId
+            
             for (MeasureComputer mc : listGroupByMeasureComputer) {
                 DataMeasureComputer dmc = (DataMeasureComputer) mc;
                 for (Measure measure : mc.compute()) {
@@ -87,8 +88,8 @@ public class AggregatedMeasureComputer implements MeasureComputer {
                     if (!instanceGroupBy.containsKey(mi.getInstanceId())) {
                         instanceGroupBy.put(mi.getInstanceId(), new HashMap<String, String>());
                     }
-
-                    instanceGroupBy.get(mi.getInstanceId()).put(dmc.definition.getDataContentSelection().getSelection(), mi.getValueAsString());
+                    
+                    instanceGroupBy.get(mi.getInstanceId()).put(dmc.definition.getDataContentSelection().getSelection(), mi.getValueAsString());                        
                 }
             }
 
@@ -127,7 +128,7 @@ public class AggregatedMeasureComputer implements MeasureComputer {
 
         for (MeasureScope scope : allScopes) {
             if (filterComputer != null) {
-                Collection<String> filterScopeInstances = filterTrueInstances(scope.getInstances(), filterMap);
+                Collection<String> filterScopeInstances = filterFalseInstances(scope.getInstances(), filterMap);
                 scope.getInstances().retainAll(filterScopeInstances);
             }
 
@@ -163,12 +164,12 @@ public class AggregatedMeasureComputer implements MeasureComputer {
         return measureMap;
     }
 
-    // Filter instances whose filter value is true
-    private Collection<String> filterTrueInstances(Collection<String> instances, Map<String, MeasureInstance> filterMap) {
+    // Filter instances whose filter value is false
+    private Collection<String> filterFalseInstances(Collection<String> instances, Map<String, MeasureInstance> filterMap) {
         Collection<String> found = new ArrayList<String>();
         if (filterMap.size() > 0) {
             for (String instance : instances) {
-                if (filterMap.get(instance).getValueAsBoolean()) {
+                if (! filterMap.get(instance).getValueAsBoolean()) {
                     found.add(instance);
                 }
             }

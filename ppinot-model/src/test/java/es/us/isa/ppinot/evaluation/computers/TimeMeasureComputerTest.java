@@ -85,7 +85,7 @@ public class TimeMeasureComputerTest extends MeasureComputerHelper {
 
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
-        asserter.assertTheNumberOfMeasuresIs(0);
+        asserter.assertTheNumberOfMeasuresIs(1);
     }
 
     @Test

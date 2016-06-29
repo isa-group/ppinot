@@ -17,6 +17,9 @@ public class ComplexState implements RuntimeState {
     private TimeInstantCondition first;
     private TimeInstantCondition last;
     private Type type;
+    
+    public ComplexState() {
+    }
 
     public ComplexState(TimeInstantCondition first, TimeInstantCondition last, Type type) {
         this.first = first;

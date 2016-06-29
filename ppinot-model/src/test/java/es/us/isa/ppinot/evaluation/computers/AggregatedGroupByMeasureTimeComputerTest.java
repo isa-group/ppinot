@@ -222,7 +222,7 @@ public class AggregatedGroupByMeasureTimeComputerTest extends MeasureComputerHel
 
         List<Measure> result = (List<Measure>) computer.compute();
         MeasuresAsserter asserter = new MeasuresAsserter(result);
-        asserter.assertTheNumberOfMeasuresIs(0);
+        asserter.assertTheNumberOfMeasuresIs(3);
     }
 
 }

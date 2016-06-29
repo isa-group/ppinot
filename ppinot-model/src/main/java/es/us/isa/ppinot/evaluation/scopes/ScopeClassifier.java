@@ -64,7 +64,7 @@ public abstract class ScopeClassifier implements LogListener {
     }
 
     private String measureIdOf(LogEntry entry) {
-        return entry.getProcessId() + "#" + entry.getInstanceId();
+        return entry.getInstanceId();
     }
 
     protected class ProcessInstance {

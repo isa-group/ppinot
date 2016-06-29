@@ -18,12 +18,12 @@ import java.util.*;
 public class TimeScopeClassifier extends ScopeClassifier {
 
     private SimpleTimeFilter filter;
-    private SortedSet<ProcessInstance> instances;
+    private SortedSet<ProcessInstance> instancesSet;
 
     public TimeScopeClassifier(SimpleTimeFilter filter) {
         super();
         this.filter = filter;
-        this.instances = new TreeSet<ProcessInstance>(new EndInstanceComparator());
+        this.instancesSet = new TreeSet<ProcessInstance>(new EndInstanceComparator());
     }
 
     @Override
@@ -34,7 +34,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
             addUnfinishedInstances();
         }
 
-        if (instances.isEmpty()) {
+        if (instancesSet.isEmpty()) {
             scopes = Collections.EMPTY_LIST;
         } else if (filter.isRelative()) {
             scopes = listRelativeScopes();
@@ -51,18 +51,18 @@ public class TimeScopeClassifier extends ScopeClassifier {
         for (ProcessInstance pi : getUnfinishedInstances()) {
             ProcessInstance adaptedPi = new ProcessInstance(pi.getProcessId(), pi.getInstanceId(), pi.getStart());
             adaptedPi.ends(now);
-            instances.add(adaptedPi);
+            instancesSet.add(adaptedPi);
         }
     }
 
     private Collection<MeasureScope> listRelativeScopes() {
         Collection<MeasureScope> scopes = new ArrayList<MeasureScope>();
         Period period = buildPeriod();
-        DateTime currentDate = instances.first().getEnd();
+        DateTime currentDate = instancesSet.first().getEnd();
         Interval currentInterval = new Interval(currentDate, period);
         List<ProcessInstance> current = new ArrayList<ProcessInstance>();
         
-        for (ProcessInstance instance : instances) {
+        for (ProcessInstance instance : instancesSet) {
             DateTime ends = instance.getEnd();
             if (currentInterval.isBefore(ends)) {
                 scopes.add(new TemporalMeasureScopeImpl(
@@ -83,7 +83,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
             current.add(instance);
         }
         
-        scopes.add(new TemporalMeasureScopeImpl(instances.first().getProcessId(),instanceToId(current),currentInterval.getStart(),currentInterval.getEnd()));
+        scopes.add(new TemporalMeasureScopeImpl(instancesSet.first().getProcessId(),instanceToId(current),currentInterval.getStart(),currentInterval.getEnd()));
 
         return scopes;
     }
@@ -91,17 +91,17 @@ public class TimeScopeClassifier extends ScopeClassifier {
     private Collection<MeasureScope> listAbsoluteScopes() {
         Collection<MeasureScope> scopes = new ArrayList<MeasureScope>();
         Period period = buildPeriod();
-        DateTime currentDate = buildStartDate(instances.first().getEnd());
-        DateTime lastDate = instances.last().getEnd();
-        String processId = instances.first().getProcessId();
+        DateTime currentDate = buildStartDate(instancesSet.first().getEnd());
+        DateTime lastDate = instancesSet.last().getEnd();
+        String processId = instancesSet.first().getProcessId();
 
         if (lastDate.isBefore(currentDate.plus(period))) {
-            scopes.add(new TemporalMeasureScopeImpl(processId, instanceToId(instances),currentDate,currentDate.plus(period)));
+            scopes.add(new TemporalMeasureScopeImpl(processId, instanceToId(instancesSet),currentDate,currentDate.plus(period)));
         } else {
             Interval i = new Interval(currentDate, period);
             Collection<String> current = new ArrayList<String>();
 
-            for (ProcessInstance instance : instances) {
+            for (ProcessInstance instance : instancesSet) {
                 if (i.contains(instance.getEnd())) {
                     current.add(instance.getInstanceId());
                 } else {
@@ -181,7 +181,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
 
     @Override
     protected void instanceEnded(ProcessInstance instance) {
-        instances.add(instance);
+        instancesSet.add(instance);
     }
 
     private class EndInstanceComparator implements Comparator<ProcessInstance>  {

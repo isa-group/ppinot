@@ -2,6 +2,7 @@ package es.us.isa.ppinot.model.base;
 
 import es.us.isa.ppinot.model.Schedule;
 import es.us.isa.ppinot.model.TimeUnit;
+import es.us.isa.ppinot.model.condition.DataPropertyCondition;
 import es.us.isa.ppinot.model.condition.TimeInstantCondition;
 import es.us.isa.ppinot.model.condition.TimeMeasureType;
 
@@ -24,6 +25,7 @@ public class TimeMeasure extends BaseMeasure {
 	private String singleInstanceAggFunction;
 
     private Schedule considerOnly;
+	private DataPropertyCondition precondition;
 
 	private boolean computeUnfinished;
 
@@ -157,6 +159,15 @@ public class TimeMeasure extends BaseMeasure {
 
 	public TimeMeasure setComputeUnfinished(boolean computeUnfinished) {
 		this.computeUnfinished = computeUnfinished;
+		return this;
+	}
+
+	public DataPropertyCondition getPrecondition() {
+		return precondition;
+	}
+
+	public TimeMeasure setPrecondition(DataPropertyCondition precondition) {
+		this.precondition = precondition;
 		return this;
 	}
 

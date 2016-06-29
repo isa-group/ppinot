@@ -2,14 +2,16 @@ package es.us.isa.ppinot.evaluation.computers;
 
 import es.us.isa.ppinot.evaluation.*;
 import es.us.isa.ppinot.evaluation.logs.LogEntry;
+import es.us.isa.ppinot.evaluation.matchers.DataPropertyMatcher;
 import es.us.isa.ppinot.evaluation.matchers.FlowElementStateMatcher;
 import es.us.isa.ppinot.evaluation.matchers.TimeInstantMatcher;
-import es.us.isa.ppinot.model.Holidays;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.Schedule;
 import es.us.isa.ppinot.model.TimeUnit;
 import es.us.isa.ppinot.model.base.TimeMeasure;
+import es.us.isa.ppinot.model.condition.TimeInstantCondition;
 import es.us.isa.ppinot.model.condition.TimeMeasureType;
+import es.us.isa.ppinot.model.state.DataObjectState;
 import es.us.isa.ppinot.model.state.GenericState;
 import org.joda.time.*;
 
@@ -28,6 +30,11 @@ public class TimeMeasureComputer implements MeasureComputer {
     private TimeInstantMatcher startMatcher;
     private TimeInstantMatcher endMatcher;
 
+    private boolean hasPrecondition;
+    private TimeInstantMatcher startConditionMatcher;
+    private TimeInstantMatcher endConditionMatcher;
+    private DataPropertyMatcher propertyMatcher;
+
     public TimeMeasureComputer(MeasureDefinition definition) {
         if (!(definition instanceof TimeMeasure)) {
             throw new IllegalArgumentException();
@@ -37,6 +44,19 @@ public class TimeMeasureComputer implements MeasureComputer {
         this.measures = new HashMap<String, MeasureInstanceTimer>();
         this.startMatcher = new TimeInstantMatcher(this.definition.getFrom());
         this.endMatcher = new TimeInstantMatcher(this.definition.getTo());
+
+        this.hasPrecondition = ((TimeMeasure) definition).getPrecondition() != null;
+
+        if (hasPrecondition) {
+            if (! TimeMeasureType.LINEAR.equals(((TimeMeasure) definition).getTimeMeasureType())) {
+                throw new IllegalArgumentException("Preconditions can only be used with linear measures");
+            }
+            this.startConditionMatcher = new TimeInstantMatcher(new TimeInstantCondition("Data", new DataObjectState(((TimeMeasure) definition).getPrecondition().getRestriction())));
+            this.endConditionMatcher = new TimeInstantMatcher(new TimeInstantCondition("Data", new DataObjectState("!("+((TimeMeasure) definition).getPrecondition().getRestriction()+")")));
+            this.propertyMatcher = new DataPropertyMatcher(this.definition.getPrecondition());
+
+        }
+
     }
 
     private boolean endsProcess(LogEntry entry) {
@@ -64,9 +84,18 @@ public class TimeMeasureComputer implements MeasureComputer {
             endTimer(m, entry);
         }
 
+        if (hasPrecondition) {
+            updateTimer((PreconditionMeasureInstanceTimer) m, entry, startConditionMatcher.matches(entry), endConditionMatcher.matches(entry));
+        }
+
+
         if (endsProcess(entry)) {
             processFinished(m);
         }
+    }
+
+    private void updateTimer(PreconditionMeasureInstanceTimer m, LogEntry entry, boolean startMatches, boolean endMatches) {
+        m.update(entry, startMatches, endMatches);
     }
 
     private void processFinished(MeasureInstanceTimer m) {
@@ -74,7 +103,7 @@ public class TimeMeasureComputer implements MeasureComputer {
     }
 
     private void startTimer(MeasureInstanceTimer m, LogEntry entry) {
-        m.starts(entry.getTimeStamp());
+        m.starts(entry.getTimeStamp(), entry);
     }
 
     private void endTimer(MeasureInstanceTimer m, LogEntry entry) {
@@ -86,7 +115,9 @@ public class TimeMeasureComputer implements MeasureComputer {
         MeasureInstanceTimer m = measures.get(measureId);
 
         if (m == null) {
-            if (TimeMeasureType.CYCLIC.equals(definition.getTimeMeasureType())) {
+            if (hasPrecondition) {
+                m = new PreconditionMeasureInstanceTimer(definition, entry.getProcessId(), entry.getInstanceId(), propertyMatcher);
+            } else if (TimeMeasureType.CYCLIC.equals(definition.getTimeMeasureType())) {
                 m = new CyclicMeasureInstanceTimer(definition, entry.getProcessId(), entry.getInstanceId());
             } else {
                 m = new LinearMeasureInstanceTimer(definition, entry.getProcessId(), entry.getInstanceId());
@@ -100,16 +131,16 @@ public class TimeMeasureComputer implements MeasureComputer {
         return entry.getProcessId() + "#" + entry.getInstanceId();
     }
 
-    private abstract class MeasureInstanceTimer extends MeasureInstance {
+    private abstract class MeasureInstanceTimer extends MeasureInstance  {
         private boolean processFinished = false;
-
-        public abstract void starts(DateTime start);
-        public abstract void ends(DateTime ends);
-        protected abstract double computeValue();
 
         public MeasureInstanceTimer(TimeMeasure definition, String processId, String instanceId) {
             super(definition, Double.NaN, processId, instanceId);
         }
+
+        public abstract void starts(DateTime start, LogEntry entry);
+        public abstract void ends(DateTime ends);
+        protected abstract double computeValue();
 
         protected boolean isProcessFinished() {
             return processFinished;
@@ -134,6 +165,77 @@ public class TimeMeasureComputer implements MeasureComputer {
 
     }
 
+    private class PreconditionMeasureInstanceTimer extends MeasureInstanceTimer {
+
+        private DateTime start;
+        private CyclicMeasureInstanceTimer current;
+        private CyclicMeasureInstanceTimer backup = null;
+        private DataPropertyMatcher matcher;
+
+
+        public PreconditionMeasureInstanceTimer(TimeMeasure definition, String processId, String instanceId, DataPropertyMatcher matcher) {
+            super(definition, processId, instanceId);
+            current = new CyclicMeasureInstanceTimer(definition, processId, instanceId);
+            this.matcher = matcher;
+        }
+
+        public void starts(DateTime start, LogEntry entry) {
+            if (! isRunning()) {
+                this.start = start;
+                if (matcher.matches(entry)) {
+                    current.starts(start, entry);
+                }
+            }
+        }
+
+        @Override
+        protected double computeValue() {
+            double value;
+
+            if (backup != null)
+                value = backup.computeValue();
+            else {
+                if (isRunning() && !isProcessFinished() && ((TimeMeasure) definition).isComputeUnfinished()) {
+                    value = current.computeValue();
+                } else {
+                    value = Double.NaN;
+                }
+            }
+
+            return value;
+        }
+
+        public void processFinished() {
+            super.processFinished();
+            current.processFinished();
+        }
+
+        public void ends(DateTime end) {
+            if (isRunning()) {
+                backup = current.copy();
+                backup.ends(end);
+            }
+        }
+
+        private boolean isRunning() {
+            return start != null;
+        }
+
+        public void update(LogEntry entry, boolean startMatches, boolean endMatches) {
+            if (isRunning()) {
+                if (startMatches) {
+                    current.starts(entry.getTimeStamp(), entry);
+                }
+
+                if (endMatches) {
+                    current.ends(entry.getTimeStamp());
+                }
+            }
+
+        }
+
+    }
+
     private class LinearMeasureInstanceTimer extends MeasureInstanceTimer {
 
         private DateTime start;
@@ -143,7 +245,7 @@ public class TimeMeasureComputer implements MeasureComputer {
             super(definition, processId, instanceId);
         }
 
-        public void starts(DateTime start) {
+        public void starts(DateTime start, LogEntry entry) {
             if (! isRunning())
                 this.start = start;
 
@@ -189,7 +291,7 @@ public class TimeMeasureComputer implements MeasureComputer {
             aggregator = new Aggregator(definition.getSingleInstanceAggFunction());
         }
 
-        public void starts(DateTime start) {
+        public void starts(DateTime start, LogEntry entry) {
             if (! isRunning())
                 this.start = start;
         }
@@ -235,6 +337,21 @@ public class TimeMeasureComputer implements MeasureComputer {
             return start != null;
         }
 
+        public CyclicMeasureInstanceTimer copy() {
+            CyclicMeasureInstanceTimer copy = new CyclicMeasureInstanceTimer((TimeMeasure) getDefinition(), getProcessId(), getInstanceId());
+            if (isProcessFinished()) {
+                copy.processFinished();
+            }
+
+            copy.start = this.start;
+            copy.aggregator = new Aggregator(((TimeMeasure)getDefinition()).getSingleInstanceAggFunction());
+            for (DurationWithExclusion d : durations) {
+                copy.durations.add(d.copy());
+            }
+
+            return copy;
+        }
+
     }
 
 
@@ -247,6 +364,10 @@ public class TimeMeasureComputer implements MeasureComputer {
             this.start = start;
             this.end = end;
             this.schedule = schedule;
+        }
+
+        public DurationWithExclusion copy() {
+            return new DurationWithExclusion(start, end, schedule);
         }
 
         public long getMillis() {

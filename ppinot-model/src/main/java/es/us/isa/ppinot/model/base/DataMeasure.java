@@ -17,6 +17,8 @@ public class DataMeasure extends BaseMeasure {
 	private DataContentSelection dataContentSelection;
 	// Condicion de la medida
 	private Condition precondition;
+
+	private boolean first = false;
 	
 	/**
 	 * Constructor de la clase
@@ -26,7 +28,16 @@ public class DataMeasure extends BaseMeasure {
 		this.setDataContentSelection(null);
 		this.setPrecondition(null);
 	}
-	
+
+	public boolean isFirst() {
+		return first;
+	}
+
+	public DataMeasure setFirst(boolean first) {
+		this.first = first;
+		return this;
+	}
+
 	/**
 	 * Constructor de la clase
 	 * 

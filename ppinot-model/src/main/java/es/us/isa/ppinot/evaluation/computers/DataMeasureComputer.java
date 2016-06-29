@@ -40,21 +40,17 @@ public class DataMeasureComputer extends AbstractBaseMeasureComputer<DataMeasure
 
         selectionExpression = MVEL.compileExpression(this.definition.getDataContentSelection().getSelection());
     }
-
-    @Override
+	
+	@Override
     public void update(LogEntry entry) {
         Map<String, Object> data = entry.getData();
         data.put("##timestamp", entry.getTimeStamp());
+        MeasureInstance m = getOrCreateMeasure(entry, null);
 
         if (precondition(entry)) {
             try {
-                Object value = MVEL.executeExpression(selectionExpression, data);
-                MeasureInstance m = getMeasure(entry);
-                if (m == null || ! onlyFirst) {
-                    m = getOrCreateMeasure(entry, null);
-                    m.setValue(value);
-                }
-
+                Object value = MVEL.executeExpression(selectionExpression, entry.getData());
+                m.setValue(value);
             } catch (Exception e) {
                 log.log(Level.INFO, "Expression evaluation failed: " + this.definition.getDataContentSelection().getSelection(), e);
             }

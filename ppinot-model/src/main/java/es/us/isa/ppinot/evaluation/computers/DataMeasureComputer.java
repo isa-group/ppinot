@@ -43,11 +43,12 @@ public class DataMeasureComputer extends AbstractBaseMeasureComputer<DataMeasure
 
     @Override
     public void update(LogEntry entry) {
+        Map<String, Object> data = entry.getData();
+        data.put("##timestamp", entry.getTimeStamp());
+        MeasureInstance m = getOrCreateMeasure(entry, null);
 
         if (precondition(entry)) {
             try {
-                Map<String, Object> data = entry.getData();
-                data.put("##timestamp", entry.getTimeStamp());
                 Object value = MVEL.executeExpression(selectionExpression, data);
                 MeasureInstance m = getMeasure(entry);
                 if (m == null || ! onlyFirst) {

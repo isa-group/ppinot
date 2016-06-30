@@ -39,18 +39,19 @@ public class HolidaysTest extends MeasureComputerHelper {
         LogEntryHelper helper = new LogEntryHelper();
         
         List<DateTime> holidays = new ArrayList<DateTime>();
-        holidays.add(DateTime.now().plusDays(1));
-        holidays.add(DateTime.now().plusDays(3));
+        DateTime dt = new DateTime(2016, 1, 1, 0, 0).withDayOfWeek(DateTimeConstants.MONDAY);
+        holidays.add(dt.plusDays(1));
+        holidays.add(dt.plusDays(3));
         Schedule considerOnly = new Schedule(DateTimeConstants.MONDAY, DateTimeConstants.FRIDAY, new LocalTime(8,0), new LocalTime(20,0), holidays);
         
         TimeMeasureComputer computer = createLinearTimeMeasureComputerWithSchedule("Analyse RFC", GenericState.START, "Approve RFC", GenericState.END, considerOnly, TimeUnit.HOURS);
 
-        computer.update(helper.newInstance("i1", EventType.ready, DateTime.now().withTime(8, 0, 0, 0)));
-        computer.update(helper.newEntry("Analyse RFC", EventType.ready, "i1", DateTime.now().withTime(8, 0, 0, 0)));
-        computer.update(helper.newEntry("Analyse RFC", EventType.complete, "i1", DateTime.now().plusDays(2).withTime(8, 0, 0, 0)));
-        computer.update(helper.newEntry("Approve RFC", EventType.ready, "i1", DateTime.now().plusDays(2).withTime(8, 0, 0, 0)));
-        computer.update(helper.newEntry("Approve RFC", EventType.complete, "i1", DateTime.now().plusDays(4).withTime(8, 0, 0, 0)));
-        computer.update(helper.newInstance("i1", EventType.complete, DateTime.now().plusDays(4).withTime(8, 0, 0, 0)));
+        computer.update(helper.newInstance("i1", EventType.ready, dt.withTime(8, 0, 0, 0)));
+        computer.update(helper.newEntry("Analyse RFC", EventType.ready, "i1", dt.withTime(8, 0, 0, 0)));
+        computer.update(helper.newEntry("Analyse RFC", EventType.complete, "i1", dt.plusDays(2).withTime(8, 0, 0, 0)));
+        computer.update(helper.newEntry("Approve RFC", EventType.ready, "i1", dt.plusDays(2).withTime(8, 0, 0, 0)));
+        computer.update(helper.newEntry("Approve RFC", EventType.complete, "i1", dt.plusDays(4).withTime(8, 0, 0, 0)));
+        computer.update(helper.newInstance("i1", EventType.complete, dt.plusDays(4).withTime(8, 0, 0, 0)));
 
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
@@ -65,18 +66,19 @@ public class HolidaysTest extends MeasureComputerHelper {
         LogEntryHelper helper = new LogEntryHelper();
         
         List<DateTime> holidays = new ArrayList<DateTime>();
-        holidays.add(DateTime.now().plusDays(1));
-        holidays.add(DateTime.now().plusDays(2));
+        DateTime dt = new DateTime(2016, 1, 1, 0, 0).withDayOfWeek(DateTimeConstants.MONDAY);
+        holidays.add(dt.plusDays(1));
+        holidays.add(dt.plusDays(2));
         Schedule considerOnly = new Schedule(DateTimeConstants.MONDAY, DateTimeConstants.FRIDAY, new LocalTime(8,0), new LocalTime(20,0), holidays);
         
         TimeMeasureComputer computer = createLinearTimeMeasureComputerWithSchedule("Analyse RFC", GenericState.START, "Approve RFC", GenericState.END, considerOnly, TimeUnit.HOURS);
 
-        computer.update(helper.newInstance("i1", EventType.ready, DateTime.now().withTime(8, 0, 0, 0)));
-        computer.update(helper.newEntry("Analyse RFC", EventType.ready, "i1", DateTime.now().withTime(8, 0, 0, 0)));
-        computer.update(helper.newEntry("Analyse RFC", EventType.complete, "i1", DateTime.now().plusDays(1).withTime(18, 0, 0, 0)));
-        computer.update(helper.newEntry("Approve RFC", EventType.ready, "i1", DateTime.now().plusDays(1).withTime(18, 0, 0, 0)));
-        computer.update(helper.newEntry("Approve RFC", EventType.complete, "i1", DateTime.now().plusDays(2).withTime(10, 0, 0, 0)));
-        computer.update(helper.newInstance("i1", EventType.complete, DateTime.now().plusDays(2).withTime(10, 0, 0, 0)));
+        computer.update(helper.newInstance("i1", EventType.ready, dt.withTime(8, 0, 0, 0)));
+        computer.update(helper.newEntry("Analyse RFC", EventType.ready, "i1", dt.withTime(8, 0, 0, 0)));
+        computer.update(helper.newEntry("Analyse RFC", EventType.complete, "i1", dt.plusDays(1).withTime(18, 0, 0, 0)));
+        computer.update(helper.newEntry("Approve RFC", EventType.ready, "i1", dt.plusDays(1).withTime(18, 0, 0, 0)));
+        computer.update(helper.newEntry("Approve RFC", EventType.complete, "i1", dt.plusDays(2).withTime(10, 0, 0, 0)));
+        computer.update(helper.newInstance("i1", EventType.complete, dt.plusDays(2).withTime(10, 0, 0, 0)));
 
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
@@ -91,17 +93,18 @@ public class HolidaysTest extends MeasureComputerHelper {
         LogEntryHelper helper = new LogEntryHelper();
         
         List<DateTime> holidays = new ArrayList<DateTime>();
-        holidays.add(DateTime.now());
+        DateTime dt = new DateTime(2016, 1, 1, 0, 0).withDayOfWeek(DateTimeConstants.MONDAY);
+        holidays.add(dt);
         Schedule considerOnly = new Schedule(DateTimeConstants.MONDAY, DateTimeConstants.FRIDAY, new LocalTime(8,0), new LocalTime(20,0), holidays);
         
         TimeMeasureComputer computer = createLinearTimeMeasureComputerWithSchedule("Analyse RFC", GenericState.START, "Approve RFC", GenericState.END, considerOnly, TimeUnit.HOURS);
 
-        computer.update(helper.newInstance("i1", EventType.ready, DateTime.now().withTime(10, 0, 0, 0)));
-        computer.update(helper.newEntry("Analyse RFC", EventType.ready, "i1", DateTime.now().withTime(10, 0, 0, 0)));
-        computer.update(helper.newEntry("Analyse RFC", EventType.complete, "i1", DateTime.now().withTime(11, 0, 0, 0)));
-        computer.update(helper.newEntry("Approve RFC", EventType.ready, "i1", DateTime.now().withTime(18, 0, 0, 0)));
-        computer.update(helper.newEntry("Approve RFC", EventType.complete, "i1", DateTime.now().withTime(20, 0, 0, 0)));
-        computer.update(helper.newInstance("i1", EventType.complete, DateTime.now().withTime(20, 0, 0, 0)));
+        computer.update(helper.newInstance("i1", EventType.ready, dt.withTime(10, 0, 0, 0)));
+        computer.update(helper.newEntry("Analyse RFC", EventType.ready, "i1", dt.withTime(10, 0, 0, 0)));
+        computer.update(helper.newEntry("Analyse RFC", EventType.complete, "i1", dt.withTime(11, 0, 0, 0)));
+        computer.update(helper.newEntry("Approve RFC", EventType.ready, "i1", dt.withTime(18, 0, 0, 0)));
+        computer.update(helper.newEntry("Approve RFC", EventType.complete, "i1", dt.withTime(20, 0, 0, 0)));
+        computer.update(helper.newInstance("i1", EventType.complete, dt.withTime(20, 0, 0, 0)));
 
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
@@ -116,17 +119,18 @@ public class HolidaysTest extends MeasureComputerHelper {
         LogEntryHelper helper = new LogEntryHelper();
         
         List<DateTime> holidays = new ArrayList<DateTime>();
-        holidays.add(DateTime.now());
+        DateTime dt = new DateTime(2016, 1, 1, 0, 0).withDayOfWeek(DateTimeConstants.MONDAY);
+        holidays.add(dt);
         Schedule considerOnly = new Schedule(DateTimeConstants.MONDAY, DateTimeConstants.FRIDAY, new LocalTime(8,0), new LocalTime(20,0), holidays);
         
         TimeMeasureComputer computer = createLinearTimeMeasureComputerWithSchedule("Analyse RFC", GenericState.START, "Approve RFC", GenericState.END, considerOnly, TimeUnit.HOURS);
 
-        computer.update(helper.newInstance("i1", EventType.ready, DateTime.now().withTime(10, 0, 0, 0)));
-        computer.update(helper.newEntry("Analyse RFC", EventType.ready, "i1", DateTime.now().withTime(8, 0, 0, 0)));
-        computer.update(helper.newEntry("Analyse RFC", EventType.complete, "i1", DateTime.now().withTime(13, 0, 0, 0)));
-        computer.update(helper.newEntry("Approve RFC", EventType.ready, "i1", DateTime.now().plusDays(1).withTime(8, 0, 0, 0)));
-        computer.update(helper.newEntry("Approve RFC", EventType.complete, "i1", DateTime.now().plusDays(1).withTime(10, 0, 0, 0)));
-        computer.update(helper.newInstance("i1", EventType.complete, DateTime.now().plusDays(1).withTime(10, 0, 0, 0)));
+        computer.update(helper.newInstance("i1", EventType.ready, dt.withTime(10, 0, 0, 0)));
+        computer.update(helper.newEntry("Analyse RFC", EventType.ready, "i1", dt.withTime(8, 0, 0, 0)));
+        computer.update(helper.newEntry("Analyse RFC", EventType.complete, "i1", dt.withTime(13, 0, 0, 0)));
+        computer.update(helper.newEntry("Approve RFC", EventType.ready, "i1", dt.plusDays(1).withTime(8, 0, 0, 0)));
+        computer.update(helper.newEntry("Approve RFC", EventType.complete, "i1", dt.plusDays(1).withTime(10, 0, 0, 0)));
+        computer.update(helper.newInstance("i1", EventType.complete, dt.plusDays(1).withTime(10, 0, 0, 0)));
 
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 

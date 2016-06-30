@@ -30,7 +30,7 @@ public class AggregatedFilteredMeasureTimeComputerTest extends MeasureComputerHe
         countMeasure.setWhen(new TimeInstantCondition("Analyse RFC", GenericState.END));
 
         DerivedSingleInstanceMeasure filterMeasure = new DerivedSingleInstanceMeasure();
-        filterMeasure.setFunction("param != 4");
+        filterMeasure.setFunction("param == 4");
         filterMeasure.addUsedMeasure("param", countMeasure);
 
         AggregatedMeasure measure = new AggregatedMeasure("id", "name", "desc", null, null, Aggregator.SUM, null, createCountMeasure(withCondition("Analyse RFC", GenericState.START)), filterMeasure);
@@ -77,7 +77,7 @@ public class AggregatedFilteredMeasureTimeComputerTest extends MeasureComputerHe
         countMeasure.setWhen(new TimeInstantCondition("Analyse RFC", GenericState.END));
         
         DerivedSingleInstanceMeasure filterMeasure = new DerivedSingleInstanceMeasure();
-        filterMeasure.setFunction("param != 4");
+        filterMeasure.setFunction("param == 4");
         filterMeasure.addUsedMeasure("param", countMeasure);
         
         AggregatedMeasure measure = new AggregatedMeasure("id", "name", "desc", null, null, Aggregator.SUM, null, createCountMeasure(withCondition("Analyse RFC", GenericState.START)), filterMeasure);
@@ -138,7 +138,7 @@ public class AggregatedFilteredMeasureTimeComputerTest extends MeasureComputerHe
         countMeasure.setWhen(new TimeInstantCondition("Analyse RFC", GenericState.START));
 
         DerivedSingleInstanceMeasure filterMeasure = new DerivedSingleInstanceMeasure();
-        filterMeasure.setFunction("param != 4");
+        filterMeasure.setFunction("param == 4");
         filterMeasure.addUsedMeasure("param", countMeasure);
 
         AggregatedMeasure measure = new AggregatedMeasure("id", "name", "desc", null, null, Aggregator.SUM, null, createCountMeasure(withCondition("Analyse RFC", GenericState.START)), filterMeasure);

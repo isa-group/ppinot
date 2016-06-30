@@ -128,7 +128,7 @@ public class AggregatedMeasureComputer implements MeasureComputer {
 
         for (MeasureScope scope : allScopes) {
             if (filterComputer != null) {
-                Collection<String> filterScopeInstances = filterFalseInstances(scope.getInstances(), filterMap);
+                Collection<String> filterScopeInstances = filterTrueInstances(scope.getInstances(), filterMap);
                 scope.getInstances().retainAll(filterScopeInstances);
             }
 
@@ -165,11 +165,11 @@ public class AggregatedMeasureComputer implements MeasureComputer {
     }
 
     // Filter instances whose filter value is false
-    private Collection<String> filterFalseInstances(Collection<String> instances, Map<String, MeasureInstance> filterMap) {
+    private Collection<String> filterTrueInstances(Collection<String> instances, Map<String, MeasureInstance> filterMap) {
         Collection<String> found = new ArrayList<String>();
         if (filterMap.size() > 0) {
             for (String instance : instances) {
-                if (! filterMap.get(instance).getValueAsBoolean()) {
+                if (filterMap.get(instance).getValueAsBoolean()) {
                     found.add(instance);
                 }
             }

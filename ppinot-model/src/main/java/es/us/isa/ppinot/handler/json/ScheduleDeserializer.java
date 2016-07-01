@@ -23,8 +23,12 @@ public class ScheduleDeserializer extends JsonDeserializer<Schedule> {
     @Override
     public Schedule deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         String str = jp.getText().trim();
-        return (str.length() == 0) ? null
-                : Schedule.parse(str);
+        Schedule result = null;
+
+        if (str.length() != 0 && !str.startsWith("${")) {
+            result = Schedule.parse(str);
+        }
+        return result;
     }
 
 }

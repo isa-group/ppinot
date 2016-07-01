@@ -42,6 +42,8 @@ public class Schedule {
     private LocalTime endTime;
     private List<DateTime> holidays;
 
+    public static final Schedule SCHEDULE_24X7 = new Schedule(1, 7, new LocalTime(0, 0), new LocalTime(0, 0).minusMillis(1));
+
     private Schedule() {
     }
 

@@ -69,7 +69,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
                         instance.getProcessId(),
                         instanceToId(current),
                         currentInterval.getStart(),
-                        currentInterval.getEnd()));
+                        currentInterval.getEnd().minusMillis(1)));
 
                 while (currentInterval.isBefore(ends)) {
                     currentDate = currentDate.plus(period);
@@ -83,7 +83,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
             current.add(instance);
         }
         
-        scopes.add(new TemporalMeasureScopeImpl(instancesSet.first().getProcessId(),instanceToId(current),currentInterval.getStart(),currentInterval.getEnd()));
+        scopes.add(new TemporalMeasureScopeImpl(instancesSet.first().getProcessId(),instanceToId(current),currentInterval.getStart(),currentInterval.getEnd().minusMillis(1)));
 
         return scopes;
     }
@@ -96,7 +96,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
         String processId = instancesSet.first().getProcessId();
 
         if (lastDate.isBefore(currentDate.plus(period))) {
-            scopes.add(new TemporalMeasureScopeImpl(processId, instanceToId(instancesSet),currentDate,currentDate.plus(period)));
+            scopes.add(new TemporalMeasureScopeImpl(processId, instanceToId(instancesSet),currentDate,currentDate.plus(period).minusMillis(1)));
         } else {
             Interval i = new Interval(currentDate, period);
             Collection<String> current = new ArrayList<String>();
@@ -106,7 +106,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
                     current.add(instance.getInstanceId());
                 } else {
                     if (!current.isEmpty()) {
-                    	scopes.add(new TemporalMeasureScopeImpl(processId, current,currentDate,currentDate.plus(period)));
+                    	scopes.add(new TemporalMeasureScopeImpl(processId, current,currentDate,currentDate.plus(period).minusMillis(1)));
                         current = new ArrayList<String>();
                     }
 
@@ -119,7 +119,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
                 }
             }
             if (!current.isEmpty()) {
-            	scopes.add(new TemporalMeasureScopeImpl(processId, current,currentDate,currentDate.plus(period)));
+            	scopes.add(new TemporalMeasureScopeImpl(processId, current,currentDate,currentDate.plus(period).minusMillis(1)));
                 current = new ArrayList<String>();
             }
         }
@@ -140,7 +140,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
             period = Period.years(filter.getFrequency());
         }
 
-        return period.minusMillis(1);
+        return period;
     }
 
     private DateTime buildStartDate(DateTime firstInstance) {
@@ -148,7 +148,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
 
         if (es.us.isa.ppinot.model.scope.Period.DAILY.equals(filter.getPeriod())) {
             if (filter.getAbsoluteStart() > firstInstance.getHourOfDay()) {
-                firstInstance.minusDays(1);
+                    firstInstance.minusDays(1);
             }
             startDate = firstInstance.withHourOfDay(filter.getAbsoluteStart());
         } else if (es.us.isa.ppinot.model.scope.Period.WEEKLY.equals(filter.getPeriod())) {

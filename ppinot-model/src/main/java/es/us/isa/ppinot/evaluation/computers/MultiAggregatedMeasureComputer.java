@@ -27,7 +27,7 @@ public class MultiAggregatedMeasureComputer implements MeasureComputer {
     private AggregatedMeasure definition;
     private MeasureComputer filterComputer;
     private ScopeClassifier classifier;
-    private ProcessInstanceFilter filter;
+    private SimpleTimeFilter filter;
 
     private Set<String> allInstanceId;
 
@@ -41,7 +41,7 @@ public class MultiAggregatedMeasureComputer implements MeasureComputer {
         }
 
         this.definition = (AggregatedMeasure) definition;
-        this.filter = filter;
+        this.filter = (SimpleTimeFilter) filter;
 
         this.allInstanceId = new HashSet<String>();
         final MeasureComputerFactory measureComputerFactory = new MeasureComputerFactory();
@@ -49,6 +49,8 @@ public class MultiAggregatedMeasureComputer implements MeasureComputer {
             this.filterComputer = measureComputerFactory.create(this.definition.getFilter(), filter);
         }
         this.classifier = new ScopeClassifierFactory().create(filter);
+
+        this.log = new RecorderLog();
     }
 
     @Override
@@ -81,7 +83,9 @@ public class MultiAggregatedMeasureComputer implements MeasureComputer {
         for (MeasureScope scope : temporalScopes) {
             TemporalMeasureScope temporalScope = (TemporalMeasureScope) scope;
             Interval i = new Interval(temporalScope.getStart(), temporalScope.getEnd());
-            AggregatedMeasureComputer computer = new AggregatedMeasureComputer(definition, filter);
+            SimpleTimeFilter intervalFilter = filter.copy();
+            intervalFilter.setUntil(i.getEnd().minus(1));
+            AggregatedMeasureComputer computer = new AggregatedMeasureComputer(definition, intervalFilter);
             computers.put(i, computer);
             aggregatedDecoratorLog.registerListener(i, computer);
         }

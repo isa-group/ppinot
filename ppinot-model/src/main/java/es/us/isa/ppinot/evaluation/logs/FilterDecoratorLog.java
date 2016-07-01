@@ -26,7 +26,7 @@ public class FilterDecoratorLog extends AbstractLogProvider implements LogProvid
 
     @Override
     public void update(LogEntry entry) {
-        if (! filteredInstances.contains(entry.getInstanceId())) {
+        if (filteredInstances.contains(entry.getInstanceId())) {
             updateListeners(entry);
         }
     }

@@ -46,7 +46,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
     }
 
     private void addUnfinishedInstances() {
-        DateTime now = DateTime.now();
+        DateTime now = filter.getUntil();
 
         for (ProcessInstance pi : getUnfinishedInstances()) {
             ProcessInstance adaptedPi = new ProcessInstance(pi.getProcessId(), pi.getInstanceId(), pi.getStart());

@@ -1,6 +1,7 @@
 package es.us.isa.ppinot.model.scope;
 
 import es.us.isa.ppinot.model.ProcessInstanceFilter;
+import org.joda.time.DateTime;
 
 /**
  * SimpleTimeFilter
@@ -17,6 +18,7 @@ public class SimpleTimeFilter extends ProcessInstanceFilter {
     private int absoluteStart;
     private boolean relative;
     private boolean includeUnfinished = false;
+    private DateTime until = DateTime.now();
 
     public SimpleTimeFilter() {
         super();
@@ -50,6 +52,15 @@ public class SimpleTimeFilter extends ProcessInstanceFilter {
         this.includeUnfinished = includeUnfinished;
     }
 
+    public DateTime getUntil() {
+        return until;
+    }
+
+    public SimpleTimeFilter setUntil(DateTime until) {
+        this.until = until;
+        return this;
+    }
+
     public Period getPeriod() {
         return period;
     }
@@ -68,5 +79,12 @@ public class SimpleTimeFilter extends ProcessInstanceFilter {
 
     public boolean isIncludeUnfinished() {
         return includeUnfinished;
+    }
+
+    public SimpleTimeFilter copy() {
+        SimpleTimeFilter copy = new SimpleTimeFilter(period, frequency, absoluteStart, includeUnfinished);
+        copy.relative = this.relative;
+        copy.until = this.until;
+        return copy;
     }
 }

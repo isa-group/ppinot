@@ -1,6 +1,7 @@
 package es.us.isa.ppinot.evaluation;
 
 import es.us.isa.ppinot.model.MeasureDefinition;
+import org.joda.time.DateTime;
 
 import java.util.Collection;
 
@@ -37,6 +38,8 @@ public class Measure {
             doubleValue = (Boolean) value ? 1 : 0;
         } else if (value instanceof String) {
             doubleValue = Double.parseDouble((String) value);
+        } else if (value instanceof DateTime) {
+            doubleValue = ((DateTime) value).getMillis();
         } else {
             doubleValue = (Double) value;
         }

@@ -20,7 +20,7 @@ public class MeasureComputerFactory {
         MeasureComputer computer = null;
 
         if (definition instanceof TimeMeasure) {
-            computer = new TimeMeasureComputer(definition);
+            computer = new TimeMeasureComputer(definition, filter);
         } else if (definition instanceof CountMeasure) {
             computer = new CountMeasureComputer(definition);
         } else if (definition instanceof StateConditionMeasure) {

@@ -34,7 +34,7 @@ public class MeasureComputerHelper {
         TimeMeasure measure = createTimeMeasure(activityStart, stateStart, activityEnd, stateEnd);
         measure.setTimeMeasureType(TimeMeasureType.LINEAR);
 
-        return new TimeMeasureComputer(measure);
+        return new TimeMeasureComputer(measure, null);
     }
 
     protected TimeMeasureComputer createLinearUnfinishedTimeMeasureComputer(String activityStart, GenericState stateStart,
@@ -43,7 +43,7 @@ public class MeasureComputerHelper {
         measure.setTimeMeasureType(TimeMeasureType.LINEAR);
         measure.setComputeUnfinished(true);
 
-        return new TimeMeasureComputer(measure);
+        return new TimeMeasureComputer(measure, null);
     }
 
     protected TimeMeasureComputer createLinearTimeMeasureComputerWithSchedule(String activityStart, GenericState stateStart,
@@ -53,7 +53,7 @@ public class MeasureComputerHelper {
         measure.setConsiderOnly(workingHours);
         measure.setUnitOfMeasure(timeUnit);
 
-        return new TimeMeasureComputer(measure);
+        return new TimeMeasureComputer(measure, null);
     }
 
     protected TimeMeasureComputer createCyclicTimeMeasureComputer(String activityStart, GenericState stateStart,
@@ -63,7 +63,7 @@ public class MeasureComputerHelper {
         measure.setTimeMeasureType(TimeMeasureType.CYCLIC);
         measure.setSingleInstanceAggFunction(aggregation);
 
-        return new TimeMeasureComputer(measure);
+        return new TimeMeasureComputer(measure, null);
     }
 
     private TimeMeasure createTimeMeasure(String activityStart, GenericState stateStart, String activityEnd, GenericState stateEnd) {

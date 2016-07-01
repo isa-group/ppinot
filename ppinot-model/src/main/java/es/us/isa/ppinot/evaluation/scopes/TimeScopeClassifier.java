@@ -140,7 +140,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
             period = Period.years(filter.getFrequency());
         }
 
-        return period;
+        return period.minusMillis(1);
     }
 
     private DateTime buildStartDate(DateTime firstInstance) {

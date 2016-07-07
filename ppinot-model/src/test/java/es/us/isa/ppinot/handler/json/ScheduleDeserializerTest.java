@@ -42,6 +42,19 @@ public class ScheduleDeserializerTest {
     }
 
     @Test
+    public void testDeserializeWithHolidays() throws IOException {
+        String text = "{\"schedule\": \"L-VT8:00-19:00/H\"}";
+        ObjectMapper mapper = new ObjectMapper();
+
+        Schedule schedule = mapper.readValue(text, ScheduleTest.class).getSchedule();
+
+        assertEquals(1, schedule.getBeginDay());
+        assertEquals(5, schedule.getEndDay());
+        assertEquals(new LocalTime(8, 0), schedule.getBeginTime());
+        assertEquals(new LocalTime(19, 0), schedule.getEndTime());
+    }
+
+    @Test
     public void testSerialize() throws IOException {
         ScheduleTest st = new ScheduleTest();
         st.schedule = new Schedule(2, 6, new LocalTime(9, 0), new LocalTime(15, 0));

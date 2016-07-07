@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import es.us.isa.ppinot.handler.json.ScheduleDeserializer;
+import java.util.ArrayList;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -42,6 +43,18 @@ public class Schedule {
     private LocalTime endTime;
     private List<DateTime> holidays;
 
+    private static List<DateTime> defaultHolidays = new ArrayList<DateTime>();
+
+    public static List<DateTime> getDefaultHolidays() {
+        return defaultHolidays;
+    }
+
+    public static void setDefaultHolidays(List<DateTime> defaultHolidays) {
+        Schedule.defaultHolidays = defaultHolidays;
+    }
+    
+    
+
     public static final Schedule SCHEDULE_24X7 = new Schedule(1, 7, new LocalTime(0, 0), new LocalTime(0, 0).minusMillis(1));
 
     private Schedule() {
@@ -52,6 +65,7 @@ public class Schedule {
         this.endDay = endDay;
         this.beginTime = beginTime;
         this.endTime = endTime;
+        this.holidays = new ArrayList<DateTime>();
 
         if (beginDay < DateTimeConstants.MONDAY || beginDay > DateTimeConstants.SUNDAY || endDay < DateTimeConstants.MONDAY || endDay > DateTimeConstants.SUNDAY) {
             throw new RuntimeException("Invalid day of week");
@@ -112,6 +126,10 @@ public class Schedule {
         DateTimeFormatter dtf = DateTimeFormat.forPattern("HH:mm");
         sb.append(fromDayOfWeek(beginDay)).append("-").append(fromDayOfWeek(endDay))
                 .append("T").append(dtf.print(beginTime)).append("-").append(dtf.print(endTime));
+        
+        if (holidays != null && !holidays.isEmpty()) {
+            sb.append("/H");
+        }
 
         return sb.toString();
     }
@@ -120,15 +138,27 @@ public class Schedule {
         String[] array = stringSchedule.split("T");
         String[] days = array[0].split("-");
         String[] hours = array[1].split("-");
+        String[] holidaysParam = hours[1].split("/");
+        
+        boolean hasHolidays = holidaysParam.length == 2 && holidaysParam[1].equals("H"); //Si el string tiene /H
+        if (hasHolidays) hours[1] = holidaysParam[0];
 
         Integer startDay = parseToDayOfWeek(days[0]);
         Integer endDay = parseToDayOfWeek(days[1]);
 
         DateTimeFormatter dtf = DateTimeFormat.forPattern("HH:mm");
+        
         LocalTime startTime = dtf.parseDateTime(hours[0]).toLocalDateTime().toLocalTime();
         LocalTime endTime = dtf.parseDateTime(hours[1]).toLocalDateTime().toLocalTime();
-
-        return new Schedule(startDay, endDay, startTime, endTime);
+        
+        Schedule schedule = null;
+        if (hasHolidays) {
+            schedule = new Schedule(startDay, endDay, startTime, endTime, Schedule.getDefaultHolidays());
+        } else {
+            schedule = new Schedule(startDay, endDay, startTime, endTime);
+        }
+        
+        return schedule;
     }
 
     private static Integer parseToDayOfWeek(String day) {

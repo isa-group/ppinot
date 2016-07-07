@@ -96,7 +96,9 @@ public class SimpleTimeFilter extends ProcessInstanceFilter {
         SimpleTimeFilter copy = new SimpleTimeFilter(period, frequency, absoluteStart, includeUnfinished);
         copy.relative = this.relative;
         copy.until = this.until;
-        copy.referencePoint = this.referencePoint.copy();
+        if (this.referencePoint != null) 
+            copy.referencePoint = this.referencePoint.copy();
+        
         return copy;
     }
 }

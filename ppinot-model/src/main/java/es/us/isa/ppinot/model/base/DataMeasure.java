@@ -108,4 +108,9 @@ public class DataMeasure extends BaseMeasure {
 				this.getDataContentSelection().getSelection()!=null && ! this.getDataContentSelection().getSelection().isEmpty();
 	}
 
+	public DataMeasure copy() {
+		DataMeasure copy = new DataMeasure(getId(), getName(), getDescription(), getScale(), getUnitOfMeasure(), dataContentSelection, precondition);
+		copy.first = this.first;
+		return copy;
+	}
 }

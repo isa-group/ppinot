@@ -3,6 +3,9 @@ package es.us.isa.ppinot.model.aggregated;
 import es.us.isa.ppinot.model.DataContentSelection;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.base.BaseMeasure;
+import es.us.isa.ppinot.model.base.DataMeasure;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,7 +23,7 @@ public class AggregatedMeasure extends MeasureDefinition {
     protected String samplingFrequency;
     
     // Informacion para agrupar la medida
-    private List<DataContentSelection> groupedBy;
+    private List<DataMeasure> groupedBy;
 
     // La medida que se agrega
     protected MeasureDefinition baseMeasure;
@@ -46,7 +49,7 @@ public class AggregatedMeasure extends MeasureDefinition {
     	this.setFilter(null);
     	
     	this.setAggregates(false);
-    	this.setGroupedBy(null);
+    	this.setGroupedBySelections(null);
     }
 
     public boolean isIncludeUnfinished() {
@@ -81,7 +84,7 @@ public class AggregatedMeasure extends MeasureDefinition {
         this.setFilter(null);
     	
     	this.setAggregates(false);
-    	this.setGroupedBy(null);
+    	this.setGroupedBySelections(null);
 	}
     
     
@@ -109,7 +112,7 @@ public class AggregatedMeasure extends MeasureDefinition {
         this.setFilter(filter);
     	
     	this.setAggregates(false);
-    	this.setGroupedBy(null);
+    	this.setGroupedBySelections(null);
 	}
 
     /**
@@ -208,20 +211,42 @@ public class AggregatedMeasure extends MeasureDefinition {
      * 
      * @return La medida que se agrega
      */
-	public List<DataContentSelection> getGroupedBy() {
-		return groupedBy;
+	public List<DataContentSelection> getGroupedBySelections() {
+		List<DataContentSelection> selections = new ArrayList<DataContentSelection>();
+		for (DataMeasure m : groupedBy) {
+			selections.add(m.getDataContentSelection());
+		}
+
+		return selections;
 	}
 
     /**
      * Da valor al atributo groupedBy:
      * Informacion para agrupar la medida
-     * 
+     *
      * @param groupedBy
      */
-	public void setGroupedBy(List<DataContentSelection> groupedBy) {
-		this.groupedBy = groupedBy;
+	public void setGroupedBySelections(List<DataContentSelection> groupedBy) {
+		this.groupedBy = new ArrayList<DataMeasure>();
+		if (groupedBy != null) {
+			for (DataContentSelection s : groupedBy) {
+				DataMeasure dm = new DataMeasure();
+				dm.setDataContentSelection(s);
+				this.groupedBy.add(dm);
+			}
+
+		}
 	}
-	
+
+	public List<DataMeasure> getGroupedBy() {
+		return groupedBy;
+	}
+
+	public AggregatedMeasure setGroupedBy(List<DataMeasure> groupedBy) {
+		this.groupedBy = groupedBy;
+		return this;
+	}
+
 	/**
 	 * Indica si el valor de la medida puede ser calculado y mostrado
 	 * 

@@ -27,7 +27,7 @@ public class AggregatedGroupByMeasureTimeComputerTest extends MeasureComputerHel
 
         List<DataContentSelection> groupBy = new ArrayList<DataContentSelection>();
         groupBy.add(new DataContentSelection("nodo", ""));
-        measure.setGroupedBy(groupBy);
+        measure.setGroupedBySelections(groupBy);
 
         AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure, new SimpleTimeFilter(Period.DAILY, 1, true));
 
@@ -79,7 +79,7 @@ public class AggregatedGroupByMeasureTimeComputerTest extends MeasureComputerHel
 
         List<DataContentSelection> groupBy = new ArrayList<DataContentSelection>();
         groupBy.add(new DataContentSelection("nodo", ""));
-        measure.setGroupedBy(groupBy);
+        measure.setGroupedBySelections(groupBy);
 
         AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure, new SimpleTimeFilter(Period.MONTHLY, 1, true));
 
@@ -133,7 +133,7 @@ public class AggregatedGroupByMeasureTimeComputerTest extends MeasureComputerHel
         List<DataContentSelection> groupBy = new ArrayList<DataContentSelection>();
         groupBy.add(new DataContentSelection("nodo", ""));
         groupBy.add(new DataContentSelection("centro", ""));
-        measure.setGroupedBy(groupBy);
+        measure.setGroupedBySelections(groupBy);
 
         AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure, new SimpleTimeFilter(Period.DAILY, 1, true));
 
@@ -186,7 +186,7 @@ public class AggregatedGroupByMeasureTimeComputerTest extends MeasureComputerHel
 
         List<DataContentSelection> groupBy = new ArrayList<DataContentSelection>();
         groupBy.add(new DataContentSelection("centro", ""));
-        measure.setGroupedBy(groupBy);
+        measure.setGroupedBySelections(groupBy);
 
         AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure, new SimpleTimeFilter(Period.DAILY, 1, true));
 

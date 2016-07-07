@@ -36,9 +36,7 @@ public class AggregatedMeasureComputer implements MeasureComputer {
         this.listGroupByMeasureComputer = new ArrayList<MeasureComputer>();
         final MeasureComputerFactory measureComputerFactory = new MeasureComputerFactory();
         if (this.definition.getGroupedBy() != null) {
-            for (DataContentSelection s : this.definition.getGroupedBy()) {
-                DataMeasure dm = new DataMeasure();
-                dm.setDataContentSelection(s);
+            for (DataMeasure dm : this.definition.getGroupedBy()) {
                 listGroupByMeasureComputer.add(measureComputerFactory.create(dm, filter));
             }
         }
@@ -154,14 +152,7 @@ public class AggregatedMeasureComputer implements MeasureComputer {
     }
 
     private Map<String, MeasureInstance> buildMeasureMap(Collection<? extends Measure> measures) {
-        Map<String, MeasureInstance> measureMap = new HashMap<String, MeasureInstance>();
-        for (Measure m : measures) {
-            if (m instanceof MeasureInstance) {
-                MeasureInstance mi = (MeasureInstance) m;
-                measureMap.put(mi.getInstanceId(), mi);
-            }
-        }
-        return measureMap;
+        return MeasureInstance.buildMeasureMap(measures);
     }
 
     // Filter instances whose filter value is false

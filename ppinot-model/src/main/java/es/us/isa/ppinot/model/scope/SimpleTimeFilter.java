@@ -1,6 +1,7 @@
 package es.us.isa.ppinot.model.scope;
 
 import es.us.isa.ppinot.model.ProcessInstanceFilter;
+import es.us.isa.ppinot.model.base.DataMeasure;
 import org.joda.time.DateTime;
 
 /**
@@ -19,6 +20,7 @@ public class SimpleTimeFilter extends ProcessInstanceFilter {
     private boolean relative;
     private boolean includeUnfinished = false;
     private DateTime until = DateTime.now();
+    private DataMeasure referencePoint = null;
 
     public SimpleTimeFilter() {
         super();
@@ -81,10 +83,20 @@ public class SimpleTimeFilter extends ProcessInstanceFilter {
         return includeUnfinished;
     }
 
+    public DataMeasure getReferencePoint() {
+        return referencePoint;
+    }
+
+    public SimpleTimeFilter setReferencePoint(DataMeasure referencePoint) {
+        this.referencePoint = referencePoint;
+        return this;
+    }
+
     public SimpleTimeFilter copy() {
         SimpleTimeFilter copy = new SimpleTimeFilter(period, frequency, absoluteStart, includeUnfinished);
         copy.relative = this.relative;
         copy.until = this.until;
+        copy.referencePoint = this.referencePoint.copy();
         return copy;
     }
 }

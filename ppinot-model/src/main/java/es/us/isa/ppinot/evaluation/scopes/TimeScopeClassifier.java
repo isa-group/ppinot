@@ -1,7 +1,12 @@
 package es.us.isa.ppinot.evaluation.scopes;
 
+import es.us.isa.ppinot.evaluation.Measure;
+import es.us.isa.ppinot.evaluation.MeasureInstance;
 import es.us.isa.ppinot.evaluation.MeasureScope;
 import es.us.isa.ppinot.evaluation.TemporalMeasureScopeImpl;
+import es.us.isa.ppinot.evaluation.computers.MeasureComputer;
+import es.us.isa.ppinot.evaluation.computers.MeasureComputerFactory;
+import es.us.isa.ppinot.evaluation.logs.LogEntry;
 import es.us.isa.ppinot.model.scope.SimpleTimeFilter;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -19,11 +24,15 @@ public class TimeScopeClassifier extends ScopeClassifier {
 
     private SimpleTimeFilter filter;
     private SortedSet<ProcessInstance> instancesSet;
+    private MeasureComputer computer;
 
     public TimeScopeClassifier(SimpleTimeFilter filter) {
         super();
         this.filter = filter;
-        this.instancesSet = new TreeSet<ProcessInstance>(new EndInstanceComparator());
+        this.instancesSet = new TreeSet<ProcessInstance>(new ReferenceInstanceComparator());
+        if (filter.getReferencePoint() != null) {
+            this.computer = new MeasureComputerFactory().create(filter.getReferencePoint(), filter.copy().setReferencePoint(null));
+        }
     }
 
     @Override
@@ -32,6 +41,10 @@ public class TimeScopeClassifier extends ScopeClassifier {
 
         if (filter.isIncludeUnfinished() || isIncludeUnfinished) {
             addUnfinishedInstances();
+        }
+
+        if (this.computer != null) {
+            mergeReferencePoints(this.computer.compute());
         }
 
         if (instancesSet.isEmpty()) {
@@ -43,6 +56,27 @@ public class TimeScopeClassifier extends ScopeClassifier {
         }
 
         return scopes;
+    }
+
+    private void mergeReferencePoints(List<? extends Measure> measures) {
+        SortedSet<ProcessInstance> instances = new TreeSet<ProcessInstance>(new ReferenceInstanceComparator());
+        Map<String, MeasureInstance> measureMap = MeasureInstance.buildMeasureMap(measures);
+        for (ProcessInstance pi : instancesSet) {
+            DateTime reference = measureMap.get(pi.getInstanceId()).getValueAsDateTime();
+            pi.setReference(reference);
+            instances.add(pi);
+        }
+
+        this.instancesSet = instances;
+    }
+
+    @Override
+    protected void updateEntry(LogEntry entry) {
+        super.updateEntry(entry);
+
+        if (this.computer != null) {
+            this.computer.update(entry);
+        }
     }
 
     private void addUnfinishedInstances() {
@@ -58,12 +92,12 @@ public class TimeScopeClassifier extends ScopeClassifier {
     private Collection<MeasureScope> listRelativeScopes() {
         Collection<MeasureScope> scopes = new ArrayList<MeasureScope>();
         Period period = buildPeriod();
-        DateTime currentDate = instancesSet.first().getEnd();
+        DateTime currentDate = instancesSet.first().getReference();
         Interval currentInterval = new Interval(currentDate, period);
         List<ProcessInstance> current = new ArrayList<ProcessInstance>();
         
         for (ProcessInstance instance : instancesSet) {
-            DateTime ends = instance.getEnd();
+            DateTime ends = instance.getReference();
             if (currentInterval.isBefore(ends)) {
                 scopes.add(new TemporalMeasureScopeImpl(
                         instance.getProcessId(),
@@ -76,7 +110,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
                     currentInterval = new Interval(currentDate, period);
                 }
 
-                while (!current.isEmpty() && currentInterval.isAfter(current.get(0).getEnd())) {
+                while (!current.isEmpty() && currentInterval.isAfter(current.get(0).getReference())) {
                     current.remove(0);
                 }
             }
@@ -91,8 +125,8 @@ public class TimeScopeClassifier extends ScopeClassifier {
     private Collection<MeasureScope> listAbsoluteScopes() {
         Collection<MeasureScope> scopes = new ArrayList<MeasureScope>();
         Period period = buildPeriod();
-        DateTime currentDate = buildStartDate(instancesSet.first().getEnd());
-        DateTime lastDate = instancesSet.last().getEnd();
+        DateTime currentDate = buildStartDate(instancesSet.first().getReference());
+        DateTime lastDate = instancesSet.last().getReference();
         String processId = instancesSet.first().getProcessId();
 
         if (lastDate.isBefore(currentDate.plus(period))) {
@@ -102,7 +136,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
             Collection<String> current = new ArrayList<String>();
 
             for (ProcessInstance instance : instancesSet) {
-                if (i.contains(instance.getEnd())) {
+                if (i.contains(instance.getReference())) {
                     current.add(instance.getInstanceId());
                 } else {
                     if (!current.isEmpty()) {
@@ -110,7 +144,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
                         current = new ArrayList<String>();
                     }
 
-                    while (i.isBefore(instance.getEnd())) {
+                    while (i.isBefore(instance.getReference())) {
                         currentDate = currentDate.plus(period);
                         i = new Interval(currentDate, period);
                     }
@@ -184,16 +218,16 @@ public class TimeScopeClassifier extends ScopeClassifier {
         instancesSet.add(instance);
     }
 
-    private class EndInstanceComparator implements Comparator<ProcessInstance>  {
+    private class ReferenceInstanceComparator implements Comparator<ProcessInstance>  {
         @Override
         public int compare(ProcessInstance instance, ProcessInstance instance2) {
-            DateTime end1 = instance.getEnd();
-            DateTime end2 = instance2.getEnd();
+            DateTime ref1 = instance.getReference();
+            DateTime ref2 = instance2.getReference();
             //if there are a instance with the same date add the new isntaces after
-            if (end1.compareTo(end2)==0)
+            if (ref1.compareTo(ref2)==0)
             	return 1;
             else
-            	return end1.compareTo(end2);
+            	return ref1.compareTo(ref2);
         }
     }
 

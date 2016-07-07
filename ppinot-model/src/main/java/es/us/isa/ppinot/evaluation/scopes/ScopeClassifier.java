@@ -41,7 +41,11 @@ public abstract class ScopeClassifier implements LogListener {
                 instanceEnded(instance);
             }
         }
+
+        updateEntry(entry);
     }
+
+    protected void updateEntry(LogEntry entry) {}
 
     protected List<ProcessInstance> getUnfinishedInstances() {
         List<ProcessInstance> unfinishedInstances = new ArrayList<ProcessInstance>();
@@ -72,6 +76,7 @@ public abstract class ScopeClassifier implements LogListener {
         private String instanceId;
         private DateTime start;
         private DateTime end;
+        private DateTime reference = null;
 
         protected ProcessInstance(String processId, String instanceId, DateTime start) {
             this.processId = processId;
@@ -104,5 +109,18 @@ public abstract class ScopeClassifier implements LogListener {
         }
 
         protected boolean unfinished() { return end == null;}
+
+        public DateTime getReference() {
+            if (reference == null) {
+                return end;
+            }
+
+            return reference;
+        }
+
+        public ProcessInstance setReference(DateTime reference) {
+            this.reference = reference;
+            return this;
+        }
     }
 }

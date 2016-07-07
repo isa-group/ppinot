@@ -4,6 +4,8 @@ import es.us.isa.ppinot.model.MeasureDefinition;
 import org.joda.time.DateTime;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Measure
@@ -73,6 +75,18 @@ public class Measure {
     public Object getValueAsObject() {
         return value; }
 
+    public DateTime getValueAsDateTime() {
+        if (value == null) {
+            return null;
+        } else if (value instanceof DateTime) {
+            return (DateTime) value;
+        } else if (value instanceof String) {
+            return DateTime.parse((String) value);
+        } else {
+            return null;
+        }
+    }
+
     public void setValue(double value) {
         this.value = value;
     }
@@ -92,4 +106,6 @@ public class Measure {
     public MeasureScope getMeasureScope() {
         return measureScope;
     }
+
+
 }

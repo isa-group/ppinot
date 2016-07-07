@@ -85,7 +85,7 @@ public class AggregatedFilteredMeasureTimeComputerTest extends MeasureComputerHe
         // Group by
         List<DataContentSelection> groupBy = new ArrayList<DataContentSelection>();
         groupBy.add(new DataContentSelection("nodo", ""));
-        measure.setGroupedBy(groupBy);
+        measure.setGroupedBySelections(groupBy);
         
         AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure, new SimpleTimeFilter(Period.DAILY, 1, true));
 

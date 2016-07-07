@@ -39,7 +39,7 @@ public class XMLToAggregatedMeasure implements XMLToMeasureDefinition<TAggregate
 
         TIsGroupedBy con = connectors.findConnector(xml, TIsGroupedBy.class);
         if (con != null) {
-            def.setGroupedBy(Arrays.asList(connectors.createDataContentSelection(con)));
+            def.setGroupedBySelections(Arrays.asList(connectors.createDataContentSelection(con)));
         }
 
         return def;

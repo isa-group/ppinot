@@ -12,7 +12,7 @@ import java.sql.Time;
  */
 public class ComplexState implements RuntimeState {
 
-    public static enum Type {FOLLOWS, LEADSTO}
+    public static enum Type {FOLLOWS, LEADSTO, LEADSTOCYCLIC}
 
     private TimeInstantCondition first;
     private TimeInstantCondition last;

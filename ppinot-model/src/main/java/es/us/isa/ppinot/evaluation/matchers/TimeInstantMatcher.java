@@ -114,6 +114,9 @@ public class TimeInstantMatcher implements Matcher {
 
             if (currentState != null && currentState && secondMatches) {
                 result = true;
+                if (state.getType().equals(ComplexState.Type.LEADSTOCYCLIC)) {
+                    mapStates.put(entry.getInstanceId(), false);
+                }
             }
 
             if (firstMatches) {

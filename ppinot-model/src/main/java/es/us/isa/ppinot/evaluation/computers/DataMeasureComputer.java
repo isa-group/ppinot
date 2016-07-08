@@ -50,7 +50,10 @@ public class DataMeasureComputer extends AbstractBaseMeasureComputer<DataMeasure
         if (precondition(entry)) {
             try {
                 Object value = MVEL.executeExpression(selectionExpression, data);
-                m.setValue(value);
+                if (m.getValueAsObject() == null || ! onlyFirst) {
+                    m.setValue(value);
+                }
+
             } catch (Exception e) {
                 log.log(Level.INFO, "Expression evaluation failed: " + this.definition.getDataContentSelection().getSelection(), e);
             }

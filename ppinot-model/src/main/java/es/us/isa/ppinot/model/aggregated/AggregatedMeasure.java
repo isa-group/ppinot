@@ -32,6 +32,8 @@ public class AggregatedMeasure extends MeasureDefinition {
     
     protected boolean includeUnfinished = false;
 
+	protected DataMeasure periodReferencePoint = null;
+
     
     // Indica si la medida utiliza el conector aggregates o no
     protected Boolean aggregates;
@@ -244,6 +246,15 @@ public class AggregatedMeasure extends MeasureDefinition {
 
 	public AggregatedMeasure setGroupedBy(List<DataMeasure> groupedBy) {
 		this.groupedBy = groupedBy;
+		return this;
+	}
+
+	public DataMeasure getPeriodReferencePoint() {
+		return periodReferencePoint;
+	}
+
+	public AggregatedMeasure setPeriodReferencePoint(DataMeasure periodReferencePoint) {
+		this.periodReferencePoint = periodReferencePoint;
 		return this;
 	}
 

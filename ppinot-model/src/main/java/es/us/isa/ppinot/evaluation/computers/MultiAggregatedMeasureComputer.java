@@ -48,7 +48,7 @@ public class MultiAggregatedMeasureComputer implements MeasureComputer {
         if (this.definition.getFilter() != null) {
             this.filterComputer = measureComputerFactory.create(this.definition.getFilter(), filter);
         }
-        this.classifier = new ScopeClassifierFactory().create(filter);
+        this.classifier = new ScopeClassifierFactory().create(filter, this.definition.getPeriodReferencePoint());
 
         this.log = new RecorderLog();
     }

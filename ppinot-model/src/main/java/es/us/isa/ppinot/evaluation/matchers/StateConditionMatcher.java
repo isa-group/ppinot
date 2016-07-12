@@ -13,20 +13,25 @@ import es.us.isa.ppinot.model.state.RuntimeState;
 public class StateConditionMatcher implements Matcher {
 
     private StateCondition condition;
+	private DataObjectStateMatcher dataMatcher;
 
     public StateConditionMatcher(StateCondition condition) {
         this.condition = condition;
+        RuntimeState state = condition.getState();
+
+        if (! FlowElementStateMatcher.supports(state)) {
+            dataMatcher = new DataObjectStateMatcher(state);
+        }
     }
 
     @Override
     public boolean matches(LogEntry entry) {
         boolean matches = false;
         RuntimeState state = condition.getState();
-
         if (FlowElementStateMatcher.supports(state)) {
             matches = matchesFlowElement(entry);
         } else {
-            matches = DataObjectStateMatcher.matches(entry, state);
+            matches = dataMatcher.matches(entry);
         }
 
         return matches;

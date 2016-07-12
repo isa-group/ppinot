@@ -16,6 +16,16 @@ import java.util.Map;
  * @author resinas
  */
 public class DataObjectStateMatcher {
+	private Serializable expression;
+	
+	public DataObjectStateMatcher(RuntimeState state) {
+		expression = DataObjectStateMatcher.getConditionExpression((DataObjectState) state);
+	}
+	
+	public boolean matches (LogEntry entry) {
+		return ! matches(previousState(entry), expression) && matches(currentState(entry), expression);
+	}
+	
     public static boolean matches(LogEntry entry, RuntimeState state) {
         Serializable expression = getConditionExpression((DataObjectState) state);
         return ! matches(previousState(entry), expression) && matches(currentState(entry), expression);

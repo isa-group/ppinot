@@ -75,10 +75,10 @@ public class TimeInstantMatcher implements Matcher {
     }
 
     private class DataMatcher implements  Matcher {
-        private RuntimeState state;
+        private DataObjectStateMatcher matcher;
 
         public DataMatcher(RuntimeState state) {
-            this.state = state;
+            this.matcher = new DataObjectStateMatcher(state);
         }
 
         @Override
@@ -87,7 +87,7 @@ public class TimeInstantMatcher implements Matcher {
         }
 
         private boolean matchesDataState(LogEntry entry) {
-            return DataObjectStateMatcher.matches(entry, state);
+            return matcher.matches(entry);
         }
     }
 

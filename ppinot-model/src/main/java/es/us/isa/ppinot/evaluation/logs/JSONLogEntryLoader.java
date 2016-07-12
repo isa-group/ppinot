@@ -100,22 +100,27 @@ public class JSONLogEntryLoader {
 
         while (fields.hasNext()) {
             Map.Entry<String, JsonNode> field = fields.next();
+            String value = null;
+//            if (!field.getValue().isNull()) {
+                value = field.getValue().asText();
+//            }
+
             if (matches(field.getKey(), instanceIdField)) {
-                instanceId = field.getValue().asText();
+                instanceId = value;
             } else if (matches(field.getKey(), bpElementField)) {
-                bpElement = field.getValue().asText();
+                bpElement = value;
             } else if (matches(field.getKey(), timestampField)) {
-                date = DateTime.parse(field.getValue().asText(), dateTimeFormatter);
+                date = DateTime.parse(value, dateTimeFormatter);
             } else if (matches(field.getKey(), processIdField)) {
-                processId = field.getValue().asText();
+                processId = value;
             } else if (matches(field.getKey(), eventField)) {
-                eventType = LogEntry.EventType.valueOf(field.getValue().asText());
+                eventType = LogEntry.EventType.valueOf(value);
             } else if (matches(field.getKey(), resourceField)) {
-                resource = field.getValue().asText();
+                resource = value;
             } else if (matches(field.getKey(), elementTypeField)) {
-                elementType = LogEntry.ElementType.valueOf(field.getValue().asText());
+                elementType = LogEntry.ElementType.valueOf(value);
             } else {
-                data.put(field.getKey(), field.getValue().asText());
+                data.put(field.getKey(), value);
             }
 
         }

@@ -2,6 +2,7 @@ package es.us.isa.ppinot.evaluation.logs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * RecorderLog
@@ -9,7 +10,7 @@ import java.util.List;
  *
  * @author resinas
  */
-public class RecorderLog extends AbstractLogProvider implements LogProvider {
+public class RecorderLog extends AbstractLogProvider implements LogProvider, LogListener {
     private List<LogEntry> entries;
 
     public RecorderLog() {
@@ -29,5 +30,21 @@ public class RecorderLog extends AbstractLogProvider implements LogProvider {
         for (LogEntry entry: entries) {
             updateListeners(entry);
         }
+    }
+
+    @Override
+    public void update(LogEntry entry) {
+        addEvent(entry);
+    }
+
+    public void filter(Set<String> instances) {
+        List<LogEntry> filteredLog = new ArrayList<LogEntry>();
+        for (LogEntry e : entries) {
+            if (instances.contains(e.getInstanceId())) {
+                filteredLog.add(e);
+            }
+        }
+
+        entries = filteredLog;
     }
 }

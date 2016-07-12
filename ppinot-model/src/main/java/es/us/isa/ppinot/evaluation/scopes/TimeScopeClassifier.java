@@ -162,19 +162,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
     }
 
     private Period buildPeriod() {
-        Period period;
-
-        if (es.us.isa.ppinot.model.scope.Period.DAILY.equals(filter.getPeriod())) {
-            period = Period.days(filter.getFrequency());
-        } else if (es.us.isa.ppinot.model.scope.Period.WEEKLY.equals(filter.getPeriod())) {
-            period = Period.weeks(filter.getFrequency());
-        } else if (es.us.isa.ppinot.model.scope.Period.MONTHLY.equals(filter.getPeriod())) {
-            period = Period.months(filter.getFrequency());
-        } else {
-            period = Period.years(filter.getFrequency());
-        }
-
-        return period;
+        return es.us.isa.ppinot.model.scope.Period.toJodaPeriod(filter.getPeriod(), filter.getFrequency());
     }
 
     private DateTime buildStartDate(DateTime firstInstance) {

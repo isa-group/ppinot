@@ -1,6 +1,10 @@
 package es.us.isa.ppinot.evaluation.logs;
 
+import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.JsonToken;
+import org.codehaus.jackson.map.MappingJsonFactory;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
@@ -15,30 +19,34 @@ import java.util.Iterator;
  */
 public class JSONLogProvider extends AbstractLogProvider {
 
-    private Reader reader;
     private JSONLogEntryLoader loader;
-    private ObjectMapper mapper;
+    private JsonParser parser;
 
     public JSONLogProvider(Reader reader, JSONLogEntryLoader loader) {
-        this.reader = reader;
         this.loader = loader;
-        this.mapper = new ObjectMapper();
+        try {
+            this.parser = new MappingJsonFactory().createJsonParser(reader);
+        } catch (IOException e) {
+            throw new RuntimeException("JSON Stream cannot be read");
+        }
     }
 
     @Override
     public void processLog() {
-        JsonNode node = null;
         try {
-            node = mapper.readTree(reader);
+            if (parser.nextToken() != JsonToken.START_ARRAY) {
+                return;
+            }
+
+            while (parser.nextToken() == JsonToken.START_OBJECT) {
+                JsonNode n = parser.readValueAs(JsonNode.class);
+                updateListeners(loader.loadEvent(n));
+            }
+
+            parser.close();
+
         } catch (IOException e) {
             throw new RuntimeException("Unable to parse JSON", e);
-        }
-
-        Iterator<JsonNode> it = node.getElements();
-
-        while (it.hasNext()) {
-            JsonNode n = it.next();
-            updateListeners(loader.loadEvent(n));
         }
     }
 }

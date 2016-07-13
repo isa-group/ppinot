@@ -20,6 +20,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.ser.std.ToStringSerializer;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
+import org.joda.time.DateTimeZone;
 import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -41,6 +42,7 @@ public class Schedule {
     @JsonSerialize(using = ToStringSerializer.class)
     @JsonDeserialize(using = LocalTimeDeserializer.class)
     private LocalTime endTime;
+    private DateTimeZone timeZone = DateTimeZone.forID("Europe/Madrid");
     private List<DateTime> holidays;
 
     private static List<DateTime> defaultHolidays = new ArrayList<DateTime>();
@@ -119,6 +121,15 @@ public class Schedule {
             }
         }
         return result;
+    }
+
+    public DateTimeZone getTimeZone() {
+        return timeZone;
+    }
+
+    public Schedule setTimeZone(DateTimeZone timeZone) {
+        this.timeZone = timeZone;
+        return this;
     }
 
     public String toString() {

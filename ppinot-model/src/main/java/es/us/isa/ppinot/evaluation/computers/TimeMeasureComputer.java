@@ -459,8 +459,8 @@ public class TimeMeasureComputer implements MeasureComputer {
         }
 
         private long oneDayExclusion(DateTime start, DateTime end) {
-            DateTime beginInDay = start.withFields(schedule.getBeginTime());
-            DateTime endInDay = start.withFields(schedule.getEndTime());
+            DateTime beginInDay = start.toLocalDate().toDateTime(schedule.getBeginTime(), schedule.getTimeZone());
+            DateTime endInDay = start.toLocalDate().toDateTime(schedule.getEndTime(), schedule.getTimeZone());
             Duration exclusionHours = Duration.millis(0);
 
             if (end.isBefore(beginInDay) || start.isAfter(endInDay)) {

@@ -3,6 +3,7 @@ package es.us.isa.ppinot.model.scope;
 import es.us.isa.ppinot.model.ProcessInstanceFilter;
 import es.us.isa.ppinot.model.base.DataMeasure;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 /**
  * SimpleTimeFilter
@@ -21,6 +22,7 @@ public class SimpleTimeFilter extends ProcessInstanceFilter {
     private boolean includeUnfinished = false;
     private DateTime until = DateTime.now();
     private DataMeasure referencePoint = null;
+    private DateTimeZone timeZone = DateTimeZone.forID("Europe/Madrid");
 
     public SimpleTimeFilter() {
         super();
@@ -100,5 +102,14 @@ public class SimpleTimeFilter extends ProcessInstanceFilter {
             copy.referencePoint = this.referencePoint.copy();
         
         return copy;
+    }
+
+    public DateTimeZone getTimeZone() {
+        return timeZone;
+    }
+
+    public SimpleTimeFilter setTimeZone(DateTimeZone timeZone) {
+        this.timeZone = timeZone;
+        return this;
     }
 }

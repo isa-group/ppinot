@@ -380,8 +380,12 @@ public class TimeMeasureComputer implements MeasureComputer {
         private Schedule schedule;
 
         public DurationWithExclusion(DateTime start, DateTime end, Schedule schedule) {
-            this.start = start.toDateTime(schedule.getTimeZone());
-            this.end = end.toDateTime(schedule.getTimeZone());
+            DateTimeZone timeZone = schedule != null ? schedule.getTimeZone() : DateTimeZone.getDefault();
+
+            this.start = start.toDateTime(timeZone);
+            this.end = end.toDateTime(timeZone);
+//            this.start = start;
+//            this.end = end;
             this.schedule = schedule;
         }
 
@@ -459,8 +463,10 @@ public class TimeMeasureComputer implements MeasureComputer {
         }
 
         private long oneDayExclusion(DateTime start, DateTime end) {
-            DateTime beginInDay = start.toDateTime(schedule.getTimeZone()).toLocalDate().toDateTime(schedule.getBeginTime(), schedule.getTimeZone());
-            DateTime endInDay = start.toDateTime(schedule.getTimeZone()).toLocalDate().toDateTime(schedule.getEndTime(), schedule.getTimeZone());
+            DateTime beginInDay = start.withFields(schedule.getBeginTime());
+            DateTime endInDay = start.withFields(schedule.getEndTime());
+//            DateTime beginInDay = start.toDateTime(schedule.getTimeZone()).toLocalDate().toDateTime(schedule.getBeginTime(), schedule.getTimeZone());
+//            DateTime endInDay = start.toDateTime(schedule.getTimeZone()).toLocalDate().toDateTime(schedule.getEndTime(), schedule.getTimeZone());
             Duration exclusionHours = Duration.millis(0);
 
             if (end.isBefore(beginInDay) || start.isAfter(endInDay)) {

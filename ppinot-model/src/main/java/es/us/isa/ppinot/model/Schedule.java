@@ -111,10 +111,11 @@ public class Schedule {
     }
 
     public boolean dayOfHolidayExcluded(DateTime day) {
+        DateTime dayInZone = day.withZone(getTimeZone());
         boolean result = false;
         if (this.getHolidays() != null) {
             for (DateTime h : holidays) {
-                if (h.getYear() == day.getYear() && h.getMonthOfYear() == day.getMonthOfYear() && h.getDayOfMonth() == day.getDayOfMonth()) {
+                if (h.getYear() == dayInZone.getYear() && h.getMonthOfYear() == dayInZone.getMonthOfYear() && h.getDayOfMonth() == dayInZone.getDayOfMonth()) {
                     result = true;
                     break;
                 }

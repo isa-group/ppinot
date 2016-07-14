@@ -167,27 +167,28 @@ public class TimeScopeClassifier extends ScopeClassifier {
 
     private DateTime buildStartDate(DateTime firstInstance) {
         DateTime startDate;
+        DateTime firstInstanceInZone = firstInstance.withZone(filter.getTimeZone());
 
         if (es.us.isa.ppinot.model.scope.Period.DAILY.equals(filter.getPeriod())) {
-            if (filter.getAbsoluteStart() > firstInstance.getHourOfDay()) {
-                    firstInstance.minusDays(1);
+            if (filter.getAbsoluteStart() > firstInstanceInZone.getHourOfDay()) {
+                    firstInstanceInZone.minusDays(1);
             }
-            startDate = firstInstance.withHourOfDay(filter.getAbsoluteStart());
+            startDate = firstInstanceInZone.withHourOfDay(filter.getAbsoluteStart());
         } else if (es.us.isa.ppinot.model.scope.Period.WEEKLY.equals(filter.getPeriod())) {
-            if (filter.getAbsoluteStart() > firstInstance.getDayOfWeek()) {
-                firstInstance.minusWeeks(1);
+            if (filter.getAbsoluteStart() > firstInstanceInZone.getDayOfWeek()) {
+                firstInstanceInZone.minusWeeks(1);
             }
-            startDate = firstInstance.withDayOfWeek(filter.getAbsoluteStart()).withTimeAtStartOfDay();
+            startDate = firstInstanceInZone.withDayOfWeek(filter.getAbsoluteStart()).withTimeAtStartOfDay();
         } else if (es.us.isa.ppinot.model.scope.Period.MONTHLY.equals(filter.getPeriod())) {
-            if (filter.getAbsoluteStart() > firstInstance.getMonthOfYear()) {
-                firstInstance.minusMonths(1);
+            if (filter.getAbsoluteStart() > firstInstanceInZone.getMonthOfYear()) {
+                firstInstanceInZone.minusMonths(1);
             }
-            startDate = firstInstance.withDayOfMonth(filter.getAbsoluteStart()).withTimeAtStartOfDay();
+            startDate = firstInstanceInZone.withDayOfMonth(filter.getAbsoluteStart()).withTimeAtStartOfDay();
         } else {
-            if (filter.getAbsoluteStart() > firstInstance.getYear()) {
-                firstInstance.minusYears(1);
+            if (filter.getAbsoluteStart() > firstInstanceInZone.getYear()) {
+                firstInstanceInZone.minusYears(1);
             }
-            startDate = firstInstance.withDayOfYear(filter.getAbsoluteStart()).withTimeAtStartOfDay();
+            startDate = firstInstanceInZone.withDayOfYear(filter.getAbsoluteStart()).withTimeAtStartOfDay();
         }
 
         return startDate;

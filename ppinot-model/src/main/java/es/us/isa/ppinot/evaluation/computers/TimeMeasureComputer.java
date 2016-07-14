@@ -380,8 +380,8 @@ public class TimeMeasureComputer implements MeasureComputer {
         private Schedule schedule;
 
         public DurationWithExclusion(DateTime start, DateTime end, Schedule schedule) {
-            this.start = start;
-            this.end = end;
+            this.start = start.toDateTime(schedule.getTimeZone());
+            this.end = end.toDateTime(schedule.getTimeZone());
             this.schedule = schedule;
         }
 
@@ -455,7 +455,7 @@ public class TimeMeasureComputer implements MeasureComputer {
         }
 
         private boolean sameDay(DateTime oneDay, DateTime anotherDay) {
-            return oneDay.withTimeAtStartOfDay().equals(anotherDay.withTimeAtStartOfDay());
+            return oneDay.toDateTime(schedule.getTimeZone()).withTimeAtStartOfDay().equals(anotherDay.toDateTime(schedule.getTimeZone()).withTimeAtStartOfDay());
         }
 
         private long oneDayExclusion(DateTime start, DateTime end) {

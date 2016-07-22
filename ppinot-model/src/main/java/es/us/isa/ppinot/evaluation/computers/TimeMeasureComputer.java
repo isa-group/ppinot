@@ -397,7 +397,7 @@ public class TimeMeasureComputer implements MeasureComputer {
             long millis = new Duration(start, end).getMillis();
 
             if (schedule != null) {
-                millis = millis - exclusion();
+                millis = Math.max(0, millis - exclusion());
             }
 
             return millis;

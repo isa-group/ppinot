@@ -171,22 +171,22 @@ public class TimeScopeClassifier extends ScopeClassifier {
 
         if (es.us.isa.ppinot.model.scope.Period.DAILY.equals(filter.getPeriod())) {
             if (filter.getAbsoluteStart() > firstInstanceInZone.getHourOfDay()) {
-                    firstInstanceInZone.minusDays(1);
+                firstInstanceInZone = firstInstanceInZone.minusDays(1);
             }
             startDate = firstInstanceInZone.withHourOfDay(filter.getAbsoluteStart());
         } else if (es.us.isa.ppinot.model.scope.Period.WEEKLY.equals(filter.getPeriod())) {
             if (filter.getAbsoluteStart() > firstInstanceInZone.getDayOfWeek()) {
-                firstInstanceInZone.minusWeeks(1);
+                firstInstanceInZone = firstInstanceInZone.minusWeeks(1);
             }
             startDate = firstInstanceInZone.withDayOfWeek(filter.getAbsoluteStart()).withTimeAtStartOfDay();
         } else if (es.us.isa.ppinot.model.scope.Period.MONTHLY.equals(filter.getPeriod())) {
-            if (filter.getAbsoluteStart() > firstInstanceInZone.getMonthOfYear()) {
-                firstInstanceInZone.minusMonths(1);
+            if (filter.getAbsoluteStart() > firstInstanceInZone.getDayOfMonth()) {
+                firstInstanceInZone = firstInstanceInZone.minusMonths(1);
             }
             startDate = firstInstanceInZone.withDayOfMonth(filter.getAbsoluteStart()).withTimeAtStartOfDay();
         } else {
             if (filter.getAbsoluteStart() > firstInstanceInZone.getYear()) {
-                firstInstanceInZone.minusYears(1);
+                firstInstanceInZone = firstInstanceInZone.minusYears(1);
             }
             startDate = firstInstanceInZone.withDayOfYear(filter.getAbsoluteStart()).withTimeAtStartOfDay();
         }

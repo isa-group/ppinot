@@ -125,7 +125,10 @@ public class TimeScopeClassifier extends ScopeClassifier {
     private Collection<MeasureScope> listAbsoluteScopes() {
         Collection<MeasureScope> scopes = new ArrayList<MeasureScope>();
         Period period = buildPeriod();
-        DateTime currentDate = buildStartDate(instancesSet.first().getReference());
+        DateTime currentDate = filter.getFrom() == null ?
+                buildStartDate(instancesSet.first().getReference()) :
+                buildStartDate(filter.getFrom());
+
         DateTime lastDate = instancesSet.last().getReference();
         String processId = instancesSet.first().getProcessId();
 
@@ -136,7 +139,9 @@ public class TimeScopeClassifier extends ScopeClassifier {
             Collection<String> current = new ArrayList<String>();
 
             for (ProcessInstance instance : instancesSet) {
-                if (i.contains(instance.getReference())) {
+                if (i.isAfter(instance.getReference())) {
+                    continue;
+                } else if (i.contains(instance.getReference())) {
                     current.add(instance.getInstanceId());
                 } else {
                     if (!current.isEmpty()) {
@@ -154,7 +159,6 @@ public class TimeScopeClassifier extends ScopeClassifier {
             }
             if (!current.isEmpty()) {
             	scopes.add(new TemporalMeasureScopeImpl(processId, current,currentDate,currentDate.plus(period).minusMillis(1)));
-                current = new ArrayList<String>();
             }
         }
 

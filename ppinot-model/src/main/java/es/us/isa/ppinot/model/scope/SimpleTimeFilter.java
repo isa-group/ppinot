@@ -21,6 +21,7 @@ public class SimpleTimeFilter extends ProcessInstanceFilter {
     private boolean relative;
     private boolean includeUnfinished = false;
     private DateTime until = DateTime.now();
+    private DateTime from = null;
     private DataMeasure referencePoint = null;
     private DateTimeZone timeZone = DateTimeZone.forID("Europe/Madrid");
 
@@ -56,15 +57,6 @@ public class SimpleTimeFilter extends ProcessInstanceFilter {
         this.includeUnfinished = includeUnfinished;
     }
 
-    public DateTime getUntil() {
-        return until;
-    }
-
-    public SimpleTimeFilter setUntil(DateTime until) {
-        this.until = until;
-        return this;
-    }
-
     public Period getPeriod() {
         return period;
     }
@@ -98,6 +90,8 @@ public class SimpleTimeFilter extends ProcessInstanceFilter {
         SimpleTimeFilter copy = new SimpleTimeFilter(period, frequency, absoluteStart, includeUnfinished);
         copy.relative = this.relative;
         copy.until = this.until;
+        copy.from = this.from;
+        copy.timeZone = this.timeZone;
         if (this.referencePoint != null) 
             copy.referencePoint = this.referencePoint.copy();
         
@@ -110,6 +104,24 @@ public class SimpleTimeFilter extends ProcessInstanceFilter {
 
     public SimpleTimeFilter setTimeZone(DateTimeZone timeZone) {
         this.timeZone = timeZone;
+        return this;
+    }
+
+    public DateTime getFrom() {
+        return from;
+    }
+
+    public SimpleTimeFilter setFrom(DateTime from) {
+        this.from = from;
+        return this;
+    }
+
+    public DateTime getUntil() {
+        return until;
+    }
+
+    public SimpleTimeFilter setUntil(DateTime until) {
+        this.until = until;
         return this;
     }
 }

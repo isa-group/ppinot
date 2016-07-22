@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.joda.time.DateTimeZone;
 import org.junit.Test;
 
 import org.joda.time.DateTime;
@@ -39,7 +40,7 @@ public class HolidaysTest extends MeasureComputerHelper {
         LogEntryHelper helper = new LogEntryHelper();
         
         List<DateTime> holidays = new ArrayList<DateTime>();
-        DateTime dt = new DateTime(2016, 1, 1, 0, 0).withDayOfWeek(DateTimeConstants.MONDAY);
+        DateTime dt = new DateTime(2016, 1, 1, 0, 0, DateTimeZone.forID("Europe/Madrid")).withDayOfWeek(DateTimeConstants.MONDAY);
         holidays.add(dt.plusDays(1));
         holidays.add(dt.plusDays(3));
         Schedule considerOnly = new Schedule(DateTimeConstants.MONDAY, DateTimeConstants.FRIDAY, new LocalTime(8,0), new LocalTime(20,0), holidays);
@@ -66,7 +67,7 @@ public class HolidaysTest extends MeasureComputerHelper {
         LogEntryHelper helper = new LogEntryHelper();
         
         List<DateTime> holidays = new ArrayList<DateTime>();
-        DateTime dt = new DateTime(2016, 1, 1, 0, 0).withDayOfWeek(DateTimeConstants.MONDAY);
+        DateTime dt = new DateTime(2016, 1, 1, 0, 0, DateTimeZone.forID("Europe/Madrid")).withDayOfWeek(DateTimeConstants.MONDAY);
         holidays.add(dt.plusDays(1));
         holidays.add(dt.plusDays(2));
         Schedule considerOnly = new Schedule(DateTimeConstants.MONDAY, DateTimeConstants.FRIDAY, new LocalTime(8,0), new LocalTime(20,0), holidays);
@@ -93,7 +94,7 @@ public class HolidaysTest extends MeasureComputerHelper {
         LogEntryHelper helper = new LogEntryHelper();
         
         List<DateTime> holidays = new ArrayList<DateTime>();
-        DateTime dt = new DateTime(2016, 1, 1, 0, 0).withDayOfWeek(DateTimeConstants.MONDAY);
+        DateTime dt = new DateTime(2016, 1, 1, 0, 0, DateTimeZone.forID("Europe/Madrid")).withDayOfWeek(DateTimeConstants.MONDAY);
         holidays.add(dt);
         Schedule considerOnly = new Schedule(DateTimeConstants.MONDAY, DateTimeConstants.FRIDAY, new LocalTime(8,0), new LocalTime(20,0), holidays);
         
@@ -119,7 +120,7 @@ public class HolidaysTest extends MeasureComputerHelper {
         LogEntryHelper helper = new LogEntryHelper();
         
         List<DateTime> holidays = new ArrayList<DateTime>();
-        DateTime dt = new DateTime(2016, 1, 1, 0, 0).withDayOfWeek(DateTimeConstants.MONDAY);
+        DateTime dt = new DateTime(2016, 1, 1, 0, 0, DateTimeZone.forID("Europe/Madrid")).withDayOfWeek(DateTimeConstants.MONDAY);
         holidays.add(dt);
         Schedule considerOnly = new Schedule(DateTimeConstants.MONDAY, DateTimeConstants.FRIDAY, new LocalTime(8,0), new LocalTime(20,0), holidays);
         

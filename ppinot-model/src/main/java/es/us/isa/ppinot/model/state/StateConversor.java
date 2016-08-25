@@ -1,6 +1,7 @@
 package es.us.isa.ppinot.model.state;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Clase con el estado de la ejecucion de un elemento BPMN. Maneja la conversion de un estado del cadena a Enum y viceversa

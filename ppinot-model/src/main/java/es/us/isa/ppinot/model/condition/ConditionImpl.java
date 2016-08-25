@@ -1,6 +1,7 @@
 package es.us.isa.ppinot.model.condition;
 
-import org.codehaus.jackson.annotate.JsonTypeInfo;
+
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 /**
  * Clase de las condiciones
@@ -35,5 +36,9 @@ public class ConditionImpl implements Condition {
     @Override
 	public String getAppliesTo() {
 		return appliesTo;
+	}
+
+	public void setAppliesTo(String appliesTo) {
+		this.appliesTo = appliesTo;
 	}
 }

@@ -1,7 +1,6 @@
 package es.us.isa.ppinot.handler.transformation;
 
 import es.us.isa.ppinot.model.DataContentSelection;
-import es.us.isa.ppinot.model.condition.Condition;
 import es.us.isa.ppinot.model.condition.DataPropertyCondition;
 import es.us.isa.ppinot.model.condition.StateCondition;
 import es.us.isa.ppinot.model.condition.TimeInstantCondition;
@@ -80,7 +79,7 @@ public class ConnectorsBuilder {
             connector.setSourceRef(measure);
             connector.setTargetRef(elementIds.get(condition.getAppliesTo()));
             connector.setRestriction(condition.getRestriction());
-            connector.setStates(StateTransformer.transformDataState(condition.getStateConsidered()));
+            connector.setStates(StateTransformer.transformDataState(condition.getStatesConsidered()));
 
             connectors.add(factory.createAppliesToDataConnector(connector));
         }

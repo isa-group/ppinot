@@ -48,17 +48,25 @@ public class DataPropertyCondition extends ProcessInstanceCondition {
 		return restriction;
 	}
 
+	public void setRestriction(String restriction) {
+		this.restriction = restriction;
+	}
+
 	/**
      * @return The states of the data object considered in the condition
      */
-	public Set<RuntimeState> getStateConsidered() {
+	public Set<RuntimeState> getStatesConsidered() {
 		return statesConsidered;
 	}
 
-    /**
+	public void setStatesConsidered(Set<RuntimeState> statesConsidered) {
+		this.statesConsidered = statesConsidered;
+	}
+
+	/**
      * @param state A new state considered in the condition.
      */
-	public void addStateConsidered(RuntimeState state) {
+	public void addStatesConsidered(RuntimeState state) {
 		this.statesConsidered.add(state);
 	}
 

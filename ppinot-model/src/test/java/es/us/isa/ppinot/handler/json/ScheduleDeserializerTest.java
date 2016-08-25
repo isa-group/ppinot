@@ -1,14 +1,13 @@
 package es.us.isa.ppinot.handler.json;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import es.us.isa.ppinot.model.Schedule;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.joda.time.LocalTime;
 import org.junit.Test;
 
 import java.io.IOException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * ScheduleDeserializerTest

@@ -1,10 +1,10 @@
 package es.us.isa.ppinot.model;
 
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import es.us.isa.ppinot.model.scope.LastInstancesFilter;
 import es.us.isa.ppinot.model.scope.SimpleTimeFilter;
-import org.codehaus.jackson.annotate.JsonSubTypes;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 @JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
         include=JsonTypeInfo.As.PROPERTY, property="kind")

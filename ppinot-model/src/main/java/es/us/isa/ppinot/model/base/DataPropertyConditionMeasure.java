@@ -61,7 +61,7 @@ public class DataPropertyConditionMeasure extends ConditionMeasure {
 	public boolean valid() {
 		
 		return super.valid() &&
-				this.getCondition().getStateConsidered()!=null && ! this.getCondition().getStateConsidered().isEmpty();
+				this.getCondition().getStatesConsidered()!=null && ! this.getCondition().getStatesConsidered().isEmpty();
 	}
 
 }

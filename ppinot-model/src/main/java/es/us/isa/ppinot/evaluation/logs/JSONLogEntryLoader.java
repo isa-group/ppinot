@@ -1,7 +1,7 @@
 package es.us.isa.ppinot.evaluation.logs;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -86,7 +86,7 @@ public class JSONLogEntryLoader {
     }
 
     public LogEntry loadEvent(JsonNode jsonEvent) {
-        Iterator<Map.Entry<String, JsonNode>> fields = jsonEvent.getFields();
+        Iterator<Map.Entry<String, JsonNode>> fields = jsonEvent.fields();
 
         String instanceId = null;
         DateTime date = null;

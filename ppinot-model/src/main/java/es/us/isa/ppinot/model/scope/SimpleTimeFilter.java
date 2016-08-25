@@ -20,7 +20,7 @@ public class SimpleTimeFilter extends ProcessInstanceFilter {
     private int absoluteStart;
     private boolean relative;
     private boolean includeUnfinished = false;
-    private DateTime until = DateTime.now();
+    private DateTime until = null;
     private DateTime from = null;
     private DataMeasure referencePoint = null;
     private DateTimeZone timeZone = DateTimeZone.forID("Europe/Madrid");
@@ -117,7 +117,10 @@ public class SimpleTimeFilter extends ProcessInstanceFilter {
     }
 
     public DateTime getUntil() {
-        return until;
+        if (until == null)
+            return DateTime.now();
+        else
+            return until;
     }
 
     public SimpleTimeFilter setUntil(DateTime until) {

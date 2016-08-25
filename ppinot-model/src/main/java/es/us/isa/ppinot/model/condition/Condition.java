@@ -1,7 +1,8 @@
 package es.us.isa.ppinot.model.condition;
 
-import org.codehaus.jackson.annotate.JsonSubTypes;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
+
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 /**
  * Applied Software Engineering Research Group (ISA Group) University of
@@ -15,8 +16,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 @JsonSubTypes({
     @JsonSubTypes.Type(value = DataPropertyCondition.class, name = "DataPropertyCondition"),
     @JsonSubTypes.Type(value = StateCondition.class, name = "StateCondition"),
-    @JsonSubTypes.Type(value = TimeInstantCondition.class, name = "TimeInstantCondition"),
-    @JsonSubTypes.Type(value = TimeMeasureType.class, name = "TimeMeasureType")
+    @JsonSubTypes.Type(value = TimeInstantCondition.class, name = "TimeInstantCondition")
 })
 public interface Condition {
 

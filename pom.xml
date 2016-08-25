@@ -78,6 +78,7 @@
     <properties>
         <bpmn.version>2.1</bpmn.version>
         <java.version>1.6</java.version>
+        <jackson.version>2.7.0</jackson.version>
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
         <maven-assembly-plugin.version>2.6</maven-assembly-plugin.version>
         <maven-source-plugin.version>2.4</maven-source-plugin.version>
@@ -110,22 +111,20 @@
                 <version>${project.version}</version>
             </dependency>
 
-
             <dependency>
-                <groupId>org.semanticweb</groupId>
-                <artifactId>HermiT</artifactId>
-                <version>1.3.6</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>owlapi</groupId>
-                        <artifactId>owlapi</artifactId>
-                    </exclusion>
-                </exclusions>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.sourceforge.owlapi</groupId>
-                <artifactId>owlapi-distribution</artifactId>
-                <version>3.4.3</version>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>

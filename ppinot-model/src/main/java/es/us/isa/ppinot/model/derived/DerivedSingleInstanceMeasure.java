@@ -1,6 +1,7 @@
 package es.us.isa.ppinot.model.derived;
 
-import org.codehaus.jackson.annotate.JsonTypeInfo;
+
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 /**
  * Clase de las medidas DerivedSingleInstanceMeasure

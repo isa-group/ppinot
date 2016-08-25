@@ -1,7 +1,7 @@
 package es.us.isa.ppinot.model.derived;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import es.us.isa.ppinot.model.MeasureDefinition;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,7 +27,7 @@ public class DerivedMeasure extends MeasureDefinition {
     /**
      * Medidas a partir de las cuales se calcula la medida derivada
      */
-    protected Map<String, MeasureDefinition> usedMeasureIdMap;
+    protected Map<String, MeasureDefinition> usedMeasureMap;
 
     /**
      * Constructor de la clase
@@ -81,11 +81,15 @@ public class DerivedMeasure extends MeasureDefinition {
      */
     public Map<String, MeasureDefinition> getUsedMeasureMap() {
 
-    	if (this.usedMeasureIdMap==null)
-    		this.usedMeasureIdMap = new HashMap<String, MeasureDefinition>();
-    	return this.usedMeasureIdMap;
+    	if (this.usedMeasureMap ==null)
+    		this.usedMeasureMap = new HashMap<String, MeasureDefinition>();
+    	return this.usedMeasureMap;
     }
-    
+
+    public void setUsedMeasureMap(Map<String, MeasureDefinition> usedMeasureMap) {
+        this.usedMeasureMap = usedMeasureMap;
+    }
+
     /**
      * Adiciona una medida que se utiliza para calcular la medida derivada
      * 

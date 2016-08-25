@@ -1,8 +1,8 @@
 package es.us.isa.ppinot.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import es.us.isa.ppinot.handler.JSONMeasuresCollectionHandler;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.map.ser.std.ToStringSerializer;
 import org.joda.time.LocalTime;
 
 import java.io.IOException;

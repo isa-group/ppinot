@@ -1,8 +1,6 @@
 package es.us.isa.ppinot.model.base;
 
-import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.condition.ProcessInstanceCondition;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
  * CLase de las medidas que involucran una condicion como DataPropertyConditionMeasure y StateConditionMeasure

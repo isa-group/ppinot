@@ -1,4 +1,4 @@
-package es.us.isa.ppinot.handler.transformation;
+package es.us.isa.ppinot.handler.json;
 
 import es.us.isa.ppinot.model.state.BPMNState;
 import es.us.isa.ppinot.model.state.DataObjectState;

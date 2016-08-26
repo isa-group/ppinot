@@ -71,6 +71,7 @@
     
     <modules>
         <module>ppinot-model</module>
+        <module>ppinot-xml</module>
         <module>ppinot-oryx</module>
         <module>ppinot-templates-angular</module>
     </modules>
@@ -103,6 +104,11 @@
             <dependency>
                 <groupId>es.us.isa.ppinot</groupId>
                 <artifactId>ppinot-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>es.us.isa.ppinot</groupId>
+                <artifactId>ppinot-xml</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

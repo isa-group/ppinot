@@ -1,6 +1,6 @@
 package es.us.isa.ppinot.oryx.diagram2model.mappers;
 
-import es.us.isa.ppinot.handler.transformation.StateTransformer;
+import es.us.isa.ppinot.handler.json.StateTransformer;
 import es.us.isa.ppinot.model.state.RuntimeState;
 import org.oryxeditor.server.diagram.generic.GenericShape;
 import org.oryxeditor.server.diagram2model.mappers.fields.FieldMapper;

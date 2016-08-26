@@ -1,8 +1,7 @@
 package es.us.isa.ppinot.handler.transformation;
 
-import es.us.isa.bpmn.xmlClasses.bpmn20.TBaseElement;
 import es.us.isa.bpmn.xmlClasses.bpmn20.TFlowElement;
-import es.us.isa.bpmn.xmlClasses.bpmn20.TTask;
+import es.us.isa.ppinot.handler.json.StateTransformer;
 import es.us.isa.ppinot.model.DataContentSelection;
 import es.us.isa.ppinot.model.condition.DataPropertyCondition;
 import es.us.isa.ppinot.model.condition.StateCondition;
@@ -10,7 +9,6 @@ import es.us.isa.ppinot.model.condition.TimeInstantCondition;
 import es.us.isa.ppinot.xml.*;
 
 import javax.xml.bind.JAXBElement;
-
 import java.util.ArrayList;
 import java.util.List;
 

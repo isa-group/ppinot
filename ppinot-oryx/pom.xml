@@ -23,6 +23,10 @@
             <groupId>es.us.isa.ppinot</groupId>
             <artifactId>ppinot-model</artifactId>
         </dependency>
+        <dependency>
+            <groupId>es.us.isa.ppinot</groupId>
+            <artifactId>ppinot-xml</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>oryx-mod</groupId>

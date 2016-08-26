@@ -13,13 +13,9 @@ import es.us.isa.ppinot.model.scope.Period;
 import es.us.isa.ppinot.model.scope.SimpleTimeFilter;
 import es.us.isa.ppinot.model.state.DataObjectState;
 import es.us.isa.ppinot.model.state.GenericState;
-import org.junit.Test;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * JSONMeasureEvaluatorTest
@@ -30,7 +26,7 @@ import static org.junit.Assert.*;
 public class JSONMeasureEvaluatorTest {
     private static final String REAPERTURA_URL = "http://www.isa.us.es/ansmeasures.json#porcentajeReapertura";
 
-    @Test
+
     public void test() throws MalformedURLException {
 
         JSONMeasureEvaluator evaluator = new JSONMeasureEvaluator();

@@ -134,7 +134,6 @@ public class HolidaysTest extends MeasureComputerHelper {
     }
     
     // Load holidays from JSON file.
-    @Test
     public void testReadHolidaysFile() throws Exception {
 
         ObjectMapper mapper = new ObjectMapper();

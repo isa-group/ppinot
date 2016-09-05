@@ -1,8 +1,6 @@
 package es.us.isa.ppinot.evaluation.logs;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * RecorderLog
@@ -46,5 +44,14 @@ public class RecorderLog extends AbstractLogProvider implements LogProvider, Log
         }
 
         entries = filteredLog;
+    }
+
+    public void sort() {
+        Collections.sort(entries, new Comparator<LogEntry>() {
+            @Override
+            public int compare(LogEntry o1, LogEntry o2) {
+                return o1.getTimeStamp().compareTo(o2.getTimeStamp());
+            }
+        });
     }
 }

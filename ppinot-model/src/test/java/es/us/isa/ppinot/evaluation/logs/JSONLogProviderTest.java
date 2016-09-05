@@ -1,12 +1,9 @@
 package es.us.isa.ppinot.evaluation.logs;
 
-import com.sun.org.glassfish.external.statistics.Stats;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.StringReader;
-
-import static org.junit.Assert.*;
 
 /**
  * JSONLogProviderTest

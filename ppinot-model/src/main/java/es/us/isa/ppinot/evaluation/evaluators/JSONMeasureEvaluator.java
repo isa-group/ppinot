@@ -1,28 +1,17 @@
-package es.us.isa.ppinot.evaluation;
+package es.us.isa.ppinot.evaluation.evaluators;
 
+import es.us.isa.ppinot.evaluation.Measure;
 import es.us.isa.ppinot.evaluation.logs.JSONLogEntryLoader;
-import es.us.isa.ppinot.evaluation.logs.LogEntry;
 import es.us.isa.ppinot.evaluation.logs.RecorderLog;
 import es.us.isa.ppinot.evaluation.logs.StartEndDecoratorLog;
-import es.us.isa.ppinot.handler.JSONMeasuresCollectionHandler;
 import es.us.isa.ppinot.handler.URLMeasuresCollectionHandler;
 import es.us.isa.ppinot.model.MeasureDefinition;
-import es.us.isa.ppinot.model.MeasuresCollection;
 import es.us.isa.ppinot.model.ProcessInstanceFilter;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
-import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.Charset;
-import java.util.*;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**

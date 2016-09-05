@@ -1,5 +1,7 @@
 package es.us.isa.ppinot.evaluation;
 
+import es.us.isa.ppinot.evaluation.evaluators.LogMeasureEvaluator;
+import es.us.isa.ppinot.evaluation.evaluators.MeasureEvaluator;
 import es.us.isa.ppinot.evaluation.logs.LogProvider;
 import es.us.isa.ppinot.evaluation.logs.MXMLLog;
 import es.us.isa.ppinot.model.MeasureDefinition;

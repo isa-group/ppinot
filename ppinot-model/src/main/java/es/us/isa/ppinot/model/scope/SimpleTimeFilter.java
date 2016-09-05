@@ -77,6 +77,10 @@ public class SimpleTimeFilter extends ProcessInstanceFilter {
         return includeUnfinished;
     }
 
+    public void setIncludeUnfinished(boolean includeUnfinished) {
+        this.includeUnfinished = includeUnfinished;
+    }
+
     public DataMeasure getReferencePoint() {
         return referencePoint;
     }

@@ -1,7 +1,12 @@
 package es.us.isa.ppinot.evaluation.logs;
 
+import es.us.isa.ppinot.handler.json.DateTimeDeserializer;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.ser.std.ToStringSerializer;
 import org.joda.time.DateTime;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +16,7 @@ import java.util.Map;
  *
  * @author resinas
  */
-public class LogEntry {
+public class LogEntry implements Serializable {
     public enum EventType {
         ready, assign, complete
     }
@@ -25,20 +30,27 @@ public class LogEntry {
     private String bpElement;
     private ElementType elementType;
     private EventType eventType;
+
+    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonDeserialize(using = DateTimeDeserializer.class)
     private DateTime timeStamp;
     private String resource;
     private Map<String, Object> data;
     private Map<String, Object> extensions;
 
+    private LogEntry(){
+        this.data = new HashMap<String, Object>();
+        this.extensions = new HashMap<String, Object>();
+    }
+
     public LogEntry(String processId, String instanceId, String bpElement, ElementType elementType, EventType eventType, DateTime timeStamp) {
+        this();
         this.processId = processId;
         this.instanceId = instanceId;
         this.bpElement = bpElement;
         this.elementType = elementType;
         this.eventType = eventType;
         this.timeStamp = timeStamp;
-        this.data = new HashMap<String, Object>();
-        this.extensions = new HashMap<String, Object>();
     }
 
     public LogEntry(String processId, String instanceId, String bpElement, ElementType elementType, EventType eventType, DateTime timeStamp, Map<String, Object> data) {

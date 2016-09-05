@@ -1,10 +1,10 @@
-package es.us.isa.ppinot.evaluation;
+package es.us.isa.ppinot.evaluation.evaluators;
 
+import es.us.isa.ppinot.evaluation.Measure;
 import es.us.isa.ppinot.evaluation.computers.MeasureComputer;
 import es.us.isa.ppinot.evaluation.computers.MeasureComputerFactory;
 import es.us.isa.ppinot.evaluation.logs.LogConfigurer;
 import es.us.isa.ppinot.evaluation.logs.LogProvider;
-import es.us.isa.ppinot.evaluation.logs.PreviousDataStateTransformer;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.ProcessInstanceFilter;
 

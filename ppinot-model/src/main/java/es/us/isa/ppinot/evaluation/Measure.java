@@ -17,6 +17,7 @@ public class Measure {
     protected final MeasureScope measureScope;
     protected MeasureDefinition definition;
     private Object value;
+    private Map<String, Map<String, Measure>> evidences = new HashMap<String, Map<String, Measure>>();
 
     public Measure(MeasureDefinition definition, MeasureScope scope, Object value) {
         this.definition = definition;
@@ -107,5 +108,16 @@ public class Measure {
         return measureScope;
     }
 
+    public Map<String, Map<String, Measure>> getEvidences() {
+        return evidences;
+    }
+
+    public void addEvidence(String instance, Map<String,Measure> evidence) {
+        evidences.put(instance, evidence);
+    }
+
+    public String toString() {
+        return getValueAsString();
+    }
 
 }

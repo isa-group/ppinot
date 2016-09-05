@@ -1,5 +1,6 @@
-package es.us.isa.ppinot.evaluation;
+package es.us.isa.ppinot.evaluation.evaluators;
 
+import es.us.isa.ppinot.evaluation.Measure;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.ProcessInstanceFilter;
 

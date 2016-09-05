@@ -1,5 +1,6 @@
 package es.us.isa.ppinot.evaluation;
 
+import es.us.isa.ppinot.evaluation.evaluators.JSONMeasureEvaluator;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.TimeUnit;
 import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
@@ -16,10 +17,7 @@ import es.us.isa.ppinot.model.state.GenericState;
 import org.junit.Test;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * JSONMeasureEvaluatorTest

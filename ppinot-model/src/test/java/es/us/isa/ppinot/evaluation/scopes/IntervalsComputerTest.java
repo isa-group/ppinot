@@ -42,8 +42,8 @@ public class IntervalsComputerTest {
 
         Interval firstInterval = intervalList.get(0);
         Interval lastInterval = intervalList.get(intervalList.size() - 1);
-        Assert.assertEquals(from, firstInterval.getStart());
-        Assert.assertEquals(new DateTime(2014, 11, 15, 23, 59, 59,999), firstInterval.getEnd());
+        Assert.assertEquals(from.getMillis(), firstInterval.getStart().getMillis());
+        Assert.assertEquals(new DateTime(2014, 11, 15, 23, 59, 59,999, firstInterval.getChronology()), firstInterval.getEnd());
         Assert.assertTrue(lastInterval.contains(filter.getUntil()));
 
         filter.setUntil(new DateTime(2016, 9, 1, 11, 23));
@@ -62,8 +62,8 @@ public class IntervalsComputerTest {
 
         Interval firstInterval = intervalList.get(0);
         Assert.assertTrue(firstInterval.contains(from));
-        Assert.assertEquals(new DateTime(2014, 9, 16, 0, 0, 0,0), firstInterval.getStart());
-        Assert.assertEquals(new DateTime(2014, 10, 15, 23, 59, 59,999), firstInterval.getEnd());
+        Assert.assertEquals(new DateTime(2014, 9, 16, 0, 0, 0,0, firstInterval.getChronology()), firstInterval.getStart());
+        Assert.assertEquals(new DateTime(2014, 10, 15, 23, 59, 59,999, firstInterval.getChronology()), firstInterval.getEnd());
 
 
     }

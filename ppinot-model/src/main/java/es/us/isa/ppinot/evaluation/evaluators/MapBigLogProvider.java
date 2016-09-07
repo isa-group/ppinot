@@ -28,9 +28,12 @@ public class MapBigLogProvider implements BigLogProvider {
     final Map<String, byte[]> map;
     final ObjectMapper mapper;
     final ObjectReader reader;
+    final EndMatcher endMatcher;
 
-    public MapBigLogProvider(LogProvider logProvider) {
+
+    public MapBigLogProvider(LogProvider logProvider, EndMatcher endMatcher) {
         this.logProvider = logProvider;
+        this.endMatcher = endMatcher;
         this.db = DBMaker.tempFileDB().fileMmapEnable().concurrencyDisable().allocateIncrement(256 * 1024 * 1024).fileDeleteAfterClose().closeOnJvmShutdown().make();
         this.map = this.db.hashMap("instances")
                 .keySerializer(Serializer.STRING)
@@ -124,7 +127,6 @@ public class MapBigLogProvider implements BigLogProvider {
             start = DateTime.now();
             log.info("Preparing data...");
 
-            DataEndMatcher dataEndMatcher = new DataEndMatcher("ESTADO", "Cerrada", "Cancelada", "Anulada", "Cerrado");
             for (String id : map.keySet()) {
                 List<LogEntry> entries = reader.readValue(map.get(id));
                 LogInstance instance = new LogInstance();
@@ -138,7 +140,7 @@ public class MapBigLogProvider implements BigLogProvider {
                 instance.setEntries(entries);
                 instance.setStart(entries.get(0).getTimeStamp());
                 LogEntry last = entries.get(entries.size() - 1);
-                if (dataEndMatcher.matches(last)) {
+                if (endMatcher.matches(last)) {
                     instance.setEnd(last.getTimeStamp());
                 }
 

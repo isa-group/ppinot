@@ -9,7 +9,7 @@ import org.joda.time.Interval;
  *
  * @author resinas
  */
-interface BigLogProvider {
+public interface BigLogProvider {
 
     enum IntervalCondition {START, END, ACTIVE}
 

@@ -11,9 +11,13 @@ import java.util.*;
 public class StatsLogListener implements LogListener {
     private Map<String, Map<String, Integer>> counter = new HashMap<String, Map<String, Integer>>();
     private Set<String> keys;
+    private long numEntries;
+    private Set<String> instances;
 
     public StatsLogListener(String... keys) {
         this.keys = new HashSet<String>(Arrays.asList(keys));
+        this.numEntries = 0;
+        this.instances = new HashSet<>();
     }
 
     public void update(LogEntry entry) {
@@ -24,6 +28,10 @@ public class StatsLogListener implements LogListener {
         }
         for (String key : currentKeys) {
             updateCountWith(data.get(key).toString(), getOrCreateNewCounter(key));
+        }
+        numEntries++;
+        if (!instances.contains(entry.getInstanceId())) {
+            instances.add(entry.getInstanceId());
         }
     }
 
@@ -50,6 +58,8 @@ public class StatsLogListener implements LogListener {
     }
 
     public void printStats() {
+        System.out.println("Num entries: " + numEntries);
+        System.out.println("Num instances: " + instances.size());
         for (String key : counter.keySet()) {
             System.out.println(key + ":");
             System.out.println("--------------------");

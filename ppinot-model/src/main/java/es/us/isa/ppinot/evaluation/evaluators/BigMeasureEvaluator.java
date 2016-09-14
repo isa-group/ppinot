@@ -138,7 +138,11 @@ public class BigMeasureEvaluator implements MeasureEvaluator, StreamMeasureEvalu
             List<Measure> aggregatedMeasures = measuresMap.get(aggregated);
             for (Measure m : aggregatedMeasures) {
                 for (String instance : m.getInstances()) {
-                    m.addEvidence(instance, evidences.get(instance));
+                    final Map<String, Measure> evidence = evidences.get(instance);
+                    if (evidence == null) {
+                        log.warning("No evidences for instance: " + instance);
+                    }
+                    m.addEvidence(instance, evidence);
                 }
             }
 

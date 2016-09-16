@@ -11,7 +11,10 @@ import es.us.isa.ppinot.model.derived.DerivedSingleInstanceMeasure;
 import org.mvel2.MVEL;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * DerivedMeasureComputer
@@ -63,6 +66,7 @@ public class DerivedMeasureComputer implements MeasureComputer {
 
         for (MeasureScope scope : variables.get(oneVar).keySet()) {
             Map<String, Object> expressionVariables = new HashMap<String, Object>();
+            Map<String, Measure> expressionMeasures = new HashMap<String,Measure>();
             boolean ignoreScope = false;
 
             for (String varName : variables.keySet()) {
@@ -72,6 +76,7 @@ public class DerivedMeasureComputer implements MeasureComputer {
                     break;
                 }
                 expressionVariables.put(varName, measure.getValueAsObject());
+                expressionMeasures.put(varName, measure);
             }
 
             if (ignoreScope) {
@@ -79,7 +84,7 @@ public class DerivedMeasureComputer implements MeasureComputer {
             }
 
             Object value = MVEL.executeExpression(expression, expressionVariables);
-            results.add(buildMeasure(scope, value));
+            results.add(buildMeasure(scope, value, expressionMeasures));
         }
 
 //        for (int i = 0; i < size; i++) {
@@ -101,13 +106,19 @@ public class DerivedMeasureComputer implements MeasureComputer {
         return results;
     }
 
-    private Measure buildMeasure(MeasureScope scope, Object value) {
+    private Measure buildMeasure(MeasureScope scope, Object value, Map<String, Measure> expressionVariables) {
         Measure measure;
 
         if (definition instanceof DerivedSingleInstanceMeasure) {
             measure = new MeasureInstance(definition, scope, value);
+            if (definition.isIncludeEvidences()) {
+                measure.addEvidence(((MeasureInstance) measure).getInstanceId(), expressionVariables);
+            }
         } else {
             measure = new Measure(definition, scope, value);
+            if (definition.isIncludeEvidences()) {
+                measure.addEvidence(measure.getMeasureScope().getScopeInfo().toString(), expressionVariables);
+            }
         }
 
         return measure;

@@ -23,6 +23,8 @@ public class DerivedMeasure extends MeasureDefinition {
      * Funcion que se aplica
      */
     private String function;
+
+    private boolean includeEvidences = false;
     
     /**
      * Medidas a partir de las cuales se calcula la medida derivada
@@ -107,8 +109,16 @@ public class DerivedMeasure extends MeasureDefinition {
     	
     	return this.getUsedMeasureMap().get(id);
     }
-	
-	/**
+
+    public boolean isIncludeEvidences() {
+        return includeEvidences;
+    }
+
+    public void setIncludeEvidences(boolean includeEvidences) {
+        this.includeEvidences = includeEvidences;
+    }
+
+    /**
 	 * Indica si la medida puede ser calculada
 	 * 
 	 * @return 

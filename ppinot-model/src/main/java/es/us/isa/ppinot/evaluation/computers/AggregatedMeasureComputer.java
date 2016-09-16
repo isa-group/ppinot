@@ -4,7 +4,6 @@ import es.us.isa.ppinot.evaluation.*;
 import es.us.isa.ppinot.evaluation.logs.LogEntry;
 import es.us.isa.ppinot.evaluation.scopes.ScopeClassifier;
 import es.us.isa.ppinot.evaluation.scopes.ScopeClassifierFactory;
-import es.us.isa.ppinot.model.DataContentSelection;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.ProcessInstanceFilter;
 import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
@@ -133,7 +132,18 @@ public class AggregatedMeasureComputer implements MeasureComputer {
             Collection<Double> toAggregate = chooseMeasuresToAggregate(scope, measureMap);
             if (!toAggregate.isEmpty()) {
                 double val = agg.aggregate(toAggregate);
-                result.add(new Measure(definition, scope, val));
+                Measure measure = new Measure(definition, scope, val);
+                result.add(measure);
+                if (definition.isIncludeEvidences()) {
+                    for (String instance : scope.getInstances()) {
+                        Map<String, Measure> evidence = new HashMap<String, Measure>();
+                        evidence.put("base", measureMap.get(instance));
+                        if (filterComputer != null) {
+                            evidence.put("filter", filterMap.get(instance));
+                        }
+                        measure.addEvidence(instance, evidence);
+                    }
+                }
             }
         }
 

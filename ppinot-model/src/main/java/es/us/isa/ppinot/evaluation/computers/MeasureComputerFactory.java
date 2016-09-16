@@ -28,11 +28,11 @@ public class MeasureComputerFactory {
         } else if (definition instanceof DataMeasure) {
             computer = new DataMeasureComputer(definition);
         } else if (definition instanceof AggregatedMeasure) {
-            if (((AggregatedMeasure) definition).isIncludeUnfinished()) {
-                computer = new MultiAggregatedMeasureComputer(definition, filter);
-            } else {
+//            if (((AggregatedMeasure) definition).isIncludeUnfinished()) {
+//                computer = new MultiAggregatedMeasureComputer(definition, filter);
+//            } else {
                 computer = new AggregatedMeasureComputer(definition, filter);
-            }
+//            }
         } else if (definition instanceof DerivedMeasure) {
             computer = new DerivedMeasureComputer(definition, filter);
         }

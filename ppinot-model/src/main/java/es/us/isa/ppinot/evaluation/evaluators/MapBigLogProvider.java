@@ -173,6 +173,7 @@ public class MapBigLogProvider implements BigLogProvider {
 
         @Override
         public void processLog() {
+            DateTime endOfInterval = interval.getEnd().plus(1);
             for (String id : map.keySet()) {
                 LogInstance instance = null;
                 try {
@@ -183,7 +184,11 @@ public class MapBigLogProvider implements BigLogProvider {
                             firstFive.add(id);
                         }
                         for (LogEntry entry : instance.getEntries()) {
-                            updateListeners(entry);
+                            if (entry.getTimeStamp().isBefore(endOfInterval)) {
+                                updateListeners(entry);
+                            } else {
+                                break;
+                            }
                         }
                     }
                 } catch (IOException e) {

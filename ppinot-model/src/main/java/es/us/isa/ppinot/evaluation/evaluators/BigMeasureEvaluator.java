@@ -12,7 +12,6 @@ import es.us.isa.ppinot.model.ProcessInstanceFilter;
 import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
 import es.us.isa.ppinot.model.derived.DerivedMultiInstanceMeasure;
 import es.us.isa.ppinot.model.scope.SimpleTimeFilter;
-import org.jetbrains.annotations.NotNull;
 import org.joda.time.Interval;
 
 import java.util.*;
@@ -209,11 +208,10 @@ public class BigMeasureEvaluator implements MeasureEvaluator, StreamMeasureEvalu
         computeMeasures(measures, computers, i);
     }
 
-    @NotNull
     private Map<MeasureComputer, MeasureDefinition> analyseLog(List<MeasureDefinition> definitions, ProcessInstanceFilter filter, LogProvider logToAnalyse, Interval i) {
         Map<MeasureComputer, MeasureDefinition> computers = new HashMap<MeasureComputer, MeasureDefinition>();
         SimpleTimeFilter intervalFilter = ((SimpleTimeFilter) filter).copy();
-        intervalFilter.setUntil(i.getEnd().plus(1));
+        intervalFilter.setUntil(i.getEnd());
         for (MeasureDefinition definition : definitions) {
             MeasureComputer computer = factory.create(definition, intervalFilter);
             computers.put(computer, definition);

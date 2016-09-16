@@ -1,6 +1,8 @@
 package es.us.isa.ppinot.evaluation.computers;
 
-import es.us.isa.ppinot.evaluation.*;
+import es.us.isa.ppinot.evaluation.Aggregator;
+import es.us.isa.ppinot.evaluation.Measure;
+import es.us.isa.ppinot.evaluation.MeasureInstance;
 import es.us.isa.ppinot.evaluation.logs.LogEntry;
 import es.us.isa.ppinot.evaluation.matchers.DataPropertyMatcher;
 import es.us.isa.ppinot.evaluation.matchers.FlowElementStateMatcher;
@@ -176,7 +178,8 @@ public class TimeMeasureComputer implements MeasureComputer {
             if (!Double.isNaN(value)) {
                 long millisValue = (long) value;
                 Duration duration = Duration.millis(millisValue);
-                value = TimeUnit.toTimeUnit(duration, definition.getUnitOfMeasure());
+                Schedule schedule = ((TimeMeasure)definition).getConsiderOnly();
+                value = TimeUnit.toTimeUnit(duration, definition.getUnitOfMeasure(), schedule);
             }
 
             return value;

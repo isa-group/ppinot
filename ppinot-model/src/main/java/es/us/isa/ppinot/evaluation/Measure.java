@@ -113,6 +113,9 @@ public class Measure {
     }
 
     public void addEvidence(String instance, Map<String,Measure> evidence) {
+        if (evidence == null) {
+            evidence = new HashMap<String, Measure>();
+        }
         evidences.put(instance, evidence);
     }
 

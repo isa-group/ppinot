@@ -112,7 +112,11 @@ public class Schedule {
     }
 
     public long millisPerDay() {
-        return Duration.standardDays(1).minus(Seconds.secondsBetween(beginTime, endTime).toStandardDuration()).getMillis();
+        if (beginTime.equals(new LocalTime(0, 0)) && endTime.equals(new LocalTime(23, 59))) {
+            return DateTimeConstants.MILLIS_PER_DAY;
+        } else {
+            return Seconds.secondsBetween(beginTime, endTime).toStandardDuration().getMillis();
+        }
     }
 
     public DateTimeZone getTimeZone() {

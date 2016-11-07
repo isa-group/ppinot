@@ -17,7 +17,7 @@ public class StatsLogListener implements LogListener {
     public StatsLogListener(String... keys) {
         this.keys = new HashSet<String>(Arrays.asList(keys));
         this.numEntries = 0;
-        this.instances = new HashSet<>();
+        this.instances = new HashSet();
     }
 
     public void update(LogEntry entry) {

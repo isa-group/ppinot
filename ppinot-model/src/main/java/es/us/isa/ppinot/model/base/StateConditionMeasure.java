@@ -57,7 +57,7 @@ public class StateConditionMeasure extends ConditionMeasure {
 	/**
 	 * Indica si la medida puede ser calculada
 	 * 
-	 * @return 
+	 * @return valid
 	 */
 	public boolean valid() {
 		

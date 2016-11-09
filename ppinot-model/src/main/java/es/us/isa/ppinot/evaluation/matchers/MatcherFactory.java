@@ -10,7 +10,7 @@ import es.us.isa.ppinot.model.condition.TimeInstantCondition;
  * Applied Software Engineering Research Group (ISA Group) University of
  * Sevilla, Spain
  *
- * @author Felipe Vieira da Cunha Serafim <fvieiradacunha@us.es>
+ * @author feserafim
  * @version 1.0
  */
 public class MatcherFactory {

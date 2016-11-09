@@ -56,7 +56,7 @@ public class DataPropertyConditionMeasure extends ConditionMeasure {
 	/**
 	 * Indica si el valor la medida puede ser calculada
 	 * 
-	 * @return 
+	 * @return valid
 	 */
 	public boolean valid() {
 		

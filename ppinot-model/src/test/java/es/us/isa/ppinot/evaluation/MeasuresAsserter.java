@@ -24,7 +24,7 @@ public class MeasuresAsserter {
         Assert.assertEquals(n, measures.size());
     }
 
-    public void assertInstanceHasValue(String instance, double value) {
+    public void assertInstanceHasDoubleValue(String instance, double value) {
         boolean found = false;
 
         for (Measure m: measures) {
@@ -37,9 +37,37 @@ public class MeasuresAsserter {
 
         Assert.assertTrue("Instance " + instance + " has not been evaluated", found);
     }
+
+    public void assertInstanceHasDoubleValueGreaterThanOrEqual(String instance, double value) {
+        boolean found = false;
+
+        for (Measure m: measures) {
+            if (m.getInstances().contains(instance)) {
+                Assert.assertTrue(m.getValue() >= 0);
+                found = true;
+                break;
+            }
+        }
+
+        Assert.assertTrue("Instance " + instance + " has not been evaluated", found);
+    }
+
+    public void assertInstanceHasStringValue(String instance, String value) {
+        boolean found = false;
+
+        for (Measure m: measures) {
+            if (m.getInstances().contains(instance)) {
+                Assert.assertEquals(value, m.getValueAsString());
+                found = true;
+                break;
+            }
+        }
+
+        Assert.assertTrue("Instance " + instance + " has not been evaluated", found);
+    }
     
     public void assertValueOfInterval(int measure,double value) {
-    	Assert.assertEquals(value,((Measure)((List)measures).get(measure)).value,0.0);
+    	Assert.assertEquals(value,((Measure)((List)measures).get(measure)).getValue(),0.0);
     }
     
     public void assertNumOfInstances(int value) {
@@ -55,7 +83,7 @@ public class MeasuresAsserter {
     public void assertNumOfMeasureCero() {
     	boolean check = true;
     	for (Measure m: measures) {
-            if (m.value!=0) {
+            if (m.getValue()!=0) {
             	check=false;
             }
         }

@@ -10,10 +10,7 @@ import es.us.isa.ppinot.evaluation.logs.LogEntry.EventType;
 import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
 import es.us.isa.ppinot.model.base.CountMeasure;
 import es.us.isa.ppinot.model.scope.LastInstancesFilter;
-import es.us.isa.ppinot.model.scope.Period;
-import es.us.isa.ppinot.model.scope.SimpleTimeFilter;
 import es.us.isa.ppinot.model.state.GenericState;
-import es.us.isa.ppinot.model.state.RuntimeState;
 
 
 public class AggregatedMeasureLastInstanceComputerTest extends MeasureComputerHelper{

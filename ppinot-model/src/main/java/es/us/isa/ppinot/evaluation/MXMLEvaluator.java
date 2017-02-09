@@ -1,13 +1,9 @@
 package es.us.isa.ppinot.evaluation;
 
 import es.us.isa.bpmn.handler.Bpmn20ModelHandler;
-import es.us.isa.ppinot.evaluation.computers.MeasureComputer;
-import es.us.isa.ppinot.evaluation.computers.MeasureComputerFactory;
-import es.us.isa.ppinot.evaluation.logs.LogEntry;
-import es.us.isa.ppinot.evaluation.logs.LogListener;
+import es.us.isa.ppinot.evaluation.evaluators.LogMeasureEvaluator;
 import es.us.isa.ppinot.evaluation.logs.LogProvider;
 import es.us.isa.ppinot.evaluation.logs.MXMLLog;
-import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.PPI;
 
 import java.io.InputStream;

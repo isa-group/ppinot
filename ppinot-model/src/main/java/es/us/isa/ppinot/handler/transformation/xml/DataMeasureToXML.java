@@ -3,6 +3,7 @@ package es.us.isa.ppinot.handler.transformation.xml;
 import es.us.isa.ppinot.handler.transformation.ConnectorsBuilder;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.base.DataMeasure;
+import es.us.isa.ppinot.model.condition.DataPropertyCondition;
 import es.us.isa.ppinot.xml.TDataMeasure;
 import es.us.isa.ppinot.xml.TMeasure;
 
@@ -19,7 +20,7 @@ public class DataMeasureToXML extends AbstractMeasureToXML implements MeasureDef
 
         DataMeasure dataMeasure = (DataMeasure) measure;
 
-        connectors.addDataCondition(dataMeasure.getPrecondition(), dataMeasure.getDataContentSelection(), xml);
+        connectors.addDataCondition((DataPropertyCondition) dataMeasure.getPrecondition(), dataMeasure.getDataContentSelection(), xml);
 
         return xml;
     }

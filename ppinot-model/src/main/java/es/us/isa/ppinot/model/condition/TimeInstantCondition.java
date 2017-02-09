@@ -3,37 +3,45 @@ package es.us.isa.ppinot.model.condition;
 import es.us.isa.ppinot.model.state.RuntimeState;
 
 /**
- * Clase de las condiciones que deben cumplirse en un momento instante de tiempo (inicio o fin)
- * 
+ * Class that represents the conditions that causes a trigger in a certain time instant.
+ *
  * @author Edelia
  *
  */
-public class TimeInstantCondition extends Condition {
+public class TimeInstantCondition extends ConditionImpl {
 
-	// Estado de la ejecucion
 	private RuntimeState changesToState;
+    private DataPropertyCondition precondition;
+
 
 	/**
-	 * Constructor de la clase
+	 * Class constructor
 	 * 
 	 */
 	public TimeInstantCondition () {
 		super();
 		this.setChangesToState(null);
-	}
+        this.setPrecondition(null);
+    }
 	
 	/**
-	 * Constructor de la clase
+	 * Class constructor
 	 * 
-	 * @param appliesTo Id del elemento al que se aplica una medida
-	 * @param changesToState Estado de la ejecucion
+	 * @param appliesTo Id of the element to which the conditions is applied
+	 * @param changesToState Condition evaluated for the trigger
 	 */
 	public TimeInstantCondition (String appliesTo, RuntimeState changesToState) {
 		super(appliesTo);
 		this.setChangesToState(changesToState);
 	}
-	
-	/**
+
+    public TimeInstantCondition(String appliesTo, RuntimeState changesToState, DataPropertyCondition precondition) {
+        super(appliesTo);
+        this.changesToState = changesToState;
+        this.precondition = precondition;
+    }
+
+    /**
      * Devuelve el atributo changesToState:
      * Estado de la ejecucion
      * 
@@ -68,4 +76,13 @@ public class TimeInstantCondition extends Condition {
 		}
 		
 	}
+
+    public DataPropertyCondition getPrecondition() {
+        return precondition;
+    }
+
+    public TimeInstantCondition setPrecondition(DataPropertyCondition precondition) {
+        this.precondition = precondition;
+        return this;
+    }
 }

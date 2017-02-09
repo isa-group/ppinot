@@ -3,6 +3,10 @@ package es.us.isa.ppinot.model.aggregated;
 import es.us.isa.ppinot.model.DataContentSelection;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.base.BaseMeasure;
+import es.us.isa.ppinot.model.base.DataMeasure;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Clase con la informacion de un PPI del tipo AggregatedMeasure
@@ -19,10 +23,19 @@ public class AggregatedMeasure extends MeasureDefinition implements Cloneable{
     protected String samplingFrequency;
     
     // Informacion para agrupar la medida
-    private DataContentSelection groupedBy;
+    private List<DataMeasure> groupedBy;
 
     // La medida que se agrega
     protected MeasureDefinition baseMeasure;
+    
+    protected MeasureDefinition filter;
+    
+    protected boolean includeUnfinished = false;
+
+	protected DataMeasure periodReferencePoint = null;
+
+	protected boolean includeEvidences = false;
+
     
     // Indica si la medida utiliza el conector aggregates o no
     protected Boolean aggregates;
@@ -37,12 +50,22 @@ public class AggregatedMeasure extends MeasureDefinition implements Cloneable{
     	this.setAggregationFunction("");
     	this.setSamplingFrequency("");
     	this.setBaseMeasure(new BaseMeasure());
+    	this.setFilter(null);
     	
     	this.setAggregates(false);
-    	this.setGroupedBy(null);
+    	this.setGroupedBySelections(null);
     }
-    
-    /**
+
+    public boolean isIncludeUnfinished() {
+        return includeUnfinished;
+    }
+
+	public AggregatedMeasure setIncludeUnfinished(boolean includeUnfinished) {
+		this.includeUnfinished = includeUnfinished;
+		return this;
+	}
+
+	/**
      * Constructor de la clase
      * 
      * @param id Id de la medida
@@ -62,9 +85,38 @@ public class AggregatedMeasure extends MeasureDefinition implements Cloneable{
     	this.setAggregationFunction(aggregationFunction);
     	this.setSamplingFrequency(samplingFrequency);
     	this.setBaseMeasure(baseMeasure);
+        this.setFilter(null);
     	
     	this.setAggregates(false);
-    	this.setGroupedBy(null);
+    	this.setGroupedBySelections(null);
+	}
+    
+    
+    /**
+     * Constructor de la clase
+     * 
+     * @param id Id de la medida
+     * @param name Nombre de la medida
+     * @param description Descripcion de la medida
+     * @param scale Escala de la medida
+     * @param unitOfMeasure Unidad de medida
+     * @param aggregationFunction Funcion de la medida
+     * @param samplingFrequency
+     * @param baseMeasure La medida que se agrega
+     * @param filter 
+     */
+    public AggregatedMeasure(String id, String name, String description, String scale, String unitOfMeasure,
+    		String aggregationFunction, String samplingFrequency, MeasureDefinition baseMeasure, MeasureDefinition filter) {
+    	
+    	super(id, name, description, scale, unitOfMeasure);
+    	
+    	this.setAggregationFunction(aggregationFunction);
+    	this.setSamplingFrequency(samplingFrequency);
+    	this.setBaseMeasure(baseMeasure);
+        this.setFilter(filter);
+    	
+    	this.setAggregates(false);
+    	this.setGroupedBySelections(null);
 	}
 
     /**
@@ -129,6 +181,14 @@ public class AggregatedMeasure extends MeasureDefinition implements Cloneable{
     	this.baseMeasure = baseMeasure;
     }
 
+    public MeasureDefinition getFilter() {
+        return filter;
+    }
+
+    public void setFilter(MeasureDefinition filter) {
+        this.filter = filter;
+    }
+
     /**
      * Devuelve el atributo aggregates:
      * Indica si la medida utiliza el conector aggregates o no
@@ -155,20 +215,59 @@ public class AggregatedMeasure extends MeasureDefinition implements Cloneable{
      * 
      * @return La medida que se agrega
      */
-	public DataContentSelection getGroupedBy() {
-		return groupedBy;
+	public List<DataContentSelection> getGroupedBySelections() {
+		List<DataContentSelection> selections = new ArrayList<DataContentSelection>();
+		for (DataMeasure m : groupedBy) {
+			selections.add(m.getDataContentSelection());
+		}
+
+		return selections;
 	}
 
     /**
      * Da valor al atributo groupedBy:
      * Informacion para agrupar la medida
-     * 
+     *
      * @param groupedBy
      */
-	public void setGroupedBy(DataContentSelection groupedBy) {
-		this.groupedBy = groupedBy;
+	public void setGroupedBySelections(List<DataContentSelection> groupedBy) {
+		this.groupedBy = new ArrayList<DataMeasure>();
+		if (groupedBy != null) {
+			for (DataContentSelection s : groupedBy) {
+				DataMeasure dm = new DataMeasure();
+				dm.setDataContentSelection(s);
+				this.groupedBy.add(dm);
+			}
+
+		}
 	}
-	
+
+	public List<DataMeasure> getGroupedBy() {
+		return groupedBy;
+	}
+
+	public AggregatedMeasure setGroupedBy(List<DataMeasure> groupedBy) {
+		this.groupedBy = groupedBy;
+		return this;
+	}
+
+	public DataMeasure getPeriodReferencePoint() {
+		return periodReferencePoint;
+	}
+
+	public AggregatedMeasure setPeriodReferencePoint(DataMeasure periodReferencePoint) {
+		this.periodReferencePoint = periodReferencePoint;
+		return this;
+	}
+
+	public boolean isIncludeEvidences() {
+		return includeEvidences;
+	}
+
+	public void setIncludeEvidences(boolean includeEvidences) {
+		this.includeEvidences = includeEvidences;
+	}
+
 	/**
 	 * Indica si el valor de la medida puede ser calculado y mostrado
 	 * 

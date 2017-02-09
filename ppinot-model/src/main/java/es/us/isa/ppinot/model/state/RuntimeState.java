@@ -9,12 +9,13 @@ package es.us.isa.ppinot.model.state;
 import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
-@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
-        include=JsonTypeInfo.As.WRAPPER_OBJECT, property = "kind")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.WRAPPER_OBJECT, property = "kind")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = GenericState.class, name = "genericState"),
         @JsonSubTypes.Type(value = BPMNState.class, name = "bpmnState"),
-        @JsonSubTypes.Type(value = DataObjectState.class, name = "dataObjectState")
+        @JsonSubTypes.Type(value = DataObjectState.class, name = "dataObjectState"),
+        @JsonSubTypes.Type(value = ComplexState.class, name = "complexState")
 })
 public interface RuntimeState {
 }

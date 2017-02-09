@@ -5,6 +5,7 @@ import java.lang.reflect.Modifier;
 import java.lang.Object;
 
 import es.us.isa.ppinot.model.DataContentSelection;
+import es.us.isa.ppinot.model.condition.Condition;
 import es.us.isa.ppinot.model.condition.DataPropertyCondition;
 
 
@@ -20,7 +21,9 @@ public class DataMeasure extends BaseMeasure implements Cloneable{
 	// Dataobject y propiedad a la que se le aplica la medida
 	private DataContentSelection dataContentSelection;
 	// Condicion de la medida
-	private DataPropertyCondition precondition;
+	private Condition precondition;
+
+	private boolean first = false;
 	
 	/**
 	 * Constructor de la clase
@@ -30,7 +33,16 @@ public class DataMeasure extends BaseMeasure implements Cloneable{
 		this.setDataContentSelection(null);
 		this.setPrecondition(null);
 	}
-	
+
+	public boolean isFirst() {
+		return first;
+	}
+
+	public DataMeasure setFirst(boolean first) {
+		this.first = first;
+		return this;
+	}
+
 	/**
 	 * Constructor de la clase
 	 * 
@@ -43,7 +55,7 @@ public class DataMeasure extends BaseMeasure implements Cloneable{
 	 * @param precondition Condicion de la medida
 	 */
 	public DataMeasure(String id, String name, String description, String scale, String unitOfMeasure,
-                       DataContentSelection dataContentSelection, DataPropertyCondition precondition) {
+                       DataContentSelection dataContentSelection, Condition precondition) {
 		super(id, name, description, scale, unitOfMeasure);
 		this.setDataContentSelection(dataContentSelection);
 		this.setPrecondition(precondition);
@@ -75,7 +87,7 @@ public class DataMeasure extends BaseMeasure implements Cloneable{
 	 * 
 	 * @return Valor del atributo
 	 */
-	public DataPropertyCondition getPrecondition() {
+	public Condition getPrecondition() {
 		return precondition;
 	}
 
@@ -85,7 +97,7 @@ public class DataMeasure extends BaseMeasure implements Cloneable{
 	 * 
 	 * @param precondition Data property precondition that enables the measure
 	 */
-	public void setPrecondition(DataPropertyCondition precondition) {
+	public void setPrecondition(Condition precondition) {
 		this.precondition = precondition;
 	}
 	
@@ -118,4 +130,10 @@ public class DataMeasure extends BaseMeasure implements Cloneable{
         return clone;
     }
 	
+	public DataMeasure copy() {
+		DataMeasure copy = new DataMeasure(getId(), getName(), getDescription(), getScale(), getUnitOfMeasure(), dataContentSelection, precondition);
+		copy.first = this.first;
+		return copy;
+	}
+
 }

@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * StateMatcher
+ * FlowElementStateMatcher
  * Copyright (C) 2013 Universidad de Sevilla
  *
  * @author resinas
  */
-public class StateMatcher {
+public class FlowElementStateMatcher {
     private static Map<LogEntry.EventType, List<BPMNState>> BPMNMATCH;
     private static Map<LogEntry.EventType, List<GenericState>> GENERICMATCH;
 
@@ -34,6 +34,10 @@ public class StateMatcher {
         GENERICMATCH.put(LogEntry.EventType.ready, Arrays.asList(GenericState.START));
         GENERICMATCH.put(LogEntry.EventType.assign, Arrays.asList(GenericState.START));
         GENERICMATCH.put(LogEntry.EventType.complete, Arrays.asList(GenericState.END));
+    }
+
+    public static boolean supports(RuntimeState state) {
+        return state instanceof BPMNState || state instanceof GenericState;
     }
 
     public static boolean matches(LogEntry.EventType eventType, RuntimeState state) {

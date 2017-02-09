@@ -18,30 +18,17 @@ import java.util.Map;
  *
  * @author resinas
  */
-public class StateConditionMeasureComputer implements MeasureComputer {
-
-    private Map<String,MeasureInstance> measures;
-    private StateConditionMeasure definition;
+public class StateConditionMeasureComputer extends AbstractBaseMeasureComputer<StateConditionMeasure> implements MeasureComputer {
     private StateConditionMatcher matcher;
 
     public StateConditionMeasureComputer(MeasureDefinition definition) {
-        if (!(definition instanceof StateConditionMeasure)) {
-            throw new IllegalArgumentException();
-        }
-
-        this.definition = (StateConditionMeasure) definition;
+        super(definition);
         this.matcher = new StateConditionMatcher(this.definition.getCondition());
-        this.measures = new HashMap<String, MeasureInstance>();
-    }
-
-    @Override
-    public List<? extends Measure> compute() {
-        return new ArrayList<Measure>(measures.values());
     }
 
     @Override
     public void update(LogEntry entry) {
-        MeasureInstance m = getOrCreateMeasure(entry);
+        MeasureInstance m = getOrCreateMeasure(entry, 0);
 
         if (matcher.matchesName(entry)) {
             if (matcher.matchesState(entry)) {
@@ -50,17 +37,6 @@ public class StateConditionMeasureComputer implements MeasureComputer {
                 m.setValue(0);
             }
         }
-    }
-
-    private MeasureInstance getOrCreateMeasure(LogEntry entry) {
-        String measureId = entry.getProcessId() + "#" + entry.getInstanceId();
-        MeasureInstance m = measures.get(measureId);
-
-        if (m == null) {
-            m = new MeasureInstance(definition, 0, entry.getProcessId(), entry.getInstanceId());
-            measures.put(measureId, m);
-        }
-        return m;
     }
 
 }

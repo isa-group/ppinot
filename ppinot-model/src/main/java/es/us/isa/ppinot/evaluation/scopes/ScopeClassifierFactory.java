@@ -1,6 +1,7 @@
 package es.us.isa.ppinot.evaluation.scopes;
 
 import es.us.isa.ppinot.model.ProcessInstanceFilter;
+import es.us.isa.ppinot.model.base.DataMeasure;
 import es.us.isa.ppinot.model.scope.LastInstancesFilter;
 import es.us.isa.ppinot.model.scope.SimpleTimeFilter;
 
@@ -11,13 +12,17 @@ import es.us.isa.ppinot.model.scope.SimpleTimeFilter;
  * @author resinas
  */
 public class ScopeClassifierFactory {
-    public ScopeClassifier create(ProcessInstanceFilter filter) {
+    public ScopeClassifier create(ProcessInstanceFilter filter, DataMeasure referencePoint) {
         ScopeClassifier classifier = null;
 
         if (filter instanceof LastInstancesFilter) {
             classifier = new LastInstancesScopeClassifier((LastInstancesFilter) filter);
         } else if (filter instanceof SimpleTimeFilter) {
-            classifier = new TimeScopeClassifier((SimpleTimeFilter) filter);
+            SimpleTimeFilter referenceFilter = ((SimpleTimeFilter) filter).copy();
+            if (referencePoint != null) {
+                referenceFilter.setReferencePoint(referencePoint);
+            }
+            classifier = new TimeScopeClassifier(referenceFilter);
         }
 
         return classifier;

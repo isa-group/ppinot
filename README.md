@@ -64,38 +64,29 @@ PPIs are read and edited according to the PPINOT JSON format.
 Installation
 ------------
 
-PPINOT libraries are available in a Maven repository. Specifically, you must add the following text to the `pom.xml`
+PPINOT libraries are available in Maven central repository. Specifically, you must add the following text to the `pom.xml`
 of your project:
 
 ```
-<repositories>
-    <repository>
-        <id>es.us.isa</id>
-        <name>ISA group</name>
-        <url>http://clinker.isagroup.es/nexus/content/groups/public</url>
-        <snapshots><enabled>true</enabled></snapshots>
-    </repository>
-</repositories>
-
 <dependencies>
     <dependency>
         <groupId>es.us.isa.ppinot</groupId>
         <artifactId>ppinot-model</artifactId>
-        <version>2.1-SNAPSHOT</version>
+        <version>2.2</version>
     </dependency>
     <dependency>
         <groupId>es.us.isa.ppinot</groupId>
         <artifactId>ppinot-oryx</artifactId>
-        <version>2.1-SNAPSHOT</version>
+        <version>2.2</version>
     </dependency>
     <dependency>
         <groupId>es.us.isa.ppinot</groupId>
         <artifactId>ppinot-templates-angular</artifactId>
-        <version>2.1-SNAPSHOT</version>
+        <version>2.2</version>
     </dependency>
 </dependencies>
 ```
 
 Acknowledgements
 ----------------
-This project has been developed as part of Research Projects ISABEL, SETI, THEOS and TAPAS.
+This project has been developed as part of Research Projects ISABEL, SETI, THEOS, TAPAS, COPAS and BELI.

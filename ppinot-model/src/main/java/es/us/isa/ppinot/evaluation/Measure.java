@@ -1,8 +1,11 @@
 package es.us.isa.ppinot.evaluation;
 
 import es.us.isa.ppinot.model.MeasureDefinition;
+import org.joda.time.DateTime;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Measure
@@ -13,19 +16,33 @@ import java.util.Collection;
 public class Measure {
     protected final MeasureScope measureScope;
     protected MeasureDefinition definition;
-    protected double value;
+    private Object value;
+    private Map<String, Map<String, Measure>> evidences = new HashMap<String, Map<String, Measure>>();
 
     public Measure(MeasureDefinition definition, MeasureScope scope, Object value) {
-        this(definition, scope, toDouble(value));
+        this.definition = definition;
+        this.measureScope = scope;
+        this.value = value;
     }
+
+    public Measure(MeasureDefinition definition, String processId, Collection<String> instances, Object value) {
+        this(definition, new MeasureScopeImpl(processId, instances), value);
+    }
+
 
     private static double toDouble(Object value) {
         double doubleValue;
 
-        if (value instanceof Boolean) {
+        if (value == null) {
+            doubleValue = Double.NaN;
+        } else if (value instanceof Integer) {
+            doubleValue = ((Integer) value).doubleValue();
+        } else if (value instanceof Boolean) {
             doubleValue = (Boolean) value ? 1 : 0;
         } else if (value instanceof String) {
             doubleValue = Double.parseDouble((String) value);
+        } else if (value instanceof DateTime) {
+            doubleValue = ((DateTime) value).getMillis();
         } else {
             doubleValue = (Double) value;
         }
@@ -33,24 +50,49 @@ public class Measure {
     }
 
     public Measure(MeasureDefinition definition, String processId, Collection<String> instances, double value) {
-        this(definition, new MeasureScope(processId, instances), value);
+        this(definition, new MeasureScopeImpl(processId, instances), value);
     }
 
-    public Measure(MeasureDefinition definition, MeasureScope scope, double value) {
-        this.definition = definition;
-        this.measureScope = scope;
-        this.value = value;
-    }
+//    public Measure(MeasureDefinition definition, MeasureScope scope, double value) {
+//        this(definition, scope, value);
+//    }
 
     public MeasureDefinition getDefinition() {
         return definition;
     }
 
     public double getValue() {
-        return value;
+        return toDouble(value);
+    }
+    
+    public Boolean getValueAsBoolean() {
+        return (Boolean) value;
+    }
+    
+    public String getValueAsString() {
+        return (value == null ? null : value.toString());
+    }
+
+    public Object getValueAsObject() {
+        return value; }
+
+    public DateTime getValueAsDateTime() {
+        if (value == null) {
+            return null;
+        } else if (value instanceof DateTime) {
+            return (DateTime) value;
+        } else if (value instanceof String) {
+            return DateTime.parse((String) value);
+        } else {
+            return null;
+        }
     }
 
     public void setValue(double value) {
+        this.value = value;
+    }
+
+    public void setValue(Object value) {
         this.value = value;
     }
 
@@ -65,4 +107,20 @@ public class Measure {
     public MeasureScope getMeasureScope() {
         return measureScope;
     }
+
+    public Map<String, Map<String, Measure>> getEvidences() {
+        return evidences;
+    }
+
+    public void addEvidence(String instance, Map<String,Measure> evidence) {
+        if (evidence == null) {
+            evidence = new HashMap<String, Measure>();
+        }
+        evidences.put(instance, evidence);
+    }
+
+    public String toString() {
+        return getValueAsString();
+    }
+
 }

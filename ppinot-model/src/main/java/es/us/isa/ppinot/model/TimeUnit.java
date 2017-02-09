@@ -16,6 +16,7 @@ public class TimeUnit {
     public static final String MINUTES = "minutes";
     public static final String HOURS = "hours";
     public static final String DAYS = "days";
+    public static final String WORKINGDAYS = "workingdays";
 
     public static PeriodType toPeriodType(String timeUnit) {
         PeriodType periodType = PeriodType.millis();
@@ -34,6 +35,26 @@ public class TimeUnit {
     }
 
     public static double toTimeUnit(Duration duration, String timeUnit) {
+        return toTimeUnit(duration, timeUnit, null);
+    }
+
+    public static Duration toTimeUnit(double duration, String timeUnit) {
+        Duration convertedDuration = null;
+
+        if (SECONDS.equals(timeUnit)) {
+            convertedDuration = Duration.standardSeconds((long) duration);
+        } else if (MINUTES.equals(timeUnit)) {
+            convertedDuration = Duration.standardMinutes((long) duration);
+        } else if (HOURS.equals(timeUnit)) {
+            convertedDuration = Duration.standardHours((long) duration);
+        } else if (DAYS.equals(timeUnit)) {
+            convertedDuration = Duration.standardDays((long) duration);
+        }
+
+        return convertedDuration;
+    }
+
+    public static double toTimeUnit(Duration duration, String timeUnit, Schedule schedule) {
         double convertedDuration = duration.getMillis();
 
         if (SECONDS.equals(timeUnit)) {
@@ -44,6 +65,12 @@ public class TimeUnit {
             convertedDuration = convertedDuration / (double) DateTimeConstants.MILLIS_PER_HOUR;
         } else if (DAYS.equals(timeUnit)) {
             convertedDuration = convertedDuration / (double) DateTimeConstants.MILLIS_PER_DAY;
+        } else if (WORKINGDAYS.equals(timeUnit)) {
+            if (schedule == null) {
+                convertedDuration = convertedDuration / (double) DateTimeConstants.MILLIS_PER_DAY;
+            } else {
+                convertedDuration = convertedDuration / (double) schedule.millisPerDay();
+            }
         }
 
         return convertedDuration;

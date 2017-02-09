@@ -6,7 +6,7 @@ package es.us.isa.ppinot.model.condition;
  * @author Edelia
  *
  */
-public class ProcessInstanceCondition extends Condition {
+public class ProcessInstanceCondition extends ConditionImpl implements Condition {
 	
 	/*
 	 * Constructor de la clase

@@ -1,6 +1,7 @@
 package es.us.isa.ppinot.evaluation.scopes;
 
 import es.us.isa.ppinot.evaluation.MeasureScope;
+import es.us.isa.ppinot.evaluation.MeasureScopeImpl;
 import es.us.isa.ppinot.model.scope.LastInstancesFilter;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class LastInstancesScopeClassifier extends ScopeClassifier {
     }
 
     @Override
-    public Collection<MeasureScope> listScopes() {
+    public Collection<MeasureScope> listScopes(boolean isIncludeUnfinished) {
         return scopes;
     }
 
@@ -34,7 +35,7 @@ public class LastInstancesScopeClassifier extends ScopeClassifier {
     protected void instanceEnded(ProcessInstance instance) {
         current.add(instance.getInstanceId());
         if (current.size() >= filter.getNumberOfInstances()) {
-            scopes.add(new MeasureScope(instance.getProcessId(), new ArrayList<String>(current)));
+            scopes.add(new MeasureScopeImpl(instance.getProcessId(), new ArrayList<String>(current)));
             current.remove(0);
         }
     }

@@ -3,7 +3,6 @@ package es.us.isa.ppinot.evaluation.computers;
 import es.us.isa.ppinot.evaluation.Measure;
 import es.us.isa.ppinot.evaluation.logs.LogListener;
 
-import java.util.Collection;
 import java.util.List;
 
 /**

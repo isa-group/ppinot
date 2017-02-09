@@ -3,14 +3,12 @@ package es.us.isa.ppinot.evaluation.scopes;
 import es.us.isa.ppinot.evaluation.MeasureScope;
 import es.us.isa.ppinot.evaluation.logs.LogEntry;
 import es.us.isa.ppinot.evaluation.logs.LogListener;
-import es.us.isa.ppinot.evaluation.matchers.StateMatcher;
+import es.us.isa.ppinot.evaluation.matchers.FlowElementStateMatcher;
 import es.us.isa.ppinot.model.state.GenericState;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * ScopeClassifier
@@ -27,12 +25,12 @@ public abstract class ScopeClassifier implements LogListener {
         this.instances = new HashMap<String, ProcessInstance>();
     }
 
-    public abstract Collection<MeasureScope> listScopes();
+    public abstract Collection<MeasureScope> listScopes(boolean isIncludeUnfinished);
 
     protected abstract void instanceEnded(ProcessInstance instance);
 
     @Override
-    public void update(LogEntry entry) {
+    public final void update(LogEntry entry) {
         if (startsProcess(entry)) {
             ProcessInstance instance = new ProcessInstance(entry.getProcessId(), entry.getInstanceId(), entry.getTimeStamp());
             instances.put(measureIdOf(entry), instance);
@@ -43,20 +41,34 @@ public abstract class ScopeClassifier implements LogListener {
                 instanceEnded(instance);
             }
         }
+
+        updateEntry(entry);
+    }
+
+    protected void updateEntry(LogEntry entry) {}
+
+    protected List<ProcessInstance> getUnfinishedInstances() {
+        List<ProcessInstance> unfinishedInstances = new ArrayList<ProcessInstance>();
+        for (ProcessInstance p : instances.values()) {
+            if (p.unfinished())
+                unfinishedInstances.add(p);
+        }
+
+        return unfinishedInstances;
     }
 
     private boolean endsProcess(LogEntry entry) {
         return LogEntry.ElementType.process.equals(entry.getElementType()) &&
-                StateMatcher.matches(entry.getEventType(), GenericState.END);
+                FlowElementStateMatcher.matches(entry.getEventType(), GenericState.END);
     }
 
     private boolean startsProcess(LogEntry entry) {
         return LogEntry.ElementType.process.equals(entry.getElementType()) &&
-                StateMatcher.matches(entry.getEventType(), GenericState.START);
+                FlowElementStateMatcher.matches(entry.getEventType(), GenericState.START);
     }
 
     private String measureIdOf(LogEntry entry) {
-        return entry.getProcessId() + "#" + entry.getInstanceId();
+        return entry.getInstanceId();
     }
 
     protected class ProcessInstance {
@@ -64,6 +76,7 @@ public abstract class ScopeClassifier implements LogListener {
         private String instanceId;
         private DateTime start;
         private DateTime end;
+        private DateTime reference = null;
 
         protected ProcessInstance(String processId, String instanceId, DateTime start) {
             this.processId = processId;
@@ -71,7 +84,7 @@ public abstract class ScopeClassifier implements LogListener {
             this.start = start;
         }
 
-        private void ends(DateTime end) {
+        protected void ends(DateTime end) {
             this.end = end;
         }
 
@@ -93,6 +106,21 @@ public abstract class ScopeClassifier implements LogListener {
 
         protected DateTime getEnd() {
             return end;
+        }
+
+        protected boolean unfinished() { return end == null;}
+
+        public DateTime getReference() {
+            if (reference == null) {
+                return end;
+            }
+
+            return reference;
+        }
+
+        public ProcessInstance setReference(DateTime reference) {
+            this.reference = reference;
+            return this;
         }
     }
 }

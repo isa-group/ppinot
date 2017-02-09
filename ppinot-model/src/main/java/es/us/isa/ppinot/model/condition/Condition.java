@@ -1,55 +1,30 @@
 package es.us.isa.ppinot.model.condition;
 
+
+import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 /**
- * Clase de las condiciones
- * 
- * @author Edelia
+ * Applied Software Engineering Research Group (ISA Group) University of
+ * Sevilla, Spain
  *
+ * @author Felipe Vieira da Cunha Serafim <fvieiradacunha@us.es>
+ * @version 1.0
  */
-@JsonTypeInfo(use=JsonTypeInfo.Id.NAME,
-        include=JsonTypeInfo.As.PROPERTY, property="kind")
-public class Condition implements Cloneable {
-	
-	// Id del elemento al que se aplica una medida
-	private String appliesTo;
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.WRAPPER_OBJECT, property = "kind")
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = DataPropertyCondition.class, name = "DataPropertyCondition"),
+    @JsonSubTypes.Type(value = StateCondition.class, name = "StateCondition"),
+    @JsonSubTypes.Type(value = TimeInstantCondition.class, name = "TimeInstantCondition"),
+    @JsonSubTypes.Type(value = TimeMeasureType.class, name = "TimeMeasureType")
+})
+public interface Condition extends Cloneable {
 
-    public Condition() {}
-
-	/**
-	 * Constructor de la clase
-	 * 
-	 * @param appliesTo Id del elemento al que se aplica una medida
-	 */
-	public Condition(String appliesTo) {
-
-		super();
-        this.appliesTo = appliesTo;
-    }
-
-	/**
+    /**
      *
      * @return Returns the id of the element to which the condition applies
      */
-	public String getAppliesTo() {
-		return appliesTo;
-	}
-	
-	public Condition clone(){
-		final Condition clone;
-		
-		try{		
-			clone = (Condition)super.clone();
-			
-			if(this.appliesTo != null)
-				clone.appliesTo = new String(this.appliesTo);
-			else
-				clone.appliesTo = null;
-			
-		}catch(Exception e){
-			throw new RuntimeException( "\t!>>>> Excepción en Condition - clone()" );
-		}
-		return clone;
-	}
+    String getAppliesTo();
+
 }

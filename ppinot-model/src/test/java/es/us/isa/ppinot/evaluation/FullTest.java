@@ -1,5 +1,7 @@
 package es.us.isa.ppinot.evaluation;
 
+import es.us.isa.ppinot.evaluation.evaluators.LogMeasureEvaluator;
+import es.us.isa.ppinot.evaluation.evaluators.MeasureEvaluator;
 import es.us.isa.ppinot.evaluation.logs.LogProvider;
 import es.us.isa.ppinot.evaluation.logs.MXMLLog;
 import es.us.isa.ppinot.model.MeasureDefinition;
@@ -22,8 +24,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.List;
 
 /**

@@ -36,8 +36,8 @@ public class DerivedMeasureComputerTest extends MeasureComputerHelper {
         MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
 
         asserter.assertTheNumberOfMeasuresIs(2);
-        asserter.assertInstanceHasValue("i1", 50);
-        asserter.assertInstanceHasValue("i2", 0);
+        asserter.assertInstanceHasDoubleValue("i1", 50);
+        asserter.assertInstanceHasDoubleValue("i2", 0);
     }
 
     private DerivedMeasureComputer createDerivedSingleInstanceMeasureComputer(String function, MeasureDefinition... computers) {

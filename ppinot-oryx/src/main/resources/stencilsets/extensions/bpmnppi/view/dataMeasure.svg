@@ -41,7 +41,7 @@
 						
 		</g>
     
-    	<text font-size="11" id="text" oryx:align="top center" stroke="black"></text>
+    	<text font-size="11" id="text" x="30" y="60" oryx:align="top center" stroke="black"></text>
     	<!-- <text font-size="10" id="unitOfMeasure" x="35" y="33" oryx:align="middle center" stroke="black" oryx:fittoelem="baseMeasure"></text> -->
   </g>
 </svg>

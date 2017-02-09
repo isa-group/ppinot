@@ -188,7 +188,7 @@ public class CollapsedCompositeMeasure implements Cloneable{
 								
 								ListMeasure lmMeasure = new ListMeasure();
 								lmMeasure = (ListMeasure)clases[i];
-								ValidateConnection vcLista = lmMeasure.ValidateConnections();
+								ValidateConnection vcLista = lmMeasure.validateConnections();
 								
 								if(vcLista != null){
 									
@@ -319,7 +319,7 @@ public class CollapsedCompositeMeasure implements Cloneable{
 								
 								ListMeasure lmMeasure = new ListMeasure();
 								lmMeasure = (ListMeasure)clases[i];
-								ValidateConnection vcLista = lmMeasure.ValidateConnections();
+								ValidateConnection vcLista = lmMeasure.validateConnections();
 								
 								if(vcLista != null){
 									

@@ -5,12 +5,15 @@ import de.hpi.bpmn2_0.model.extension.PropertyListItem;
 import de.hpi.bpmn2_0.transformation.Constants;
 import de.hpi.bpmn2_0.transformation.Diagram2BpmnConverter;
 import es.us.isa.ppinot.xml.*;
+
+import org.json.JSONException;
 import org.oryxeditor.server.diagram.basic.BasicDiagram;
 import org.oryxeditor.server.diagram.generic.GenericDiagram;
 import org.oryxeditor.server.diagram.generic.GenericEdge;
 import org.oryxeditor.server.diagram.generic.GenericShape;
 
 import javax.xml.bind.JAXBElement;
+
 import java.util.*;
 
 /**
@@ -56,7 +59,8 @@ public class Diagram2PPINotConverter {
     private Map<String, String> aggregatedIdMapper;
 
     public Diagram2PPINotConverter(BasicDiagram diagram, Diagram2BpmnConverter bpmnConverter, PPINotFactory factory) {
-        this.diagram = diagram;
+        
+    	this.diagram = diagram;
         this.handler = new BpmnConverterProcess(bpmnConverter);
         this.factory = factory;
 
@@ -68,7 +72,9 @@ public class Diagram2PPINotConverter {
         this.aggregatedIdMapper = new HashMap<String, String>();
     }
 
-    public void transform() {
+    public void transform() throws JSONException {
+    	//AL QUITAR EL PRINT, QUITAR EL "throws JSONException" QUE SE AGREGÓ POR OBLIGACIÓN
+    	System.out.println("DIAGRAM: IN:" + diagram.getNumIncomings() + " - OUT:" + diagram.getNumOutgoings() + " - ChildShapes:" + diagram.getNumChildShapes() + " - \n   JSON:" + diagram.getJSON().toString());
         createElementsRecursively(diagram);
         linkElements();
         createPPISets();
@@ -79,7 +85,9 @@ public class Diagram2PPINotConverter {
     }
 
     private void createElementsRecursively(GenericShape<?, ?> shape) {
+    	
         JAXBElement<?> elem = factory.createElement(shape);
+                
         if (elem != null) {
             elementsById.put(shape.getResourceId(), elem);
             shapesById.put(shape.getResourceId(), shape);
@@ -109,17 +117,33 @@ public class Diagram2PPINotConverter {
 
 
     private void addMeasuresToPPISet() {
+    	
+    	System.out.println("->> addMeasuresToPPISet - FOR::");
+    	
         for (JAXBElement<?> elem : getAllElements()) {
+        	
             if (isConnector(elem)) {
+            	
+            	System.out.println("ENCONTRADO OBJETO CONECTOR: " + elem.getName() + "--" + elem.getClass().getName());
+            	
                 TMeasureConnector conn = (TMeasureConnector) elem.getValue();
-
+                System.out.println("   ELEM(Value, name) = " +  elem.getValue() + ", " + elem.getName());
+                System.out.println("   CONN(ClassName, source, target) = " +  conn.getClass().getName() + ", " + conn.getSourceRef().toString() + ", " + conn.getTargetRef().toString());
+                
                 String processId = getProcessOf(getTargetRef(conn));
                 TPpiset ppiset = ppisets.get(processId);
 
                 if (ppiset != null) {
-                    ppiset.getMeasureConnector().add((JAXBElement<? extends TMeasureConnector>) elem);
 
+               		ppiset.getMeasureConnector().add((JAXBElement<? extends TMeasureConnector>) elem);
+                	
+                	System.out.println("-> Antes de convertir la medida: ");
+                	TMeasure tmPrueba = (TMeasure) getSourceRef(conn);
+                	System.out.println("   Valor de la medida convertida: " + tmPrueba.getClass().getName());
+                	
                     String measureId = ((TMeasure) getSourceRef(conn)).getId();
+                    
+                    System.out.println("   measureId(String): " +  measureId);
                     if (!processByMeasure.containsKey(measureId)) {
                         JAXBElement<? extends TMeasure> jaxbElement = (JAXBElement<? extends TMeasure>) getJaxbElement(measureId);
                         ppiset.getMeasure().add(jaxbElement);
@@ -127,6 +151,8 @@ public class Diagram2PPINotConverter {
                         processByMeasure.put(jaxbElement.getValue().getId(), processId);
                     }
                 }
+            }else{
+            	System.out.println("ENCONTRADO OBJETO QUE NO ES CONECTOR: " + elem.getName() + "--" + elem.getClass().getName());
             }
         }
     }
@@ -158,7 +184,7 @@ public class Diagram2PPINotConverter {
         return id;
     }
 
-    private Collection<JAXBElement<?>> getAllElements() {
+    private Collection<JAXBElement<?>> getAllElements() {   	
         return elementsById.values();
     }
 
@@ -192,6 +218,12 @@ public class Diagram2PPINotConverter {
                 connector instanceof TAggregates) {
             source = getElement(sourceId);
             target = getElement(targetId);
+            
+            //CODIGO AGREGADO POR BESTRADA - PRUEBA
+            if(connector instanceof TUses){
+            	System.out.println("CONNECTOR: "+connector.getClass().getName()+"SOURCE: " + source.getClass().getName() + " TARGET: " + target.getClass().getName() );
+            }
+            
         } else {
             source = getRef(getElement(sourceId));
             target = getRef(getElement(targetId));
@@ -261,6 +293,9 @@ public class Diagram2PPINotConverter {
     }
 
     private Object getRef(Object ref) {
+    	
+    	System.out.println("   Objeto conexión: ClassName:"+ (ref.getClass().getName()) + " && String:"+ ref.toString()+"&& HasCode:"+ref.hashCode());
+    	
         if (ref != null && ref instanceof TAggregatedMeasure) {
             ref = getBaseMeasure((TAggregatedMeasure) ref);
         }
@@ -274,7 +309,8 @@ public class Diagram2PPINotConverter {
         baseMeasure = ref.getStateConditionMeasure() != null ? ref.getStateConditionMeasure() : baseMeasure;
         baseMeasure = ref.getDataPropertyConditionMeasure() != null ? ref.getDataPropertyConditionMeasure() : baseMeasure;
         baseMeasure = ref.getDerivedSingleInstanceMeasure() != null ? ref.getDerivedSingleInstanceMeasure() : baseMeasure;
-
+        //baseMeasure = ref.getMetric() != null ? ref.getMetric() : baseMeasure; 
+        
         return baseMeasure;
     }
 

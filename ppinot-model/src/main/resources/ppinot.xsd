@@ -14,7 +14,7 @@ targetNamespace="http://www.isa.us.es/ppinot">
 		<xsd:sequence>
 			<xsd:element ref="measure" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element ref="measureConnector" minOccurs="0" maxOccurs="unbounded"/>
-			<xsd:element ref="ppi" minOccurs="0" maxOccurs="unbounded"/>						
+			<xsd:element ref="ppi" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 		<xsd:attribute name="id" type="xsd:ID"/>											     
 	</xsd:complexType>
@@ -176,6 +176,7 @@ targetNamespace="http://www.isa.us.es/ppinot">
                     <xsd:element ref="dataPropertyConditionMeasure"/>
                     <xsd:element ref="dataMeasure"/>
                     <xsd:element ref="derivedSingleInstanceMeasure"/>
+                   <!-- <xsd:element ref="metric"/>  -->
                 </xsd:choice>
 				<xsd:attribute name="aggregationFunction" type="xsd:string" use="required"/>
 				<xsd:attribute name="samplingFrequency" type="xsd:string"/>
@@ -219,8 +220,7 @@ targetNamespace="http://www.isa.us.es/ppinot">
         </xsd:restriction>
     </xsd:simpleType>
 	
-	
-		
+			
 	<xsd:element name="countMeasure" type="tCountMeasure" substitutionGroup="measure"/>
 	<xsd:complexType name="tCountMeasure">
 		<xsd:complexContent>
@@ -255,6 +255,18 @@ targetNamespace="http://www.isa.us.es/ppinot">
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
+
+	<!-- 
+				METRIC
+	-->
+		
+	<xsd:element name="metric" type="tMetric" substitutionGroup="measure"/>
+	<xsd:complexType name="tMetric">
+		<xsd:complexContent>
+			<xsd:extension base="tBaseMeasure">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType> 
 
 		<!-- 
 				Derived measures
@@ -340,29 +352,6 @@ targetNamespace="http://www.isa.us.es/ppinot">
 				<xsd:attribute name="dataContentSelection" type="xsd:string" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
-	</xsd:complexType>
-	
-	<!-- 
-            Composite Measures  TENGO QUE PONERLA COMO COMENTARIO O NO GUARDA LOS DIAGRAMAS
-    -->
-	<!--
-	<xsd:element name="listMeasure" type="tListMeasure" substitutionGroup="measure"/>
-	<xsd:complexType name="tListMeasure">
-		<xsd:complexContent>
-			<xsd:extension base="tBaseMeasure">
-				<xsd:attribute name="function" type="xsd:string"/>
-			</xsd:extension>
-		</xsd:complexContent>
-	</xsd:complexType>
-	-->
-	
-
-	
-	<!--
-	<xsd:element name="collapsedCompositeMeasure" type="tCollapsedCompositeMeasure"/>
-	<xsd:complexType name="tCollapsedCompositeMeasure" >
-        <xsd:attribute name="name" type="xsd:string"/>
-    </xsd:complexType>
-	-->
-
+	</xsd:complexType> 	
+ 	
 </xsd:schema>

@@ -3,16 +3,19 @@ package es.us.isa.ppinot.model.composite;
 import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
+import es.us.isa.ppinot.model.composite.type.PercentageDataConditionType;
 import es.us.isa.ppinot.model.composite.type.PercentageFulfillmentType;
 import es.us.isa.ppinot.model.composite.type.PercentagePerformanceType;
 import es.us.isa.ppinot.model.composite.type.TimeType;
 import es.us.isa.ppinot.model.composite.type.PruebaAggregatedTyped;
 import es.us.isa.ppinot.model.composite.type.PruebaDerivedSingleType;
+
 import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 @JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include=JsonTypeInfo.As.PROPERTY, property="kind")
 @JsonSubTypes({
+	@JsonSubTypes.Type(value = PercentageDataConditionType.class, name = "PercentageDataConditionType"),
 	@JsonSubTypes.Type(value = PercentageFulfillmentType.class, name = "PercentageFulfillmentType"),
 	@JsonSubTypes.Type(value = PercentagePerformanceType.class, name = "PercentagePerformanceType"),
 	@JsonSubTypes.Type(value = TimeType.class, name = "TimeType"),

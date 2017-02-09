@@ -29,7 +29,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
         @JsonSubTypes.Type(value = DerivedMultiInstanceMeasure.class, name="DerivedMultiInstanceMeasure"),
         @JsonSubTypes.Type(value = DerivedSingleInstanceMeasure.class, name="DerivedSingleInstanceMeasure"),
         @JsonSubTypes.Type(value = AggregatedMeasure.class, name = "AggregatedMeasure"),
-        @JsonSubTypes.Type(value = ListMeasure.class, name = "ListMeasure"),
+        @JsonSubTypes.Type(value = Metric.class, name = "Metric")
  })
 		
 public abstract class MeasureDefinition implements Cloneable{

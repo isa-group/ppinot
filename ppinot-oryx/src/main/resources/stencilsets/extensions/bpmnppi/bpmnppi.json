@@ -1,5 +1,5 @@
 {
-	"title":"PPIs_CONNECTORS2",
+	"title":"PPIs_DerivedMetric",
 	"namespace":"http://www.isa.us.es/ppiontology/stencilsets/extensions/bpmnppi#",
 	"description":"Adds definition of Process Performance Indicators to BPMN 2.0",
 	"definition":"bpmnppi/bpmnppi.json",
@@ -295,21 +295,21 @@
 				}
 			]
 	    },
-	    {
-	        "name": "metricProperties",
-			"properties": [
-				{
-					"id":"nameMetric",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"Name of the metric.",
-					"readonly":false,
-					"optional":true,
-					"refToView":"namemetric"
-				}
-			]
-	    },
+	    //{
+	    //    "name": "metricProperties",
+		//	"properties": [
+		//		{
+		//			"id":"nameMetric",
+		//			"type":"String",
+		//			"title":"Name",
+		//			"value":"",
+		//			"description":"Name of the metric.",
+		//			"readonly":false,
+		//			"optional":true,
+		//			"refToView":"name"
+		//		}
+		//	]
+	    //},
 	    {
 	        "name": "listCommon",
 			"properties": [
@@ -1087,27 +1087,27 @@
 			"groups":["Composite Measures"],
 			"view":"../../extensions/bpmnppi/view/metric.svg",
 			"icon":"../../extensions/bpmnppi/icons/metric.png",
-            "propertyPackages" : ["metricProperties"], //"measureCommon","derivedCommon"
+            "propertyPackages" : ["measureCommon"], //["metricProperties"], //"measureCommon","derivedCommon"
 			"roles": [
 				"fromtoall",
 				"all",
-				"derivedMeasuresMorph",
+				"metricMeasuresMorph",
 				"processMeasure"
-			]/*, 
+			], 
 			"properties": [	
-				{
-					"id":"metricname",
-					"type":"String",
-					"title":"Name",
-					"value":"",
-					"description":"The descriptive name of the metrics.",
-					"tooltip":"Name of the metrics.",
-					"readonly":false,
-					"optional":false,
-					"length":"",
-					"refToView":"metricname"
-				}	
-			]*/
+				//{
+				//	"id":"metricname",
+				//	"type":"String",
+				//	"title":"Name",
+				//	"value":"",
+				//	"description":"The descriptive name of the metrics.",
+				//	"tooltip":"Name of the metrics.",
+				//	"readonly":false,
+				//	"optional":false,
+				//	"length":"",
+				//	"refToView":"metricname"
+				//}	
+			]
 		},
 		{
 			"type": "node",
@@ -1414,13 +1414,22 @@
 						"from" : "ppiexpanded",
 						"to" : "fromtoall"
 					},
-					//--
+					//--Me parece que estos dos no se están usando porque el metricconect no se está usando
 					{
 						"from" : "fromtoall",
 						"to" : ["metricconect"]
 					},
 					{
 						"from" : "metricconect",
+						"to" : "fromtoall"
+					},
+					//--NO SÉ SI ESTO FUNCIONA, NI PARA QUÉ FUNCIONA, pero es alternativa a lo de arriba
+					{
+						"from" : "fromtoall",
+						"to" : ["metricMeasuresMorph"]
+					},
+					{
+						"from" : "metricMeasuresMorph",
 						"to" : "fromtoall"
 					}
 					
@@ -1721,6 +1730,10 @@
 						"from" : "metric",
 						"to" : ["derivedMultiInstanceMeasure"] 
 					},
+					{
+						"from" : "metric",
+						"to" : ["derivedSingleInstanceMeasure"] 
+					},
 					//----------
 					{
 						"from" : "metric",
@@ -1865,6 +1878,11 @@
 			{
 				"role": "derivedMeasuresMorph",
 				"baseMorphs": ["derivedSingleInstanceMeasure"] 
+			},
+			
+			{
+				"role": "metricMeasuresMorph",
+				"baseMorphs": ["metric"] 
 			},
 			
 			{

@@ -82,11 +82,16 @@ public class ExpandedCompositeMeasure implements Cloneable{
 		if(this.getTypeDefinition().getClass().getName().substring(this.getTypeDefinition().getClass().getName().lastIndexOf(".")+1).equals("TimeType"))
 			iVariableResultado = 0;
 		
+		if(this.getRootMeasure() == null) return false; //ALGO ASÍ
+		
+		
 		return ( this != null
 			&&	((this.getUsedMeasureMap().size() == (this.getTypeDefinition().getClass().getDeclaredFields().length + iVariableResultado)) || this.getUsedMeasureMap().size() == 0) //Comparo la cantidad de tipos de unos y otros. Se suma uno porque en el map se incluye el Root, en los campos declarados eso no está.
 			&& (!this.getName().equals(""))
 			&& (this.getTypeDefinition()!= null)
 		);	
+		
+		
 		
 	}
 	

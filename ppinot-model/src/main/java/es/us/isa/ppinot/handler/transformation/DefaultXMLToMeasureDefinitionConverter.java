@@ -28,6 +28,7 @@ public class DefaultXMLToMeasureDefinitionConverter implements XMLToMeasureDefin
         addConverter(new XMLToDataPropertyConditionMeasure());
         addConverter(new XMLToCountMeasure());
         addConverter(new XMLToDataMeasure());
+        addConverter(new XMLToMetric(this)); //AGREGO
         addConverter(new XMLToAggregatedMeasure(this));
         addConverter(new XMLToDerivedSingleInstanceMeasure(this));
         addConverter(new XMLToDerivedMultiInstanceMeasure(this));
@@ -36,6 +37,7 @@ public class DefaultXMLToMeasureDefinitionConverter implements XMLToMeasureDefin
         addConverter(new DataPropertyConditionMeasureToXML());
         addConverter(new CountMeasureToXML());
         addConverter(new DataMeasureToXML());
+        addConverter(new MetricToXML(this)); //AGREGO
         addConverter(new AggregatedMeasureToXML(this));
         addConverter(new DerivedSingleInstanceMeasureToXML(this));
         addConverter(new DerivedMultiInstanceMeasureToXML(this));

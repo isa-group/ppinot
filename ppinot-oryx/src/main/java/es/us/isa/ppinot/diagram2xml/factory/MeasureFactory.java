@@ -3,6 +3,7 @@ package es.us.isa.ppinot.diagram2xml.factory;
 import de.hpi.bpmn2_0.annotations.StencilId;
 import de.hpi.diagram.SignavioUUID;
 import es.us.isa.ppinot.xml.*;
+
 import org.oryxeditor.server.diagram.generic.GenericShape;
 
 import javax.xml.bind.JAXBElement;
@@ -20,18 +21,23 @@ import javax.xml.bind.JAXBElement;
         "dataAggregatedMeasure",
         "derivedSingleInstanceMeasure",
         "derivedMultiInstanceMeasure",
-        "listMeasure"
+        "metric"
 })
 public class MeasureFactory extends AbstractPPINotFactory {
 
     private void setMeasureCommon(TMeasure measure, GenericShape shape) {
+    	
+    	System.out.println("\nsetMeasureCommon-recibido: Class[" + shape.getClass().getName().getClass() + "] TMeasure_capturada[" + measure.getClass().getName()+"]");
+    	
         measure.setId(shape.getResourceId());
         measure.setName(valueOrNull(shape.getProperty("name")));
         measure.setDescription(valueOrNull(shape.getProperty("description")));
         measure.setScale(valueOrNull(shape.getProperty("scale")));
         measure.setUnitOfMeasure(valueOrNull(shape.getProperty("unitofmeasure")));
+        
+        System.out.println("setMeasureCommon-seteado: Class[" + measure.getClass().getName() + "] Id["+measure.getId() + "] Name["+ measure.getName()+ "] Descrip["+ measure.getDescription() + "] Scale["+ measure.getScale() + "]");
     }
-
+    
     private void setTimeMeasureProperties(TTimeMeasure measure, GenericShape shape) {
         String timeMeasureType = shape.getProperty("timemeasuretype");
         if (notEmpty(timeMeasureType)) {
@@ -49,13 +55,6 @@ public class MeasureFactory extends AbstractPPINotFactory {
         derivedMeasure.setFunction(shape.getProperty("function"));
     }
 
-    /*@StencilId("listMeasure")
-    public JAXBElement<TListMeasure> createListMeasure(GenericShape shape){
-    	TListMeasure measure = new TListMeasure();
-    	setMeasureCommon(measure, shape);
-    	return factory.createListMeasure(measure);
-    }*/
-    
     @StencilId("countMeasure")
     public JAXBElement<TCountMeasure> createCountMeasure(GenericShape shape) {
         TCountMeasure measure = new TCountMeasure();
@@ -73,6 +72,7 @@ public class MeasureFactory extends AbstractPPINotFactory {
         return factory.createTimeMeasure(measure);
     }
 
+    
     @StencilId("dataPropertyConditionMeasure")
     public JAXBElement<TDataPropertyConditionMeasure> createDataPropertyConditionMeasure(GenericShape shape) {
         TDataPropertyConditionMeasure measure = new TDataPropertyConditionMeasure();
@@ -96,7 +96,16 @@ public class MeasureFactory extends AbstractPPINotFactory {
 
         return factory.createDataMeasure(measure);
     }
+    
+    /*@StencilId("metric")
+    public JAXBElement<TMetric> createMetric(GenericShape shape) {
+    	System.out.println(">>>>>>>>>>>ENTRO EN EL CREATE_METRIC");
+    	TMetric measure = new TMetric();
+        setMeasureCommon(measure, shape);
+        return factory.createMetric(measure);
+    }*/
 
+    
     @StencilId("aggregatedMeasureGeneric")
     public JAXBElement<TAggregatedMeasure> createAggregatedMeasureGeneric(GenericShape shape) {
         TAggregatedMeasure measure = new TAggregatedMeasure();
@@ -181,5 +190,8 @@ public class MeasureFactory extends AbstractPPINotFactory {
 
         return factory.createDerivedMultiInstanceMeasure(derivedMultiInstanceMeasure);
     }
-
+    
+    
+      
+    
 }

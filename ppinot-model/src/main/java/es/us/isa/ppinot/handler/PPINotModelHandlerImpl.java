@@ -54,6 +54,8 @@ public class PPINotModelHandlerImpl extends Bpmn20ModelHandlerImpl implements PP
 
     public void setPPISets(Collection<PPISet> ppiSets) {
         ppiSetMap = new HashMap<String, PPISet>();
+        
+        System.out.println(" -[ ppiSetMap_Rec_Collection: " + ppiSetMap.size() + ppiSetMap.values().size());
         for (PPISet p : ppiSets) {
             ppiSetMap.put(p.getProcessId(), p);
         }
@@ -84,6 +86,9 @@ public class PPINotModelHandlerImpl extends Bpmn20ModelHandlerImpl implements PP
         PPISetToXML converter = new PPISetToXML(measureConverter, getElementIds(), new ObjectFactory());
 
         for (String id : ppiSetMap.keySet()) {
+        	
+        	System.out.println(" -En beforeSave: " + id + "ID: " + id.getClass().getName());
+        	
             PPISet ppiSet = ppiSetMap.get(id);
             if (ppiSet != null) {
                 TPpiset xml = converter.create(ppiSet);
@@ -142,10 +147,15 @@ public class PPINotModelHandlerImpl extends Bpmn20ModelHandlerImpl implements PP
     private TPpiset readTPPISet(TProcess process) {
         TPpiset ppiset = null;
 
+        System.out.println("---(1)> Estoy en el ReadPPISet: " + process.getName().length());
+        
         if (process != null &&
                 process.getExtensionElements() != null &&
                 process.getExtensionElements().getAny() != null) {
+        	System.out.println("---(2)> Antes del FOR: " + process.getExtensionElements().getClass().getName());
+        	
             for (Object extension : process.getExtensionElements().getAny()) {
+            	System.out.println("---(3)> Estoy en el ReadPPISet (FOR): " + extension.getClass().getName());
                 if (extension instanceof JAXBElement &&
                         ((JAXBElement) extension).getValue() instanceof TPpiset) {
                     ppiset = (TPpiset) ((JAXBElement) extension).getValue();
@@ -153,6 +163,8 @@ public class PPINotModelHandlerImpl extends Bpmn20ModelHandlerImpl implements PP
                 }
             }
         }
+        
+        
 
         return ppiset;
     }

@@ -72,6 +72,89 @@ public class ListMeasure extends MeasureDefinition implements Cloneable{
 	/**
 	 *Método para comprobar si se proporcionan todos los datos del método.
 	 */
+	
+	public void printMeasureList(){
+		
+		int iElements = this.getUsedMeasureMap().size();
+		Object[] variable = new Object[iElements];
+		variable = this.getUsedMeasureMap().values().toArray();
+		 
+		System.out.println("Measure name: " + this.getName());
+		System.out.println("Function list: " + this.getFunction());
+		System.out.println("Measures conforming the list: " + iElements);
+		
+		if(iElements > 0){
+			System.out.println("Type of measures expected: " + variable[0].toString().substring(variable[0].toString().lastIndexOf(".")+1, variable[0].toString().indexOf("@")));
+			
+			//Getting measure names
+			Object[] clases = new Object[iElements];
+			clases  = this.getUsedMeasureMap().values().toArray();
+			
+			for(int i=0; i < iElements; i++){
+						
+				if(clases[i].getClass().getName().contains("TimeMeasure")){
+					TimeMeasure tmTiempo = new TimeMeasure();
+					tmTiempo = (TimeMeasure)clases[i];
+					System.out.println("   - TimeMeasure: "+tmTiempo.getName());
+					tmTiempo = null;
+				}else{
+					if(clases[i].getClass().getName().contains("DataMeasure")){
+						DataMeasure dmData = new DataMeasure();
+						dmData = (DataMeasure)clases[i];
+						System.out.println("   - DataMeasure: "+dmData.getName());
+						dmData = null;
+					}else{
+						if(clases[i].getClass().getName().contains("StateConditionMeasure")){
+							StateConditionMeasure smState = new StateConditionMeasure();
+							smState = (StateConditionMeasure)clases[i];
+							System.out.println("   - StateConditionMeasure: "+smState.getName());
+							smState = null;
+						}else{
+							if(clases[i].getClass().getName().contains("CountMeasure")){
+								CountMeasure cmCount = new CountMeasure();
+								cmCount = (CountMeasure)clases[i];
+								System.out.println("   - cmCount: "+cmCount.getName());
+								cmCount = null;
+							}else{
+								System.out.println("   - There is no base measures associated with this list.");
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		
+		
+	}
+	
+	public boolean validateAmount(){
+
+		if(this.getUsedMeasureMap().size() <= 0){ 
+			 return false;
+		}
+		return true;
+	}
+	
+	public boolean validateTypesOfMeasures(){
+		
+		int iElements = this.getUsedMeasureMap().size();
+		
+		Object[] variable = new Object[iElements];
+		 variable = this.getUsedMeasureMap().values().toArray();
+		 
+		 for(int i=0; i < iElements-1; i++){
+			 if(!variable[i].toString().substring(variable[i].toString().lastIndexOf(".")+1, variable[i].toString().indexOf("@")).equals(variable[i+1].toString().substring(variable[i+1].toString().lastIndexOf(".")+1, variable[i+1].toString().indexOf("@")))){
+				 //System.out.printf("lMeasure (Diferentes) - [i:"+i+"]: " + variable[i].toString().substring(variable[i].toString().lastIndexOf(".")+1, variable[i].toString().indexOf("@")) + " - [i+1:%d]: " + variable[i+1].toString().substring(variable[i+1].toString().lastIndexOf(".")+1, variable[i+1].toString().indexOf("@")) + "\n", (i+1));
+				 System.out.printf("The list has at least two different types: ["+i+"]: " + variable[i].toString().substring(variable[i].toString().lastIndexOf(".")+1, variable[i].toString().indexOf("@")) + " - [%d]: " + variable[i+1].toString().substring(variable[i+1].toString().lastIndexOf(".")+1, variable[i+1].toString().indexOf("@")) + "\n", (i+1));
+				return false;
+			 }
+			 //System.out.printf("lMeasure (Iguales) - [i:"+i+"]: " + variable[i].toString().substring(variable[i].toString().lastIndexOf(".")+1, variable[i].toString().indexOf("@")) + " - [i+1: %d]: " + variable[i+1].toString().substring(variable[i+1].toString().lastIndexOf(".")+1, variable[i+1].toString().indexOf("@")) + "\n", (i+1));
+		 }
+		 
+		 return true;
+	}
+	
 	 public boolean valid(){
 		 
 		 //TENER UN NOMBRE Y UNA FUNCIÓN DEFINIDA
@@ -99,13 +182,13 @@ public class ListMeasure extends MeasureDefinition implements Cloneable{
 		 return true;
 	 }
 	
-	 public ValidateConnection ValidateConnections(){
+	 public ValidateConnection validateConnections(){
 		 
+		 //Estas dos podrían ser omitidas
 		 ValidateConnection vcResult = new ValidateConnection();
-		 
 		 if(!this.valid()) return vcResult;
 		 
-		 List<String> lsConexionesNoRealizadas = new ArrayList<String>();
+		 List<String> lsIncorrectConnections = new ArrayList<String>();
 		 
 		 int iElements = this.getUsedMeasureMap().size(),
 			 iConexionesRequeridas = 0, //Algunas, como las de tiempo, requieren dos conexiones.
@@ -128,12 +211,12 @@ public class ListMeasure extends MeasureDefinition implements Cloneable{
 				 if(tmTiempo.getFrom() == null) {
 					 iConexionesNoRealizadas++;
 					 //System.out.println("tmTiempo.getFrom() = NULL");
-					 lsConexionesNoRealizadas.add("TimeMeasure("+tmTiempo.getName()+") - Conection: From");
+					 lsIncorrectConnections.add("TimeMeasure("+tmTiempo.getName()+") - Connection: From");
 				 }
 				 if(tmTiempo.getTo() == null) {
 					 iConexionesNoRealizadas++;
 					 //System.out.println("tmTiempo.getTo() = NULL");
-					 lsConexionesNoRealizadas.add("TimeMeasure("+tmTiempo.getName()+") - Conection: To");
+					 lsIncorrectConnections.add("TimeMeasure("+tmTiempo.getName()+") - Connection: To");
 				 }		 
 				 
 			 }else{
@@ -146,7 +229,7 @@ public class ListMeasure extends MeasureDefinition implements Cloneable{
 					 
 					 if(dmDatos.getDataContentSelection() == null){
 						 iConexionesNoRealizadas++;
-						 lsConexionesNoRealizadas.add("DataMeasure("+dmDatos.getName()+") - Conection: DataContentSelection");
+						 lsIncorrectConnections.add("DataMeasure("+dmDatos.getName()+") - Connection: DataContentSelection");
 					 }					 
 					 
 				 }else{
@@ -159,7 +242,7 @@ public class ListMeasure extends MeasureDefinition implements Cloneable{
 						 
 						 if(scEstado.getCondition() == null){
 							 iConexionesNoRealizadas++;
-							 lsConexionesNoRealizadas.add("StateConditionMeasure("+scEstado.getName()+") - Conection: getCondition");
+							 lsIncorrectConnections.add("StateConditionMeasure("+scEstado.getName()+") - Connection: getCondition");
 						 }
 						 
 					 }else{
@@ -172,7 +255,7 @@ public class ListMeasure extends MeasureDefinition implements Cloneable{
 							 
 							 if(cmConteo.getWhen() == null){
 								 iConexionesNoRealizadas++;
-								 lsConexionesNoRealizadas.add("CountMeasure("+cmConteo.getName()+") - Conection: getWhen");
+								 lsIncorrectConnections.add("CountMeasure("+cmConteo.getName()+") - Connection: getWhen");
 							 }
 						 }else{
 							 System.out.println("Se ha utilizado un tipo de medida no identificada.");
@@ -183,12 +266,11 @@ public class ListMeasure extends MeasureDefinition implements Cloneable{
 			 } 
 		 }
 		 
-		 
-		 if(iConexionesNoRealizadas == iConexionesRequeridas){ vcResult.setAllMeasuresConnected(true); }
+		 if(iConexionesRequeridas == (iConexionesRequeridas - iConexionesNoRealizadas)){ vcResult.setAllMeasuresConnected(true); }
 		 
 		 vcResult.setTotalRequiredConnections(iConexionesRequeridas);
 		 vcResult.setTotalUnrealizedConnections(iConexionesNoRealizadas);
-		 vcResult.setUnrealizedConnections(lsConexionesNoRealizadas);
+		 vcResult.setUnrealizedConnections(lsIncorrectConnections);
 		
 		 return vcResult;
 	 }

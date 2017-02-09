@@ -24,19 +24,28 @@ public class PPINotFactory {
     private Map<String, ObjectMethod> builders;
 
     public PPINotFactory() {
-        this(Arrays.asList(new MeasureFactory(), new PpiFactory(), new ConnectorFactory()));
+    	this(Arrays.asList(new MeasureFactory(), new PpiFactory(), new ConnectorFactory()));
+        System.out.println("SALGO DE LA RAÍZ DEL PROBLEMA");
     }
 
     public PPINotFactory(Collection<?> factories) {
+    	
+    	System.out.println("~Entro en el Collection!");
+    	
         this.factories = factories;
         this.builders = new HashMap<String, ObjectMethod>();
 
+        System.out.println("> Contenido Builders: " + builders.get(1));
+        
         for (Object o : factories) {
             addFactory(o);
         }
     }
 
     private void addFactory(Object o) {
+    	
+    	System.out.println("> Imprimo object: " + o.getClass().getName());
+    	
         for (Method m : o.getClass().getMethods()) {
             StencilId stencilId = m.getAnnotation(StencilId.class);
             if (stencilId != null) {
@@ -48,7 +57,9 @@ public class PPINotFactory {
     }
 
     public JAXBElement<?> createElement(GenericShape<?, ?> shape) {
+    	
         ObjectMethod b = builders.get(shape.getStencilId());
+        
         if (b == null) {
             return null;
         }

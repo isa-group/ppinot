@@ -42,9 +42,9 @@ public class PPI {
      * 
      * @param id Id del PPI
      * @param name Nombre
-     * @param goals
-     * @param responsible
-     * @param informed
+     * @param goals Goals
+     * @param responsible Responsible
+     * @param informed Informed
      * @param comments Comentarios
      * @param target Objeto Target que indica el rango de valores que en que se espera que este la medida asociada
      * @param scope Objeto ProcessInstanceFilter que indica el periodo de tiempo en el cual se calcula el PPI
@@ -259,7 +259,7 @@ public class PPI {
 	/**
 	 * Indica si el valor del PPI puede ser calculado y mostrado
 	 * 
-	 * @return 
+	 * @return valid
 	 */
 	public Boolean valid() {
 		return this.getMeasuredBy()!=null && this.getMeasuredBy().valid();

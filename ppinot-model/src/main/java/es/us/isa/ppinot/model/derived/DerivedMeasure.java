@@ -121,7 +121,7 @@ public class DerivedMeasure extends MeasureDefinition {
     /**
 	 * Indica si la medida puede ser calculada
 	 * 
-	 * @return 
+	 * @return valid
 	 */
 	public boolean valid() {
 		

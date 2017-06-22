@@ -1,12 +1,12 @@
 package es.us.isa.ppinot.model;
 
+//import es.us.isa.ppinot.deleted.composite.*;
 import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
 import es.us.isa.ppinot.model.base.*;
 import es.us.isa.ppinot.model.derived.DerivedMeasure;
 import es.us.isa.ppinot.model.derived.DerivedMultiInstanceMeasure;
 import es.us.isa.ppinot.model.derived.DerivedSingleInstanceMeasure;
-import es.us.isa.ppinot.model.composite.*;
-
+import es.us.isa.ppinot.model.derived.ListMeasure;
 import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
@@ -28,8 +28,10 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
         @JsonSubTypes.Type(value = DerivedMeasure.class, name="DerivedMeasure"),
         @JsonSubTypes.Type(value = DerivedMultiInstanceMeasure.class, name="DerivedMultiInstanceMeasure"),
         @JsonSubTypes.Type(value = DerivedSingleInstanceMeasure.class, name="DerivedSingleInstanceMeasure"),
+        @JsonSubTypes.Type(value = ListMeasure.class, name="ListMeasure"), //Agregated 2017-02-22
         @JsonSubTypes.Type(value = AggregatedMeasure.class, name = "AggregatedMeasure"),
-        @JsonSubTypes.Type(value = Metric.class, name = "Metric")
+        
+        //@JsonSubTypes.Type(value = Metric.class, name = "Metric")
  })
 		
 public abstract class MeasureDefinition implements Cloneable{

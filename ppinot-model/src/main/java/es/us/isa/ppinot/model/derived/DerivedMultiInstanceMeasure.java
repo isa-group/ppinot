@@ -1,3 +1,7 @@
+/************************************************************************/
+/*** MODIFIED VERSION CM ************************************************/
+/************************************************************************/
+
 package es.us.isa.ppinot.model.derived;
 
 import org.codehaus.jackson.annotate.JsonTypeInfo;
@@ -44,4 +48,7 @@ public class DerivedMultiInstanceMeasure extends DerivedMeasure implements Clone
     	return clone;
     }
 
+	public boolean valid() {
+		return super.valid();
+	}
 }

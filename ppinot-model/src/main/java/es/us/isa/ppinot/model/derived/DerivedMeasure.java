@@ -1,12 +1,18 @@
+/************************************************************************/
+/*** MODIFIED VERSION *************************************************/
+/************************************************************************/
+
 package es.us.isa.ppinot.model.derived;
 
 import es.us.isa.ppinot.model.MeasureDefinition;
+
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+
 
 /**
  * Clase con la informacion de las medidas derivadas
@@ -30,6 +36,8 @@ public class DerivedMeasure extends MeasureDefinition {
      * Medidas a partir de las cuales se calcula la medida derivada
      */
     protected Map<String, MeasureDefinition> usedMeasureIdMap;
+    
+    protected Map<String, String> usedExternalValueMap;
 
     /**
      * Constructor de la clase
@@ -88,6 +96,12 @@ public class DerivedMeasure extends MeasureDefinition {
     	return this.usedMeasureIdMap;
     }
     
+    public Map<String, String> getUsedExternalValueMap(){
+    	if (this.usedExternalValueMap==null)
+    		this.usedExternalValueMap = new HashMap<String, String>();
+    	return this.usedExternalValueMap;
+    }
+    
     /**
      * Adiciona una medida que se utiliza para calcular la medida derivada
      * 
@@ -99,6 +113,11 @@ public class DerivedMeasure extends MeasureDefinition {
     	this.getUsedMeasureMap().put((variable.contentEquals(""))?measure.getId():variable, measure);
     }
     
+    public void addUsedExternalValue(String variable, String externalValue){
+    	//Validar que "variable" no sea vacío ni null.
+    	this.getUsedExternalValueMap().put(variable, externalValue);    	
+    }
+    
     /**
      * Devuelve una medida utilizada para el caculo a partir de su id
      * 
@@ -108,6 +127,10 @@ public class DerivedMeasure extends MeasureDefinition {
     public MeasureDefinition getUsedMeasureId(String id) {
     	
     	return this.getUsedMeasureMap().get(id);
+    }
+    
+    public String getUsedExternalValue(String id){
+    	return this.getUsedExternalValueMap().get(id);
     }
 
     public boolean isIncludeEvidences() {
@@ -123,7 +146,8 @@ public class DerivedMeasure extends MeasureDefinition {
 	 * 
 	 * @return 
 	 */
-	public boolean valid() {
+    //Método original - 20170304
+	/*public boolean valid() {
 		
 		Boolean cond = super.valid();
 		
@@ -135,6 +159,34 @@ public class DerivedMeasure extends MeasureDefinition {
 	        cond = cond && value.valid();
 	    }
 	    
+		return cond;
+	}*/
+    
+    public boolean valid() {
+		
+		Boolean cond = super.valid();
+		
+		Iterator<Entry<String, MeasureDefinition>> itInst = this.getUsedMeasureMap().entrySet().iterator();
+	    		
+		while (cond && itInst.hasNext()) {
+	        Map.Entry<String, MeasureDefinition> pairs = itInst.next();
+	        MeasureDefinition value = pairs.getValue();
+	        cond = cond && value.valid();
+	    }
+		
+		int total = 0, items = this.getUsedExternalValueMap().size(); 
+		//iExternalElements = this.getUsedExternalValueMap().size();
+		
+		Object[] variable = new Object[items];
+		variable = this.getUsedExternalValueMap().values().toArray();
+						
+		while(total < items){
+			if(variable[total].toString().contentEquals(""))
+				cond = false;
+			
+			total = total + 1;
+		}
+									    
 		return cond;
 	}
 }

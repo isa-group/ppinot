@@ -1,7 +1,7 @@
 package es.us.isa.ppinot.handler.transformation.xml;
 
+//import es.us.isa.ppinot.deleted.composite.CollapsedCompositeMeasure;
 import es.us.isa.ppinot.model.MeasureDefinition;
-import es.us.isa.ppinot.model.composite.CollapsedCompositeMeasure;
 import es.us.isa.ppinot.xml.TMeasure;
 
 import java.util.UUID;

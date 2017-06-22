@@ -23,7 +23,7 @@
             <groupId>es.us.isa.ppinot</groupId>
             <artifactId>ppinot-model</artifactId>
         </dependency>
-
+ 
         <dependency>
             <groupId>oryx-mod</groupId>
             <artifactId>oryx-editor-diagram</artifactId>
@@ -34,6 +34,7 @@
             <artifactId>oryx-editor-bpmn20</artifactId>
             <version>${oryx.version}</version>
         </dependency>
+ 
     </dependencies>
     
     <build>

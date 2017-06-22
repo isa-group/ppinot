@@ -68,14 +68,14 @@ public class AggregatedMeasure extends MeasureDefinition implements Cloneable{
 	/**
      * Constructor de la clase
      * 
-     * @param id Id de la medida
-     * @param name Nombre de la medida
-     * @param description Descripcion de la medida
-     * @param scale Escala de la medida
-     * @param unitOfMeasure Unidad de medida
-     * @param aggregationFunction Funcion de la medida
-     * @param samplingFrequency
-     * @param baseMeasure La medida que se agrega
+     * @param id Id de la medida param
+     * @param name Nombre de la medida param
+     * @param description Descripcion de la medida param
+     * @param scale Escala de la medida param
+     * @param unitOfMeasure Unidad de medida param
+     * @param aggregationFunction Funcion de la medida param
+     * @param samplingFrequency param
+     * @param baseMeasure La medida que se agrega param
      */
     public AggregatedMeasure(String id, String name, String description, String scale, String unitOfMeasure,
     		String aggregationFunction, String samplingFrequency, MeasureDefinition baseMeasure) {
@@ -95,15 +95,15 @@ public class AggregatedMeasure extends MeasureDefinition implements Cloneable{
     /**
      * Constructor de la clase
      * 
-     * @param id Id de la medida
-     * @param name Nombre de la medida
-     * @param description Descripcion de la medida
-     * @param scale Escala de la medida
-     * @param unitOfMeasure Unidad de medida
-     * @param aggregationFunction Funcion de la medida
-     * @param samplingFrequency
-     * @param baseMeasure La medida que se agrega
-     * @param filter 
+     * @param id Id de la medida param
+     * @param name Nombre de la medida param
+     * @param description Descripcion de la medida param
+     * @param scale Escala de la medida param
+     * @param unitOfMeasure Unidad de medida param
+     * @param aggregationFunction Funcion de la medida param
+     * @param samplingFrequency param
+     * @param baseMeasure La medida que se agrega param
+     * @param filter  param
      */
     public AggregatedMeasure(String id, String name, String description, String scale, String unitOfMeasure,
     		String aggregationFunction, String samplingFrequency, MeasureDefinition baseMeasure, MeasureDefinition filter) {
@@ -133,7 +133,7 @@ public class AggregatedMeasure extends MeasureDefinition implements Cloneable{
      * Da valor al atributo aggregationFunction:
      * Funcion de agregacion que se aplica
      * 
-     * @param value Valor del atributo
+     * @param value Valor del atributo param
      */
     public void setAggregationFunction(String value) {
         this.aggregationFunction = value;
@@ -153,7 +153,7 @@ public class AggregatedMeasure extends MeasureDefinition implements Cloneable{
      * Da valor al atributo samplingFrequency:
      * 
      * 
-     * @param samplingFrequency
+     * @param samplingFrequency param
      */
 	public void setSamplingFrequency(String samplingFrequency) {
 		this.samplingFrequency = samplingFrequency;
@@ -174,7 +174,7 @@ public class AggregatedMeasure extends MeasureDefinition implements Cloneable{
      * Da valor al atributo baseMeasure:
      * La medida que se agrega
      * 
-     * @param baseMeasure La medida que se agrega
+     * @param baseMeasure La medida que se agrega param
      */
     public void setBaseMeasure(MeasureDefinition baseMeasure) {
     	
@@ -203,7 +203,7 @@ public class AggregatedMeasure extends MeasureDefinition implements Cloneable{
      * Da valor al atributo aggregates:
      * Indica si la medida utiliza el conector aggregates o no
      * 
-     * @param aggregates
+     * @param aggregates param
      */
 	public void setAggregates(Boolean aggregates) {
 		this.aggregates = aggregates;
@@ -228,7 +228,7 @@ public class AggregatedMeasure extends MeasureDefinition implements Cloneable{
      * Da valor al atributo groupedBy:
      * Informacion para agrupar la medida
      *
-     * @param groupedBy
+     * @param groupedBy param
      */
 	public void setGroupedBySelections(List<DataContentSelection> groupedBy) {
 		this.groupedBy = new ArrayList<DataMeasure>();
@@ -271,7 +271,7 @@ public class AggregatedMeasure extends MeasureDefinition implements Cloneable{
 	/**
 	 * Indica si el valor de la medida puede ser calculado y mostrado
 	 * 
-	 * @return 
+	 * @return valid
 	 */
 	public boolean valid() {
 

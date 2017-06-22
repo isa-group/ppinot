@@ -102,6 +102,7 @@ public class StateConversor {
      * Da valor al atributo state:
      * Estado del tipo Enum
      * 
+     * @param state State
      */
     @JsonIgnore
 	public void setState(RuntimeState state) {
@@ -118,6 +119,10 @@ public class StateConversor {
 		return stateString;
 	}
 
+    /**
+     * Modifica stateString
+     * @param stateString stateString
+     */
     public void setStateString(String stateString) {
         this.stateString = stateString;
     }

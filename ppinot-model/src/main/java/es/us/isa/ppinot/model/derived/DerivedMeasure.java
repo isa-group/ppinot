@@ -144,7 +144,7 @@ public class DerivedMeasure extends MeasureDefinition {
     /**
 	 * Indica si la medida puede ser calculada
 	 * 
-	 * @return 
+	 * @return valid
 	 */
     //Método original - 20170304
 	/*public boolean valid() {

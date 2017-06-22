@@ -61,7 +61,7 @@ public class CountMeasure extends BaseMeasure implements Cloneable{
 	/**
 	 * Indica si la medida puede ser calculada
 	 * 
-	 * @return 
+	 * @return valid
 	 */
 	public boolean valid() {
 		

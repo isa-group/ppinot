@@ -8,7 +8,7 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
  * Applied Software Engineering Research Group (ISA Group) University of
  * Sevilla, Spain
  *
- * @author Felipe Vieira da Cunha Serafim <fvieiradacunha@us.es>
+ * @author feserafim
  * @version 1.0
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME,

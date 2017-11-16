@@ -35,6 +35,24 @@ public class TimeMeasureComputerTest extends MeasureComputerHelper {
     }
 
     @Test
+    public void testComputeLinearInstancesWithSeveralFrom() throws Exception {
+        LogEntryHelper helper = new LogEntryHelper(10);
+        TimeMeasureComputer computer = createLinearTimeMeasureComputer("Analyse RFC", GenericState.START, "Approve RFC", GenericState.END);
+
+        computer.update(helper.newAssignEntry("Analyse RFC", "i1"));
+        computer.update(helper.newCompleteEntry("Analyse RFC", "i1"));
+        computer.update(helper.newAssignEntry("Approve RFC", "i1"));
+        computer.update(helper.newCompleteEntry("Approve RFC", "i1"));
+        computer.update(helper.newAssignEntry("Analyse RFC", "i1"));
+        computer.update(helper.newCompleteEntry("Analyse RFC", "i1"));
+
+        MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
+
+        asserter.assertTheNumberOfMeasuresIs(1);
+        asserter.assertInstanceHasDoubleValue("i1", 30);
+    }
+
+    @Test
     public void testComputeLinearInstancesInSpecificPointOfTime() throws Exception {
         LogEntryHelper helper = new LogEntryHelper(10);
         

@@ -270,8 +270,6 @@ public class TimeMeasureComputer implements MeasureComputer {
         public void starts(DateTime start, LogEntry entry) {
             if (! isRunning())
                 this.start = start;
-
-            this.duration = null;
         }
 
         @Override

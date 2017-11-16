@@ -28,6 +28,8 @@ public class TimeMeasure extends BaseMeasure {
 	private DataPropertyCondition precondition;
 
 	private boolean computeUnfinished;
+    
+    private boolean firstTo = false;
 
 	/**
 	 * Constructor de la clase
@@ -181,6 +183,15 @@ public class TimeMeasure extends BaseMeasure {
 		return super.valid() &&
 				this.getFrom().getAppliesTo()!=null && !this.getFrom().getAppliesTo().isEmpty() &&
 				this.getTo().getAppliesTo()!=null && !this.getTo().getAppliesTo().isEmpty();
+	}
+    
+    public boolean isFirstTo() {
+		return firstTo;
+	}
+
+	public TimeMeasure setFirstTo(boolean firstTo) {
+		this.firstTo = firstTo;
+		return this;
 	}
 	
 }

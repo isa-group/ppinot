@@ -292,11 +292,18 @@ public class TimeMeasureComputer implements MeasureComputer {
         public void ends(DateTime end) {
             if (isRunning()) {
                 duration = new DurationWithExclusion(start, end, ((TimeMeasure)definition).getConsiderOnly());
+                if (((TimeMeasure)definition).isFirstTo()) {
+                    this.reset();
+                }
             }
         }
 
         private boolean isRunning() {
             return start != null;
+        }
+        
+        private void reset() {
+            start = null;
         }
     }
 

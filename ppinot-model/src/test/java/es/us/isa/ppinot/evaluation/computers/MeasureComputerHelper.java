@@ -37,6 +37,15 @@ public class MeasureComputerHelper {
         return new TimeMeasureComputer(measure, null);
     }
 
+    protected TimeMeasureComputer createLinearTimeMeasureComputerWithFirstTo(String activityStart, GenericState stateStart,
+                                                                  String activityEnd, GenericState stateEnd, boolean firstTo) {
+        TimeMeasure measure = createTimeMeasure(activityStart, stateStart, activityEnd, stateEnd);
+        measure.setTimeMeasureType(TimeMeasureType.LINEAR);
+        measure.setFirstTo(firstTo);
+
+        return new TimeMeasureComputer(measure, null);
+    }
+
     protected TimeMeasureComputer createLinearUnfinishedTimeMeasureComputer(String activityStart, GenericState stateStart,
                                                                   String activityEnd, GenericState stateEnd) {
         TimeMeasure measure = createTimeMeasure(activityStart, stateStart, activityEnd, stateEnd);

@@ -52,7 +52,7 @@ public class TimeMeasureComputerTest extends MeasureComputerHelper {
     }
 
     @Test
-    public void testComputeLinearInstancesWithSeveralTo() throws Exception {
+    public void testComputeLinearInstancesWithSeveralToAndFirstTo() throws Exception {
         LogEntryHelper helper = new LogEntryHelper(10);
         boolean firstTo = true;
         TimeMeasureComputer computer = createLinearTimeMeasureComputerWithFirstTo("Analyse RFC", GenericState.START, "Approve RFC", GenericState.END, firstTo);
@@ -76,6 +76,48 @@ public class TimeMeasureComputerTest extends MeasureComputerHelper {
         boolean firstTo = false;
         TimeMeasureComputer computer = createLinearTimeMeasureComputerWithFirstTo("Analyse RFC", GenericState.START, "Approve RFC", GenericState.END, firstTo);
 
+        computer.update(helper.newAssignEntry("Analyse RFC", "i1"));
+        computer.update(helper.newCompleteEntry("Analyse RFC", "i1"));
+        computer.update(helper.newAssignEntry("Approve RFC", "i1"));
+        computer.update(helper.newCompleteEntry("Approve RFC", "i1"));
+        computer.update(helper.newAssignEntry("Approve RFC", "i1"));
+        computer.update(helper.newCompleteEntry("Approve RFC", "i1"));
+
+        MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
+
+        asserter.assertTheNumberOfMeasuresIs(1);
+        asserter.assertInstanceHasDoubleValue("i1", 50);
+    }
+
+    @Test
+    public void testComputeLinearInstancesWithSeveralFromAndToAndFirstTo() throws Exception {
+        LogEntryHelper helper = new LogEntryHelper(10);
+        boolean firstTo = true;
+        TimeMeasureComputer computer = createLinearTimeMeasureComputerWithFirstTo("Analyse RFC", GenericState.START, "Approve RFC", GenericState.END, firstTo);
+
+        computer.update(helper.newAssignEntry("Analyse RFC", "i1"));
+        computer.update(helper.newCompleteEntry("Analyse RFC", "i1"));
+        computer.update(helper.newAssignEntry("Approve RFC", "i1"));
+        computer.update(helper.newCompleteEntry("Approve RFC", "i1"));
+        computer.update(helper.newAssignEntry("Analyse RFC", "i1"));
+        computer.update(helper.newCompleteEntry("Analyse RFC", "i1"));
+        computer.update(helper.newAssignEntry("Approve RFC", "i1"));
+        computer.update(helper.newCompleteEntry("Approve RFC", "i1"));
+
+        MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
+
+        asserter.assertTheNumberOfMeasuresIs(1);
+        asserter.assertInstanceHasDoubleValue("i1", 30);
+    }
+
+    @Test
+    public void testComputeLinearInstancesWithSeveralFromAndToAndFirstTo2() throws Exception {
+        LogEntryHelper helper = new LogEntryHelper(10);
+        boolean firstTo = true;
+        TimeMeasureComputer computer = createLinearTimeMeasureComputerWithFirstTo("Analyse RFC", GenericState.START, "Approve RFC", GenericState.END, firstTo);
+
+        computer.update(helper.newAssignEntry("Analyse RFC", "i1"));
+        computer.update(helper.newCompleteEntry("Analyse RFC", "i1"));
         computer.update(helper.newAssignEntry("Analyse RFC", "i1"));
         computer.update(helper.newCompleteEntry("Analyse RFC", "i1"));
         computer.update(helper.newAssignEntry("Approve RFC", "i1"));

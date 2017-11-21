@@ -8,7 +8,6 @@ import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.Schedule;
 import es.us.isa.ppinot.model.TimeUnit;
 import es.us.isa.ppinot.model.base.DurationMeasure;
-import es.us.isa.ppinot.model.base.TimeMeasure;
 import es.us.isa.ppinot.model.condition.TimeMeasureType;
 import es.us.isa.ppinot.model.state.GenericState;
 import org.joda.time.*;

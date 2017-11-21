@@ -20,6 +20,7 @@ package es.us.isa.ppinot.schedule;
 import es.us.isa.ppinot.evaluation.computers.timer.DurationWithExclusionCombined;
 import es.us.isa.ppinot.model.Schedule;
 import es.us.isa.ppinot.model.ScheduleCombined;
+import es.us.isa.ppinot.model.ScheduleItem;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -54,13 +55,13 @@ public class DurationWithExclusionCombinedTest {
         DateTime scheduleStart = new DateTime(year, monthOfYear - 1, dayOfMonth, hourOfDay, minuteOfHour, secondOfMinute, timeZone);
         DateTime scheduleEnd = new DateTime(year, monthOfYear + 2, dayOfMonth, hourOfDay, minuteOfHour, secondOfMinute, timeZone);
 
-        ScheduleCombined sc = new ScheduleCombined(scheduleStart, scheduleEnd, Schedule.SCHEDULE_24X7);
-        List<ScheduleCombined> schedules = new ArrayList();
-        schedules.add(sc);
+        ScheduleItem sc = new ScheduleItem(scheduleStart, scheduleEnd, Schedule.SCHEDULE_24X7);
+        ScheduleCombined schedules = new ScheduleCombined();
+        schedules.addSchedule(sc);
 
         DurationWithExclusionCombined duration = new DurationWithExclusionCombined(windowStart, windowEnd, schedules);
 
-        List<ScheduleCombined> filtered = duration.combineScheduleForWindow();
+        ScheduleCombined filtered = duration.combineScheduleForWindow();
         Assert.assertEquals(filtered.size(), 1);
         Assert.assertEquals(filtered.get(0).getFrom(), windowStart);
         Assert.assertEquals(filtered.get(0).getTo(), windowEnd);
@@ -78,18 +79,18 @@ public class DurationWithExclusionCombinedTest {
         DateTime schedule3Start = windowStart.toDateTime();
         DateTime schedule3End = windowEnd.toDateTime();
 
-        ScheduleCombined sc1 = new ScheduleCombined(schedule1Start, schedule1End, Schedule.SCHEDULE_24X7);
-        ScheduleCombined sc2 = new ScheduleCombined(schedule2Start, schedule2End, Schedule.SCHEDULE_24X7);
-        ScheduleCombined sc3 = new ScheduleCombined(schedule3Start, schedule3End, Schedule.SCHEDULE_24X7);
+        ScheduleItem sc1 = new ScheduleItem(schedule1Start, schedule1End, Schedule.SCHEDULE_24X7);
+        ScheduleItem sc2 = new ScheduleItem(schedule2Start, schedule2End, Schedule.SCHEDULE_24X7);
+        ScheduleItem sc3 = new ScheduleItem(schedule3Start, schedule3End, Schedule.SCHEDULE_24X7);
 
-        List<ScheduleCombined> schedules = new ArrayList();
-        schedules.add(sc1);
-        schedules.add(sc2);
-        schedules.add(sc3);
+        ScheduleCombined schedules = new ScheduleCombined();
+        schedules.addSchedule(sc1);
+        schedules.addSchedule(sc2);
+        schedules.addSchedule(sc3);
 
         DurationWithExclusionCombined duration = new DurationWithExclusionCombined(windowStart, windowEnd, schedules);
 
-        List<ScheduleCombined> filtered = duration.combineScheduleForWindow();
+        ScheduleCombined filtered = duration.combineScheduleForWindow();
         Assert.assertEquals(filtered.size(), 1);
         Assert.assertEquals(filtered.get(0).getFrom(), windowStart);
         Assert.assertEquals(filtered.get(0).getTo(), windowEnd);
@@ -104,14 +105,14 @@ public class DurationWithExclusionCombinedTest {
         DateTime scheduleStart = windowStart.toDateTime().minusMonths(1).plusDays(15);
         DateTime scheduleEnd = windowStart.toDateTime().plusDays(15);
 
-        ScheduleCombined sc = new ScheduleCombined(scheduleStart, scheduleEnd, Schedule.SCHEDULE_24X7);
-        List<ScheduleCombined> schedules = new ArrayList();
-        schedules.add(sc);
+        ScheduleItem sc = new ScheduleItem(scheduleStart, scheduleEnd, Schedule.SCHEDULE_24X7);
+        ScheduleCombined schedules = new ScheduleCombined();
+        schedules.addSchedule(sc);
 
         DurationWithExclusionCombined duration = new DurationWithExclusionCombined(windowStart, windowEnd, schedules);
 
         try {
-            List<ScheduleCombined> filtered = duration.combineScheduleForWindow();
+            ScheduleCombined filtered = duration.combineScheduleForWindow();
         } catch (IllegalArgumentException ex) {
             Assert.assertEquals(ex.getMessage(), "Incomplete schedule slots");
         }
@@ -126,21 +127,21 @@ public class DurationWithExclusionCombinedTest {
         DateTime schedule2Start = schedule1End.toDateTime().plusMillis(1);
         DateTime schedule2End = windowEnd.toDateTime().plusDays(15);
 
-        ScheduleCombined sc1 = new ScheduleCombined(schedule1Start, schedule1End,
+        ScheduleItem sc1 = new ScheduleItem(schedule1Start, schedule1End,
             new Schedule(
                 DateTimeConstants.MONDAY, DateTimeConstants.SUNDAY, new LocalTime(8, 0), new LocalTime(18, 0)
             )
         );
-        ScheduleCombined sc2 = new ScheduleCombined(
+        ScheduleItem sc2 = new ScheduleItem(
             schedule2Start, schedule2End,
             new Schedule(
                 DateTimeConstants.MONDAY, DateTimeConstants.SUNDAY, new LocalTime(8, 0), new LocalTime(15, 0)
             )
         );
 
-        List<ScheduleCombined> schedules = new ArrayList();
-        schedules.add(sc1);
-        schedules.add(sc2);
+        ScheduleCombined schedules = new ScheduleCombined();
+        schedules.addSchedule(sc1);
+        schedules.addSchedule(sc2);
 
         long expected = new DurationWithExclusionCombined(windowStart, windowEnd, schedules).getMillis();
         long expectedHours = TimeUnit.MILLISECONDS.toHours(expected);
@@ -158,21 +159,21 @@ public class DurationWithExclusionCombinedTest {
         DateTime schedule2Start = windowStart.toDateTime().plusDays(15);
         DateTime schedule2End = windowEnd.toDateTime().plusDays(15);
 
-        ScheduleCombined sc1 = new ScheduleCombined(schedule2Start, schedule2End,
+        ScheduleItem sc1 = new ScheduleItem(schedule2Start, schedule2End,
             new Schedule(
                 DateTimeConstants.MONDAY, DateTimeConstants.SUNDAY, new LocalTime(8, 0), new LocalTime(18, 0)
             )
         );
-        ScheduleCombined sc2 = new ScheduleCombined(
+        ScheduleItem sc2 = new ScheduleItem(
             schedule1Start, schedule1End,
             new Schedule(
                 DateTimeConstants.MONDAY, DateTimeConstants.SUNDAY, new LocalTime(8, 0), new LocalTime(15, 0)
             )
         );
 
-        List<ScheduleCombined> schedules = new ArrayList();
-        schedules.add(sc1);
-        schedules.add(sc2);
+        ScheduleCombined schedules = new ScheduleCombined();
+        schedules.addSchedule(sc1);
+        schedules.addSchedule(sc2);
 
         long expected = new DurationWithExclusionCombined(windowStart, windowEnd, schedules).getMillis();
         long expectedHours = TimeUnit.MILLISECONDS.toHours(expected);
@@ -190,21 +191,21 @@ public class DurationWithExclusionCombinedTest {
         DateTime schedule2Start = windowStart.toDateTime().plusDays(15);
         DateTime schedule2End = windowEnd.toDateTime().plusDays(15);
 
-        ScheduleCombined sc1 = new ScheduleCombined(schedule2Start, schedule2End,
+        ScheduleItem sc1 = new ScheduleItem(schedule2Start, schedule2End,
             new Schedule(
                 DateTimeConstants.MONDAY, DateTimeConstants.SUNDAY, new LocalTime(8, 0), new LocalTime(18, 0)
             )
         );
-        ScheduleCombined sc2 = new ScheduleCombined(
+        ScheduleItem sc2 = new ScheduleItem(
             schedule1Start, schedule1End,
             new Schedule(
                 DateTimeConstants.MONDAY, DateTimeConstants.SUNDAY, new LocalTime(8, 0), new LocalTime(15, 0)
             )
         );
 
-        List<ScheduleCombined> schedules = new ArrayList();
-        schedules.add(sc1);
-        schedules.add(sc2);
+        ScheduleCombined schedules = new ScheduleCombined();
+        schedules.addSchedule(sc1);
+        schedules.addSchedule(sc2);
 
         try {
             long expected = new DurationWithExclusionCombined(windowStart, windowEnd, schedules).getMillis();

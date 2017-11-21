@@ -12,47 +12,60 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write end the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Bosendn, MA  02111-1307, USA.
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 package es.us.isa.ppinot.model;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  *
  * @author isa-group
  */
-public class ScheduleCombined implements Comparable<ScheduleCombined> {
+public class ScheduleCombined {
 
-    private DateTime from;
-    private DateTime to;
-    private Schedule schedule;
+    private List<ScheduleItem> schedules;
 
-    public ScheduleCombined(DateTime start, DateTime end, Schedule schedule) {
-        DateTimeZone timeZone = schedule != null ? schedule.getTimeZone() : DateTimeZone.getDefault();
-        
-        this.from = start.toDateTime(timeZone);
-        this.to = end.toDateTime(timeZone);
-        this.schedule = schedule;
+    public ScheduleCombined() {
+        this.schedules = new ArrayList();
     }
 
-    public DateTime getFrom() {
-        return from;
+    public ScheduleCombined(List<ScheduleItem> schedules) {
+        this.schedules = schedules;
     }
 
-    public DateTime getTo() {
-        return to;
+    public List<ScheduleItem> getSchedules() {
+        return schedules;
     }
 
-    public Schedule getSchedule() {
-        return schedule;
+    public void setSchedules(List<ScheduleItem> schedules) {
+        this.schedules = schedules;
     }
 
-    @Override
-    public int compareTo(ScheduleCombined o) {
-        return this.getFrom().compareTo(o.getFrom());
+    public void addSchedule(ScheduleItem item) {
+        this.getSchedules().add(item);
     }
-    
+
+    public boolean isEmpty() {
+        return this.getSchedules().isEmpty();
+    }
+
+    public int size() {
+        return this.getSchedules().size();
+    }
+
+    public ScheduleItem get(int i) {
+        return this.getSchedules().get(i);
+    }
+
+    public ScheduleCombined copy() {
+        List<ScheduleItem> copy = new ArrayList(this.getSchedules());
+        Collections.sort(copy);
+
+        return new ScheduleCombined(copy);
+    }
+
 }

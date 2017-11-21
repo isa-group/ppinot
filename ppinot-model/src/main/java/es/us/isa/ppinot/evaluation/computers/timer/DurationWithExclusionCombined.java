@@ -18,9 +18,7 @@
 package es.us.isa.ppinot.evaluation.computers.timer;
 
 import es.us.isa.ppinot.model.ScheduleCombined;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import es.us.isa.ppinot.model.ScheduleItem;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
@@ -32,9 +30,9 @@ public class DurationWithExclusionCombined {
 
     private DateTime start;
     private DateTime end;
-    private List<ScheduleCombined> scheduleCombined;
+    private ScheduleCombined scheduleCombined;
 
-    public DurationWithExclusionCombined(DateTime start, DateTime end, List<ScheduleCombined> scheduleCombined) {
+    public DurationWithExclusionCombined(DateTime start, DateTime end, ScheduleCombined scheduleCombined) {
         this.start = start;
         this.end = end;
         this.scheduleCombined = scheduleCombined;
@@ -48,49 +46,47 @@ public class DurationWithExclusionCombined {
         return end;
     }
 
-    public List<ScheduleCombined> getScheduleCombined() {
+    public ScheduleCombined getScheduleCombined() {
         return scheduleCombined;
     }
 
     /**
-     * Sum duration of all ScheduleCombined slots
+     * Sum duration of all ScheduleItem slots
      *
      * @return
      */
     public long getMillis() {
         long duration = 0;
 
-        for (ScheduleCombined sc : this.combineScheduleForWindow()) {
+        for (ScheduleItem sc : this.combineScheduleForWindow().getSchedules()) {
             duration += new DurationWithExclusion(sc.getFrom(), sc.getTo(), sc.getSchedule()).getMillis();
         }
 
         return duration;
     }
 
-    public List<ScheduleCombined> combineScheduleForWindow() {
+    public ScheduleCombined combineScheduleForWindow() {
 
-        List<ScheduleCombined> copy = new ArrayList(this.getScheduleCombined());
-        Collections.sort(copy);
-
+        ScheduleCombined copy = this.getScheduleCombined().copy();
         return this.createScheduleCombinedSlots(copy);
 
     }
 
     /**
-     * Create ScheduleCombined elements contained on window.
+     * Create ScheduleItem elements contained on window.
      *
      * @param scheduleCombinedList
      * @return
      */
-    private List<ScheduleCombined> createScheduleCombinedSlots(List<ScheduleCombined> scheduleCombinedList) {
+    private ScheduleCombined createScheduleCombinedSlots(ScheduleCombined scheduleCombinedList) {
 
-        List<ScheduleCombined> ret = new ArrayList();
+        ScheduleCombined ret = new ScheduleCombined();
 
-        for (ScheduleCombined sc : scheduleCombinedList) {
+        for (ScheduleItem sc : scheduleCombinedList.getSchedules()) {
 
             Interval slotInterval = new Interval(sc.getFrom(), sc.getTo());
 
-            if (ret.size() > 0 && !validateSlotIntersected(ret, slotInterval)) {
+            if (ret.getSchedules().size() > 0 && !validateSlotIntersected(ret, slotInterval)) {
                 throw new IllegalArgumentException("Intersected schedule for interval " + slotInterval);
             }
 
@@ -99,7 +95,7 @@ public class DurationWithExclusionCombined {
 
             if (startCondition || endCondition) {
                 if (startCondition && endCondition) {
-                    ret.add(new ScheduleCombined(this.getStart(), this.getEnd(), sc.getSchedule()));
+                    ret.addSchedule(new ScheduleItem(this.getStart(), this.getEnd(), sc.getSchedule()));
                     break;
                 } else {
 
@@ -120,7 +116,7 @@ public class DurationWithExclusionCombined {
                         slotEnd = sc.getTo();
                     }
 
-                    ret.add(new ScheduleCombined(slotFrom, slotEnd, sc.getSchedule()));
+                    ret.addSchedule(new ScheduleItem(slotFrom, slotEnd, sc.getSchedule()));
 
                 }
             }
@@ -142,14 +138,14 @@ public class DurationWithExclusionCombined {
      * @param scheduleCombinedList
      * @return
      */
-    private boolean validateSlots(List<ScheduleCombined> scheduleCombinedList) {
+    private boolean validateSlots(ScheduleCombined scheduleCombinedList) {
 
         boolean ret = true;
         DateTime previousTo = new DateTime();
 
         for (int i = 0; i < scheduleCombinedList.size(); i++) {
 
-            ScheduleCombined sc = scheduleCombinedList.get(i);
+            ScheduleItem sc = scheduleCombinedList.get(i);
 
             if (i == 0) {
                 if (!sc.getFrom().equals(this.getStart())) {
@@ -176,17 +172,17 @@ public class DurationWithExclusionCombined {
     }
 
     /**
-     * Check if there is already a ScheduleCombined for an interval.
+     * Check if there is already a ScheduleItem for an interval.
      *
      * @param scheduleCombinedList
      * @param interval
      * @return
      */
-    private boolean validateSlotIntersected(List<ScheduleCombined> scheduleCombinedCandidateList, Interval interval) {
+    private boolean validateSlotIntersected(ScheduleCombined scheduleCombinedCandidateList, Interval interval) {
 
         boolean valid = true;
 
-        for (ScheduleCombined sc : scheduleCombinedCandidateList) {
+        for (ScheduleItem sc : scheduleCombinedCandidateList.getSchedules()) {
             boolean startCondition = interval.contains(sc.getFrom());
             boolean endCondition = interval.contains(sc.getTo());
             if (startCondition || endCondition) {

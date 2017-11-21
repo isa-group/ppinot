@@ -21,8 +21,6 @@ import es.us.isa.ppinot.evaluation.computers.timer.DurationWithExclusionCombined
 import es.us.isa.ppinot.model.Schedule;
 import es.us.isa.ppinot.model.ScheduleCombined;
 import es.us.isa.ppinot.model.ScheduleItem;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -47,7 +45,7 @@ public class DurationWithExclusionCombinedTest {
     int secondOfMinute = 0;
 
     DateTime windowStart = new DateTime(year, monthOfYear, dayOfMonth, hourOfDay, minuteOfHour, secondOfMinute, timeZone);
-    DateTime windowEnd = windowStart.toDateTime().plusMonths(1);
+    DateTime windowEnd = windowStart.toDateTime().plusMonths(1).minusMillis(1);
 
     @Test
     public void testWindowIncludedOnSchedule() {
@@ -62,7 +60,7 @@ public class DurationWithExclusionCombinedTest {
         DurationWithExclusionCombined duration = new DurationWithExclusionCombined(windowStart, windowEnd, schedules);
 
         ScheduleCombined filtered = duration.combineScheduleForWindow();
-        Assert.assertEquals(filtered.size(), 1);
+        Assert.assertEquals(1, filtered.size());
         Assert.assertEquals(filtered.get(0).getFrom(), windowStart);
         Assert.assertEquals(filtered.get(0).getTo(), windowEnd);
 
@@ -91,7 +89,7 @@ public class DurationWithExclusionCombinedTest {
         DurationWithExclusionCombined duration = new DurationWithExclusionCombined(windowStart, windowEnd, schedules);
 
         ScheduleCombined filtered = duration.combineScheduleForWindow();
-        Assert.assertEquals(filtered.size(), 1);
+        Assert.assertEquals(1, filtered.size());
         Assert.assertEquals(filtered.get(0).getFrom(), windowStart);
         Assert.assertEquals(filtered.get(0).getTo(), windowEnd);
         Assert.assertEquals(filtered.get(0).getFrom(), schedule3Start);
@@ -103,7 +101,7 @@ public class DurationWithExclusionCombinedTest {
     public void testIncompleteScheduleWindow() {
 
         DateTime scheduleStart = windowStart.toDateTime().minusMonths(1).plusDays(15);
-        DateTime scheduleEnd = windowStart.toDateTime().plusDays(15);
+        DateTime scheduleEnd = windowStart.toDateTime().plusDays(15).minusMillis(1);
 
         ScheduleItem sc = new ScheduleItem(scheduleStart, scheduleEnd, Schedule.SCHEDULE_24X7);
         ScheduleCombined schedules = new ScheduleCombined();
@@ -114,7 +112,7 @@ public class DurationWithExclusionCombinedTest {
         try {
             ScheduleCombined filtered = duration.combineScheduleForWindow();
         } catch (IllegalArgumentException ex) {
-            Assert.assertEquals(ex.getMessage(), "Incomplete schedule slots");
+            Assert.assertEquals("Incomplete schedule slots", ex.getMessage());
         }
 
     }

@@ -149,7 +149,8 @@ public class TimeMeasureComputer implements MeasureComputer {
         return entry.getProcessId() + "#" + entry.getInstanceId();
     }
 
-    private abstract class MeasureInstanceTimer extends MeasureInstance  {
+    private abstract class MeasureInstanceTimer extends MeasureInstance {
+
         private boolean processFinished = false;
 
         public MeasureInstanceTimer(TimeMeasure definition, String processId, String instanceId) {
@@ -157,7 +158,9 @@ public class TimeMeasureComputer implements MeasureComputer {
         }
 
         public abstract void starts(DateTime start, LogEntry entry);
+
         public abstract void ends(DateTime ends);
+
         protected abstract double computeValue();
 
         protected boolean isProcessFinished() {
@@ -175,7 +178,7 @@ public class TimeMeasureComputer implements MeasureComputer {
             if (!Double.isNaN(value)) {
                 long millisValue = (long) value;
                 Duration duration = Duration.millis(millisValue);
-                Schedule schedule = ((TimeMeasure)definition).getConsiderOnly();
+                Schedule schedule = ((TimeMeasure) definition).getConsiderOnly();
                 value = TimeUnit.toTimeUnit(duration, definition.getUnitOfMeasure(), schedule);
             }
 
@@ -191,7 +194,6 @@ public class TimeMeasureComputer implements MeasureComputer {
         private CyclicMeasureInstanceTimer backup = null;
         private DataPropertyMatcher matcher;
 
-
         public PreconditionMeasureInstanceTimer(TimeMeasure definition, String processId, String instanceId, DataPropertyMatcher matcher) {
             super(definition, processId, instanceId);
             current = new CyclicMeasureInstanceTimer(definition, processId, instanceId);
@@ -199,7 +201,7 @@ public class TimeMeasureComputer implements MeasureComputer {
         }
 
         public void starts(DateTime start, LogEntry entry) {
-            if (! isRunning()) {
+            if (!isRunning()) {
                 this.start = start;
                 if (matcher.matches(entry)) {
                     current.starts(start, entry);
@@ -211,14 +213,12 @@ public class TimeMeasureComputer implements MeasureComputer {
         protected double computeValue() {
             double value;
 
-            if (backup != null)
+            if (backup != null) {
                 value = backup.computeValue();
-            else {
-                if (isRunning() && !isProcessFinished() && ((TimeMeasure) definition).isComputeUnfinished()) {
-                    value = current.computeValue();
-                } else {
-                    value = Double.NaN;
-                }
+            } else if (isRunning() && !isProcessFinished() && ((TimeMeasure) definition).isComputeUnfinished()) {
+                value = current.computeValue();
+            } else {
+                value = Double.NaN;
             }
 
             return value;
@@ -254,6 +254,7 @@ public class TimeMeasureComputer implements MeasureComputer {
         }
 
     }
+
     private class LinearMeasureInstanceTimer extends MeasureInstanceTimer {
 
         private DateTime start;
@@ -286,12 +287,10 @@ public class TimeMeasureComputer implements MeasureComputer {
         }
 
         public void ends(DateTime end) {
-            if (isRunning()) {
-                if ((this.isFirstTo() && !this.getStopped())) {
-                    duration = new DurationWithExclusion(start, end, ((TimeMeasure) definition).getConsiderOnly());
+            if (this.isRunning() && !this.getStopped()) {
+                duration = new DurationWithExclusion(start, end, ((TimeMeasure) definition).getConsiderOnly());
+                if (this.isFirstTo()) {
                     this.setStopped(true);
-                } else if (!this.isFirstTo()) {
-                    duration = new DurationWithExclusion(start, end, ((TimeMeasure) definition).getConsiderOnly());
                 }
             }
         }
@@ -389,8 +388,8 @@ public class TimeMeasureComputer implements MeasureComputer {
 
     }
 
-
     private class DurationWithExclusion {
+
         private DateTime start;
         private DateTime end;
         private Schedule schedule;
@@ -434,7 +433,7 @@ public class TimeMeasureComputer implements MeasureComputer {
 
             int dayOfWeek = nextDay.getDayOfWeek();
             for (int i = 1; i <= days; i++) {
-                if (schedule.dayOfWeekExcluded(dayOfWeek) || schedule.dayOfHolidayExcluded(nextDay.plusDays(i-1))) {
+                if (schedule.dayOfWeekExcluded(dayOfWeek) || schedule.dayOfHolidayExcluded(nextDay.plusDays(i - 1))) {
                     exclusion += fullDay;
                 } else {
                     exclusion += exclusionPerDay;
@@ -499,8 +498,6 @@ public class TimeMeasureComputer implements MeasureComputer {
             return exclusionHours.getMillis();
 
         }
-
-
 
     }
 }

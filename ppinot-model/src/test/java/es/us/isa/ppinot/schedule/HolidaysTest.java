@@ -1,4 +1,4 @@
-package es.us.isa.ppinot.holidays;
+package es.us.isa.ppinot.schedule;
 
 import es.us.isa.ppinot.evaluation.LogEntryHelper;
 import es.us.isa.ppinot.evaluation.MeasuresAsserter;

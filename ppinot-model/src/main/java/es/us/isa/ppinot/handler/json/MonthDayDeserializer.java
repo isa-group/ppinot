@@ -17,18 +17,23 @@
  */
 package es.us.isa.ppinot.handler.json;
 
-import java.io.IOException;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
 import org.joda.time.MonthDay;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.DateTimeFormatterBuilder;
+
+import java.io.IOException;
 
 /**
  *
  * @author isa-group
  */
 public class MonthDayDeserializer extends JsonDeserializer<MonthDay> {
+
+    private final DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendMonthOfYear(1).appendLiteral('/').appendDayOfMonth(1).toFormatter();
 
     @Override
     public MonthDay deserialize(final JsonParser p, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
@@ -39,6 +44,6 @@ public class MonthDayDeserializer extends JsonDeserializer<MonthDay> {
             return null;
         }
 
-        return MonthDay.parse(str);
+        return MonthDay.parse(str, formatter);
     }
 }

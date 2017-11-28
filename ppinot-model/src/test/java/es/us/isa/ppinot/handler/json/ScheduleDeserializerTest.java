@@ -1,15 +1,14 @@
 package es.us.isa.ppinot.handler.json;
 
-import es.us.isa.ppinot.model.Schedule;
-import es.us.isa.ppinot.model.ScheduleBasic;
-import org.codehaus.jackson.JsonNode;
+import es.us.isa.ppinot.model.schedule.ScheduleBasic;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.joda.time.LocalTime;
 import org.junit.Test;
 
 import java.io.IOException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * ScheduleDeserializerTest
@@ -53,6 +52,16 @@ public class ScheduleDeserializerTest {
         assertEquals(5, schedule.getEndDay());
         assertEquals(new LocalTime(8, 0), schedule.getBeginTime());
         assertEquals(new LocalTime(19, 0), schedule.getEndTime());
+    }
+
+    @Test
+    public void testDeserializeVariable() throws IOException {
+        String text = "{\"schedule\": \"${variable}\"}";
+        ObjectMapper mapper = new ObjectMapper();
+
+        ScheduleBasic schedule = mapper.readValue(text, ScheduleTest.class).getSchedule();
+
+        assertNull(schedule);
     }
 
     @Test

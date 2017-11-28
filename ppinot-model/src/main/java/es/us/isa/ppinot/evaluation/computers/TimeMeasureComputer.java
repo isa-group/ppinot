@@ -3,22 +3,24 @@ package es.us.isa.ppinot.evaluation.computers;
 import es.us.isa.ppinot.evaluation.Aggregator;
 import es.us.isa.ppinot.evaluation.Measure;
 import es.us.isa.ppinot.evaluation.MeasureInstance;
+import es.us.isa.ppinot.evaluation.computers.timer.DurationWithExclusionNone;
 import es.us.isa.ppinot.evaluation.logs.LogEntry;
 import es.us.isa.ppinot.evaluation.matchers.DataPropertyMatcher;
 import es.us.isa.ppinot.evaluation.matchers.FlowElementStateMatcher;
 import es.us.isa.ppinot.evaluation.matchers.TimeInstantMatcher;
-import es.us.isa.ppinot.model.DurationWithExclusion;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.ProcessInstanceFilter;
-import es.us.isa.ppinot.model.Schedule;
 import es.us.isa.ppinot.model.TimeUnit;
 import es.us.isa.ppinot.model.base.TimeMeasure;
 import es.us.isa.ppinot.model.condition.TimeInstantCondition;
 import es.us.isa.ppinot.model.condition.TimeMeasureType;
+import es.us.isa.ppinot.model.schedule.DurationWithExclusion;
+import es.us.isa.ppinot.model.schedule.Schedule;
 import es.us.isa.ppinot.model.scope.SimpleTimeFilter;
 import es.us.isa.ppinot.model.state.DataObjectState;
 import es.us.isa.ppinot.model.state.GenericState;
-import org.joda.time.*;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
 
 import java.util.*;
 
@@ -172,6 +174,19 @@ public class TimeMeasureComputer implements MeasureComputer {
             this.processFinished = true;
         }
 
+        protected DurationWithExclusion computeDuration(DateTime start, DateTime end) {
+            DurationWithExclusion duration;
+            Schedule schedule = ((TimeMeasure) definition).getConsiderOnly();
+
+            if (schedule == null) {
+                duration = new DurationWithExclusionNone(start, end);
+            } else {
+                duration = schedule.computeDuration(start, end);
+            }
+
+            return duration;
+        }
+
         @Override
         public double getValue() {
             double value = computeValue();
@@ -279,7 +294,7 @@ public class TimeMeasureComputer implements MeasureComputer {
             if (duration != null) {
                 value = duration.getMillis();
             } else if (isRunning() && !isProcessFinished() && ((TimeMeasure) definition).isComputeUnfinished()) {
-                DurationWithExclusion d = ((TimeMeasure) definition).getConsiderOnly().computeDuration(start, now);
+                DurationWithExclusion d = computeDuration(start, now);
                 value = d.getMillis();
             } else {
                 value = Double.NaN;
@@ -290,7 +305,7 @@ public class TimeMeasureComputer implements MeasureComputer {
 
         public void ends(DateTime end) {
             if (isRunning() && !this.getStopped()) {
-                duration = ((TimeMeasure) definition).getConsiderOnly().computeDuration(start, end);
+                duration = computeDuration(start, end);
                 if (this.isFirstTo()) {
                     this.setStopped(true);
                 }
@@ -343,7 +358,7 @@ public class TimeMeasureComputer implements MeasureComputer {
 
             if (isRunning()) {
                 if (!isProcessFinished() && ((TimeMeasure) definition).isComputeUnfinished()) {
-                    DurationWithExclusion d = ((TimeMeasure) definition).getConsiderOnly().computeDuration(start, now);
+                    DurationWithExclusion d = computeDuration(start, now);
                     measures.add((double) d.getMillis());
                 } else {
                     measures.clear();
@@ -361,7 +376,7 @@ public class TimeMeasureComputer implements MeasureComputer {
 
         public void ends(DateTime end) {
             if (isRunning()) {
-                DurationWithExclusion d = ((TimeMeasure) definition).getConsiderOnly().computeDuration(start, end);
+                DurationWithExclusion d = computeDuration(start, end);
                 durations.add(d);
                 reset();
             }

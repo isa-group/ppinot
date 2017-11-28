@@ -1,17 +1,21 @@
 package es.us.isa.ppinot.evaluation.computers;
 
-import es.us.isa.ppinot.evaluation.*;
+import es.us.isa.ppinot.evaluation.Measure;
+import es.us.isa.ppinot.evaluation.MeasureInstance;
+import es.us.isa.ppinot.evaluation.MeasureScope;
+import es.us.isa.ppinot.evaluation.MeasureScopeImpl;
 import es.us.isa.ppinot.evaluation.logs.LogEntry;
 import es.us.isa.ppinot.evaluation.matchers.FlowElementStateMatcher;
 import es.us.isa.ppinot.evaluation.matchers.TimeInstantMatcher;
 import es.us.isa.ppinot.model.MeasureDefinition;
-import es.us.isa.ppinot.model.Schedule;
-import es.us.isa.ppinot.model.ScheduleBasic;
 import es.us.isa.ppinot.model.TimeUnit;
 import es.us.isa.ppinot.model.base.DurationMeasure;
 import es.us.isa.ppinot.model.condition.TimeMeasureType;
+import es.us.isa.ppinot.model.schedule.Schedule;
+import es.us.isa.ppinot.model.schedule.ScheduleBasic;
 import es.us.isa.ppinot.model.state.GenericState;
-import org.joda.time.*;
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
 
 import java.util.*;
 

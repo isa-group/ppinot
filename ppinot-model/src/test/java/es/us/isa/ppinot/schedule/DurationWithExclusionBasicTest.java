@@ -17,9 +17,9 @@
  */
 package es.us.isa.ppinot.schedule;
 
-import es.us.isa.ppinot.model.DurationWithExclusion;
-import es.us.isa.ppinot.model.DurationWithExclusionBasic;
-import es.us.isa.ppinot.model.ScheduleBasic;
+import es.us.isa.ppinot.model.schedule.DurationWithExclusion;
+import es.us.isa.ppinot.model.schedule.DurationWithExclusionBasic;
+import es.us.isa.ppinot.model.schedule.ScheduleBasic;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.DateTimeZone;

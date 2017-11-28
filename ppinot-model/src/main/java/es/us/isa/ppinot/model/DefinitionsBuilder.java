@@ -1,6 +1,8 @@
 package es.us.isa.ppinot.model;
 
 import es.us.isa.ppinot.handler.JSONMeasuresCollectionHandler;
+import es.us.isa.ppinot.model.schedule.Schedule;
+import es.us.isa.ppinot.model.schedule.ScheduleBasic;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.ser.std.ToStringSerializer;
 import org.joda.time.LocalTime;

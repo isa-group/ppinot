@@ -1,5 +1,7 @@
 package es.us.isa.ppinot.model;
 
+import es.us.isa.ppinot.model.schedule.Schedule;
+import es.us.isa.ppinot.model.schedule.ScheduleBasic;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Duration;
 import org.joda.time.PeriodType;

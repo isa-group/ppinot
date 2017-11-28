@@ -15,9 +15,10 @@
  * along with this program; if not, write end the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Bosendn, MA  02111-1307, USA.
  */
-package es.us.isa.ppinot.model;
+package es.us.isa.ppinot.model.schedule;
 
 import es.us.isa.ppinot.handler.json.MonthDayDeserializer;
+import es.us.isa.ppinot.handler.json.MonthDaySerializer;
 import es.us.isa.ppinot.handler.json.ScheduleBasicDeserializer;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
@@ -29,15 +30,14 @@ import org.joda.time.MonthDay;
  *
  * @author isa-group
  */
-@JsonSerialize(using = ToStringSerializer.class)
 public class ScheduleItem implements Comparable<ScheduleItem> {
 
-    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonSerialize(using = MonthDaySerializer.class)
     @JsonDeserialize(using = MonthDayDeserializer.class)
     @JsonProperty("from")
     private MonthDay from;
 
-    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonSerialize(using = MonthDaySerializer.class)
     @JsonDeserialize(using = MonthDayDeserializer.class)
     @JsonProperty("to")
     private MonthDay to;

@@ -3,8 +3,6 @@ package es.us.isa.ppinot.handler;
 import es.us.isa.ppinot.evaluation.Aggregator;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.MeasuresCollection;
-import es.us.isa.ppinot.model.Schedule;
-import es.us.isa.ppinot.model.ScheduleBasic;
 import es.us.isa.ppinot.model.TimeUnit;
 import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
 import es.us.isa.ppinot.model.base.CountMeasure;
@@ -13,18 +11,22 @@ import es.us.isa.ppinot.model.condition.TimeInstantCondition;
 import es.us.isa.ppinot.model.condition.TimeMeasureType;
 import es.us.isa.ppinot.model.derived.DerivedMultiInstanceMeasure;
 import es.us.isa.ppinot.model.derived.DerivedSingleInstanceMeasure;
+import es.us.isa.ppinot.model.schedule.Schedule;
+import es.us.isa.ppinot.model.schedule.ScheduleBasic;
 import es.us.isa.ppinot.model.state.DataObjectState;
 import es.us.isa.ppinot.model.state.GenericState;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalTime;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * JSONMeasuresCollectionHandlerTest

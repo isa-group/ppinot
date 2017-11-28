@@ -15,16 +15,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package es.us.isa.ppinot.model;
-
-import org.joda.time.DateTime;
+package es.us.isa.ppinot.model.schedule;
 
 /**
  *
  * @author isa-group
  */
-public interface Schedule {
-
-    DurationWithExclusion computeDuration(DateTime start, DateTime end);
-
+public interface DurationWithExclusion {
+    
+    long getMillis();
+    DurationWithExclusion copy();
+    
 }

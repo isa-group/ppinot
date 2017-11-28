@@ -15,27 +15,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package es.us.isa.ppinot.model;
+package es.us.isa.ppinot.model.schedule;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.joda.time.DateTime;
 
 /**
  *
  * @author isa-group
  */
-public class DefaultHolidays {
-    
-    private static List<DateTime> days = new ArrayList<DateTime>();
+@JsonDeserialize(using = ScheduleDeserializer.class)
+public interface Schedule  {
 
-    public static List<DateTime> getDays() {
-        return days;
-    }
+    DurationWithExclusion computeDuration(DateTime start, DateTime end);
 
-    public static void setDays(List<DateTime> days) {
-        DefaultHolidays.days = days;
-    }
-    
-    
 }

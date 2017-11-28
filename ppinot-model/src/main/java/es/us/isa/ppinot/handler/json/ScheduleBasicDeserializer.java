@@ -1,6 +1,6 @@
 package es.us.isa.ppinot.handler.json;
 
-import es.us.isa.ppinot.model.ScheduleBasic;
+import es.us.isa.ppinot.model.schedule.ScheduleBasic;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.DeserializationContext;

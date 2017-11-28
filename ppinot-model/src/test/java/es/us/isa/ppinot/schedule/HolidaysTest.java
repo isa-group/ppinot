@@ -5,32 +5,26 @@ import es.us.isa.ppinot.evaluation.MeasuresAsserter;
 import es.us.isa.ppinot.evaluation.computers.MeasureComputerHelper;
 import es.us.isa.ppinot.evaluation.computers.TimeMeasureComputer;
 import es.us.isa.ppinot.evaluation.logs.LogEntry.EventType;
-import es.us.isa.ppinot.model.Holidays;
-import es.us.isa.ppinot.model.Schedule;
-import es.us.isa.ppinot.model.ScheduleBasic;
 import es.us.isa.ppinot.model.TimeUnit;
+import es.us.isa.ppinot.model.schedule.Holidays;
+import es.us.isa.ppinot.model.schedule.Schedule;
+import es.us.isa.ppinot.model.schedule.ScheduleBasic;
 import es.us.isa.ppinot.model.state.GenericState;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.DateTimeZone;
+import org.joda.time.LocalTime;
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.joda.time.DateTimeZone;
-import org.junit.Test;
-
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
-import org.joda.time.LocalTime;
-import org.junit.Assert;
 
 public class HolidaysTest extends MeasureComputerHelper {
     

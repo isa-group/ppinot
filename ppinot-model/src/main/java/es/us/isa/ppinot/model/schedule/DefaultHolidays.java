@@ -15,15 +15,28 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package es.us.isa.ppinot.model;
+package es.us.isa.ppinot.model.schedule;
+
+import org.joda.time.DateTime;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author isa-group
  */
-public interface DurationWithExclusion {
+public class DefaultHolidays {
     
-    long getMillis();
-    DurationWithExclusion copy();
+    private static List<DateTime> days = new ArrayList<DateTime>();
+
+    public static List<DateTime> getDays() {
+        return days;
+    }
+
+    public static void setDays(List<DateTime> days) {
+        DefaultHolidays.days = days;
+    }
+    
     
 }

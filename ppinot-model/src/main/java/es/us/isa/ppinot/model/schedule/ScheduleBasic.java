@@ -1,7 +1,8 @@
-package es.us.isa.ppinot.model;
+package es.us.isa.ppinot.model.schedule;
 
 import es.us.isa.ppinot.handler.json.LocalTimeDeserializer;
 import es.us.isa.ppinot.handler.json.ScheduleBasicDeserializer;
+import org.codehaus.jackson.annotate.JsonValue;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.ser.std.ToStringSerializer;
@@ -17,7 +18,6 @@ import java.util.List;
  *
  * @author resinas
  */
-@JsonSerialize(using = ToStringSerializer.class)
 @JsonDeserialize(using = ScheduleBasicDeserializer.class)
 public class ScheduleBasic implements Schedule {
 
@@ -89,6 +89,10 @@ public class ScheduleBasic implements Schedule {
         return holidays;
     }
 
+    public void setHolidays(List<DateTime> holidays) {
+        this.holidays = holidays;
+    }
+
     public boolean dayOfWeekExcluded(int dayOfWeek) {
         return (dayOfWeek < getBeginDay() || dayOfWeek > getEndDay());
     }
@@ -124,6 +128,7 @@ public class ScheduleBasic implements Schedule {
         return this;
     }
 
+    @JsonValue
     public String toString() {
         StringBuilder sb = new StringBuilder();
         DateTimeFormatter dtf = DateTimeFormat.forPattern("HH:mm");

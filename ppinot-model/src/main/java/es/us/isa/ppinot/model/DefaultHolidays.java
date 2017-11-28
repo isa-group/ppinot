@@ -17,14 +17,25 @@
  */
 package es.us.isa.ppinot.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.joda.time.DateTime;
 
 /**
  *
  * @author isa-group
  */
-public interface Schedule {
+public class DefaultHolidays {
+    
+    private static List<DateTime> days = new ArrayList<DateTime>();
 
-    DurationWithExclusion computeDuration(DateTime start, DateTime end);
+    public static List<DateTime> getDays() {
+        return days;
+    }
 
+    public static void setDays(List<DateTime> days) {
+        DefaultHolidays.days = days;
+    }
+    
+    
 }

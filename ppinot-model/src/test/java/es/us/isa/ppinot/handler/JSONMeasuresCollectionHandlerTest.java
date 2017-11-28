@@ -4,6 +4,7 @@ import es.us.isa.ppinot.evaluation.Aggregator;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.MeasuresCollection;
 import es.us.isa.ppinot.model.Schedule;
+import es.us.isa.ppinot.model.ScheduleBasic;
 import es.us.isa.ppinot.model.TimeUnit;
 import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
 import es.us.isa.ppinot.model.base.CountMeasure;
@@ -86,7 +87,7 @@ public class JSONMeasuresCollectionHandlerTest {
     }
 
     private MeasureDefinition buildAFIP() throws Exception {
-        Schedule workingHours = new Schedule(DateTimeConstants.MONDAY, DateTimeConstants.FRIDAY, new LocalTime(8,0), new LocalTime(20,0));
+        Schedule workingHours = new ScheduleBasic(DateTimeConstants.MONDAY, DateTimeConstants.FRIDAY, new LocalTime(8,0), new LocalTime(20,0));
 
         TimeMeasure responseTime = new TimeMeasure();
         responseTime.setFrom(new TimeInstantCondition("EVENT 2 START MESSAGE", GenericState.START));

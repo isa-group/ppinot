@@ -17,14 +17,13 @@
  */
 package es.us.isa.ppinot.model;
 
-import org.joda.time.DateTime;
-
 /**
  *
  * @author isa-group
  */
-public interface Schedule {
-
-    DurationWithExclusion computeDuration(DateTime start, DateTime end);
-
+public interface DurationWithExclusion {
+    
+    long getMillis();
+    DurationWithExclusion copy();
+    
 }

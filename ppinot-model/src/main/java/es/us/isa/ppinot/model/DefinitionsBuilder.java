@@ -17,7 +17,7 @@ import java.io.StringWriter;
 public abstract class DefinitionsBuilder {
 
     @JsonSerialize(using = ToStringSerializer.class)
-    private class ParamSchedule extends Schedule {
+    private class ParamSchedule extends ScheduleBasic {
         String paramName;
 
         public ParamSchedule(String paramName) {

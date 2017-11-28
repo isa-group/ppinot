@@ -17,15 +17,15 @@
  */
 package es.us.isa.ppinot.schedule;
 
-import es.us.isa.ppinot.evaluation.computers.timer.DurationWithExclusionCombined;
-import es.us.isa.ppinot.model.Schedule;
+import es.us.isa.ppinot.model.DurationWithExclusionCombined;
+import es.us.isa.ppinot.model.ScheduleBasic;
 import es.us.isa.ppinot.model.ScheduleCombined;
 import es.us.isa.ppinot.model.ScheduleItem;
-import java.util.concurrent.TimeUnit;
+import java.util.Map;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
 import org.joda.time.DateTimeZone;
-import org.joda.time.LocalTime;
+import org.joda.time.Interval;
+import org.joda.time.MonthDay;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -44,172 +44,211 @@ public class DurationWithExclusionCombinedTest {
     int minuteOfHour = 0;
     int secondOfMinute = 0;
 
-    DateTime windowStart = new DateTime(year, monthOfYear, dayOfMonth, hourOfDay, minuteOfHour, secondOfMinute, timeZone);
-    DateTime windowEnd = windowStart.toDateTime().plusMonths(1).minusMillis(1);
+    DateTime issueStart = new DateTime(year, monthOfYear, dayOfMonth, hourOfDay, minuteOfHour, secondOfMinute, timeZone);
+    DateTime issueEnd = issueStart.toDateTime().plusDays(1).minusMillis(1);
 
-    @Test
-    public void testWindowIncludedOnSchedule() {
+    /**
+     * Create a ScheduleCombined with a 24x7 schedule for each month of the current year.
+     *
+     * @return
+     */
+    private static ScheduleCombined create24x7MonthlyScheduleFullYear() {
+        int year = DateTime.now().getYear();
 
-        DateTime scheduleStart = new DateTime(year, monthOfYear - 1, dayOfMonth, hourOfDay, minuteOfHour, secondOfMinute, timeZone);
-        DateTime scheduleEnd = new DateTime(year, monthOfYear + 2, dayOfMonth, hourOfDay, minuteOfHour, secondOfMinute, timeZone);
-
-        ScheduleItem sc = new ScheduleItem(scheduleStart, scheduleEnd, Schedule.SCHEDULE_24X7);
         ScheduleCombined schedules = new ScheduleCombined();
-        schedules.addSchedule(sc);
+        for (int month = 1; month <= 12; month++) {
+            int firstDayOfMonth = new DateTime(year, month, 1, 0, 0, DateTimeZone.UTC).dayOfMonth().withMinimumValue().getDayOfMonth();
+            int lastDayOfMonth = new DateTime(year, month, 1, 0, 0, DateTimeZone.UTC).dayOfMonth().withMaximumValue().getDayOfMonth();
+            ScheduleItem sc = new ScheduleItem(new MonthDay(month, firstDayOfMonth), new MonthDay(month, lastDayOfMonth), ScheduleBasic.SCHEDULE_24X7);
+            schedules.addSchedule(sc);
+        }
 
-        DurationWithExclusionCombined duration = new DurationWithExclusionCombined(windowStart, windowEnd, schedules);
+        return schedules;
+    }
 
-        ScheduleCombined filtered = duration.combineScheduleForWindow();
-        Assert.assertEquals(1, filtered.size());
-        Assert.assertEquals(filtered.get(0).getFrom(), windowStart);
-        Assert.assertEquals(filtered.get(0).getTo(), windowEnd);
+    /**
+     * Create a ScheduleCombined which a schedule period intersect with another.
+     *
+     * @return
+     */
+    private static ScheduleCombined create24x7MonthlyScheduleCoincideFullYear() {
+        int year = DateTime.now().getYear();
+
+        ScheduleCombined schedules = new ScheduleCombined();
+        for (int month = 1; month <= 11; month++) {
+            int firstDayOfMonth = new DateTime(year, month, 1, 0, 0, DateTimeZone.UTC).dayOfMonth().withMinimumValue().getDayOfMonth();
+            if (month < 11) {
+                ScheduleItem sc = new ScheduleItem(new MonthDay(month, firstDayOfMonth), new MonthDay(month + 1, firstDayOfMonth), ScheduleBasic.SCHEDULE_24X7);
+                schedules.addSchedule(sc);
+            } else {
+                int lastDayOfMonth = new DateTime(year, month + 1, 1, 0, 0, DateTimeZone.UTC).dayOfMonth().withMaximumValue().getDayOfMonth();
+                ScheduleItem sc = new ScheduleItem(new MonthDay(month, firstDayOfMonth), new MonthDay(month + 1, lastDayOfMonth), ScheduleBasic.SCHEDULE_24X7);
+                schedules.addSchedule(sc);
+            }
+        }
+
+        return schedules;
+    }
+
+    /**
+     * Create a ScheduleCombined which a schedule periods do not fill a whole year.
+     *
+     * @return
+     */
+    private static ScheduleCombined create24x7MonthlyScheduleWithGaps() {
+        int year = DateTime.now().getYear();
+
+        ScheduleCombined schedules = new ScheduleCombined();
+        for (int month = 1; month <= 11; month++) {
+            if (month == 1 || month == 11) {
+                int firstDayOfMonth = new DateTime(year, month, 1, 0, 0, DateTimeZone.UTC).dayOfMonth().withMinimumValue().getDayOfMonth();
+                if (month == 1) {
+                    ScheduleItem sc = new ScheduleItem(new MonthDay(month, firstDayOfMonth), new MonthDay(month + 1, firstDayOfMonth), ScheduleBasic.SCHEDULE_24X7);
+                    schedules.addSchedule(sc);
+                }
+                if (month == 11) {
+                    int lastDayOfMonth = new DateTime(year, month + 1, 1, 0, 0, DateTimeZone.UTC).dayOfMonth().withMaximumValue().getDayOfMonth();
+                    ScheduleItem sc = new ScheduleItem(new MonthDay(month, firstDayOfMonth), new MonthDay(month + 1, lastDayOfMonth), ScheduleBasic.SCHEDULE_24X7);
+                    schedules.addSchedule(sc);
+                }
+            }
+        }
+
+        return schedules;
+    }
+
+    /**
+     * Test case for ScheduleCombined duration.
+     */
+    @Test
+    public void testScheduleBeforeAndAfterIssueDuration() {
+
+        ScheduleCombined schedules = create24x7MonthlyScheduleFullYear();
+        long duration = new DurationWithExclusionCombined(issueStart, issueEnd, schedules).getMillis();
+
+        Assert.assertEquals(issueEnd.getMillis() - issueStart.getMillis(), duration);
 
     }
 
+    /**
+     * Test case for ScheduleCombined mapping.
+     */
     @Test
-    public void testSeveralSchedules() {
+    public void testIntervalScheduleMapping() {
 
-        // Schedules 
-        DateTime schedule1Start = windowStart.toDateTime().minusMonths(2);
-        DateTime schedule1End = windowStart.toDateTime().minusMonths(1).minusMillis(1);
-        DateTime schedule2Start = windowStart.toDateTime().minusMonths(1);
-        DateTime schedule2End = windowStart.toDateTime().minusMillis(1);
-        DateTime schedule3Start = windowStart.toDateTime();
-        DateTime schedule3End = windowEnd.toDateTime();
+        ScheduleCombined schedules = create24x7MonthlyScheduleFullYear();
+        DurationWithExclusionCombined duration = new DurationWithExclusionCombined(issueStart, issueEnd, schedules);
+        Map<Interval, ScheduleBasic> map = duration.getIntervalScheduleMapping();
 
-        ScheduleItem sc1 = new ScheduleItem(schedule1Start, schedule1End, Schedule.SCHEDULE_24X7);
-        ScheduleItem sc2 = new ScheduleItem(schedule2Start, schedule2End, Schedule.SCHEDULE_24X7);
-        ScheduleItem sc3 = new ScheduleItem(schedule3Start, schedule3End, Schedule.SCHEDULE_24X7);
+        Assert.assertEquals(1, map.size());
+
+    }
+
+    /**
+     * Test case for ScheduleCombined with empty period.
+     */
+    @Test
+    public void testEmptySchedule() {
+
+        ScheduleCombined schedules = new ScheduleCombined();
+        DurationWithExclusionCombined duration = new DurationWithExclusionCombined(issueStart, issueEnd, schedules);
+        long value = Long.MIN_VALUE;
+
+        try {
+            value = duration.getMillis();
+        } catch (Exception ex) {
+            Assert.assertTrue(ex.getMessage().contains("No schedule defined. Please, define at least one"));
+        }
+
+        Assert.assertEquals(Long.MIN_VALUE, value);
+
+    }
+
+    /**
+     * Test case for ScheduleCombined with intersected period.
+     */
+    @Test
+    public void testScheduleCoincide() {
+
+        ScheduleCombined schedules = create24x7MonthlyScheduleCoincideFullYear();
+        long value = Long.MIN_VALUE;
+
+        try {
+            value = new DurationWithExclusionCombined(issueStart, issueEnd, schedules).getMillis();
+        } catch (Exception ex) {
+            Assert.assertTrue(ex.getMessage().contains("Schedule interval must not coincide"));
+        }
+
+        Assert.assertEquals(Long.MIN_VALUE, value);
+
+    }
+
+    /**
+     * Test case for ScheduleCombined when it does not include the first and last day of the year.
+     */
+    @Test
+    public void testSchedulesDontIncludeFirstAndLastDayOfYear() {
+
+        ScheduleItem sc1 = new ScheduleItem(new MonthDay(monthOfYear - 2, dayOfMonth), new MonthDay(monthOfYear - 1, dayOfMonth), ScheduleBasic.SCHEDULE_24X7);
+        ScheduleItem sc2 = new ScheduleItem(new MonthDay(monthOfYear - 1, dayOfMonth + 1), new MonthDay(monthOfYear, dayOfMonth), ScheduleBasic.SCHEDULE_24X7);
+        ScheduleItem sc3 = new ScheduleItem(new MonthDay(monthOfYear, dayOfMonth + 1), new MonthDay(monthOfYear + 1, dayOfMonth), ScheduleBasic.SCHEDULE_24X7);
 
         ScheduleCombined schedules = new ScheduleCombined();
         schedules.addSchedule(sc1);
         schedules.addSchedule(sc2);
         schedules.addSchedule(sc3);
 
-        DurationWithExclusionCombined duration = new DurationWithExclusionCombined(windowStart, windowEnd, schedules);
-
-        ScheduleCombined filtered = duration.combineScheduleForWindow();
-        Assert.assertEquals(1, filtered.size());
-        Assert.assertEquals(filtered.get(0).getFrom(), windowStart);
-        Assert.assertEquals(filtered.get(0).getTo(), windowEnd);
-        Assert.assertEquals(filtered.get(0).getFrom(), schedule3Start);
-        Assert.assertEquals(filtered.get(0).getTo(), schedule3End);
-
-    }
-
-    @Test
-    public void testIncompleteScheduleWindow() {
-
-        DateTime scheduleStart = windowStart.toDateTime().minusMonths(1).plusDays(15);
-        DateTime scheduleEnd = windowStart.toDateTime().plusDays(15).minusMillis(1);
-
-        ScheduleItem sc = new ScheduleItem(scheduleStart, scheduleEnd, Schedule.SCHEDULE_24X7);
-        ScheduleCombined schedules = new ScheduleCombined();
-        schedules.addSchedule(sc);
-
-        DurationWithExclusionCombined duration = new DurationWithExclusionCombined(windowStart, windowEnd, schedules);
+        DurationWithExclusionCombined duration = new DurationWithExclusionCombined(issueStart.plusDays(1), issueEnd.plusDays(1), schedules);
+        long value = Long.MIN_VALUE;
 
         try {
-            ScheduleCombined filtered = duration.combineScheduleForWindow();
-        } catch (IllegalArgumentException ex) {
-            Assert.assertEquals("Incomplete schedule slots", ex.getMessage());
+            value = duration.getMillis();
+        } catch (Exception ex) {
+            Assert.assertTrue("First and last day of the year must be included on schedule".equals(ex.getMessage()));
         }
 
-    }
-
-    @Test
-    public void testMultipleScheduleDuration() {
-
-        DateTime schedule1Start = windowStart.toDateTime().minusMonths(1).plusDays(15);
-        DateTime schedule1End = windowStart.toDateTime().plusDays(15).minusMillis(1);
-        DateTime schedule2Start = schedule1End.toDateTime().plusMillis(1);
-        DateTime schedule2End = windowEnd.toDateTime().plusDays(15);
-
-        ScheduleItem sc1 = new ScheduleItem(schedule1Start, schedule1End,
-            new Schedule(
-                DateTimeConstants.MONDAY, DateTimeConstants.SUNDAY, new LocalTime(8, 0), new LocalTime(18, 0)
-            )
-        );
-        ScheduleItem sc2 = new ScheduleItem(
-            schedule2Start, schedule2End,
-            new Schedule(
-                DateTimeConstants.MONDAY, DateTimeConstants.SUNDAY, new LocalTime(8, 0), new LocalTime(15, 0)
-            )
-        );
-
-        ScheduleCombined schedules = new ScheduleCombined();
-        schedules.addSchedule(sc1);
-        schedules.addSchedule(sc2);
-
-        long expected = new DurationWithExclusionCombined(windowStart, windowEnd, schedules).getMillis();
-        long expectedHours = TimeUnit.MILLISECONDS.toHours(expected);
-        long result = (10 * 15) + (7 * 15);
-
-        Assert.assertEquals(expectedHours, result);
+        Assert.assertEquals(Long.MIN_VALUE, value);
 
     }
 
+    /**
+     * Test case to check if ScheduleCombined periods are being cached once when there is multiple calls.
+     */
     @Test
-    public void testMultipleDisorderedScheduleDuration() {
+    public void testMultipleCallWithScheduleCache() {
 
-        DateTime schedule1Start = windowStart.toDateTime().minusMonths(1).plusDays(15);
-        DateTime schedule1End = windowStart.toDateTime().plusDays(15).minusMillis(1);
-        DateTime schedule2Start = windowStart.toDateTime().plusDays(15);
-        DateTime schedule2End = windowEnd.toDateTime().plusDays(15);
+        ScheduleCombined schedules = create24x7MonthlyScheduleFullYear();
 
-        ScheduleItem sc1 = new ScheduleItem(schedule2Start, schedule2End,
-            new Schedule(
-                DateTimeConstants.MONDAY, DateTimeConstants.SUNDAY, new LocalTime(8, 0), new LocalTime(18, 0)
-            )
-        );
-        ScheduleItem sc2 = new ScheduleItem(
-            schedule1Start, schedule1End,
-            new Schedule(
-                DateTimeConstants.MONDAY, DateTimeConstants.SUNDAY, new LocalTime(8, 0), new LocalTime(15, 0)
-            )
-        );
+        DurationWithExclusionCombined duration = new DurationWithExclusionCombined(issueStart.plusDays(1), issueEnd.plusDays(1), schedules);
 
-        ScheduleCombined schedules = new ScheduleCombined();
-        schedules.addSchedule(sc1);
-        schedules.addSchedule(sc2);
+        Map<Interval, ScheduleBasic> map;
+        map = duration.getIntervalScheduleMapping();
+        map = duration.getIntervalScheduleMapping();
 
-        long expected = new DurationWithExclusionCombined(windowStart, windowEnd, schedules).getMillis();
-        long expectedHours = TimeUnit.MILLISECONDS.toHours(expected);
-        long result = (10 * 15) + (7 * 15);
-
-        Assert.assertEquals(expectedHours, result);
+        Assert.assertEquals(1, map.size());
+        Assert.assertEquals(1, DurationWithExclusionCombined.getScheduleIntervalHashExistGapCache().size());
+        Assert.assertEquals(false, DurationWithExclusionCombined.getScheduleIntervalHashExistGapCache().values().iterator().next());
+        Assert.assertEquals(0, DurationWithExclusionCombined.getScheduleIntervalHashGapIntervalCache().size());
 
     }
 
+    /**
+     * Test case to expect a failed ScheduleCombined Test a failed execution when schedule periods do not fill a whole year.
+     */
     @Test
-    public void testIntersectedSchedule() {
+    public void testScheduleWithGaps() {
 
-        DateTime schedule1Start = windowStart.toDateTime().minusMonths(1).plusDays(15);
-        DateTime schedule1End = windowStart.toDateTime().plusDays(15);
-        DateTime schedule2Start = windowStart.toDateTime().plusDays(15);
-        DateTime schedule2End = windowEnd.toDateTime().plusDays(15);
+        ScheduleCombined schedules = create24x7MonthlyScheduleWithGaps();
 
-        ScheduleItem sc1 = new ScheduleItem(schedule2Start, schedule2End,
-            new Schedule(
-                DateTimeConstants.MONDAY, DateTimeConstants.SUNDAY, new LocalTime(8, 0), new LocalTime(18, 0)
-            )
-        );
-        ScheduleItem sc2 = new ScheduleItem(
-            schedule1Start, schedule1End,
-            new Schedule(
-                DateTimeConstants.MONDAY, DateTimeConstants.SUNDAY, new LocalTime(8, 0), new LocalTime(15, 0)
-            )
-        );
-
-        ScheduleCombined schedules = new ScheduleCombined();
-        schedules.addSchedule(sc1);
-        schedules.addSchedule(sc2);
+        long duration = Long.MIN_VALUE;
 
         try {
-            long expected = new DurationWithExclusionCombined(windowStart, windowEnd, schedules).getMillis();
+            duration = new DurationWithExclusionCombined(issueStart, issueEnd, schedules).getMillis();
         } catch (IllegalArgumentException ex) {
-            Assert.assertTrue(ex.getMessage().contains("Intersected schedule for interval"));
+            Assert.assertTrue(ex.getMessage().contains("There is a gap on between the intervals"));
         }
+
+        Assert.assertEquals(Long.MIN_VALUE, duration);
 
     }
 

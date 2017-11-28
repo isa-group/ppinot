@@ -7,6 +7,7 @@ import es.us.isa.ppinot.evaluation.computers.TimeMeasureComputer;
 import es.us.isa.ppinot.evaluation.logs.LogEntry.EventType;
 import es.us.isa.ppinot.model.Holidays;
 import es.us.isa.ppinot.model.Schedule;
+import es.us.isa.ppinot.model.ScheduleBasic;
 import es.us.isa.ppinot.model.TimeUnit;
 import es.us.isa.ppinot.model.state.GenericState;
 import java.io.BufferedReader;
@@ -43,7 +44,7 @@ public class HolidaysTest extends MeasureComputerHelper {
         DateTime dt = new DateTime(2016, 1, 1, 0, 0, DateTimeZone.forID("Europe/Madrid")).withDayOfWeek(DateTimeConstants.MONDAY);
         holidays.add(dt.plusDays(1));
         holidays.add(dt.plusDays(3));
-        Schedule considerOnly = new Schedule(DateTimeConstants.MONDAY, DateTimeConstants.FRIDAY, new LocalTime(8,0), new LocalTime(20,0), holidays);
+        Schedule considerOnly = new ScheduleBasic(DateTimeConstants.MONDAY, DateTimeConstants.FRIDAY, new LocalTime(8,0), new LocalTime(20,0), holidays);
         
         TimeMeasureComputer computer = createLinearTimeMeasureComputerWithSchedule("Analyse RFC", GenericState.START, "Approve RFC", GenericState.END, considerOnly, TimeUnit.HOURS);
 
@@ -70,7 +71,7 @@ public class HolidaysTest extends MeasureComputerHelper {
         DateTime dt = new DateTime(2016, 1, 1, 0, 0, DateTimeZone.forID("Europe/Madrid")).withDayOfWeek(DateTimeConstants.MONDAY);
         holidays.add(dt.plusDays(1));
         holidays.add(dt.plusDays(2));
-        Schedule considerOnly = new Schedule(DateTimeConstants.MONDAY, DateTimeConstants.FRIDAY, new LocalTime(8,0), new LocalTime(20,0), holidays);
+        Schedule considerOnly = new ScheduleBasic(DateTimeConstants.MONDAY, DateTimeConstants.FRIDAY, new LocalTime(8,0), new LocalTime(20,0), holidays);
         
         TimeMeasureComputer computer = createLinearTimeMeasureComputerWithSchedule("Analyse RFC", GenericState.START, "Approve RFC", GenericState.END, considerOnly, TimeUnit.HOURS);
 
@@ -96,7 +97,7 @@ public class HolidaysTest extends MeasureComputerHelper {
         List<DateTime> holidays = new ArrayList<DateTime>();
         DateTime dt = new DateTime(2016, 1, 1, 0, 0, DateTimeZone.forID("Europe/Madrid")).withDayOfWeek(DateTimeConstants.MONDAY);
         holidays.add(dt);
-        Schedule considerOnly = new Schedule(DateTimeConstants.MONDAY, DateTimeConstants.FRIDAY, new LocalTime(8,0), new LocalTime(20,0), holidays);
+        Schedule considerOnly = new ScheduleBasic(DateTimeConstants.MONDAY, DateTimeConstants.FRIDAY, new LocalTime(8,0), new LocalTime(20,0), holidays);
         
         TimeMeasureComputer computer = createLinearTimeMeasureComputerWithSchedule("Analyse RFC", GenericState.START, "Approve RFC", GenericState.END, considerOnly, TimeUnit.HOURS);
 
@@ -122,7 +123,7 @@ public class HolidaysTest extends MeasureComputerHelper {
         List<DateTime> holidays = new ArrayList<DateTime>();
         DateTime dt = new DateTime(2016, 1, 1, 0, 0, DateTimeZone.forID("Europe/Madrid")).withDayOfWeek(DateTimeConstants.MONDAY);
         holidays.add(dt);
-        Schedule considerOnly = new Schedule(DateTimeConstants.MONDAY, DateTimeConstants.FRIDAY, new LocalTime(8,0), new LocalTime(20,0), holidays);
+        Schedule considerOnly = new ScheduleBasic(DateTimeConstants.MONDAY, DateTimeConstants.FRIDAY, new LocalTime(8,0), new LocalTime(20,0), holidays);
         
         TimeMeasureComputer computer = createLinearTimeMeasureComputerWithSchedule("Analyse RFC", GenericState.START, "Approve RFC", GenericState.END, considerOnly, TimeUnit.HOURS);
 

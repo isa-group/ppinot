@@ -15,16 +15,30 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package es.us.isa.ppinot.model;
+package es.us.isa.ppinot.handler.json;
 
-import org.joda.time.DateTime;
+import java.io.IOException;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.DeserializationContext;
+import org.codehaus.jackson.map.JsonDeserializer;
+import org.joda.time.MonthDay;
 
 /**
  *
  * @author isa-group
  */
-public interface Schedule {
+public class MonthDayDeserializer extends JsonDeserializer<MonthDay> {
 
-    DurationWithExclusion computeDuration(DateTime start, DateTime end);
+    @Override
+    public MonthDay deserialize(final JsonParser p, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
+        String str = p.getText().trim();
+
+        if (str.isEmpty()) {
+            return null;
+        }
+
+        return MonthDay.parse(str);
+    }
 }

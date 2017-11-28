@@ -69,7 +69,7 @@ public class TimeUnit {
             if (schedule == null) {
                 convertedDuration = convertedDuration / (double) DateTimeConstants.MILLIS_PER_DAY;
             } else {
-                convertedDuration = convertedDuration / (double) schedule.millisPerDay();
+                convertedDuration = convertedDuration / (double) ((ScheduleBasic)schedule).millisPerDay();
             }
         }
 

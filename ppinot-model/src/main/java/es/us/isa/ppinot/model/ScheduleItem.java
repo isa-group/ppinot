@@ -17,14 +17,13 @@
  */
 package es.us.isa.ppinot.model;
 
-import es.us.isa.ppinot.handler.json.DateTimeDeserializer;
-import es.us.isa.ppinot.handler.json.ScheduleDeserializer;
+import es.us.isa.ppinot.handler.json.MonthDayDeserializer;
+import es.us.isa.ppinot.handler.json.ScheduleBasicDeserializer;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.ser.std.ToStringSerializer;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
+import org.joda.time.MonthDay;
 
 /**
  *
@@ -34,40 +33,38 @@ import org.joda.time.DateTimeZone;
 public class ScheduleItem implements Comparable<ScheduleItem> {
 
     @JsonSerialize(using = ToStringSerializer.class)
-    @JsonDeserialize(using = DateTimeDeserializer.class)
+    @JsonDeserialize(using = MonthDayDeserializer.class)
     @JsonProperty("from")
-    private DateTime from;
+    private MonthDay from;
 
     @JsonSerialize(using = ToStringSerializer.class)
-    @JsonDeserialize(using = DateTimeDeserializer.class)
+    @JsonDeserialize(using = MonthDayDeserializer.class)
     @JsonProperty("to")
-    private DateTime to;
+    private MonthDay to;
 
     @JsonSerialize(using = ToStringSerializer.class)
-    @JsonDeserialize(using = ScheduleDeserializer.class)
+    @JsonDeserialize(using = ScheduleBasicDeserializer.class)
     @JsonProperty("schedule")
-    private Schedule schedule;
+    private ScheduleBasic schedule;
 
     public ScheduleItem() {
     }
 
-    public ScheduleItem(DateTime start, DateTime end, Schedule schedule) {
-        DateTimeZone timeZone = schedule != null ? schedule.getTimeZone() : DateTimeZone.getDefault();
-
-        this.from = start.toDateTime(timeZone);
-        this.to = end.toDateTime(timeZone);
+    public ScheduleItem(MonthDay from, MonthDay to, ScheduleBasic schedule) {
+        this.from = from;
+        this.to = to;
         this.schedule = schedule;
     }
 
-    public DateTime getFrom() {
+    public MonthDay getFrom() {
         return from;
     }
 
-    public DateTime getTo() {
+    public MonthDay getTo() {
         return to;
     }
 
-    public Schedule getSchedule() {
+    public ScheduleBasic getSchedule() {
         return schedule;
     }
 

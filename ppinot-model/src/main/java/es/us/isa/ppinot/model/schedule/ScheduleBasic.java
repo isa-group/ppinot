@@ -1,7 +1,8 @@
-package es.us.isa.ppinot.model;
+package es.us.isa.ppinot.model.schedule;
 
 import es.us.isa.ppinot.handler.json.LocalTimeDeserializer;
-import es.us.isa.ppinot.handler.json.ScheduleDeserializer;
+import es.us.isa.ppinot.handler.json.ScheduleBasicDeserializer;
+import org.codehaus.jackson.annotate.JsonValue;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.ser.std.ToStringSerializer;
@@ -13,43 +14,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Schedule Copyright (C) 2015 Universidad de Sevilla
+ * ScheduleBasic Copyright (C) 2015 Universidad de Sevilla
  *
  * @author resinas
  */
-@JsonSerialize(using = ToStringSerializer.class)
-@JsonDeserialize(using = ScheduleDeserializer.class)
-public class Schedule {
+@JsonDeserialize(using = ScheduleBasicDeserializer.class)
+public class ScheduleBasic implements Schedule {
 
     private int beginDay;
     private int endDay;
+
     @JsonSerialize(using = ToStringSerializer.class)
     @JsonDeserialize(using = LocalTimeDeserializer.class)
     private LocalTime beginTime;
+
     @JsonSerialize(using = ToStringSerializer.class)
     @JsonDeserialize(using = LocalTimeDeserializer.class)
     private LocalTime endTime;
+
     private DateTimeZone timeZone = DateTimeZone.forID("Europe/Madrid");
     private List<DateTime> holidays;
 
-    private static List<DateTime> defaultHolidays = new ArrayList<DateTime>();
+    public static final ScheduleBasic SCHEDULE_24X7 = new ScheduleBasic(1, 7, new LocalTime(0, 0), new LocalTime(0, 0));
 
-    public static List<DateTime> getDefaultHolidays() {
-        return defaultHolidays;
+    private ScheduleBasic() {
     }
 
-    public static void setDefaultHolidays(List<DateTime> defaultHolidays) {
-        Schedule.defaultHolidays = defaultHolidays;
-    }
-    
-    
-
-    public static final Schedule SCHEDULE_24X7 = new Schedule(1, 7, new LocalTime(0, 0), new LocalTime(0, 0).minusMillis(1));
-
-    private Schedule() {
-    }
-
-    public Schedule(int beginDay, int endDay, LocalTime beginTime, LocalTime endTime) {
+    public ScheduleBasic(int beginDay, int endDay, LocalTime beginTime, LocalTime endTime) {
         this.beginDay = beginDay;
         this.endDay = endDay;
         this.beginTime = beginTime;
@@ -61,7 +52,7 @@ public class Schedule {
         }
     }
 
-    public Schedule(int beginDay, int endDay, LocalTime beginTime, LocalTime endTime, List<DateTime> holidays) {
+    public ScheduleBasic(int beginDay, int endDay, LocalTime beginTime, LocalTime endTime, List<DateTime> holidays) {
         this.beginDay = beginDay;
         this.endDay = endDay;
         this.beginTime = beginTime;
@@ -71,6 +62,11 @@ public class Schedule {
         if (beginDay < DateTimeConstants.MONDAY || beginDay > DateTimeConstants.SUNDAY || endDay < DateTimeConstants.MONDAY || endDay > DateTimeConstants.SUNDAY) {
             throw new RuntimeException("Invalid day of week");
         }
+    }
+
+    @Override
+    public DurationWithExclusion computeDuration(DateTime start, DateTime end) {
+        return new DurationWithExclusionBasic(start, end, this);
     }
 
     public int getBeginDay() {
@@ -91,6 +87,10 @@ public class Schedule {
 
     public List<DateTime> getHolidays() {
         return holidays;
+    }
+
+    public void setHolidays(List<DateTime> holidays) {
+        this.holidays = holidays;
     }
 
     public boolean dayOfWeekExcluded(int dayOfWeek) {
@@ -123,17 +123,18 @@ public class Schedule {
         return timeZone;
     }
 
-    public Schedule setTimeZone(DateTimeZone timeZone) {
+    public ScheduleBasic setTimeZone(DateTimeZone timeZone) {
         this.timeZone = timeZone;
         return this;
     }
 
+    @JsonValue
     public String toString() {
         StringBuilder sb = new StringBuilder();
         DateTimeFormatter dtf = DateTimeFormat.forPattern("HH:mm");
         sb.append(fromDayOfWeek(beginDay)).append("-").append(fromDayOfWeek(endDay))
-                .append("T").append(dtf.print(beginTime)).append("-").append(dtf.print(endTime));
-        
+            .append("T").append(dtf.print(beginTime)).append("-").append(dtf.print(endTime));
+
         if (holidays != null && !holidays.isEmpty()) {
             sb.append("/H");
         }
@@ -141,30 +142,32 @@ public class Schedule {
         return sb.toString();
     }
 
-    public static Schedule parse(String stringSchedule) {
+    public static ScheduleBasic parse(String stringSchedule) {
         String[] array = stringSchedule.split("T");
         String[] days = array[0].split("-");
         String[] hours = array[1].split("-");
         String[] holidaysParam = hours[1].split("/");
-        
+
         boolean hasHolidays = holidaysParam.length == 2 && holidaysParam[1].equals("H"); //Si el string tiene /H
-        if (hasHolidays) hours[1] = holidaysParam[0];
+        if (hasHolidays) {
+            hours[1] = holidaysParam[0];
+        }
 
         Integer startDay = parseToDayOfWeek(days[0]);
         Integer endDay = parseToDayOfWeek(days[1]);
 
         DateTimeFormatter dtf = DateTimeFormat.forPattern("HH:mm");
-        
+
         LocalTime startTime = dtf.parseDateTime(hours[0]).toLocalDateTime().toLocalTime();
         LocalTime endTime = dtf.parseDateTime(hours[1]).toLocalDateTime().toLocalTime();
-        
-        Schedule schedule = null;
+
+        ScheduleBasic schedule = null;
         if (hasHolidays) {
-            schedule = new Schedule(startDay, endDay, startTime, endTime, Schedule.getDefaultHolidays());
+            schedule = new ScheduleBasic(startDay, endDay, startTime, endTime, DefaultHolidays.getDays());
         } else {
-            schedule = new Schedule(startDay, endDay, startTime, endTime);
+            schedule = new ScheduleBasic(startDay, endDay, startTime, endTime);
         }
-        
+
         return schedule;
     }
 

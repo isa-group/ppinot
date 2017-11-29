@@ -1,23 +1,26 @@
 package es.us.isa.ppinot.evaluation.computers;
 
-import es.us.isa.ppinot.evaluation.*;
+import es.us.isa.ppinot.evaluation.Measure;
+import es.us.isa.ppinot.evaluation.MeasureInstance;
+import es.us.isa.ppinot.evaluation.MeasureScope;
+import es.us.isa.ppinot.evaluation.MeasureScopeImpl;
 import es.us.isa.ppinot.evaluation.logs.LogEntry;
 import es.us.isa.ppinot.evaluation.matchers.FlowElementStateMatcher;
 import es.us.isa.ppinot.evaluation.matchers.TimeInstantMatcher;
 import es.us.isa.ppinot.model.MeasureDefinition;
-import es.us.isa.ppinot.model.Schedule;
 import es.us.isa.ppinot.model.TimeUnit;
 import es.us.isa.ppinot.model.base.DurationMeasure;
-import es.us.isa.ppinot.model.base.TimeMeasure;
 import es.us.isa.ppinot.model.condition.TimeMeasureType;
+import es.us.isa.ppinot.model.schedule.Schedule;
+import es.us.isa.ppinot.model.schedule.ScheduleBasic;
 import es.us.isa.ppinot.model.state.GenericState;
-import org.joda.time.*;
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
 
 import java.util.*;
 
 /**
- * TimeMeasureComputer
- * Copyright (C) 2013 Universidad de Sevilla
+ * TimeMeasureComputer Copyright (C) 2013 Universidad de Sevilla
  *
  * @author resinas
  */
@@ -40,10 +43,9 @@ public class DurationMeasureComputer implements MeasureComputer {
     }
 
     private boolean endsProcess(LogEntry entry) {
-        return LogEntry.ElementType.process.equals(entry.getElementType()) &&
-                FlowElementStateMatcher.matches(entry.getEventType(), GenericState.END);
+        return LogEntry.ElementType.process.equals(entry.getElementType())
+            && FlowElementStateMatcher.matches(entry.getEventType(), GenericState.END);
     }
-
 
     @Override
     public List<? extends Measure> compute() {
@@ -101,6 +103,7 @@ public class DurationMeasureComputer implements MeasureComputer {
     }
 
     private abstract class MeasureInstanceTimer {
+
         private boolean processFinished = false;
         protected DurationMeasure definition;
         private MeasureScope scope;
@@ -114,7 +117,9 @@ public class DurationMeasureComputer implements MeasureComputer {
         }
 
         public abstract void starts(DateTime start);
+
         public abstract void ends(DateTime ends);
+
         protected abstract DateTime computeValue();
 
         public MeasureInstanceTimer(DurationMeasure definition, String processId, String instanceId) {
@@ -144,9 +149,9 @@ public class DurationMeasureComputer implements MeasureComputer {
         }
 
         public void starts(DateTime start) {
-            if (! isRunning())
+            if (!isRunning()) {
                 this.start = start;
-
+            }
 
             this.interval = null;
         }
@@ -161,14 +166,14 @@ public class DurationMeasureComputer implements MeasureComputer {
 
                 double currentDuration = 0;
 
-                for (Interval i: intervals) {
+                for (Interval i : intervals) {
                     double intervalDuration = TimeUnit.toTimeUnit(i.toDuration(), definition.getUnitOfMeasure());
 
                     if (currentDuration + intervalDuration > durationDeadline) {
                         double extraDuration = durationDeadline - currentDuration;
                         value = i.getStart().plus(TimeUnit.toTimeUnit(extraDuration, definition.getUnitOfMeasure()));
                         break;
-                    }  else {
+                    } else {
                         currentDuration += intervalDuration;
                     }
 
@@ -190,6 +195,7 @@ public class DurationMeasureComputer implements MeasureComputer {
     }
 
     private class IntervalStartComparator implements Comparator<Interval> {
+
         @Override
         public int compare(Interval x, Interval y) {
             return x.getStart().compareTo(y.getStart());
@@ -197,6 +203,7 @@ public class DurationMeasureComputer implements MeasureComputer {
     }
 
     private class CyclicMeasureInstanceTimer extends MeasureInstanceTimer {
+
         private DateTime start;
         private Collection<IntervalsWithExclusion> intervals;
         private double durationDeadline;
@@ -208,8 +215,9 @@ public class DurationMeasureComputer implements MeasureComputer {
         }
 
         public void starts(DateTime start) {
-            if (! isRunning())
+            if (!isRunning()) {
                 this.start = start;
+            }
         }
 
         @Override
@@ -223,14 +231,14 @@ public class DurationMeasureComputer implements MeasureComputer {
 
             double currentDuration = 0;
 
-            for (Interval i: allIntervals) {
+            for (Interval i : allIntervals) {
                 double intervalDuration = TimeUnit.toTimeUnit(i.toDuration(), definition.getUnitOfMeasure());
 
                 if (currentDuration + intervalDuration > durationDeadline) {
                     double extraDuration = durationDeadline - currentDuration;
                     value = i.getStart().plus(TimeUnit.toTimeUnit(extraDuration, definition.getUnitOfMeasure()));
                     break;
-                }  else {
+                } else {
                     currentDuration += intervalDuration;
                 }
 
@@ -239,10 +247,9 @@ public class DurationMeasureComputer implements MeasureComputer {
             return value;
         }
 
-
         public void ends(DateTime end) {
             if (isRunning()) {
-                intervals.add(new IntervalsWithExclusion(start, end,definition.getConsiderOnly()));
+                intervals.add(new IntervalsWithExclusion(start, end, definition.getConsiderOnly()));
                 reset();
             }
         }
@@ -257,8 +264,8 @@ public class DurationMeasureComputer implements MeasureComputer {
 
     }
 
-
     private class IntervalsWithExclusion {
+
         private DateTime start;
         private DateTime end;
         private Schedule schedule;
@@ -274,17 +281,17 @@ public class DurationMeasureComputer implements MeasureComputer {
 
             if (schedule != null) {
                 DateTime startInterval = start;
-                while ((schedule.dayOfWeekExcluded(startInterval.getDayOfWeek()) || schedule.dayOfHolidayExcluded(startInterval)) && ! sameDay(startInterval, end) ) {
+                while ((((ScheduleBasic) schedule).dayOfWeekExcluded(startInterval.getDayOfWeek()) || ((ScheduleBasic) schedule).dayOfHolidayExcluded(startInterval)) && !sameDay(startInterval, end)) {
                     startInterval = start.withTimeAtStartOfDay().plusDays(1);
                 }
 
                 DateTime endInterval = end;
-                while ((schedule.dayOfWeekExcluded(endInterval.getDayOfWeek()) || schedule.dayOfHolidayExcluded(endInterval)) && !sameDay(startInterval, endInterval)) {
+                while ((((ScheduleBasic) schedule).dayOfWeekExcluded(endInterval.getDayOfWeek()) || ((ScheduleBasic) schedule).dayOfHolidayExcluded(endInterval)) && !sameDay(startInterval, endInterval)) {
                     endInterval = end.minusDays(1).millisOfDay().withMaximumValue();
                 }
 
                 if (sameDay(startInterval, endInterval)) {
-                    if (schedule.dayOfWeekExcluded(startInterval.getDayOfWeek()) || schedule.dayOfHolidayExcluded(startInterval)) {
+                    if (((ScheduleBasic) schedule).dayOfWeekExcluded(startInterval.getDayOfWeek()) || ((ScheduleBasic) schedule).dayOfHolidayExcluded(startInterval)) {
                         // No interval
                     } else {
                         intervals.add(oneDayInterval(startInterval, endInterval));
@@ -294,7 +301,7 @@ public class DurationMeasureComputer implements MeasureComputer {
                     DateTime nextDay = startInterval.withTimeAtStartOfDay().plusDays(1);
 
                     while (!sameDay(nextDay, endInterval)) {
-                        if (! schedule.dayOfWeekExcluded(nextDay.getDayOfWeek()) && ! schedule.dayOfHolidayExcluded(nextDay)) {
+                        if (!((ScheduleBasic) schedule).dayOfWeekExcluded(nextDay.getDayOfWeek()) && !((ScheduleBasic) schedule).dayOfHolidayExcluded(nextDay)) {
                             intervals.add(oneDayInterval(nextDay, nextDay.millisOfDay().withMaximumValue()));
                         }
                         nextDay.plusDays(1);
@@ -307,21 +314,17 @@ public class DurationMeasureComputer implements MeasureComputer {
                 intervals.add(new Interval(start, end));
             }
 
-
             return intervals;
         }
-
-
 
         private boolean sameDay(DateTime oneDay, DateTime anotherDay) {
             return oneDay.withTimeAtStartOfDay().equals(anotherDay.withTimeAtStartOfDay());
         }
 
         private Interval oneDayInterval(DateTime start, DateTime end) {
-            DateTime beginInDay = start.withFields(schedule.getBeginTime());
-            DateTime endInDay = start.withFields(schedule.getEndTime());
+            DateTime beginInDay = start.withFields(((ScheduleBasic) schedule).getBeginTime());
+            DateTime endInDay = start.withFields(((ScheduleBasic) schedule).getEndTime());
             Interval interval = null;
-
 
             if (end.isBefore(beginInDay) || start.isAfter(endInDay)) {
                 // No interval in this case
@@ -340,8 +343,6 @@ public class DurationMeasureComputer implements MeasureComputer {
             return interval;
 
         }
-
-
 
     }
 }

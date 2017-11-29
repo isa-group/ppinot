@@ -1,6 +1,8 @@
 package es.us.isa.ppinot.model;
 
 import es.us.isa.ppinot.handler.JSONMeasuresCollectionHandler;
+import es.us.isa.ppinot.model.schedule.Schedule;
+import es.us.isa.ppinot.model.schedule.ScheduleBasic;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.ser.std.ToStringSerializer;
 import org.joda.time.LocalTime;
@@ -17,7 +19,7 @@ import java.io.StringWriter;
 public abstract class DefinitionsBuilder {
 
     @JsonSerialize(using = ToStringSerializer.class)
-    private class ParamSchedule extends Schedule {
+    private class ParamSchedule extends ScheduleBasic {
         String paramName;
 
         public ParamSchedule(String paramName) {

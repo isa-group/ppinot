@@ -5,7 +5,6 @@ import es.us.isa.ppinot.evaluation.evaluators.MeasureEvaluator;
 import es.us.isa.ppinot.evaluation.logs.LogProvider;
 import es.us.isa.ppinot.evaluation.logs.MXMLLog;
 import es.us.isa.ppinot.model.MeasureDefinition;
-import es.us.isa.ppinot.model.Schedule;
 import es.us.isa.ppinot.model.TimeUnit;
 import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
 import es.us.isa.ppinot.model.base.CountMeasure;
@@ -14,6 +13,8 @@ import es.us.isa.ppinot.model.condition.TimeInstantCondition;
 import es.us.isa.ppinot.model.condition.TimeMeasureType;
 import es.us.isa.ppinot.model.derived.DerivedMultiInstanceMeasure;
 import es.us.isa.ppinot.model.derived.DerivedSingleInstanceMeasure;
+import es.us.isa.ppinot.model.schedule.Schedule;
+import es.us.isa.ppinot.model.schedule.ScheduleBasic;
 import es.us.isa.ppinot.model.scope.Period;
 import es.us.isa.ppinot.model.scope.SimpleTimeFilter;
 import es.us.isa.ppinot.model.state.GenericState;
@@ -98,7 +99,7 @@ public class FullTest {
 
     @Before
     public void buildAFIP() throws Exception {
-        Schedule workingHours = new Schedule(DateTimeConstants.MONDAY, DateTimeConstants.FRIDAY, new LocalTime(8,0), new LocalTime(20,0));
+        Schedule workingHours = new ScheduleBasic(DateTimeConstants.MONDAY, DateTimeConstants.FRIDAY, new LocalTime(8,0), new LocalTime(20,0));
 
         responseTime = new TimeMeasure();
         responseTime.setFrom(new TimeInstantCondition("EVENT 2 START MESSAGE", GenericState.START));
@@ -189,7 +190,7 @@ public class FullTest {
         TimeMeasure responseTime = new TimeMeasure();
         responseTime.setFrom(new TimeInstantCondition("EVENT 2 START MESSAGE", GenericState.END));
         responseTime.setTo(new TimeInstantCondition("Plan FI", GenericState.END));
-        responseTime.setConsiderOnly(new Schedule(DateTimeConstants.MONDAY, DateTimeConstants.FRIDAY, new LocalTime(8, 0), new LocalTime(20, 0)));
+        responseTime.setConsiderOnly(new ScheduleBasic(DateTimeConstants.MONDAY, DateTimeConstants.FRIDAY, new LocalTime(8, 0), new LocalTime(20, 0)));
 
         AggregatedMeasure measure = new AggregatedMeasure();
         measure.setAggregationFunction(Aggregator.AVG);

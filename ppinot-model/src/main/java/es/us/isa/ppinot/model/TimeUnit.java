@@ -1,5 +1,7 @@
 package es.us.isa.ppinot.model;
 
+import es.us.isa.ppinot.model.schedule.Schedule;
+import es.us.isa.ppinot.model.schedule.ScheduleBasic;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.Duration;
 import org.joda.time.PeriodType;
@@ -69,7 +71,7 @@ public class TimeUnit {
             if (schedule == null) {
                 convertedDuration = convertedDuration / (double) DateTimeConstants.MILLIS_PER_DAY;
             } else {
-                convertedDuration = convertedDuration / (double) schedule.millisPerDay();
+                convertedDuration = convertedDuration / (double) ((ScheduleBasic)schedule).millisPerDay();
             }
         }
 

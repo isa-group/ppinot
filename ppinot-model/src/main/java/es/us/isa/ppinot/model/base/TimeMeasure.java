@@ -1,10 +1,10 @@
 package es.us.isa.ppinot.model.base;
 
-import es.us.isa.ppinot.model.Schedule;
 import es.us.isa.ppinot.model.TimeUnit;
 import es.us.isa.ppinot.model.condition.DataPropertyCondition;
 import es.us.isa.ppinot.model.condition.TimeInstantCondition;
 import es.us.isa.ppinot.model.condition.TimeMeasureType;
+import es.us.isa.ppinot.model.schedule.Schedule;
 
 /**
  * Clase con la informacion de un PPI del tipo ElapsedTimeInstanceMeasure

@@ -3,21 +3,24 @@ package es.us.isa.ppinot.evaluation.computers;
 import es.us.isa.ppinot.evaluation.Aggregator;
 import es.us.isa.ppinot.evaluation.Measure;
 import es.us.isa.ppinot.evaluation.MeasureInstance;
+import es.us.isa.ppinot.evaluation.computers.timer.DurationWithExclusionNone;
 import es.us.isa.ppinot.evaluation.logs.LogEntry;
 import es.us.isa.ppinot.evaluation.matchers.DataPropertyMatcher;
 import es.us.isa.ppinot.evaluation.matchers.FlowElementStateMatcher;
 import es.us.isa.ppinot.evaluation.matchers.TimeInstantMatcher;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.ProcessInstanceFilter;
-import es.us.isa.ppinot.model.Schedule;
 import es.us.isa.ppinot.model.TimeUnit;
 import es.us.isa.ppinot.model.base.TimeMeasure;
 import es.us.isa.ppinot.model.condition.TimeInstantCondition;
 import es.us.isa.ppinot.model.condition.TimeMeasureType;
+import es.us.isa.ppinot.model.schedule.DurationWithExclusion;
+import es.us.isa.ppinot.model.schedule.Schedule;
 import es.us.isa.ppinot.model.scope.SimpleTimeFilter;
 import es.us.isa.ppinot.model.state.DataObjectState;
 import es.us.isa.ppinot.model.state.GenericState;
-import org.joda.time.*;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
 
 import java.util.*;
 
@@ -171,6 +174,19 @@ public class TimeMeasureComputer implements MeasureComputer {
             this.processFinished = true;
         }
 
+        protected DurationWithExclusion computeDuration(DateTime start, DateTime end) {
+            DurationWithExclusion duration;
+            Schedule schedule = ((TimeMeasure) definition).getConsiderOnly();
+
+            if (schedule == null) {
+                duration = new DurationWithExclusionNone(start, end);
+            } else {
+                duration = schedule.computeDuration(start, end);
+            }
+
+            return duration;
+        }
+
         @Override
         public double getValue() {
             double value = computeValue();
@@ -278,7 +294,8 @@ public class TimeMeasureComputer implements MeasureComputer {
             if (duration != null) {
                 value = duration.getMillis();
             } else if (isRunning() && !isProcessFinished() && ((TimeMeasure) definition).isComputeUnfinished()) {
-                value = new DurationWithExclusion(start, now, ((TimeMeasure) definition).getConsiderOnly()).getMillis();
+                DurationWithExclusion d = computeDuration(start, now);
+                value = d.getMillis();
             } else {
                 value = Double.NaN;
             }
@@ -287,8 +304,8 @@ public class TimeMeasureComputer implements MeasureComputer {
         }
 
         public void ends(DateTime end) {
-            if (this.isRunning() && !this.getStopped()) {
-                duration = new DurationWithExclusion(start, end, ((TimeMeasure) definition).getConsiderOnly());
+            if (isRunning() && !this.getStopped()) {
+                duration = computeDuration(start, end);
                 if (this.isFirstTo()) {
                     this.setStopped(true);
                 }
@@ -341,7 +358,8 @@ public class TimeMeasureComputer implements MeasureComputer {
 
             if (isRunning()) {
                 if (!isProcessFinished() && ((TimeMeasure) definition).isComputeUnfinished()) {
-                    measures.add((double) new DurationWithExclusion(start, now, ((TimeMeasure) definition).getConsiderOnly()).getMillis());
+                    DurationWithExclusion d = computeDuration(start, now);
+                    measures.add((double) d.getMillis());
                 } else {
                     measures.clear();
                 }
@@ -358,7 +376,8 @@ public class TimeMeasureComputer implements MeasureComputer {
 
         public void ends(DateTime end) {
             if (isRunning()) {
-                durations.add(new DurationWithExclusion(start, end, ((TimeMeasure) definition).getConsiderOnly()));
+                DurationWithExclusion d = computeDuration(start, end);
+                durations.add(d);
                 reset();
             }
         }
@@ -388,116 +407,4 @@ public class TimeMeasureComputer implements MeasureComputer {
 
     }
 
-    private class DurationWithExclusion {
-
-        private DateTime start;
-        private DateTime end;
-        private Schedule schedule;
-
-        public DurationWithExclusion(DateTime start, DateTime end, Schedule schedule) {
-            DateTimeZone timeZone = schedule != null ? schedule.getTimeZone() : DateTimeZone.getDefault();
-
-            this.start = start.toDateTime(timeZone);
-            this.end = end.toDateTime(timeZone);
-//            this.start = start;
-//            this.end = end;
-            this.schedule = schedule;
-        }
-
-        public DurationWithExclusion copy() {
-            return new DurationWithExclusion(start, end, schedule);
-        }
-
-        public long getMillis() {
-            long millis = new Duration(start, end).getMillis();
-
-            if (schedule != null) {
-                millis = Math.max(0, millis - exclusion());
-            }
-
-            return millis;
-        }
-
-        private long exclusion() {
-            return hourExclusion() + dayExclusion();
-        }
-
-        private long dayExclusion() {
-            long fullDay = DateTimeConstants.MILLIS_PER_DAY;
-            long exclusionPerDay = Duration.standardDays(1).minus(Seconds.secondsBetween(schedule.getBeginTime(), schedule.getEndTime()).toStandardDuration()).getMillis();
-            long exclusion = 0;
-
-            DateTime nextDay = start.withTimeAtStartOfDay().plusDays(1);
-            DateTime endDay = end.withTimeAtStartOfDay();
-            int days = Math.max(Days.daysBetween(nextDay, endDay).getDays(), 0);
-
-            int dayOfWeek = nextDay.getDayOfWeek();
-            for (int i = 1; i <= days; i++) {
-                if (schedule.dayOfWeekExcluded(dayOfWeek) || schedule.dayOfHolidayExcluded(nextDay.plusDays(i - 1))) {
-                    exclusion += fullDay;
-                } else {
-                    exclusion += exclusionPerDay;
-                }
-                dayOfWeek++;
-                if (dayOfWeek > DateTimeConstants.DAYS_PER_WEEK) {
-                    dayOfWeek = dayOfWeek % 7;
-                }
-            }
-
-            return exclusion;
-        }
-
-        private long hourExclusion() {
-            long exclusion = 0;
-
-            if (sameDay(start, end)) {
-                if (schedule.dayOfWeekExcluded(start.getDayOfWeek()) || schedule.dayOfHolidayExcluded(start)) {
-                    exclusion = new Duration(start, end).getMillis();
-                } else {
-                    exclusion = oneDayExclusion(start, end);
-                }
-            } else {
-                if (schedule.dayOfWeekExcluded(start.getDayOfWeek()) || schedule.dayOfHolidayExcluded(start)) {
-                    exclusion += new Duration(start, start.withTimeAtStartOfDay().plusDays(1)).getMillis();
-                } else {
-                    exclusion += oneDayExclusion(start, start.withTimeAtStartOfDay().plusDays(1));
-                }
-
-                if (schedule.dayOfWeekExcluded(end.getDayOfWeek()) || schedule.dayOfHolidayExcluded(end)) {
-                    exclusion += new Duration(end.withTimeAtStartOfDay(), end).getMillis();
-                } else {
-                    exclusion += oneDayExclusion(end.withTimeAtStartOfDay(), end);
-                }
-            }
-
-            return exclusion;
-        }
-
-        private boolean sameDay(DateTime oneDay, DateTime anotherDay) {
-            return oneDay.toDateTime(schedule.getTimeZone()).withTimeAtStartOfDay().equals(anotherDay.toDateTime(schedule.getTimeZone()).withTimeAtStartOfDay());
-        }
-
-        private long oneDayExclusion(DateTime start, DateTime end) {
-            DateTime beginInDay = start.withFields(schedule.getBeginTime());
-            DateTime endInDay = start.withFields(schedule.getEndTime());
-//            DateTime beginInDay = start.toDateTime(schedule.getTimeZone()).toLocalDate().toDateTime(schedule.getBeginTime(), schedule.getTimeZone());
-//            DateTime endInDay = start.toDateTime(schedule.getTimeZone()).toLocalDate().toDateTime(schedule.getEndTime(), schedule.getTimeZone());
-            Duration exclusionHours = Duration.millis(0);
-
-            if (end.isBefore(beginInDay) || start.isAfter(endInDay)) {
-                exclusionHours = new Duration(start, end);
-            } else {
-                if (start.isBefore(beginInDay)) {
-                    exclusionHours = exclusionHours.plus(new Duration(start, beginInDay));
-                }
-                if (end.isAfter(endInDay)) {
-                    exclusionHours = exclusionHours.plus(new Duration(endInDay, end));
-                }
-            }
-
-            return exclusionHours.getMillis();
-
-        }
-
-    }
 }

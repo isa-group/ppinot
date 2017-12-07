@@ -4,6 +4,7 @@ import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.JsonToken;
 import org.codehaus.jackson.map.DeserializationContext;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.deser.std.StdDeserializer;
 
 import java.io.IOException;
@@ -30,7 +31,12 @@ public class ScheduleDeserializer extends StdDeserializer<Schedule> {
         if (current.equals(JsonToken.START_ARRAY)) {
             s = jp.readValueAs(ScheduleCombined.class);
         } else if (current.equals(JsonToken.VALUE_STRING)) {
-            s = jp.readValueAs(ScheduleBasic.class);
+            if (jp.getText().startsWith("[")) {
+                ObjectMapper mapper = new ObjectMapper();
+                s = mapper.readValue(jp.getText(), ScheduleCombined.class);
+            } else {
+                s = jp.readValueAs(ScheduleBasic.class);
+            }
         } else if (current.equals(JsonToken.START_OBJECT)) {
             current = jp.nextToken();
             if (JsonToken.FIELD_NAME.equals(current)) {

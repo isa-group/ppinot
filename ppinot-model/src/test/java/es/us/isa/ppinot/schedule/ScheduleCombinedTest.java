@@ -17,10 +17,7 @@
  */
 package es.us.isa.ppinot.schedule;
 
-import es.us.isa.ppinot.model.schedule.DurationWithExclusionCombined;
-import es.us.isa.ppinot.model.schedule.ScheduleBasic;
-import es.us.isa.ppinot.model.schedule.ScheduleCombined;
-import es.us.isa.ppinot.model.schedule.ScheduleItem;
+import es.us.isa.ppinot.model.schedule.*;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.joda.time.*;
 import org.junit.Assert;
@@ -37,6 +34,17 @@ import java.util.Map;
  * @author isa-group
  */
 public class ScheduleCombinedTest {
+
+    public static class ScheduleTest {
+        private Schedule schedule;
+
+        public ScheduleTest() {}
+
+        public Schedule getSchedule() {
+            return schedule;
+        }
+    }
+
 
     DateTimeZone timeZone = DateTimeZone.forID("Europe/Madrid");
 
@@ -87,6 +95,20 @@ public class ScheduleCombinedTest {
         long value = duration.getMillis();
 
         Assert.assertEquals(11 * 60 * 60 * 1000, value);
+
+    }
+
+    @Test
+    public void testDeserialize2() throws IOException {
+        String text = "{\"schedule\":[{\"from\":\"1/1\",\"to\":\"6/14\",\"schedule\":\"L-VT09:00-18:00\"},{\"from\":\"6/15\",\"to\":\"9/15\",\"schedule\":\"L-VT08:30-15:00\"},{\"from\":\"9/16\",\"to\":\"12/23\",\"schedule\":\"L-VT09:00-18:00\"},{\"from\":\"12/24\",\"to\":\"12/24\",\"schedule\":\"L-VT09:00-13:00\"},{\"from\":\"12/25\",\"to\":\"12/30\",\"schedule\":\"L-VT09:00-18:00\"},{\"from\":\"12/31\",\"to\":\"12/31\",\"schedule\":\"L-VT09:00-13:00\"}]}";
+
+        ScheduleTest test = mapper.readValue(text, ScheduleTest.class);
+        ScheduleCombined schedule = (ScheduleCombined) test.getSchedule();
+        DurationWithExclusionCombined duration = new DurationWithExclusionCombined(issueStart, issueEnd, schedule);
+
+        long value = duration.getMillis();
+
+        Assert.assertEquals(9 * 60 * 60 * 1000, value);
 
     }
 

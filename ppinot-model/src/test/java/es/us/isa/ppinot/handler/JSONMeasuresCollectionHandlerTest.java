@@ -13,6 +13,7 @@ import es.us.isa.ppinot.model.derived.DerivedMultiInstanceMeasure;
 import es.us.isa.ppinot.model.derived.DerivedSingleInstanceMeasure;
 import es.us.isa.ppinot.model.schedule.Schedule;
 import es.us.isa.ppinot.model.schedule.ScheduleBasic;
+import es.us.isa.ppinot.model.schedule.ScheduleCombined;
 import es.us.isa.ppinot.model.state.DataObjectState;
 import es.us.isa.ppinot.model.state.GenericState;
 import org.joda.time.DateTimeConstants;
@@ -68,6 +69,57 @@ public class JSONMeasuresCollectionHandlerTest {
         CountMeasure count = (CountMeasure) mc.getDefinitions().get(0);
         DataObjectState state = (DataObjectState) count.getWhen().getChangesToState();
         assertEquals("Grupo == 'p1'", state.getName());
+    }
+
+    @Test
+    public void shouldReplaceWithTemplateWithComplexParameters() throws IOException {
+        Map<String, String> parameters = new HashMap<String, String>();
+        parameters.put("priority", "P4");
+        parameters.put("deadline", "< 2");
+        parameters.put("schedule", "[{\"from\":\"1/1\",\"to\":\"6/14\",\"schedule\":\"L-VT09:00-18:00\"},{\"from\":\"6/15\",\"to\":\"9/15\",\"schedule\":\"L-VT08:30-15:00\"},{\"from\":\"9/16\",\"to\":\"12/23\",\"schedule\":\"L-VT09:00-18:00\"},{\"from\":\"12/24\",\"to\":\"12/24\",\"schedule\":\"L-VT09:00-13:00\"},{\"from\":\"12/25\",\"to\":\"12/30\",\"schedule\":\"L-VT09:00-18:00\"},{\"from\":\"12/31\",\"to\":\"12/31\",\"schedule\":\"L-VT09:00-13:00\"}]");
+        JSONMeasuresCollectionHandler handler = new JSONMeasuresCollectionHandler();
+
+        handler.load(new StringReader(timeWithTemplate()), parameters);
+        MeasuresCollection mc = handler.getCollection();
+
+        TimeMeasure time = (TimeMeasure) mc.getDefinitions().get(0);
+        Schedule sch = time.getConsiderOnly();
+
+        assertTrue(sch instanceof ScheduleCombined);
+        assertEquals(6, ((ScheduleCombined) sch).getSchedules().size());
+    }
+
+    private String timeWithTemplate() {
+        return "{\n" +
+                "    \"name\": \"Test\",\n" +
+                "    \"description\": \"Measures for test SLA\",\n" +
+                "    \"definitions\": [{\n" +
+                "        \"kind\": \"TimeMeasure\",\n" +
+                "        \"id\": \"issue_trlp_duration\",\n" +
+                "        \"unitOfMeasure\": \"hours\",\n" +
+                "        \"from\": {\n" +
+                "            \"kind\": \"TimeInstantCondition\",\n" +
+                "            \"appliesTo\": \"Data\",\n" +
+                "            \"changesToState\": {\n" +
+                "                \"dataObjectState\": {\n" +
+                "                    \"name\": \"ACTION == 'SDK_HIST_ASSIGNED'\"\n" +
+                "                }\n" +
+                "            }\n" +
+                "        },\n" +
+                "        \"to\": {\n" +
+                "            \"kind\": \"TimeInstantCondition\",\n" +
+                "            \"appliesTo\": \"Data\",\n" +
+                "            \"changesToState\": {\n" +
+                "                \"dataObjectState\": {\n" +
+                "                    \"name\": \"ACTION == 'SDK_HIST_TRANS_PHASE' && VALUE == 'Cierre temporal'\"\n" +
+                "                }\n" +
+                "            }\n" +
+                "        },\n" +
+                "        \"timeMeasureType\": \"LINEAR\",\n" +
+                "        \"considerOnly\": \"${schedule}\",\n" +
+                "        \"computeUnfinished\": false,\n" +
+                "        \"firstTo\": false\n" +
+                "    }]}";
     }
 
     private String countWithTemplate() {

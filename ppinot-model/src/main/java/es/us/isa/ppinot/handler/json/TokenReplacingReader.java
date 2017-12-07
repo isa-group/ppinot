@@ -1,7 +1,6 @@
 package es.us.isa.ppinot.handler.json;
 
 import java.io.IOException;
-
 import java.io.PushbackReader;
 import java.io.Reader;
 import java.nio.CharBuffer;
@@ -41,7 +40,11 @@ public class TokenReplacingReader extends Reader {
         }
 
         int data = this.pushbackReader.read();
-        if(data != '$') return data;
+        int dataNext = this.pushbackReader.read();
+        if (dataNext != '$') {
+            this.pushbackReader.unread(dataNext);
+            return data;
+        }
 
         data = this.pushbackReader.read();
         if(data != '{'){
@@ -55,16 +58,23 @@ public class TokenReplacingReader extends Reader {
             this.tokenNameBuffer.append((char) data);
             data = this.pushbackReader.read();
         }
+        // Read the closing quotation mark
+        this.pushbackReader.read();
 
         this.tokenValue = this.tokenResolver
                 .resolveToken(this.tokenNameBuffer.toString());
 
         if(this.tokenValue == null){
             this.tokenValue = "${"+ this.tokenNameBuffer.toString() + "}";
+        } else if (!(this.tokenValue.startsWith("{") || this.tokenValue.startsWith("["))) {
+            this.tokenValue = "\"" + this.tokenValue + "\"";
         }
-        if(this.tokenValue.length() == 0){
-            return read();
-        }
+//
+//        if(this.tokenValue.length() == 0){
+//            return read();
+//        }
+
+
         return this.tokenValue.charAt(this.tokenValueIndex++);
 
 

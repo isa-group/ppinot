@@ -86,7 +86,7 @@ public class AggregatedMeasureComputer implements MeasureComputer {
                         instanceGroupBy.put(mi.getInstanceId(), new HashMap<String, String>());
                     }
                     
-                    instanceGroupBy.get(mi.getInstanceId()).put(dmc.definition.getDataContentSelection().getSelection(), mi.getValueAsString());                        
+                    instanceGroupBy.get(mi.getInstanceId()).put(dmc.definition.getDataContentSelection().getId(), mi.getValueAsString());
                 }
             }
 

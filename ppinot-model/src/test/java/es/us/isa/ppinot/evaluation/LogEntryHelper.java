@@ -1,8 +1,11 @@
 package es.us.isa.ppinot.evaluation;
 
+import es.us.isa.ppinot.evaluation.logs.AbstractLogProvider;
 import es.us.isa.ppinot.evaluation.logs.LogEntry;
-
 import org.joda.time.DateTime;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * LogEntryHelper
@@ -10,13 +13,14 @@ import org.joda.time.DateTime;
  *
  * @author resinas
  */
-public class LogEntryHelper {
+public class LogEntryHelper extends AbstractLogProvider {
 
     public static final String DEFAULT_INSTANCE = "iid";
     public static final int DEFAULT_DISTANCE = 10000;
 
     private int millisDistance;
     private DateTime timestamp;
+    private List<LogEntry> entries = null;
 
     public LogEntryHelper() {
         this(DEFAULT_DISTANCE);
@@ -25,6 +29,21 @@ public class LogEntryHelper {
     public LogEntryHelper(int millisDistance) {
         this.millisDistance = millisDistance;
         this.timestamp = DateTime.now();
+    }
+
+    public LogEntryHelper asLogProvider() {
+        this.entries = new ArrayList<LogEntry>();
+        return this;
+    }
+
+
+    @Override
+    public void processLog() {
+        if (entries != null) {
+            for (LogEntry entry : entries) {
+                super.updateListeners(entry);
+            }
+        }
     }
 
     // ---- Assign entries
@@ -68,17 +87,24 @@ public class LogEntryHelper {
     }
 
     public LogEntry newEntry(String activity, LogEntry.EventType eventType, String instance, DateTime timestamp) {
-        return LogEntry.flowElement("pid", instance, activity, eventType, timestamp);
+        LogEntry entry = LogEntry.flowElement("pid", instance, activity, eventType, timestamp);
+        if (entries != null) {
+            entries.add(entry);
+        }
+        return entry;
     }
 
 	public LogEntry newInstance(String instance, LogEntry.EventType eventType) {
 		DateTime time = timestamp;
-		return LogEntry.instance("pid", instance, eventType, time);
+        return newInstance(instance, eventType, time);
 	}
 	
 	public LogEntry newInstance(String instance, LogEntry.EventType eventType, DateTime timestamp) {
-		DateTime time = timestamp;
-		return LogEntry.instance("pid", instance, eventType, timestamp);
+        LogEntry entry = LogEntry.instance("pid", instance, eventType, timestamp);
+        if (entries != null) {
+            entries.add(entry);
+        }
+        return entry;
 	}
 
 }

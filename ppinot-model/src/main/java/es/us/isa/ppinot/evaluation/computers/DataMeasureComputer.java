@@ -4,13 +4,11 @@ import es.us.isa.ppinot.evaluation.MeasureInstance;
 import es.us.isa.ppinot.evaluation.logs.LogEntry;
 import es.us.isa.ppinot.evaluation.matchers.Matcher;
 import es.us.isa.ppinot.evaluation.matchers.MatcherFactory;
+import es.us.isa.ppinot.evaluation.selectors.DataContentSelector;
+import es.us.isa.ppinot.evaluation.selectors.DataContentSelectorFactory;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.base.DataMeasure;
-import org.mvel2.MVEL;
 
-import java.io.Serializable;
-import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -24,7 +22,7 @@ public class DataMeasureComputer extends AbstractBaseMeasureComputer<DataMeasure
     private static final Logger log = Logger.getLogger(DataMeasureComputer.class.getName());
 
     private Matcher precondition = null;
-    private Serializable selectionExpression;
+    private DataContentSelector selector;
     private boolean onlyFirst = false;
 
     public DataMeasureComputer(MeasureDefinition definition) {
@@ -38,24 +36,17 @@ public class DataMeasureComputer extends AbstractBaseMeasureComputer<DataMeasure
             onlyFirst = true;
         }
 
-        selectionExpression = MVEL.compileExpression(this.definition.getDataContentSelection().getSelection());
+        selector = DataContentSelectorFactory.create(this.definition.getDataContentSelection());
     }
 	
 	@Override
     public void update(LogEntry entry) {
-        Map<String, Object> data = entry.getData();
-        data.put("timestamp", entry.getTimeStamp());
         MeasureInstance m = getOrCreateMeasure(entry, null);
 
         if (precondition(entry)) {
-            try {
-                Object value = MVEL.executeExpression(selectionExpression, data);
-                if (m.getValueAsObject() == null || ! onlyFirst) {
-                    m.setValue(value);
-                }
-
-            } catch (Exception e) {
-                log.log(Level.INFO, "Expression evaluation failed: " + this.definition.getDataContentSelection().getSelection(), e);
+            if (m.getValueAsObject() == null || ! onlyFirst) {
+                Object value = selector.select(entry);
+                m.setValue(value);
             }
         }
 

@@ -3,8 +3,12 @@ package es.us.isa.ppinot.handler;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.MeasuresCollection;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import java.io.BufferedReader;
-import java.io.InputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -16,10 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 /**
  * URLMeasuresCollectionHandler Copyright (C) 2015 Universidad de Sevilla
@@ -83,26 +83,12 @@ public class URLMeasuresCollectionHandler {
         }
     }
 
-    public MeasuresCollection downloadCollectionHTTP(URL url) {
-        MeasuresCollection measureDefinitions = new MeasuresCollection();
+    private MeasuresCollection downloadCollectionHTTP(URL url) {
+        MeasuresCollection measureDefinitions;
         URLConnection urlConn = null;
-        InputStreamReader in = null;
         try {
             urlConn = url.openConnection();
-            if (urlConn != null) {
-                urlConn.setReadTimeout(60 * 1000);
-            }
-            if (urlConn != null && urlConn.getInputStream() != null) {
-                in = new InputStreamReader(urlConn.getInputStream(), Charset.defaultCharset());
-                BufferedReader bufferedReader = new BufferedReader(in);
-
-                JSONMeasuresCollectionHandler handler = new JSONMeasuresCollectionHandler();
-                handler.load(bufferedReader, parameters);
-                measureDefinitions = handler.getCollection();
-
-                bufferedReader.close();
-                in.close();
-            }
+            measureDefinitions = getMeasuresCollection(urlConn);
         } catch (Exception e) {
             throw new RuntimeException("Exception while calling URL:" + url + " Error: " + e.getMessage());
         }
@@ -110,8 +96,8 @@ public class URLMeasuresCollectionHandler {
         return measureDefinitions;
     }
 
-    public MeasuresCollection downloadCollectionHTTPS(URL url) {
-        MeasuresCollection measureDefinitions = new MeasuresCollection();
+    private MeasuresCollection downloadCollectionHTTPS(URL url) {
+        MeasuresCollection measureDefinitions;
         try {
             // Create a trust manager that does not validate certificate chains
             TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
@@ -132,20 +118,34 @@ public class URLMeasuresCollectionHandler {
             HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
 
             HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+            measureDefinitions = getMeasuresCollection(conn);
 
-            InputStream is = conn.getInputStream();
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader br = new BufferedReader(isr);
 
-            JSONMeasuresCollectionHandler handler = new JSONMeasuresCollectionHandler();
-            handler.load(br, parameters);
-            measureDefinitions = handler.getCollection();
-
-            br.close();
         } catch (Exception e) {
             throw new RuntimeException("Exception while calling URL:" + url + " Error: " + e.getMessage());
         }
 
+        return measureDefinitions;
+    }
+
+    private MeasuresCollection getMeasuresCollection(URLConnection urlConn) throws IOException {
+        MeasuresCollection measureDefinitions = new MeasuresCollection();
+
+        InputStreamReader in;
+        if (urlConn != null) {
+            urlConn.setReadTimeout(60 * 1000);
+        }
+        if (urlConn != null && urlConn.getInputStream() != null) {
+            in = new InputStreamReader(urlConn.getInputStream(), Charset.defaultCharset());
+            BufferedReader bufferedReader = new BufferedReader(in);
+
+            JSONMeasuresCollectionHandler handler = new JSONMeasuresCollectionHandler();
+            handler.load(bufferedReader, parameters);
+            measureDefinitions = handler.getCollection();
+
+            bufferedReader.close();
+            in.close();
+        }
         return measureDefinitions;
     }
 

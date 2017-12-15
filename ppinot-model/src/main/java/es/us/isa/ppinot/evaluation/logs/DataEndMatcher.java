@@ -1,9 +1,6 @@
 package es.us.isa.ppinot.evaluation.logs;
 
-import javax.xml.crypto.Data;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * DataEndMatcher
@@ -12,19 +9,35 @@ import java.util.Set;
  * @author resinas
  */
 public class DataEndMatcher implements EndMatcher {
-    private Set<Object> endElements;
-    private String data;
+    private Map<String, Set<Object>> endElements;
+
+    public DataEndMatcher() {
+        endElements = new HashMap<String, Set<Object>>();
+    }
 
     public DataEndMatcher(String key, Object... elements) {
-        this.data = key;
-        this.endElements = new HashSet<Object>();
-        Collections.addAll(this.endElements, elements);
+        this();
+        add(key, elements);
+    }
+
+    public DataEndMatcher add(String key, Object... elements) {
+        return add(key, Arrays.asList(elements));
+    }
+
+    public DataEndMatcher add(String key, Collection<Object> elements) {
+        endElements.put(key, new HashSet<Object>(elements));
+        return this;
     }
 
     @Override
     public boolean matches(LogEntry entry) {
-        Object currentData = entry.getData().get(data);
-        return currentData != null && endElements.contains(currentData);
+        boolean matches = true;
+        for (Map.Entry<String, Set<Object>> entries : endElements.entrySet()) {
+            Object currentData = entry.getData().get(entries.getKey());
+            matches = matches && currentData != null && entries.getValue().contains(currentData);
+        }
+
+        return matches;
     }
 
 }

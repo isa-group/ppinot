@@ -17,10 +17,12 @@
  */
 package es.us.isa.ppinot.schedule;
 
+import es.us.isa.ppinot.handler.JSONMeasuresCollectionHandler;
 import es.us.isa.ppinot.model.schedule.*;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.joda.time.*;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -48,7 +50,7 @@ public class ScheduleCombinedTest {
 
     DateTimeZone timeZone = DateTimeZone.forID("Europe/Madrid");
 
-    ObjectMapper mapper = new ObjectMapper();
+    ObjectMapper mapper;
 
     int year = 2017;
     int monthOfYear = 6;
@@ -78,6 +80,10 @@ public class ScheduleCombinedTest {
         return new ScheduleCombined(items);
     }
 
+    @Before
+    public void setup() {
+        this.mapper = new JSONMeasuresCollectionHandler().getMapper();
+    }
 
 
     @Test

@@ -2,6 +2,7 @@ package es.us.isa.ppinot.handler;
 
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.MeasuresCollection;
+import es.us.isa.ppinot.model.schedule.Holidays;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -32,6 +33,7 @@ public class URLMeasuresCollectionHandler {
 
     private Map<URL, MeasuresCollection> collectionCache;
     private Map<String, String> parameters;
+    private Holidays holidays;
 
     public URLMeasuresCollectionHandler() {
         this(new HashMap<String, String>());
@@ -40,6 +42,12 @@ public class URLMeasuresCollectionHandler {
     public URLMeasuresCollectionHandler(Map<String, String> parameters) {
         this.collectionCache = new HashMap<URL, MeasuresCollection>();
         this.parameters = parameters;
+    }
+
+    public URLMeasuresCollectionHandler(Map<String, String> parameters, Holidays holidays) {
+        this.collectionCache = new HashMap<URL, MeasuresCollection>();
+        this.parameters = parameters;
+        this.holidays = holidays;
     }
 
     public MeasureDefinition load(URL url) {
@@ -139,7 +147,7 @@ public class URLMeasuresCollectionHandler {
             in = new InputStreamReader(urlConn.getInputStream(), Charset.defaultCharset());
             BufferedReader bufferedReader = new BufferedReader(in);
 
-            JSONMeasuresCollectionHandler handler = new JSONMeasuresCollectionHandler();
+            JSONMeasuresCollectionHandler handler = new JSONMeasuresCollectionHandler(holidays);
             handler.load(bufferedReader, parameters);
             measureDefinitions = handler.getCollection();
 

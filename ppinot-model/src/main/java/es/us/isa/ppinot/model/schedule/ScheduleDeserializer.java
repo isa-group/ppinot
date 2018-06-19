@@ -19,8 +19,11 @@ public class ScheduleDeserializer extends StdDeserializer<Schedule> {
     private static final String BASIC = "basic";
     private static final String COMBINED = "combined";
 
-    public ScheduleDeserializer() {
+    private ObjectMapper mapper;
+
+    public ScheduleDeserializer(ObjectMapper mapper) {
         super(Schedule.class);
+        this.mapper = mapper;
     }
 
     @Override
@@ -32,7 +35,6 @@ public class ScheduleDeserializer extends StdDeserializer<Schedule> {
             s = jp.readValueAs(ScheduleCombined.class);
         } else if (current.equals(JsonToken.VALUE_STRING)) {
             if (jp.getText().startsWith("[")) {
-                ObjectMapper mapper = new ObjectMapper();
                 s = mapper.readValue(jp.getText(), ScheduleCombined.class);
             } else {
                 s = jp.readValueAs(ScheduleBasic.class);

@@ -17,14 +17,13 @@
  */
 package es.us.isa.ppinot.model.schedule;
 
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.joda.time.DateTime;
 
 /**
  *
  * @author isa-group
  */
-@JsonDeserialize(using = ScheduleDeserializer.class)
+//@JsonDeserialize(using = ScheduleDeserializer.class)
 public interface Schedule  {
 
     DurationWithExclusion computeDuration(DateTime start, DateTime end);

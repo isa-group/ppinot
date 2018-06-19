@@ -19,7 +19,6 @@ package es.us.isa.ppinot.model.schedule;
 
 import es.us.isa.ppinot.handler.json.MonthDayDeserializer;
 import es.us.isa.ppinot.handler.json.MonthDaySerializer;
-import es.us.isa.ppinot.handler.json.ScheduleBasicDeserializer;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -43,7 +42,7 @@ public class ScheduleItem implements Comparable<ScheduleItem> {
     private MonthDay to;
 
     @JsonSerialize(using = ToStringSerializer.class)
-    @JsonDeserialize(using = ScheduleBasicDeserializer.class)
+//    @JsonDeserialize(using = ScheduleBasicDeserializer.class)
     @JsonProperty("schedule")
     private ScheduleBasic schedule;
 

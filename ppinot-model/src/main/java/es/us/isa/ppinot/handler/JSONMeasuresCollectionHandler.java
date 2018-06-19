@@ -1,18 +1,18 @@
 package es.us.isa.ppinot.handler;
 
 import es.us.isa.ppinot.handler.json.MapTokenResolver;
+import es.us.isa.ppinot.handler.json.ScheduleBasicDeserializer;
 import es.us.isa.ppinot.handler.json.TokenReplacingReader;
-import es.us.isa.ppinot.handler.json.TokenResolver;
-import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.MeasuresCollection;
+import es.us.isa.ppinot.model.schedule.*;
+import org.codehaus.jackson.Version;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.type.TypeReference;
+import org.codehaus.jackson.map.module.SimpleModule;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,8 +26,20 @@ public class JSONMeasuresCollectionHandler {
     private ObjectMapper mapper;
 
     public JSONMeasuresCollectionHandler() {
+        this(DefaultHolidays.getDays());
+    }
+
+    public JSONMeasuresCollectionHandler(Holidays holidays) {
         mapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule("Schedule", Version.unknownVersion());
+        module.addDeserializer(ScheduleBasic.class, new ScheduleBasicDeserializer(holidays));
+        module.addDeserializer(Schedule.class, new ScheduleDeserializer(mapper));
+        mapper.registerModule(module);
         mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_EMPTY);
+    }
+
+    public ObjectMapper getMapper() {
+        return mapper;
     }
 
     public void load(Reader collectionReader) throws IOException {

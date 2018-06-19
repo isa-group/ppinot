@@ -1,7 +1,6 @@
 package es.us.isa.ppinot.model.schedule;
 
 import es.us.isa.ppinot.handler.json.LocalTimeDeserializer;
-import es.us.isa.ppinot.handler.json.ScheduleBasicDeserializer;
 import org.codehaus.jackson.annotate.JsonValue;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -18,7 +17,7 @@ import java.util.List;
  *
  * @author resinas
  */
-@JsonDeserialize(using = ScheduleBasicDeserializer.class)
+//@JsonDeserialize(using = ScheduleBasicDeserializer.class)
 public class ScheduleBasic implements Schedule {
 
     private int beginDay;
@@ -142,7 +141,7 @@ public class ScheduleBasic implements Schedule {
         return sb.toString();
     }
 
-    public static ScheduleBasic parse(String stringSchedule) {
+    public static ScheduleBasic parse(String stringSchedule, Holidays holidays) {
         String[] array = stringSchedule.split("T");
         String[] days = array[0].split("-");
         String[] hours = array[1].split("-");
@@ -163,12 +162,16 @@ public class ScheduleBasic implements Schedule {
 
         ScheduleBasic schedule = null;
         if (hasHolidays) {
-            schedule = new ScheduleBasic(startDay, endDay, startTime, endTime, DefaultHolidays.getDays());
+            schedule = new ScheduleBasic(startDay, endDay, startTime, endTime, holidays.getList());
         } else {
             schedule = new ScheduleBasic(startDay, endDay, startTime, endTime);
         }
 
         return schedule;
+    }
+
+    public static ScheduleBasic parse(String stringSchedule) {
+        return ScheduleBasic.parse(stringSchedule, DefaultHolidays.getDays());
     }
 
     private static Integer parseToDayOfWeek(String day) {

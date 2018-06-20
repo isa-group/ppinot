@@ -1,6 +1,7 @@
 package es.us.isa.ppinot.evaluation.evaluators;
 
 import es.us.isa.ppinot.evaluation.Measure;
+import es.us.isa.ppinot.evaluation.Overrides;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.ProcessInstanceFilter;
 
@@ -16,4 +17,6 @@ import java.util.Map;
 public interface MeasureEvaluator {
     public List<Measure> eval(MeasureDefinition definition, ProcessInstanceFilter filter);
     public Map<MeasureDefinition, List<Measure>> eval(List<MeasureDefinition> definitions, ProcessInstanceFilter filter);
+    public List<Measure> eval(MeasureDefinition definition, ProcessInstanceFilter filter, Overrides overrides);
+    public Map<MeasureDefinition, List<Measure>> eval(List<MeasureDefinition> definitions, ProcessInstanceFilter filter, Overrides overrides);
 }

@@ -45,4 +45,8 @@ public class TemporalMeasureScopeImpl extends MeasureScopeImpl implements Tempor
     public DateTime getEnd() {
         return end;
     }
+
+    public String toString(){
+        return "{start: " + start + ", end: " + end + " + , inst:" + getInstances() +"}";
+    }
 }

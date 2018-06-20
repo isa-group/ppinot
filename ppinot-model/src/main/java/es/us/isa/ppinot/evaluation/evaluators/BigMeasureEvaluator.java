@@ -1,6 +1,7 @@
 package es.us.isa.ppinot.evaluation.evaluators;
 
 import es.us.isa.ppinot.evaluation.Measure;
+import es.us.isa.ppinot.evaluation.Overrides;
 import es.us.isa.ppinot.evaluation.computers.AggregatedMeasureComputer;
 import es.us.isa.ppinot.evaluation.computers.MeasureComputer;
 import es.us.isa.ppinot.evaluation.computers.MeasureComputerFactory;
@@ -32,9 +33,9 @@ public class BigMeasureEvaluator implements MeasureEvaluator, StreamMeasureEvalu
 
     private class BigComputerFactory extends MeasureComputerFactory {
         @Override
-        public MeasureComputer create(MeasureDefinition definition, ProcessInstanceFilter filter) {
+        public MeasureComputer create(MeasureDefinition definition, ProcessInstanceFilter filter, Overrides overrides) {
             if (definition instanceof AggregatedMeasure) {
-                return new AggregatedMeasureComputer(definition, filter);
+                return new AggregatedMeasureComputer(definition, filter, overrides);
             } else {
                 return super.create(definition, filter);
             }
@@ -61,14 +62,23 @@ public class BigMeasureEvaluator implements MeasureEvaluator, StreamMeasureEvalu
         return eval(Arrays.asList(definition), filter).get(definition);
     }
 
+    public List<Measure> eval(MeasureDefinition definition, ProcessInstanceFilter filter, Overrides overrides) {
+        return eval(Arrays.asList(definition), filter, overrides).get(definition);
+    }
+
     public Map<MeasureDefinition, List<Measure>> eval(List<MeasureDefinition> definitions, ProcessInstanceFilter filter) {
+        return eval(definitions, filter, new Overrides());
+    }
+
+
+    public Map<MeasureDefinition, List<Measure>> eval(List<MeasureDefinition> definitions, ProcessInstanceFilter filter, Overrides overrides) {
         Map<MeasureDefinition, List<Measure>> measures = new HashMap<MeasureDefinition, List<Measure>>();
         for (MeasureDefinition def : definitions) {
             measures.put(def, new ArrayList<Measure>());
         }
 
 
-        Iterator<Map<MeasureDefinition, List<Measure>>> iterator = new IntervalIterator(definitions, (SimpleTimeFilter) filter);
+        Iterator<Map<MeasureDefinition, List<Measure>>> iterator = new IntervalIterator(definitions, (SimpleTimeFilter) filter, overrides);
 
         while (iterator.hasNext()) {
             Map<MeasureDefinition, List<Measure>> intervalMeasures = iterator.next();
@@ -87,12 +97,22 @@ public class BigMeasureEvaluator implements MeasureEvaluator, StreamMeasureEvalu
 
     @Override
     public Iterator<Map<MeasureDefinition, List<Measure>>> evalStream(List<MeasureDefinition> definitions, ProcessInstanceFilter filter) {
-        return  new IntervalIterator(definitions, (SimpleTimeFilter) filter);
+        return evalStream(definitions, filter, new Overrides());
+    }
+
+    @Override
+    public Iterator<Map<MeasureDefinition, List<Measure>>> evalStream(List<MeasureDefinition> definitions, ProcessInstanceFilter filter, Overrides overrides) {
+        return  new IntervalIterator(definitions, (SimpleTimeFilter) filter, overrides);
     }
 
     @Override
     public Iterator<List<Measure>> evalStreamWithEvidences(MeasureDefinition aggregated, List<MeasureDefinition> evidences, ProcessInstanceFilter filter) {
-        return new EvidenceIterator(aggregated, new IntervalIterator(aggregated, evidences, (SimpleTimeFilter) filter));
+        return evalStreamWithEvidences(aggregated, evidences, filter, new Overrides());
+    }
+
+    @Override
+    public Iterator<List<Measure>> evalStreamWithEvidences(MeasureDefinition aggregated, List<MeasureDefinition> evidences, ProcessInstanceFilter filter, Overrides overrides) {
+        return new EvidenceIterator(aggregated, new IntervalIterator(aggregated, evidences, (SimpleTimeFilter) filter, overrides));
     }
 
     public static class EvidenceIterator implements Iterator<List<Measure>> {
@@ -147,6 +167,11 @@ public class BigMeasureEvaluator implements MeasureEvaluator, StreamMeasureEvalu
 
             return aggregatedMeasures;
         }
+
+        @Override
+        public void remove() {
+
+        }
     }
 
     public class IntervalIterator implements Iterator<Map<MeasureDefinition, List<Measure>>> {
@@ -154,10 +179,12 @@ public class BigMeasureEvaluator implements MeasureEvaluator, StreamMeasureEvalu
         private final List<MeasureDefinition> measuresClose;
         private final List<MeasureDefinition> measuresActive;
         private SimpleTimeFilter filter;
+        private Overrides overrides;
 
-        public IntervalIterator(MeasureDefinition aggregated, List<MeasureDefinition> evidences, SimpleTimeFilter filter) {
+        public IntervalIterator(MeasureDefinition aggregated, List<MeasureDefinition> evidences, SimpleTimeFilter filter, Overrides overrides) {
             this.intervals = IntervalsComputer.listIntervals(filter).iterator();
             this.filter = filter;
+            this.overrides = overrides;
             if (IntervalsComputer.measuresProcessEnd(filter, aggregated)) {
                 measuresClose = new ArrayList<MeasureDefinition>(evidences);
                 measuresClose.add(aggregated);
@@ -170,9 +197,10 @@ public class BigMeasureEvaluator implements MeasureEvaluator, StreamMeasureEvalu
 
         }
 
-        public IntervalIterator(List<MeasureDefinition> definitions, SimpleTimeFilter filter) {
+        public IntervalIterator(List<MeasureDefinition> definitions, SimpleTimeFilter filter, Overrides overrides) {
             this.intervals = IntervalsComputer.listIntervals(filter).iterator();
             this.filter = filter;
+            this.overrides = overrides;
             measuresClose = filterClosedInInterval(definitions, filter);
             measuresActive = new ArrayList<MeasureDefinition>(definitions);
             measuresActive.removeAll(measuresClose);
@@ -187,15 +215,20 @@ public class BigMeasureEvaluator implements MeasureEvaluator, StreamMeasureEvalu
         public Map<MeasureDefinition, List<Measure>> next() {
             Map<MeasureDefinition, List<Measure>> measures = new HashMap<MeasureDefinition, List<Measure>>();
             Interval i = intervals.next();
-            computeInterval(i, BigLogProvider.IntervalCondition.END, measuresClose, filter, measures);
-            computeInterval(i, BigLogProvider.IntervalCondition.ACTIVE, measuresActive, filter, measures);
+            computeInterval(i, BigLogProvider.IntervalCondition.END, measuresClose, filter, measures, overrides);
+            computeInterval(i, BigLogProvider.IntervalCondition.ACTIVE, measuresActive, filter, measures, overrides);
 
             return measures;
+        }
+
+        @Override
+        public void remove() {
+            
         }
     }
 
 
-    private void computeInterval(Interval i, BigLogProvider.IntervalCondition condition, List<MeasureDefinition> definitions, ProcessInstanceFilter filter, Map<MeasureDefinition, List<Measure>> measures) {
+    private void computeInterval(Interval i, BigLogProvider.IntervalCondition condition, List<MeasureDefinition> definitions, ProcessInstanceFilter filter, Map<MeasureDefinition, List<Measure>> measures, Overrides overrides) {
         LogProvider logToAnalyse;
         if (definitions.isEmpty()) {
             return;
@@ -207,17 +240,17 @@ public class BigMeasureEvaluator implements MeasureEvaluator, StreamMeasureEvalu
         }
 
         log.info("Analysing log for interval: "+i.toString());
-        Map<MeasureComputer, MeasureDefinition> computers = analyseLog(definitions, filter, logToAnalyse, i);
+        Map<MeasureComputer, MeasureDefinition> computers = analyseLog(definitions, filter, logToAnalyse, i, overrides);
 
         computeMeasures(measures, computers, i);
     }
 
-    private Map<MeasureComputer, MeasureDefinition> analyseLog(List<MeasureDefinition> definitions, ProcessInstanceFilter filter, LogProvider logToAnalyse, Interval i) {
+    private Map<MeasureComputer, MeasureDefinition> analyseLog(List<MeasureDefinition> definitions, ProcessInstanceFilter filter, LogProvider logToAnalyse, Interval i, Overrides overrides) {
         Map<MeasureComputer, MeasureDefinition> computers = new HashMap<MeasureComputer, MeasureDefinition>();
         SimpleTimeFilter intervalFilter = ((SimpleTimeFilter) filter).copy();
         intervalFilter.setUntil(i.getEnd());
         for (MeasureDefinition definition : definitions) {
-            MeasureComputer computer = factory.create(definition, intervalFilter);
+            MeasureComputer computer = factory.create(definition, intervalFilter, overrides);
             computers.put(computer, definition);
             logToAnalyse.registerListener(computer);
         }

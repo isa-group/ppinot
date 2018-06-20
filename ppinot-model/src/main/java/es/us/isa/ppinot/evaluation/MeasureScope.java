@@ -1,7 +1,7 @@
 package es.us.isa.ppinot.evaluation;
 
-import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -11,8 +11,11 @@ public interface MeasureScope {
 
     String getProcessId();
 
-    Collection<String> getInstances();
+    Set<String> getInstances();
 
     Map<String, Object> getScopeInfo();
 
+    boolean equivalentTo(MeasureScope scope);
+
+    boolean isContainedIn(MeasureScope scope);
 }

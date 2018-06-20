@@ -120,7 +120,7 @@ public class Measure {
     }
 
     public String toString() {
-        return getValueAsString();
+        return getValueAsString() +"-"+ getMeasureScope();
     }
 
 }

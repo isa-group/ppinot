@@ -21,11 +21,16 @@ public class AggregatedMeasureComputer implements MeasureComputer {
     private AggregatedMeasure definition;
     private MeasureComputer baseComputer;
     private MeasureComputer filterComputer;
+    private Overrides.OverriddenMeasures overrides;
     private ScopeClassifier classifier;
     private Aggregator agg;
     private final List<MeasureComputer> listGroupByMeasureComputer;
 
     public AggregatedMeasureComputer(MeasureDefinition definition, ProcessInstanceFilter filter) {
+        this(definition, filter, new Overrides());
+    }
+
+    public AggregatedMeasureComputer(MeasureDefinition definition, ProcessInstanceFilter filter, Overrides overrides) {
         if (!(definition instanceof AggregatedMeasure)) {
             throw new IllegalArgumentException();
         }
@@ -36,16 +41,21 @@ public class AggregatedMeasureComputer implements MeasureComputer {
         final MeasureComputerFactory measureComputerFactory = new MeasureComputerFactory();
         if (this.definition.getGroupedBy() != null) {
             for (DataMeasure dm : this.definition.getGroupedBy()) {
-                listGroupByMeasureComputer.add(measureComputerFactory.create(dm, filter));
+                listGroupByMeasureComputer.add(measureComputerFactory.create(dm, filter, overrides));
             }
         }
 
-        this.baseComputer = measureComputerFactory.create(this.definition.getBaseMeasure(), filter);
+        this.baseComputer = measureComputerFactory.create(this.definition.getBaseMeasure(), filter, overrides);
         if (this.definition.getFilter() != null) {
-            this.filterComputer = measureComputerFactory.create(this.definition.getFilter(), filter);
+            this.filterComputer = measureComputerFactory.create(this.definition.getFilter(), filter, overrides);
         }
         this.classifier = new ScopeClassifierFactory().create(filter, this.definition.getPeriodReferencePoint());
         this.agg = new Aggregator(this.definition.getAggregationFunction());
+        if (overrides != null) {
+            this.overrides = overrides.getOverrides(this.definition.getBaseMeasure());
+        } else {
+            this.overrides = new Overrides.OverriddenMeasures();
+        }
     }
 
     @Override
@@ -129,7 +139,9 @@ public class AggregatedMeasureComputer implements MeasureComputer {
                 scope.getInstances().retainAll(filterScopeInstances);
             }
 
-            Collection<Double> toAggregate = chooseMeasuresToAggregate(scope, measureMap);
+            Map<String, Measure> overridedValuesForScope = overrides.getOverriddenValuesContainedInScope(scope);
+
+            Collection<Double> toAggregate = chooseMeasuresToAggregate(scope, measureMap, overridedValuesForScope);
             if (!toAggregate.isEmpty()) {
                 double val = agg.aggregate(toAggregate);
                 Measure measure = new Measure(definition, scope, val);
@@ -137,7 +149,14 @@ public class AggregatedMeasureComputer implements MeasureComputer {
                 if (definition.isIncludeEvidences()) {
                     for (String instance : scope.getInstances()) {
                         Map<String, Measure> evidence = new HashMap<String, Measure>();
-                        evidence.put("base", measureMap.get(instance));
+
+                        if (overridedValuesForScope.containsKey(instance)) {
+                            evidence.put("base", overridedValuesForScope.get(instance));
+                            evidence.put("base-overrided", measureMap.get(instance));
+                        } else {
+                            evidence.put("base", measureMap.get(instance));
+                        }
+
                         if (filterComputer != null) {
                             evidence.put("filter", filterMap.get(instance));
                         }
@@ -151,15 +170,18 @@ public class AggregatedMeasureComputer implements MeasureComputer {
         return result;
     }
 
-    private Collection<Double> chooseMeasuresToAggregate(MeasureScope scope, Map<String, MeasureInstance> measureMap) {
+    private Collection<Double> chooseMeasuresToAggregate(MeasureScope scope, Map<String, MeasureInstance> measureMap, Map<String, Measure> overridedValues) {
         Collection<Double> toAggregate = new ArrayList<Double>();
         for (String instance : scope.getInstances()) {
-            if (measureMap.containsKey(instance)) {
+            if (overridedValues.containsKey(instance)) {
+                toAggregate.add(overridedValues.get(instance).getValue());
+            } else  if (measureMap.containsKey(instance)) {
                 toAggregate.add(measureMap.get(instance).getValue());
             }
         }
         return toAggregate;
     }
+
 
     private Map<String, MeasureInstance> buildMeasureMap(Collection<? extends Measure> measures) {
         return MeasureInstance.buildMeasureMap(measures);

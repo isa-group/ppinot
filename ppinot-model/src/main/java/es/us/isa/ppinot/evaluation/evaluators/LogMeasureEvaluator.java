@@ -1,6 +1,7 @@
 package es.us.isa.ppinot.evaluation.evaluators;
 
 import es.us.isa.ppinot.evaluation.Measure;
+import es.us.isa.ppinot.evaluation.Overrides;
 import es.us.isa.ppinot.evaluation.computers.MeasureComputer;
 import es.us.isa.ppinot.evaluation.computers.MeasureComputerFactory;
 import es.us.isa.ppinot.evaluation.logs.LogConfigurer;
@@ -40,10 +41,19 @@ public class LogMeasureEvaluator implements MeasureEvaluator {
 
     @Override
     public List<Measure> eval(MeasureDefinition definition, ProcessInstanceFilter filter) {
-        return eval(Arrays.asList(definition), filter).get(definition);
+        return eval(definition, filter, new Overrides());
     }
 
     public Map<MeasureDefinition, List<Measure>> eval(List<MeasureDefinition> definitions, ProcessInstanceFilter filter) {
+        return eval(definitions, filter, new Overrides());
+    }
+
+        @Override
+    public List<Measure> eval(MeasureDefinition definition, ProcessInstanceFilter filter, Overrides overrides) {
+        return eval(Arrays.asList(definition), filter, overrides).get(definition);
+    }
+
+    public Map<MeasureDefinition, List<Measure>> eval(List<MeasureDefinition> definitions, ProcessInstanceFilter filter, Overrides overrides) {
         LogProvider logToAnalyse;
         Map<MeasureDefinition, List<Measure>> measures = new HashMap<MeasureDefinition, List<Measure>>();
         Map<MeasureComputer, MeasureDefinition> computers = new HashMap<MeasureComputer, MeasureDefinition>();
@@ -55,7 +65,7 @@ public class LogMeasureEvaluator implements MeasureEvaluator {
         }
 
         for (MeasureDefinition definition : definitions) {
-            MeasureComputer computer = factory.create(definition, filter);
+            MeasureComputer computer = factory.create(definition, filter, overrides);
             computers.put(computer, definition);
             logToAnalyse.registerListener(computer);
             measures.put(definition, new ArrayList<Measure>());

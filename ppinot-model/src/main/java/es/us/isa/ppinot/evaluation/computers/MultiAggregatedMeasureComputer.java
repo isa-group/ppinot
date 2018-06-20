@@ -1,6 +1,9 @@
 package es.us.isa.ppinot.evaluation.computers;
 
-import es.us.isa.ppinot.evaluation.*;
+import es.us.isa.ppinot.evaluation.Measure;
+import es.us.isa.ppinot.evaluation.MeasureInstance;
+import es.us.isa.ppinot.evaluation.MeasureScope;
+import es.us.isa.ppinot.evaluation.TemporalMeasureScope;
 import es.us.isa.ppinot.evaluation.logs.FilterDecoratorLog;
 import es.us.isa.ppinot.evaluation.logs.LogEntry;
 import es.us.isa.ppinot.evaluation.logs.MultiAggregatedDecoratorLog;
@@ -85,7 +88,7 @@ public class MultiAggregatedMeasureComputer implements MeasureComputer {
             Interval i = new Interval(temporalScope.getStart(), temporalScope.getEnd());
             SimpleTimeFilter intervalFilter = filter.copy();
             intervalFilter.setUntil(i.getEnd().minus(1));
-            AggregatedMeasureComputer computer = new AggregatedMeasureComputer(definition, intervalFilter);
+            AggregatedMeasureComputer computer = new AggregatedMeasureComputer(definition, intervalFilter, null);
             computers.put(i, computer);
             aggregatedDecoratorLog.registerListener(i, computer);
         }

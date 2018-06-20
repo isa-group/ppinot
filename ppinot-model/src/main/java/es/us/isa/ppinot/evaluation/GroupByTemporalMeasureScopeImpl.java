@@ -1,8 +1,9 @@
 package es.us.isa.ppinot.evaluation;
 
+import org.joda.time.DateTime;
+
 import java.util.Collection;
 import java.util.Map;
-import org.joda.time.DateTime;
 
 /**
  * Applied Software Engineering Research Group (ISA Group) University of
@@ -40,4 +41,9 @@ public class GroupByTemporalMeasureScopeImpl extends TemporalMeasureScopeImpl im
 
         return scope;
     }
+
+    public String toString(){
+        return "{"+getScopeInfo()+", inst:" + getInstances() +"}";
+    }
+
 }

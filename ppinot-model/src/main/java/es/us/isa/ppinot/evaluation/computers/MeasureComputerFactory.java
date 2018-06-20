@@ -1,5 +1,6 @@
 package es.us.isa.ppinot.evaluation.computers;
 
+import es.us.isa.ppinot.evaluation.Overrides;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.ProcessInstanceFilter;
 import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
@@ -16,7 +17,7 @@ import es.us.isa.ppinot.model.derived.DerivedMeasure;
  * @author resinas
  */
 public class MeasureComputerFactory {
-    public MeasureComputer create(MeasureDefinition definition, ProcessInstanceFilter filter) {
+    public MeasureComputer create(MeasureDefinition definition, ProcessInstanceFilter filter, Overrides overrides) {
         MeasureComputer computer = null;
 
         if (definition instanceof TimeMeasure) {
@@ -31,13 +32,17 @@ public class MeasureComputerFactory {
 //            if (((AggregatedMeasure) definition).isIncludeUnfinished()) {
 //                computer = new MultiAggregatedMeasureComputer(definition, filter);
 //            } else {
-                computer = new AggregatedMeasureComputer(definition, filter);
+            computer = new AggregatedMeasureComputer(definition, filter, overrides);
 //            }
         } else if (definition instanceof DerivedMeasure) {
-            computer = new DerivedMeasureComputer(definition, filter);
+            computer = new DerivedMeasureComputer(definition, filter, overrides);
         }
 
         return computer;
 
     }
+
+    public MeasureComputer create(MeasureDefinition definition, ProcessInstanceFilter filter) {
+        return create(definition, filter, null);
+     }
 }

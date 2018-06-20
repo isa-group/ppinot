@@ -177,7 +177,7 @@ public class TimeScopeClassifier extends ScopeClassifier {
             if (filter.getAbsoluteStart() > firstInstanceInZone.getHourOfDay()) {
                 firstInstanceInZone = firstInstanceInZone.minusDays(1);
             }
-            startDate = firstInstanceInZone.withHourOfDay(filter.getAbsoluteStart());
+            startDate = firstInstanceInZone.withHourOfDay(filter.getAbsoluteStart()).withTimeAtStartOfDay();
         } else if (es.us.isa.ppinot.model.scope.Period.WEEKLY.equals(filter.getPeriod())) {
             if (filter.getAbsoluteStart() > firstInstanceInZone.getDayOfWeek()) {
                 firstInstanceInZone = firstInstanceInZone.minusWeeks(1);

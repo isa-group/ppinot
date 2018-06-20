@@ -43,6 +43,7 @@ public class MeasureComputerFactory {
     }
 
     public MeasureComputer create(MeasureDefinition definition, ProcessInstanceFilter filter) {
-        return create(definition, filter, null);
+        return create(definition, filter, new Overrides());
      }
+     
 }

@@ -37,7 +37,7 @@ public class BigMeasureEvaluator implements MeasureEvaluator, StreamMeasureEvalu
             if (definition instanceof AggregatedMeasure) {
                 return new AggregatedMeasureComputer(definition, filter, overrides);
             } else {
-                return super.create(definition, filter);
+                return super.create(definition, filter, overrides);
             }
         }
     }

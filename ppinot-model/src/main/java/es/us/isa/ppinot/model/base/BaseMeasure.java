@@ -29,5 +29,4 @@ public class BaseMeasure extends MeasureDefinition {
 	public BaseMeasure(String id, String name, String description, String scale, String unitOfMeasure) {
 		super(id, name, description, scale, unitOfMeasure);
 	}
-	
 }

@@ -137,4 +137,18 @@ public class DerivedMeasure extends MeasureDefinition {
 	    
 		return cond;
 	}
+
+    @Override
+    public Map<String, MeasureDefinition> getAllIds() {
+        Map<String, MeasureDefinition> allIds = super.getAllIds();
+
+        if (usedMeasureIdMap != null) {
+            for (MeasureDefinition m : usedMeasureIdMap.values()) {
+                allIds.putAll(m.getAllIds());
+            }
+        }
+
+        return allIds;
+    }
+
 }

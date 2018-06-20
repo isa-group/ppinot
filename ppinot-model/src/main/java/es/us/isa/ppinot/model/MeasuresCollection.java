@@ -2,6 +2,7 @@ package es.us.isa.ppinot.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * MeasuresCollection
@@ -49,8 +50,9 @@ public class MeasuresCollection {
         MeasureDefinition definition = null;
 
         for (MeasureDefinition def : definitions) {
-            if (id.equals(def.getId())) {
-                definition = def;
+            Map<String, MeasureDefinition> allIds = def.getAllIds();
+            if (allIds.containsKey(id)) {
+                definition = allIds.get(id);
                 break;
             }
         }

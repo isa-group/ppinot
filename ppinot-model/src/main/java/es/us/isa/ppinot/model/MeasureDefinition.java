@@ -5,8 +5,13 @@ import es.us.isa.ppinot.model.base.*;
 import es.us.isa.ppinot.model.derived.DerivedMeasure;
 import es.us.isa.ppinot.model.derived.DerivedMultiInstanceMeasure;
 import es.us.isa.ppinot.model.derived.DerivedSingleInstanceMeasure;
+import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Clase de la que heredan todas las definiciones de medidas
@@ -187,5 +192,15 @@ public abstract class MeasureDefinition {
 	public boolean valid() {
 		
 		return this.getId()!=null && !this.getId().contentEquals("");
+	}
+
+	@JsonIgnore
+	public Map<String, MeasureDefinition> getAllIds() {
+		Map<String, MeasureDefinition> allIds = new HashMap<String, MeasureDefinition>();
+		if (!StringUtils.isBlank(id)) {
+			allIds.put(id, this);
+		}
+
+		return allIds;
 	}
 }

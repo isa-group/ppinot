@@ -7,6 +7,7 @@ import es.us.isa.ppinot.model.base.DataMeasure;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Clase con la informacion de un PPI del tipo AggregatedMeasure
@@ -280,4 +281,28 @@ public class AggregatedMeasure extends MeasureDefinition {
 				this.getAggregationFunction()!=null && !this.getAggregationFunction().isEmpty();
 	}
 
+	@Override
+	public Map<String, MeasureDefinition> getAllIds() {
+		Map<String, MeasureDefinition> innerIds = super.getAllIds();
+
+		if (baseMeasure != null) {
+			innerIds.putAll(baseMeasure.getAllIds());
+		}
+
+		if (periodReferencePoint != null) {
+			innerIds.putAll(periodReferencePoint.getAllIds());
+		}
+
+		if (filter != null) {
+			innerIds.putAll(filter.getAllIds());
+		}
+
+		if (groupedBy != null) {
+			for (MeasureDefinition m : groupedBy) {
+				innerIds.putAll(m.getAllIds());
+			}
+		}
+
+		return innerIds;
+	}
 }

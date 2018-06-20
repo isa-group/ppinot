@@ -18,6 +18,7 @@ import es.us.isa.ppinot.model.state.DataObjectState;
 import es.us.isa.ppinot.model.state.GenericState;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalTime;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -89,6 +90,16 @@ public class JSONMeasuresCollectionHandlerTest {
         assertEquals(6, ((ScheduleCombined) sch).getSchedules().size());
     }
 
+    @Test
+    public void shouldGetInnerIds() throws Exception {
+        MeasuresCollection mc = new MeasuresCollection("test", "description");
+        mc.addDefinition(buildAFIP());
+
+        Assert.assertTrue(mc.getById("total_accomplished") instanceof AggregatedMeasure);
+        Assert.assertTrue(mc.getById("response_time") instanceof TimeMeasure);
+        Assert.assertTrue(mc.getById("afip") instanceof DerivedMultiInstanceMeasure);
+    }
+
     private String timeWithTemplate() {
         return "{\n" +
                 "    \"name\": \"Test\",\n" +
@@ -148,12 +159,14 @@ public class JSONMeasuresCollectionHandlerTest {
         responseTime.setTo(new TimeInstantCondition("Plan FI", GenericState.END));
         responseTime.setConsiderOnly(workingHours);
         responseTime.setUnitOfMeasure(TimeUnit.HOURS);
+        responseTime.setId("response_time");
 
         TimeMeasure presenceTime = new TimeMeasure();
         presenceTime.setFrom(new TimeInstantCondition("Plan FI", GenericState.END));
         presenceTime.setTo(new TimeInstantCondition("Go to venue", GenericState.END));
         presenceTime.setConsiderOnly(workingHours);
         presenceTime.setUnitOfMeasure(TimeUnit.HOURS);
+        presenceTime.setId("presence_time");
 
         TimeMeasure resolutionTime = new TimeMeasure();
         resolutionTime.setFrom(new TimeInstantCondition("Perform FI", GenericState.START));
@@ -195,6 +208,7 @@ public class JSONMeasuresCollectionHandlerTest {
         AggregatedMeasure totalAccomplished = new AggregatedMeasure();
         totalAccomplished.setBaseMeasure(accomplishedIntervention);
         totalAccomplished.setAggregationFunction(Aggregator.SUM);
+        totalAccomplished.setId("total_accomplished");
 
         AggregatedMeasure totalInterventions = new AggregatedMeasure();
         CountMeasure count = new CountMeasure();

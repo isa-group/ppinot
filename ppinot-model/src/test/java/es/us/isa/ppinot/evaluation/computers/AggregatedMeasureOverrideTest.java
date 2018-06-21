@@ -26,7 +26,7 @@ public class AggregatedMeasureOverrideTest extends MeasureComputerHelper {
 
         ComputerConfig computerConfig = new ComputerConfig(new SimpleTimeFilter(Period.DAILY, 1, false));
         TemporalMeasureScopeImpl scope = new TemporalMeasureScopeImpl("x", Arrays.asList("i3"), reference.minusDays(4).withTimeAtStartOfDay(), reference.minusDays(3).withTimeAtStartOfDay().minusMillis(1));
-        computerConfig.add(new Measure(countMeasure, scope, 10));
+        computerConfig.addOverride(new Measure(countMeasure, scope, 10));
 
         AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure, computerConfig);
         runLog(helper, reference, computer);
@@ -50,7 +50,7 @@ public class AggregatedMeasureOverrideTest extends MeasureComputerHelper {
 
         ComputerConfig computerConfig = new ComputerConfig(new SimpleTimeFilter(Period.DAILY, 1, false));
         TemporalMeasureScopeImpl scope = new TemporalMeasureScopeImpl("x", Arrays.asList("i3"), reference.minusDays(4).withTimeAtStartOfDay(), reference.minusDays(3).withTimeAtStartOfDay().minusMillis(1));
-        computerConfig.add(new Measure(createCountMeasure(withCondition("Analyse RFC", GenericState.START)), scope, 10));
+        computerConfig.addOverride(new Measure(createCountMeasure(withCondition("Analyse RFC", GenericState.START)), scope, 10));
 
         AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure, computerConfig);
         runLog(helper, reference, computer);
@@ -76,8 +76,8 @@ public class AggregatedMeasureOverrideTest extends MeasureComputerHelper {
         TemporalMeasureScopeImpl scope = new TemporalMeasureScopeImpl("x", Arrays.asList("i3"), reference.minusDays(4).withTimeAtStartOfDay(), reference.minusDays(3).withTimeAtStartOfDay().minusMillis(1));
         TemporalMeasureScopeImpl scope2 = new TemporalMeasureScopeImpl("x", Arrays.asList("i1"), reference.minusDays(1).withTimeAtStartOfDay(), reference.withTimeAtStartOfDay().minusMillis(1));
 
-        computerConfig.add(new Measure(countMeasure, scope, 10));
-        computerConfig.add(new Measure(countMeasure, scope2, 1));
+        computerConfig.addOverride(new Measure(countMeasure, scope, 10));
+        computerConfig.addOverride(new Measure(countMeasure, scope2, 1));
 
         AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure, computerConfig);
         runLog(helper, reference, computer);
@@ -101,7 +101,7 @@ public class AggregatedMeasureOverrideTest extends MeasureComputerHelper {
 
         ComputerConfig computerConfig = new ComputerConfig(new SimpleTimeFilter(Period.DAILY, 1, false));
         TemporalMeasureScopeImpl scope = new TemporalMeasureScopeImpl("x", Arrays.asList("i1", "i4"), reference.minusDays(1).withTimeAtStartOfDay(), reference.withTimeAtStartOfDay().minusMillis(1));
-        computerConfig.add(new Measure(countMeasure, scope, 10));
+        computerConfig.addOverride(new Measure(countMeasure, scope, 10));
 
         AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure, computerConfig);
         runLog(helper, reference, computer);
@@ -126,8 +126,8 @@ public class AggregatedMeasureOverrideTest extends MeasureComputerHelper {
         ComputerConfig computerConfig = new ComputerConfig(new SimpleTimeFilter(Period.DAILY, 1, false));
         TemporalMeasureScopeImpl scope = new TemporalMeasureScopeImpl("x", Arrays.asList("i1"), reference.minusDays(1).withTimeAtStartOfDay(), reference.withTimeAtStartOfDay().minusMillis(1));
         TemporalMeasureScopeImpl scope2 = new TemporalMeasureScopeImpl("x", Arrays.asList("i4"), reference.minusDays(1).withTimeAtStartOfDay(), reference.withTimeAtStartOfDay().minusMillis(1));
-        computerConfig.add(new Measure(countMeasure, scope, 10));
-        computerConfig.add(new Measure(countMeasure, scope2, 7));
+        computerConfig.addOverride(new Measure(countMeasure, scope, 10));
+        computerConfig.addOverride(new Measure(countMeasure, scope2, 7));
 
         AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure, computerConfig);
         runLog(helper, reference, computer);
@@ -172,7 +172,7 @@ public class AggregatedMeasureOverrideTest extends MeasureComputerHelper {
         HashMap<String, String> groupParameters = new HashMap<String, String>();
         groupParameters.put("nodo", "cordoba");
         scope.setGroupParameters(groupParameters);
-        computerConfig.add(new Measure(countMeasure, scope, 10));
+        computerConfig.addOverride(new Measure(countMeasure, scope, 10));
 
 
         AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure, computerConfig);

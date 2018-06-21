@@ -53,7 +53,7 @@ public class DerivedMeasureComputerTest extends MeasureComputerHelper {
 
         ComputerConfig config = new ComputerConfig(null);
         MeasureScopeImpl scope = new MeasureScopeImpl("x", Arrays.asList("i1"));
-        config.add(new Measure(measure2, scope, 2));
+        config.addOverride(new Measure(measure2, scope, 2));
 
         DerivedMeasureComputer computer = createDerivedSingleInstanceMeasureComputer("a1/a0 * 100", config, measure1, measure2);
 

@@ -6,6 +6,7 @@ import es.us.isa.ppinot.handler.json.TokenReplacingReader;
 import es.us.isa.ppinot.model.MeasuresCollection;
 import es.us.isa.ppinot.model.schedule.*;
 import org.codehaus.jackson.Version;
+import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.module.SimpleModule;
@@ -36,6 +37,7 @@ public class JSONMeasuresCollectionHandler {
         module.addDeserializer(Schedule.class, new ScheduleDeserializer(mapper));
         mapper.registerModule(module);
         mapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_EMPTY);
+        mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     public ObjectMapper getMapper() {

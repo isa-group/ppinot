@@ -8,6 +8,7 @@ import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.ProcessInstanceFilter;
 import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
 import es.us.isa.ppinot.model.base.DataMeasure;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 
@@ -21,6 +22,7 @@ public class AggregatedMeasureComputer implements MeasureComputer {
     private AggregatedMeasure definition;
     private MeasureComputer baseComputer;
     private MeasureComputer filterComputer;
+    private ComputerConfig computerConfig;
     private OverriddenMeasures overrides;
     private ScopeClassifier classifier;
     private Aggregator agg;
@@ -56,6 +58,7 @@ public class AggregatedMeasureComputer implements MeasureComputer {
         this.classifier = new ScopeClassifierFactory().create(computerConfig.getFilter(), this.definition.getPeriodReferencePoint());
 
         this.overrides = computerConfig.getOverrides(this.definition.getBaseMeasure());
+        this.computerConfig = computerConfig;
     }
 
     @Override
@@ -146,22 +149,10 @@ public class AggregatedMeasureComputer implements MeasureComputer {
                 double val = agg.aggregate(toAggregate);
                 Measure measure = new Measure(definition, scope, val);
                 result.add(measure);
-                if (definition.isIncludeEvidences()) {
-                    for (String instance : scope.getInstances()) {
-                        Map<String, Measure> evidence = new HashMap<String, Measure>();
 
-                        if (overridedValuesForScope.containsKey(instance)) {
-                            evidence.put("base", overridedValuesForScope.get(instance));
-                            evidence.put("base-overrided", measureMap.get(instance));
-                        } else {
-                            evidence.put("base", measureMap.get(instance));
-                        }
+                if (computerConfig.includeEvidences()) {
 
-                        if (filterComputer != null) {
-                            evidence.put("filter", filterMap.get(instance));
-                        }
-                        measure.addEvidence(instance, evidence);
-                    }
+                    addEvidences(measure, measureMap, filterMap, scope, overridedValuesForScope);
                 }
             }
         }
@@ -169,6 +160,67 @@ public class AggregatedMeasureComputer implements MeasureComputer {
 
         return result;
     }
+
+    private void addEvidences(Measure measure, Map<String, MeasureInstance> measureMap, Map<String, MeasureInstance> filterMap, MeasureScope scope, Map<String, Measure> overridedValuesForScope) {
+        for (String instance : scope.getInstances()) {
+            Map<String, Measure> evidence = new HashMap<String, Measure>();
+
+            inheritEvidence(instance, evidence, measureMap.get(instance));
+
+            String baseId = getId(definition.getBaseMeasure(), "base");
+
+            if (! StringUtils.isBlank(baseId)) {
+                if (overridedValuesForScope.containsKey(instance)) {
+                    evidence.put(baseId, overridedValuesForScope.get(instance));
+                    evidence.put(baseId+"#overridded", measureMap.get(instance));
+                } else {
+                    evidence.put(baseId, measureMap.get(instance));
+                }
+            }
+
+            if (filterComputer != null) {
+                inheritEvidence(instance, evidence, filterMap.get(instance));
+
+                String filterId = getId(definition.getFilter(), "filter");
+
+                if (!StringUtils.isBlank(filterId)) {
+                    evidence.put(filterId, filterMap.get(instance));
+                }
+            }
+
+            measure.addEvidence(instance, evidence);
+        }
+    }
+
+    private void inheritEvidence(String instance, Map<String, Measure> evidence, Measure m) {
+        if (computerConfig.isFlattenedEvidences()) {
+            if (m.getEvidences() != null) {
+                Map<String, Measure> inheritedEvidences = m.getEvidences().get(instance);
+                if (inheritedEvidences != null) {
+                    evidence.putAll(inheritedEvidences);
+                }
+                m.removeEvidence(instance);
+
+            }
+        }
+    }
+
+    private String getId(MeasureDefinition measureDefinition, String defaultValue) {
+        String id = "";
+
+        if (ComputerConfig.Evidences.ID.equals(computerConfig.getEvidences())) {
+            id = measureDefinition.getId();
+        } else if (ComputerConfig.Evidences.ALL.equals(computerConfig.getEvidences())) {
+            if (StringUtils.isBlank(measureDefinition.getId())) {
+                id = defaultValue + "$" + measureDefinition.hashCode();
+            } else {
+                id = measureDefinition.getId();
+            }
+        }
+
+        return id;
+    }
+
 
     private Collection<Double> chooseMeasuresToAggregate(MeasureScope scope, Map<String, MeasureInstance> measureMap, Map<String, Measure> overridedValues) {
         Collection<Double> toAggregate = new ArrayList<Double>();

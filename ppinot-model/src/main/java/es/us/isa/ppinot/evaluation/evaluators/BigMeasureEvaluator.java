@@ -155,13 +155,9 @@ public class BigMeasureEvaluator implements MeasureEvaluator, StreamMeasureEvalu
             }
 
             List<Measure> aggregatedMeasures = measuresMap.get(aggregated);
-            for (Measure m : aggregatedMeasures) {
-                for (String instance : m.getInstances()) {
-                    final Map<String, Measure> evidence = evidences.get(instance);
-                    if (evidence == null) {
-                        log.warning("No evidences for instance: " + instance);
-                    }
-                    m.addEvidence(instance, evidence);
+            if (evidences.size() > 0) {
+                for (Measure m : aggregatedMeasures) {
+                    m.mergeEvidences(evidences);
                 }
             }
 

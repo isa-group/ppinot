@@ -35,8 +35,6 @@ public class AggregatedMeasure extends MeasureDefinition {
 
 	protected DataMeasure periodReferencePoint = null;
 
-	protected boolean includeEvidences = false;
-
     
     // Indica si la medida utiliza el conector aggregates o no
     protected Boolean aggregates;
@@ -259,14 +257,6 @@ public class AggregatedMeasure extends MeasureDefinition {
 	public AggregatedMeasure setPeriodReferencePoint(DataMeasure periodReferencePoint) {
 		this.periodReferencePoint = periodReferencePoint;
 		return this;
-	}
-
-	public boolean isIncludeEvidences() {
-		return includeEvidences;
-	}
-
-	public void setIncludeEvidences(boolean includeEvidences) {
-		this.includeEvidences = includeEvidences;
 	}
 
 	/**

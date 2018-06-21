@@ -9,6 +9,7 @@ import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.ProcessInstanceFilter;
 import es.us.isa.ppinot.model.derived.DerivedMeasure;
 import es.us.isa.ppinot.model.derived.DerivedSingleInstanceMeasure;
+import org.apache.commons.lang3.StringUtils;
 import org.mvel2.MVEL;
 
 import java.io.Serializable;
@@ -24,10 +25,12 @@ import java.util.Map;
  * @author resinas
  */
 public class DerivedMeasureComputer implements MeasureComputer {
+    public static final String OVERRIDDED = "#overridded";
     private DerivedMeasure definition;
     private Map<String, MeasureComputer> computers;
     private Map<String, OverriddenMeasures> overrides;
     private Serializable expression;
+    private ComputerConfig computerConfig;
 
     public DerivedMeasureComputer(MeasureDefinition definition, ProcessInstanceFilter filter) {
         this(definition, new ComputerConfig(filter));
@@ -48,6 +51,7 @@ public class DerivedMeasureComputer implements MeasureComputer {
             this.computers.put(entry.getKey(), computerFactory.create(entry.getValue(), computerConfig));
             this.overrides.put(entry.getKey(), computerConfig.getOverrides(entry.getValue()));
         }
+        this.computerConfig = computerConfig;
 
     }
 
@@ -93,7 +97,7 @@ public class DerivedMeasureComputer implements MeasureComputer {
                 if (overriddenValues != null) {
                     expressionVariables.put(varName, overriddenValues.getValueAsObject());
                     expressionMeasures.put(varName, overriddenValues);
-                    expressionMeasures.put(varName + "-overriden", measure);
+                    expressionMeasures.put(varName + OVERRIDDED, measure);
                 } else {
                     expressionVariables.put(varName, measure.getValueAsObject());
                     expressionMeasures.put(varName, measure);
@@ -132,17 +136,71 @@ public class DerivedMeasureComputer implements MeasureComputer {
 
         if (definition instanceof DerivedSingleInstanceMeasure) {
             measure = new MeasureInstance(definition, scope, value);
-            if (definition.isIncludeEvidences()) {
-                measure.addEvidence(((MeasureInstance) measure).getInstanceId(), expressionVariables);
+
+            if (computerConfig.includeEvidences()) {
+                Map<String, Measure> evidence = new HashMap<String, Measure>();
+                String instance = ((MeasureInstance) measure).getInstanceId();
+
+                for (String key : expressionVariables.keySet()) {
+                    Measure m = expressionVariables.get(key);
+                    inheritEvidence(instance, evidence, m);
+                    String id = getId(m.getDefinition(), key);
+                    if (!StringUtils.isBlank(id)) {
+                        if (key.endsWith(OVERRIDDED)) {
+                            id = id + OVERRIDDED;
+                        }
+
+                        evidence.put(id, m);
+                    }
+
+
+                }
+                measure.addEvidence(instance, evidence);
             }
         } else {
             measure = new Measure(definition, scope, value);
-            if (definition.isIncludeEvidences()) {
-                measure.addEvidence(measure.getMeasureScope().getScopeInfo().toString(), expressionVariables);
+            if (computerConfig.includeEvidences() && computerConfig.isFlattenedEvidences()) {
+                for (String key : expressionVariables.keySet()) {
+                    Measure m = expressionVariables.get(key);
+                    if (m.getEvidences() != null) {
+                        measure.mergeEvidences(m.getEvidences());
+                        m.removeEvidences();
+                    }
+                }
+//                measure.addEvidence(measure.getMeasureScope().getScopeInfo().toString(), expressionVariables);
             }
         }
 
         return measure;
+    }
+
+    private void inheritEvidence(String instance, Map<String, Measure> evidence, Measure m) {
+        if (computerConfig.isFlattenedEvidences()) {
+            if (m.getEvidences() != null) {
+                Map<String, Measure> inheritedEvidences = m.getEvidences().get(instance);
+                if (inheritedEvidences != null) {
+                    evidence.putAll(inheritedEvidences);
+                }
+                m.removeEvidence(instance);
+
+            }
+        }
+    }
+
+    private String getId(MeasureDefinition measureDefinition, String defaultValue) {
+        String id = "";
+
+        if (ComputerConfig.Evidences.ID.equals(computerConfig.getEvidences())) {
+            id = measureDefinition.getId();
+        } else if (ComputerConfig.Evidences.ALL.equals(computerConfig.getEvidences())) {
+            if (StringUtils.isBlank(measureDefinition.getId())) {
+                id = defaultValue + "$" + measureDefinition.hashCode();
+            } else {
+                id = measureDefinition.getId();
+            }
+        }
+
+        return id;
     }
 
 

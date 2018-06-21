@@ -11,17 +11,30 @@ import java.util.Map;
 public class ComputerConfig {
     private final ProcessInstanceFilter filter;
     private Map<MeasureDefinition, OverriddenMeasures> overrides;
+    private Evidences evidences;
+    private boolean flattenedEvidences;
+
 
     public ComputerConfig(ProcessInstanceFilter filter) {
+        this(filter, Evidences.NONE);
+    }
+
+    public ComputerConfig(ProcessInstanceFilter filter, Evidences evidences) {
+        this(filter, evidences, true);
+    }
+
+    public ComputerConfig(ProcessInstanceFilter filter, Evidences evidences, boolean flattenedEvidences) {
         this.filter = filter;
-        overrides = new HashMap<MeasureDefinition, OverriddenMeasures>();
+        this.overrides = new HashMap<MeasureDefinition, OverriddenMeasures>();
+        this.evidences = evidences;
+        this.flattenedEvidences = flattenedEvidences;
     }
 
     public ProcessInstanceFilter getFilter() {
         return filter;
     }
 
-    public ComputerConfig add(Measure m) {
+    public ComputerConfig addOverride(Measure m) {
         OverriddenMeasures list = this.overrides.get(m.getDefinition());
         if (list == null) {
             list = new OverriddenMeasures();
@@ -39,5 +52,19 @@ public class ComputerConfig {
         }
         return list;
     }
+
+    public Evidences getEvidences() {
+        return evidences;
+    }
+
+    public boolean includeEvidences() {
+        return ! Evidences.NONE.equals(evidences);
+    }
+
+    public boolean isFlattenedEvidences() {
+        return flattenedEvidences;
+    }
+
+    public enum Evidences {NONE, ID, ALL}
 
 }

@@ -119,8 +119,26 @@ public class Measure {
         evidences.put(instance, evidence);
     }
 
+    public void removeEvidence(String instance) {
+        evidences.remove(instance);
+    }
+
+    public void removeEvidences() {
+        evidences.clear();
+    }
+
     public String toString() {
         return getValueAsString() +"-"+ getMeasureScope();
     }
 
+    public void mergeEvidences(Map<String, Map<String, Measure>> newEvidences) {
+        for (String key : newEvidences.keySet()) {
+            Map<String, Measure> currentEvidences = evidences.get(key);
+            if (currentEvidences == null) {
+                evidences.put(key, new HashMap<String, Measure>(newEvidences.get(key)));
+            } else {
+                currentEvidences.putAll(newEvidences.get(key));
+            }
+        }
+    }
 }

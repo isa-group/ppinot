@@ -3,7 +3,7 @@ package es.us.isa.ppinot.evaluation.computers;
 import es.us.isa.ppinot.evaluation.Measure;
 import es.us.isa.ppinot.evaluation.MeasureInstance;
 import es.us.isa.ppinot.evaluation.MeasureScope;
-import es.us.isa.ppinot.evaluation.Overrides;
+import es.us.isa.ppinot.evaluation.OverriddenMeasures;
 import es.us.isa.ppinot.evaluation.logs.LogEntry;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.ProcessInstanceFilter;
@@ -26,14 +26,14 @@ import java.util.Map;
 public class DerivedMeasureComputer implements MeasureComputer {
     private DerivedMeasure definition;
     private Map<String, MeasureComputer> computers;
-    private Map<String, Overrides.OverriddenMeasures> overrides;
+    private Map<String, OverriddenMeasures> overrides;
     private Serializable expression;
 
     public DerivedMeasureComputer(MeasureDefinition definition, ProcessInstanceFilter filter) {
-        this(definition, filter, new Overrides());
+        this(definition, new ComputerConfig(filter));
     }
 
-    public DerivedMeasureComputer(MeasureDefinition definition, ProcessInstanceFilter filter, Overrides overrides) {
+    public DerivedMeasureComputer(MeasureDefinition definition, ComputerConfig computerConfig) {
         if (!(definition instanceof DerivedMeasure)) {
             throw new IllegalArgumentException();
         }
@@ -43,13 +43,10 @@ public class DerivedMeasureComputer implements MeasureComputer {
         this.definition = (DerivedMeasure) definition;
         this.expression = MVEL.compileExpression(this.definition.getFunction());
         this.computers = new HashMap<String, MeasureComputer>();
-        this.overrides = new HashMap<String, Overrides.OverriddenMeasures>();
+        this.overrides = new HashMap<String, OverriddenMeasures>();
         for (Map.Entry<String, MeasureDefinition> entry : this.definition.getUsedMeasureMap().entrySet()) {
-            this.computers.put(entry.getKey(), computerFactory.create(entry.getValue(), filter));
-            if (overrides != null) {
-                this.overrides.put(entry.getKey(), overrides.getOverrides(entry.getValue()));
-            }
-
+            this.computers.put(entry.getKey(), computerFactory.create(entry.getValue(), computerConfig));
+            this.overrides.put(entry.getKey(), computerConfig.getOverrides(entry.getValue()));
         }
 
     }
@@ -88,7 +85,7 @@ public class DerivedMeasureComputer implements MeasureComputer {
                 }
 
                 Measure overriddenValues = null;
-                Overrides.OverriddenMeasures overriddenMeasures = overrides.get(varName);
+                OverriddenMeasures overriddenMeasures = overrides.get(varName);
                 if (overriddenMeasures != null) {
                     overriddenValues = overriddenMeasures.getOverriddenValueForScope(scope);
                 }

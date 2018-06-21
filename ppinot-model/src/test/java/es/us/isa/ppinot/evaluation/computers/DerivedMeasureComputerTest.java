@@ -1,6 +1,9 @@
 package es.us.isa.ppinot.evaluation.computers;
 
-import es.us.isa.ppinot.evaluation.*;
+import es.us.isa.ppinot.evaluation.LogEntryHelper;
+import es.us.isa.ppinot.evaluation.Measure;
+import es.us.isa.ppinot.evaluation.MeasureScopeImpl;
+import es.us.isa.ppinot.evaluation.MeasuresAsserter;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.base.CountMeasure;
 import es.us.isa.ppinot.model.derived.DerivedSingleInstanceMeasure;
@@ -48,11 +51,11 @@ public class DerivedMeasureComputerTest extends MeasureComputerHelper {
         CountMeasure measure1 = createCountMeasure(withCondition("Analyse RFC", GenericState.END));
         CountMeasure measure2 = createCountMeasure(withCondition("Approve RFC", GenericState.END));
 
-        Overrides overrides = new Overrides();
+        ComputerConfig config = new ComputerConfig(null);
         MeasureScopeImpl scope = new MeasureScopeImpl("x", Arrays.asList("i1"));
-        overrides.add(new Measure(measure2, scope, 2));
+        config.add(new Measure(measure2, scope, 2));
 
-        DerivedMeasureComputer computer = createDerivedSingleInstanceMeasureComputer("a1/a0 * 100", overrides, measure1, measure2);
+        DerivedMeasureComputer computer = createDerivedSingleInstanceMeasureComputer("a1/a0 * 100", config, measure1, measure2);
 
         computer.update(helper.newAssignEntry("Analyse RFC", "i1"));
         computer.update(helper.newCompleteEntry("Analyse RFC", "i1"));
@@ -72,12 +75,12 @@ public class DerivedMeasureComputerTest extends MeasureComputerHelper {
 
     private DerivedMeasureComputer createDerivedSingleInstanceMeasureComputer(String function, MeasureDefinition... computers) {
         DerivedSingleInstanceMeasure measure = createDerivedSingleInstanceMeasure(function, computers);
-        return new DerivedMeasureComputer(measure, null);
+        return new DerivedMeasureComputer(measure, new ComputerConfig(null));
     }
 
-    private DerivedMeasureComputer createDerivedSingleInstanceMeasureComputer(String function, Overrides overrides, MeasureDefinition... computers) {
+    private DerivedMeasureComputer createDerivedSingleInstanceMeasureComputer(String function, ComputerConfig config, MeasureDefinition... computers) {
         DerivedSingleInstanceMeasure measure = createDerivedSingleInstanceMeasure(function, computers);
-        return new DerivedMeasureComputer(measure, null, overrides);
+        return new DerivedMeasureComputer(measure, config);
     }
 
     private DerivedSingleInstanceMeasure createDerivedSingleInstanceMeasure(String function, MeasureDefinition[] computers) {

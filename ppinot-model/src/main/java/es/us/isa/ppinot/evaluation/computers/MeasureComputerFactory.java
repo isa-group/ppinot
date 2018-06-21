@@ -1,6 +1,5 @@
 package es.us.isa.ppinot.evaluation.computers;
 
-import es.us.isa.ppinot.evaluation.Overrides;
 import es.us.isa.ppinot.model.MeasureDefinition;
 import es.us.isa.ppinot.model.ProcessInstanceFilter;
 import es.us.isa.ppinot.model.aggregated.AggregatedMeasure;
@@ -17,11 +16,11 @@ import es.us.isa.ppinot.model.derived.DerivedMeasure;
  * @author resinas
  */
 public class MeasureComputerFactory {
-    public MeasureComputer create(MeasureDefinition definition, ProcessInstanceFilter filter, Overrides overrides) {
+    public MeasureComputer create(MeasureDefinition definition, ComputerConfig computerConfig) {
         MeasureComputer computer = null;
 
         if (definition instanceof TimeMeasure) {
-            computer = new TimeMeasureComputer(definition, filter);
+            computer = new TimeMeasureComputer(definition, computerConfig.getFilter());
         } else if (definition instanceof CountMeasure) {
             computer = new CountMeasureComputer(definition);
         } else if (definition instanceof StateConditionMeasure) {
@@ -32,10 +31,10 @@ public class MeasureComputerFactory {
 //            if (((AggregatedMeasure) definition).isIncludeUnfinished()) {
 //                computer = new MultiAggregatedMeasureComputer(definition, filter);
 //            } else {
-            computer = new AggregatedMeasureComputer(definition, filter, overrides);
+            computer = new AggregatedMeasureComputer(definition, computerConfig);
 //            }
         } else if (definition instanceof DerivedMeasure) {
-            computer = new DerivedMeasureComputer(definition, filter, overrides);
+            computer = new DerivedMeasureComputer(definition, computerConfig);
         }
 
         return computer;
@@ -43,7 +42,7 @@ public class MeasureComputerFactory {
     }
 
     public MeasureComputer create(MeasureDefinition definition, ProcessInstanceFilter filter) {
-        return create(definition, filter, new Overrides());
+        return create(definition, new ComputerConfig(filter));
      }
      
 }

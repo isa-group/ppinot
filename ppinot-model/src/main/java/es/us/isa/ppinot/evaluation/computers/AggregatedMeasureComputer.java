@@ -21,16 +21,16 @@ public class AggregatedMeasureComputer implements MeasureComputer {
     private AggregatedMeasure definition;
     private MeasureComputer baseComputer;
     private MeasureComputer filterComputer;
-    private Overrides.OverriddenMeasures overrides;
+    private OverriddenMeasures overrides;
     private ScopeClassifier classifier;
     private Aggregator agg;
     private final List<MeasureComputer> listGroupByMeasureComputer;
 
     public AggregatedMeasureComputer(MeasureDefinition definition, ProcessInstanceFilter filter) {
-        this(definition, filter, new Overrides());
+        this(definition, new ComputerConfig(filter));
     }
 
-    public AggregatedMeasureComputer(MeasureDefinition definition, ProcessInstanceFilter filter, Overrides overrides) {
+    public AggregatedMeasureComputer(MeasureDefinition definition, ComputerConfig computerConfig) {
         if (!(definition instanceof AggregatedMeasure)) {
             throw new IllegalArgumentException();
         }
@@ -39,23 +39,23 @@ public class AggregatedMeasureComputer implements MeasureComputer {
 
         this.listGroupByMeasureComputer = new ArrayList<MeasureComputer>();
         final MeasureComputerFactory measureComputerFactory = new MeasureComputerFactory();
+
         if (this.definition.getGroupedBy() != null) {
             for (DataMeasure dm : this.definition.getGroupedBy()) {
-                listGroupByMeasureComputer.add(measureComputerFactory.create(dm, filter, overrides));
+                listGroupByMeasureComputer.add(measureComputerFactory.create(dm, computerConfig));
             }
         }
 
-        this.baseComputer = measureComputerFactory.create(this.definition.getBaseMeasure(), filter, overrides);
-        if (this.definition.getFilter() != null) {
-            this.filterComputer = measureComputerFactory.create(this.definition.getFilter(), filter, overrides);
-        }
-        this.classifier = new ScopeClassifierFactory().create(filter, this.definition.getPeriodReferencePoint());
+        this.baseComputer = measureComputerFactory.create(this.definition.getBaseMeasure(), computerConfig);
         this.agg = new Aggregator(this.definition.getAggregationFunction());
-        if (overrides != null) {
-            this.overrides = overrides.getOverrides(this.definition.getBaseMeasure());
-        } else {
-            this.overrides = new Overrides.OverriddenMeasures();
+
+        if (this.definition.getFilter() != null) {
+            this.filterComputer = measureComputerFactory.create(this.definition.getFilter(), computerConfig);
         }
+
+        this.classifier = new ScopeClassifierFactory().create(computerConfig.getFilter(), this.definition.getPeriodReferencePoint());
+
+        this.overrides = computerConfig.getOverrides(this.definition.getBaseMeasure());
     }
 
     @Override

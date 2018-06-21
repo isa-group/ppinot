@@ -88,7 +88,7 @@ public class MultiAggregatedMeasureComputer implements MeasureComputer {
             Interval i = new Interval(temporalScope.getStart(), temporalScope.getEnd());
             SimpleTimeFilter intervalFilter = filter.copy();
             intervalFilter.setUntil(i.getEnd().minus(1));
-            AggregatedMeasureComputer computer = new AggregatedMeasureComputer(definition, intervalFilter, null);
+            AggregatedMeasureComputer computer = new AggregatedMeasureComputer(definition, new ComputerConfig(intervalFilter));
             computers.put(i, computer);
             aggregatedDecoratorLog.registerListener(i, computer);
         }

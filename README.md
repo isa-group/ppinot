@@ -1,6 +1,8 @@
 PPINOT
 ======
 
+[![Build Status](https://travis-ci.org/isa-group/ppinot.svg?branch=master)](https://travis-ci.org/isa-group/ppinot)
+
 A key aspect in any process-oriented organisation is the measurement of process performance for the achievement of its
 strategic and operational goals. Process Performance Indicators (PPIs) are a key asset to carry out this evaluation,
 and, therefore, the management of these PPIs throughout the whole BP lifecycle is crucial.

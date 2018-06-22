@@ -14,8 +14,8 @@
     </parent>
 
     <properties>
-		<resteasy.version>2.3.4.Final</resteasy.version>
-		<spring.version>3.0.5.RELEASE</spring.version>
+		<resteasy.version>3.1.0.Final</resteasy.version>
+		<spring.version>4.3.15.RELEASE</spring.version>
 	</properties>
 
 	<dependencies>

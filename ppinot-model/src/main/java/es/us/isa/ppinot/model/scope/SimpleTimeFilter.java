@@ -23,7 +23,7 @@ public class SimpleTimeFilter extends ProcessInstanceFilter {
     private DateTime until = DateTime.now();
     private DateTime from = null;
     private DataMeasure referencePoint = null;
-    private DateTimeZone timeZone = DateTimeZone.forID("Europe/Madrid");
+    private DateTimeZone timeZone = DateTimeZone.UTC; 
 
     public SimpleTimeFilter() {
         super();
@@ -116,7 +116,7 @@ public class SimpleTimeFilter extends ProcessInstanceFilter {
     }
 
     public SimpleTimeFilter setFrom(DateTime from) {
-        this.from = from;
+        this.from = from.withZone(this.timeZone);
         return this;
     }
 

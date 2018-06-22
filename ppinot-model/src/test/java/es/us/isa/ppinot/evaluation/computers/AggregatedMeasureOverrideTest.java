@@ -9,6 +9,7 @@ import es.us.isa.ppinot.model.scope.Period;
 import es.us.isa.ppinot.model.scope.SimpleTimeFilter;
 import es.us.isa.ppinot.model.state.GenericState;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.junit.Test;
 
 import java.util.*;
@@ -19,7 +20,7 @@ public class AggregatedMeasureOverrideTest extends MeasureComputerHelper {
     @Test
     public void testOverrideOneMeasure() {
         LogEntryHelper helper = new LogEntryHelper(10);
-        DateTime reference = new DateTime(2018, 06,19, 16,38);
+        DateTime reference = new DateTime(2018, 06,19, 16,38, DateTimeZone.UTC);
 
         CountMeasure countMeasure = createCountMeasure(withCondition("Analyse RFC", GenericState.END));
         AggregatedMeasure measure = new AggregatedMeasure("id", "name", "desc", null, null, Aggregator.SUM, null, countMeasure);
@@ -31,7 +32,6 @@ public class AggregatedMeasureOverrideTest extends MeasureComputerHelper {
         AggregatedMeasureComputer computer = new AggregatedMeasureComputer(measure, computerConfig);
         runLog(helper, reference, computer);
         List<? extends Measure> compute = computer.compute();
-
         MeasuresAsserter asserter = new MeasuresAsserter(compute);
 
         asserter.assertTheNumberOfMeasuresIs(3);
@@ -43,7 +43,7 @@ public class AggregatedMeasureOverrideTest extends MeasureComputerHelper {
     @Test
     public void testOverrideNoneMeasure() {
         LogEntryHelper helper = new LogEntryHelper(10);
-        DateTime reference = new DateTime(2018, 06,19, 16,38);
+        DateTime reference = new DateTime(2018, 06,19, 16,38, DateTimeZone.UTC);
 
         CountMeasure countMeasure = createCountMeasure(withCondition("Analyse RFC", GenericState.END));
         AggregatedMeasure measure = new AggregatedMeasure("id", "name", "desc", null, null, Aggregator.SUM, null, countMeasure);
@@ -67,7 +67,7 @@ public class AggregatedMeasureOverrideTest extends MeasureComputerHelper {
     @Test
     public void testOverrideSeveralMeasures() {
         LogEntryHelper helper = new LogEntryHelper(10);
-        DateTime reference = new DateTime(2018, 06,19, 16,38);
+        DateTime reference = new DateTime(2018, 06,19, 16,38, DateTimeZone.UTC);
 
         CountMeasure countMeasure = createCountMeasure(withCondition("Analyse RFC", GenericState.END));
         AggregatedMeasure measure = new AggregatedMeasure("id", "name", "desc", null, null, Aggregator.SUM, null, countMeasure);
@@ -94,7 +94,7 @@ public class AggregatedMeasureOverrideTest extends MeasureComputerHelper {
     @Test
     public void testOverrideSeveralMeasuresInSameInterval() {
         LogEntryHelper helper = new LogEntryHelper(10);
-        DateTime reference = new DateTime(2018, 06,19, 16,38);
+        DateTime reference = new DateTime(2018, 06,19, 16,38, DateTimeZone.UTC);
 
         CountMeasure countMeasure = createCountMeasure(withCondition("Analyse RFC", GenericState.END));
         AggregatedMeasure measure = new AggregatedMeasure("id", "name", "desc", null, null, Aggregator.SUM, null, countMeasure);
@@ -118,7 +118,7 @@ public class AggregatedMeasureOverrideTest extends MeasureComputerHelper {
     @Test
     public void testOverrideSeveralMeasuresInSameIntervalWithDifferentValues() {
         LogEntryHelper helper = new LogEntryHelper(10);
-        DateTime reference = new DateTime(2018, 06,19, 16,38);
+        DateTime reference = new DateTime(2018, 06,19, 16,38, DateTimeZone.UTC);
 
         CountMeasure countMeasure = createCountMeasure(withCondition("Analyse RFC", GenericState.END));
         AggregatedMeasure measure = new AggregatedMeasure("id", "name", "desc", null, null, Aggregator.SUM, null, countMeasure);
@@ -144,7 +144,7 @@ public class AggregatedMeasureOverrideTest extends MeasureComputerHelper {
     @Test
     public void testOverrideWithGroupBy() {
         LogEntryHelper helper = new LogEntryHelper(10);
-        DateTime reference = new DateTime(2018, 06, 20, 11, 11);
+        DateTime reference = new DateTime(2018, 06, 20, 11, 11, DateTimeZone.UTC);
 
         CountMeasure countMeasure = createCountMeasure(withCondition("Analyse RFC", GenericState.END));
         AggregatedMeasure measure = new AggregatedMeasure("id", "name", "desc", null, null, Aggregator.SUM, null, countMeasure);

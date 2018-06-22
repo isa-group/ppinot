@@ -12,6 +12,7 @@ import es.us.isa.ppinot.model.scope.Period;
 import es.us.isa.ppinot.model.scope.SimpleTimeFilter;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.junit.Assert;
 import org.junit.Test;
@@ -35,7 +36,7 @@ public class IntervalsComputerTest {
     @Test
     public void testListIntervals() throws Exception {
         SimpleTimeFilter filter = buildSimpleTimeFilter();
-        DateTime from = new DateTime(2014, 10, 16, 0, 0, 0);
+        DateTime from = new DateTime(2014, 10, 16, 0, 0, 0).withZoneRetainFields(DateTimeZone.UTC);
         filter.setFrom(from);
 
         List<Interval> intervalList = IntervalsComputer.listIntervals(filter);

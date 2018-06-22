@@ -27,6 +27,8 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * FullTest
  * Copyright (C) 2015 Universidad de Sevilla
@@ -47,8 +49,9 @@ public class FullTest {
     @Test
     public void testAFIP() throws Exception {
         List<Measure> measures = compute(afip);
-        printMeasures(measures);
-//        printSummary(measures);
+        assertEquals(9, measures.size());
+        assertEquals(338, measures.get(0).getInstances().size());
+
     }
 
     @Test
@@ -74,20 +77,19 @@ public class FullTest {
     public void testDocumentationTime() throws Exception {
         List<Measure> measures = compute(documentationTime);
         assertSingleInstance(measures);
-        Assert.assertEquals(3000, measures.size());
+        assertEquals(3000, measures.size());
     }
     @Test
     public void testTotalInterventions() throws Exception {
         List<Measure> measures = compute(totalInterventions);
         for (Measure m: measures) {
-            Assert.assertEquals(m.getValue(), (double) m.getInstances().size(), 0);
+            assertEquals(m.getValue(), (double) m.getInstances().size(), 0);
         }
     }
     @Test
     public void testAccomplishedIntervention() throws Exception {
         List<Measure> measures = compute(accomplishedIntervention);
-        Assert.assertEquals(3000, measures.size());
-        printMeasures(measures);
+        assertEquals(3000, measures.size());
     }
 
     private List<Measure> compute(MeasureDefinition measure) throws Exception {

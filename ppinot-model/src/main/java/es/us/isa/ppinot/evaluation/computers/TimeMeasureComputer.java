@@ -209,6 +209,7 @@ public class TimeMeasureComputer implements MeasureComputer {
         private CyclicMeasureInstanceTimer current;
         private CyclicMeasureInstanceTimer backup = null;
         private DataPropertyMatcher matcher;
+        private boolean stopped = false;
 
         public PreconditionMeasureInstanceTimer(TimeMeasure definition, String processId, String instanceId, DataPropertyMatcher matcher) {
             super(definition, processId, instanceId);
@@ -246,9 +247,13 @@ public class TimeMeasureComputer implements MeasureComputer {
         }
 
         public void ends(DateTime end) {
-            if (isRunning()) {
+            if (isRunning() && !this.getStopped()) {
                 backup = current.copy();
                 backup.ends(end);
+
+                if (this.isFirstTo()) {
+                    this.setStopped(true);
+                }
             }
         }
 
@@ -257,7 +262,7 @@ public class TimeMeasureComputer implements MeasureComputer {
         }
 
         public void update(LogEntry entry, boolean startMatches, boolean endMatches) {
-            if (isRunning()) {
+            if (isRunning() && !this.getStopped()) {
                 if (startMatches) {
                     current.starts(entry.getTimeStamp(), entry);
                 }
@@ -267,6 +272,18 @@ public class TimeMeasureComputer implements MeasureComputer {
                 }
             }
 
+        }
+
+        private boolean getStopped() {
+            return this.stopped;
+        }
+
+        private void setStopped(boolean stopped) {
+            this.stopped = stopped;
+        }
+
+        private boolean isFirstTo() {
+            return ((TimeMeasure) definition).isFirstTo();
         }
 
     }

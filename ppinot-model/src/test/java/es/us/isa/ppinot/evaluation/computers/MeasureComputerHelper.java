@@ -75,7 +75,7 @@ public class MeasureComputerHelper {
         return new TimeMeasureComputer(measure, null);
     }
 
-    private TimeMeasure createTimeMeasure(String activityStart, GenericState stateStart, String activityEnd, GenericState stateEnd) {
+    protected TimeMeasure createTimeMeasure(String activityStart, GenericState stateStart, String activityEnd, GenericState stateEnd) {
         TimeInstantCondition from = new TimeInstantCondition(activityStart, stateStart);
         TimeInstantCondition end = new TimeInstantCondition(activityEnd, stateEnd);
         TimeMeasure measure = new TimeMeasure();

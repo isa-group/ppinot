@@ -5,7 +5,10 @@ import es.us.isa.ppinot.evaluation.LogEntryHelper;
 import es.us.isa.ppinot.evaluation.MeasuresAsserter;
 import es.us.isa.ppinot.model.DataContentSelection;
 import es.us.isa.ppinot.model.base.DataMeasure;
+import es.us.isa.ppinot.model.base.TimeMeasure;
+import es.us.isa.ppinot.model.condition.DataPropertyCondition;
 import es.us.isa.ppinot.model.condition.TimeInstantCondition;
+import es.us.isa.ppinot.model.condition.TimeMeasureType;
 import es.us.isa.ppinot.model.state.GenericState;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -276,6 +279,72 @@ public class TimeMeasureComputerTest extends MeasureComputerHelper {
 
         asserter.assertTheNumberOfMeasuresIs(1);
         asserter.assertInstanceHasDoubleValueGreaterThanOrEqual("i1", 20);
+    }
+
+    @Test
+    public void testComputeLinearInstancesPrecondition() throws Exception {
+        LogEntryHelper helper = new LogEntryHelper(10);
+        TimeMeasure measure = createTimeMeasure("Analyse RFC", GenericState.START, "Approve RFC", GenericState.END);
+        measure.setTimeMeasureType(TimeMeasureType.LINEAR);
+        measure.setPrecondition(new DataPropertyCondition("data", "state == 'pending'"));
+
+        TimeMeasureComputer computer = new TimeMeasureComputer(measure, null);
+
+        computer.update(helper.newAssignEntry("Analyse RFC", "i1"));
+        computer.update(helper.newCompleteEntry("Analyse RFC", "i1"));
+        computer.update(helper.newAssignEntry("Decide RFC", "i1").withData("state", "pending"));
+        computer.update(helper.newCompleteEntry("Decide RFC", "i1").withData("state", "normal"));
+        computer.update(helper.newAssignEntry("Approve RFC", "i1"));
+        computer.update(helper.newCompleteEntry("Approve RFC", "i1"));
+
+        MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
+
+        asserter.assertTheNumberOfMeasuresIs(1);
+        asserter.assertInstanceHasDoubleValue("i1", 10);
+    }
+
+    @Test
+    public void testComputeLinearInstancesInversePrecondition() throws Exception {
+        LogEntryHelper helper = new LogEntryHelper(10);
+        TimeMeasure measure = createTimeMeasure("Analyse RFC", GenericState.START, "Approve RFC", GenericState.END);
+        measure.setTimeMeasureType(TimeMeasureType.LINEAR);
+        measure.setPrecondition(new DataPropertyCondition("data", "!(state == 'pending')"));
+
+        TimeMeasureComputer computer = new TimeMeasureComputer(measure, null);
+
+        computer.update(helper.newAssignEntry("Analyse RFC", "i1").withData("state", "normal"));
+        computer.update(helper.newCompleteEntry("Analyse RFC", "i1").withData("state", "normal"));
+        computer.update(helper.newAssignEntry("Decide RFC", "i1").withData("state", "pending"));
+        computer.update(helper.newCompleteEntry("Decide RFC", "i1").withData("state", "normal"));
+        computer.update(helper.newAssignEntry("Approve RFC", "i1").withData("state", "normal"));
+        computer.update(helper.newCompleteEntry("Approve RFC", "i1").withData("state", "normal"));
+
+        MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
+
+        asserter.assertTheNumberOfMeasuresIs(1);
+        asserter.assertInstanceHasDoubleValue("i1", 40);
+    }
+
+    @Test
+    public void testComputeLinearInstancesWithoutDataPrecondition() throws Exception {
+        LogEntryHelper helper = new LogEntryHelper(10);
+        TimeMeasure measure = createTimeMeasure("Analyse RFC", GenericState.START, "Approve RFC", GenericState.END);
+        measure.setTimeMeasureType(TimeMeasureType.LINEAR);
+        measure.setPrecondition(new DataPropertyCondition("data", "!(state == 'pending')"));
+
+        TimeMeasureComputer computer = new TimeMeasureComputer(measure, null);
+
+        computer.update(helper.newAssignEntry("Analyse RFC", "i1"));
+        computer.update(helper.newCompleteEntry("Analyse RFC", "i1"));
+        computer.update(helper.newAssignEntry("Decide RFC", "i1").withData("state", "pending"));
+        computer.update(helper.newCompleteEntry("Decide RFC", "i1").withData("state", "normal"));
+        computer.update(helper.newAssignEntry("Approve RFC", "i1"));
+        computer.update(helper.newCompleteEntry("Approve RFC", "i1"));
+
+        MeasuresAsserter asserter = new MeasuresAsserter(computer.compute());
+
+        asserter.assertTheNumberOfMeasuresIs(1);
+        asserter.assertInstanceHasDoubleValue("i1", 20);
     }
 
 }

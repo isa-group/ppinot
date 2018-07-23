@@ -212,7 +212,7 @@ public class TimeMeasureComputer implements MeasureComputer {
 
         public PreconditionMeasureInstanceTimer(TimeMeasure definition, String processId, String instanceId, DataPropertyMatcher matcher) {
             super(definition, processId, instanceId);
-            current = new CyclicMeasureInstanceTimer(definition, processId, instanceId);
+            current = new CyclicMeasureInstanceTimer(definition, processId, instanceId, Aggregator.SUM);
             this.matcher = matcher;
         }
 
@@ -337,9 +337,13 @@ public class TimeMeasureComputer implements MeasureComputer {
         private Aggregator aggregator;
 
         public CyclicMeasureInstanceTimer(TimeMeasure definition, String processId, String instanceId) {
+            this(definition, processId, instanceId, definition.getSingleInstanceAggFunction());
+        }
+
+        public CyclicMeasureInstanceTimer(TimeMeasure definition, String processId, String instanceId, String aggFunction) {
             super(definition, processId, instanceId);
             durations = new ArrayList<DurationWithExclusion>();
-            aggregator = new Aggregator(definition.getSingleInstanceAggFunction());
+            aggregator = new Aggregator(aggFunction);
         }
 
         public void starts(DateTime start, LogEntry entry) {
@@ -397,7 +401,7 @@ public class TimeMeasureComputer implements MeasureComputer {
             }
 
             copy.start = this.start;
-            copy.aggregator = new Aggregator(((TimeMeasure) getDefinition()).getSingleInstanceAggFunction());
+            copy.aggregator = new Aggregator(this.aggregator.getAggregationFunction());
             for (DurationWithExclusion d : durations) {
                 copy.durations.add(d.copy());
             }

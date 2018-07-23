@@ -21,6 +21,10 @@ public class Aggregator {
 
     }
 
+    public String getAggregationFunction() {
+        return aggregationFunction;
+    }
+
     public Aggregator(String aggregationFunction) {
         this.aggregationFunction = aggregationFunction;
     }

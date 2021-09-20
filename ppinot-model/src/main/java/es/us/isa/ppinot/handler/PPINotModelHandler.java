@@ -1,7 +1,6 @@
 package es.us.isa.ppinot.handler;
 
 import es.us.isa.bpmn.handler.Bpmn20ModelHandler;
-import es.us.isa.bpmn.handler.ModelHandler;
 import es.us.isa.ppinot.model.PPISet;
 
 import java.util.Collection;

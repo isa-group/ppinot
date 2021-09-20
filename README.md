@@ -21,7 +21,7 @@ language used to model business processes (BP) and amenable to automated analysi
 A PPINOT model can be serialized as a JSON file that can be used while implementing REST APIs. `ppinot-model` relies on Jackson to serialize and deserialize from JSON to Java classes.
 
 `ppinot-model` also include the computation of the PPIs based on an event log. The current implementation
-supports logs in MXML format and stored in [ElasticSearch](https://github.com/isa-group/ppinot-elastic-search). However, support to other formats can be easily implemented.
+supports logs in MXML format and stored in [ElasticSearch](https://github.com/isa-group/ppinot-elasticsearch). However, support to other formats can be easily implemented.
 
 The Java library has been designed to be integrated into custom solutions for process analytics and dashboard design. To this end, it includes features like the ability to read the log from different data sources including databases like ElasticSearch, to load and save a collection of PPI definitions using a JSON format, and to wrap the library in a REST API that can be used in a microservices architecture. Furthermore, it supports the processing of large event logs that do not fit in memory, either by caching them in disk or by relying on external databases like ElasticSearch.
 
@@ -50,7 +50,7 @@ The approach to define and compute custom PPIs using `ppinot-model` is as follow
 
 Next, we show a code example of how to define and compute a simple PPI. The PPI measures the average time since the moment in which activity `Register FI` started to the moment in which activity `Close FI` finishes, considering only the working hours specified for each month.
 
-```
+```java
 public class App {
 	
 	private static final Schedule WORKINGHOURS = new Schedule(DateTimeConstants.MONDAY, DateTimeConstants.FRIDAY, new LocalTime(8,0), new LocalTime(20,0)); 
@@ -72,7 +72,7 @@ public class App {
 		avgDuration.setAggregationFunction(Aggregator.AVG);
 		
 		// Metric computation
-		List<Measure> measures = evaluator.eval(measure, new SimpleTimeFilter(Period.MONTHLY, 1, false));
+		List<Measure> measures = evaluator.eval(avgDuration, new SimpleTimeFilter(Period.MONTHLY, 1, false));
 		
         // Print results
 		printMeasures(measures);
@@ -96,7 +96,7 @@ public class App {
 }
 ```
 
-A full example of a Java project using PPINOT to compute PPIs can be found at https://github.com/isa-group/ppinot-example.
+A full example of a Java project using PPINOT to compute PPIs can be found at the [`ppinot-example` repo](https://github.com/isa-group/ppinot-example).
 
 Defining metrics
 ------------------
@@ -111,7 +111,9 @@ It supports three types of measures. `Base Measures` are computed for each case 
 Maturity
 -----------
 
-PPINOT is a mature tool that has been successfully applied in two organizations. In both cases, its role is to compute the PPIs used to monitor the Service Level Agreements (SLAs) of external IT providers. Typical examples are the percentage of incidents solved in time, or the percentage of incidents solved without identifying the root cause. This monitoring was used to find inefficiencies and differences between IT providers, and to check the fulfillment of the SLAs and compute the penalties, if applicable. Therefore, the quality of the PPI measurement was critical to avoid conflicts between organizations. From a technical perspective, both deployments followed a microservices architecture. A REST API that wraps the library was implemented so that it can interact with the rest of the services. The event log was provided by a MongoDB server and the PPIs were defined using a JSON file. 
+PPINOT is a mature tool that has been successfully applied in two organizations. In both cases, its role is to compute the PPIs used to monitor the Service Level Agreements (SLAs) of external IT providers. Typical examples are the percentage of incidents solved in time, or the percentage of incidents solved without identifying the root cause. This monitoring was used to find inefficiencies and differences between IT providers, and to check the fulfillment of the SLAs and compute the penalties, if applicable. Therefore, the quality of the PPI measurement was critical to avoid conflicts between organizations. 
+
+From a technical perspective, both deployments followed a microservices architecture and integrated with [Governify](https://github.com/isa-group/governify), which provided a framework to store and analyze the SLAs. To this end, a REST API that wraps the library was implemented so that it can interact with the rest of the services. The event log was provided by a MongoDB server and the PPIs were defined using a JSON file. 
 
 Besides these two projects, PPINOT Computer has been successfully used by students to define and compute PPIs in a process management course for more than six years. It has also been used by other researchers to [add privacy to PPI values](https://github.com/MartinKabierski/privacy-aware-ppinot).
 

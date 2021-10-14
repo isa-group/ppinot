@@ -26,7 +26,7 @@ import java.util.List;
  * @author resinas
  */
 public class JSONMeasureEvaluatorTest {
-    private static final String REAPERTURA_URL = "http://www.isa.us.es/ansmeasures.json#porcentajeReapertura";
+    private static final String REAPERTURA_URL = "https://www.isa.us.es/ansmeasures.json#porcentajeReapertura";
 
     @Test
     public void test() throws MalformedURLException {

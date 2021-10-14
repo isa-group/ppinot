@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  MXML version 1.0  -->
+<!--  Created by Fluxicon Disco (fluxicon.com/disco)  -->
+<!--  (c) 2021 by Fluxicon BV, Bomanshof 259, 5611 NS Eindhoven, The Netherlands  -->
+<WorkflowLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://is.tm.tue.nl/research/processmining/WorkflowLog.xsd">
+	
+	<Source program="Fluxicon Disco"/>
+	<Process id="All_Severity_codes.mxml" description="Converted to MXML by Fluxicon Disco">
+		<ProcessInstance id="PSHAP00120160004527-296402">
+			<Data>
+				<Attribute name="Variant">Variant 17</Attribute>
+				<Attribute name="Variant index">17</Attribute>
+			</Data>
+			<AuditTrailEntry>
+				<Data>
+					<Attribute name="ED_ADMISSION_DATE">01/02/2016</Attribute>
+					<Attribute name="TYPE_OF_DISCHARGE">Discharge to home</Attribute>
+					<Attribute name="ACTIVITY_ATTRIBUTE">Null</Attribute>
+				</Data>
+				<WorkflowModelElement>TRIAGE</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2016-02-01T23:28:57.000+01:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<Data>
+					<Attribute name="ED_ADMISSION_DATE">01/02/2016</Attribute>
+					<Attribute name="TYPE_OF_DISCHARGE">Discharge to home</Attribute>
+					<Attribute name="ACTIVITY_ATTRIBUTE">Null</Attribute>
+				</Data>
+				<WorkflowModelElement>FIRST VISIT</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2016-02-02T01:36:16.000+01:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<Data>
+					<Attribute name="ED_ADMISSION_DATE">01/02/2016</Attribute>
+					<Attribute name="TYPE_OF_DISCHARGE">Discharge to home</Attribute>
+					<Attribute name="ACTIVITY_ATTRIBUTE">Lab Exam</Attribute>
+				</Data>
+				<WorkflowModelElement>LAB REQUEST</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2016-02-02T01:37:39.000+01:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<Data>
+					<Attribute name="ED_ADMISSION_DATE">01/02/2016</Attribute>
+					<Attribute name="TYPE_OF_DISCHARGE">Discharge to home</Attribute>
+					<Attribute name="ACTIVITY_ATTRIBUTE">Lab Exam</Attribute>
+				</Data>
+				<WorkflowModelElement>LAB REPORT</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2016-02-02T02:15:00.000+01:00</Timestamp>
+			</AuditTrailEntry>
+			<AuditTrailEntry>
+				<Data>
+					<Attribute name="ED_ADMISSION_DATE">01/02/2016</Attribute>
+					<Attribute name="TYPE_OF_DISCHARGE">Discharge to home</Attribute>
+					<Attribute name="ACTIVITY_ATTRIBUTE">Null</Attribute>
+				</Data>
+				<WorkflowModelElement>DISCHARGE</WorkflowModelElement>
+				<EventType>complete</EventType>
+				<Timestamp>2016-02-02T03:35:00.000+01:00</Timestamp>
+			</AuditTrailEntry>
+		</ProcessInstance>
+	</Process>
+</WorkflowLog>

@@ -11,6 +11,8 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.events.XMLEvent;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,8 +31,12 @@ public class MXMLLog extends AbstractLogProvider {
     private static final String TAG_WORKFLOWMODELELEMENT = "WorkflowModelElement";
     private static final String TAG_EVENTTYPE = "EventType";
     private static final String TAG_TIMESTAMP = "Timestamp";
-    private static final String ATTRIBUTE_ID = "id";
+    private static final String TAG_DATA = "Data";
+    private static final String TAG_ATTRIBUTE = "Attribute";
     private static final String TAG_ORIGINATOR = "Originator";
+    private static final String ATTRIBUTE_ID = "id";
+    private static final String ATTRIBUTE_NAME = "name";
+
 
     private XMLStreamReader reader;
 
@@ -95,6 +101,7 @@ public class MXMLLog extends AbstractLogProvider {
         boolean endInstance = false;
         boolean isFirstElement = true;
         LogEntry lastLogEntry = null;
+        Map<String, Object> instanceData = null;
 
         try {
             while (reader.hasNext() && !endInstance) {
@@ -105,8 +112,12 @@ public class MXMLLog extends AbstractLogProvider {
                         updateListeners(createInstanceEntry(lastLogEntry, LogEntry.EventType.complete));
                     }
 
+                } else if (isStartElement(type) && hasName(reader, TAG_DATA)) {
+                    // This may cause problems if Data is not the first attribute in a ProcessInstance
+                    instanceData = createData();                
+
                 } else if (isStartElement(type) && hasName(reader, TAG_AUDITTRAILENTRY)) {
-                    lastLogEntry = createLogEntry(processId, instanceId);
+                    lastLogEntry = createLogEntry(processId, instanceId, instanceData);
 
                     if (isFirstElement) {
                         updateListeners(createInstanceEntry(lastLogEntry, LogEntry.EventType.assign));
@@ -122,19 +133,26 @@ public class MXMLLog extends AbstractLogProvider {
     }
 
     private LogEntry createInstanceEntry(LogEntry entry, LogEntry.EventType event) {
-        return LogEntry.instance(entry.getProcessId(),
+        LogEntry instanceEntry = LogEntry.instance(entry.getProcessId(),
                 entry.getInstanceId(),
                 event,
                 entry.getTimeStamp());
+        
+        if (entry.getData() != null) {
+            instanceEntry = instanceEntry.withData(entry.getData());
+        }
+
+        return instanceEntry;
     }
 
-    private LogEntry createLogEntry(String processId, String instanceId) {
+    private LogEntry createLogEntry(String processId, String instanceId, Map<String, Object> instanceData) {
         boolean endEntry = false;
         String bpElement = "";
         LogEntry.EventType eventType = null;
         String originator = null;
         DateTime timeStamp = null;
         DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
+        Map<String, Object> data = null;
 
         try {
             while (reader.hasNext() && !endEntry) {
@@ -149,6 +167,8 @@ public class MXMLLog extends AbstractLogProvider {
                     timeStamp = fmt.parseDateTime(reader.getElementText());
                 } else if (isStartElement(type) && hasName(reader, TAG_ORIGINATOR)) {
                     originator = reader.getElementText();
+                } else if (isStartElement(type) && hasName(reader, TAG_DATA)) {
+                    data = createData();
                 }
             }
         } catch (XMLStreamException e) {
@@ -158,11 +178,41 @@ public class MXMLLog extends AbstractLogProvider {
         }
 
         LogEntry entry = LogEntry.flowElement(processId, instanceId, bpElement, eventType, timeStamp);
+        if (instanceData != null) {
+            entry = entry.withData(instanceData);
+        }
+        if (data != null) {
+            entry = entry.withData(data);
+        }
 
         if (originator != null)
             entry.setResource(originator);
 
         return entry;
+    }
+
+    private Map<String, Object> createData() {
+        Map<String, Object> data = new HashMap<String,Object>();
+        boolean endEntry = false;
+
+        try {
+            while (reader.hasNext() && !endEntry) {
+                int type = reader.next();
+                if (isEndElement(type) && hasName(reader, TAG_DATA)) {
+                    endEntry = true;
+                } else if (isStartElement(type) && hasName(reader, TAG_ATTRIBUTE)) {
+                    String key = reader.getAttributeValue(null, ATTRIBUTE_NAME);
+                    String value = reader.getElementText();
+                    data.put(key, value);
+                } 
+            }
+        } catch (XMLStreamException e) {
+            log.log(Level.WARNING, "Error processsing data attributes: " + reader.getLocation(), e);
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Error processing data attributes: " + reader.getLocation(), e);
+        }
+
+        return data;
     }
 
     private String elementName() throws XMLStreamException {

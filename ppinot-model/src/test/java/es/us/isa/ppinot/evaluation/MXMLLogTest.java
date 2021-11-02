@@ -167,7 +167,6 @@ public class MXMLLogTest {
             }
             if (resource != null)
                 entry.setResource(resource);
-
             Assert.assertTrue("Entry", entries.contains(entry));
         }
 

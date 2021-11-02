@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class LogEntry implements Serializable {
     public enum EventType {
-        ready, assign, complete
+        ready, assign, complete, start
     }
 
     public enum ElementType {
@@ -57,6 +57,12 @@ public class LogEntry implements Serializable {
         this(processId, instanceId, bpElement, elementType, eventType, timeStamp);
         this.data.putAll(data);
     }
+    
+    public LogEntry(String processId, String instanceId, String bpElement) {
+    	 this.processId = processId;
+         this.instanceId = instanceId;
+         this.bpElement = bpElement;
+    }
 
     public static LogEntry flowElement(String processId, String instanceId, String bpElement, EventType eventType, DateTime timeStamp) {
         return new LogEntry(processId, instanceId, bpElement, ElementType.flowElement, eventType, timeStamp);
@@ -68,6 +74,10 @@ public class LogEntry implements Serializable {
     
     public static LogEntry instance(String processId, String instanceId, String bpElement ,EventType eventType, DateTime timeStamp) {
         return new LogEntry(processId, instanceId, bpElement, ElementType.process, eventType, timeStamp);
+    }
+    
+    public static LogEntry test(String processId, String instanceId, String bpElement) {
+    	 return new LogEntry(processId, instanceId, bpElement);
     }
 
     public static LogEntry data(String processId, String instanceId, String data, EventType eventType, DateTime timeStamp) {
@@ -152,9 +162,9 @@ public class LogEntry implements Serializable {
         int result = processId.hashCode();
         result = 31 * result + instanceId.hashCode();
         result = 31 * result + (bpElement != null ? bpElement.hashCode() : 0);
-        result = 31 * result + elementType.hashCode();
-        result = 31 * result + eventType.hashCode();
-        result = 31 * result + timeStamp.hashCode();
+        result = 31 * result + (elementType != null ? elementType.hashCode() : 0);
+        result = 31 * result + (eventType != null ? eventType.hashCode() : 0);
+        result = 31 * result + (timeStamp != null ? timeStamp.hashCode() : 0);
         result = 31 * result + (resource != null ? resource.hashCode() : 0);
         result = 31 * result + data.hashCode();
         return result;

@@ -2,6 +2,7 @@ package es.us.isa.ppinot.evaluation.logs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * AbstractLogProvider
@@ -35,6 +36,7 @@ public abstract class AbstractLogProvider implements LogProvider {
         for (LogEntryTransformer transformer : transfomers) {
             transformedEntry = transformer.transform(transformedEntry);
         }
+      
 
         for (LogListener listener : listeners) {
             listener.update(transformedEntry);

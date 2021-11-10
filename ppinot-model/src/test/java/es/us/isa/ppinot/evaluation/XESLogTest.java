@@ -175,7 +175,7 @@ public class XESLogTest {
     }
     
     @Test
-    public void testProcessLogTypeD2ExtendenTypesForData() throws Exception {
+    public void testProcessLogTypeD2ExtendenListTypesForData() throws Exception {
         LogChecker logChecker = new LogChecker();
         
         XESLog log = new XESLog(getClass().getResourceAsStream("LevelD2.xes"), logChecker);
@@ -204,6 +204,47 @@ public class XESLogTest {
         
 
         logChecker.checkD2Level("Filtered D2 log", "999", "Archive Repair", "System", EventType.complete, "1970-02-08T07:33:24.857+01:00", data1);
+        
+    }
+    
+    @Test
+    public void testProcessLogTypeD2ExtendenContainerTypesForData() throws Exception {
+        LogChecker logChecker = new LogChecker();
+        
+        XESLog log = new XESLog(getClass().getResourceAsStream("LevelD2.xes"), logChecker);
+
+        log.processLog();
+        
+        Map<String, Object> data1 = new HashMap<String, Object>();
+        Map<String, Object> revisions = new HashMap<String, Object>();
+        Map<String, Object> location = new HashMap<String, Object>();
+        
+    
+        data1.put("org:group", "Group -");
+        data1.put("concept:instance", "instance 1");
+        data1.put("success", true);
+        data1.put("age", 16);
+        data1.put("number", 18.4f);
+        data1.put("serial", "f81d4fae-7dec-11d0-a765-00a0c91e6bf6");
+        data1.put("time", fmt.parseDateTime("2010-02-08T07:33:24.857+01:00"));
+        
+        revisions.put("name", "XES standard");
+        revisions.put("success1", true);
+        revisions.put("age1", 16);
+        revisions.put("number1", 18.4f);
+        revisions.put("serial1", "f81d4fae-7dec-11d0-a765-00a0c91e6bf6");
+        revisions.put("time1", fmt.parseDateTime("2010-02-08T07:33:24.857+01:00"));
+        data1.put("revisions", revisions);
+        
+        location.put("street", "Den Dolech");
+        location.put("number", 2);
+        location.put("zip", "5612 AZ");
+        location.put("city", "Eindhoven");
+        location.put("country", "The Netherlands");
+        data1.put("location", location);
+        
+
+        logChecker.checkD2Level("Filtered D2 log", "999", "Archive Repair Completion", "System", EventType.complete, "1970-02-08T07:33:24.857+01:00", data1);
         
     }
     
@@ -355,7 +396,6 @@ public class XESLogTest {
         	Boolean exists = false;
    
         	for(LogEntry en : entries) {
-        		
         		if(en.getBpElement().equals(bpElement) && 
         				en.getInstanceId().equals(instance) && 
         				en.getProcessId().equals(process)&& 

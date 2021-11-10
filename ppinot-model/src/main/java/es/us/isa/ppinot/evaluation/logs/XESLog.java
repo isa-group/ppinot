@@ -1,15 +1,9 @@
 package es.us.isa.ppinot.evaluation.logs;
 
-import es.us.isa.bpmn.handler.Bpmn20ModelHandler;
-import es.us.isa.bpmn.xmlClasses.bpmn20.TFlowElement;
-
-import org.eclipse.collections.impl.lazy.parallel.set.sorted.SynchronizedParallelSortedSetIterable;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
-
 import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.events.XMLEvent;
@@ -37,31 +31,27 @@ public class XESLog extends AbstractLogProvider {
 	private static final String TAG_TIMESTAMP = "time:timestamp";
     private static final String TAG_EVENTTYPE = "lifecycle:transition";
     private static final String TAG_ORIGINATOR = "org:resource";
+    private static final String TAG_LIST = "list";
     
     private XMLStreamReader reader;
-
-    private ElementName elementName;
-    private Bpmn20ModelHandler bpmn20ModelHandler;
-
+    
+ 
     public enum ElementName {
         UNKNOWN, ID, NAME
     }
 
-    public XESLog(InputStream inputStream, Bpmn20ModelHandler bpmn20ModelHandler) {
+    public XESLog(InputStream inputStream) {
         XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
         try {
             reader = xmlInputFactory.createXMLStreamReader(inputStream);
         } catch (XMLStreamException e) {
-        	
             log.log(Level.SEVERE, "Error loading inputstream", e);
             throw new RuntimeException(e);
         }
-        this.elementName = ElementName.UNKNOWN;
-        this.bpmn20ModelHandler = bpmn20ModelHandler;
     }
 
-    public XESLog(InputStream inputStream, LogListener listener, Bpmn20ModelHandler bpmn20ModelHandler) {
-        this(inputStream, bpmn20ModelHandler);
+    public XESLog(InputStream inputStream, LogListener listener) {
+        this(inputStream);
         registerListener(listener);
     }
 
@@ -144,34 +134,46 @@ public class XESLog extends AbstractLogProvider {
         DateTime timeStamp = null;
         DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
         Map<String, Object> data = new HashMap<String,Object>();
+        Map<String, Object> thisData = new HashMap<String, Object>();
 
         try {
             while (reader.hasNext() && !endEntry) {
                 int type = reader.next();
                 
-                if (isEndElement(type) && hasName(reader, TAG_EVENT)) {
+                if (isEndElement(type) && (hasName(reader, TAG_EVENT) || hasName(reader, TAG_LIST))) {
                     endEntry = true;
-                } else if (isStartElement(type) && hasName(reader, TAG_LOG)) {
-                	String att = reader.getAttributeValue(0);             	
+                }else if(isStartElement(type) && hasName(reader, TAG_LOG)) {
+                	String att = reader.getAttributeValue(0);    
+                	
                 	if(att.equals(ATTRIBUTE_ID)) {
                 		bpElement = reader.getAttributeValue(1);
-                		
                 	}else if(att.equals(TAG_EVENTTYPE)){
                 		eventType = LogEntry.EventType.valueOf(reader.getAttributeValue(1));
-                		
                 	}else if(att.equals(TAG_ORIGINATOR)) {
                 		originator = reader.getAttributeValue(1);
-                		
-                	}else {
-                		data = createData(data);
+                	}else{
+                		data = createData(data, reader, type);
                 	}
                 	reader.next();
-                } else if (isStartElement(type) && hasName(reader, TAG_TIME)) {
+                	
+                }else if(isStartElement(type) && hasName(reader, TAG_TIME)) {
                 	if(reader.getAttributeValue(0).equals(TAG_TIMESTAMP)) {
                 		timeStamp = fmt.parseDateTime(reader.getAttributeValue(1));
-                		reader.next();
+                	}else{
+                		data = createData(data, reader, type);
                 	}
-                } 
+                	reader.next();
+                	
+                }else if(isStartElement(type) && hasName(reader, TAG_LIST)){
+                	String key = reader.getAttributeValue(0);
+                	reader.next();
+                	data = evalDataList(data, key, thisData);
+                	
+                }else if(isStartElement(type)){
+            		data = createData(data, reader, type);
+            		reader.next();
+
+                }  
             }
         } catch (XMLStreamException e) {
             log.log(Level.WARNING, "Error processsing entry: " + reader.getLocation(), e);
@@ -194,17 +196,66 @@ public class XESLog extends AbstractLogProvider {
        
         return entry;
     }
-
-    private Map<String, Object> createData(Map<String, Object> data) {
     
+    private Map<String, Object> evalDataList(Map<String, Object> data, String key, Map<String, Object> thisData) throws XMLStreamException {
+    	
+        boolean endInstance = false;
+    	
+        try {
+            while (reader.hasNext() && !endInstance) {
+            	int typeA = reader.next();
+            	if (isEndElement(typeA) && hasName(reader, TAG_LIST)) {
+            		endInstance = true;
+            	}else {
+            		thisData = createData(thisData, reader, typeA);
+                	data.put(key, thisData);
+                	reader.next();
+            	}
+            }
+            
+        } catch (XMLStreamException e) {
+        	log.log(Level.WARNING, "Error processsing entry: " + reader.getLocation(), e);
+        }
+        reader.next();
+        return data;
+    }
+
+	private Map<String, Object> createData(Map<String, Object> data, XMLStreamReader reader, int type) {
+    	DateTimeFormatter fmt = ISODateTimeFormat.dateTime(); 
+    	String key;
         try {
         	
-            String key = reader.getAttributeValue(0);
-            String value = reader.getAttributeValue(1);
-            data.put(key, value);
+            key = reader.getAttributeValue(0);
+            switch (reader.getName().getLocalPart()) {	            
+	            case "boolean":
+	                Boolean bolVal = Boolean.parseBoolean(reader.getAttributeValue(1));
+	                data.put(key, bolVal);
+	                break;
+	            case "string":
+	            case "id":
+	                String strVal = reader.getAttributeValue(1);
+	                data.put(key, strVal);
+	                break;
+	            case "date":
+	            	DateTime dateVal  = fmt.parseDateTime(reader.getAttributeValue(1));
+	            	data.put(key, dateVal);
+	                break;
+	            case "int":
+	                Integer intVal = Integer.parseInt(reader.getAttributeValue(1));
+	                data.put(key, intVal);
+	                break;
+	            case "float":
+	                Float floatVal = Float.parseFloat(reader.getAttributeValue(1));
+	                data.put(key, floatVal);
+	                break;
+	            case "list":
+	            	break;
+	            default:
+	               break;
+            }
+        	
             reader.next();
-              
-            
+        	    
         } catch (XMLStreamException e) {
             log.log(Level.WARNING, "Error processsing data attributes: " + reader.getLocation(), e);
         } catch (Exception e) {

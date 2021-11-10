@@ -32,6 +32,7 @@ public class XESLog extends AbstractLogProvider {
     private static final String TAG_EVENTTYPE = "lifecycle:transition";
     private static final String TAG_ORIGINATOR = "org:resource";
     private static final String TAG_LIST = "list";
+    private static final String TAG_CONTAINER = "container";
     
     private XMLStreamReader reader;
     
@@ -134,8 +135,9 @@ public class XESLog extends AbstractLogProvider {
         DateTime timeStamp = null;
         DateTimeFormatter fmt = ISODateTimeFormat.dateTime();
         Map<String, Object> data = new HashMap<String,Object>();
-        Map<String, Object> thisData = new HashMap<String, Object>();
-
+        Map<String, Object> listData = new HashMap<String, Object>();
+        Map<String, Object> containerData = new HashMap<String, Object>();
+        Boolean isContainer = false;
         try {
             while (reader.hasNext() && !endEntry) {
                 int type = reader.next();
@@ -167,8 +169,13 @@ public class XESLog extends AbstractLogProvider {
                 }else if(isStartElement(type) && hasName(reader, TAG_LIST)){
                 	String key = reader.getAttributeValue(0);
                 	reader.next();
-                	data = evalDataList(data, key, thisData);
-                	
+                	isContainer = false;
+                	data = evalDataList(data, key, listData, isContainer);
+                }else if(isStartElement(type) && hasName(reader, TAG_CONTAINER)) {
+                	String key = reader.getAttributeValue(0);
+                	reader.next();
+                	isContainer = true;
+                	data = evalDataList(data, key, containerData, isContainer);
                 }else if(isStartElement(type)){
             		data = createData(data, reader, type);
             		reader.next();
@@ -197,19 +204,29 @@ public class XESLog extends AbstractLogProvider {
         return entry;
     }
     
-    private Map<String, Object> evalDataList(Map<String, Object> data, String key, Map<String, Object> thisData) throws XMLStreamException {
+    private Map<String, Object> evalDataList(Map<String, Object> data, String key, Map<String, Object> thisData, Boolean isContainer) throws XMLStreamException {
     	
         boolean endInstance = false;
     	
         try {
             while (reader.hasNext() && !endInstance) {
             	int typeA = reader.next();
-            	if (isEndElement(typeA) && hasName(reader, TAG_LIST)) {
-            		endInstance = true;
+            	if(!isContainer) {
+	            	if (isEndElement(typeA) && hasName(reader, TAG_LIST)) {
+	            		endInstance = true;
+	            	}else {
+	            		thisData = createData(thisData, reader, typeA);
+	                	data.put(key, thisData);
+	                	reader.next();
+	            	}
             	}else {
-            		thisData = createData(thisData, reader, typeA);
-                	data.put(key, thisData);
-                	reader.next();
+            		if (isEndElement(typeA) && hasName(reader, TAG_CONTAINER)) {
+	            		endInstance = true;
+	            	}else {
+	            		thisData = createData(thisData, reader, typeA);
+	                	data.put(key, thisData);
+	                	reader.next();
+	            	}
             	}
             }
             

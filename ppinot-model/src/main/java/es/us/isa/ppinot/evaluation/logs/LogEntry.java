@@ -17,6 +17,7 @@ import java.util.Map;
  * @author resinas
  */
 public class LogEntry implements Serializable {
+	
     public enum EventType {
         ready, assign, complete, start
     }
@@ -58,11 +59,6 @@ public class LogEntry implements Serializable {
         this.data.putAll(data);
     }
     
-    public LogEntry(String processId, String instanceId, String bpElement) {
-    	 this.processId = processId;
-         this.instanceId = instanceId;
-         this.bpElement = bpElement;
-    }
 
     public static LogEntry flowElement(String processId, String instanceId, String bpElement, EventType eventType, DateTime timeStamp) {
         return new LogEntry(processId, instanceId, bpElement, ElementType.flowElement, eventType, timeStamp);
@@ -74,10 +70,6 @@ public class LogEntry implements Serializable {
     
     public static LogEntry instance(String processId, String instanceId, String bpElement ,EventType eventType, DateTime timeStamp) {
         return new LogEntry(processId, instanceId, bpElement, ElementType.process, eventType, timeStamp);
-    }
-    
-    public static LogEntry test(String processId, String instanceId, String bpElement) {
-    	 return new LogEntry(processId, instanceId, bpElement);
     }
 
     public static LogEntry data(String processId, String instanceId, String data, EventType eventType, DateTime timeStamp) {

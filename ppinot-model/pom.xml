@@ -6,6 +6,7 @@
     <parent>
         <groupId>es.us.isa.ppinot</groupId>
         <artifactId>ppinot</artifactId>
+        <version></version>
         <relativePath>..</relativePath>
     </parent>
     <artifactId>ppinot-model</artifactId>

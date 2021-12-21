@@ -75,7 +75,7 @@
     
     <properties>
         <bpmn.version>2.1</bpmn.version>
-        <java.version>1.6</java.version>
+        <java.version>1.7</java.version>
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
         <maven-assembly-plugin.version>2.6</maven-assembly-plugin.version>
         <maven-source-plugin.version>2.4</maven-source-plugin.version>

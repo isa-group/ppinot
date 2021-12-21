@@ -3,7 +3,6 @@
     
     <groupId>es.us.isa.ppinot</groupId>
     <artifactId>ppinot</artifactId>
-    <version>2.3-SNAPSHOT</version>
     <packaging>pom</packaging>
     
     <name>PPINOT</name>
